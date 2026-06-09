@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "ਤੁਹਾਡੀ ਸੁਰੱਖਿਆ ਤੁਹਾਡੇ ਹੱਥਾਂ ਵਿੱਚ",
+  "common": {
+    "save": "ਸੇਵ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "ok": "ਠੀਕ ਹੈ",
+    "back": "ਵਾਪਸ",
+    "error": "ਇੱਕ ਗਲਤੀ ਹੋਈ",
+    "retry": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ…",
+    "success": "ਸਫਲ",
+    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "delete": "ਮਿਟਾਓ",
+    "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+    "done": "ਹੋ ਗਿਆ",
+    "yes": "ਹਾਂ",
+    "no": "ਨਹੀਂ",
+    "close": "ਬੰਦ ਕਰੋ"
+  },
+  "auth": {
+    "phone_title": "ਆਪਣਾ ਫੋਨ ਨੰਬਰ ਦਾਖਲ ਕਰੋ",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP ਭੇਜੋ",
+    "otp_title": "OTP ਪੁਸ਼ਟੀ ਕਰੋ",
+    "otp_hint": "6 ਅੰਕ ਕੋਡ",
+    "resend": "{seconds} ਸਕਿੰਟਾਂ ਵਿੱਚ ਦੁਬਾਰਾ ਭੇਜੋ",
+    "verify": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "pin_title": "ਆਪਣਾ PIN ਸੈੱਟ ਕਰੋ",
+    "pin_confirm": "PIN ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
+  },
+  "sos": {
+    "trigger": "SOS ਸ਼ੁਰੂ ਕਰੋ",
+    "countdown": "{seconds} ਸਕਿੰਟਾਂ ਵਿੱਚ SOS",
+    "cancel": "SOS ਰੱਦ ਕਰੋ",
+    "active": "SOS ਸਰਗਰਮ",
+    "sent": "{count} ਸੰਪਰਕਾਂ ਨੂੰ ਅਲਰਟ ਭੇਜਿਆ ਗਿਆ",
+    "escalating": "ਵਧ ਰਿਹਾ ਹੈ…",
+    "false_alarm": "ਕੀ ਇਹ ਝੂਠਾ ਅਲਾਰਮ ਸੀ?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "ਤੁਸੀਂ ਸੁਰੱਖਿਅਤ ਹੋ",
+    "monitoring": "ਨਿਗਰਾਨੀ ਸਰਗਰਮ",
+    "hold_for_sos": "SOS ਲਈ ਦਬਾ ਕੇ ਰੱਖੋ"
+  },
+  "settings": {
+    "title": "ਸੈਟਿੰਗਾਂ",
+    "language": "ਭਾਸ਼ਾ",
+    "accessibility": "ਪਹੁੰਚਯੋਗਤਾ",
+    "notifications": "ਸੂਚਨਾਵਾਂ",
+    "privacy": "ਗੋਪਨੀਯਤਾ ਅਤੇ ਡੇਟਾ",
+    "subscription": "ਮੈਂਬਰਸ਼ਿਪ",
+    "profile": "ਪ੍ਰੋਫਾਈਲ",
+    "help": "ਮਦਦ ਅਤੇ ਸਹਾਇਤਾ",
+    "about": "ZapSafe ਬਾਰੇ"
+  },
+  "contacts": {
+    "title": "ਐਮਰਜੈਂਸੀ ਸੰਪਰਕ",
+    "add": "ਸੰਪਰਕ ਜੋੜੋ",
+    "tier_1": "ਪੱਧਰ 1 — ਮੁੱਖ",
+    "tier_2": "ਪੱਧਰ 2 — ਸੈਕੰਡਰੀ",
+    "empty": "ਅਜੇ ਕੋਈ ਸੰਪਰਕ ਨਹੀਂ ਜੋੜਿਆ"
+  },
+  "premium": {
+    "title": "Premium ਵਿੱਚ ਅਪਗ੍ਰੇਡ ਕਰੋ",
+    "free": "ਮੁਫ਼ਤ",
+    "premium": "ਪ੍ਰੀਮੀਅਮ",
+    "upgrade": "ਅਪਗ੍ਰੇਡ",
+    "current_plan": "ਮੌਜੂਦਾ ਯੋਜਨਾ",
+    "cancel_sub": "ਮੈਂਬਰਸ਼ਿਪ ਰੱਦ ਕਰੋ"
+  },
+  "language": {
+    "title": "ਭਾਸ਼ਾ",
+    "select": "ਭਾਸ਼ਾ ਚੁਣੋ",
+    "rtl_note": "ਇਹ ਭਾਸ਼ਾ ਸੱਜੇ ਤੋਂ ਖੱਬੇ ਪੜ੍ਹੀ ਜਾਂਦੀ ਹੈ",
+    "changed": "ਭਾਸ਼ਾ ਬਦਲ ਗਈ"
+  },
+  "accessibility": {
+    "title": "ਪਹੁੰਚਯੋਗਤਾ",
+    "font_size": "ਫੌਂਟ ਆਕਾਰ",
+    "bold_text": "ਮੋਟਾ ਟੈਕਸਟ",
+    "high_contrast": "ਉੱਚ ਕੰਟ੍ਰਾਸਟ",
+    "reduce_motion": "ਗਤੀ ਘਟਾਓ"
+  },
+  "help": {
+    "title": "ਮਦਦ ਅਤੇ ਸਹਾਇਤਾ",
+    "faq": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ",
+    "contact": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+    "send": "ਸੁਨੇਹਾ ਭੇਜੋ",
+    "response": "4 ਘੰਟਿਆਂ ਵਿੱਚ ਜਵਾਬ"
+  },
+  "privacy": {
+    "title": "ਗੋਪਨੀਯਤਾ ਅਤੇ ਡੇਟਾ",
+    "delete_account": "ਖਾਤਾ ਮਿਟਾਓ",
+    "export_data": "ਮੇਰਾ ਡੇਟਾ ਨਿਰਯਾਤ ਕਰੋ",
+    "encryption": "AES-256 ਏਨਕ੍ਰਿਪਟੇਡ"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "तुमची सुरक्षा तुमच्या हातात",
+  "common": {
+    "save": "सेव्ह करा",
+    "cancel": "रद्द करा",
+    "ok": "ठीक आहे",
+    "back": "मागे",
+    "error": "एक चूक झाली",
+    "retry": "पुन्हा प्रयत्न करा",
+    "loading": "लोड होत आहे…",
+    "success": "यशस्वी",
+    "confirm": "पुष्टि करा",
+    "delete": "हटवा",
+    "edit": "संपादित करा",
+    "done": "झाले",
+    "yes": "हो",
+    "no": "नाही",
+    "close": "बंद करा"
+  },
+  "auth": {
+    "phone_title": "तुमचा फोन नंबर प्रविष्ट करा",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP पाठवा",
+    "otp_title": "OTP पडताळणी करा",
+    "otp_hint": "6 अंकी कोड",
+    "resend": "{seconds} सेकंदात पुन्हा पाठवा",
+    "verify": "पडताळणी करा",
+    "pin_title": "तुमचा PIN सेट करा",
+    "pin_confirm": "PIN जुळवा"
+  },
+  "sos": {
+    "trigger": "SOS सुरू करा",
+    "countdown": "{seconds} सेकंदात SOS",
+    "cancel": "SOS रद्द करा",
+    "active": "SOS सक्रिय",
+    "sent": "{count} संपर्कांना सतर्कता पाठवली",
+    "escalating": "वाढवले जात आहे…",
+    "false_alarm": "हा खोटा इशारा होता का?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "तुम्ही सुरक्षित आहात",
+    "monitoring": "निरीक्षण सक्रिय",
+    "hold_for_sos": "SOS साठी धरा"
+  },
+  "settings": {
+    "title": "सेटिंग्ज",
+    "language": "भाषा",
+    "accessibility": "उपलब्धता",
+    "notifications": "सूचना",
+    "privacy": "गोपनीयता आणि डेटा",
+    "subscription": "सदस्यत्व",
+    "profile": "प्रोफाइल",
+    "help": "मदत आणि समर्थन",
+    "about": "ZapSafe बद्दल"
+  },
+  "contacts": {
+    "title": "आणीबाणीचे संपर्क",
+    "add": "संपर्क जोडा",
+    "tier_1": "स्तर 1 — प्राथमिक",
+    "tier_2": "स्तर 2 — द्वितीय",
+    "empty": "अजून कोणतेही संपर्क जोडले नाही"
+  },
+  "premium": {
+    "title": "Premium वर अपग्रेड करा",
+    "free": "मुफ्त",
+    "premium": "प्रीमियम",
+    "upgrade": "अपग्रेड",
+    "current_plan": "सध्याची योजना",
+    "cancel_sub": "सदस्यत्व रद्द करा"
+  },
+  "language": {
+    "title": "भाषा",
+    "select": "भाषा निवडा",
+    "rtl_note": "ही भाषा उजवीकडून डावीकडे वाचली जाते",
+    "changed": "भाषा बदलली"
+  },
+  "accessibility": {
+    "title": "उपलब्धता",
+    "font_size": "फॉन्ट आकार",
+    "bold_text": "ठळक मजकूर",
+    "high_contrast": "उच्च विरोधाभास",
+    "reduce_motion": "हालचाल कमी करा"
+  },
+  "help": {
+    "title": "मदत आणि समर्थन",
+    "faq": "वारंवार विचारले जाणारे प्रश्न",
+    "contact": "आमच्याशी संपर्क करा",
+    "send": "संदेश पाठवा",
+    "response": "4 तासांत उत्तर"
+  },
+  "privacy": {
+    "title": "गोपनीयता आणि डेटा",
+    "delete_account": "खाते हटवा",
+    "export_data": "माझा डेटा निर्यात करा",
+    "encryption": "AES-256 एन्क्रिप्टेड"
+  }
+}

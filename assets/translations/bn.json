@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "আপনার নিরাপত্তা আপনার হাতে",
+  "common": {
+    "save": "সেভ করুন",
+    "cancel": "বাতিল করুন",
+    "ok": "ঠিক আছে",
+    "back": "পিছনে",
+    "error": "একটি ত্রুটি ঘটেছে",
+    "retry": "পুনরায় চেষ্টা করুন",
+    "loading": "লোড হচ্ছে…",
+    "success": "সফল",
+    "confirm": "নিশ্চিত করুন",
+    "delete": "মুছুন",
+    "edit": "সম্পাদনা করুন",
+    "done": "হয়েছে",
+    "yes": "হ্যাঁ",
+    "no": "না",
+    "close": "বন্ধ করুন"
+  },
+  "auth": {
+    "phone_title": "আপনার ফোন নম্বর দিন",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP পাঠান",
+    "otp_title": "OTP যাচাই করুন",
+    "otp_hint": "6 সংখ্যার কোড",
+    "resend": "{seconds} সেকেন্ডে পুনরায় পাঠান",
+    "verify": "যাচাই করুন",
+    "pin_title": "আপনার PIN সেট করুন",
+    "pin_confirm": "PIN নিশ্চিত করুন"
+  },
+  "sos": {
+    "trigger": "SOS চালু করুন",
+    "countdown": "{seconds} সেকেন্ডে SOS",
+    "cancel": "SOS বাতিল",
+    "active": "SOS সক্রিয়",
+    "sent": "{count} যোগাযোগে সতর্কতা পাঠানো হয়েছে",
+    "escalating": "বাড়ানো হচ্ছে…",
+    "false_alarm": "এটি কি মিথ্যা সতর্কতা ছিল?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "আপনি নিরাপদ",
+    "monitoring": "পর্যবেক্ষণ সক্রিয়",
+    "hold_for_sos": "SOS এর জন্য ধরে রাখুন"
+  },
+  "settings": {
+    "title": "সেটিংস",
+    "language": "ভাষা",
+    "accessibility": "প্রাপ্যতা",
+    "notifications": "বিজ্ঞপ্তি",
+    "privacy": "গোপনীয়তা ও ডেটা",
+    "subscription": "সাবস্ক্রিপশন",
+    "profile": "প্রোফাইল",
+    "help": "সাহায্য ও সমর্থন",
+    "about": "ZapSafe সম্পর্কে"
+  },
+  "contacts": {
+    "title": "জরুরি যোগাযোগ",
+    "add": "যোগাযোগ যোগ করুন",
+    "tier_1": "স্তর 1 — প্রাথমিক",
+    "tier_2": "স্তর 2 — দ্বিতীয়",
+    "empty": "এখনো কোনো যোগাযোগ যোগ দেওয়া হয়নি"
+  },
+  "premium": {
+    "title": "Premium এ আপগ্রেড করুন",
+    "free": "বিনামূল্যে",
+    "premium": "প্রিমিয়াম",
+    "upgrade": "আপগ্রেড",
+    "current_plan": "বর্তমান প্ল্যান",
+    "cancel_sub": "সাবস্ক্রিপশন বাতিল"
+  },
+  "language": {
+    "title": "ভাষা",
+    "select": "ভাষা নির্বাচন করুন",
+    "rtl_note": "এই ভাষা ডান থেকে বামে পড়া হয়",
+    "changed": "ভাষা পরিবর্তিত"
+  },
+  "accessibility": {
+    "title": "প্রাপ্যতা",
+    "font_size": "ফন্ট সাইজ",
+    "bold_text": "বোল্ড টেক্সট",
+    "high_contrast": "উচ্চ কন্ট্রাস্ট",
+    "reduce_motion": "গতি কমান"
+  },
+  "help": {
+    "title": "সাহায্য ও সমর্থন",
+    "faq": "সাধারণ প্রশ্ন",
+    "contact": "আমাদের সাথে যোগাযোগ করুন",
+    "send": "বার্তা পাঠান",
+    "response": "4 ঘন্টার মধ্যে প্রতিক্রিয়া"
+  },
+  "privacy": {
+    "title": "গোপনীয়তা ও ডেটা",
+    "delete_account": "অ্যাকাউন্ট মুছুন",
+    "export_data": "আমার ডেটা রপ্তানি করুন",
+    "encryption": "AES-256 সুরক্ষিত"
+  }
+}

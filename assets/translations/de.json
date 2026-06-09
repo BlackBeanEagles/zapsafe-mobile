@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "Ihre Sicherheit in Ihren Händen",
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "back": "Zurück",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen…",
+    "success": "Erfolg",
+    "confirm": "Bestätigen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "done": "Fertig",
+    "yes": "Ja",
+    "no": "Nein",
+    "close": "Schließen"
+  },
+  "auth": {
+    "phone_title": "Telefonnummer eingeben",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP senden",
+    "otp_title": "OTP verifizieren",
+    "otp_hint": "6-stelliger Code",
+    "resend": "In {seconds}s erneut senden",
+    "verify": "Verifizieren",
+    "pin_title": "PIN festlegen",
+    "pin_confirm": "PIN bestätigen"
+  },
+  "sos": {
+    "trigger": "SOS AUSLÖSEN",
+    "countdown": "SOS in {seconds}s",
+    "cancel": "SOS abbrechen",
+    "active": "SOS AKTIV",
+    "sent": "Alarm an {count} Kontakte gesendet",
+    "escalating": "Eskaliert…",
+    "false_alarm": "War das ein Fehlalarm?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "Sie sind sicher",
+    "monitoring": "Überwachung aktiv",
+    "hold_for_sos": "Gedrückt halten für SOS"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "accessibility": "Barrierefreiheit",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz und Daten",
+    "subscription": "Abonnement",
+    "profile": "Profil",
+    "help": "Hilfe und Support",
+    "about": "Über ZapSafe"
+  },
+  "contacts": {
+    "title": "Notfallkontakte",
+    "add": "Kontakt hinzufügen",
+    "tier_1": "Stufe 1 — Primär",
+    "tier_2": "Stufe 2 — Sekundär",
+    "empty": "Noch keine Kontakte hinzugefügt"
+  },
+  "premium": {
+    "title": "Auf Premium upgraden",
+    "free": "Kostenlos",
+    "premium": "Premium",
+    "upgrade": "Upgraden",
+    "current_plan": "Aktueller Plan",
+    "cancel_sub": "Abonnement kündigen"
+  },
+  "language": {
+    "title": "Sprache",
+    "select": "Sprache auswählen",
+    "rtl_note": "Diese Sprache wird von rechts nach links gelesen",
+    "changed": "Sprache geändert"
+  },
+  "accessibility": {
+    "title": "Barrierefreiheit",
+    "font_size": "Schriftgröße",
+    "bold_text": "Fettgedruckter Text",
+    "high_contrast": "Hoher Kontrast",
+    "reduce_motion": "Bewegung reduzieren"
+  },
+  "help": {
+    "title": "Hilfe und Support",
+    "faq": "FAQ",
+    "contact": "Kontaktieren Sie uns",
+    "send": "Nachricht senden",
+    "response": "Antwort innerhalb von 4 Stunden"
+  },
+  "privacy": {
+    "title": "Datenschutz und Daten",
+    "delete_account": "Konto löschen",
+    "export_data": "Meine Daten exportieren",
+    "encryption": "AES-256 verschlüsselt"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "Votre sécurité entre vos mains",
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "ok": "OK",
+    "back": "Retour",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "loading": "Chargement…",
+    "success": "Succès",
+    "confirm": "Confirmer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "done": "Terminé",
+    "yes": "Oui",
+    "no": "Non",
+    "close": "Fermer"
+  },
+  "auth": {
+    "phone_title": "Entrez votre téléphone",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "Envoyer OTP",
+    "otp_title": "Vérifier OTP",
+    "otp_hint": "Code à 6 chiffres",
+    "resend": "Renvoyer dans {seconds}s",
+    "verify": "Vérifier",
+    "pin_title": "Définir votre PIN",
+    "pin_confirm": "Confirmer PIN"
+  },
+  "sos": {
+    "trigger": "DÉCLENCHER SOS",
+    "countdown": "SOS dans {seconds}s",
+    "cancel": "Annuler SOS",
+    "active": "SOS ACTIF",
+    "sent": "Alerte envoyée à {count} contacts",
+    "escalating": "Escalade…",
+    "false_alarm": "Était-ce une fausse alarme?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "Vous êtes en sécurité",
+    "monitoring": "Surveillance active",
+    "hold_for_sos": "Maintenir pour SOS"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "accessibility": "Accessibilité",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité et Données",
+    "subscription": "Abonnement",
+    "profile": "Profil",
+    "help": "Aide et Support",
+    "about": "À propos de ZapSafe"
+  },
+  "contacts": {
+    "title": "Contacts d'urgence",
+    "add": "Ajouter un contact",
+    "tier_1": "Niveau 1 — Principal",
+    "tier_2": "Niveau 2 — Secondaire",
+    "empty": "Aucun contact ajouté"
+  },
+  "premium": {
+    "title": "Passer à Premium",
+    "free": "Gratuit",
+    "premium": "Premium",
+    "upgrade": "Mettre à niveau",
+    "current_plan": "Plan actuel",
+    "cancel_sub": "Résilier l'abonnement"
+  },
+  "language": {
+    "title": "Langue",
+    "select": "Sélectionner la langue",
+    "rtl_note": "Cette langue se lit de droite à gauche",
+    "changed": "Langue modifiée"
+  },
+  "accessibility": {
+    "title": "Accessibilité",
+    "font_size": "Taille de police",
+    "bold_text": "Texte en gras",
+    "high_contrast": "Contraste élevé",
+    "reduce_motion": "Réduire les animations"
+  },
+  "help": {
+    "title": "Aide et Support",
+    "faq": "FAQ",
+    "contact": "Nous contacter",
+    "send": "Envoyer un message",
+    "response": "Réponse sous 4 heures"
+  },
+  "privacy": {
+    "title": "Confidentialité et Données",
+    "delete_account": "Supprimer le compte",
+    "export_data": "Exporter mes données",
+    "encryption": "Chiffrement AES-256"
+  }
+}

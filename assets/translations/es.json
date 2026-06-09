@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "Tu seguridad en tus manos",
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "ok": "OK",
+    "back": "Atrás",
+    "error": "Ocurrió un error",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "success": "Éxito",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "done": "Listo",
+    "yes": "Sí",
+    "no": "No",
+    "close": "Cerrar"
+  },
+  "auth": {
+    "phone_title": "Ingresa tu teléfono",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "Enviar OTP",
+    "otp_title": "Verificar OTP",
+    "otp_hint": "Código de 6 dígitos",
+    "resend": "Reenviar en {seconds}s",
+    "verify": "Verificar",
+    "pin_title": "Establece tu PIN",
+    "pin_confirm": "Confirmar PIN"
+  },
+  "sos": {
+    "trigger": "ACTIVAR SOS",
+    "countdown": "SOS en {seconds}s",
+    "cancel": "Cancelar SOS",
+    "active": "SOS ACTIVO",
+    "sent": "Alerta enviada a {count} contactos",
+    "escalating": "Escalando…",
+    "false_alarm": "¿Fue esto una falsa alarma?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "Estás seguro/a",
+    "monitoring": "Monitoreo activo",
+    "hold_for_sos": "Mantén presionado para SOS"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "accessibility": "Accesibilidad",
+    "notifications": "Notificaciones",
+    "privacy": "Privacidad y Datos",
+    "subscription": "Suscripción",
+    "profile": "Perfil",
+    "help": "Ayuda y Soporte",
+    "about": "Acerca de ZapSafe"
+  },
+  "contacts": {
+    "title": "Contactos de Emergencia",
+    "add": "Agregar Contacto",
+    "tier_1": "Nivel 1 — Principal",
+    "tier_2": "Nivel 2 — Secundario",
+    "empty": "No hay contactos aún"
+  },
+  "premium": {
+    "title": "Actualizar a Premium",
+    "free": "Gratis",
+    "premium": "Premium",
+    "upgrade": "Actualizar",
+    "current_plan": "Plan Actual",
+    "cancel_sub": "Cancelar Suscripción"
+  },
+  "language": {
+    "title": "Idioma",
+    "select": "Seleccionar Idioma",
+    "rtl_note": "Este idioma se lee de derecha a izquierda",
+    "changed": "Idioma cambiado"
+  },
+  "accessibility": {
+    "title": "Accesibilidad",
+    "font_size": "Tamaño de Fuente",
+    "bold_text": "Texto en Negrita",
+    "high_contrast": "Alto Contraste",
+    "reduce_motion": "Reducir Movimiento"
+  },
+  "help": {
+    "title": "Ayuda y Soporte",
+    "faq": "Preguntas Frecuentes",
+    "contact": "Contáctanos",
+    "send": "Enviar Mensaje",
+    "response": "Respuesta en 4 horas"
+  },
+  "privacy": {
+    "title": "Privacidad y Datos",
+    "delete_account": "Eliminar Cuenta",
+    "export_data": "Exportar Mis Datos",
+    "encryption": "Cifrado AES-256"
+  }
+}

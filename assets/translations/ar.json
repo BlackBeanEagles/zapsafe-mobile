@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "سلامتك في يديك",
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "ok": "حسناً",
+    "back": "رجوع",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "loading": "جارٍ التحميل…",
+    "success": "نجاح",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "done": "تم",
+    "yes": "نعم",
+    "no": "لا",
+    "close": "إغلاق"
+  },
+  "auth": {
+    "phone_title": "أدخل رقم هاتفك",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "إرسال OTP",
+    "otp_title": "التحقق من OTP",
+    "otp_hint": "رمز من 6 أرقام",
+    "resend": "إعادة الإرسال خلال {seconds} ثانية",
+    "verify": "تحقق",
+    "pin_title": "تعيين رمز PIN",
+    "pin_confirm": "تأكيد PIN"
+  },
+  "sos": {
+    "trigger": "تفعيل SOS",
+    "countdown": "SOS خلال {seconds} ثانية",
+    "cancel": "إلغاء SOS",
+    "active": "SOS نشط",
+    "sent": "تم إرسال تنبيه إلى {count} جهة اتصال",
+    "escalating": "جارٍ التصعيد…",
+    "false_alarm": "هل كان هذا إنذاراً كاذباً؟"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "أنت بأمان",
+    "monitoring": "المراقبة نشطة",
+    "hold_for_sos": "اضغط مع الاستمرار لـ SOS"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "language": "اللغة",
+    "accessibility": "إمكانية الوصول",
+    "notifications": "الإشعارات",
+    "privacy": "الخصوصية والبيانات",
+    "subscription": "الاشتراك",
+    "profile": "الملف الشخصي",
+    "help": "المساعدة والدعم",
+    "about": "حول ZapSafe"
+  },
+  "contacts": {
+    "title": "جهات الاتصال الطارئة",
+    "add": "إضافة جهة اتصال",
+    "tier_1": "المستوى 1 — الأساسي",
+    "tier_2": "المستوى 2 — الثانوي",
+    "empty": "لا توجد جهات اتصال بعد"
+  },
+  "premium": {
+    "title": "الترقية إلى Premium",
+    "free": "مجاني",
+    "premium": "بريميوم",
+    "upgrade": "ترقية",
+    "current_plan": "الخطة الحالية",
+    "cancel_sub": "إلغاء الاشتراك"
+  },
+  "language": {
+    "title": "اللغة",
+    "select": "اختر اللغة",
+    "rtl_note": "هذه اللغة تُقرأ من اليمين إلى اليسار",
+    "changed": "تم تغيير اللغة"
+  },
+  "accessibility": {
+    "title": "إمكانية الوصول",
+    "font_size": "حجم الخط",
+    "bold_text": "نص عريض",
+    "high_contrast": "تباين عالٍ",
+    "reduce_motion": "تقليل الحركة"
+  },
+  "help": {
+    "title": "المساعدة والدعم",
+    "faq": "الأسئلة الشائعة",
+    "contact": "اتصل بنا",
+    "send": "إرسال رسالة",
+    "response": "الرد خلال 4 ساعات"
+  },
+  "privacy": {
+    "title": "الخصوصية والبيانات",
+    "delete_account": "حذف الحساب",
+    "export_data": "تصدير بياناتي",
+    "encryption": "مشفر بـ AES-256"
+  }
+}

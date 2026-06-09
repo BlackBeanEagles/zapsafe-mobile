@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "તમારી સુરક્ષા તમારા હાથમાં",
+  "common": {
+    "save": "સાચવો",
+    "cancel": "રદ કરો",
+    "ok": "ઠીક છે",
+    "back": "પાછળ",
+    "error": "એક ભૂલ આવી",
+    "retry": "ફરી પ્રયાસ કરો",
+    "loading": "લોડ થઈ રહ્યું છે…",
+    "success": "સફળ",
+    "confirm": "પુષ્ટિ કરો",
+    "delete": "ભૂંસો",
+    "edit": "સંપાદિત કરો",
+    "done": "થઈ ગયું",
+    "yes": "હા",
+    "no": "ના",
+    "close": "બંધ કરો"
+  },
+  "auth": {
+    "phone_title": "તમારો ફોન નંબર દાખલ કરો",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP મોકલો",
+    "otp_title": "OTP ચકાસો",
+    "otp_hint": "6 અંકનો કોડ",
+    "resend": "{seconds} સેકન્ડમાં ફરી મોકલો",
+    "verify": "ચકાસો",
+    "pin_title": "તમારો PIN સેટ કરો",
+    "pin_confirm": "PIN ની પુષ્ટિ કરો"
+  },
+  "sos": {
+    "trigger": "SOS શરૂ કરો",
+    "countdown": "{seconds} સેકન્ડમાં SOS",
+    "cancel": "SOS રદ કરો",
+    "active": "SOS સક્રિય",
+    "sent": "{count} સંપર્કોને ચેતવણી મોકલવામાં આવી",
+    "escalating": "વધી રહ્યું છે…",
+    "false_alarm": "શું આ ખોટો એલાર્મ હતો?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "તમે સુરક્ષિત છો",
+    "monitoring": "નિરીક્ષણ સક્રિય",
+    "hold_for_sos": "SOS માટે દબાવી રાખો"
+  },
+  "settings": {
+    "title": "સેટિંગ્સ",
+    "language": "ભાષા",
+    "accessibility": "સુલભ્ય",
+    "notifications": "સૂચનાઓ",
+    "privacy": "ગોપ�ીયતા અને ડેટા",
+    "subscription": "સભ્યપદ",
+    "profile": "પ્રોફાઇલ",
+    "help": "મદદ અને સહાય",
+    "about": "ZapSafe વિષે"
+  },
+  "contacts": {
+    "title": "કટોકટીના સંપર્કો",
+    "add": "સંપર્ક ઉમેરો",
+    "tier_1": "સ્તર 1 — પ્રાથમિક",
+    "tier_2": "સ્તર 2 — ગૌણ",
+    "empty": "હજુ કોઈ સંપર્ક ઉમેરાયો નથી"
+  },
+  "premium": {
+    "title": "Premium પર અપગ્રેડ કરો",
+    "free": "મફત",
+    "premium": "પ્રીમિયમ",
+    "upgrade": "અપગ્રેડ",
+    "current_plan": "વર્તમાન પ્લાન",
+    "cancel_sub": "સભ્યપદ રદ કરો"
+  },
+  "language": {
+    "title": "ભાષા",
+    "select": "ભાષા પસંદ કરો",
+    "rtl_note": "આ ભાષા જમણેથી ડાબે વાંચવામાં આવે છે",
+    "changed": "ભાષા બદલાઈ"
+  },
+  "accessibility": {
+    "title": "સુલભ્ય",
+    "font_size": "ફોન્ટ કદ",
+    "bold_text": "બોલ્ડ ટેક્સ્ટ",
+    "high_contrast": "ઉચ્ચ કોન્ટ્રાસ્ટ",
+    "reduce_motion": "ગતિ ઘટાડો"
+  },
+  "help": {
+    "title": "મદદ અને સહાય",
+    "faq": "વારંવાર પૂછાતા પ્રશ્નો",
+    "contact": "અમારો સંપર્ક કરો",
+    "send": "સંદેશ મોકલો",
+    "response": "4 કલાકમાં જવાબ"
+  },
+  "privacy": {
+    "title": "ગોપ�ીયતા અને ડેટા",
+    "delete_account": "ખાતું ભૂંસો",
+    "export_data": "મારો ડેટા નિકાસ કરો",
+    "encryption": "AES-256 એન્ક્રિપ્ટેડ"
+  }
+}

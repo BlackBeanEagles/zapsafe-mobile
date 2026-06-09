@@ -1,0 +1,244 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "Safety in your hands",
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "back": "Back",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "success": "Success",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "done": "Done",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close"
+  },
+  "auth": {
+    "phone_title": "Enter your phone",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "Send OTP",
+    "otp_title": "Verify OTP",
+    "otp_hint": "6-digit code",
+    "resend": "Resend in {seconds}s",
+    "verify": "Verify",
+    "pin_title": "Set your PIN",
+    "pin_confirm": "Confirm PIN"
+  },
+  "sos": {
+    "trigger": "TRIGGER SOS",
+    "countdown": "SOS in {seconds}s",
+    "cancel": "Cancel SOS",
+    "active": "SOS ACTIVE",
+    "sent": "Alert sent to {count} contacts",
+    "escalating": "Escalating…",
+    "false_alarm": "Was this a false alarm?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "You are safe",
+    "monitoring": "Monitoring active",
+    "hold_for_sos": "Press & hold for SOS"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "accessibility": "Accessibility",
+    "notifications": "Notifications",
+    "privacy": "Privacy & Data",
+    "subscription": "Subscription",
+    "profile": "Profile",
+    "help": "Help & Support",
+    "about": "About ZapSafe"
+  },
+  "contacts": {
+    "title": "Emergency Contacts",
+    "add": "Add Contact",
+    "tier_1": "Tier 1 — Primary",
+    "tier_2": "Tier 2 — Secondary",
+    "empty": "No contacts added yet"
+  },
+  "premium": {
+    "title": "Upgrade to Premium",
+    "free": "Free",
+    "premium": "Premium",
+    "upgrade": "Upgrade",
+    "current_plan": "Current Plan",
+    "cancel_sub": "Cancel Subscription"
+  },
+  "language": {
+    "title": "Language",
+    "select": "Select Language",
+    "rtl_note": "This language reads right-to-left",
+    "changed": "Language changed"
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "font_size": "Font Size",
+    "bold_text": "Bold Text",
+    "high_contrast": "High Contrast",
+    "reduce_motion": "Reduce Motion"
+  },
+  "help": {
+    "title": "Help & Support",
+    "faq": "FAQ",
+    "contact": "Contact Us",
+    "send": "Send Message",
+    "response": "Response within 4 hours"
+  },
+  "privacy": {
+    "title": "Privacy & Data",
+    "delete_account": "Delete Account",
+    "export_data": "Export My Data",
+    "encryption": "AES-256 Encrypted"
+  },
+  "onboarding": {
+    "step1_title": "Welcome to ZapSafe",
+    "step1_desc": "Your personal safety companion — always watching, always ready",
+    "step2_title": "Emergency Contacts",
+    "step2_desc": "Add the people who look out for you — family, friends, colleagues",
+    "step3_title": "Location & Audio",
+    "step3_desc": "Real-time threat detection needs your location and microphone",
+    "step4_title": "Customise Alerts",
+    "step4_desc": "Set the sensitivity thresholds that work best for your lifestyle",
+    "step5_title": "You're all set!",
+    "step5_desc": "ZapSafe is armed and ready to protect you. Stay safe.",
+    "next": "Next",
+    "skip": "Skip",
+    "get_started": "Get Started",
+    "page_of": "{current} of {total}"
+  },
+  "permissions": {
+    "title": "App Permissions",
+    "subtitle": "ZapSafe needs these to keep you safe",
+    "location": "Location Access",
+    "location_desc": "Precise coordinates sent with every SOS alert",
+    "microphone": "Microphone",
+    "microphone_desc": "Detects distress sounds, glass break, and loud impacts",
+    "notification": "Notifications",
+    "notification_desc": "Sends SOS alerts instantly to your emergency contacts",
+    "contacts": "Contacts",
+    "contacts_desc": "Lets you select people from your existing contact list",
+    "allow": "Allow",
+    "deny": "Deny Later",
+    "required": "Required",
+    "optional": "Optional",
+    "all_set": "All permissions granted",
+    "missing": "{count} permission(s) needed"
+  },
+  "push": {
+    "sos_title": "SOS Alert",
+    "sos_body": "{name} triggered an emergency — tap to view location",
+    "check_in_title": "Check-in Reminder",
+    "check_in_body": "Tap to confirm you are safe",
+    "drill_title": "Safety Drill",
+    "drill_body": "Your scheduled drill starts now — tap to participate",
+    "contact_added": "{name} added as emergency contact",
+    "battery_low": "Battery low — SOS may not send"
+  },
+  "detection": {
+    "title": "Threat Detection",
+    "active": "Detection Active",
+    "inactive": "Detection Paused",
+    "sensitivity": "Sensitivity",
+    "sensitivity_low": "Low",
+    "sensitivity_medium": "Medium",
+    "sensitivity_high": "High",
+    "glass_break": "Glass Break Detected",
+    "distress_sound": "Distress Sound Detected",
+    "loud_impact": "Loud Impact Detected",
+    "confidence": "Confidence",
+    "false_positive": "Mark as False Positive"
+  },
+  "audio": {
+    "title": "Audio Monitor",
+    "listening": "Listening…",
+    "paused": "Paused",
+    "noise_floor": "Noise Floor",
+    "peak_level": "Peak Level",
+    "features": "Audio Features",
+    "sample_rate": "Sample Rate",
+    "buffer_size": "Buffer Size"
+  },
+  "drills": {
+    "title": "Safety Drills",
+    "schedule": "Schedule Drill",
+    "run_now": "Run Drill Now",
+    "complete": "Drill Complete",
+    "duration": "{minutes} min drill",
+    "passed": "Passed",
+    "failed": "Failed",
+    "next_drill": "Next Drill",
+    "last_drill": "Last Drill"
+  },
+  "zones": {
+    "title": "Safe Zones",
+    "add": "Add Zone",
+    "radius": "Radius",
+    "exit_alert": "Alert on Exit",
+    "enter_alert": "Alert on Entry",
+    "active": "Active",
+    "home": "Home",
+    "work": "Work",
+    "school": "School",
+    "nearby": "Nearby Zone"
+  },
+  "checkin": {
+    "title": "Check-in",
+    "scheduled": "Scheduled Check-in",
+    "confirm_safe": "Confirm I'm Safe",
+    "missed": "Missed Check-in",
+    "overdue": "Overdue by {minutes} min",
+    "streak": "{count} day streak",
+    "last_check": "Last checked {time}"
+  },
+  "incidents": {
+    "title": "Incidents",
+    "new_incident": "New Incident",
+    "high": "High Severity",
+    "medium": "Medium Severity",
+    "low": "Low Severity",
+    "resolved": "Resolved",
+    "open": "Open",
+    "location": "Location",
+    "timestamp": "Time"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "pending": "Alert Pending",
+    "confirmed": "Confirmed",
+    "escalating": "Escalating…",
+    "resolved": "Resolved",
+    "false_alarm": "False Alarm",
+    "timeline": "Alert Timeline",
+    "view_location": "View Location",
+    "mute": "Mute Alerts",
+    "triggered_by": "Triggered by {name}"
+  },
+  "vault": {
+    "title": "Evidence Vault",
+    "add": "Add Evidence",
+    "photo": "Photo",
+    "audio": "Audio Recording",
+    "video": "Video",
+    "locked": "Vault Locked",
+    "export": "Export Evidence",
+    "encrypted": "AES-256 Encrypted",
+    "items": "{count} items"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "phone": "Phone Number",
+    "email": "Email",
+    "join_date": "Member since",
+    "edit": "Edit Profile",
+    "verify": "Verify",
+    "verified": "Verified",
+    "avatar": "Profile Photo"
+  }
+}

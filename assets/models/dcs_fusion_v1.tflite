@@ -1,0 +1,5 @@
+PLACEHOLDER_TFLITE_FILE
+dcs_fusion_v1 placeholder. Real model lands Month 7–8 (XGBoost on
+beta-user data). Inputs: scores from M1 (scream), M2 (motion),
+M3 (scene) + context (battery, location-type, time-of-day).
+Output: single fused DCS score in [0, 1].

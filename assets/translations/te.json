@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "మీ భద్రత మీ చేతుల్లో",
+  "common": {
+    "save": "సేవ్ చేయి",
+    "cancel": "రద్దు చేయి",
+    "ok": "సరే",
+    "back": "వెనుకకు",
+    "error": "తప్పు సంభవించింది",
+    "retry": "మళ్లీ ప్రయత్నించు",
+    "loading": "లోడవుతున్నది…",
+    "success": "విజయం",
+    "confirm": "నిర్ధారించు",
+    "delete": "తొలగించు",
+    "edit": "సవరించు",
+    "done": "పూర్తైంది",
+    "yes": "అవును",
+    "no": "కాదు",
+    "close": "మూసివేయి"
+  },
+  "auth": {
+    "phone_title": "మీ ఫోన్ నంబర్ నమోదు చేయి",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP పంపు",
+    "otp_title": "OTP ధృవీకరించు",
+    "otp_hint": "6-అంకాల కోడ్",
+    "resend": "{seconds} సెకన్లల్లో మళ్లీ పంపు",
+    "verify": "ధృవీకరించు",
+    "pin_title": "మీ PIN సెట్ చేయి",
+    "pin_confirm": "PIN ధృవీకరించు"
+  },
+  "sos": {
+    "trigger": "SOS ప్రారంభించు",
+    "countdown": "{seconds} సెకన్లల్లో SOS",
+    "cancel": "SOS రద్దు",
+    "active": "SOS సక్రియంగా ఉంది",
+    "sent": "{count} సంపర్కాలకు హెచ్చరిక పంపబడింది",
+    "escalating": "తీవ్రతరం అవుతుంది…",
+    "false_alarm": "ఇది తప్పుడు హెచ్చరికా?"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "మీరు సురక్షితంగా ఉన్నారు",
+    "monitoring": "పర్యవేక్షణ సక్రియం",
+    "hold_for_sos": "SOS కోసం నొక్కి పట్టుకో"
+  },
+  "settings": {
+    "title": "సెట్టింగ్స్",
+    "language": "భాష",
+    "accessibility": "ప్రాప్యత",
+    "notifications": "నోటిఫికేషన్లు",
+    "privacy": "గోప్యత మరియు డేటా",
+    "subscription": "చందా",
+    "profile": "ప్రొఫైల్",
+    "help": "సహాయం మరియు మద్దతు",
+    "about": "ZapSafe గురించి"
+  },
+  "contacts": {
+    "title": "అత్యవసర సంపర్కాలు",
+    "add": "సంపర్కం జోడించు",
+    "tier_1": "స్తరం 1 — ప్రాథమిక",
+    "tier_2": "స్తరం 2 — ద్వితీయం",
+    "empty": "ఇంకా సంపర్కాలు జోడించబడలేదు"
+  },
+  "premium": {
+    "title": "Premiumకి అప్‌గ్రేడ్ చేయి",
+    "free": "ఉచితం",
+    "premium": "ప్రీమియం",
+    "upgrade": "అప్‌గ్రేడ్",
+    "current_plan": "ప్రస్తుత ప్లాన్",
+    "cancel_sub": "చందా రద్దు"
+  },
+  "language": {
+    "title": "భాష",
+    "select": "భాష ఎంచుకో",
+    "rtl_note": "ఈ భాష కుడి నుండి ఎడమకు చదువుతారు",
+    "changed": "భాష మారింది"
+  },
+  "accessibility": {
+    "title": "ప్రాప్యత",
+    "font_size": "అక్షర పరిమాణం",
+    "bold_text": "బోల్డ్ వాక్యం",
+    "high_contrast": "అధిక వ్యత్యాసం",
+    "reduce_motion": "కదలికను తగ్గించు"
+  },
+  "help": {
+    "title": "సహాయం మరియు మద్దతు",
+    "faq": "తరచుగా అడిగే ప్రశ్నలు",
+    "contact": "మమ్మల్ని సంప్రదించు",
+    "send": "సందేశం పంపు",
+    "response": "4 గంటలలో స్పందన"
+  },
+  "privacy": {
+    "title": "గోప్యత మరియు డేటా",
+    "delete_account": "ఖాతా తొలగించు",
+    "export_data": "నా డేటా ఎగుమతి చేయి",
+    "encryption": "AES-256 గుప్తీకరించబడింది"
+  }
+}

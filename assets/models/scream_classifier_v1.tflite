@@ -1,0 +1,13 @@
+PLACEHOLDER_TFLITE_FILE
+This is NOT a valid TensorFlow Lite model. It is a 1 KB stub shipped
+on Day 31 so the asset path exists and `Interpreter.fromAsset` can be
+exercised against a missing-real-model failure mode.
+
+The real `scream_classifier_v1.tflite` lands in Month 3 once the
+backend training team finishes training on the RAVDESS + FSD50K
+audio datasets. Until then, Dart code that tries to load this file
+will throw an `InvalidModelException`, which the
+`TfliteInterpreter.tryLoad()` factory catches and reports as
+"placeholder detected — falling back to EnergyStubInterpreter".
+
+Generated: Day 31. Replace with a real `.tflite` binary when ready.

@@ -1,0 +1,99 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "آپ کی حفاظت آپ کے ہاتھوں میں",
+  "common": {
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "ok": "ٹھیک ہے",
+    "back": "واپس",
+    "error": "ایک خرابی پیش آئی",
+    "retry": "دوبارہ کوشش کریں",
+    "loading": "لوڈ ہو رہا ہے…",
+    "success": "کامیاب",
+    "confirm": "تصدیق کریں",
+    "delete": "حذف کریں",
+    "edit": "ترمیم کریں",
+    "done": "مکمل",
+    "yes": "ہاں",
+    "no": "نہیں",
+    "close": "بند کریں"
+  },
+  "auth": {
+    "phone_title": "اپنا فون نمبر درج کریں",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "OTP بھیجیں",
+    "otp_title": "OTP تصدیق کریں",
+    "otp_hint": "6 ہندسہ کوڈ",
+    "resend": "{seconds} سیکنڈ میں دوبارہ بھیجیں",
+    "verify": "تصدیق کریں",
+    "pin_title": "اپنا PIN مقرر کریں",
+    "pin_confirm": "PIN کی تصدیق کریں"
+  },
+  "sos": {
+    "trigger": "SOS شروع کریں",
+    "countdown": "{seconds} سیکنڈ میں SOS",
+    "cancel": "SOS منسوخ کریں",
+    "active": "SOS فعال",
+    "sent": "{count} رابطوں کو الرٹ بھیجا گیا",
+    "escalating": "بڑھایا جا رہا ہے…",
+    "false_alarm": "کیا یہ غلط الارم تھا؟"
+  },
+  "home": {
+    "title": "ZapSafe",
+    "status_safe": "آپ محفوظ ہیں",
+    "monitoring": "نگرانی فعال",
+    "hold_for_sos": "SOS کے لیے دبائے رکھیں"
+  },
+  "settings": {
+    "title": "ترتیبات",
+    "language": "زبان",
+    "accessibility": "رسائی",
+    "notifications": "اطلاعات",
+    "privacy": "رازداری اور ڈیٹا",
+    "subscription": "سبسکرپشن",
+    "profile": "پروفائل",
+    "help": "مدد اور سپورٹ",
+    "about": "ZapSafe کے بارے میں"
+  },
+  "contacts": {
+    "title": "ہنگامی رابطے",
+    "add": "رابطہ شامل کریں",
+    "tier_1": "درجہ 1 — بنیادی",
+    "tier_2": "درجہ 2 — ثانوی",
+    "empty": "ابھی تک کوئی رابطہ شامل نہیں"
+  },
+  "premium": {
+    "title": "Premium میں اپگریڈ کریں",
+    "free": "مفت",
+    "premium": "پریمیم",
+    "upgrade": "اپگریڈ",
+    "current_plan": "موجودہ پلان",
+    "cancel_sub": "سبسکرپشن منسوخ کریں"
+  },
+  "language": {
+    "title": "زبان",
+    "select": "زبان منتخب کریں",
+    "rtl_note": "یہ زبان دائیں سے بائیں پڑھی جاتی ہے",
+    "changed": "زبان تبدیل ہو گئی"
+  },
+  "accessibility": {
+    "title": "رسائی",
+    "font_size": "فونٹ سائز",
+    "bold_text": "گاڑھا متن",
+    "high_contrast": "اعلی تضاد",
+    "reduce_motion": "حرکت کم کریں"
+  },
+  "help": {
+    "title": "مدد اور سپورٹ",
+    "faq": "اکثر پوچھے جانے والے سوالات",
+    "contact": "ہم سے رابطہ کریں",
+    "send": "پیغام بھیجیں",
+    "response": "4 گھنٹوں میں جواب"
+  },
+  "privacy": {
+    "title": "رازداری اور ڈیٹا",
+    "delete_account": "اکاؤنٹ حذف کریں",
+    "export_data": "میرا ڈیٹا برآمد کریں",
+    "encryption": "AES-256 انکرپٹڈ"
+  }
+}
