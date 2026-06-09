@@ -608,6 +608,30 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day6 · raw OTP+verify+JWT walkthrough',
               dayBuilt: 'DAY 6 ✅',
             ),
+            const _NavTile(
+              icon: Icons.lock_rounded,
+              accent: ZapColors.info,
+              title: 'Day 9 · JWT Secure Storage',
+              route: AppRoutes.day9,
+              hint: '/day9 · flutter_secure_storage · Android Keystore · iOS Keychain · Dio auto-refresh interceptor',
+              dayBuilt: 'DAY 9 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.verified_rounded,
+              accent: ZapColors.safe,
+              title: 'Day 10 · Auth Flow Review',
+              route: AppRoutes.day10,
+              hint: '/day10 · Week 2 complete · 5 error states · end-to-end auth tested',
+              dayBuilt: 'DAY 10 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.rocket_launch_rounded,
+              accent: ZapColors.safe,
+              title: 'Day 1 · Project Setup',
+              route: AppRoutes.day1,
+              hint: '/day1 · flutter create · folder structure · pubspec.yaml · git init',
+              dayBuilt: 'DAY 1 ✅',
+            ),
             const SizedBox(height: ZapSpacing.xxxl),
 
             // ─── Navigation index ─────────────────────────────────────

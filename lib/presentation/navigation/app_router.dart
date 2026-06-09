@@ -4,8 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../screens/auth/otp_verify_screen.dart';
 import '../screens/auth/phone_entry_screen.dart';
+import '../screens/day1_project_setup_screen.dart';
 import '../screens/day5_navigation_index_screen.dart';
 import '../screens/day6_auth_foundation_screen.dart';
+import '../screens/day9_jwt_storage_screen.dart';
+import '../screens/day10_auth_review_screen.dart';
 import '../screens/day11_permissions_screen.dart';
 import '../screens/day13_device_tier_screen.dart';
 import '../screens/day14_feature_flags_screen.dart';
@@ -219,6 +222,9 @@ class AppRoutes {
   static const vault = '/vault';
   static const contacts = '/contacts';
   static const settings = '/settings';
+  static const day1 = '/day1';                       // Day 1 — Project Setup
+  static const day9 = '/day9';                       // Day 9 — JWT Storage
+  static const day10 = '/day10';                     // Day 10 — Auth Review
   static const day6 = '/day6';
   static const phoneEntry = '/phone-entry';
   static const otpVerify = '/otp-verify';
@@ -1329,6 +1335,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.notificationHistory,
         builder: (context, state) => const NotificationHistoryScreen(),  // Day 76
+      ),
+      GoRoute(
+        path: AppRoutes.day1,
+        builder: (context, state) => const Day1ProjectSetupScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.day9,
+        builder: (context, state) => const Day9JwtStorageScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.day10,
+        builder: (context, state) => const Day10AuthReviewScreen(),
       ),
       GoRoute(
         path: AppRoutes.phoneEntry,
