@@ -476,14 +476,14 @@ class _ContactTile extends ConsumerWidget {
         },
         onDelete: () {
           Navigator.pop(ctx);
-          _biometricGate(context, ref, action: 'delete', onConfirm: () {
-            ref.read(contactsProvider.notifier).delete(contact.id);
+          _biometricGate(context, ref, action: 'delete', onConfirm: () async {
+            await ref.read(contactsProvider.notifier).delete(contact.id);
           });
         },
         onChangeTier: (newTier) {
           Navigator.pop(ctx);
-          _biometricGate(context, ref, action: 'change tier', onConfirm: () {
-            final err = ref.read(contactsProvider.notifier).update(
+          _biometricGate(context, ref, action: 'change tier', onConfirm: () async {
+            final err = await ref.read(contactsProvider.notifier).update(
               contact.copyWith(tier: newTier),
             );
             if (err != null && context.mounted) {
@@ -820,9 +820,9 @@ class _BatchBar extends ConsumerWidget {
                     label,
                     style: ZapTypography.bodyMedium.copyWith(color: color),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(ctx);
-                    final failed = ref
+                    final failed = await ref
                         .read(contactsProvider.notifier)
                         .batchSetTier(Set.from(selected), t);
                     ref.read(batchModeProvider.notifier).state       = false;
@@ -883,9 +883,9 @@ class _BatchBar extends ConsumerWidget {
             ),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(ctx);
-              ref.read(contactsProvider.notifier).batchDelete(Set.from(selected));
+              await ref.read(contactsProvider.notifier).batchDelete(Set.from(selected));
               ref.read(batchModeProvider.notifier).state       = false;
               ref.read(contactSelectionProvider.notifier).state = {};
             },
@@ -913,6 +913,7 @@ class _ContactSheet extends ConsumerStatefulWidget {
 class _ContactSheetState extends ConsumerState<_ContactSheet> {
   late final TextEditingController _nameCtrl;
   late final TextEditingController _phoneCtrl;
+  late final TextEditingController _emailCtrl;
   late int  _tier;
   bool      _saving = false;
   String?   _error;
@@ -924,6 +925,7 @@ class _ContactSheetState extends ConsumerState<_ContactSheet> {
     super.initState();
     _nameCtrl  = TextEditingController(text: widget.existing?.name  ?? '');
     _phoneCtrl = TextEditingController(text: widget.existing?.phone ?? '');
+    _emailCtrl = TextEditingController(text: widget.existing?.email ?? '');
     _tier      = widget.existing?.tier ?? 2;
   }
 
@@ -931,15 +933,39 @@ class _ContactSheetState extends ConsumerState<_ContactSheet> {
   void dispose() {
     _nameCtrl.dispose();
     _phoneCtrl.dispose();
+    _emailCtrl.dispose();
     super.dispose();
   }
 
-  void _save() {
+  /// Deliberately permissive: this only rejects addresses that clearly
+  /// cannot receive mail. Over-strict validation blocks legitimate
+  /// addresses, and for an emergency contact a false rejection is worse
+  /// than a lenient accept — the send itself will report a real failure.
+  static bool _looksLikeEmail(String value) {
+    final at = value.indexOf('@');
+    if (at <= 0 || at != value.lastIndexOf('@')) return false;
+    final domain = value.substring(at + 1);
+    return domain.contains('.') &&
+        !domain.startsWith('.') &&
+        !domain.endsWith('.') &&
+        !value.contains(' ');
+  }
+
+  Future<void> _save() async {
     final name  = _nameCtrl.text.trim();
     final phone = _phoneCtrl.text.trim();
+    final email = _emailCtrl.text.trim();
 
     if (name.isEmpty || phone.isEmpty) {
       setState(() => _error = 'Name and phone are required.');
+      return;
+    }
+
+    // Email is optional, but a typo silently costs a delivery channel in an
+    // emergency, so reject an obviously malformed address rather than
+    // storing something that can never receive an alert.
+    if (email.isNotEmpty && !_looksLikeEmail(email)) {
+      setState(() => _error = 'That email address does not look valid.');
       return;
     }
 
@@ -949,11 +975,15 @@ class _ContactSheetState extends ConsumerState<_ContactSheet> {
     ContactsError? err;
 
     if (_isEdit) {
-      err = notifier.update(
-        widget.existing!.copyWith(name: name, phone: phone, tier: _tier),
+      err = await notifier.update(
+        widget.existing!.copyWith(
+          name: name, phone: phone, tier: _tier, email: email,
+        ),
       );
     } else {
-      err = notifier.add(name: name, phone: phone, tier: _tier);
+      err = await notifier.add(
+        name: name, phone: phone, tier: _tier, email: email,
+      );
     }
 
     if (err != null) {
@@ -1003,6 +1033,18 @@ class _ContactSheetState extends ConsumerState<_ContactSheet> {
           const SizedBox(height: ZapSpacing.md),
           _Field(ctrl: _phoneCtrl, label: 'Phone number',  hint: '+91 98765 43210',
               keyboardType: TextInputType.phone),
+          const SizedBox(height: ZapSpacing.md),
+          _Field(ctrl: _emailCtrl, label: 'Email (optional)',
+              hint: 'priya@example.com',
+              keyboardType: TextInputType.emailAddress),
+          const SizedBox(height: ZapSpacing.xs),
+          Text(
+            'Used only if push and SMS both fail. Worth adding for contacts '
+            'who do not have the ZapSafe app.',
+            style: ZapTypography.labelSmall.copyWith(
+              color: ZapColors.textSecondary,
+            ),
+          ),
 
           const SizedBox(height: ZapSpacing.lg),
           Text(
