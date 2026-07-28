@@ -7,8 +7,9 @@ import 'package:flutter/foundation.dart';
 /// `localhost`. It uses the special alias `10.0.2.2` instead. The iOS simulator
 /// shares the host's network so `localhost` works there.
 ///
-/// In production this all gets replaced with the deployed URL (Railway / EC2 /
-/// wherever the backend lives), and `https://` becomes mandatory.
+/// In production this defaults to https://zapsafe.app (Oracle Cloud), and
+/// `https://` is mandatory. Override with --dart-define=ZAPSAFE_API_URL=...
+/// for staging builds.
 class ApiConfig {
   ApiConfig._();
 
@@ -23,6 +24,10 @@ class ApiConfig {
   static String get baseUrl {
     const fromEnv = String.fromEnvironment('ZAPSAFE_API_URL');
     if (fromEnv.isNotEmpty) return fromEnv;
+
+    // Release builds default to the deployed backend so a missing
+    // --dart-define doesn't silently ship pointing at localhost.
+    if (kReleaseMode) return 'https://zapsafe.app';
 
     if (kIsWeb) return 'http://localhost:8000';
 
@@ -40,6 +45,9 @@ class ApiConfig {
   // Auth (no /api/v1 prefix — per backend spec)
   static const requestOtp = '/auth/register/';
   static const verifyOtp = '/auth/verify-otp/';
+  // Day 257 — Google/Apple sign-in. Returns the same JWT pair shape as
+  // verifyOtp, so session handling downstream is identical.
+  static const googleVerify = '/auth/google-verify/';
 
   // Auth (versioned)
   static const refreshToken = '/api/v1/auth/token/refresh/';
@@ -53,7 +61,14 @@ class ApiConfig {
 
   // SOS
   static const sosTrigger = '/api/v1/sos/trigger/';
-  static const sosCancel = '/api/v1/sos/cancel/';
+  static const sosActive  = '/api/v1/sos/active/';
+  static const sosDashboard = '/api/v1/sos/dashboard/';
+
+  /// POST /api/v1/sos/<uuid>/cancel/
+  static String sosCancelFor(String sosId) => '/api/v1/sos/$sosId/cancel/';
+
+  /// POST /api/v1/sos/<uuid>/location/
+  static String sosLocationFor(String sosId) => '/api/v1/sos/$sosId/location/';
 
   // GPS
   static const gpsPing = '/api/v1/gps/ping/';

@@ -51,6 +51,7 @@ dependencies:
   sensors_plus: ^4.0.0
   geolocator: ^10.0.0
   permission_handler: ^11.0.0
+  url_launcher: ^6.3.1              # Day 238 — regional emergency tel: links
   device_info_plus: ^9.0.0
   local_auth: ^2.1.0
 
@@ -60,6 +61,20 @@ dependencies:
   flutter_local_notifications: ^16.3.2
   # firebase_crashlytics: ^3.4.0  # Day 17+
 
+  # Crash reporting — real SDK wired Day 257 (was a mock screen until then).
+  # DSN comes from --dart-define=SENTRY_DSN=..., never committed; with no DSN
+  # the app boots normally with reporting disabled.
+  sentry_flutter: ^7.16.0
+
+  # Google sign-in — Day 257. Added because DLT registration (mandatory for
+  # any SMS to Indian numbers) charges an up-front fee on every operator
+  # portal and takes 1-2 weeks of approvals, so OTP — the app's only sign-up
+  # path — could not work at all. Google sign-in has no SMS, no regulator
+  # and no per-verification cost. The OTP path stays wired for when DLT
+  # lands; this is additive, not a replacement.
+  firebase_auth: ^4.16.0
+  google_sign_in: ^6.2.1
+
   # AI/ML — wired Day 31 (placeholder models today; real .tflite files Month 3)
   tflite_flutter: ^0.10.4
   # google_mlkit_face_detection: ^0.9.0  # later
@@ -68,6 +83,7 @@ dependencies:
   flutter_animate: ^4.2.0
   fl_chart: ^0.63.0
   flutter_map: ^6.0.0
+  latlong2: ^0.9.1
 
   # Networking & WebSocket
   web_socket_channel: ^2.4.0
@@ -80,6 +96,16 @@ dependencies:
   cupertino_icons: ^1.0.6
   intl: ^0.18.1          # pinned by flutter_localizations SDK (Days 101-102)
   uuid: ^4.0.0
+
+  # Onboarding / product-tour widgets — requested alongside the backend
+  # Day 246-250 batch. No Flutter port of react-joyride exists; these
+  # three cover the same spotlight-and-tooltip walkthrough use case.
+  # Caret ranges below are best-effort at time of writing — run
+  # `flutter pub get` (or `flutter pub outdated`) to confirm/resolve the
+  # actual latest compatible versions before relying on these.
+  showcaseview: ^3.0.0
+  feature_discovery: ^0.14.1
+  tutorial_coach_mark: ^1.2.11
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +130,7 @@ flutter:
     - assets/fonts/
     - assets/icons/
     - assets/translations/          # Days 101-102 — i18n JSON files
+    - assets/data/emergency_numbers.json   # Day 238 — regional emergency numbers
 
   # ZapSafe Design System Fonts (Day 2)
   # ClashDisplay: headings, mode labels, score numbers

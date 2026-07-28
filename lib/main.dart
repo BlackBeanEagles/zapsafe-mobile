@@ -3,11 +3,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'core/monitoring/crash_reporting.dart';
 import 'core/theme/app_theme.dart';
+import 'domain/providers/app_bootstrap_providers.dart';
 import 'domain/providers/push_providers.dart';
 import 'presentation/navigation/app_router.dart';
 
-Future<void> main() async {
+// Day 257 — Sentry wraps the whole boot so errors thrown during
+// initialisation are captured too, not just ones after the first frame.
+// CrashReporting.init always runs the app exactly once, with or without a
+// DSN, so a missing SENTRY_DSN can never stop the app starting.
+Future<void> main() async => CrashReporting.init(_bootstrap);
+
+Future<void> _bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Days 101-102 — Easy Localization must initialise before runApp.
@@ -19,9 +28,16 @@ Future<void> main() async {
   // FCM call, so this graceful fallback is safe end-to-end.
   try {
     await Firebase.initializeApp();
-  } catch (e) {
+  } catch (e, stack) {
     if (kDebugMode) {
       debugPrint('[boot] Firebase.initializeApp failed → push runs in stub mode: $e');
+    }
+    // Day 257 — previously swallowed silently. Push failing is a real
+    // degradation (no SOS push to contacts), so it should be visible in
+    // crash reporting rather than only in a debug console nobody reads in
+    // production. Still non-fatal: the app continues in stub mode.
+    if (CrashReporting.isEnabled) {
+      await Sentry.captureException(e, stackTrace: stack);
     }
   }
 
@@ -66,6 +82,9 @@ class ZapSafeApp extends ConsumerWidget {
     // Day 17 — eagerly subscribe to the push navigation listener so taps and
     // cold-start payloads drive the GoRouter even before any screen watches it.
     ref.watch(pushNavigationListenerProvider);
+
+    // Production wiring — SOS orchestrator, GPS bridge, backend + navigation.
+    ref.watch(appBootstrapProvider);
 
     return MaterialApp.router(
       title: 'ZapSafe',
