@@ -33,7 +33,9 @@ class MainActivity : FlutterActivity() {
         // Day 23 — register the new platform channels. Each handler owns its
         // own MethodChannel (and EventChannel for sensors). Construction has
         // a side effect of wiring `setMethodCallHandler` / `setStreamHandler`.
-        SensorChannelHandler(messenger)
+        // Day 258: needs a Context to reach SensorManager — the IMU stream is
+        // real hardware now, not the synthetic sine it used to emit.
+        SensorChannelHandler(messenger, applicationContext)
         AudioChannelHandler(messenger)
 
         // Day 24 — LP4 watchdog control surface.
