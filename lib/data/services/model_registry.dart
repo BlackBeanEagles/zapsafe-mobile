@@ -53,9 +53,11 @@ const List<ModelDefinition> kZapsafeModels = [
     key: 'scream',
     displayName: 'Scream Classifier (M1)',
     assetPath: 'assets/models/scream_classifier_v1.tflite',
-    purpose: '13 MFCC + ZCR + spectral centroid → scream / shout / normal',
-    realModelEta: 'Month 3 · backend training (RAVDESS + FSD50K)',
-    realSizeMb: 1.2,
+    // Day 257: shipped as m1_scream_v2 — a 128x131 librosa mel spectrogram
+    // in, one sigmoid out. The old 13-MFCC description was the placeholder's.
+    purpose: '128x131 mel spectrogram → P(scream), single sigmoid',
+    realModelEta: 'Shipped Day 257 · AUC 0.9101',
+    realSizeMb: 2.75,
   ),
   ModelDefinition(
     key: 'motion',
@@ -80,6 +82,17 @@ const List<ModelDefinition> kZapsafeModels = [
     purpose: 'Combines M1+M2+M3 scores + context → single DCS score',
     realModelEta: 'Month 7–8 · backend XGBoost (beta-user data)',
     realSizeMb: 0.5,
+  ),
+  ModelDefinition(
+    key: 'aggressive_speech',
+    displayName: 'Aggressive Speech (H)',
+    assetPath: 'assets/models/h_aggressive_speech_v1.tflite',
+    purpose: '38-dim prosodic features → aggressive vs calm speech',
+    realModelEta: 'Day 90 · Kaggle trained',
+    realSizeMb: 0.024,
+    // Phase A (Day 90): catalogue + asset only.
+    // Phase B (Day 100): inference wiring — see
+    // kaggle_notebooks/h_aggressive_speech_push/DAY90_KAGGLE_TRAIN.md
   ),
 ];
 

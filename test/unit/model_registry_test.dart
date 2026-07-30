@@ -5,10 +5,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('kZapsafeModels catalogue', () {
-    test('declares all four expected slots', () {
-      expect(kZapsafeModels.length, 4);
+    test('declares all five expected slots', () {
+      expect(kZapsafeModels.length, 5);
       expect(kZapsafeModels.map((m) => m.key).toList(),
-          ['scream', 'motion', 'scene', 'fusion']);
+          ['scream', 'motion', 'scene', 'fusion', 'aggressive_speech']);
     });
 
     test('every model has a unique key', () {
@@ -45,6 +45,8 @@ void main() {
         'motion': 'assets/models/motion_anomaly_v1.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
+        'aggressive_speech':
+            'assets/models/h_aggressive_speech_v1.tflite',
       };
       for (final m in kZapsafeModels) {
         expect(m.assetPath, expected[m.key],
@@ -69,11 +71,18 @@ void main() {
       final statuses = await registry.loadAll();
       final byKey = {for (final s in statuses) s.definition.key: s};
 
-      // scream (658 B) and fusion (257 B) are still text stubs.
+      // Day 257: scream is now the real m1_scream_v2 binary (2,811 KB),
+      // replacing the 658-byte text stub. If this ever reads as a
+      // placeholder again the real model has been reverted and the
+      // detector will be silently running on the heuristic fallback.
       if ((byKey['scream']?.sizeBytes ?? 0) > 0) {
-        expect(byKey['scream']?.isPlaceholder, isTrue,
-            reason: 'scream_classifier_v1 is a 1 KB text placeholder');
+        expect(byKey['scream']?.isPlaceholder, isFalse,
+            reason: 'scream_classifier_v1 is the real m1_scream_v2 binary');
+        expect(byKey['scream']!.sizeBytes, greaterThan(1000000),
+            reason: 'the real m1_scream_v2 is ~2.75 MB');
       }
+      // fusion (257 B) is still a text stub — m9 failed its gate and is
+      // deliberately not shipped. See PREPROCESSING_SPEC.md.
       if ((byKey['fusion']?.sizeBytes ?? 0) > 0) {
         expect(byKey['fusion']?.isPlaceholder, isTrue,
             reason: 'dcs_fusion_v1 is a 1 KB text placeholder');

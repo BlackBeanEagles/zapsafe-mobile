@@ -32,6 +32,8 @@ abstract final class PlatformChannelNames {
   static const audio             = 'com.zapsafe/audio';
   static const audioEvents       = 'com.zapsafe/audio.events';
   static const audioFeatures     = 'com.zapsafe/audio.features';
+  /// Day 258 — rolling 3 s raw PCM windows for the m1_scream_v2 mel pipeline.
+  static const audioPcm          = 'com.zapsafe/audio.pcm';
   static const watchdog          = 'com.zapsafe/watchdog';
   // Day 38 — cell-tower / WiFi fallback (TelephonyManager on Android,
   // CTTelephonyNetworkInfo on iOS). Native side is a stub today; Dart
