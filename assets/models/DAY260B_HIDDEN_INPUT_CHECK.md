@@ -171,6 +171,19 @@ does not apply here. Do not treat this as "safe to ship" — treat it as "the
 original do-not-ship reason (wrong-direction) is not reproducible with
 today's real-data method," which is a narrower, more cautious claim.
 
+**Correction (Day 260C — see `DAY260C_HARNESS_RECONCILIATION.md`):** the
+discrepancy is now reconciled, and the "OVERTURNED" framing above should not
+be read as final. Real SisFall fall-impact IMU data (not this model's own
+`apply_panic_running()`) reproduces Day 259's "collapses to exactly 0"
+result almost exactly (fall-condition mean ~1.8e-8, essentially zero, for
+both fp32 and int8). Both this doc's "moves up on panic-running" result and
+Day 259's "collapses to 0 on fall" result are real and both reproduce — they
+measured the model against two different real physical events. This model
+was trained to detect panic RUNNING specifically, not falls, so near-zero on
+real fall data is arguably in-spec rather than a defect; whether that is
+acceptable depends on product intent, which `DAY260C_HARNESS_RECONCILIATION.md`
+does not decide. Read that doc before relying on "OVERTURNED" here.
+
 ## Step 4 — `s_crowd_panic_a` / `s_best` (+f32): hidden input confirmed, but wrong-direction verdict is CONFIRMED even with it fixed
 
 Unlike `k_confinement`'s `light` (a broadcast scalar with one obvious
@@ -289,7 +302,7 @@ correction, which was already flagged as pending there).
 | model | Day 259 verdict | hidden input? | today's verdict |
 |---|---|---|---|
 | `m2_motion_b`, `m2_motion_adversarial` | exactly constant (std 0.0) | **no** (confirmed single-input) | **STILL UNCLEAR** — not retested today (out of scope for the hidden-input question); also flagged: these files are fp32, not int8, contradicting the spec's proposed quantization-collapse mechanism for them |
-| `o_running_fleeing` (+f32) | wrong-direction, collapses to 0 on fall-injected | **no** (confirmed single-input) | **OVERTURNED** on the numbers reproduced today (score moves the correct direction, up, on panic-injected real UCI-HAR data) — but the discrepancy with Day 259 is itself unexplained, so treat with caution, not as a clean "safe" result |
+| `o_running_fleeing` (+f32) | wrong-direction, collapses to 0 on fall-injected | **no** (confirmed single-input) | **RECONCILED, not overturned (see `DAY260C_HARNESS_RECONCILIATION.md`)** — moves up correctly on real panic-running data AND collapses to ~0 on real SisFall fall data; both are real, both reproduce, they are different physical stimuli. Whether near-zero on falls is a defect depends on product intent for this model. |
 | `s_crowd_panic_a`, `s_best` (+f32) | noise-floor variance (0.001–0.003), wrong-direction on fall injection | **yes** — undocumented `mel [1,64,64,1]` second input | **CONFIRMED** wrong-direction with both inputs correctly populated with real, matched data; std corrected upward to 0.04–0.10 (real, not noise-floor); traced mainly to the audio/mel branch |
 
 ## Not attempted today

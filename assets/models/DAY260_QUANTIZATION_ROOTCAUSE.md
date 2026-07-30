@@ -72,6 +72,15 @@ the first thing checked tomorrow before deciding whether to re-export or ship.
 No re-export was attempted for this model today because the "exactly
 constant" premise didn't reproduce with the data used here.
 
+**Correction (Day 260C — see `DAY260C_HARNESS_RECONCILIATION.md`):**
+possibility (1) above is what happened. Real AudioSet clips carrying this
+script's own `GLASS_MIDS`/`GLASS_TERMS` labels reproduce Day 259's verdict
+closely (AUC 0.37–0.47, int8 pos/neg medians bit-for-bit identical) — the
+ESC-50 result above is real but reflects in-training-distribution audio,
+not a fair generalization test. Read `DAY260C_HARNESS_RECONCILIATION.md`
+before treating this model's "OVERTURNED"-leaning framing above as the
+final word: on harder, more realistic audio it is not.
+
 ## Finding 2 — `mg_gunshot`: fp32 is not constant, but is not good either (near-chance AUC on real audio)
 
 Real data: 50 real AudioSet clips carrying the `/m/032s66` ("Gunshot,

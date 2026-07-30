@@ -294,14 +294,14 @@ std-dev, and an automatic constant-output flag (std < 1e-4).
 | `m5_vocal_stress_apac_adversarial` | 96x96 mel | 0.667 | 0.018 | same — medians identical |
 | `n_breathing_distress` | 96x96 mel | 0.703 | 0.088 | genuine signal but 0% recall at 0.5 (needs threshold ~0.35) — UNSURE, not chased further |
 | `n_breathing_distress_f32` | 96x96 mel | 0.659 | 0.091 | same family, weaker |
-| `m_glass_breaking` | 96x96 mel (own config) | 0.500 | **0.0** | **exactly constant** |
-| `m_best` | 96x96 mel | 0.500 | **0.0** | **exactly constant** (identical to above) |
+| `m_glass_breaking` | 96x96 mel (own config) | 0.500 | **0.0** | **exactly constant** — ⚠️ **RECONCILED on Day 260C: reproduces closely on real AudioSet glass/shatter/smash audio (AUC 0.37-0.47, int8 medians identical); model is fine on ESC-50 (in-distribution) only — see `DAY260C_HARNESS_RECONCILIATION.md`** |
+| `m_best` | 96x96 mel | 0.500 | **0.0** | **exactly constant** (identical to above) — same Day 260C reconciliation applies |
 | `mg_gunshot` | 128x128 mel | 0.500 | **0.0** | **exactly constant** |
 | `mg_gunshot_f32` | 128x128 mel | 0.373 | 0.022 | worse than chance |
 | `i_vehicle_crash` | 64x64 mel | 0.408 | 0.0019 | worse than chance, near-constant |
 | `i_vehicle_crash_f32` | 64x64 mel | 0.753 | **2.9e-6** | AUC looks fine; std is 6-decimal-place noise — **constant in practice** |
 | `k_confinement`, `k_best` | IMU [1,128,6] | — | **0.0** | **exactly constant** on real UCI-HAR — ⚠️ **measured with an undocumented second input (`light`) left unset; see Day 260 correction below, verdict does not hold as originally stated** |
-| `o_running_fleeing`(+f32) | IMU [1,128,6] | — | 0 on fall-injected | responds to real walking data (std 0.18) but **collapses to exactly 0** the instant a real fall is injected — wrong-direction, unusable — ⚠️ **single-input confirmed (no hidden input) on Day 260B, but this exact result did not reproduce with real data + the model's own panic augmentation; see correction below** |
+| `o_running_fleeing`(+f32) | IMU [1,128,6] | — | 0 on fall-injected | responds to real walking data (std 0.18) but **collapses to exactly 0** the instant a real fall is injected — wrong-direction, unusable — ⚠️ **single-input confirmed (no hidden input) on Day 260B; RECONCILED on Day 260C: reproduces almost exactly on real SisFall fall-impact data, while the model's own panic-running augmentation correctly moves the score up — model detects panic running, not falls, so near-zero on real falls is arguably in-spec, not a defect — see `DAY260C_HARNESS_RECONCILIATION.md`** |
 | `s_crowd_panic_a`, `s_best` | IMU [1,128,6] | — | 0.001–0.003 | noise-floor variance; fall injection moves score the **wrong way** — ⚠️ **measured with an undocumented second input (`mel`, a real audio spectrogram) left unset; see Day 260B correction below — direction verdict CONFIRMED with both inputs correct, but the std/"noise-floor" figure was wrong (real std is 0.04–0.10, not 0.001–0.003)** |
 | `m2_motion_b`, `m2_motion_adversarial` | IMU [1,128,6] | — | **0.0** | **exactly constant** — confirmed single-input (no hidden input) on Day 260B; verdict itself not retested |
 
@@ -345,6 +345,27 @@ treat the "why so many are constant" narrative above as **superseded** for
 `m2_motion_b`, `m2_motion_adversarial`, `k_confinement`, `k_best`,
 `o_running_fleeing`, `s_crowd_panic_a`, `s_best` specifically — re-read the
 two follow-up docs before making any retrain/retire call on these seven.
+
+**Further correction (Day 260C — see
+`DAY260C_HARNESS_RECONCILIATION.md`):** the `m_glass_breaking`/`m_best`
+ESC-50 discrepancy (Finding 1 in `DAY260_QUANTIZATION_ROOTCAUSE.md`) and the
+`o_running_fleeing` discrepancy above are both now reconciled with real data,
+and **neither indicates a bug in Day 259's harness.** Real AudioSet
+glass/shatter/smash audio reproduces Day 259's near-constant, at-or-below-
+chance verdict for `m_glass_breaking`/`m_best` (the model is good in-domain
+on ESC-50, not out-of-domain). Real SisFall fall-impact IMU data reproduces
+Day 259's "collapses to exactly 0" verdict for `o_running_fleeing` almost
+exactly (the model was trained to detect panic running, not falls, and
+correctly outputs near-zero on a real physical event it was never trained
+to recognize as positive). **Blast radius: Day 259's other 18 verdicts
+should be treated as trustworthy** — the pattern found was "harder/
+differently-labelled real data reproduces Day 259," not "Day 259's harness
+was broken." The only two models with a confirmed harness-side bug remain
+`k_confinement`/`k_best` and `s_crowd_panic_a`/`s_best` (undocumented second
+input), already corrected above. `m2_motion_b`/`m2_motion_adversarial`
+remain the one genuinely open item — never retested against any real data
+at all — see `DAY260C_HARNESS_RECONCILIATION.md`'s "what should be
+re-tested next" section.
 
 ## Recovered per-family configs (for next time)
 
