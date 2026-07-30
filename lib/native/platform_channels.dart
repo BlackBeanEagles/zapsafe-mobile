@@ -8,6 +8,7 @@ import '../data/services/background_service.dart';
 import 'audio_features.dart';
 import 'audio_frame.dart';
 import 'imu_sample.dart';
+import 'pcm_window.dart';
 
 /// Day 23 — single source of truth for every Flutter ↔ native channel.
 ///
@@ -134,14 +135,17 @@ class AudioChannel {
   final MethodChannel _channel;
   final EventChannel _eventChannel;
   final EventChannel _featuresChannel;
+  final EventChannel _pcmChannel;
 
   AudioChannel({
     MethodChannel? channel,
     EventChannel? events,
     EventChannel? features,
+    EventChannel? pcm,
   })  : _channel = channel ?? const MethodChannel(PlatformChannelNames.audio),
         _eventChannel = events ?? const EventChannel(PlatformChannelNames.audioEvents),
-        _featuresChannel = features ?? const EventChannel(PlatformChannelNames.audioFeatures);
+        _featuresChannel = features ?? const EventChannel(PlatformChannelNames.audioFeatures),
+        _pcmChannel = pcm ?? const EventChannel(PlatformChannelNames.audioPcm);
 
   /// True when the host platform has a native capture handler. Android via
   /// `AudioRecord` (Day 26) and iOS via `AVAudioEngine` (Day 28).
@@ -259,6 +263,18 @@ class AudioChannel {
         zcr: 0,
         spectralCentroidHz: 0,
       );
+    });
+  }
+
+  /// Day 258 — broadcast stream of rolling 3 s raw PCM windows for
+  /// m1_scream_v2. Emitted every ~1 s (the native hop), overlapping.
+  /// Malformed events decode to an unusable [PcmWindow] rather than
+  /// throwing — [ScreamAudioPipeline] already drops those.
+  Stream<PcmWindow> get pcmStream {
+    if (!supported) return const Stream.empty();
+    return _pcmChannel.receiveBroadcastStream().map((event) {
+      if (event is Map) return PcmWindow.fromMap(event);
+      return PcmWindow(timestampMs: 0, sampleRateHz: 0, pcmBytes: Uint8List(0));
     });
   }
 
