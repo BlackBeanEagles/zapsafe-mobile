@@ -271,3 +271,103 @@ far, two did not match their reports. The cost order is: measuring a model
 against real audio is minutes, wiring one is hours. Do the cheap step first —
 `scripts/` has no harness for this yet, but the Python in this session's
 transcript is a starting point.
+
+---
+
+# Day 259 — full real-data triage of the remaining staged models
+
+Ran every model whose training config could be recovered against real,
+labelled data (`DS07_AudioSet/train_wav`, `DS21_ESC-50`, `DS11_UCI-HAR`).
+Harness: for each model, decode its own family's recovered preprocessing,
+score ~60 real positive + ~60 real negative clips, and report AUC, score
+std-dev, and an automatic constant-output flag (std < 1e-4).
+
+**Result: 0 of 20 additional models pass. Nothing new was wired.**
+
+| model | family | AUC | score std | verdict |
+|---|---|---|---|---|
+| `j_whisper_distress_bn_ur_ar_crosslang` | 96x96 mel (day101) | 0.613 | 0.214 | recall 64% costs FPR 52% — no usable threshold |
+| `j_whisper_distress_adversarial_f32` | 96x96 mel | 0.437 | 0.141 | **worse than chance** |
+| `m4_vocal_stress_en_adversarial` | 96x96 mel | 0.667 | 0.013 | pos/neg medians **identical** — quantisation noise, not signal |
+| `m5_vocal_stress_apac_adversarial` | 96x96 mel | 0.667 | 0.018 | same — medians identical |
+| `n_breathing_distress` | 96x96 mel | 0.703 | 0.088 | genuine signal but 0% recall at 0.5 (needs threshold ~0.35) — UNSURE, not chased further |
+| `n_breathing_distress_f32` | 96x96 mel | 0.659 | 0.091 | same family, weaker |
+| `m_glass_breaking` | 96x96 mel (own config) | 0.500 | **0.0** | **exactly constant** |
+| `m_best` | 96x96 mel | 0.500 | **0.0** | **exactly constant** (identical to above) |
+| `mg_gunshot` | 128x128 mel | 0.500 | **0.0** | **exactly constant** |
+| `mg_gunshot_f32` | 128x128 mel | 0.373 | 0.022 | worse than chance |
+| `i_vehicle_crash` | 64x64 mel | 0.408 | 0.0019 | worse than chance, near-constant |
+| `i_vehicle_crash_f32` | 64x64 mel | 0.753 | **2.9e-6** | AUC looks fine; std is 6-decimal-place noise — **constant in practice** |
+| `k_confinement`, `k_best` | IMU [1,128,6] | — | **0.0** | **exactly constant** on real UCI-HAR |
+| `o_running_fleeing`(+f32) | IMU [1,128,6] | — | 0 on fall-injected | responds to real walking data (std 0.18) but **collapses to exactly 0** the instant a real fall is injected — wrong-direction, unusable |
+| `s_crowd_panic_a`, `s_best` | IMU [1,128,6] | — | 0.001–0.003 | noise-floor variance; fall injection moves score the **wrong way** |
+| `m2_motion_b`, `m2_motion_adversarial` | IMU [1,128,6] | — | **0.0** | **exactly constant** |
+
+Every one of these was checked against its **own recovered training
+config** (see per-family constants below), not a guess — the failure is in
+the model, not the preprocessing.
+
+## Why so many are constant
+
+Three of the four exactly-constant image models (`m_glass_breaking`,
+`m_best`, `mg_gunshot`) and all three exactly-constant IMU models
+(`k_confinement`, `k_best`, `m2_motion_b`, `m2_motion_adversarial`) are
+int8-quantised. A plausible mechanism: post-training quantisation collapsed
+already-marginal logits into a single output bucket. This is exactly the
+`m1_pocket_muffled` failure mode from Day 258, now confirmed across 7 more
+models — quantisation does not merely lose precision here, it can erase the
+signal entirely while the file still loads, runs, and returns a
+plausible-looking `[0,1]` float.
+
+## Recovered per-family configs (for next time)
+
+```
+day101_common (96x96x3):  sr=16000  duration=3.0s  n_mels=96  n_fft=2048
+                           hop=512  fmax=4000  minmax 1e-8
+                           -> j_whisper_distress*, m4_vocal_stress_en*,
+                              m5_vocal_stress_apac*, n_breathing_distress*
+
+glass_breaking (96x96x3):  sr=16000  duration=2.0s  n_mels=96  fmax=8000
+                           minmax 1e-8   (day93_m_glass_breaking.py — own
+                           config, NOT the day101 family despite same shape)
+
+gunshot (128x128x3):       sr=16000  duration=3.0s  n_mels=128  fmax=8000
+                           minmax 1e-8   (day89_mg_gunshot.py)
+
+vehicle_crash (64x64x3):   sr=16000  duration=2.0s  n_mels=64  fmax=8000
+                           minmax 1e-8   (day91_i_vehicle_crash.py)
+
+IMU o/k/s family:          day102_sweep_common.run_imu_sweep applies
+                           NO normalisation — raw physical units straight
+                           to the model (unlike m2_motion_v2's fixed
+                           mean/std). Positive-class labels for k/o/s are
+                           partly synthetic bootstrap, not recorded real
+                           events — a second, independent reason these
+                           would need care even if the constant-output
+                           problem were fixed.
+```
+
+## Untested, not bad — logged rather than debugged today
+
+- `m3_scene_adversarial`, `m3_lighting_augmented` — no labelled real image
+  dataset staged for safe/unsafe scenes.
+- `m8_blink_liveness` [1,24,12] — needs a face-landmark extraction pipeline
+  that doesn't exist.
+- `m7_nlp_context_enhanced` [1,64] int32 — tokenizer/vocab absent from
+  staging; unwireable regardless of accuracy.
+- `h_aggressive_speech_bn_ur_ar_crosslang` [1,38] — 38 hand-engineered
+  prosodic features, a third preprocessing family; not attempted today.
+- `w_*_fusion` (6 heads, `[1,4]`) — take 4 upstream model scores as input.
+  Not worth testing until upstream models exist that are worth fusing.
+- `m9_dcs_fusion` — do not ship (`production_pass: false`).
+
+## Bottom line
+
+`m1_scream_v2` and `m2_motion_v2` remain the only two models wired to this
+app, and now the only two connected to the backend
+(`POST /api/v1/ml/detection-events/` — see
+`ml/test_day259_live_detection_wiring.py` in the backend repo for a real
+request/response/DB-row proof). Every other staged model either failed
+today's real-data check or could not be checked with data available
+locally. Wiring any of them without retraining would mean shipping a
+detector that structurally cannot detect anything.
