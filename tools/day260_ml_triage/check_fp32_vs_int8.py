@@ -26,9 +26,11 @@ of hidden.
 Requires: tensorflow, librosa, numpy, (sklearn optional for AUC).
 """
 import csv
+import importlib.util
 import json
 import pathlib
 import random
+import sys
 
 import numpy as np
 import librosa
@@ -56,6 +58,22 @@ SWEEP = pathlib.Path(
 GUNSHOT_PUSH = pathlib.Path(
     r"C:\Users\hridy\Desktop\zapsafe\letsstartbuilding\kaggle_notebooks\mg_gunshot_push\output_v5"
 )
+O_TRAIN_SCRIPT = pathlib.Path(
+    r"C:\Users\hridy\Desktop\zapsafe\letsstartbuilding\kaggle_notebooks\o_running_fleeing_push"
+    r"\day94_o_running_fleeing.py"
+)
+S_TRAIN_SCRIPT = pathlib.Path(
+    r"C:\Users\hridy\Desktop\zapsafe\letsstartbuilding\kaggle_notebooks\s_crowd_panic_push"
+    r"\day95_s_crowd_panic.py"
+)
+
+
+def _import_from_path(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def run_tflite_single_input(model_path, X):
@@ -258,11 +276,187 @@ def run_k_confinement():
     return out
 
 
+def run_o_running_fleeing():
+    """
+    Day 260B -- o_running_fleeing has only ONE real input (confirmed via
+    interpreter.get_input_details(): serving_default_imu:0 [1,128,6], no
+    second tensor -- unlike k_confinement/s_crowd_panic). So Day 259's
+    "wrong-direction on fall-injected" result was not measured with a
+    missing/garbage second input. This re-runs it anyway, real data only,
+    to get real current numbers using the model's OWN training-time panic
+    augmentation (`apply_panic_running` from day94_o_running_fleeing.py --
+    sudden burst + cadence jitter + direction change -- the exact function
+    used to build the RUNNING/panic positive class) applied to real
+    UCI-HAR calm windows, rather than guessing at what "fall-injected"
+    meant.
+    """
+    print("\n" + "=" * 70 + "\nMODEL: o_running_fleeing (+f32)\n" + "=" * 70)
+    o = _import_from_path("day94_o_running_fleeing", O_TRAIN_SCRIPT)
+
+    X_calm = load_uci_har_windows("test", n=60, seed=7)
+    X_panic = np.stack([o.apply_panic_running(w.copy()) for w in X_calm])
+    print(f"real UCI-HAR calm windows: {len(X_calm)}; same windows put through "
+          f"o_running's own apply_panic_running() augmentation: {len(X_panic)}")
+
+    out = {}
+    for path, tag in [(STAGE / "o_running_fleeing_f32.tflite", "fp32"),
+                       (STAGE / "o_running_fleeing.tflite", "int8 staged")]:
+        calm_scores = run_tflite_single_input(path, X_calm)
+        panic_scores = run_tflite_single_input(path, X_panic)
+        calm_std = summarize(f"{tag} -- calm (real UCI-HAR)", calm_scores)
+        panic_std = summarize(f"{tag} -- panic-injected (real UCI-HAR + apply_panic_running)", panic_scores)
+        print(f"{tag}: calm mean={calm_scores.mean():.6g}  panic mean={panic_scores.mean():.6g}  "
+              f"delta={panic_scores.mean() - calm_scores.mean():+.6g}")
+        out[tag] = {
+            "calm_std": calm_std, "panic_std": panic_std,
+            "calm_mean": float(calm_scores.mean()), "panic_mean": float(panic_scores.mean()),
+        }
+    return out
+
+
+def run_s_crowd_panic():
+    """
+    Day 260B -- s_crowd_panic_a / s_best / s_crowd_panic_a_f32 have TWO real
+    inputs (confirmed via get_input_details(), not assumed):
+    serving_default_imu:0 [1,128,6] and serving_default_mel:0 [1,64,64,1].
+    This is NOT documented in PREPROCESSING_SPEC.md's tensor-shape table,
+    which lists s_crowd_panic_* under the plain "[1,128,6]" IMU family
+    alongside k_confinement/o_running_fleeing/m2_motion_b.
+
+    Per day95_s_crowd_panic.py / day102_s_sweep.py (day102_sweep_common.py's
+    run_dual_sweep -- confirmed by reading, no normalisation is applied to
+    either branch for this dual model, same as the rest of the o/k/s IMU
+    family), `mel` is a real 64x64 audio mel-spectrogram (2.0s, 16kHz,
+    n_mels=64, fmax=8000, power_to_db, NOT resized/normalised beyond that)
+    and `imu` is a raw-units 128x6 accelerometer+gyro window. This is a
+    real second modality (paired real audio), not a broadcast scalar like
+    k_confinement's `light` -- there is no single "physically correct
+    constant" to set it to. The correct fix is to feed a REAL matched
+    audio clip for every IMU window, using the model's own recovered
+    positive/negative recipe:
+      calm  = real ESC-50 negative-category audio (day95 ESC_NEG cats) +
+              real UCI-HAR walking IMU (unmodified)
+      panic = real AudioSet audio carrying a day95 PANIC_MID label +
+              real UCI-HAR walking IMU run through day95's own
+              `apply_crush_imu()` overlay (the exact function the training
+              script uses to turn MobiAct fall/bump recordings into crush
+              positives -- raw MobiAct .txt files are not present in this
+              machine's local dataset cache, so the real UCI-HAR baseline +
+              the model's own real crush-overlay function is the closest
+              reproducible substitute; this is disclosed, not silently
+              swapped in for real MobiAct data).
+    Also runs the two "mixed" combinations (panic audio x calm IMU, calm
+    audio x crush IMU) to see which branch the model is actually keying on.
+    """
+    print("\n" + "=" * 70 + "\nMODEL: s_crowd_panic_a / s_best (+f32)\n" + "=" * 70)
+    s = _import_from_path("day95_s_crowd_panic", S_TRAIN_SCRIPT)
+
+    cats = {}
+    with open(ESC50_CSV, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            cats.setdefault(row["category"], []).append(row["filename"])
+    calm_files = [f for c in s.ESC_NEG for f in cats.get(c, [])]
+    random.shuffle(calm_files)
+    calm_files = calm_files[:30]
+
+    gun_mid_blob_ok = None  # not used; reuse s.PANIC_MIDS directly
+    pos_ids = set()
+    with open(AUDIOSET_TRAINCSV, newline="", encoding="utf-8", errors="ignore") as f:
+        r = csv.reader(f)
+        next(r)
+        for row in r:
+            if len(row) >= 4 and any(m in ",".join(row) for m in s.PANIC_MIDS):
+                pos_ids.add(row[0])
+    panic_wavs = [p for p in AUDIOSET_WAV.glob("*.wav") if p.stem in pos_ids]
+    random.shuffle(panic_wavs)
+    panic_wavs = panic_wavs[:30]
+
+    def mel_for(path):
+        y, _ = librosa.load(str(path), sr=s.SR, mono=True)
+        return s.audio_to_mel(y[: int(s.DURATION * s.SR)] if len(y) else y)
+
+    calm_mels = []
+    for fn in calm_files:
+        p = ESC50_AUDIO / fn
+        if p.exists():
+            calm_mels.append(mel_for(p))
+    panic_mels = []
+    for p in panic_wavs:
+        try:
+            panic_mels.append(mel_for(p))
+        except Exception:
+            pass
+
+    print(f"real calm ESC-50 audio clips: {len(calm_mels)}  "
+          f"real AudioSet panic-labelled audio clips: {len(panic_mels)}")
+    if not calm_mels or not panic_mels:
+        print("insufficient real audio found for one class -- ABORTING s_crowd_panic real test")
+        return {"error": "insufficient real audio", "n_calm": len(calm_mels), "n_panic": len(panic_mels)}
+
+    n = min(len(calm_mels), len(panic_mels), 25)
+    calm_mels = np.stack(calm_mels[:n])[..., np.newaxis]
+    panic_mels = np.stack(panic_mels[:n])[..., np.newaxis]
+
+    X_imu_calm = load_uci_har_windows("test", n=n, seed=11)
+    X_imu_crush = np.stack([s.apply_crush_imu(w.copy()) for w in X_imu_calm])
+
+    def run_dual(path, mel, imu):
+        interp = tf.lite.Interpreter(model_path=str(path))
+        interp.allocate_tensors()
+        dets = interp.get_input_details()
+        imu_det = next(d for d in dets if "imu" in d["name"])
+        mel_det = next(d for d in dets if "mel" in d["name"])
+        out_det = interp.get_output_details()[0]
+        scores = []
+        for i in range(len(mel)):
+            mb = mel[i][None, ...]
+            ib = imu[i][None, ...]
+            mb_q = mb.astype(mel_det["dtype"]) if mel_det["dtype"] == np.float32 else (
+                (mb / mel_det["quantization"][0] + mel_det["quantization"][1]).round().astype(mel_det["dtype"]))
+            ib_q = ib.astype(imu_det["dtype"]) if imu_det["dtype"] == np.float32 else (
+                (ib / imu_det["quantization"][0] + imu_det["quantization"][1]).round().astype(imu_det["dtype"]))
+            interp.set_tensor(mel_det["index"], mb_q)
+            interp.set_tensor(imu_det["index"], ib_q)
+            interp.invoke()
+            out = interp.get_tensor(out_det["index"])
+            if out_det["dtype"] in (np.int8, np.uint8):
+                s_, z_ = out_det["quantization"]
+                out = (out.astype(np.float32) - z_) * s_
+            scores.append(float(out.ravel()[0]))
+        return np.array(scores, dtype=np.float64)
+
+    files = [
+        (STAGE / "s_crowd_panic_a_f32.tflite", "fp32"),
+        (STAGE / "s_crowd_panic_a.tflite", "int8 staged (== s_best.tflite, byte-identical)"),
+    ]
+    out = {}
+    for path, tag in files:
+        calm_calm = run_dual(path, calm_mels, X_imu_calm)
+        panic_panic = run_dual(path, panic_mels, X_imu_crush)
+        panic_audio_calm_imu = run_dual(path, panic_mels, X_imu_calm)
+        calm_audio_crush_imu = run_dual(path, calm_mels, X_imu_crush)
+        summarize(f"{tag} -- calm audio + calm IMU (true negative combo)", calm_calm)
+        summarize(f"{tag} -- panic audio + crush IMU (true positive combo)", panic_panic)
+        summarize(f"{tag} -- panic audio + calm IMU (mixed)", panic_audio_calm_imu)
+        summarize(f"{tag} -- calm audio + crush IMU (mixed)", calm_audio_crush_imu)
+        print(f"{tag}: neg mean={calm_calm.mean():.6g}  pos mean={panic_panic.mean():.6g}  "
+              f"delta={panic_panic.mean() - calm_calm.mean():+.6g}")
+        out[tag] = {
+            "neg_mean": float(calm_calm.mean()), "pos_mean": float(panic_panic.mean()),
+            "neg_std": float(calm_calm.std()), "pos_std": float(panic_panic.std()),
+            "panic_audio_calm_imu_mean": float(panic_audio_calm_imu.mean()),
+            "calm_audio_crush_imu_mean": float(calm_audio_crush_imu.mean()),
+        }
+    return out
+
+
 if __name__ == "__main__":
     results = {
         "m_glass_breaking": run_glass_breaking(),
         "mg_gunshot": run_gunshot(),
         "k_confinement": run_k_confinement(),
+        "o_running_fleeing": run_o_running_fleeing(),
+        "s_crowd_panic": run_s_crowd_panic(),
     }
     print("\n" + "=" * 70 + "\nSUMMARY\n" + "=" * 70)
     print(json.dumps(results, indent=2))
