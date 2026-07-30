@@ -255,7 +255,9 @@ computation itself — every one needs its own resize / channel / window step.
 | `mg_gunshot` | `[1,128,128,3]` int8 | mel resized to 128x128 |
 | `i_vehicle_crash` | `[1,64,64,3]` int8 | mel resized to 64x64 |
 | `m1_scream_b` / `_adversarial` | `[1,128,87,3]` f32 | the day82 lineage: **1.0 s** audio, mel resized to 128x87, 3 identical channels, min-max `1e-8` |
-| `m2_motion_b`, `k_confinement`, `o_running_fleeing`, `s_crowd_panic_*` | `[1,128,6]` | **128** IMU samples, not the 100 m2_motion_v2 uses |
+| `m2_motion_b`, `m2_motion_adversarial`, `o_running_fleeing`(+f32) | `[1,128,6]` (single input) | **128** IMU samples, not the 100 m2_motion_v2 uses. Confirmed single-input via `interpreter.get_input_details()` on Day 260B — no hidden second input for these three. |
+| `k_confinement`, `k_best` | **two inputs**: `serving_default_imu:0 [1,128,6]` **and** `serving_default_light:0 [1,32,1]` | NOT a single-input model — corrected Day 260, see `DAY260_QUANTIZATION_ROOTCAUSE.md` Finding 3. `light` is a broadcast ambient-light scalar (0.0=dark/confinement, 0.85-0.9=normal lit), per `day92_k_confinement.py`. Feeding only `imu` leaves `light` as allocator garbage, not an error. |
+| `s_crowd_panic_a/b/c/d`, `s_best` (+f32 variants) | **two inputs**: `serving_default_imu:0 [1,128,6]` **and** `serving_default_mel:0 [1,64,64,1]` | NOT a single-input model — corrected Day 260B, see `DAY260B_HIDDEN_INPUT_CHECK.md`. `mel` is a real 64x64 audio mel-spectrogram (2.0s @16kHz, n_mels=64, fmax=8000, power_to_db, no further normalisation), a genuine second real-data modality per `day95_s_crowd_panic.py` / `day102_s_sweep.py` — not a constant, so there is no single "physically correct" value to broadcast; every real inference needs a real, time-matched audio clip alongside the IMU window. |
 | `m3_scene_adversarial`, `m3_lighting_augmented` | `[1,128,128,3]` f32 -> `[1,3]` | 3-class, unlike shipped m3's `[1,224,224,3]` uint8 -> `[1,1]` |
 | `m8_blink_liveness` | `[1,24,12]` f32 | 24 frames x 12 landmark features — needs a face-landmark path |
 | `m7_nlp_context_enhanced` | `[1,64]` **int32** | token IDs; needs the training tokenizer + vocab, which is not in the staging dir |
@@ -298,10 +300,10 @@ std-dev, and an automatic constant-output flag (std < 1e-4).
 | `mg_gunshot_f32` | 128x128 mel | 0.373 | 0.022 | worse than chance |
 | `i_vehicle_crash` | 64x64 mel | 0.408 | 0.0019 | worse than chance, near-constant |
 | `i_vehicle_crash_f32` | 64x64 mel | 0.753 | **2.9e-6** | AUC looks fine; std is 6-decimal-place noise — **constant in practice** |
-| `k_confinement`, `k_best` | IMU [1,128,6] | — | **0.0** | **exactly constant** on real UCI-HAR |
-| `o_running_fleeing`(+f32) | IMU [1,128,6] | — | 0 on fall-injected | responds to real walking data (std 0.18) but **collapses to exactly 0** the instant a real fall is injected — wrong-direction, unusable |
-| `s_crowd_panic_a`, `s_best` | IMU [1,128,6] | — | 0.001–0.003 | noise-floor variance; fall injection moves score the **wrong way** |
-| `m2_motion_b`, `m2_motion_adversarial` | IMU [1,128,6] | — | **0.0** | **exactly constant** |
+| `k_confinement`, `k_best` | IMU [1,128,6] | — | **0.0** | **exactly constant** on real UCI-HAR — ⚠️ **measured with an undocumented second input (`light`) left unset; see Day 260 correction below, verdict does not hold as originally stated** |
+| `o_running_fleeing`(+f32) | IMU [1,128,6] | — | 0 on fall-injected | responds to real walking data (std 0.18) but **collapses to exactly 0** the instant a real fall is injected — wrong-direction, unusable — ⚠️ **single-input confirmed (no hidden input) on Day 260B, but this exact result did not reproduce with real data + the model's own panic augmentation; see correction below** |
+| `s_crowd_panic_a`, `s_best` | IMU [1,128,6] | — | 0.001–0.003 | noise-floor variance; fall injection moves score the **wrong way** — ⚠️ **measured with an undocumented second input (`mel`, a real audio spectrogram) left unset; see Day 260B correction below — direction verdict CONFIRMED with both inputs correct, but the std/"noise-floor" figure was wrong (real std is 0.04–0.10, not 0.001–0.003)** |
+| `m2_motion_b`, `m2_motion_adversarial` | IMU [1,128,6] | — | **0.0** | **exactly constant** — confirmed single-input (no hidden input) on Day 260B; verdict itself not retested |
 
 Every one of these was checked against its **own recovered training
 config** (see per-family constants below), not a guess — the failure is in
@@ -318,6 +320,31 @@ already-marginal logits into a single output bucket. This is exactly the
 models — quantisation does not merely lose precision here, it can erase the
 signal entirely while the file still loads, runs, and returns a
 plausible-looking `[0,1]` float.
+
+**Correction (Day 260 / Day 260B — see `DAY260_QUANTIZATION_ROOTCAUSE.md`
+and `DAY260B_HIDDEN_INPUT_CHECK.md`):** this "int8-quantisation collapse"
+explanation does not hold up for every model in this list.
+`m2_motion_b`/`m2_motion_adversarial` are, per real
+`interpreter.get_input_details()`, **not int8-quantised at all** — both are
+plain float32 tflite files. And `k_confinement`/`k_best`'s "exactly
+constant" result and `s_crowd_panic_a`/`s_best`'s "wrong-direction, noise-
+floor variance" result were both measured with an **undocumented second
+input left unset** (TFLite silently fills it with allocator garbage rather
+than erroring) — `k_confinement` needs `light [1,32,1]`,
+`s_crowd_panic_*` needs `mel [1,64,64,1]`. With both inputs set correctly:
+`k_confinement` turns out to be real and non-degenerate but almost entirely
+light-gated (not a quantisation bug); `s_crowd_panic_*`'s wrong-direction
+verdict is **confirmed** even with the real second input supplied (so that
+one *is* a genuine model problem, just not a "noise-floor"-sized one — real
+std is 0.04–0.10, and the direction is wrong in both fp32 and int8, so
+quantisation isn't the cause there either). `o_running_fleeing` was
+confirmed to have no hidden input at all, and its "wrong-direction, collapses
+to 0" result did not reproduce with real UCI-HAR data and the model's own
+panic-augmentation function — still unexplained, not resolved. Bottom line:
+treat the "why so many are constant" narrative above as **superseded** for
+`m2_motion_b`, `m2_motion_adversarial`, `k_confinement`, `k_best`,
+`o_running_fleeing`, `s_crowd_panic_a`, `s_best` specifically — re-read the
+two follow-up docs before making any retrain/retire call on these seven.
 
 ## Recovered per-family configs (for next time)
 
