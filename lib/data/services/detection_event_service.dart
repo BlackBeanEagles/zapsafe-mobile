@@ -16,15 +16,29 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-/// The four event types the DCS pipeline can fire.
+/// The event types the DCS pipeline can fire.
+///
+/// Day 262 added `gunshot` (mg_gunshot_retrain, a new detection family) and
+/// `motionB` (m2_motion_b_retrain, a second independent fall detector run
+/// alongside `motion`/m2_motion_v2 — see `motion_detector_b.dart`'s class
+/// doc for why it is not fused into `motion`). Both require the matching
+/// `EventType` additions on the backend
+/// (`zapsafe_backend/ml/models.py`) — see the Day 262 migration.
 enum DetectionEventType {
   scream,
   motion,
   scene,
-  dcs;
+  dcs,
+  gunshot,
+  motionB;
 
   /// Wire value sent to / received from the backend.
-  String get value => name; // "scream" | "motion" | "scene" | "dcs"
+  String get value {
+    switch (this) {
+      case DetectionEventType.motionB: return 'motion_b';
+      default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
+    }
+  }
 
   /// Human-readable label for UI display.
   String get label {
@@ -33,6 +47,8 @@ enum DetectionEventType {
       case DetectionEventType.motion: return 'Motion';
       case DetectionEventType.scene:  return 'Scene';
       case DetectionEventType.dcs:    return 'DCS Fusion';
+      case DetectionEventType.gunshot: return 'Gunshot';
+      case DetectionEventType.motionB: return 'Motion (model B)';
     }
   }
 

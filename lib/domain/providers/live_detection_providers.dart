@@ -5,7 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/models/inference_result.dart';
 import '../../data/services/detection_event_service.dart';
+import '../../data/services/gunshot_audio_pipeline.dart';
+import '../../data/services/gunshot_detector.dart';
 import '../../data/services/motion_audio_pipeline.dart';
+import '../../data/services/motion_audio_pipeline_b.dart';
+import '../../data/services/motion_detector_b.dart';
 import '../../data/services/motion_detector_v2.dart';
 import '../../data/services/phone_capability_detector.dart';
 import '../../data/services/scream_audio_pipeline.dart';
@@ -27,6 +31,14 @@ import 'platform_channel_providers.dart';
 /// *existing* `/api/v1/ml/detection-events/` endpoint — its `event_type`
 /// enum already has `scream` and `motion`, so no backend schema change was
 /// needed for either model wired today.
+///
+/// Day 262 — added `mg_gunshot_retrain` (AUC 0.8913 on real AudioSet/
+/// UrbanSound8K/FSD50K gunshot data, up from fp32 AUC 0.538 near-chance)
+/// and `m2_motion_b_retrain` (test AUC 0.9808 on held-out real SisFall
+/// falls, up from bit-exact 0.0). Both required a real backend schema
+/// change (`EventType.GUNSHOT`, `EventType.MOTION_B`) — see
+/// `zapsafe_backend/ml/migrations/` and
+/// `assets/models/DAY262_GUNSHOT_MOTIONB_WIRING.md`.
 
 /// Scream detector, loaded once. Null on a host with no native TFLite or a
 /// still-placeholder asset — callers must check before using the pipeline.
@@ -74,6 +86,53 @@ final motionAudioPipelineProvider =
   return pipeline;
 });
 
+final gunshotDetectorProvider = FutureProvider<GunshotDetectorV2?>((ref) async {
+  final detector = await GunshotDetectorV2.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live gunshot pipeline: native 16,000 Hz / 3 s PCM stream -> mel image ->
+/// mg_gunshot_retrain. Null while the detector is still loading or failed
+/// to load.
+final gunshotAudioPipelineProvider =
+    Provider<GunshotAudioPipeline?>((ref) {
+  final detectorAsync = ref.watch(gunshotDetectorProvider);
+  final detector = detectorAsync.valueOrNull;
+  if (detector == null) return null;
+
+  final audio = ref.watch(audioChannelProvider);
+  final pipeline = GunshotAudioPipeline(
+    detector: detector,
+    windows: audio.pcmStream,
+  );
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
+final motionBDetectorProvider = FutureProvider<MotionDetectorB?>((ref) async {
+  final detector = await MotionDetectorB.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live motion pipeline #2: accelerometer + gyroscope -> 128-sample window
+/// -> m2_motion_b_retrain. Runs independently of [motionAudioPipelineProvider]
+/// (m2_motion_v2) — see `motion_detector_b.dart` for why the two are not
+/// fused.
+final motionAudioPipelineBProvider =
+    Provider<MotionAudioPipelineB?>((ref) {
+  final detectorAsync = ref.watch(motionBDetectorProvider);
+  final detector = detectorAsync.valueOrNull;
+  if (detector == null) return null;
+
+  final pipeline = MotionAudioPipelineB(detector: detector);
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
 /// Submits every confident [InferenceResult] from both live pipelines to
 /// `POST /api/v1/ml/detection-events/`. Reading this provider (e.g. from
 /// app start-up) is what turns the wiring on; it produces no widget output
@@ -105,6 +164,26 @@ final liveDetectionEventSubmitterProvider =
           service,
           r,
           DetectionEventType.motion,
+          tier,
+        )));
+  }
+
+  final gunshot = ref.watch(gunshotAudioPipelineProvider);
+  if (gunshot != null) {
+    subs.add(gunshot.results.listen((r) => _submit(
+          service,
+          r,
+          DetectionEventType.gunshot,
+          tier,
+        )));
+  }
+
+  final motionB = ref.watch(motionAudioPipelineBProvider);
+  if (motionB != null) {
+    subs.add(motionB.results.listen((r) => _submit(
+          service,
+          r,
+          DetectionEventType.motionB,
           tier,
         )));
   }
