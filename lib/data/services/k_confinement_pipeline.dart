@@ -5,75 +5,92 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../models/inference_result.dart';
 import 'k_confinement_detector.dart';
+import 'light_sensor_channel.dart';
 import 'motion_detector_b.dart';
 
 /// Day 273 — drives [KConfinementDetector] from the accelerometer/gyroscope
 /// stream, following `MotionWindowBufferB`'s windowing pattern already used
 /// by `MotionDetectorB`/`VehicleCrashFusionPipeline`.
 ///
-/// ## The light-sensor gap — read this before treating this pipeline as
-/// ## "fully wired"
+/// ## The light-sensor gap — Day 273 (placeholder) / Day 274 (Android real,
+/// ## iOS still placeholder)
 ///
 /// `k_confinement`'s real model signature needs a `light` input (a broadcast
 /// ambient-light scalar, `[1,32,1]`, see `KConfinementDetector`'s doc
 /// comment) — an input modality none of this app's other fusion models use
-/// (`i_vehicle_crash`/`s_crowd_panic` are audio+IMU only). Investigated this
-/// session:
+/// (`i_vehicle_crash`/`s_crowd_panic` are audio+IMU only).
 ///
-/// 1. **No ambient-light-sensor integration exists anywhere in this app.**
-///    Searched the whole `lib/` tree and `pubspec.yaml` for
-///    `sensors_plus`'s `Light`/light-sensor APIs, `light_sensor`-style
-///    packages, and any platform channel with "light"/"lux"/"ambient" in
-///    its name — none found. `sensors_plus: ^4.0.0` (this app's pinned
-///    version) does not expose an ambient-light stream at all (that API
-///    only exists in much newer `sensors_plus` majors), so reusing an
-///    existing integration is not possible.
-/// 2. **No camera-exposure-brightness proxy is wired either** — this app
-///    has no active camera-preview session running during background
-///    detection (adding one solely to sample exposure metadata would be a
-///    real new permission/battery/architecture change, not a small wiring
-///    step, and photosensor Kaggle Day 269/272 docs never proposed this as
-///    the intended input anyway — they explicitly say "no real ambient-
-///    light/lux dataset exists locally", i.e. the training data itself
-///    never used a camera-exposure proxy, so wiring one here would not even
-///    match what the model was trained on).
-/// 3. **Decision (Option (c) from this task's brief): ship the IMU side for
-///    real, and use an explicit, documented, fixed-safe-default light
-///    value for the light input rather than fabricating a fake "real"
-///    sensor reading.** [kPlaceholderLightValue] (0.5) sits mid-range
-///    between the model's trained dark (0.0-0.1) and lit (0.15-0.9) regimes
-///    — deliberately not tuned to bias the model toward either the old
-///    collapsed-output regime or a specific verdict. **This is a real,
-///    stated limitation, not a hidden one**: [usesRealLightSensor] is
-///    `false`, and every [InferenceResult] this pipeline produces is running
-///    on real IMU data but a constant, non-sensed light value. Wiring a
-///    real ambient-light reading (most likely via a native platform-channel
-///    add-on, since `sensors_plus` doesn't carry one at this app's pinned
-///    version) remains a real, separate follow-up — not done in this
-///    session.
+/// **Day 273** shipped this pipeline IMU-real / light-placeholder: no
+/// ambient-light integration existed anywhere in this app, and
+/// `sensors_plus: ^4.0.0` (this app's pinned version) doesn't expose one.
+///
+/// **Day 274** closed the gap on Android only, investigated per-platform:
+///
+/// 1. **Android**: [Sensor.TYPE_LIGHT] has been in the platform
+///    `SensorManager` API since API level 1 — it needs no `sensors_plus`
+///    upgrade at all. Added as a small native Kotlin platform channel
+///    (`LightSensorService.kt` / `LightChannelHandler.kt`, channel
+///    `com.zapsafe/light`), mirroring `AudioCaptureService.kt`'s existing
+///    capture/channel split. This pipeline now uses a real lux reading via
+///    [AmbientLightChannel] on Android, mapped through [luxToModelLight] —
+///    see that function's doc comment for why the lux-to-model-scalar
+///    mapping is a documented heuristic, not a calibrated transform (the
+///    model itself was never trained against real measured lux — Day 269/
+///    272 both state "no real ambient-light/lux dataset exists locally").
+/// 2. **iOS**: confirmed this session — Apple does not expose a general
+///    ambient-light sensor to third-party apps. The only proxy is
+///    `AVCaptureDevice` ISO/exposure metadata, which requires an active
+///    camera-preview session this app doesn't run in the background (same
+///    reasoning Day 273 already used to reject a camera-exposure proxy on
+///    any platform). iOS therefore **stays on the Day 273 fixed placeholder
+///    ([kPlaceholderLightValue])** — this is a real platform-parity
+///    constraint, not an oversight, and is not silently presented as
+///    equivalent to Android's real-sensor path: see [usesRealLightSensor],
+///    an instance getter (not a build-wide const) that reflects whether
+///    *this running instance* actually acquired a live sensor stream.
+///
+/// `pubspec.yaml` targets both `android/` and `ios/` (both platform
+/// directories exist and are maintained; nothing in this app's config makes
+/// it Android-only), so this Android-real/iOS-placeholder split is a real,
+/// stated asymmetry, not a scoping shortcut.
 class KConfinementFusionPipeline {
   /// Mid-range placeholder between the model's trained dark (0.0-0.1) and
-  /// lit (0.15-0.9) light regimes. **Not a sensor reading** — see the class
-  /// doc comment above for why, and [usesRealLightSensor].
+  /// lit (0.15-0.9) light regimes. Used on iOS (no OS light-sensor API) and
+  /// as the Android fallback when no physical light sensor is present or
+  /// the native channel fails to start. **Not a sensor reading** in either
+  /// case — see the class doc comment above, and [usesRealLightSensor].
   static const double kPlaceholderLightValue = 0.5;
 
-  /// Always `false` in this build: no real ambient-light sensor is wired.
-  /// Exposed so callers/tests/UI can honestly surface "confinement
-  /// detection is running on IMU-only + a placeholder light value" rather
-  /// than silently presenting this as a fully-sensed two-input detector.
-  static const bool usesRealLightSensor = false;
+  /// True: this build wires a real Android native light-sensor platform
+  /// channel (`com.zapsafe/light`, [Sensor.TYPE_LIGHT]) — a compile-time
+  /// capability flag, not a runtime guarantee. Whether a *specific running
+  /// instance* actually has a live reading depends on platform and device
+  /// hardware; see the instance getter [usesRealLightSensor] for that.
+  static const bool androidLightSensorChannelWired = true;
 
   final KConfinementDetector detector;
+
+  /// Fallback/initial light value before (or absent) a real sensor reading.
+  /// On Android with a working sensor this is overwritten by real lux-
+  /// derived readings once [start] acquires the stream; on iOS, or if the
+  /// Android sensor never comes up, this constant value is used for every
+  /// inference — see [usesRealLightSensor].
   final double lightValue;
 
+  final AmbientLightChannel _lightChannel;
   final MotionWindowBufferB _imuBuffer;
 
   StreamSubscription<AccelerometerEvent>? _accelSub;
   StreamSubscription<GyroscopeEvent>? _gyroSub;
+  StreamSubscription<LightSensorReading>? _lightSub;
   final _results = StreamController<InferenceResult>.broadcast();
 
   double _gx = 0, _gy = 0, _gz = 0;
   bool _busy = false;
+
+  double _currentLightValue = kPlaceholderLightValue;
+  bool _liveLightSensorActive = false;
+  double? _lastRawLux;
 
   int _imuWindowsIn = 0;
   int _inferences = 0;
@@ -84,7 +101,10 @@ class KConfinementFusionPipeline {
     required this.detector,
     this.lightValue = kPlaceholderLightValue,
     int imuHopSamples = 32,
-  }) : _imuBuffer = MotionWindowBufferB(hop: imuHopSamples);
+    AmbientLightChannel? lightChannel,
+  })  : _imuBuffer = MotionWindowBufferB(hop: imuHopSamples),
+        _lightChannel = lightChannel ?? AmbientLightChannel(),
+        _currentLightValue = lightValue;
 
   Stream<InferenceResult> get results => _results.stream;
 
@@ -94,6 +114,23 @@ class KConfinementFusionPipeline {
   int get inferences => _inferences;
   int get droppedBusy => _droppedBusy;
   double get maxConfinedScore => _maxConfinedScore;
+
+  /// True only while THIS instance is actually receiving live lux readings
+  /// from the native Android sensor (started successfully, hardware
+  /// present). False on iOS, false on Android devices/emulators without a
+  /// light sensor, and false before [start] has had a chance to confirm the
+  /// sensor came up — in all of those cases every inference this instance
+  /// produces runs on [kPlaceholderLightValue] (or the caller-supplied
+  /// [lightValue]) instead. This is the honest per-instance counterpart to
+  /// [androidLightSensorChannelWired] (which only says the *code path*
+  /// exists, not that it's live right now).
+  bool get usesRealLightSensor => _liveLightSensorActive;
+
+  /// Most recent raw lux reading from the native sensor, if any has arrived
+  /// this session. Null on iOS and on Android before the first reading (or
+  /// if no sensor is present). Exposed for diagnostics/UI, not used
+  /// internally beyond feeding [luxToModelLight].
+  double? get lastRawLux => _lastRawLux;
 
   void start() {
     if (_accelSub != null) return;
@@ -112,13 +149,53 @@ class KConfinementFusionPipeline {
     } catch (e) {
       if (kDebugMode) debugPrint('[KConfinementFusionPipeline] start failed: $e');
     }
+    unawaited(_startLightSensor());
+  }
+
+  /// Attempts to start the real Android light sensor. On iOS, or any
+  /// platform/device where the native channel reports no sensor, this
+  /// simply leaves [_liveLightSensorActive] false and every inference keeps
+  /// using [lightValue] — a real, expected fallback, not an error.
+  Future<void> _startLightSensor() async {
+    try {
+      final hasSensor = await _lightChannel.hasLightSensor();
+      if (!hasSensor) {
+        if (kDebugMode) {
+          debugPrint('[KConfinementFusionPipeline] no live light sensor '
+              '(iOS, or Android device without one) — using placeholder '
+              '$lightValue');
+        }
+        return;
+      }
+      final started = await _lightChannel.start();
+      if (!started) return;
+      _liveLightSensorActive = true;
+      _lightSub = _lightChannel.readings().listen((reading) {
+        _lastRawLux = reading.lux;
+        _currentLightValue = luxToModelLight(reading.lux);
+      }, onError: (Object e) {
+        if (kDebugMode) {
+          debugPrint('[KConfinementFusionPipeline] light stream error: $e');
+        }
+        _liveLightSensorActive = false;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('[KConfinementFusionPipeline] light sensor start failed: $e');
+      }
+    }
   }
 
   Future<void> stop() async {
     await _accelSub?.cancel();
     await _gyroSub?.cancel();
+    await _lightSub?.cancel();
+    await _lightChannel.stop();
     _accelSub = null;
     _gyroSub = null;
+    _lightSub = null;
+    _liveLightSensorActive = false;
+    _currentLightValue = lightValue;
     _imuBuffer.clear();
   }
 
@@ -141,7 +218,7 @@ class KConfinementFusionPipeline {
     try {
       final result = await detector.inferFused(
         imuWindow: window,
-        lightValue: lightValue,
+        lightValue: _currentLightValue,
         timestampMs: now,
       );
       _inferences++;
