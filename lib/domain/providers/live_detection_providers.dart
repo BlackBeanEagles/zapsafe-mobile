@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/models/inference_result.dart';
+import '../../data/services/crowd_panic_detector.dart';
+import '../../data/services/crowd_panic_pipeline.dart';
 import '../../data/services/detection_event_service.dart';
 import '../../data/services/gunshot_audio_pipeline.dart';
 import '../../data/services/gunshot_detector.dart';
@@ -133,6 +135,35 @@ final motionAudioPipelineBProvider =
   return pipeline;
 });
 
+final crowdPanicDetectorProvider =
+    FutureProvider<CrowdPanicDetector?>((ref) async {
+  final detector = await CrowdPanicDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live crowd-panic fusion pipeline: native audio PCM stream + accelerometer
+/// /gyroscope stream -> s_crowd_panic (audio + IMU fusion). Null while the
+/// detector is still loading or failed to load. See
+/// `crowd_panic_pipeline.dart`'s class doc for the concurrent-capture
+/// design decision (cache-and-fire-on-freshness, never infer on a stale or
+/// missing side).
+final crowdPanicFusionPipelineProvider =
+    Provider<CrowdPanicFusionPipeline?>((ref) {
+  final detectorAsync = ref.watch(crowdPanicDetectorProvider);
+  final detector = detectorAsync.valueOrNull;
+  if (detector == null) return null;
+
+  final audio = ref.watch(audioChannelProvider);
+  final pipeline = CrowdPanicFusionPipeline(
+    detector: detector,
+    audioWindows: audio.pcmStream,
+  );
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
 /// Submits every confident [InferenceResult] from both live pipelines to
 /// `POST /api/v1/ml/detection-events/`. Reading this provider (e.g. from
 /// app start-up) is what turns the wiring on; it produces no widget output
@@ -184,6 +215,16 @@ final liveDetectionEventSubmitterProvider =
           service,
           r,
           DetectionEventType.motionB,
+          tier,
+        )));
+  }
+
+  final crowdPanic = ref.watch(crowdPanicFusionPipelineProvider);
+  if (crowdPanic != null) {
+    subs.add(crowdPanic.results.listen((r) => _submit(
+          service,
+          r,
+          DetectionEventType.crowdPanic,
           tier,
         )));
   }

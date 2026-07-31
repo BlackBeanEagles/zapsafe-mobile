@@ -24,18 +24,27 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 /// doc for why it is not fused into `motion`). Both require the matching
 /// `EventType` additions on the backend
 /// (`zapsafe_backend/ml/models.py`) — see the Day 262 migration.
+/// Day 265 added `crowdPanic` (s_crowd_panic, ZapSafe's first two-input
+/// audio+IMU fusion model — see `crowd_panic_detector.dart`/
+/// `crowd_panic_pipeline.dart`). Requires the matching `EventType.CROWD_PANIC`
+/// addition on the backend (`zapsafe_backend/ml/models.py`) — see the
+/// Day 265 migration, which (unlike Day 262's gunshot/motion_b) is NOT a
+/// no-op: "crowd_panic" (11 chars) needed event_type's column widened from
+/// varchar(10) to varchar(20).
 enum DetectionEventType {
   scream,
   motion,
   scene,
   dcs,
   gunshot,
-  motionB;
+  motionB,
+  crowdPanic;
 
   /// Wire value sent to / received from the backend.
   String get value {
     switch (this) {
       case DetectionEventType.motionB: return 'motion_b';
+      case DetectionEventType.crowdPanic: return 'crowd_panic';
       default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
     }
   }
@@ -49,6 +58,7 @@ enum DetectionEventType {
       case DetectionEventType.dcs:    return 'DCS Fusion';
       case DetectionEventType.gunshot: return 'Gunshot';
       case DetectionEventType.motionB: return 'Motion (model B)';
+      case DetectionEventType.crowdPanic: return 'Crowd Panic';
     }
   }
 
