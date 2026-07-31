@@ -23,9 +23,16 @@ import 'package:zapsafe_mobile/data/services/k_confinement_pipeline.dart';
 ///     `X_imu = (X_imu - imu_mean) / imu_std`, with the real per-channel
 ///     mean/std read from `k_confinement_decorrelated_norm.json`.
 ///  3. `make_light(val) = np.full(32, val)` broadcast, no normalization.
-///  4. `KConfinementFusionPipeline.usesRealLightSensor` is `false` — this
-///     test suite asserts that flag directly so a future change that
-///     silently starts claiming a real sensor is caught.
+///  4. Day 274 update: a real Android native light-sensor platform channel
+///     (`com.zapsafe/light`, `Sensor.TYPE_LIGHT`) now exists —
+///     `KConfinementFusionPipeline.androidLightSensorChannelWired` is `true`,
+///     a compile-time capability flag. Whether a *specific instance* has a
+///     live reading is `usesRealLightSensor`, an instance getter that can't
+///     be exercised here without a real loaded interpreter (this file stays
+///     "pure Dart, no interpreter" per its own heading) — that plumbing is
+///     covered instead by `test/light_sensor_channel_test.dart`, which
+///     mocks the platform channel directly. iOS has no equivalent OS API
+///     (confirmed Day 274) and keeps using `kPlaceholderLightValue`.
 void main() {
   group('KConfinementDetector preprocessing (pure Dart, no interpreter)', () {
     test('imuFeaturesFromWindow applies real per-channel z-score, matching '
@@ -76,9 +83,12 @@ void main() {
   });
 
   group('KConfinementFusionPipeline light-sensor honesty', () {
-    test('usesRealLightSensor is explicitly false — no real ambient-light '
-        'sensor is wired in this app yet', () {
-      expect(KConfinementFusionPipeline.usesRealLightSensor, isFalse);
+    test('androidLightSensorChannelWired is true as of Day 274 — a real '
+        'native Sensor.TYPE_LIGHT platform channel is wired on Android '
+        '(this is a compile-time capability flag, not a runtime guarantee '
+        'for any specific instance/device — see usesRealLightSensor)', () {
+      expect(KConfinementFusionPipeline.androidLightSensorChannelWired,
+          isTrue);
     });
 
     test('kPlaceholderLightValue sits mid-range between the trained dark '
