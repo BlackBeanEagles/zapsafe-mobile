@@ -31,6 +31,13 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 /// Day 265 migration, which (unlike Day 262's gunshot/motion_b) is NOT a
 /// no-op: "crowd_panic" (11 chars) needed event_type's column widened from
 /// varchar(10) to varchar(20).
+/// Day 271 added `vehicleCrash` (i_vehicle_crash, ZapSafe's second
+/// two-input audio+IMU fusion model — see `vehicle_crash_detector.dart`/
+/// `vehicle_crash_pipeline.dart`). Requires the matching
+/// `EventType.VEHICLE_CRASH` addition on the backend
+/// (`zapsafe_backend/ml/models.py`). "vehicle_crash" is 13 characters, which
+/// fits inside the varchar(20) column Day 265's migration already widened
+/// `event_type` to — no further schema migration needed this time.
 enum DetectionEventType {
   scream,
   motion,
@@ -38,13 +45,15 @@ enum DetectionEventType {
   dcs,
   gunshot,
   motionB,
-  crowdPanic;
+  crowdPanic,
+  vehicleCrash;
 
   /// Wire value sent to / received from the backend.
   String get value {
     switch (this) {
       case DetectionEventType.motionB: return 'motion_b';
       case DetectionEventType.crowdPanic: return 'crowd_panic';
+      case DetectionEventType.vehicleCrash: return 'vehicle_crash';
       default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
     }
   }
@@ -59,6 +68,7 @@ enum DetectionEventType {
       case DetectionEventType.gunshot: return 'Gunshot';
       case DetectionEventType.motionB: return 'Motion (model B)';
       case DetectionEventType.crowdPanic: return 'Crowd Panic';
+      case DetectionEventType.vehicleCrash: return 'Vehicle Crash';
     }
   }
 

@@ -16,6 +16,8 @@ import '../../data/services/motion_detector_v2.dart';
 import '../../data/services/phone_capability_detector.dart';
 import '../../data/services/scream_audio_pipeline.dart';
 import '../../data/services/scream_detector_v2.dart';
+import '../../data/services/vehicle_crash_detector.dart';
+import '../../data/services/vehicle_crash_pipeline.dart';
 import 'detection_event_providers.dart';
 import 'platform_channel_providers.dart';
 
@@ -164,6 +166,35 @@ final crowdPanicFusionPipelineProvider =
   return pipeline;
 });
 
+final vehicleCrashDetectorProvider =
+    FutureProvider<VehicleCrashDetector?>((ref) async {
+  final detector = await VehicleCrashDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live vehicle-crash fusion pipeline: native audio PCM stream +
+/// accelerometer/gyroscope stream -> i_vehicle_crash (audio + IMU fusion).
+/// Null while the detector is still loading or failed to load. See
+/// `vehicle_crash_pipeline.dart`'s class doc for the concurrent-capture
+/// design decision, identical in structure to
+/// `crowdPanicFusionPipelineProvider`'s.
+final vehicleCrashFusionPipelineProvider =
+    Provider<VehicleCrashFusionPipeline?>((ref) {
+  final detectorAsync = ref.watch(vehicleCrashDetectorProvider);
+  final detector = detectorAsync.valueOrNull;
+  if (detector == null) return null;
+
+  final audio = ref.watch(audioChannelProvider);
+  final pipeline = VehicleCrashFusionPipeline(
+    detector: detector,
+    audioWindows: audio.pcmStream,
+  );
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
 /// Submits every confident [InferenceResult] from both live pipelines to
 /// `POST /api/v1/ml/detection-events/`. Reading this provider (e.g. from
 /// app start-up) is what turns the wiring on; it produces no widget output
@@ -225,6 +256,16 @@ final liveDetectionEventSubmitterProvider =
           service,
           r,
           DetectionEventType.crowdPanic,
+          tier,
+        )));
+  }
+
+  final vehicleCrash = ref.watch(vehicleCrashFusionPipelineProvider);
+  if (vehicleCrash != null) {
+    subs.add(vehicleCrash.results.listen((r) => _submit(
+          service,
+          r,
+          DetectionEventType.vehicleCrash,
           tier,
         )));
   }
