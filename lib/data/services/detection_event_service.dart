@@ -38,6 +38,15 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 /// (`zapsafe_backend/ml/models.py`). "vehicle_crash" is 13 characters, which
 /// fits inside the varchar(20) column Day 265's migration already widened
 /// `event_type` to — no further schema migration needed this time.
+/// Day 273 added `kConfinement` (k_confinement_decorrelated, the Day 272
+/// decorrelated retrain — see `k_confinement_detector.dart`/
+/// `k_confinement_pipeline.dart`). Requires the matching
+/// `EventType.CONFINEMENT` addition on the backend
+/// (`zapsafe_backend/ml/models.py`). "confinement" (wire value) is 11
+/// characters, fits inside the existing varchar(20) column — no further
+/// schema migration needed. **Note**: this model's `light` input is a
+/// documented placeholder value, not a real ambient-light sensor reading —
+/// see `k_confinement_pipeline.dart`'s class doc for the honest limitation.
 enum DetectionEventType {
   scream,
   motion,
@@ -46,7 +55,8 @@ enum DetectionEventType {
   gunshot,
   motionB,
   crowdPanic,
-  vehicleCrash;
+  vehicleCrash,
+  kConfinement;
 
   /// Wire value sent to / received from the backend.
   String get value {
@@ -54,6 +64,7 @@ enum DetectionEventType {
       case DetectionEventType.motionB: return 'motion_b';
       case DetectionEventType.crowdPanic: return 'crowd_panic';
       case DetectionEventType.vehicleCrash: return 'vehicle_crash';
+      case DetectionEventType.kConfinement: return 'confinement';
       default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
     }
   }
@@ -69,6 +80,7 @@ enum DetectionEventType {
       case DetectionEventType.motionB: return 'Motion (model B)';
       case DetectionEventType.crowdPanic: return 'Crowd Panic';
       case DetectionEventType.vehicleCrash: return 'Vehicle Crash';
+      case DetectionEventType.kConfinement: return 'Confinement';
     }
   }
 

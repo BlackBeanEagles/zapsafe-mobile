@@ -9,6 +9,8 @@ import '../../data/services/crowd_panic_pipeline.dart';
 import '../../data/services/detection_event_service.dart';
 import '../../data/services/gunshot_audio_pipeline.dart';
 import '../../data/services/gunshot_detector.dart';
+import '../../data/services/k_confinement_detector.dart';
+import '../../data/services/k_confinement_pipeline.dart';
 import '../../data/services/motion_audio_pipeline.dart';
 import '../../data/services/motion_audio_pipeline_b.dart';
 import '../../data/services/motion_detector_b.dart';
@@ -195,6 +197,31 @@ final vehicleCrashFusionPipelineProvider =
   return pipeline;
 });
 
+final kConfinementDetectorProvider =
+    FutureProvider<KConfinementDetector?>((ref) async {
+  final detector = await KConfinementDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live k_confinement fusion pipeline: accelerometer/gyroscope stream ->
+/// k_confinement_decorrelated (IMU + light fusion). Null while the detector
+/// is still loading or failed to load. **The `light` input here is a fixed
+/// documented placeholder value, not a real ambient-light sensor reading**
+/// — see `k_confinement_pipeline.dart`'s class doc for the honest
+/// limitation (`KConfinementFusionPipeline.usesRealLightSensor` is `false`).
+final kConfinementFusionPipelineProvider =
+    Provider<KConfinementFusionPipeline?>((ref) {
+  final detectorAsync = ref.watch(kConfinementDetectorProvider);
+  final detector = detectorAsync.valueOrNull;
+  if (detector == null) return null;
+
+  final pipeline = KConfinementFusionPipeline(detector: detector);
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
 /// Submits every confident [InferenceResult] from both live pipelines to
 /// `POST /api/v1/ml/detection-events/`. Reading this provider (e.g. from
 /// app start-up) is what turns the wiring on; it produces no widget output
@@ -266,6 +293,16 @@ final liveDetectionEventSubmitterProvider =
           service,
           r,
           DetectionEventType.vehicleCrash,
+          tier,
+        )));
+  }
+
+  final kConfinement = ref.watch(kConfinementFusionPipelineProvider);
+  if (kConfinement != null) {
+    subs.add(kConfinement.results.listen((r) => _submit(
+          service,
+          r,
+          DetectionEventType.kConfinement,
           tier,
         )));
   }

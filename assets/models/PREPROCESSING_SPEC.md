@@ -14,18 +14,34 @@ than an error, which is the reason this file exists.
 > locally. The 65,897 figure that used to appear here is the row count of the
 > AudioSet segment CSVs, not files on disk.
 >
-> **Current status (Day 265, updated — this line is the source of truth,
+> **Current status (Day 273, updated — this line is the source of truth,
 > not the "0 of 20" claim further down, which is Day 259's snapshot and is
-> now stale):** 5 models are wired, tested end-to-end, and backend-connected
+> now stale):** 7 models are wired, tested end-to-end, and backend-connected
 > — `m1_scream_v2`, `m2_motion_v2`, `mg_gunshot` (AUC 0.9225), `motion_b`
 > (test AUC 0.9808), `s_crowd_panic` (AUC 0.87, first two-input audio+IMU
-> fusion detector). `m_glass_breaking` is real-data-improved (AUC 0.37 ->
+> fusion detector), `i_vehicle_crash` (AUC 0.9622 fp32 / 0.8733 int8, second
+> two-input audio+IMU fusion detector, Day 271), and
+> `k_confinement_decorrelated` (AUC 0.9959, Day 272 retrain + Day 273
+> wiring — see below). `m_glass_breaking` is real-data-improved (AUC 0.37 ->
 > 0.75) but not shippable (recall 0.54, real data locally exhausted).
-> `k_confinement` is an unresolved architecture problem (gates almost
-> entirely on its `light` input, ignoring motion), not a data problem —
-> untouched pending a design decision. Full evidence trail:
-> `WEEK_ML_TRIAGE_SUMMARY.md` and `DAY260*.md` through `DAY265*.md` in this
-> same folder.
+>
+> `k_confinement`'s originally-shipped-staging model was an unresolved
+> architecture problem (gated almost entirely on its `light` input, ignoring
+> motion) — Day 272 fixed this with a decorrelated retrain (light/label
+> confound removed on real PAMAP2/MotionSense IMU data; decisive check:
+> output std at a realistic lit light value went from 0.0000 collapsed to
+> 0.4775, with a real +0.2811 high-vs-low-motion discrimination gap), and
+> Day 273 wired it in as `KConfinementDetector`/`KConfinementFusionPipeline`.
+> **Important caveat, stated plainly**: this app has no ambient-light
+> sensor integration (`sensors_plus: ^4.0.0`, this app's pinned version,
+> does not expose one), so the model's `light` input is currently a fixed,
+> documented placeholder value (0.5), not a real sensor reading — IMU is
+> real, light is not. See `DAY273_K_CONFINEMENT_WIRING.md` and
+> `k_confinement_pipeline.dart`'s class doc for the full explanation. Full
+> evidence trail: `WEEK_ML_TRIAGE_SUMMARY.md`, `DAY260*.md` through
+> `DAY265*.md`, `DAY271_VEHICLE_CRASH_WIRING.md`,
+> `DAY272_K_CONFINEMENT_DECORRELATED_RETRAIN.md`,
+> `DAY273_K_CONFINEMENT_WIRING.md` in this same folder.
 
 ## m1_scream_v2 — `scream_classifier_v1.tflite`
 
