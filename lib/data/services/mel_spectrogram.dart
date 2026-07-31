@@ -68,11 +68,20 @@ class MelSpectrogram {
 
   int get _bins => nFft ~/ 2 + 1;
 
-  /// Mel spectrogram in dB, min-max normalised to [0, 1].
+  /// Mel spectrogram in dB, min-max normalised to [0, 1] by default.
   ///
   /// Returns `[nMels][frames]`, matching the training pipeline's
   /// `power_to_db(mel, ref=max)` followed by per-clip min-max scaling.
-  List<Float64List> compute(Float64List samples) {
+  ///
+  /// Pass [normalize] = false to get `power_to_db(mel, ref=max)` alone, with
+  /// no min-max rescale — this is what `s_crowd_panic`'s `audio_to_mel`
+  /// (`day95_s_crowd_panic.py`) does: it pads/crops the raw dB spectrogram to
+  /// a fixed shape and lets a separate *global* mean/std step (`mel_mean`/
+  /// `mel_std` in `s_crowd_panic_norm.json`) handle scaling, unlike
+  /// m1_scream_v2/mg_gunshot's *per-clip* min-max. Reusing the default
+  /// (normalize: true) path for `s_crowd_panic` would silently double-
+  /// normalise and feed the model values it never saw in training.
+  List<Float64List> compute(Float64List samples, {bool normalize = true}) {
     final power = _stftPower(samples);          // [frames][bins]
     final frames = power.length;
 
@@ -92,7 +101,7 @@ class MelSpectrogram {
       }
     }
 
-    return _powerToDbNormalised(mel);
+    return normalize ? _powerToDbNormalised(mel) : _powerToDb(mel);
   }
 
   /// Pads or trims the mel to exactly [targetFrames] columns.
@@ -253,6 +262,40 @@ class MelSpectrogram {
     for (final row in db) {
       for (var i = 0; i < row.length; i++) {
         row[i] = (row[i] - lo) / span;
+      }
+    }
+    return db;
+  }
+
+  /// `librosa.power_to_db(S, ref=np.max)` with the standard `top_db=80`
+  /// floor, but **no** min-max rescale — used by `s_crowd_panic`, whose
+  /// normalisation is a separate global mean/std step applied by the caller.
+  static List<Float64List> _powerToDb(List<Float64List> mel) {
+    const amin = 1e-10, topDb = 80.0;
+
+    var maxPower = amin;
+    for (final row in mel) {
+      for (final v in row) {
+        if (v > maxPower) maxPower = v;
+      }
+    }
+    final refDb = 10.0 * _log10(math.max(amin, maxPower));
+
+    var maxDb = double.negativeInfinity;
+    final db = <Float64List>[];
+    for (final row in mel) {
+      final r = Float64List(row.length);
+      for (var i = 0; i < row.length; i++) {
+        r[i] = 10.0 * _log10(math.max(amin, row[i])) - refDb;
+        if (r[i] > maxDb) maxDb = r[i];
+      }
+      db.add(r);
+    }
+
+    final floor = maxDb - topDb;
+    for (final row in db) {
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] < floor) row[i] = floor;
       }
     }
     return db;
