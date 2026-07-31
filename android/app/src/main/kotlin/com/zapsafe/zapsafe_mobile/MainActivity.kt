@@ -38,6 +38,11 @@ class MainActivity : FlutterActivity() {
         SensorChannelHandler(messenger, applicationContext)
         AudioChannelHandler(messenger)
 
+        // Day 274 — real ambient-light sensor channel (Sensor.TYPE_LIGHT,
+        // no sensors_plus dependency needed). Android-only: iOS exposes no
+        // equivalent OS API, see light_sensor_channel.dart.
+        LightChannelHandler(messenger, applicationContext)
+
         // Day 24 — LP4 watchdog control surface.
         WatchdogChannelHandler(applicationContext, messenger)
     }
