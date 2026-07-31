@@ -31,12 +31,22 @@ import 'package:flutter/foundation.dart' show visibleForTesting;
 /// Parameters come from `m1_train_v2.py`, confirmed against the training
 /// notebook — see assets/models/PREPROCESSING_SPEC.md.
 class MelSpectrogram {
+  /// [fmax] mirrors librosa's `fmax` kwarg to `librosa.feature.melspectrogram`
+  /// / `librosa.filters.mel`: it caps the top edge of the mel filterbank,
+  /// independent of the FFT's own Nyquist bound (`sampleRate / 2`), which is
+  /// always used for the underlying FFT bin frequencies. Defaults to
+  /// `sampleRate / 2` (librosa's own default) when omitted — this is what
+  /// m1_scream_v2 uses. mg_gunshot's retrain passes `fmax=8000` explicitly
+  /// (see `day261_mg_gunshot_retrain.py`), which is why this exists.
   MelSpectrogram({
     this.sampleRate = 22050,
     this.nFft = 2048,
     this.hopLength = 512,
     this.nMels = 128,
-  })  : _filterbank = _buildSlaneyFilterbank(sampleRate, nFft, nMels),
+    double? fmax,
+  })  : fmax = fmax ?? sampleRate / 2.0,
+        _filterbank = _buildSlaneyFilterbank(
+            sampleRate, nFft, nMels, fmax ?? sampleRate / 2.0),
         _window = _periodicHann(nFft),
         _twiddleCos = _twiddleTable(nFft, math.cos),
         _twiddleSin = _twiddleTable(nFft, math.sin);
@@ -45,6 +55,7 @@ class MelSpectrogram {
   final int nFft;
   final int hopLength;
   final int nMels;
+  final double fmax;
 
   final List<Float64List> _filterbank; // [nMels][1 + nFft/2]
   final Float64List _window;
@@ -269,18 +280,24 @@ class MelSpectrogram {
     return minLogHz * math.exp(logstep * (mel - minLogMel));
   }
 
-  /// `librosa.filters.mel(sr, n_fft, n_mels, norm='slaney', htk=False)`.
-  static List<Float64List> _buildSlaneyFilterbank(int sr, int nFft, int nMels) {
+  /// `librosa.filters.mel(sr, n_fft, n_mels, fmax=fmax, norm='slaney',
+  /// htk=False)`.
+  ///
+  /// [fmax] caps the top mel edge; the FFT bin frequencies ([fftFreqs])
+  /// always run to the true Nyquist (`sr / 2`) regardless of [fmax] — this
+  /// matches librosa, where `fmax` only affects `mel_f`, not `fftfreqs`.
+  static List<Float64List> _buildSlaneyFilterbank(
+      int sr, int nFft, int nMels, double fmax) {
     final bins = nFft ~/ 2 + 1;
-    final fMax = sr / 2.0;
+    final nyquist = sr / 2.0;
 
     final fftFreqs = Float64List(bins);
     for (var k = 0; k < bins; k++) {
-      fftFreqs[k] = fMax * k / (bins - 1);
+      fftFreqs[k] = nyquist * k / (bins - 1);
     }
 
-    // n_mels + 2 edge points, evenly spaced on the mel scale.
-    final melMax = _hzToMel(fMax);
+    // n_mels + 2 edge points, evenly spaced on the mel scale up to fmax.
+    final melMax = _hzToMel(fmax);
     final melF = Float64List(nMels + 2);
     for (var i = 0; i < nMels + 2; i++) {
       melF[i] = _melToHz(melMax * i / (nMels + 1));
