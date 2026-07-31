@@ -31,6 +31,22 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 /// Day 265 migration, which (unlike Day 262's gunshot/motion_b) is NOT a
 /// no-op: "crowd_panic" (11 chars) needed event_type's column widened from
 /// varchar(10) to varchar(20).
+/// Day 271 added `vehicleCrash` (i_vehicle_crash, ZapSafe's second
+/// two-input audio+IMU fusion model — see `vehicle_crash_detector.dart`/
+/// `vehicle_crash_pipeline.dart`). Requires the matching
+/// `EventType.VEHICLE_CRASH` addition on the backend
+/// (`zapsafe_backend/ml/models.py`). "vehicle_crash" is 13 characters, which
+/// fits inside the varchar(20) column Day 265's migration already widened
+/// `event_type` to — no further schema migration needed this time.
+/// Day 273 added `kConfinement` (k_confinement_decorrelated, the Day 272
+/// decorrelated retrain — see `k_confinement_detector.dart`/
+/// `k_confinement_pipeline.dart`). Requires the matching
+/// `EventType.CONFINEMENT` addition on the backend
+/// (`zapsafe_backend/ml/models.py`). "confinement" (wire value) is 11
+/// characters, fits inside the existing varchar(20) column — no further
+/// schema migration needed. **Note**: this model's `light` input is a
+/// documented placeholder value, not a real ambient-light sensor reading —
+/// see `k_confinement_pipeline.dart`'s class doc for the honest limitation.
 enum DetectionEventType {
   scream,
   motion,
@@ -38,13 +54,17 @@ enum DetectionEventType {
   dcs,
   gunshot,
   motionB,
-  crowdPanic;
+  crowdPanic,
+  vehicleCrash,
+  kConfinement;
 
   /// Wire value sent to / received from the backend.
   String get value {
     switch (this) {
       case DetectionEventType.motionB: return 'motion_b';
       case DetectionEventType.crowdPanic: return 'crowd_panic';
+      case DetectionEventType.vehicleCrash: return 'vehicle_crash';
+      case DetectionEventType.kConfinement: return 'confinement';
       default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
     }
   }
@@ -59,6 +79,8 @@ enum DetectionEventType {
       case DetectionEventType.gunshot: return 'Gunshot';
       case DetectionEventType.motionB: return 'Motion (model B)';
       case DetectionEventType.crowdPanic: return 'Crowd Panic';
+      case DetectionEventType.vehicleCrash: return 'Vehicle Crash';
+      case DetectionEventType.kConfinement: return 'Confinement';
     }
   }
 

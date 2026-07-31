@@ -505,6 +505,8 @@ class _LogEventForm extends StatelessWidget {
       case DetectionEventType.gunshot: return ZapColors.danger;
       case DetectionEventType.motionB: return ZapColors.warning;
       case DetectionEventType.crowdPanic: return ZapColors.danger;
+      case DetectionEventType.vehicleCrash: return ZapColors.danger;
+      case DetectionEventType.kConfinement: return ZapColors.warning;
     }
   }
 
@@ -517,6 +519,8 @@ class _LogEventForm extends StatelessWidget {
       case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
       case DetectionEventType.motionB: return Icons.directions_run_rounded;
       case DetectionEventType.crowdPanic: return Icons.groups_rounded;
+      case DetectionEventType.vehicleCrash: return Icons.car_crash_rounded;
+      case DetectionEventType.kConfinement: return Icons.lock_clock_rounded;
     }
   }
 
@@ -643,6 +647,8 @@ class _FilterBar extends StatelessWidget {
       case DetectionEventType.gunshot: return ZapColors.danger;
       case DetectionEventType.motionB: return ZapColors.warning;
       case DetectionEventType.crowdPanic: return ZapColors.danger;
+      case DetectionEventType.vehicleCrash: return ZapColors.danger;
+      case DetectionEventType.kConfinement: return ZapColors.warning;
     }
   }
 
@@ -655,6 +661,8 @@ class _FilterBar extends StatelessWidget {
       case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
       case DetectionEventType.motionB: return Icons.directions_run_rounded;
       case DetectionEventType.crowdPanic: return Icons.groups_rounded;
+      case DetectionEventType.vehicleCrash: return Icons.car_crash_rounded;
+      case DetectionEventType.kConfinement: return Icons.lock_clock_rounded;
     }
   }
 }
@@ -808,6 +816,8 @@ class _EventCard extends StatelessWidget {
       case DetectionEventType.gunshot: return ZapColors.danger;
       case DetectionEventType.motionB: return ZapColors.warning;
       case DetectionEventType.crowdPanic: return ZapColors.danger;
+      case DetectionEventType.vehicleCrash: return ZapColors.danger;
+      case DetectionEventType.kConfinement: return ZapColors.warning;
     }
   }
 
@@ -820,6 +830,8 @@ class _EventCard extends StatelessWidget {
       case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
       case DetectionEventType.motionB: return Icons.directions_run_rounded;
       case DetectionEventType.crowdPanic: return Icons.groups_rounded;
+      case DetectionEventType.vehicleCrash: return Icons.car_crash_rounded;
+      case DetectionEventType.kConfinement: return Icons.lock_clock_rounded;
     }
   }
 
