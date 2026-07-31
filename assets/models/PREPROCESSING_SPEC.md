@@ -13,6 +13,19 @@ than an error, which is the reason this file exists.
 > Note on the dataset: `DS07_AudioSet/train_wav` holds **9,927** wav files
 > locally. The 65,897 figure that used to appear here is the row count of the
 > AudioSet segment CSVs, not files on disk.
+>
+> **Current status (Day 265, updated — this line is the source of truth,
+> not the "0 of 20" claim further down, which is Day 259's snapshot and is
+> now stale):** 5 models are wired, tested end-to-end, and backend-connected
+> — `m1_scream_v2`, `m2_motion_v2`, `mg_gunshot` (AUC 0.9225), `motion_b`
+> (test AUC 0.9808), `s_crowd_panic` (AUC 0.87, first two-input audio+IMU
+> fusion detector). `m_glass_breaking` is real-data-improved (AUC 0.37 ->
+> 0.75) but not shippable (recall 0.54, real data locally exhausted).
+> `k_confinement` is an unresolved architecture problem (gates almost
+> entirely on its `light` input, ignoring motion), not a data problem —
+> untouched pending a design decision. Full evidence trail:
+> `WEEK_ML_TRIAGE_SUMMARY.md` and `DAY260*.md` through `DAY265*.md` in this
+> same folder.
 
 ## m1_scream_v2 — `scream_classifier_v1.tflite`
 
@@ -277,6 +290,12 @@ transcript is a starting point.
 ---
 
 # Day 259 — full real-data triage of the remaining staged models
+
+**This section is a point-in-time snapshot, since superseded — see the
+"Current status (Day 265)" callout at the top of this file for what's
+actually wired today. Several models below (`mg_gunshot`, `s_crowd_panic`,
+`m_glass_breaking`) were re-tested and, in two cases, fixed and shipped
+after this section was written — do not treat "0 of 20 pass" as current.**
 
 Ran every model whose training config could be recovered against real,
 labelled data (`DS07_AudioSet/train_wav`, `DS21_ESC-50`, `DS11_UCI-HAR`).
