@@ -502,6 +502,9 @@ class _LogEventForm extends StatelessWidget {
       case DetectionEventType.motion: return ZapColors.warning;
       case DetectionEventType.scene:  return ZapColors.info;
       case DetectionEventType.dcs:    return ZapColors.safe;
+      case DetectionEventType.gunshot: return ZapColors.danger;
+      case DetectionEventType.motionB: return ZapColors.warning;
+      case DetectionEventType.crowdPanic: return ZapColors.danger;
     }
   }
 
@@ -511,6 +514,9 @@ class _LogEventForm extends StatelessWidget {
       case DetectionEventType.motion: return Icons.directions_run_rounded;
       case DetectionEventType.scene:  return Icons.camera_alt_rounded;
       case DetectionEventType.dcs:    return Icons.hub_rounded;
+      case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
+      case DetectionEventType.motionB: return Icons.directions_run_rounded;
+      case DetectionEventType.crowdPanic: return Icons.groups_rounded;
     }
   }
 
@@ -634,6 +640,9 @@ class _FilterBar extends StatelessWidget {
       case DetectionEventType.motion: return ZapColors.warning;
       case DetectionEventType.scene:  return ZapColors.info;
       case DetectionEventType.dcs:    return ZapColors.safe;
+      case DetectionEventType.gunshot: return ZapColors.danger;
+      case DetectionEventType.motionB: return ZapColors.warning;
+      case DetectionEventType.crowdPanic: return ZapColors.danger;
     }
   }
 
@@ -643,6 +652,9 @@ class _FilterBar extends StatelessWidget {
       case DetectionEventType.motion: return Icons.directions_run_rounded;
       case DetectionEventType.scene:  return Icons.camera_alt_rounded;
       case DetectionEventType.dcs:    return Icons.hub_rounded;
+      case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
+      case DetectionEventType.motionB: return Icons.directions_run_rounded;
+      case DetectionEventType.crowdPanic: return Icons.groups_rounded;
     }
   }
 }
@@ -793,6 +805,9 @@ class _EventCard extends StatelessWidget {
       case DetectionEventType.motion: return ZapColors.warning;
       case DetectionEventType.scene:  return ZapColors.info;
       case DetectionEventType.dcs:    return ZapColors.safe;
+      case DetectionEventType.gunshot: return ZapColors.danger;
+      case DetectionEventType.motionB: return ZapColors.warning;
+      case DetectionEventType.crowdPanic: return ZapColors.danger;
     }
   }
 
@@ -802,6 +817,9 @@ class _EventCard extends StatelessWidget {
       case DetectionEventType.motion: return Icons.directions_run_rounded;
       case DetectionEventType.scene:  return Icons.camera_alt_rounded;
       case DetectionEventType.dcs:    return Icons.hub_rounded;
+      case DetectionEventType.gunshot: return Icons.gpp_bad_rounded;
+      case DetectionEventType.motionB: return Icons.directions_run_rounded;
+      case DetectionEventType.crowdPanic: return Icons.groups_rounded;
     }
   }
 

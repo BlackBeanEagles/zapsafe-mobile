@@ -39,6 +39,32 @@ class AuthService {
     });
   }
 
+  /// `POST /auth/google-verify/` — exchanges a Firebase ID token for the
+  /// same JWT pair `verifyOtp` returns.
+  ///
+  /// [phone] is still required: `sos/signals.py` addresses SOS alerts with
+  /// the owner's phone, so an account without one would have its own safety
+  /// notifications go nowhere. The backend records it as UNVERIFIED, because
+  /// Google proved the Google account, not the number.
+  Future<AuthTokens> googleVerify({
+    required String idToken,
+    required String phone,
+    String? locale,
+    String? referralCode,
+    String? deviceName,
+  }) async {
+    return _call(() async {
+      final res = await _dio.post(ApiConfig.googleVerify, data: {
+        'id_token': idToken,
+        'phone': phone,
+        if (locale != null && locale.isNotEmpty) 'locale': locale,
+        if (referralCode != null && referralCode.isNotEmpty) 'referral_code': referralCode,
+        if (deviceName != null && deviceName.isNotEmpty) 'device_name': deviceName,
+      });
+      return AuthTokens.fromJson(_asMap(res));
+    });
+  }
+
   /// `POST /api/v1/auth/token/refresh/` — used by [ApiClient]'s auto-refresh
   /// flow when an access token expires (401).
   Future<RefreshResponse> refresh(String refreshToken) async {

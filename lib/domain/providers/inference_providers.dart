@@ -11,7 +11,7 @@ import '../../data/services/interpreter.dart';
 import '../../data/services/model_bundle_service.dart';
 import '../../data/services/model_registry.dart';
 import '../../data/services/phone_capability_detector.dart';
-import '../../data/services/tflite_interpreter.dart';
+import '../../data/services/scream_detector_v2.dart';
 import '../../ml/inference/dcs_inference_engine.dart';
 import '../../ml/inference/dcs_score_watcher.dart';
 import '../../ml/inference/isolated_dcs_runner.dart';
@@ -29,26 +29,25 @@ final interpreterProvider = Provider<Interpreter>((ref) {
   return svc;
 });
 
-/// Day 31 — pluggable real-model loader.
+/// Day 31 — pluggable real-model loader. Day 257 — now loads m1_scream_v2.
 ///
-/// Attempts `TfliteInterpreter.tryLoad()` against the scream classifier asset.
-/// If it succeeds (real `.tflite` shipped), returns it; otherwise returns
-/// null so the screen can keep using the stub provider. Currently a 1 KB
-/// placeholder ships in `assets/models/scream_classifier_v1.tflite`, so
-/// today this provider resolves to null on every device — by design.
+/// The real 2,811 KB model shipped into
+/// `assets/models/scream_classifier_v1.tflite`, replacing the 658-byte
+/// placeholder. It is **not** the 15-float MFCC model this provider
+/// originally targeted: it takes a `[1, 128, 131, 1]` librosa mel
+/// spectrogram. Loading it with `expectedInputSize: 15` failed the shape
+/// check and resolved to null on every device, so the real model shipped
+/// but never ran.
 ///
-/// When backend Month 3 drops the real ~1.2 MB binary into the same asset
-/// path, the next app launch will resolve a real interpreter here with
-/// no code change required.
+/// Returns null when the asset is missing or the host VM has no native
+/// TFLite library, leaving callers on the stub / heuristic path.
 final realInterpreterProvider =
     FutureProvider<Interpreter?>((ref) async {
-  // Match the Day 27 feature layout: 13 MFCC + ZCR + spectral centroid = 15.
-  return TfliteInterpreter.tryLoad(
+  final detector = await ScreamDetectorV2.tryLoad(
     assetPath: kZapsafeModels.first.assetPath,
-    modelLabel: 'scream_classifier_v1 · tflite',
-    expectedInputSize: 15,
-    classLabels: const ['normal', 'shout', 'scream'],
   );
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
 });
 
 /// Day 31 — singleton ModelRegistry.

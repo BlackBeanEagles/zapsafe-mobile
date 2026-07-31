@@ -16,15 +16,38 @@ import 'capability_report_service.dart'; // getOrCreateDeviceId
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-/// The four event types the DCS pipeline can fire.
+/// The event types the DCS pipeline can fire.
+///
+/// Day 262 added `gunshot` (mg_gunshot_retrain, a new detection family) and
+/// `motionB` (m2_motion_b_retrain, a second independent fall detector run
+/// alongside `motion`/m2_motion_v2 — see `motion_detector_b.dart`'s class
+/// doc for why it is not fused into `motion`). Both require the matching
+/// `EventType` additions on the backend
+/// (`zapsafe_backend/ml/models.py`) — see the Day 262 migration.
+/// Day 265 added `crowdPanic` (s_crowd_panic, ZapSafe's first two-input
+/// audio+IMU fusion model — see `crowd_panic_detector.dart`/
+/// `crowd_panic_pipeline.dart`). Requires the matching `EventType.CROWD_PANIC`
+/// addition on the backend (`zapsafe_backend/ml/models.py`) — see the
+/// Day 265 migration, which (unlike Day 262's gunshot/motion_b) is NOT a
+/// no-op: "crowd_panic" (11 chars) needed event_type's column widened from
+/// varchar(10) to varchar(20).
 enum DetectionEventType {
   scream,
   motion,
   scene,
-  dcs;
+  dcs,
+  gunshot,
+  motionB,
+  crowdPanic;
 
   /// Wire value sent to / received from the backend.
-  String get value => name; // "scream" | "motion" | "scene" | "dcs"
+  String get value {
+    switch (this) {
+      case DetectionEventType.motionB: return 'motion_b';
+      case DetectionEventType.crowdPanic: return 'crowd_panic';
+      default: return name; // "scream" | "motion" | "scene" | "dcs" | "gunshot"
+    }
+  }
 
   /// Human-readable label for UI display.
   String get label {
@@ -33,6 +56,9 @@ enum DetectionEventType {
       case DetectionEventType.motion: return 'Motion';
       case DetectionEventType.scene:  return 'Scene';
       case DetectionEventType.dcs:    return 'DCS Fusion';
+      case DetectionEventType.gunshot: return 'Gunshot';
+      case DetectionEventType.motionB: return 'Motion (model B)';
+      case DetectionEventType.crowdPanic: return 'Crowd Panic';
     }
   }
 

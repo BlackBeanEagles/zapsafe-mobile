@@ -5,6 +5,7 @@ import '../../data/models/inference_result.dart';
 import '../../data/models/motion_features.dart';
 import '../../data/services/interpreter.dart';
 import '../../data/services/model_registry.dart';
+import '../../data/services/scream_detector_v2.dart';
 import '../../data/services/tflite_interpreter.dart';
 import '../../native/audio_features.dart';
 
@@ -109,12 +110,9 @@ class DCSInferenceEngine {
 
     // Attempt real loads in parallel.
     final results = await Future.wait<Interpreter?>([
-      TfliteInterpreter.tryLoad(
-        assetPath: kZapsafeModels[0].assetPath,
-        modelLabel: 'scream_classifier_v1 · tflite',
-        expectedInputSize: 15,
-        classLabels: const ['normal', 'shout', 'scream'],
-      ),
+      // Day 257: m1_scream_v2 takes a [1,128,131,1] mel spectrogram, not the
+      // 15-float MFCC vector. See ScreamDetectorV2.
+      ScreamDetectorV2.tryLoad(assetPath: kZapsafeModels[0].assetPath),
       TfliteInterpreter.tryLoad(
         assetPath: kZapsafeModels[1].assetPath,
         modelLabel: 'motion_anomaly_v1 · tflite',

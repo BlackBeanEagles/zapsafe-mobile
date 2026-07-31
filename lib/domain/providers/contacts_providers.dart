@@ -1,13 +1,16 @@
 /// Day 83 — Contact Management state.
 ///
-/// [ContactsNotifier] holds the full contact list and exposes CRUD,
-/// tier assignment, and batch operations.  Tier limits (1 max Tier-1,
-/// 5 max Tier-2) are enforced and surfaced as [ContactsError].
-///
-/// API integration: GET/POST/PATCH/DELETE /api/v1/contacts/ — Month 4.
+/// Wired to GET/POST/PUT/DELETE /api/v1/contacts/ when [kUseMockData] is false.
 library;
 
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/constants/app_flags.dart';
+import '../../data/services/contacts_service.dart';
+import 'auth_providers.dart';
 
 // ─── Model ────────────────────────────────────────────────────────────────────
 
@@ -19,6 +22,7 @@ class Contact {
     required this.tier,
     required this.isVerified,
     required this.notifyOrder,
+    this.email,
   });
 
   final String id;
@@ -27,6 +31,14 @@ class Contact {
   final int    tier;       // 1 | 2 | 3
   final bool   isVerified;
   final int    notifyOrder;
+
+  /// Day 257 — optional SOS email fallback.
+  ///
+  /// Delivery order is push -> SMS -> email. A contact without the app can
+  /// only be reached by SMS, and SMS to Indian numbers is blocked until DLT
+  /// registration completes — so for those contacts this is currently the
+  /// only way to reach them at all.
+  final String? email;
 
   String get maskedPhone {
     if (phone.length < 4) return phone;
@@ -39,6 +51,7 @@ class Contact {
     int?    tier,
     bool?   isVerified,
     int?    notifyOrder,
+    String? email,
   }) {
     return Contact(
       id:          id,
@@ -47,6 +60,7 @@ class Contact {
       tier:        tier        ?? this.tier,
       isVerified:  isVerified  ?? this.isVerified,
       notifyOrder: notifyOrder ?? this.notifyOrder,
+      email:       email       ?? this.email,
     );
   }
 }
@@ -70,10 +84,42 @@ final _mockContacts = [
   const Contact(id: 'c7', name: 'Meera Krishnan',  phone: '+919654321098', tier: 3, isVerified: true,  notifyOrder: 3),
 ];
 
+// ─── Service ──────────────────────────────────────────────────────────────────
+
+final contactsServiceProvider = Provider<ContactsService>((ref) {
+  return ContactsService(ref.watch(apiClientProvider));
+});
+
+Contact _fromDto(EmergencyContactDto dto) => Contact(
+      id: dto.id,
+      name: dto.name,
+      phone: dto.phone,
+      tier: dto.tier,
+      isVerified: dto.isVerified,
+      notifyOrder: dto.notifyOrder,
+      email: dto.email,
+    );
+
 // ─── Notifier ─────────────────────────────────────────────────────────────────
 
 class ContactsNotifier extends StateNotifier<List<Contact>> {
-  ContactsNotifier() : super(List.from(_mockContacts));
+  ContactsNotifier(this._ref) : super(List.from(_mockContacts));
+
+  final Ref _ref;
+
+  ContactsService? get _service =>
+      kUseMockData ? null : _ref.read(contactsServiceProvider);
+
+  Future<void> loadFromBackend() async {
+    final svc = _service;
+    if (svc == null) return;
+    try {
+      final list = await svc.fetchAll();
+      state = list.map(_fromDto).toList();
+    } catch (e) {
+      if (kDebugMode) debugPrint('[contacts] load failed, keeping mock: $e');
+    }
+  }
 
   List<Contact> get tier1 =>
       state.where((c) => c.tier == 1).toList()
@@ -94,13 +140,26 @@ class ContactsNotifier extends StateNotifier<List<Contact>> {
   }
 
   /// Returns null on success, [ContactsError] if tier limit exceeded.
-  ContactsError? add({
+  Future<ContactsError?> add({
     required String name,
     required String phone,
     required int    tier,
-  }) {
+    String? email,
+  }) async {
     if (tier == 1 && tier1.length >= kTier1Max) return ContactsError.tier1Full;
     if (tier == 2 && tier2.length >= kTier2Max) return ContactsError.tier2Full;
+
+    final svc = _service;
+    if (svc != null) {
+      try {
+        final created =
+            await svc.create(name: name, phone: phone, tier: tier, email: email);
+        state = [...state, _fromDto(created)];
+        return null;
+      } catch (e) {
+        if (kDebugMode) debugPrint('[contacts] create failed: $e');
+      }
+    }
 
     final newId = 'c${DateTime.now().millisecondsSinceEpoch}';
     state = [
@@ -110,7 +169,7 @@ class ContactsNotifier extends StateNotifier<List<Contact>> {
         name:        name,
         phone:       phone,
         tier:        tier,
-        isVerified:  false, // must verify via SMS OTP in prod
+        isVerified:  false,
         notifyOrder: _nextOrder(tier),
       ),
     ];
@@ -118,7 +177,7 @@ class ContactsNotifier extends StateNotifier<List<Contact>> {
   }
 
   /// Returns null on success, [ContactsError] if target tier limit exceeded.
-  ContactsError? update(Contact updated) {
+  Future<ContactsError?> update(Contact updated) async {
     final old = state.firstWhere((c) => c.id == updated.id);
     if (old.tier != updated.tier) {
       if (updated.tier == 1 && tier1.where((c) => c.id != updated.id).length >= kTier1Max) {
@@ -128,24 +187,53 @@ class ContactsNotifier extends StateNotifier<List<Contact>> {
         return ContactsError.tier2Full;
       }
     }
+    final svc = _service;
+    if (svc != null) {
+      try {
+        final saved = await svc.update(
+          id: updated.id,
+          name: updated.name,
+          phone: updated.phone,
+          tier: updated.tier,
+          notifyOrder: updated.notifyOrder,
+          email: updated.email,
+        );
+        state = [for (final c in state) c.id == updated.id ? _fromDto(saved) : c];
+        return null;
+      } catch (e) {
+        if (kDebugMode) debugPrint('[contacts] update failed: $e');
+      }
+    }
     state = [for (final c in state) c.id == updated.id ? updated : c];
     return null;
   }
 
-  void delete(String id) {
+  Future<void> delete(String id) async {
+    final svc = _service;
+    if (svc != null) {
+      try {
+        await svc.delete(id: id);
+      } catch (e) {
+        if (kDebugMode) debugPrint('[contacts] delete failed: $e');
+      }
+    }
     state = state.where((c) => c.id != id).toList();
   }
 
-  void batchDelete(Set<String> ids) {
-    state = state.where((c) => !ids.contains(c.id)).toList();
+  Future<void> batchDelete(Set<String> ids) async {
+    for (final id in ids) {
+      await delete(id);
+    }
   }
 
   /// Returns ids that failed due to tier limits.
-  Set<String> batchSetTier(Set<String> ids, int tier) {
+  Future<Set<String>> batchSetTier(Set<String> ids, int tier) async {
     final failed = <String>{};
     for (final id in ids) {
       final contact = state.firstWhere((c) => c.id == id);
-      final err = update(contact.copyWith(tier: tier, notifyOrder: _nextOrder(tier)));
+      final err = await update(
+        contact.copyWith(tier: tier, notifyOrder: _nextOrder(tier)),
+      );
       if (err != null) failed.add(id);
     }
     return failed;
@@ -156,7 +244,13 @@ class ContactsNotifier extends StateNotifier<List<Contact>> {
 
 final contactsProvider =
     StateNotifierProvider<ContactsNotifier, List<Contact>>(
-  (ref) => ContactsNotifier(),
+  (ref) {
+    final notifier = ContactsNotifier(ref);
+    if (ref.watch(isLoggedInProvider)) {
+      unawaited(notifier.loadFromBackend());
+    }
+    return notifier;
+  },
 );
 
 /// IDs of contacts selected in batch mode.

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "906159397013",
+    "project_id": "zappy-ecc86",
+    "storage_bucket": "zappy-ecc86.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906159397013:android:9a3ad61db85b244890239c",
+        "android_client_info": {
+          "package_name": "com.zapsafe.zapsafe_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906159397013-if1nnj3ke97ks7bufmv3fqkjsjmqtld2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zapsafe.zapsafe_mobile",
+            "certificate_hash": "80e47460a70b34106ddb033ea0244d501e25fae5"
+          }
+        },
+        {
+          "client_id": "906159397013-bg5m1i987f01d77tmbalqsucgivpapv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATYvHPpk5tMa-Yu8F8vOsASKyM-CQFcH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906159397013-bg5m1i987f01d77tmbalqsucgivpapv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

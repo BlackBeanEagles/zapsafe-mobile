@@ -6,8 +6,9 @@ import 'heuristic_motion_detector.dart';
 import 'heuristic_scene_detector.dart';
 import 'heuristic_scream_detector.dart';
 import 'interpreter.dart';
+import 'motion_detector_v2.dart';
 import 'phone_capability_detector.dart';
-import 'tflite_interpreter.dart';
+import 'scream_detector_v2.dart';
 
 /// Day 45 — how each model slot resolved during bundle loading.
 enum ModelLoadStatus {
@@ -157,16 +158,16 @@ class ModelBundleService {
         activeInterpreter: const HeuristicScreamDetector(),
       );
     }
-    final interp = await TfliteInterpreter.tryLoad(
-      assetPath: _screamAsset,
-      modelLabel: 'scream_classifier_v1',
-      expectedInputSize: 15,
-      classLabels: const ['normal', 'shout', 'scream'],
-    );
+    // Day 257: the shipped asset is m1_scream_v2 — a [1,128,131,1] mel
+    // spectrogram model, not the 15-float MFCC model this slot originally
+    // assumed. Asking TfliteInterpreter for expectedInputSize: 15 fails the
+    // shape check and silently drops back to the heuristic, which is what
+    // was happening before this path existed.
+    final interp = await ScreamDetectorV2.tryLoad(assetPath: _screamAsset);
     if (interp != null) {
       return ModelSlotResult(
         key: 'scream',
-        displayName: 'Scream Classifier v1',
+        displayName: 'Scream Classifier v2 (mel)',
         assetPath: _screamAsset,
         status: ModelLoadStatus.realLoaded,
         sizeBytes: size,
@@ -197,28 +198,30 @@ class ModelBundleService {
         activeInterpreter: const HeuristicMotionDetector(),
       );
     }
-    // Real model present (194 KB). The Day 42 UCI-HAR model expects 561-float
-    // input; the mobile 6-DOF pipeline doesn't yet produce 561 features.
-    // Attempt to load to confirm it's valid TFLite — but treat shape mismatch
-    // vs mobile pipeline as "pending adapter" and fall through to heuristic.
-    final interp = await TfliteInterpreter.tryLoad(
-      assetPath: _motionAsset,
-      modelLabel: 'motion_anomaly_v1',
-      expectedInputSize: 561,           // UCI HAR pre-extracted feature count
-      classLabels: const ['normal', 'threat'],
-    );
-    if (kDebugMode) {
-      debugPrint('[ModelBundleService] motion tryLoad → '
-          '${interp != null ? "loaded (561-dim, pending adapter)" : "failed"}');
+    // Day 258: the "561-float UCI HAR" note that used to live here was wrong.
+    // The shipped asset is m2_motion_v2 and its input tensor is [1, 100, 6] —
+    // 100 raw IMU samples at 50 Hz, not 561 pre-extracted statistics. Asking
+    // TfliteInterpreter for 561 floats failed the shape check every time, so
+    // a working model sat in the bundle unused behind the heuristic.
+    //
+    // Verified against real UCI-HAR data: a walking window scores 0.004 and
+    // the same window with an injected fall scores 0.98. See
+    // test/motion_detector_v2_test.dart.
+    final interp = await MotionDetectorV2.tryLoad(assetPath: _motionAsset);
+    if (interp != null) {
+      return ModelSlotResult(
+        key: 'motion',
+        displayName: 'Motion Anomaly v2 (IMU)',
+        assetPath: _motionAsset,
+        status: ModelLoadStatus.realLoaded,
+        sizeBytes: size,
+        activeInterpreter: interp,
+      );
     }
-    // Even if TFLite loaded, the 6-DOF mobile pipeline can't feed 561 floats
-    // until a feature-alignment bridge is built. Use heuristic for now.
     return ModelSlotResult(
       key: 'motion',
-      displayName: 'Motion Anomaly v1',
+      displayName: 'Motion Anomaly v2 (IMU)',
       assetPath: _motionAsset,
-      // Valid 194 KB file but 561-float UCI HAR input is incompatible with the
-      // 6-DOF mobile pipeline until a feature-alignment adapter lands (Day 57+).
       status: ModelLoadStatus.realLoadFailed,
       sizeBytes: size,
       activeInterpreter: const HeuristicMotionDetector(),

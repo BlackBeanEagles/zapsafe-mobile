@@ -1,0 +1,24 @@
+{
+  "model": "s_crowd_panic",
+  "day": 95,
+  "auc": 0.8744,
+  "accuracy": 0.7489,
+  "int8_kb": 19.5,
+  "data_stats": {
+    "pos": 567,
+    "neg": 567,
+    "cpu_mode": false,
+    "max_quality": true,
+    "sources": {
+      "audioset_panic": 279,
+      "mobiact_crush": 288,
+      "urbansound": 4000,
+      "esc50": 160,
+      "imu_csv": 240,
+      "pamap2": 4006,
+      "wisdm": 0,
+      "uci_har": 0
+    }
+  },
+  "version": "v1"
+}
