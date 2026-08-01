@@ -18,6 +18,13 @@
     <!-- Physical Activity: IMU-based motion trigger detection -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <!-- Day 274 — ambient light sensor (Sensor.TYPE_LIGHT) for k_confinement.
+         Normal (non-dangerous) sensor, no uses-permission required. Declared
+         as an optional hardware feature so app installs are not blocked on
+         devices/emulators that lack one; LightSensorService.hasLightSensor()
+         is the real runtime check, this is documentation only. -->
+    <uses-feature android:name="android.hardware.sensor.light" android:required="false" />
+
     <!-- ─── Day 21 · Foreground service permissions ──────────────────── -->
     <!-- Base FGS permission (all Android versions) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

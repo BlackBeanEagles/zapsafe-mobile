@@ -206,10 +206,14 @@ final kConfinementDetectorProvider =
 
 /// Live k_confinement fusion pipeline: accelerometer/gyroscope stream ->
 /// k_confinement_decorrelated (IMU + light fusion). Null while the detector
-/// is still loading or failed to load. **The `light` input here is a fixed
-/// documented placeholder value, not a real ambient-light sensor reading**
-/// — see `k_confinement_pipeline.dart`'s class doc for the honest
-/// limitation (`KConfinementFusionPipeline.usesRealLightSensor` is `false`).
+/// is still loading or failed to load. **The `light` input is a real native
+/// sensor reading (`Sensor.TYPE_LIGHT`) on Android as of Day 274, mapped
+/// through a documented heuristic (see `luxToModelLight` in
+/// `light_sensor_channel.dart`); on iOS, or an Android device without a
+/// light sensor, it falls back to a fixed placeholder value** — see
+/// `k_confinement_pipeline.dart`'s class doc for the full honest breakdown.
+/// Check `pipeline.usesRealLightSensor` (an instance getter) at runtime to
+/// know which is actually happening for a given running instance.
 final kConfinementFusionPipelineProvider =
     Provider<KConfinementFusionPipeline?>((ref) {
   final detectorAsync = ref.watch(kConfinementDetectorProvider);
