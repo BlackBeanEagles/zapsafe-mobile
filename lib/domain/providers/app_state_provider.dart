@@ -196,6 +196,16 @@ class AppStateNotifier extends StateNotifier<AppState> {
     }
   }
 
+  /// Day 302 — cold-start restore when GET /api/v1/sos/active/ returns a
+  /// live event (session hydration after an app restart mid-SOS).
+  void restoreActiveSos({String cause = 'hydrated active SOS'}) {
+    _cancelAlertCountdown();
+    _silentlyEscalating = false;
+    if (state != AppState.sosActive && state != AppState.escalating) {
+      _to(AppState.sosActive, cause);
+    }
+  }
+
   /// Direct setter used by debug screens (Day 37/38). Cancels any in-flight
   /// alert countdown so the screen state stays consistent. Production code
   /// should use the named transition methods, not this.
