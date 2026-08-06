@@ -671,3 +671,15 @@ class I18nNotifier extends StateNotifier<I18nState> {
 final i18nProvider = StateNotifierProvider<I18nNotifier, I18nState>(
   (ref) => I18nNotifier(),
 );
+
+// ─── Day 305 — real app-locale bridge ──────────────────────────────────────
+//
+// [i18nProvider] above is a self-contained Day 102-108 demo (never read by
+// the real app shell). The REAL active locale lives in EasyLocalization's
+// `context.locale`, set app-wide in `main.dart`. Dio interceptors run
+// outside the widget tree and can't call `context.locale` directly, so
+// `ZapSafeApp` pushes the current code into this plain `StateProvider` on
+// every rebuild (see `main.dart`), and `api_client.dart`'s
+// `LanguageCodeProvider` callback reads it — same "callback reads a
+// Riverpod-backed value" pattern already used for `AccessTokenProvider`.
+final currentLanguageCodeProvider = StateProvider<String>((ref) => 'en');
