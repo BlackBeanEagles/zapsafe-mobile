@@ -240,5 +240,23 @@
     "verify": "सत्यापित करें",
     "verified": "सत्यापित",
     "avatar": "प्रोफ़ाइल फ़ोटो"
+  },
+  "day301_305": {
+    "audit_title": "दिन 301 · एकीकरण ऑडिट",
+    "audit_heading": "वास्तविक बैकएंड एकीकरण ऑडिट",
+    "analytics_title": "दिन 302 · एनालिटिक्स लाइव वायर",
+    "analytics_heading": "लाइव एनालिटिक्स QA",
+    "razorpay_title": "दिन 303 · Razorpay लाइव वायर",
+    "razorpay_heading": "लाइव सदस्यता स्थिति",
+    "delivery_title": "दिन 304 · डिलीवरी स्टेटस लाइव वायर",
+    "delivery_heading": "लाइव डिलीवरी कैस्केड",
+    "accept_language_title": "दिन 305 · Accept-Language वायरिंग",
+    "accept_language_heading": "Accept-Language हेडर ऑडिट",
+    "back_to_audit": "एकीकरण ऑडिट पर वापस जाएं",
+    "retry": "पुनः प्रयास करें",
+    "fire_test_call": "परीक्षण कॉल भेजें",
+    "start_polling": "पोलिंग शुरू करें",
+    "start_checkout": "चेकआउट शुरू करें (प्रीमियम)",
+    "cancel_subscription": "अवधि समाप्ति पर रद्द करें"
   }
 }

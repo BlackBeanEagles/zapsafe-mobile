@@ -135,6 +135,22 @@ class ApiConfig {
   static const privacy            = '/api/v1/privacy/';
   static const privacyDeletion    = '/api/v1/privacy/deletion-request/';
 
+  // Analytics — Day 81-85 backend, wired Day 302 (authenticated GET; device-health also POST)
+  static const analyticsSosSummary          = '/api/v1/analytics/sos-summary/';
+  static const analyticsDetections          = '/api/v1/analytics/detections/';
+  static const analyticsContactResponseRate = '/api/v1/analytics/contacts/response-rate/';
+  static const analyticsDeviceHealth        = '/api/v1/analytics/device-health/';
+
+  // Subscription (Razorpay) — Day 91-100 backend, wired Day 303 (authenticated)
+  static const subscriptionCreate = '/api/v1/subscription/create/';
+  static const subscriptionStatus = '/api/v1/subscription/status/';
+  static const subscriptionCancel = '/api/v1/subscription/cancel/';
+
+  // SOS delivery status (MSG91 cascade) — Day 101 backend, wired Day 304 (authenticated)
+  /// GET /api/v1/sos/<uuid>/delivery-status/
+  static String sosDeliveryStatusFor(String sosId) =>
+      '/api/v1/sos/$sosId/delivery-status/';
+
   // ─── Development Auth ──────────────────────────────────────────────────
   /// Development token for emulator testing (Django token from backend test user).
   /// In production, this is obtained from OTP verification flow.

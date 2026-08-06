@@ -202,6 +202,11 @@ import '../screens/day197_release_checklist_screen.dart';          // Day 197
 import '../screens/day198_qa_pass_screen.dart';                    // Day 198
 import '../screens/day199_final_submission_screen.dart';           // Day 199
 import '../screens/day200_grand_finale_screen.dart';               // Day 200
+import '../screens/day301_backend_integration_audit_screen.dart';  // Day 301
+import '../screens/day302_analytics_live_wire_screen.dart';        // Day 302
+import '../screens/day303_razorpay_live_wire_screen.dart';         // Day 303
+import '../screens/day304_delivery_status_live_wire_screen.dart';  // Day 304
+import '../screens/day305_accept_language_wire_screen.dart';       // Day 305
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -416,6 +421,13 @@ class AppRoutes {
   static const qaPass                   = '/qa-pass';                                      // Day 198
   static const finalSubmission          = '/final-submission';                             // Day 199
   static const grandFinale              = '/grand-finale';                                 // Day 200
+
+  // ─── Section F: Production Wiring (Days 301-305) ────────────────────────
+  static const integrationAudit         = '/day-301-integration-audit';                    // Day 301
+  static const analyticsLiveWire        = '/day-302-analytics-live-wire';                  // Day 302
+  static const razorpayLiveWire         = '/day-303-razorpay-live-wire';                   // Day 303
+  static const deliveryStatusLiveWire   = '/day-304-delivery-status-live-wire';             // Day 304
+  static const acceptLanguageWire       = '/day-305-accept-language-wire';                 // Day 305
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1055,6 +1067,31 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.grandFinale,
         builder: (context, state) =>
             const Day200GrandFinaleScreen(),                                  // Day 200 🏆
+      ),
+      GoRoute(
+        path: AppRoutes.integrationAudit,
+        builder: (context, state) =>
+            const Day301BackendIntegrationAuditScreen(),                      // Day 301
+      ),
+      GoRoute(
+        path: AppRoutes.analyticsLiveWire,
+        builder: (context, state) =>
+            const Day302AnalyticsLiveWireScreen(),                            // Day 302
+      ),
+      GoRoute(
+        path: AppRoutes.razorpayLiveWire,
+        builder: (context, state) =>
+            const Day303RazorpayLiveWireScreen(),                             // Day 303
+      ),
+      GoRoute(
+        path: AppRoutes.deliveryStatusLiveWire,
+        builder: (context, state) =>
+            const Day304DeliveryStatusLiveWireScreen(),                       // Day 304
+      ),
+      GoRoute(
+        path: AppRoutes.acceptLanguageWire,
+        builder: (context, state) =>
+            const Day305AcceptLanguageWireScreen(),                           // Day 305
       ),
       GoRoute(
         path: AppRoutes.vault,
