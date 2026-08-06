@@ -1,0 +1,207 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-06-15",
+  "source": "ZapSafe bundled reference · verify locally before travel",
+  "countries": [
+    {
+      "code": "IN",
+      "name": "India",
+      "flag": "🇮🇳",
+      "region": "Asia",
+      "notes": "112 is the unified ERSS number (2016+). Legacy single-service numbers still work in many states.",
+      "numbers": [
+        { "label": "Universal emergency (ERSS)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "100", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "101", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "102", "primary": false, "service": "ambulance" },
+        { "label": "Women's helpline", "number": "1091", "primary": false, "service": "helpline" }
+      ]
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸",
+      "region": "Americas",
+      "notes": "911 connects police, fire, and EMS. Text-to-911 available in many areas.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom",
+      "flag": "🇬🇧",
+      "region": "Europe",
+      "notes": "999 is traditional; 112 also works (EU harmonised).",
+      "numbers": [
+        { "label": "Emergency services", "number": "999", "primary": true, "service": "all" },
+        { "label": "EU universal", "number": "112", "primary": false, "service": "all" }
+      ]
+    },
+    {
+      "code": "EU",
+      "name": "European Union (general)",
+      "flag": "🇪🇺",
+      "region": "Europe",
+      "notes": "112 works in all EU member states from any phone, free of charge.",
+      "numbers": [
+        { "label": "Universal emergency", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "AU",
+      "name": "Australia",
+      "flag": "🇦🇺",
+      "region": "Oceania",
+      "notes": "000 is primary; 112 works on GSM mobiles.",
+      "numbers": [
+        { "label": "Emergency services", "number": "000", "primary": true, "service": "all" },
+        { "label": "GSM fallback", "number": "112", "primary": false, "service": "all" }
+      ]
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "flag": "🇨🇦",
+      "region": "Americas",
+      "notes": "911 nationwide for police, fire, ambulance.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "AE",
+      "name": "United Arab Emirates",
+      "flag": "🇦🇪",
+      "region": "Middle East",
+      "notes": "999 is the main emergency line.",
+      "numbers": [
+        { "label": "Police / general emergency", "number": "999", "primary": true, "service": "all" },
+        { "label": "Ambulance", "number": "998", "primary": false, "service": "ambulance" },
+        { "label": "Fire", "number": "997", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "SG",
+      "name": "Singapore",
+      "flag": "🇸🇬",
+      "region": "Asia",
+      "notes": "999 for police & SCDF; 995 for ambulance & fire.",
+      "numbers": [
+        { "label": "Police", "number": "999", "primary": true, "service": "police" },
+        { "label": "Ambulance & fire (SCDF)", "number": "995", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "JP",
+      "name": "Japan",
+      "flag": "🇯🇵",
+      "region": "Asia",
+      "notes": "Separate numbers for police and fire/ambulance.",
+      "numbers": [
+        { "label": "Police", "number": "110", "primary": true, "service": "police" },
+        { "label": "Fire & ambulance", "number": "119", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "region": "Europe",
+      "notes": "112 universal; 110 police direct.",
+      "numbers": [
+        { "label": "Universal emergency", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "110", "primary": false, "service": "police" }
+      ]
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "flag": "🇫🇷",
+      "region": "Europe",
+      "notes": "112 EU universal plus dedicated SAMU/police/gendarmerie lines.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "SAMU (medical)", "number": "15", "primary": false, "service": "ambulance" },
+        { "label": "Police", "number": "17", "primary": false, "service": "police" },
+        { "label": "Fire brigade", "number": "18", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "SA",
+      "name": "Saudi Arabia",
+      "flag": "🇸🇦",
+      "region": "Middle East",
+      "notes": "911 unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "BR",
+      "name": "Brazil",
+      "flag": "🇧🇷",
+      "region": "Americas",
+      "notes": "Separate three-digit services; 190 is police.",
+      "numbers": [
+        { "label": "Police", "number": "190", "primary": true, "service": "police" },
+        { "label": "Ambulance (SAMU)", "number": "192", "primary": false, "service": "ambulance" },
+        { "label": "Fire", "number": "193", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "ZA",
+      "name": "South Africa",
+      "flag": "🇿🇦",
+      "region": "Africa",
+      "notes": "10111 police landline; 112 from mobile.",
+      "numbers": [
+        { "label": "Mobile emergency", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "10111", "primary": false, "service": "police" }
+      ]
+    },
+    {
+      "code": "NZ",
+      "name": "New Zealand",
+      "flag": "🇳🇿",
+      "region": "Oceania",
+      "notes": "111 for police, fire, ambulance.",
+      "numbers": [
+        { "label": "Emergency services", "number": "111", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "KR",
+      "name": "South Korea",
+      "flag": "🇰🇷",
+      "region": "Asia",
+      "notes": "119 fire/ambulance; 112 police.",
+      "numbers": [
+        { "label": "Police", "number": "112", "primary": true, "service": "police" },
+        { "label": "Fire & ambulance", "number": "119", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "MX",
+      "name": "Mexico",
+      "flag": "🇲🇽",
+      "region": "Americas",
+      "notes": "911 nationwide emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "CN",
+      "name": "China",
+      "flag": "🇨🇳",
+      "region": "Asia",
+      "notes": "Separate lines for police, ambulance, fire.",
+      "numbers": [
+        { "label": "Police", "number": "110", "primary": true, "service": "police" },
+        { "label": "Ambulance", "number": "120", "primary": false, "service": "ambulance" },
+        { "label": "Fire", "number": "119", "primary": false, "service": "fire" }
+      ]
+    }
+  ]
+}

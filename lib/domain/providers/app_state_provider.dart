@@ -87,12 +87,16 @@ class AppStateNotifier extends StateNotifier<AppState> {
 
   Timer? _alertTimer;
   bool _silentlyEscalating = false;
+  bool _possibleUnconscious = false;
   final List<AppStateTransition> _history = [];
 
   /// True after a duress-PIN cancel (LP3). The UI reflects "MONITORING"
   /// but the backend dispatch pipeline keeps escalating silently.
   /// Day 38 surfaces the flag; Day 39 wires the real dispatch coupling.
   bool get silentlyEscalating => _silentlyEscalating;
+
+  /// Day 94 Track P — scream then silence + still → unconscious victim messaging.
+  bool get possibleUnconscious => _possibleUnconscious;
 
   /// Time the [AppState.alertPending] countdown was started, or null if
   /// no countdown is active. UIs read this to render a live timer.
@@ -129,6 +133,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
   void onCancelWithRealPIN({String cause = 'PIN cancel'}) {
     if (state == AppState.idle) return;
     _silentlyEscalating = false;
+    _possibleUnconscious = false;
     _cancelAlertCountdown();
     _to(AppState.monitoring, cause);
   }
@@ -166,6 +171,19 @@ class AppStateNotifier extends StateNotifier<AppState> {
     _to(AppState.sosActive, cause);
   }
 
+  /// Day 94 Track P — silence-after-distress escalation (CRITICAL SOS path).
+  void onSilenceAfterDistressEscalation({
+    String cause = 'CRITICAL: Possible unconscious victim',
+  }) {
+    if (state == AppState.idle) return;
+    _possibleUnconscious = true;
+    _cancelAlertCountdown();
+    if (state == AppState.sosActive || state == AppState.escalating) {
+      return;
+    }
+    _to(AppState.sosActive, cause);
+  }
+
   void onTier1Acknowledged({String cause = 'tier-1 ack'}) {
     if (state == AppState.sosActive) _to(AppState.escalating, cause);
   }
@@ -173,6 +191,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
   void onSosResolved({String cause = 'sos resolved'}) {
     if (state == AppState.sosActive || state == AppState.escalating) {
       _silentlyEscalating = false;
+      _possibleUnconscious = false;
       _to(AppState.postIncident, cause);
     }
   }
@@ -180,6 +199,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
   void returnToMonitoring({String cause = 'return to monitoring'}) {
     if (state == AppState.idle) return;
     _silentlyEscalating = false;
+    _possibleUnconscious = false;
     _cancelAlertCountdown();
     if (state != AppState.monitoring) _to(AppState.monitoring, cause);
   }
@@ -192,7 +212,18 @@ class AppStateNotifier extends StateNotifier<AppState> {
     if (state != AppState.idle) {
       _cancelAlertCountdown();
       _silentlyEscalating = false;
+      _possibleUnconscious = false;
       _to(AppState.idle, cause);
+    }
+  }
+
+  /// Cold-start restore when GET /api/v1/sos/active/ returns a live event.
+  void restoreActiveSos({String cause = 'hydrated active SOS'}) {
+    _cancelAlertCountdown();
+    _silentlyEscalating = false;
+    _possibleUnconscious = false;
+    if (state != AppState.sosActive && state != AppState.escalating) {
+      _to(AppState.sosActive, cause);
     }
   }
 

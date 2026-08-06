@@ -98,8 +98,8 @@ List<IntegrationPhase> buildMonth2Phases(WidgetRef ref) {
     // ─── ML / inference ─────────────────────────────────────────────────
     IntegrationPhase(
       key: 'tflite_registry',
-      name: 'TFLite registry · 4 model slots',
-      description: 'kZapsafeModels has 4 declared assets (placeholders today).',
+      name: 'TFLite registry · 5 model slots',
+      description: 'kZapsafeModels has 5 declared assets (placeholders today).',
       runner: () async => month2PhaseRunners.tfliteRegistry(),
     ),
     IntegrationPhase(
@@ -213,20 +213,20 @@ abstract final class month2PhaseRunners {
   }
 
   static PhaseResult tfliteRegistry() {
-    if (kZapsafeModels.length != 4) {
-      throw 'kZapsafeModels has ${kZapsafeModels.length} entries, expected 4';
+    if (kZapsafeModels.length != 5) {
+      throw 'kZapsafeModels has ${kZapsafeModels.length} entries, expected 5';
     }
     final keys = kZapsafeModels.map((m) => m.key).toSet();
-    if (keys.length != 4) throw 'duplicate model key';
+    if (keys.length != 5) throw 'duplicate model key';
     final pathsOK = kZapsafeModels.every((m) =>
         m.assetPath.startsWith('assets/models/') &&
         m.assetPath.endsWith('.tflite'));
     if (!pathsOK) throw 'asset path does not match convention';
     return const PhaseResult(
       key: 'tflite_registry',
-      name: 'TFLite registry · 4 model slots',
+      name: 'TFLite registry · 5 model slots',
       status: PhaseStatus.pass,
-      detail: '4 model slots declared · paths conform to '
+      detail: '5 model slots declared · paths conform to '
           'assets/models/*.tflite',
     );
   }

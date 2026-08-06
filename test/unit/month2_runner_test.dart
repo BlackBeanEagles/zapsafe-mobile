@@ -16,10 +16,10 @@ void main() {
       expect(r.detail, contains('9 unique channels'));
     });
 
-    test('tfliteRegistry returns PASS with 4 model slots', () {
+    test('tfliteRegistry returns PASS with 5 model slots', () {
       final r = month2PhaseRunners.tfliteRegistry();
       expect(r.status, PhaseStatus.pass);
-      expect(r.detail, contains('4 model slots'));
+      expect(r.detail, contains('5 model slots'));
     });
 
     test('dcsWatcher returns PASS · vote + autoSos both fire', () {

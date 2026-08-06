@@ -1,0 +1,38 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "ایمنی در دستان شما",
+  "common": {
+    "save": "ذخیره",
+    "cancel": "لغو",
+    "back": "بازگشت",
+    "done": "انجام شد"
+  },
+  "sos": {
+    "trigger": "فعال‌سازی SOS",
+    "countdown": "SOS در {seconds} ثانیه",
+    "active": "SOS فعال",
+    "cancel": "لغو SOS",
+    "sent": "هشدار به {count} مخاطب ارسال شد"
+  },
+  "home": {
+    "status_safe": "شما در امنیت هستید",
+    "hold_for_sos": "برای SOS نگه دارید"
+  },
+  "settings": {
+    "title": "تنظیمات",
+    "language": "زبان"
+  },
+  "language": {
+    "select": "انتخاب زبان",
+    "rtl_note": "این زبان از راست به چپ خوانده می‌شود"
+  },
+  "contacts": {
+    "title": "مخاطبین اضطراری"
+  },
+  "auth": {
+    "verify": "تأیید"
+  },
+  "premium": {
+    "title": "ارتقا به پریمیوم"
+  }
+}

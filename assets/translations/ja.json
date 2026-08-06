@@ -1,0 +1,38 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "手のひらの安全",
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "back": "戻る",
+    "done": "完了"
+  },
+  "sos": {
+    "trigger": "SOSを発動",
+    "countdown": "SOSまで{seconds}秒",
+    "active": "SOS作動中",
+    "cancel": "SOSをキャンセル",
+    "sent": "{count}件の連絡先にアラートを送信しました"
+  },
+  "home": {
+    "status_safe": "あなたは安全です",
+    "hold_for_sos": "長押しでSOS"
+  },
+  "settings": {
+    "title": "設定",
+    "language": "言語"
+  },
+  "language": {
+    "select": "言語を選択",
+    "rtl_note": "この言語は左から右に読みます"
+  },
+  "contacts": {
+    "title": "緊急連絡先"
+  },
+  "auth": {
+    "verify": "確認"
+  },
+  "premium": {
+    "title": "プレミアムにアップグレード"
+  }
+}

@@ -217,7 +217,10 @@
     "timeline": "Alert Timeline",
     "view_location": "View Location",
     "mute": "Mute Alerts",
-    "triggered_by": "Triggered by {name}"
+    "lifecycle_triggered": "SOS Triggered",
+    "lifecycle_sending": "Sending to contacts…",
+    "lifecycle_escalating": "Escalating to tier 2…",
+    "lifecycle_resolved": "Alert Resolved ✓"
   },
   "vault": {
     "title": "Evidence Vault",

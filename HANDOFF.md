@@ -4,9 +4,24 @@
 > session and the assistant will be fully aligned with where the frontend
 > stands. Mirrors the backend's `HANDOFF.md` style.
 >
-> **Last updated:** end of Day 45 (Month 3 · Week 9 · Day 5) — 2026-05-22
+> **Last updated:** Day 90 ML milestone — 2026-05-24
 > **Status:** 🚀 **MONTH 3 IN PROGRESS** — 402 tests passing (+6 platform-only
 > skipped on host) · 0 known bugs · onboarding Steps 1-5 complete · backend sync pending
+
+---
+
+## ML milestones — H Aggressive Speech (scheduled)
+
+| Phase | Day | Status | Scope |
+|-------|-----|--------|-------|
+| **A** | **90** | ✅ Done | `assets/models/h_aggressive_speech_v1.tflite` + `kZapsafeModels` (`aggressive_speech`). No DCS/SOS pipeline changes. |
+| **B** | **100** | ⏳ **Scheduled** | Inference wiring: 38-dim prosodic features, `norm.json`, interpreter load, SOS/DCS integration, tests. |
+
+**Phase B spec (canonical):** `kaggle_notebooks/h_aggressive_speech_push/DAY90_KAGGLE_TRAIN.md` → *Mobile integration — Phase A vs Phase B*.
+
+**Training reference:** `day90_h_aggressive_speech.py` · norm: `output_v1/h_aggressive_speech_norm.json`.
+
+**Do not start Phase B before Day 100** — Days 91–99 are Stripe premium (backend) + continued GPU training sweeps.
 
 ---
 

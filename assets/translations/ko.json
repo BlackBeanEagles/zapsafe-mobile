@@ -1,0 +1,38 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "손안의 안전",
+  "common": {
+    "save": "저장",
+    "cancel": "취소",
+    "back": "뒤로",
+    "done": "완료"
+  },
+  "sos": {
+    "trigger": "SOS 발동",
+    "countdown": "SOS {seconds}초 후",
+    "active": "SOS 작동 중",
+    "cancel": "SOS 취소",
+    "sent": "{count}명의 연락처에 알림 전송됨"
+  },
+  "home": {
+    "status_safe": "안전합니다",
+    "hold_for_sos": "길게 눌러 SOS"
+  },
+  "settings": {
+    "title": "설정",
+    "language": "언어"
+  },
+  "language": {
+    "select": "언어 선택",
+    "rtl_note": "이 언어는 왼쪽에서 오른쪽으로 읽습니다"
+  },
+  "contacts": {
+    "title": "긴급 연락처"
+  },
+  "auth": {
+    "verify": "확인"
+  },
+  "premium": {
+    "title": "프리미엄 업그레이드"
+  }
+}

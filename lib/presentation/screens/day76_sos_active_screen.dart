@@ -48,10 +48,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 
+import '../../core/constants/app_flags.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../data/models/battery_profile.dart';
+import '../../domain/providers/app_state_provider.dart';
 import '../../domain/providers/battery_providers.dart';
+import '../../domain/providers/gps_providers.dart';
+import '../../domain/providers/sos_providers.dart';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -147,12 +151,17 @@ class _Day76SosActiveScreenState
     ]).animate(_shakeCtrl);
 
     _startElapsedTimer();
-    _startGpsTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _startGpsDisplay();
+    });
     _checkTestMode();
   }
 
+  StreamSubscription? _gpsSub;
+
   @override
   void dispose() {
+    _gpsSub?.cancel();
     _timer?.cancel();
     _gpsTimer?.cancel();
     _pulseCtrl.dispose();
@@ -173,7 +182,31 @@ class _Day76SosActiveScreenState
   /// Fires every [_kGpsIntervalSeconds] seconds, shifting the displayed
   /// coordinates by a tiny deterministic drift.  LP27: no label, just numbers.
   /// Replaced with real geolocator stream in Month 4.
-  void _startGpsTimer() {
+  /// Live GPS from [GpsService] when wired; simulated drift in mock mode.
+  void _startGpsDisplay() {
+    if (kUseMockData) {
+      _startSimulatedGpsTimer();
+      return;
+    }
+
+    _gpsSub = ref.read(gpsServiceProvider).samples.listen((sample) {
+      if (!mounted) return;
+      setState(() {
+        _gpsCoords = '${sample.lat.toStringAsFixed(4)}'
+            '  ${sample.lng.toStringAsFixed(4)}';
+      });
+    });
+
+    final latest = ref.read(gpsServiceProvider).latest;
+    if (latest != null && mounted) {
+      setState(() {
+        _gpsCoords = '${latest.lat.toStringAsFixed(4)}'
+            '  ${latest.lng.toStringAsFixed(4)}';
+      });
+    }
+  }
+
+  void _startSimulatedGpsTimer() {
     _gpsTimer = Timer.periodic(
       const Duration(seconds: _kGpsIntervalSeconds),
       (_) {
@@ -227,7 +260,7 @@ class _Day76SosActiveScreenState
     if (entered == cancelPin) {
       await _onPinCorrect();
     } else if (entered == duressPin) {
-      await _onDuressPin();
+      await _onDuressPin(duressPin: duressPin);
     } else {
       _onPinWrong();
     }
@@ -243,10 +276,9 @@ class _Day76SosActiveScreenState
 
     if (authenticated) {
       await HapticFeedback.heavyImpact();
+      ref.read(appStateProvider.notifier).onCancelWithRealPIN();
       setState(() { _awaitingBiometric = false; _cancelled = true; });
-      // TODO Day 78+: POST /api/v1/sos/cancel/ with sos_id
       await Future<void>.delayed(const Duration(milliseconds: 1500));
-      if (mounted) Navigator.of(context).pop();
     } else {
       // Biometric failed — silent (no shake), resume timer.
       await HapticFeedback.mediumImpact();
@@ -276,19 +308,23 @@ class _Day76SosActiveScreenState
   /// LP3 — duress PIN: fake cancel, SOS continues silently on backend.
   /// UI is IDENTICAL to genuine cancel (_onPinCorrect success path).
   /// No biometric — asking for biometric after duress would expose the path.
-  Future<void> _onDuressPin() async {
+  Future<void> _onDuressPin({required String duressPin}) async {
     _timer?.cancel();
     await HapticFeedback.heavyImpact();
     setState(() { _isDuressCancel = true; _cancelled = true; });
-    _postDuressCancel();
+    ref.read(appStateProvider.notifier).onCancelWithDuressPIN();
+    _postDuressCancel(duressPin);
     await Future<void>.delayed(const Duration(milliseconds: 1500));
-    if (mounted) Navigator.of(context).pop();
   }
 
-  Future<void> _postDuressCancel() async {
+  Future<void> _postDuressCancel(String duressPin) async {
     assert(_isDuressCancel, '_postDuressCancel called but _isDuressCancel is false');
-    // TODO Day 78+: apiClient.post('/api/v1/sos/cancel/', {'duress': true, 'sos_id': sosId});
-    debugPrint('[LP3] SOS_ACTIVE duress cancel — SOS continues on backend.');
+    final session = ref.read(activeSosSessionProvider);
+    if (session == null || kUseMockData) return;
+    unawaited(ref.read(sosServiceProvider).cancel(
+          sosId: session.sosId,
+          pin: duressPin,
+        ));
   }
 
   void _onPinWrong() {

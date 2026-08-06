@@ -1,12 +1,14 @@
 /// Day 80 — Dashboard state management.
 ///
-/// [dashboardPeriodProvider]   — selected period (week/month/quarter).
-/// [dashboardDataProvider]     — FutureProvider.family keyed by [DashboardPeriod].
-///
-/// Swap [_mockData] for a real API call when /api/v1/dashboard/ is live (Day 81+).
+/// Wired to GET /api/v1/sos/dashboard/ when [kUseMockData] is false.
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/constants/app_flags.dart';
+import '../../data/services/dashboard_service.dart';
+import 'auth_providers.dart';
 
 // ─── Period ───────────────────────────────────────────────────────────────────
 
@@ -146,6 +148,52 @@ List<List<int>> _buildHeatmap({required int scale}) {
       .toList();
 }
 
+// ─── Service ──────────────────────────────────────────────────────────────────
+
+final dashboardServiceProvider = Provider<DashboardService>((ref) {
+  return DashboardService(ref.watch(apiClientProvider));
+});
+
+DashboardData _fromApiRollup(SosDashboardRollup rollup, DashboardPeriod period) {
+  final byDay = List<double>.generate(7, (i) {
+    return (rollup.byDayOfWeek['$i'] ?? rollup.byDayOfWeek[i.toString()] ?? 0)
+        .toDouble();
+  });
+
+  final falseRate = rollup.falseAlarmRate;
+  final falsePct = falseRate == null
+      ? 0.0
+      : (falseRate <= 1 ? falseRate * 100 : falseRate);
+
+  final peakHours = rollup.byHourOfDay.entries
+      .toList()
+    ..sort((a, b) => b.value.compareTo(a.value));
+  final topPeaks = peakHours
+      .take(3)
+      .map((e) => ('${e.key}:00', e.value))
+      .toList();
+
+  final totalTier = rollup.byStatus.values.fold<int>(0, (a, b) => a + b);
+  final resolved = (rollup.byStatus['resolved'] ?? 0).toDouble();
+  final tier1Pct = totalTier == 0 ? 0.0 : (resolved / totalTier) * 100;
+
+  return DashboardData(
+    totalEvents: rollup.totalTriggers,
+    falseAlarmPct: falsePct,
+    avgResponseSec: rollup.avgResponseTimeSeconds?.round() ?? 0,
+    byDayOfWeek: byDay,
+    trendPoints: byDay,
+    peakHours: topPeaks,
+    tier1Pct: tier1Pct,
+    tier2Pct: 100 - tier1Pct,
+    safetyScore: (100 - falsePct).clamp(0, 100),
+    screamCount: rollup.byTriggerType['ai_detected'] ?? 0,
+    motionCount: rollup.byTriggerType['shake'] ?? 0,
+    sceneCount: rollup.byTriggerType['manual_button'] ?? 0,
+    heatmap: _buildHeatmap(scale: period.days ~/ 7),
+  );
+}
+
 // ─── Providers ────────────────────────────────────────────────────────────────
 
 /// Currently selected period — drives [dashboardDataProvider].
@@ -153,9 +201,17 @@ final dashboardPeriodProvider =
     StateProvider<DashboardPeriod>((ref) => DashboardPeriod.week);
 
 /// Dashboard data keyed by [DashboardPeriod].
-/// Simulates a 300 ms API call; swap body for real http call in Day 81+.
 final dashboardDataProvider =
     FutureProvider.family<DashboardData, DashboardPeriod>((ref, period) async {
+  if (!kUseMockData && ref.watch(isLoggedInProvider)) {
+    try {
+      final rollup =
+          await ref.watch(dashboardServiceProvider).fetchSosDashboard();
+      return _fromApiRollup(rollup, period);
+    } catch (e) {
+      if (kDebugMode) debugPrint('[dashboard] API failed, using mock: $e');
+    }
+  }
   await Future<void>.delayed(const Duration(milliseconds: 300));
   return _mockData(period);
 });

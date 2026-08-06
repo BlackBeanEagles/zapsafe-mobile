@@ -15,11 +15,12 @@ class DashboardPlaceholderScreen extends StatelessWidget {
       summary:
           'The home screen — shows the user their current safety mode, Protection Score, and a giant SOS button. Adapts to all 7 app states.',
       features: [
-        'Mode badge — MINIMAL / MONITORING / ELEVATED / HIGH / CRITICAL',
-        'Center SOS button — 80dp, pulsates red in CRITICAL mode',
+        'Mode status card — expandable header with battery + DCS (Day 204 ModeStatusCard)',
+        'Center SOS button — 80dp, 2s long-press ring (Day 203 SosLongPressRingButton)',
         'Protection Score ring (uses the Day 4 widget!)',
         'Quick "Start Journey" shortcut',
-        'Inline action banners (low battery, missing Tier 2, drill due)',
+        'Inline action banners — low battery, missing Tier 2, drill due '
+        '(see Day 202 DashboardNotificationBanner widget)',
         'Adapts to Simple Mode — only SOS button + mode label visible',
       ],
     );

@@ -217,7 +217,11 @@
     "timeline": "अलर्ट समयरेखा",
     "view_location": "स्थान देखें",
     "mute": "अलर्ट म्यूट करें",
-    "triggered_by": "{name} द्वारा चालू किया गया"
+    "triggered_by": "{name} द्वारा चालू किया गया",
+    "lifecycle_triggered": "SOS चालू हुआ",
+    "lifecycle_sending": "संपर्कों को भेजा जा रहा है…",
+    "lifecycle_escalating": "श्रेणी 2 को बढ़ाया जा रहा है…",
+    "lifecycle_resolved": "अलर्ट हल हुआ ✓"
   },
   "vault": {
     "title": "साक्ष्य तिजोरी",

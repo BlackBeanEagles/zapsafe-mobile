@@ -1,0 +1,37 @@
+ZapSafe emulator screenshots
+===========================
+
+Folder: zapsafe_mobile/screenshots/emulator/
+
+POLISHED SCREENS TO CAPTURE
+---------------------------
+1. Nav index hero (route /)
+2. Day 300 Celebration tab (/day-300-milestone?tab=0)
+3. Day 300 Stats tab (/day-300-milestone?tab=1)
+4. Day 300 Phase 2 tab (/day-300-milestone?tab=2)
+5. Day 200 Grand Finale (/grand-finale)
+6. Day 298 Go/No-Go Gate (/gonogo-gate)
+7. Day 289 Regression Runner (/full-regression-runner)
+
+OPTION A - Manual (recommended if Gradle is slow)
+-------------------------------------------------
+1. Run the app from Android Studio or: flutter run -d emulator-5554
+2. Navigate to each screen in the emulator
+3. Save a shot:
+   powershell -File tools/save_emulator_screenshot.ps1 -Name 01_nav_index_hero
+
+OPTION B - Automated per-route launch
+-------------------------------------
+powershell -File tools/capture_emulator_screenshots.ps1
+
+Uses --dart-define=INITIAL_ROUTE=... for each screen (rebuilds each time).
+
+OPTION C - Single route
+-----------------------
+powershell -File tools/capture_one_screenshot.ps1 -Name day300.png -Route "/day-300-milestone?tab=0"
+
+NOTES
+-----
+- Tab deep links work on Day 300 via ?tab=0|1|2
+- If you see "System UI isn't responding", cold-boot the emulator (AVD Manager > Cold Boot Now)
+- Gradle jlink errors: open the project in Android Studio once and run from there
