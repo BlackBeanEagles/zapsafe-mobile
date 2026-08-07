@@ -3,6 +3,7 @@
 /// Watches:
 ///   • [triggerOrchestratorBootstrapProvider] — DCS + fall → state machine
 ///   • [dcsDetectionLogSubmitterProvider]     — DCS fusion score → detection-log (Day 322)
+///   • [batteryMonitoringBootstrapProvider]   — starts real battery_plus reads + 1h sample log (Day 328)
 ///   • [appStateGpsBridgeProvider]            — state → GPS cadence
 ///   • [sosBackendBridgeProvider]             — state → SOS HTTP
 ///   • [sosLocationStreamProvider]            — GPS → SOS location pings
@@ -20,6 +21,7 @@ import '../../data/models/app_state.dart';
 import '../../presentation/navigation/app_router.dart';
 import 'app_state_provider.dart';
 import 'auth_providers.dart';
+import 'battery_monitoring_providers.dart';
 import 'dcs_detection_log_providers.dart';
 import 'gps_providers.dart';
 import 'sos_providers.dart';
@@ -104,6 +106,7 @@ final appStateNavigationBridgeProvider = Provider<void>((ref) {
 final appBootstrapProvider = Provider<void>((ref) {
   ref.watch(triggerOrchestratorBootstrapProvider);
   ref.watch(dcsDetectionLogSubmitterProvider); // Day 322
+  ref.watch(batteryMonitoringBootstrapProvider); // Day 328
   ref.watch(appStateGpsBridgeProvider);
   ref.watch(sosBackendBridgeProvider);
   ref.watch(sosLocationStreamProvider);

@@ -1935,6 +1935,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-327-memory-leak-tracker · 🟣 · real grep-based static audit — StreamController/StreamSubscription/Timer construction vs .close/.cancel (incl. tear-off patterns like ref.onDispose(sub.cancel) a naive grep misses) + addListener/removeListener + FGS binding checks · genuine result: 0 leak suspects found this pass, reported honestly not padded · documented manual DevTools heap-snapshot steps (no device available to actually run one) · "Day 217" screen from spec does not exist in this repo — linked instead to the real Day 131/132 simulated-leak prior art',
               dayBuilt: 'DAY 327 ✅',
             ),
+            const _NavTile(
+              icon: Icons.battery_charging_full_rounded,
+              accent: Color(0xFFA78BFA),
+              title: 'Day 328 · Battery Monitoring (Production)',
+              route: AppRoutes.batteryMonitoringProd,
+              hint: '/day-328-battery-monitoring-production · 🟣 · real thresholds from BatteryThresholds — 20/15/10, not the spec\'s 80/18/13/7 guess · genuine gap found+fixed: BatteryService.start() was never called from any production path, so the dashboard\'s battery reading was stuck at "unknown" — now started from appBootstrapProvider like gps.start() · real 1-hour rolling BatterySampleLog + clipboard JSON export mechanism, sample count shown honestly (no device available to fill a real hour) · no "Day 297 soak template" screen exists in this repo, stated honestly',
+              dayBuilt: 'DAY 328 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
