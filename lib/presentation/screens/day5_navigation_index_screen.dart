@@ -2707,6 +2707,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-332-regression-runner-v2 · 🟢 extends Day 289\'s 300-route catalogue to 311 (Section F Days 301-310 + Day 331) · REAL automatic check via router.configuration.findMatch() on the app\'s live GoRouter — genuine route-table matching, no mock · per-row "Deep verify" does a real push+pop with a semantics-tree check · same check also runs via flutter test in test/widget/day332_route_resolution_test.dart',
               dayBuilt: 'DAY 332 ✅',
             ),
+            const _NavTile(
+              icon: Icons.compare_arrows_rounded,
+              accent: Color(0xFF6366F1),
+              title: 'Day 333 · Platform Parity — Execution',
+              route: AppRoutes.platformParityExecution,
+              hint: '/day-333-platform-parity-execution · 🟢 executes Day 296\'s 16-row Android vs iOS matrix · real PASS/FAIL/PENDING marks + device notes persisted via SharedPreferences (no Hive, Day 306 precedent) · actual marks stay PENDING by default — no physical device in this environment · auto-derived blockers list (any non-PASS row)',
+              dayBuilt: 'DAY 333 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
