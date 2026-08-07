@@ -2768,6 +2768,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-342-languages-19-21 · 🟢 REAL, full-coverage vi/tr/pl translations — same treatment as Day 341 · vi.json\'s existing 20-key Day-264 starter pack kept, remaining keys completed around it · tr.json + pl.json created fresh · kSupportedLanguages + main.dart supportedLocales extended 18 → 21 · live runtime coverage scan, no hardcoded numbers',
               dayBuilt: 'DAY 342 ✅',
             ),
+            const _NavTile(
+              icon: Icons.translate_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 343 · Languages 22-25 Full JSON (FINAL)',
+              route: AppRoutes.languages22to25,
+              hint: '/day-343-languages-22-25 · 🟢 REAL, full-coverage nl/it/ko/fa translations — the FINAL Section J batch · ko.json (Day 264) + fa.json (Day 263 RTL pack) both had their 20-key starters kept, remaining keys completed around them · nl.json + it.json created fresh · fa flagged RTL in kSupportedLanguages same as ur/ar · kSupportedLanguages + main.dart supportedLocales reach 25 → 25, the full target · live runtime coverage scan, no hardcoded numbers',
+              dayBuilt: 'DAY 343 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

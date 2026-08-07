@@ -47,6 +47,8 @@ Future<void> _bootstrap() async {
       // Days 101-102 — 15 supported locales (ur + ar are RTL).
       // Day 341 — +sw/id/th (Section J languages 16-18) → 18 total.
       // Day 342 — +vi/tr/pl (Section J languages 19-21) → 21 total.
+      // Day 343 — +nl/it/ko/fa (Section J languages 22-25, fa is RTL)
+      //           → 25 total, the full 25-language target reached.
       supportedLocales: const [
         Locale('en'),
         Locale('hi'),
@@ -69,6 +71,10 @@ Future<void> _bootstrap() async {
         Locale('vi'),
         Locale('tr'),
         Locale('pl'),
+        Locale('nl'),
+        Locale('it'),
+        Locale('ko'),
+        Locale('fa'),
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
