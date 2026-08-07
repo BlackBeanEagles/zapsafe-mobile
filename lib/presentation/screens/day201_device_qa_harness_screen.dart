@@ -207,7 +207,7 @@ const _kTests = [
     tabIndex: 2,
     title: 'Full SOS dry-run',
     icon: Icons.emergency_rounded,
-    color: Color(0xFFE63946),
+    color: ZapColors.danger,
     steps: [
       'Start Drill Mode (not live SOS).',
       'Complete 15 s countdown → SOS Active.',
