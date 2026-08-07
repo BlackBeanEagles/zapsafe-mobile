@@ -1943,6 +1943,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-328-battery-monitoring-production · 🟣 · real thresholds from BatteryThresholds — 20/15/10, not the spec\'s 80/18/13/7 guess · genuine gap found+fixed: BatteryService.start() was never called from any production path, so the dashboard\'s battery reading was stuck at "unknown" — now started from appBootstrapProvider like gps.start() · real 1-hour rolling BatterySampleLog + clipboard JSON export mechanism, sample count shown honestly (no device available to fill a real hour) · no "Day 297 soak template" screen exists in this repo, stated honestly',
               dayBuilt: 'DAY 328 ✅',
             ),
+            const _NavTile(
+              icon: Icons.tune_rounded,
+              accent: Color(0xFFA78BFA),
+              title: 'Day 329 · False Positive Tuning (Production)',
+              route: AppRoutes.falsePositiveTuningProd,
+              hint: '/day-329-false-positive-tuning-production · 🟣 · found the spec\'s suggested device-health POST endpoint (real, Day 302) has no threshold field in its actual schema — used the real, actually-correct PATCH /api/v1/alert-thresholds/<id>/ (Day 63, model_type=dcs, min_confidence) instead, documented why · reuses the existing AlertThresholdService rather than duplicating it · real warning copy about the sensitivity tradeoff · no "Day 258 fall detection tuning" screen exists in this repo to extend, stated honestly',
+              dayBuilt: 'DAY 329 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

@@ -220,6 +220,7 @@ import '../screens/day325_ota_model_update_screen.dart';           // Day 325
 import '../screens/day326_cold_start_report_screen.dart';          // Day 326
 import '../screens/day327_memory_leak_tracker_screen.dart';        // Day 327
 import '../screens/day328_battery_monitoring_production_screen.dart'; // Day 328
+import '../screens/day329_false_positive_tuning_production_screen.dart'; // Day 329
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1189,6 +1190,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.batteryMonitoringProd,
         builder: (context, state) =>
             const Day328BatteryMonitoringProductionScreen(),                // Day 328
+      ),
+      GoRoute(
+        path: AppRoutes.falsePositiveTuningProd,
+        builder: (context, state) =>
+            const Day329FalsePositiveTuningProductionScreen(),              // Day 329
       ),
       GoRoute(
         path: AppRoutes.vault,
