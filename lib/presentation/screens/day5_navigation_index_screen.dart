@@ -3259,6 +3259,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-376-month10-ops · 🟢 "Month 10" grounded in zapsafeworking/ZAPSAFE_MASTER_TIMELINE.md + ZAPSAFE_ML_TRAINING_STRATEGY.md\'s own real usage (post-launch scale era: federated learning, multi-region 100K-user infra, police coordination all explicitly "Month 10+") — day5\'s own Month-N-per-20-days numbering stopped incrementing at Month 11/Day 201 before switching to Section-letters, documented honestly rather than inventing a new scheme',
               dayBuilt: 'DAY 376 ✅',
             ),
+            const _NavTile(
+              icon: Icons.playlist_add_check_rounded,
+              accent: Color(0xFFFBBF24),
+              title: 'Day 377 · v9.2 Feature Backlog Lock',
+              route: AppRoutes.v92BacklogLock,
+              hint: '/day-377-v92-backlog · 🟢 real planning/roadmap screen, not a claim these are built — wearables deferral grounded in this project\'s own real Scope Pivots decision (Apple Watch/Wear OS cut from Days 201-300 scope, deferred to hypothetical "v9.2+"), federated learning grounded in ZAPSAFE_ML_TRAINING_STRATEGY.md\'s real M6 Personal Baseline plan ("post-launch, Month 10+"), counselor chat has no prior decision found anywhere in the repo — labeled a NEW proposal, not retconned as pre-decided',
+              dayBuilt: 'DAY 377 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
