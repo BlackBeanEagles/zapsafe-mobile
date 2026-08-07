@@ -2816,6 +2816,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-348-voice-keywords-25lang · 🟢 assets/data/voice_keywords.json (new file, added to pubspec assets) loaded live at runtime — no existing voice-trigger-keyword precedent found anywhere in lib/ (grepped voice+keyword+trigger+hotword+wakeword), so this is a fresh draft not an extension · genuinely common dictionary-level distress words/phrases for all 25 languages incl. transliteration for non-Latin scripts and RTL flag for ur/ar/fa · every single entry marked verified:false — safety-critical-adjacent, needs real native-speaker field verification before feeding an actual voice-trigger pipeline, explicitly not claimed as validated',
               dayBuilt: 'DAY 348 ✅',
             ),
+            const _NavTile(
+              icon: Icons.photo_camera_rounded,
+              accent: Color(0xFF06B6D4),
+              title: 'Day 349 · Multi-Language Store Screenshots',
+              route: AppRoutes.storeScreenshotsI18n,
+              hint: '/day-349-store-screenshots-i18n · 🟢 real live-rendered frame mockups (phone silhouette + gradient + icon + headline/subline overlay) for Day 191\'s real 6 hero screens × en/hi/ta/te, with genuine new hi/ta/te translations of Day 191\'s English marketing copy · honestly states no device/emulator exists in this environment so no ACTUAL screenshot can be captured — this is the layout mockup a designer would composite into, not a PNG · real exportable asset manifest (24 files: filename + screen + language + headline + subline + capture status) copied to clipboard',
+              dayBuilt: 'DAY 349 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
