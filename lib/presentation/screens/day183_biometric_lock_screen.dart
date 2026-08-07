@@ -755,7 +755,8 @@ class _LockedScreenMock extends StatelessWidget {
                   onTap: onUnlock,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    width: 70, height: 70,
+                    width: ZapSpacing.minTouchTarget,
+                    height: ZapSpacing.minTouchTarget,
                     decoration: BoxDecoration(
                         color: const Color(0xFF8B5CF6).withOpacity(0.12),
                         shape: BoxShape.circle,
