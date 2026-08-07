@@ -355,6 +355,7 @@ import '../screens/day347_indic_copy_review_screen.dart';           // Day 347
 import '../screens/day348_voice_keywords_25lang_screen.dart';       // Day 348
 import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
 import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
+import '../screens/day361_final_qa_war_room_screen.dart';           // Day 361
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -735,6 +736,23 @@ class AppRoutes {
   static const voiceKeywords25Lang       = '/day-348-voice-keywords-25lang';                // Day 348
   static const storeScreenshotsI18n      = '/day-349-store-screenshots-i18n';               // Day 349
   static const sectionJMilestone         = '/day-350-section-j-25lang-milestone';           // Day 350
+
+  // ─── Section L: Public Launch Week (Days 361-365) ────────────────────────
+  // NOTE: the app has NOT actually launched — see each screen's file header.
+  static const finalQaWarRoom            = '/day-361-final-qa-war-room';                    // Day 361
+  static const playStoreSubmission       = '/day-362-play-store-submission';                // Day 362
+  static const appStoreSubmission        = '/day-363-app-store-submission';                 // Day 363
+  static const launchDayRunbook          = '/day-364-launch-day-runbook';                   // Day 364
+  static const publicLaunchMilestone     = '/day-365-public-launch';                        // Day 365
+
+  // ─── Section M: Post-Launch Week 1 (Days 366-370) ────────────────────────
+  // NOTE: since launch hasn't happened, these are real, empty, ready-to-
+  // receive-data tools — not dashboards fed by fabricated live numbers.
+  static const liveSosDashboard          = '/day-366-live-sos-dashboard';                   // Day 366
+  static const ratingsReviewsMonitor     = '/day-367-ratings-reviews-monitor';               // Day 367
+  static const hotfixExecutor            = '/day-368-hotfix-executor';                      // Day 368
+  static const supportTriage             = '/day-369-support-triage';                       // Day 369
+  static const week1Retrospective        = '/day-370-week1-retrospective';                  // Day 370
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2139,6 +2157,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionJMilestone,
         builder: (context, state) =>
             const Day350SectionJ25LangMilestoneScreen(),                     // Day 350
+      ),
+      GoRoute(
+        path: AppRoutes.finalQaWarRoom,
+        builder: (context, state) =>
+            const Day361FinalQaWarRoomScreen(),                              // Day 361
       ),
       GoRoute(
         path: AppRoutes.vault,

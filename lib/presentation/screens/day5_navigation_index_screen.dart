@@ -3028,6 +3028,21 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section L: Public Launch Week (Days 361-365) ─────────
+            // NOTE: the app has NOT actually launched. Every tile below is
+            // a real pre-launch tool/checklist, not a claim of a real launch.
+            const _SectionTitle('SECTION L · PUBLIC LAUNCH WEEK (361-365)'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.gpp_maybe_rounded,
+              accent: Color(0xFFDC2626),
+              title: 'Day 361 · Final QA War Room',
+              route: AppRoutes.finalQaWarRoom,
+              hint: '/day-361-final-qa-war-room · 🟢 REAL seeded P0/P1/P2 findings pulled directly from Day 336 security, Day 337 legal, Day 344 RTL, Day 345 i18n scanner, and Day 347 Indic copy audits — not a fictional bug list · 5 P0 blockers (debug-signed release, no cert pinning, FLAG_SECURE unset, SOS trigger hardcodes English+LTR TTS breaking screen readers, ta/te onboarding gap) ALL default OPEN · "ready to launch" gate is computed live and stays false while any P0 is open · export copies a share-sheet-ready report to clipboard (no share_plus dependency exists in this project)',
+              dayBuilt: 'DAY 361 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),

@@ -369,5 +369,9 @@
     "store_screenshots_heading": "Store-listing mockup generator + asset manifest",
     "section_j_milestone_title": "Day 350 · Section J Milestone",
     "section_j_milestone_heading": "25-language completion — real state"
+  },
+  "day361_370": {
+    "qa_war_room_title": "Day 361 · Final QA War Room",
+    "qa_war_room_heading": "Real P0/P1/P2 findings — launch gated on zero open P0"
   }
 }
