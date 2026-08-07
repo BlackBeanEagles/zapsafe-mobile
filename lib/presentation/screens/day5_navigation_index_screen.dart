@@ -3275,6 +3275,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-378-competitor-benchmark · 🟢 feature matrix vs Life360 / Noonlight / bSafe using real general knowledge of each product, uncertain specifics honestly marked "needs verification" rather than guessed · ZapSafe\'s own column grepped from real shipped code (DCS scream/motion/scene/fusion, IMU fall detection, GPS adaptive cadence + cell/WiFi fallback, duress PIN, evidence vault, offline SOS, fake call, group journey panic, 25-language support), not aspirational features',
               dayBuilt: 'DAY 378 ✅',
             ),
+            const _NavTile(
+              icon: Icons.groups_rounded,
+              accent: Color(0xFFE63946),
+              title: 'Day 379 · 10K Users Readiness Gate',
+              route: AppRoutes.tenKUsersGate,
+              hint: '/day-379-10k-users-gate · 🟢 explicitly backend\'s call, documents FRONTEND expectations only — real Dio timeout budget (connect 10s / receive 20s / send 20s from api_config.dart), real OTP_RATE_LIMIT=10/hr found in settings.py, no general API rate limit found (stated honestly, not invented) · cites Day 257\'s real production load-test conclusion verbatim: 10,000 concurrent not achievable on current single Oracle VM, ~34 req/s sustained is the defensible measured ceiling',
+              dayBuilt: 'DAY 379 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

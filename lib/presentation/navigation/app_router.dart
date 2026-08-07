@@ -383,6 +383,7 @@ import '../screens/day375_section_m_milestone_screen.dart';         // Day 375
 import '../screens/day376_month10_ops_screen.dart';                 // Day 376
 import '../screens/day377_v92_backlog_screen.dart';                 // Day 377
 import '../screens/day378_competitor_benchmark_screen.dart';        // Day 378
+import '../screens/day379_10k_users_gate_screen.dart';              // Day 379
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2355,6 +2356,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.competitorBenchmark,
         builder: (context, state) =>
             const Day378CompetitorBenchmarkScreen(),                         // Day 378
+      ),
+      GoRoute(
+        path: AppRoutes.tenKUsersGate,
+        builder: (context, state) =>
+            const Day379TenKUsersGateScreen(),                               // Day 379
       ),
       GoRoute(
         path: AppRoutes.vault,
