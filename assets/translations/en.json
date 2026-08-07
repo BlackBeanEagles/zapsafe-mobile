@@ -295,6 +295,7 @@
   },
   "day331_340": {
     "gonogo_v2_title": "Day 331 · Go/No-Go Gate v2",
-    "gonogo_v2_heading": "40-item pre-launch checklist"
+    "gonogo_v2_heading": "40-item pre-launch checklist",
+    "regression_v2_title": "Day 332 · Full Regression Runner v2"
   }
 }

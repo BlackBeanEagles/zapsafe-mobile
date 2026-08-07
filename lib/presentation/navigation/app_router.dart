@@ -316,6 +316,7 @@ import '../screens/day308_persistent_status_card_screen.dart';     // Day 308
 import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
 import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
 import '../screens/day331_gonogo_gate_v2_screen.dart';              // Day 331
+import '../screens/day332_regression_runner_v2_screen.dart';        // Day 332
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1869,6 +1870,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.gonogoGateV2,
         builder: (context, state) =>
             const Day331GonogoGateV2Screen(),                                 // Day 331
+      ),
+      GoRoute(
+        path: AppRoutes.regressionRunnerV2,
+        builder: (context, state) =>
+            const Day332RegressionRunnerV2Screen(),                           // Day 332
       ),
       GoRoute(
         path: AppRoutes.vault,

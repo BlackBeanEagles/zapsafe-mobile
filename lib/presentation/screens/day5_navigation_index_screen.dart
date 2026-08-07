@@ -2699,6 +2699,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-331-gonogo-gate-v2 · 🟢 extends Day 298 22-item gate to 40 · adds Section F wiring items (Days 301-310, real) + Section I execution items (Days 333-339, honestly pending — no device/live account in this environment) + RC manifest (Day 324) placeholder since Section H is not in this worktree yet · export as PDF-formatted text',
               dayBuilt: 'DAY 331 ✅',
             ),
+            const _NavTile(
+              icon: Icons.route_rounded,
+              accent: Color(0xFF0EA5E9),
+              title: 'Day 332 · Full Regression Runner v2',
+              route: AppRoutes.regressionRunnerV2,
+              hint: '/day-332-regression-runner-v2 · 🟢 extends Day 289\'s 300-route catalogue to 311 (Section F Days 301-310 + Day 331) · REAL automatic check via router.configuration.findMatch() on the app\'s live GoRouter — genuine route-table matching, no mock · per-row "Deep verify" does a real push+pop with a semantics-tree check · same check also runs via flutter test in test/widget/day332_route_resolution_test.dart',
+              dayBuilt: 'DAY 332 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

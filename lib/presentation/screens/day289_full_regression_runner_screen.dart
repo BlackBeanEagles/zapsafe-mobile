@@ -38,8 +38,8 @@ extension _RouteVerdictX on _RouteVerdict {
       };
 }
 
-class _RouteRow {
-  const _RouteRow({
+class RouteRow {
+  const RouteRow({
     required this.id,
     required this.title,
     required this.dayRef,
@@ -60,7 +60,7 @@ const _kJsonEncoder = JsonEncoder.withIndent('  ');
 
 String _buildCsv(Map<String, _RouteVerdict> verdicts) {
   final buf = StringBuffer('id,title,day,section,route,verdict\n');
-  for (final row in _kRouteRows) {
+  for (final row in kRouteRows) {
     final v = verdicts[row.id] ?? _RouteVerdict.pending;
     final title = row.title.replaceAll(',', ' ');
     buf.writeln(
@@ -73,10 +73,10 @@ String _buildCsv(Map<String, _RouteVerdict> verdicts) {
 String _buildReport(Map<String, _RouteVerdict> verdicts) {
   final pass = verdicts.values.where((v) => v == _RouteVerdict.pass).length;
   final fail = verdicts.values.where((v) => v == _RouteVerdict.fail).length;
-  final buf = StringBuffer('ZapSafe Full App Regression — $_kRouteCount screens\n\n');
-  buf.writeln('Pass: $pass · Fail: $fail · Pending: ${_kRouteCount - pass - fail}');
+  final buf = StringBuffer('ZapSafe Full App Regression — $kRouteCount screens\n\n');
+  buf.writeln('Pass: $pass · Fail: $fail · Pending: ${kRouteCount - pass - fail}');
   buf.writeln();
-  for (final row in _kRouteRows) {
+  for (final row in kRouteRows) {
     final v = verdicts[row.id] ?? _RouteVerdict.pending;
     if (v == _RouteVerdict.pending) continue;
     buf.writeln('[${v.label.toUpperCase()}] ${row.title} · ${row.dayRef} · ${row.route}');
@@ -92,7 +92,7 @@ String _buildReport(Map<String, _RouteVerdict> verdicts) {
   return (
     pass: pass,
     fail: fail,
-    pending: _kRouteCount - pass - fail,
+    pending: kRouteCount - pass - fail,
     evaluated: pass + fail,
   );
 }
@@ -101,11 +101,11 @@ Map<String, dynamic> _runnerPayload(Map<String, _RouteVerdict> verdicts) {
   final s = _stats(verdicts);
   return {
     'endpoint': 'GET /api/v1/qa/full-regression/',
-    'screen_count': _kRouteCount,
+    'screen_count': kRouteCount,
     'pass': s.pass,
     'fail': s.fail,
     'pending': s.pending,
-    'launch_ready': s.fail == 0 && s.evaluated == _kRouteCount,
+    'launch_ready': s.fail == 0 && s.evaluated == kRouteCount,
     'wire_note': 'Nav-index linked runner · export CSV for CI archive',
   };
 }
@@ -117,10 +117,10 @@ final _d289VerdictsProvider =
 final _d289SectionFilterProvider = StateProvider<String?>((ref) => null);
 final _d289SearchProvider = StateProvider<String>((ref) => '');
 
-List<_RouteRow> _filteredRows(WidgetRef ref) {
+List<RouteRow> _filteredRows(WidgetRef ref) {
   final section = ref.watch(_d289SectionFilterProvider);
   final q = ref.watch(_d289SearchProvider).toLowerCase().trim();
-  return _kRouteRows.where((r) {
+  return kRouteRows.where((r) {
     if (section != null && r.section != section) return false;
     if (q.isEmpty) return true;
     return r.title.toLowerCase().contains(q) ||
@@ -130,7 +130,7 @@ List<_RouteRow> _filteredRows(WidgetRef ref) {
 }
 
 List<String> get _kSections =>
-    _kRouteRows.map((r) => r.section).toSet().toList()..sort();
+    kRouteRows.map((r) => r.section).toSet().toList()..sort();
 
 // ── Screen ──────────────────────────────────────────────────────────────────
 class Day289FullRegressionRunnerScreen extends ConsumerWidget {
@@ -157,7 +157,7 @@ class Day289FullRegressionRunnerScreen extends ConsumerWidget {
                   border: Border.all(color: _kAccent.withOpacity(0.45)),
                 ),
                 child: Text(
-                  '${stats.pass}/$_kRouteCount',
+                  '${stats.pass}/$kRouteCount',
                   style: const TextStyle(
                     color: _kAccent,
                     fontSize: 10,
@@ -197,7 +197,7 @@ class _ProgressStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final coverage =
-        stats.evaluated == 0 ? 0.0 : stats.evaluated / _kRouteCount;
+        stats.evaluated == 0 ? 0.0 : stats.evaluated / kRouteCount;
     final passRate =
         stats.evaluated == 0 ? 0.0 : stats.pass / stats.evaluated;
 
@@ -242,7 +242,8 @@ class _ProgressStrip extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '🟢 FRONTEND-ONLY · $_kRouteCount screens · Days 1-300 catalogue',
+                  '🟢 FRONTEND-ONLY · $kRouteCount screens · Days 1-331 catalogue '
+                  '(extended by Day 332 v2 runner)',
                   style: TextStyle(color: ZapColors.safe, fontSize: 9),
                 ),
                 Text(
@@ -341,7 +342,7 @@ class _RunnerTab extends ConsumerWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${rows.length} of $_kRouteCount screens',
+              '${rows.length} of $kRouteCount screens',
               style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
             ),
           ),
@@ -383,7 +384,7 @@ class _RouteCard extends StatelessWidget {
     required this.onOpen,
   });
 
-  final _RouteRow row;
+  final RouteRow row;
   final _RouteVerdict verdict;
   final VoidCallback onPass;
   final VoidCallback onFail;
@@ -525,7 +526,7 @@ class _ProgressTab extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       children: [
-        if (stats.evaluated == _kRouteCount && stats.fail == 0)
+        if (stats.evaluated == kRouteCount && stats.fail == 0)
           Container(
             padding: const EdgeInsets.all(ZapSpacing.md),
             margin: const EdgeInsets.only(bottom: ZapSpacing.lg),
@@ -540,7 +541,7 @@ class _ProgressTab extends ConsumerWidget {
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'All $_kRouteCount screens pass — full regression green ✅',
+                    'All $kRouteCount screens pass — full regression green ✅',
                     style: TextStyle(
                       color: ZapColors.safe,
                       fontWeight: FontWeight.w700,
@@ -552,7 +553,7 @@ class _ProgressTab extends ConsumerWidget {
           ),
         ..._kSections.map((section) {
           final sectionRows =
-              _kRouteRows.where((r) => r.section == section).toList();
+              kRouteRows.where((r) => r.section == section).toList();
           final pass = sectionRows
               .where(
                 (r) =>
@@ -659,7 +660,7 @@ class _ExportTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Export regression CSV',
-          subtitle: '$_kRouteCount rows · id, title, day, section, route, verdict',
+          subtitle: '$kRouteCount rows · id, title, day, section, route, verdict',
         ),
         Text(
           '${stats.pass} pass · ${stats.fail} fail · ${stats.pending} pending',
@@ -693,7 +694,7 @@ class _ExportTab extends ConsumerWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        'CSV copied ($_kRouteCount rows · ${stats.evaluated} evaluated)',
+                        'CSV copied ($kRouteCount rows · ${stats.evaluated} evaluated)',
                       ),
                     ),
                   );
