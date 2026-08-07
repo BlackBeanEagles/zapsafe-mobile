@@ -129,6 +129,7 @@ flutter:
     - assets/models/
     - assets/fonts/
     - assets/translations/          # Days 101-102 — i18n JSON files
+    - assets/data/voice_keywords.json  # Day 348 — 25-language voice-SOS keyword draft
     # assets/icons/ and assets/data/emergency_numbers.json (Day 238 — regional
     # emergency numbers) were referenced here since the original Days 1-200
     # commit but the actual files were never committed to git and don't exist

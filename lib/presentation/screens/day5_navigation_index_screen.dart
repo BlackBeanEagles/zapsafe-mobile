@@ -2808,6 +2808,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-347-indic-copy-review · 🟢 REAL strings pulled directly from hi/ta/te.json (sos + privacy [closest real legal-adjacent namespace — en.json has no dedicated "legal" namespace] + onboarding) · per-string approve/needs-revision/pending workflow via popup menu, ALL default PENDING — needs an actual native speaker, not fabricated as reviewed · genuine finding surfaced doing this: ta.json + te.json have ZERO onboarding.* keys, namespace doesn\'t exist at all (falls back to English at runtime), flagged explicitly as a translation gap not a review judgment',
               dayBuilt: 'DAY 347 ✅',
             ),
+            const _NavTile(
+              icon: Icons.record_voice_over_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 348 · Voice Trigger Keywords — 25 Languages',
+              route: AppRoutes.voiceKeywords25Lang,
+              hint: '/day-348-voice-keywords-25lang · 🟢 assets/data/voice_keywords.json (new file, added to pubspec assets) loaded live at runtime — no existing voice-trigger-keyword precedent found anywhere in lib/ (grepped voice+keyword+trigger+hotword+wakeword), so this is a fresh draft not an extension · genuinely common dictionary-level distress words/phrases for all 25 languages incl. transliteration for non-Latin scripts and RTL flag for ur/ar/fa · every single entry marked verified:false — safety-critical-adjacent, needs real native-speaker field verification before feeding an actual voice-trigger pipeline, explicitly not claimed as validated',
+              dayBuilt: 'DAY 348 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
