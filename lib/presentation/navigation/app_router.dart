@@ -220,6 +220,7 @@ import '../screens/day315_app_store_eu_listing_screen.dart';       // Day 315
 import '../screens/day316_play_staged_rollout_screen.dart';        // Day 316
 import '../screens/day317_app_store_phased_release_screen.dart';   // Day 317
 import '../screens/day318_regional_pricing_matrix_screen.dart';    // Day 318
+import '../screens/day319_gdpr_consent_wire_screen.dart';          // Day 319
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -458,6 +459,7 @@ class AppRoutes {
   static const playStagedRollout        = '/day-316-play-staged-rollout';                  // Day 316
   static const appStorePhasedRelease    = '/day-317-app-store-phased-release';              // Day 317
   static const regionalPricingMatrix    = '/day-318-regional-pricing-matrix';               // Day 318
+  static const gdprConsentWire          = '/day-319-gdpr-consent-wire';                     // Day 319
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1187,6 +1189,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.regionalPricingMatrix,
         builder: (context, state) =>
             const Day318RegionalPricingMatrixScreen(),                        // Day 318
+      ),
+      GoRoute(
+        path: AppRoutes.gdprConsentWire,
+        builder: (context, state) =>
+            const Day319GdprConsentWireScreen(),                              // Day 319
       ),
       GoRoute(
         path: AppRoutes.vault,

@@ -1943,6 +1943,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-318-regional-pricing-matrix · 🟢 FRONTEND-ONLY · India ₹99/₹199 real+live (Razorpay, subscription/models.py) · EU/LATAM/SEA figures clearly badged PROPOSED, pending business decision · Billing column: Razorpay(India,live) vs App/Play Store IAP(other regions, not implemented)',
               dayBuilt: 'DAY 318 ✅',
             ),
+            const _NavTile(
+              icon: Icons.policy_rounded,
+              accent: Color(0xFFF4A261),
+              title: 'Day 319 · GDPR Consent Flow Wire',
+              route: AppRoutes.gdprConsentWire,
+              hint: '/day-319-gdpr-consent-wire · 🟡 MOCK-NOW · confirmed GET/PUT /api/v1/account/consent/ is real+live on backend (ConsentView) but not yet called · SharedPreferences persistence (ConsentWireStorage, Day 306 precedent) · real field names (location_sos/evidence_recording/cloud_backup/heatmap_contribution/analytics/model_improvement) · GDPR Art. 6(1) lawful-basis text per toggle · mock→API migration plan tab',
+              dayBuilt: 'DAY 319 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
