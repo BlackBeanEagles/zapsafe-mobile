@@ -2688,6 +2688,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section I: Launch Hardening (Days 331-340) ─────────────
+            const _SectionTitle('SECTION I · LAUNCH HARDENING · DAYS 331-340'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.rule_folder_rounded,
+              accent: Color(0xFFDC2626),
+              title: 'Day 331 · Go/No-Go Gate v2',
+              route: AppRoutes.gonogoGateV2,
+              hint: '/day-331-gonogo-gate-v2 · 🟢 extends Day 298 22-item gate to 40 · adds Section F wiring items (Days 301-310, real) + Section I execution items (Days 333-339, honestly pending — no device/live account in this environment) + RC manifest (Day 324) placeholder since Section H is not in this worktree yet · export as PDF-formatted text',
+              dayBuilt: 'DAY 331 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),

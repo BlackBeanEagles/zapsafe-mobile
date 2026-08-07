@@ -315,6 +315,7 @@ import '../screens/day307_sos_longpress_ring_screen.dart';         // Day 307
 import '../screens/day308_persistent_status_card_screen.dart';     // Day 308
 import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
 import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
+import '../screens/day331_gonogo_gate_v2_screen.dart';              // Day 331
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -643,6 +644,22 @@ class AppRoutes {
   static const statusCardPolish         = '/day-308-status-card-polish';                   // Day 308
   static const evidenceVaultSearchPolish = '/day-309-evidence-vault-search-polish';        // Day 309
   static const sectionFMilestone        = '/day-310-section-f-milestone';                  // Day 310
+
+  // ─── Section I: Launch Hardening (Days 331-340) ──────────────────────────
+  // Route constants for the whole batch are declared together so early days
+  // (e.g. Day 331's gate v2) can forward-reference later days by path before
+  // their GoRoute + screen land later in this same session. Each GoRoute
+  // below is added in its own day's commit.
+  static const gonogoGateV2              = '/day-331-gonogo-gate-v2';                      // Day 331
+  static const regressionRunnerV2        = '/day-332-regression-runner-v2';                // Day 332
+  static const platformParityExecution   = '/day-333-platform-parity-execution';           // Day 333
+  static const batterySoakProduction     = '/day-334-battery-soak-production';             // Day 334
+  static const accessibilityFullPass     = '/day-335-accessibility-full-pass';             // Day 335
+  static const securityExecution         = '/day-336-security-execution';                  // Day 336
+  static const legalBlockersLive         = '/day-337-legal-blockers-live';                 // Day 337
+  static const sentryLiveWire            = '/day-338-sentry-live-wire';                    // Day 338
+  static const betaFeedbackRound4        = '/day-339-beta-feedback-round4';                // Day 339
+  static const sectionIMilestone         = '/day-340-section-i-milestone';                 // Day 340
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1847,6 +1864,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionFMilestone,
         builder: (context, state) =>
             const Day310SectionFMilestoneScreen(),                            // Day 310
+      ),
+      GoRoute(
+        path: AppRoutes.gonogoGateV2,
+        builder: (context, state) =>
+            const Day331GonogoGateV2Screen(),                                 // Day 331
       ),
       GoRoute(
         path: AppRoutes.vault,
