@@ -3075,6 +3075,22 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section M: Post-Launch Week 1 (Days 366-370) ──────────
+            // NOTE: since there was no real Section L launch, these are
+            // real, empty, ready-to-receive-data tools — never fabricated
+            // live numbers presented as real.
+            const _SectionTitle('SECTION M · POST-LAUNCH WEEK 1 (366-370)'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.monitor_heart_rounded,
+              accent: Color(0xFFDC2626),
+              title: 'Day 366 · Live SOS Success Dashboard',
+              route: AppRoutes.liveSosDashboard,
+              hint: '/day-366-live-sos-dashboard · 🟡→🔵 upgraded from MOCK-NOW: all 3 metrics (SOS triggered count, delivery success %, avg ack time) wire the REAL Day 302 endpoints (sosSummaryRawProvider + contactResponseRateRawProvider — GET /api/v1/analytics/sos-summary/ + /contacts/response-rate/), no mock fallback, same raw-provider pattern as Day 338 · legitimately shows zero/empty/error since no real launch exists — that IS the correct honest state, explicitly labeled as such rather than hidden or faked',
+              dayBuilt: 'DAY 366 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),
