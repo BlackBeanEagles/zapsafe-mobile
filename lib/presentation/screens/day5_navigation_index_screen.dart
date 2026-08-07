@@ -3283,6 +3283,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-379-10k-users-gate · 🟢 explicitly backend\'s call, documents FRONTEND expectations only — real Dio timeout budget (connect 10s / receive 20s / send 20s from api_config.dart), real OTP_RATE_LIMIT=10/hr found in settings.py, no general API rate limit found (stated honestly, not invented) · cites Day 257\'s real production load-test conclusion verbatim: 10,000 concurrent not achievable on current single Oracle VM, ~34 req/s sustained is the defensible measured ceiling',
               dayBuilt: 'DAY 379 ✅',
             ),
+            const _NavTile(
+              icon: Icons.fact_check_rounded,
+              accent: Color(0xFF4CC9F0),
+              title: 'Day 380 · Ops Checkpoint',
+              route: AppRoutes.day380OpsCheckpoint,
+              hint: '/day-380-ops-checkpoint · 🟢 real checkpoint of Days 371-379, not a section-end milestone celebration (spec\'s own note: "380 is an ops checkpoint day... not total project length") — headline finding: grepped all 9 screens for dio/http./Repository/ApiClient/.get(/.post(, zero hits, every one is FRONTEND-ONLY · restates Day 361\'s war room still defaults to 5 open P0s so "ready to launch" is FALSE right now, no rollout/hotfix/scale event claimed anywhere',
+              dayBuilt: 'DAY 380 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
