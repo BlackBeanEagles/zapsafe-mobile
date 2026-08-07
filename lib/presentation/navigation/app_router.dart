@@ -355,6 +355,7 @@ import '../screens/day347_indic_copy_review_screen.dart';           // Day 347
 import '../screens/day348_voice_keywords_25lang_screen.dart';       // Day 348
 import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
 import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
+import '../screens/day351_enterprise_sso_preview_screen.dart';      // Day 351
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -735,6 +736,22 @@ class AppRoutes {
   static const voiceKeywords25Lang       = '/day-348-voice-keywords-25lang';                // Day 348
   static const storeScreenshotsI18n      = '/day-349-store-screenshots-i18n';               // Day 349
   static const sectionJMilestone         = '/day-350-section-j-25lang-milestone';           // Day 350
+
+  // ─── Section K: Enterprise & B2B (Days 351-360) ──────────────────────────
+  // Route constants for the whole batch are declared together (same
+  // forward-reference pattern as Section I) so nav-tile / info-tab links
+  // can point at later days before their GoRoute + screen land. Each
+  // GoRoute below is still added in its own day's commit.
+  static const enterpriseSsoPreview      = '/day-351-enterprise-sso-preview';               // Day 351
+  static const insuranceApiWire          = '/day-352-insurance-api-wire';                   // Day 352
+  static const b2bAdminPreview           = '/day-353-b2b-admin-preview';                    // Day 353
+  static const familyDashboardWire       = '/day-354-family-dashboard-wire';                // Day 354
+  static const referralLiveWire          = '/day-355-referral-live-wire';                   // Day 355
+  static const policeDispatchWire        = '/day-356-police-dispatch-wire';                 // Day 356
+  static const groupJourneyWire          = '/day-357-group-journey-wire';                   // Day 357
+  static const premiumPolish             = '/day-358-premium-polish';                       // Day 358
+  static const enterpriseSalesDeck       = '/day-359-enterprise-sales-deck';                // Day 359
+  static const sectionKMilestone         = '/day-360-section-k-milestone';                  // Day 360
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2139,6 +2156,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionJMilestone,
         builder: (context, state) =>
             const Day350SectionJ25LangMilestoneScreen(),                     // Day 350
+      ),
+      GoRoute(
+        path: AppRoutes.enterpriseSsoPreview,
+        builder: (context, state) =>
+            const Day351EnterpriseSsoPreviewScreen(),                        // Day 351
       ),
       GoRoute(
         path: AppRoutes.vault,

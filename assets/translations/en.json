@@ -369,5 +369,27 @@
     "store_screenshots_heading": "Store-listing mockup generator + asset manifest",
     "section_j_milestone_title": "Day 350 · Section J Milestone",
     "section_j_milestone_heading": "25-language completion — real state"
+  },
+  "day351_360": {
+    "sso_preview_title": "Day 351 · Enterprise SSO Preview",
+    "sso_preview_heading": "Sign in with your organization",
+    "insurance_wire_title": "Day 352 · Insurance Partnership Wire",
+    "insurance_wire_heading": "Partner offer eligibility",
+    "b2b_admin_title": "Day 353 · B2B Admin Portal Preview",
+    "b2b_admin_heading": "Organization safety overview",
+    "family_wire_title": "Day 354 · Family Dashboard — Live Wire",
+    "family_wire_heading": "Real family member SOS status",
+    "referral_wire_title": "Day 355 · Referral — Live Wire",
+    "referral_wire_heading": "Real referral code and stats",
+    "police_wire_title": "Day 356 · Police Dispatch — Live Wire",
+    "police_wire_heading": "Real dispatch status polling",
+    "journey_wire_title": "Day 357 · Group Journey — Live Wire",
+    "journey_wire_heading": "Real session create, join, and panic",
+    "premium_polish_title": "Day 358 · Premium Tier Polish",
+    "premium_polish_heading": "Unified premium badges and limits",
+    "sales_deck_title": "Day 359 · Enterprise Sales Deck",
+    "sales_deck_heading": "Swipe through the pitch",
+    "section_k_milestone_title": "Day 360 · Section K Milestone",
+    "section_k_milestone_heading": "Enterprise preview complete — real state"
   }
 }

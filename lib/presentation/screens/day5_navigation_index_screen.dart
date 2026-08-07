@@ -3028,6 +3028,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section K: Enterprise & B2B (Days 351-360) ───────────────
+            const _SectionTitle('SECTION K · ENTERPRISE & B2B · DAYS 351-360'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.badge_rounded,
+              accent: Color(0xFF1E3A5F),
+              title: 'Day 351 · Enterprise SSO Login Preview',
+              route: AppRoutes.enterpriseSsoPreview,
+              hint: '/day-351-enterprise-sso-preview · 🟡 MOCK-NOW — verified zapsafe_backend has no `enterprise` app and no SAML/OAuth provider model at all (grepped enterprise/sso across every app) · real, clearly-labeled provider-picker UI (Okta/Entra ID/Google Workspace/OneLogin) simulating redirect → callback → done, no live network call · documents the proposed future contract (GET providers/, POST start/) inline, never pretends either endpoint is real',
+              dayBuilt: 'DAY 351 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),

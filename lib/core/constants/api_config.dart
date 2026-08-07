@@ -155,6 +155,37 @@ class ApiConfig {
   static String sosDeliveryStatusFor(String sosId) =>
       '/api/v1/sos/$sosId/delivery-status/';
 
+  // Family dashboard — Day 224-225 backend, wired Day 354 (authenticated)
+  static const familyDashboard = '/api/v1/family/dashboard/';
+
+  /// GET /api/v1/family/members/<uuid:id>/sos-history/
+  static String familyMemberSosHistoryFor(String memberId) =>
+      '/api/v1/family/members/$memberId/sos-history/';
+
+  // Referral code + stats — Day 206-207 backend, wired Day 355 (authenticated,
+  // behind FEATURE_REFERRAL — returns 403 FEATURE_DISABLED when off)
+  static const referralCode = '/api/v1/referral/code/';
+  static const referralStats = '/api/v1/referral/stats/';
+
+  // Police dispatch status — Day 204 backend, wired Day 356 (authenticated).
+  // Always 200s with either a real PoliceDispatch row or a deterministic
+  // simulated timeline (response includes "is_mock": true/false) — see
+  // zapsafe_backend/police/dispatch_views.py.
+  /// GET /api/v1/police/dispatch/<uuid:sos_id>/
+  static String policeDispatchFor(String sosId) => '/api/v1/police/dispatch/$sosId/';
+
+  // Group journey sessions — Day 221-223 backend, wired Day 357 (authenticated)
+  static const journeyGroupCreate = '/api/v1/journey/group/create/';
+  static const journeyGroupJoin = '/api/v1/journey/group/join/';
+
+  /// GET /api/v1/journey/group/<uuid:session_id>/
+  static String journeyGroupStateFor(String sessionId) =>
+      '/api/v1/journey/group/$sessionId/';
+
+  /// POST /api/v1/journey/group/<uuid:session_id>/panic/
+  static String journeyGroupPanicFor(String sessionId) =>
+      '/api/v1/journey/group/$sessionId/panic/';
+
   // ─── Development Auth ──────────────────────────────────────────────────
   /// Development token for emulator testing (Django token from backend test user).
   /// In production, this is obtained from OTP verification flow.
