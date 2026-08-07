@@ -18,6 +18,15 @@
 ///     integrity badge (✓ Verified / ✕ Tampered)
 ///   • Expiry countdown with extend option
 ///   • Export bottom sheet: encrypted ZIP or legal PDF (mock)
+///
+/// ── Day 309 — Evidence Vault Search ─────────────────────────────────────────
+///   Filter chips (date range / trigger type / status / tamper flag) +
+///   SOS id prefix search, all combined with AND logic
+///   ([filteredVaultEvidenceProvider] in `vault_providers.dart`), applied
+///   entirely to the local/offline evidence list already shown here — no
+///   network call. See that file's header for the real backend evidence
+///   search endpoint this deliberately does *not* wire (`/evidence/search/`,
+///   Day 209 — out of scope for this offline-filter polish day).
 library;
 
 import 'package:flutter/material.dart';
@@ -28,6 +37,7 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../domain/providers/vault_providers.dart';
+import '../widgets/zap_chip.dart';
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
@@ -416,33 +426,134 @@ class _VaultBrowser extends ConsumerStatefulWidget {
 
 class _VaultBrowserState extends ConsumerState<_VaultBrowser> {
   final Set<String> _expanded = {};
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final entries = ref.watch(vaultEvidenceProvider);
+    final allEntries = ref.watch(vaultEvidenceProvider);
 
-    return entries.isEmpty
-        ? _emptyVault()
-        : ListView.builder(
-            padding: const EdgeInsets.symmetric(
-              horizontal: ZapSpacing.lg,
-              vertical:   ZapSpacing.md,
+    // Genuinely-empty vault (no evidence at all) vs "filters matched
+    // nothing" (Day 309) are two different empty states — no point
+    // showing a filter bar over an empty vault.
+    if (allEntries.isEmpty) return _emptyVault();
+
+    final entries = ref.watch(filteredVaultEvidenceProvider);
+    final anyFilterActive = ref.watch(vaultAnyFilterActiveProvider);
+
+    return Column(
+      children: [
+        _VaultFilterBar(searchController: _searchController),
+        if (anyFilterActive)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(ZapSpacing.lg, 0, ZapSpacing.lg, ZapSpacing.sm),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${entries.length} of ${allEntries.length} evidence entries',
+                    style: ZapTypography.labelSmall.copyWith(color: ZapColors.textMuted),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _clearAllFilters,
+                  style: TextButton.styleFrom(
+                    foregroundColor: ZapColors.safe,
+                    minimumSize: const Size(48, 48),
+                  ),
+                  child: const Text('Clear filters'),
+                ),
+              ],
             ),
-            itemCount:   entries.length,
-            itemBuilder: (_, i) => _EntryCard(
-              entry:      entries[i],
-              isExpanded: _expanded.contains(entries[i].sosId),
-              onToggle:   () => setState(() {
-                if (_expanded.contains(entries[i].sosId)) {
-                  _expanded.remove(entries[i].sosId);
-                } else {
-                  _expanded.add(entries[i].sosId);
-                }
-              }),
-              onExport:   () => _showExportSheet(context, entries[i]),
-              onExtend:   () => _showExtendSnack(context, entries[i]),
+          ),
+        Expanded(
+          child: entries.isEmpty
+              ? _noMatchesView(context, ref)
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.lg,
+                    vertical:   ZapSpacing.md,
+                  ),
+                  itemCount:   entries.length,
+                  itemBuilder: (_, i) => _EntryCard(
+                    entry:      entries[i],
+                    isExpanded: _expanded.contains(entries[i].sosId),
+                    onToggle:   () => setState(() {
+                      if (_expanded.contains(entries[i].sosId)) {
+                        _expanded.remove(entries[i].sosId);
+                      } else {
+                        _expanded.add(entries[i].sosId);
+                      }
+                    }),
+                    onExport:   () => _showExportSheet(context, entries[i]),
+                    onExtend:   () => _showExtendSnack(context, entries[i]),
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
+  void _clearAllFilters() {
+    _searchController.clear();
+    ref.read(vaultDateRangeFilterProvider.notifier).state = EvidenceDateRangeFilter.all;
+    ref.read(vaultTriggerFilterProvider.notifier).state = EvidenceTriggerFilter.all;
+    ref.read(vaultStatusFilterProvider.notifier).state = EvidenceStatusFilter.all;
+    ref.read(vaultTamperOnlyFilterProvider.notifier).state = false;
+    ref.read(vaultSearchQueryProvider.notifier).state = '';
+  }
+
+  /// Day 309 — "no matches" empty state (repo's standard empty-state
+  /// pattern, matching [_emptyVault] below — there is no Day 212 screen
+  /// in this repo to reuse, checked via file search first).
+  Widget _noMatchesView(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(ZapSpacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.search_off_rounded,
+                size: 48, color: ZapColors.textMuted),
+            const SizedBox(height: ZapSpacing.lg),
+            Text(
+              'No evidence matches these filters',
+              style: ZapTypography.headlineSmall.copyWith(
+                color: ZapColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
             ),
-          );
+            const SizedBox(height: ZapSpacing.sm),
+            Text(
+              'Try a different date range, trigger type, or status.',
+              textAlign: TextAlign.center,
+              style: ZapTypography.bodyMedium.copyWith(
+                color: ZapColors.textMuted, height: 1.5,
+              ),
+            ),
+            const SizedBox(height: ZapSpacing.lg),
+            OutlinedButton(
+              onPressed: _clearAllFilters,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: ZapColors.safe,
+                side: const BorderSide(color: ZapColors.safe, width: 0.8),
+                minimumSize: const Size(0, 48),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.lg),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Clear filters'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _emptyVault() {
@@ -503,6 +614,126 @@ class _VaultBrowserState extends ConsumerState<_VaultBrowser> {
   }
 }
 
+// ─── Day 309 — Filter bar ───────────────────────────────────────────────────
+
+/// Search field + filter chip rows, all wired to the [vault_providers.dart]
+/// filter `StateProvider`s so state survives collapse/re-expand of the
+/// vault browser. Every combination applies with AND logic
+/// ([filteredVaultEvidenceProvider]).
+class _VaultFilterBar extends ConsumerWidget {
+  const _VaultFilterBar({required this.searchController});
+  final TextEditingController searchController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dateRange = ref.watch(vaultDateRangeFilterProvider);
+    final trigger   = ref.watch(vaultTriggerFilterProvider);
+    final status    = ref.watch(vaultStatusFilterProvider);
+    final tamperOnly = ref.watch(vaultTamperOnlyFilterProvider);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        ZapSpacing.lg, ZapSpacing.sm, ZapSpacing.lg, ZapSpacing.sm,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Search by SOS id prefix.
+          TextField(
+            controller: searchController,
+            onChanged: (v) => ref.read(vaultSearchQueryProvider.notifier).state = v,
+            style: ZapTypography.bodyMedium.copyWith(
+              color: ZapColors.textPrimary, fontFamily: 'IBMPlexMono',
+            ),
+            decoration: InputDecoration(
+              hintText: 'Search by SOS id (e.g. SOS-20260528)',
+              hintStyle: ZapTypography.bodySmall.copyWith(color: ZapColors.textMuted),
+              prefixIcon: const Icon(Icons.search_rounded, size: 18, color: ZapColors.textMuted),
+              suffixIcon: searchController.text.isEmpty
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.close_rounded, size: 18),
+                      color: ZapColors.textMuted,
+                      onPressed: () {
+                        searchController.clear();
+                        ref.read(vaultSearchQueryProvider.notifier).state = '';
+                      },
+                    ),
+              isDense: true,
+              filled: true,
+              fillColor: ZapColors.bgCard,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: ZapSpacing.md, vertical: ZapSpacing.sm,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
+                borderSide: const BorderSide(color: ZapColors.border),
+              ),
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+
+          // Date range.
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ZapChipGroup<EvidenceDateRangeFilter>(
+              options: EvidenceDateRangeFilter.values
+                  .map((f) => (value: f, label: f.label, icon: null))
+                  .toList(),
+              selectedValue: dateRange,
+              compact: true,
+              onChanged: (v) => ref.read(vaultDateRangeFilterProvider.notifier).state = v,
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.xs),
+
+          // Trigger type.
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ZapChipGroup<EvidenceTriggerFilter>(
+              options: EvidenceTriggerFilter.values
+                  .map((f) => (value: f, label: f.label, icon: null))
+                  .toList(),
+              selectedValue: trigger,
+              compact: true,
+              onChanged: (v) => ref.read(vaultTriggerFilterProvider.notifier).state = v,
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.xs),
+
+          // Status + tamper toggle share a row.
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ZapChipGroup<EvidenceStatusFilter>(
+                  options: EvidenceStatusFilter.values
+                      .map((f) => (value: f, label: f.label, icon: null))
+                      .toList(),
+                  selectedValue: status,
+                  compact: true,
+                  onChanged: (v) => ref.read(vaultStatusFilterProvider.notifier).state = v,
+                ),
+                const SizedBox(width: ZapSpacing.sm),
+                Container(width: 1, height: 20, color: ZapColors.divider),
+                const SizedBox(width: ZapSpacing.sm),
+                ZapChip(
+                  label: 'Tampered only',
+                  icon: Icons.warning_amber_rounded,
+                  selected: tamperOnly,
+                  selectedColor: ZapColors.danger,
+                  compact: true,
+                  onTap: () => ref.read(vaultTamperOnlyFilterProvider.notifier).state = !tamperOnly,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ─── Entry card ───────────────────────────────────────────────────────────────
 
 class _EntryCard extends StatelessWidget {
@@ -519,6 +750,12 @@ class _EntryCard extends StatelessWidget {
   final VoidCallback  onToggle;
   final VoidCallback  onExport;
   final VoidCallback  onExtend;
+
+  Color _statusColor(EvidenceStatus s) => switch (s) {
+        EvidenceStatus.resolved => ZapColors.safe,
+        EvidenceStatus.falsePositive => ZapColors.warning,
+        EvidenceStatus.drill => ZapColors.info,
+      };
 
   String _formatTime(DateTime dt) {
     final h  = dt.hour.toString().padLeft(2, '0');
@@ -648,6 +885,22 @@ class _EntryCard extends StatelessWidget {
                         entry.triggerType,
                         style: ZapTypography.bodySmall.copyWith(
                           color: ZapColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: ZapSpacing.sm),
+                      // Day 309 — status pill (resolved/false positive/drill).
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: _statusColor(entry.status).withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          entry.status.label,
+                          style: ZapTypography.labelSmall.copyWith(
+                            color: _statusColor(entry.status),
+                            fontSize: 9,
+                          ),
                         ),
                       ),
                       const Spacer(),

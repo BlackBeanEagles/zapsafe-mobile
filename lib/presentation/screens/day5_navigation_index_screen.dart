@@ -1858,6 +1858,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-308-status-card-polish · 🟣 POLISH · real PersistentStatusCard now live on the production dashboard, >=16dp above the SOS button · collapsed=mode badge+battery+last DCS score · expanded (tap only, no drag-dismiss)=GPS quality+monitoring state+subscription tier/premium badge · rebuilds on every AppStateNotifier transition',
               dayBuilt: 'DAY 308 ✅',
             ),
+            const _NavTile(
+              icon: Icons.filter_alt_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 309 · Production Evidence Vault Search',
+              route: AppRoutes.evidenceVaultSearchPolish,
+              hint: '/day-309-evidence-vault-search-polish · 🟣 POLISH · real filter bar now live on the production evidence vault (/evidence-vault) · chips=date range/trigger type(manual·AI·fall)/status(resolved·FP·drill)/tamper-only · search by SOS id prefix · AND logic · offline on local mock data · "no matches" empty state with Clear filters · found+documented a real unwired GET /api/v1/evidence/search/ endpoint (Day 209), added to Day 301 audit',
+              dayBuilt: 'DAY 309 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

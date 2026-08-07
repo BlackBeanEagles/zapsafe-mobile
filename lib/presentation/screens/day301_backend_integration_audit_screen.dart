@@ -353,6 +353,20 @@ List<IntegrationAuditEntry> _seedAudit() => const [
       IntegrationAuditEntry(
         group: 'GPS & Evidence',
         method: 'GET',
+        endpoint: '/api/v1/evidence/search/',
+        status: AuditStatus.missing,
+        sourceFile: 'zapsafe_backend/evidence/search_views.py',
+        note: 'Found during Day 309 (Evidence Vault Search polish) — real '
+            'Day 209 endpoint (q/type/from/to query params), not in the '
+            'original Day 301 seed list. Day 309 intentionally filters the '
+            'existing local/mock evidence list instead (its own spec says '
+            '"offline"), so this stays unwired — added here for an '
+            'accurate count rather than silently leaving the gap '
+            'undocumented.',
+      ),
+      IntegrationAuditEntry(
+        group: 'GPS & Evidence',
+        method: 'GET',
         endpoint: '/api/v1/ml/compatibility-matrix/',
         status: AuditStatus.live,
         sourceFile: 'lib/data/services/compatibility_service.dart',

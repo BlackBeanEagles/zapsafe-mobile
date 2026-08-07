@@ -210,6 +210,7 @@ import '../screens/day305_accept_language_wire_screen.dart';       // Day 305
 import '../screens/day306_notification_tiers_polish_screen.dart';  // Day 306
 import '../screens/day307_sos_longpress_ring_screen.dart';         // Day 307
 import '../screens/day308_persistent_status_card_screen.dart';     // Day 308
+import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1117,6 +1118,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.statusCardPolish,
         builder: (context, state) =>
             const Day308PersistentStatusCardScreen(),                         // Day 308
+      ),
+      GoRoute(
+        path: AppRoutes.evidenceVaultSearchPolish,
+        builder: (context, state) =>
+            const Day309EvidenceVaultSearchScreen(),                          // Day 309
       ),
       GoRoute(
         path: AppRoutes.vault,
