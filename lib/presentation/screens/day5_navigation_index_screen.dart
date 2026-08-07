@@ -3355,6 +3355,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-388-v92-roadmap-lock · 🟢 finalizes Day 377\'s backlog with a real, SharedPreferences-persisted lock state (survives app restart, real timestamp) — same 3 items/priority/provenance as Day 377, still a planning document not a build claim',
               dayBuilt: 'DAY 388 ✅',
             ),
+            const _NavTile(
+              icon: Icons.summarize_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 389 · Penultimate Summary',
+              route: AppRoutes.day389PenultimateSummary,
+              hint: '/day-389-penultimate-summary · 🟢 real summary of Days 301-388 (Sections F-O), grounded by reading Day 310/320/330/340/350/360/375/380\'s own real headers this session — restates each section\'s real findings (Day 336 P0 security gaps, Day 344 SOS RTL bug, Day 347 ta/te gap, Day 361\'s 5-P0 launch gate) rather than a sanitized retelling',
+              dayBuilt: 'DAY 389 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
