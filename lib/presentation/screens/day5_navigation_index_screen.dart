@@ -3267,6 +3267,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-377-v92-backlog · 🟢 real planning/roadmap screen, not a claim these are built — wearables deferral grounded in this project\'s own real Scope Pivots decision (Apple Watch/Wear OS cut from Days 201-300 scope, deferred to hypothetical "v9.2+"), federated learning grounded in ZAPSAFE_ML_TRAINING_STRATEGY.md\'s real M6 Personal Baseline plan ("post-launch, Month 10+"), counselor chat has no prior decision found anywhere in the repo — labeled a NEW proposal, not retconned as pre-decided',
               dayBuilt: 'DAY 377 ✅',
             ),
+            const _NavTile(
+              icon: Icons.compare_arrows_rounded,
+              accent: Color(0xFF0D9488),
+              title: 'Day 378 · Competitor Benchmark Update',
+              route: AppRoutes.competitorBenchmark,
+              hint: '/day-378-competitor-benchmark · 🟢 feature matrix vs Life360 / Noonlight / bSafe using real general knowledge of each product, uncertain specifics honestly marked "needs verification" rather than guessed · ZapSafe\'s own column grepped from real shipped code (DCS scream/motion/scene/fusion, IMU fall detection, GPS adaptive cadence + cell/WiFi fallback, duress PIN, evidence vault, offline SOS, fake call, group journey panic, 25-language support), not aspirational features',
+              dayBuilt: 'DAY 378 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
