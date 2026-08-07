@@ -1927,6 +1927,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-326-cold-start-report · 🟢 · real Stopwatch instrumentation added to main.dart\'s _bootstrap() (widgets_binding_ready/easy_localization_ready/firebase_ready/run_app_called), ZapSafeApp (first_frame_rendered) and the production dashboard (dashboard_first_build) · no device/emulator available so <2s is a documented TARGET, not a claimed measurement · 5 plausible slow steps grounded in a real main.dart/app_bootstrap_providers.dart read, incl. a genuine finding that DCSInferenceEngine (4 TFLite interpreters) loads unconditionally at boot before login, not gated like GPS/hydrator already are',
               dayBuilt: 'DAY 326 ✅',
             ),
+            const _NavTile(
+              icon: Icons.memory_rounded,
+              accent: Color(0xFFA78BFA),
+              title: 'Day 327 · Memory Leak Fix Tracker',
+              route: AppRoutes.memoryLeakTracker,
+              hint: '/day-327-memory-leak-tracker · 🟣 · real grep-based static audit — StreamController/StreamSubscription/Timer construction vs .close/.cancel (incl. tear-off patterns like ref.onDispose(sub.cancel) a naive grep misses) + addListener/removeListener + FGS binding checks · genuine result: 0 leak suspects found this pass, reported honestly not padded · documented manual DevTools heap-snapshot steps (no device available to actually run one) · "Day 217" screen from spec does not exist in this repo — linked instead to the real Day 131/132 simulated-leak prior art',
+              dayBuilt: 'DAY 327 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
