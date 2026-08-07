@@ -1935,6 +1935,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-317-app-store-phased-release · 🟢 FRONTEND-ONLY · Apple\'s real fixed 7-day schedule (1/2/5/10/20/50/100%) · TestFlight group mapping (Internal/External-Beta/Production) · export full runbook as Markdown via clipboard',
               dayBuilt: 'DAY 317 ✅',
             ),
+            const _NavTile(
+              icon: Icons.payments_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 318 · Regional Pricing Matrix',
+              route: AppRoutes.regionalPricingMatrix,
+              hint: '/day-318-regional-pricing-matrix · 🟢 FRONTEND-ONLY · India ₹99/₹199 real+live (Razorpay, subscription/models.py) · EU/LATAM/SEA figures clearly badged PROPOSED, pending business decision · Billing column: Razorpay(India,live) vs App/Play Store IAP(other regions, not implemented)',
+              dayBuilt: 'DAY 318 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
