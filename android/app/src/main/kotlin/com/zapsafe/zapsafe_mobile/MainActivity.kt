@@ -4,6 +4,8 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
+import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -12,6 +14,22 @@ class MainActivity : FlutterActivity() {
     companion object {
         // Mirrored on the Flutter side in lib/data/services/background_service.dart.
         const val CHANNEL = "com.zapsafe/background_service"
+    }
+
+    // Fix for Day 336's real security finding: FLAG_SECURE was never set,
+    // so the entire app (evidence vault, SOS status, emergency contacts,
+    // location) was screenshot-able and recordable, and appeared in the
+    // Recents thumbnail. Applied app-wide (not per-screen) since almost
+    // every screen in a personal-safety app shows sensitive data — this
+    // matches standard practice for banking/password-manager apps. Every
+    // screen is now covered; there's no separate "sensitive screens only"
+    // list to keep in sync as new screens get added.
+    override fun onCreate(savedInstanceState: Bundle?) {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE,
+        )
+        super.onCreate(savedInstanceState)
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

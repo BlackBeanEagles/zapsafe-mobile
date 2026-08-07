@@ -22,13 +22,13 @@
 ///   Android's `cleartextTrafficPermitted=false` default applies to the
 ///   release build. No `NSAppTransportSecurity` exceptions exist in
 ///   `ios/Runner/Info.plist` either, so default (strict) ATS applies there.
-/// - `FLAG_SECURE` / screen-capture blocking: NOT implemented. Grepped
-///   `android/app/src/main/kotlin/**/MainActivity.kt` and the rest of
-///   `android/app/src/main` — no `FLAG_SECURE`, no
-///   `setRecentsScreenshotEnabled`. No `flutter_windowmanager` or
-///   equivalent plugin in `pubspec.yaml`. Days 296/333 both catalogue this
-///   as a parity target; neither wires it. Contradicts Day 285's implicit
-///   assumption (via Day 186's tamper screen).
+/// - `FLAG_SECURE` / screen-capture blocking: FIXED post-Day 390.
+///   `MainActivity.onCreate()` now sets
+///   `WindowManager.LayoutParams.FLAG_SECURE` app-wide. Not
+///   device/emulator-verified in this sandbox (no working Android build
+///   toolchain here — unrelated Gradle/JDK environment issues) — reviewed
+///   manually against the standard, well-documented pattern; real device
+///   verification still recommended before shipping.
 /// - Root / jailbreak detection: NOT implemented as real detection.
 ///   `day185_root_detection_screen.dart` is an animated scan **simulation**
 ///   (its own header says "detection logic runs entirely on device" but the
@@ -170,11 +170,17 @@ const _kFindings = [
     id: 'flag_secure',
     mstgCode: 'MSTG-STORAGE-2 (screen capture)',
     title: 'FLAG_SECURE / screen-capture blocking',
-    verdict: _Verdict.fail,
-    detail: 'No FLAG_SECURE, no setRecentsScreenshotEnabled, no '
-        'flutter_windowmanager-equivalent package. Cataloged as a gap by '
-        'Days 296/333, still not wired.',
-    sourceFile: 'android/app/src/main/kotlin/.../MainActivity.kt',
+    verdict: _Verdict.pass,
+    detail: 'FIXED (post-Day 390): MainActivity.onCreate() now sets '
+        'WindowManager.LayoutParams.FLAG_SECURE app-wide, applied before '
+        'super.onCreate() so it covers every screen from first frame — '
+        'blocks screenshots, screen recording, and the Recents-tray '
+        'thumbnail. Could not be device/emulator-verified in this sandbox '
+        '(Gradle build environment unavailable here — daemon crashes / JDK '
+        'version mismatch, unrelated to this change); reviewed manually '
+        'against the standard, well-documented Android FLAG_SECURE pattern. '
+        'Real device verification still recommended before shipping.',
+    sourceFile: 'android/app/src/main/kotlin/com/zapsafe/zapsafe_mobile/MainActivity.kt',
     day285Default: '(assumed via Day 186 tamper screen)',
   ),
   _Finding(
