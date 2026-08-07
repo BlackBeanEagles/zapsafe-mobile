@@ -2739,6 +2739,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-336-security-execution · 🟢 replaces Day 285\'s assumed checklist defaults with real static-analysis findings from this repo · cert pinning NOT implemented (plain Dio), FLAG_SECURE NOT set, root detection is UI-only, release build signed with DEBUG keys, no ProGuard/R8 · JWT storage via FlutterSecureStorage genuinely real · runtime-pentest-only items (MITM, Frida, MobSF) stay PENDING — no device/CI in this environment',
               dayBuilt: 'DAY 336 ✅',
             ),
+            const _NavTile(
+              icon: Icons.gavel_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 337 · Legal Blockers — Live Tracker',
+              route: AppRoutes.legalBlockersLive,
+              hint: '/day-337-legal-blockers-live · 🟡 re-checks Day 286\'s tracker against the real zapsafe_backend Django project (read directly, not invented) · export (Day 69) + account deletion (Day 70) are genuinely LIVE end-to-end via older endpoints · newer /api/v1/account/* surface (consent, sessions, retention, audit-log) is real backend confirmed in account/views.py but has zero frontend caller · third-party sharing disclosure has no backend route anywhere — genuinely unimplemented',
+              dayBuilt: 'DAY 337 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
