@@ -1911,6 +1911,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-314-play-store-eu-listing · 🟢 FRONTEND-ONLY · en/de/fr/es draft copy · real Play Store limits (title 30 · short desc 80 · full desc 4000) · live over-limit counter · copy-to-clipboard per field · references real LP27 "Lock Screen Suppression" (not a fabricated privacy feature) + generic privacy-by-design language',
               dayBuilt: 'DAY 314 ✅',
             ),
+            const _NavTile(
+              icon: Icons.storefront_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 315 · App Store EU Localization Pack',
+              route: AppRoutes.appStoreEuListing,
+              hint: '/day-315-app-store-eu-listing · 🟢 FRONTEND-ONLY · en/de/fr/es draft copy · real Apple limits (name 30 · subtitle 30 · keywords 100 · promo text 170 · description 4000) · screenshot size guide (6.7"=1290×2796 · 6.5"=1242×2688 · iPad 12.9"=2048×2732) · live over-limit counter · copy-to-clipboard',
+              dayBuilt: 'DAY 315 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
