@@ -3095,6 +3095,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-358-premium-polish · 🟣 real bounded code changes — grepped premium/free tier/contact limit across lib/presentation/, found 4 independent "what tier am I on" systems that never synced (Day 91/92/93 own local mocks + Day 308\'s real Day 303 wire) · new shared PremiumTierBadge widget applied to Day 308 (drop-in) + Day 92 (additive) · Day 92\'s subscriptionUsageProvider rewired to real Day 303 status + real Day 83 contact count, was previously hardcoded false/2/3 forever · Day 91/93\'s own local mock providers honestly left un-consolidated (documented gap, not silently skipped) — full audit + rationale on the screen',
               dayBuilt: 'DAY 358 ✅',
             ),
+            const _NavTile(
+              icon: Icons.slideshow_rounded,
+              accent: Color(0xFF0EA5E9),
+              title: 'Day 359 · Enterprise Sales Deck In-App',
+              route: AppRoutes.enterpriseSalesDeck,
+              hint: '/day-359-enterprise-sales-deck · 🟢 real, self-contained swipeable deck (problem/solution/pricing/contact) for B2B meetings — no backend dependency, nothing to wire · pricing slide reuses Day 318\'s exact real numbers (India ₹99/₹199 live Razorpay) plus Day 277/353\'s existing enterprise bulk-tier figures, no new numbers invented · placeholder contact details clearly labeled as template placeholders',
+              dayBuilt: 'DAY 359 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
