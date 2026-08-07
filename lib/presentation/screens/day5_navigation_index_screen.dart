@@ -3363,6 +3363,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-389-penultimate-summary · 🟢 real summary of Days 301-388 (Sections F-O), grounded by reading Day 310/320/330/340/350/360/375/380\'s own real headers this session — restates each section\'s real findings (Day 336 P0 security gaps, Day 344 SOS RTL bug, Day 347 ta/te gap, Day 361\'s 5-P0 launch gate) rather than a sanitized retelling',
               dayBuilt: 'DAY 389 ✅',
             ),
+            const _NavTile(
+              icon: Icons.flag_circle_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 390 · PROJECT COMPLETE (Build) 🏁',
+              route: AppRoutes.projectCompleteMilestone,
+              hint: '/day-390-project-complete · 🟢 FINAL day of the 390-day build plan — reuses Day 365\'s exact preview-banner+confetti pattern, celebrates the real 390-day BUILD milestone while a REAL COMPUTED "Launch readiness" tab watches finalQaOpenP0CountProvider (added to Day 361\'s own file) so the open-P0 count can never drift stale — build-complete (100%) and launch-ready are kept deliberately separate everywhere on this screen',
+              dayBuilt: 'DAY 390 ✅ 🏁',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

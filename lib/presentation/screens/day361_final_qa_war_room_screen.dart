@@ -263,6 +263,19 @@ final _d361TabProvider = StateProvider<int>((ref) => 0);
 // Every item starts unresolved/open — honest default, no pre-filled green.
 final _d361ResolvedProvider = StateProvider<Map<String, bool>>((ref) => {});
 
+/// Public, live derived count of open P0 blockers — added for Day 390's
+/// "Launch readiness" section so it can read this screen's REAL live state
+/// (same in-memory [_d361ResolvedProvider] this screen itself uses) instead
+/// of a hardcoded "5" that could silently drift stale. Not persisted (same
+/// as [_d361ResolvedProvider] itself) — resets to the real default (5 open,
+/// since every P0 is a real currently-open finding) on a fresh app launch,
+/// and reflects any items resolved in this checklist during the current
+/// session, live, everywhere it's watched.
+final finalQaOpenP0CountProvider = Provider<int>((ref) {
+  final resolved = ref.watch(_d361ResolvedProvider);
+  return _kBugs.where((b) => b.priority == _Priority.p0 && resolved[b.id] != true).length;
+});
+
 // ── Screen ────────────────────────────────────────────────────────────────────
 class Day361FinalQaWarRoomScreen extends ConsumerWidget {
   const Day361FinalQaWarRoomScreen({super.key});
