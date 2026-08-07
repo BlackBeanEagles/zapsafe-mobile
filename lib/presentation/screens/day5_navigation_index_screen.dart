@@ -2763,6 +2763,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-339-beta-feedback-round4 · 🟣 extends Day 287 Round 3 with NPS, SOS-confidence rating, and self-reported false-positive rate since RC (anchored to Day 331\'s gate — Day 330\'s RC milestone is on main but not merged into this worktree) · analytics_api_service.dart + zapsafe_backend/analytics/urls.py confirmed to have NO custom-event endpoint, so submissions go to a real local SharedPreferences log, not a live POST · log starts empty until a real beta tester submits',
               dayBuilt: 'DAY 339 ✅',
             ),
+            const _NavTile(
+              icon: Icons.shield_moon_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 340 · Section I Milestone — Hardening Complete',
+              route: AppRoutes.sectionIMilestone,
+              hint: '/day-340-section-i-milestone · 🟢 mirrors Day 310\'s milestone pattern · honest per-day checklist for Days 331-339 — only Day 332 (regression runner) is a clean automated verify, the other 8 are documented exceptions (mostly no-device/no-live-account blockers, real gaps found in Day 336 security, real yellow/red DPDP categories in Day 337) · notes that Day 320/330 milestones exist on main but were never merged into this branch (git merge-base verified) · Section I complete → Section J (25-Language Completion) begins Day 341',
+              dayBuilt: 'DAY 340 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

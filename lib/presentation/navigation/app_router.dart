@@ -324,6 +324,7 @@ import '../screens/day336_security_execution_screen.dart';          // Day 336
 import '../screens/day337_legal_blockers_live_screen.dart';         // Day 337
 import '../screens/day338_sentry_live_wire_screen.dart';            // Day 338
 import '../screens/day339_beta_feedback_round4_screen.dart';        // Day 339
+import '../screens/day340_section_i_milestone_screen.dart';         // Day 340
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1917,6 +1918,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.betaFeedbackRound4,
         builder: (context, state) =>
             const Day339BetaFeedbackRound4Screen(),                          // Day 339
+      ),
+      GoRoute(
+        path: AppRoutes.sectionIMilestone,
+        builder: (context, state) =>
+            const Day340SectionIMilestoneScreen(),                           // Day 340
       ),
       GoRoute(
         path: AppRoutes.vault,
