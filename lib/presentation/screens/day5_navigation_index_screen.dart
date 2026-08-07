@@ -2715,6 +2715,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-333-platform-parity-execution · 🟢 executes Day 296\'s 16-row Android vs iOS matrix · real PASS/FAIL/PENDING marks + device notes persisted via SharedPreferences (no Hive, Day 306 precedent) · actual marks stay PENDING by default — no physical device in this environment · auto-derived blockers list (any non-PASS row)',
               dayBuilt: 'DAY 333 ✅',
             ),
+            const _NavTile(
+              icon: Icons.battery_std_rounded,
+              accent: Color(0xFFF97316),
+              title: 'Day 334 · Battery Soak — Production Log',
+              route: AppRoutes.batterySoakProduction,
+              hint: '/day-334-battery-soak-production · 🟢 replaces Day 297\'s accelerated-timer simulation with a real manual-entry form (device, elapsed hours, battery %, thermal throttle Y/N, notes) · real local persistence via SharedPreferences · log starts and stays empty until a real 8hr device soak is actually run — no fabricated data',
+              dayBuilt: 'DAY 334 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
