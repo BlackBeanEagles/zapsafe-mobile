@@ -3219,6 +3219,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-371-rollout-100 · 🟢 real go/no-go checklist for advancing a rollout that has NOT started — Day 316\'s simulator is local-only, no real Play Console/App Store Connect call exists · 8 real gate items (crash-free rate, ANR, zero open P0 via Day 361, dwell time, support volume via Day 369, rating trend via Day 367, backend headroom per Day 257\'s real load test, rollback plan) · persists via SharedPreferences, all default unchecked',
               dayBuilt: 'DAY 371 ✅',
             ),
+            const _NavTile(
+              icon: Icons.speed_rounded,
+              accent: Color(0xFF4CC9F0),
+              title: 'Day 372 · Performance at Scale Report',
+              route: AppRoutes.performanceScaleReport,
+              hint: '/day-372-performance-scale · 🟢 real manual-paste tool for API latency + error rate, DAU input clearly labeled EXAMPLE not real · cites Day 257\'s real production load-test numbers (~34 req/s sustained, P95 430ms @ 50 concurrent, 0% errors, degraded not broken at 100, 10K concurrent not achievable on current single-Oracle-VM hardware) as the only real data point that exists',
+              dayBuilt: 'DAY 372 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
