@@ -373,6 +373,8 @@
   },
   "day361_370": {
     "qa_war_room_title": "दिन 361 · अंतिम QA वॉर रूम",
-    "qa_war_room_heading": "वास्तविक P0/P1/P2 निष्कर्ष — शून्य खुले P0 पर लॉन्च गेट"
+    "qa_war_room_heading": "वास्तविक P0/P1/P2 निष्कर्ष — शून्य खुले P0 पर लॉन्च गेट",
+    "play_submission_title": "दिन 362 · Play Store सबमिशन",
+    "play_submission_heading": "मैनुअल Play Console चेकलिस्ट — अभी तक कुछ भी सबमिट नहीं हुआ"
   }
 }

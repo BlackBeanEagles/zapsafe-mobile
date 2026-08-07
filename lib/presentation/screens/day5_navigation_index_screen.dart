@@ -3041,6 +3041,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-361-final-qa-war-room · 🟢 REAL seeded P0/P1/P2 findings pulled directly from Day 336 security, Day 337 legal, Day 344 RTL, Day 345 i18n scanner, and Day 347 Indic copy audits — not a fictional bug list · 5 P0 blockers (debug-signed release, no cert pinning, FLAG_SECURE unset, SOS trigger hardcodes English+LTR TTS breaking screen readers, ta/te onboarding gap) ALL default OPEN · "ready to launch" gate is computed live and stays false while any P0 is open · export copies a share-sheet-ready report to clipboard (no share_plus dependency exists in this project)',
               dayBuilt: 'DAY 361 ✅',
             ),
+            const _NavTile(
+              icon: Icons.upload_file_rounded,
+              accent: Color(0xFF34A853),
+              title: 'Day 362 · Play Store Submission Executor',
+              route: AppRoutes.playStoreSubmission,
+              hint: '/day-362-play-store-submission · 🟢 real manual Play Console checklist — content rating, data safety, target API level, Play App Signing, signed AAB upload, store listing, pricing/countries, final review · genuine repo finding: android/app/build.gradle inherits targetSdkVersion from Flutter\'s own default rather than pinning a number · every step defaults UNCHECKED, nothing has been submitted · explicitly notes the AAB/signing steps are blocked by Day 361\'s open P0s (debug-signed release keys) until those are actually fixed · links to Day 316\'s staged rollout simulation rather than re-implementing it',
+              dayBuilt: 'DAY 362 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
