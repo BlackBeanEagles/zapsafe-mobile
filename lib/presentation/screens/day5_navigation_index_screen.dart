@@ -2792,6 +2792,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-345-i18n-missing-key-scanner · 🟢 genuinely working scanner — lists every assets/translations/*.json via Flutter\'s real AssetManifest (not a hardcoded list), flattens + diffs each against en.json (275 keys) live at runtime, sorts worst-first, exports a real text report to clipboard · real result at authoring time: 11/25 scanned locale files fully covered (the 10 Section J languages + pre-existing hi), 13 legacy locales still at 75/275 keys (200 missing each), 1 unlisted draft (ja.json, 20/275, not in kSupportedLanguages) surfaced because the scan reads the actual asset bundle not the supported-languages list',
               dayBuilt: 'DAY 345 ✅',
             ),
+            const _NavTile(
+              icon: Icons.palette_rounded,
+              accent: Color(0xFF7C3AED),
+              title: 'Day 346 · Cultural Adaptation QA v2',
+              route: AppRoutes.culturalAdaptationV2,
+              hint: '/day-346-cultural-adaptation-v2 · 🟢 extends Day 269\'s 8-region preset screen with a real per-region color/icon appropriateness checklist grounded in this app\'s actual ZapColors + icons (danger red, safe green, warning orange, dark-only theme, check-circle, emergency siren, absence-of-hand-gesture/animal-mascot icons confirmed by grep) · 7 items, ALL genuinely unchecked by default — needs a human cultural reviewer, not fabricated as reviewed · flags the real gap that sw/vi/tr/pl/nl/it/ko/fa have no Day-269 region preset yet, explicitly without inventing emergency numbers to fill it',
+              dayBuilt: 'DAY 346 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
