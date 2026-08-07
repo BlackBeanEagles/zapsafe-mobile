@@ -218,6 +218,7 @@ import '../screens/day313_sea_emergency_numbers_screen.dart';      // Day 313
 import '../screens/day314_play_store_eu_listing_screen.dart';      // Day 314
 import '../screens/day315_app_store_eu_listing_screen.dart';       // Day 315
 import '../screens/day316_play_staged_rollout_screen.dart';        // Day 316
+import '../screens/day317_app_store_phased_release_screen.dart';   // Day 317
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -454,6 +455,7 @@ class AppRoutes {
   static const playStoreEuListing       = '/day-314-play-store-eu-listing';                // Day 314
   static const appStoreEuListing        = '/day-315-app-store-eu-listing';                 // Day 315
   static const playStagedRollout        = '/day-316-play-staged-rollout';                  // Day 316
+  static const appStorePhasedRelease    = '/day-317-app-store-phased-release';              // Day 317
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1173,6 +1175,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.playStagedRollout,
         builder: (context, state) =>
             const Day316PlayStagedRolloutScreen(),                            // Day 316
+      ),
+      GoRoute(
+        path: AppRoutes.appStorePhasedRelease,
+        builder: (context, state) =>
+            const Day317AppStorePhasedReleaseScreen(),                        // Day 317
       ),
       GoRoute(
         path: AppRoutes.vault,

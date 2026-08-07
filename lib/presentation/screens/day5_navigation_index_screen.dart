@@ -1927,6 +1927,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-316-play-staged-rollout · 🟢 FRONTEND-ONLY · simulated 5%→10%→25%→50%→100% stage tracker (no real Play Developer API for this exists) · India-first then EU-bundle country targeting toggles · 8-step manual Play Console runbook documented inline',
               dayBuilt: 'DAY 316 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rocket_launch_rounded,
+              accent: Color(0xFF4CC9F0),
+              title: 'Day 317 · App Store Phased Release Controller',
+              route: AppRoutes.appStorePhasedRelease,
+              hint: '/day-317-app-store-phased-release · 🟢 FRONTEND-ONLY · Apple\'s real fixed 7-day schedule (1/2/5/10/20/50/100%) · TestFlight group mapping (Internal/External-Beta/Production) · export full runbook as Markdown via clipboard',
+              dayBuilt: 'DAY 317 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

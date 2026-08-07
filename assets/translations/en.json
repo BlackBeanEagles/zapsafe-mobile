@@ -300,6 +300,9 @@
     "rollout_stage_tracker": "Rollout stage tracker",
     "country_targeting": "Country targeting",
     "manual_steps": "Manual Play Console steps",
+    "app_store_phased_title": "Day 317 · App Store Phased Release",
+    "fixed_schedule": "Fixed 7-day schedule",
+    "testflight_groups": "TestFlight group mapping",
     "search_country_hint": "Search country",
     "countries_shown": "countries shown"
   }
