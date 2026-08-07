@@ -3103,6 +3103,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-359-enterprise-sales-deck · 🟢 real, self-contained swipeable deck (problem/solution/pricing/contact) for B2B meetings — no backend dependency, nothing to wire · pricing slide reuses Day 318\'s exact real numbers (India ₹99/₹199 live Razorpay) plus Day 277/353\'s existing enterprise bulk-tier figures, no new numbers invented · placeholder contact details clearly labeled as template placeholders',
               dayBuilt: 'DAY 359 ✅',
             ),
+            const _NavTile(
+              icon: Icons.flag_circle_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 360 · Section K Milestone — Enterprise Preview',
+              route: AppRoutes.sectionKMilestone,
+              hint: '/day-360-section-k-milestone · 🟢 mirrors Day 350\'s milestone pattern · real per-day verification record for Days 351-359: of the 7 days (351-357) the spec assumed "backend API when ready," 4 turned out REAL (354 family dashboard, 355 referral, 356 police dispatch, 357 group journey) and only 3 confirmed genuinely mock-only (351 SSO, 352 insurance, 353 org/tenant) — the opposite ratio the spec\'s own "mostly mock" framing implied · genuinely pending items listed honestly (no live backend round-trip test in this sandbox, Day 91/93 tier providers still un-consolidated, police dispatch stays simulated until a real integration ships) · notes Section L (Public Launch Week, Days 361-365) begins next',
+              dayBuilt: 'DAY 360 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
