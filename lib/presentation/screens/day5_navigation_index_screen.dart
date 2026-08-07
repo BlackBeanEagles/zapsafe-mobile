@@ -2800,6 +2800,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-346-cultural-adaptation-v2 · 🟢 extends Day 269\'s 8-region preset screen with a real per-region color/icon appropriateness checklist grounded in this app\'s actual ZapColors + icons (danger red, safe green, warning orange, dark-only theme, check-circle, emergency siren, absence-of-hand-gesture/animal-mascot icons confirmed by grep) · 7 items, ALL genuinely unchecked by default — needs a human cultural reviewer, not fabricated as reviewed · flags the real gap that sw/vi/tr/pl/nl/it/ko/fa have no Day-269 region preset yet, explicitly without inventing emergency numbers to fill it',
               dayBuilt: 'DAY 346 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rate_review_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 347 · Hindi/Tamil/Telugu Copy Review',
+              route: AppRoutes.indicCopyReview,
+              hint: '/day-347-indic-copy-review · 🟢 REAL strings pulled directly from hi/ta/te.json (sos + privacy [closest real legal-adjacent namespace — en.json has no dedicated "legal" namespace] + onboarding) · per-string approve/needs-revision/pending workflow via popup menu, ALL default PENDING — needs an actual native speaker, not fabricated as reviewed · genuine finding surfaced doing this: ta.json + te.json have ZERO onboarding.* keys, namespace doesn\'t exist at all (falls back to English at runtime), flagged explicitly as a translation gap not a review judgment',
+              dayBuilt: 'DAY 347 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
