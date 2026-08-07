@@ -296,6 +296,10 @@
     "sea_numbers_title": "Day 313 · SEA Emergency Numbers",
     "play_listing_title": "Day 314 · Play Store EU Listing",
     "app_store_listing_title": "Day 315 · App Store EU Listing",
+    "play_rollout_title": "Day 316 · Play Staged Rollout",
+    "rollout_stage_tracker": "Rollout stage tracker",
+    "country_targeting": "Country targeting",
+    "manual_steps": "Manual Play Console steps",
     "search_country_hint": "Search country",
     "countries_shown": "countries shown"
   }

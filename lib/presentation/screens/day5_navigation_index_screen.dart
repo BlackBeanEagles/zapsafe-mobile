@@ -1919,6 +1919,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-315-app-store-eu-listing · 🟢 FRONTEND-ONLY · en/de/fr/es draft copy · real Apple limits (name 30 · subtitle 30 · keywords 100 · promo text 170 · description 4000) · screenshot size guide (6.7"=1290×2796 · 6.5"=1242×2688 · iPad 12.9"=2048×2732) · live over-limit counter · copy-to-clipboard',
               dayBuilt: 'DAY 315 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rocket_launch_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 316 · Play Console Staged Rollout Controller',
+              route: AppRoutes.playStagedRollout,
+              hint: '/day-316-play-staged-rollout · 🟢 FRONTEND-ONLY · simulated 5%→10%→25%→50%→100% stage tracker (no real Play Developer API for this exists) · India-first then EU-bundle country targeting toggles · 8-step manual Play Console runbook documented inline',
+              dayBuilt: 'DAY 316 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

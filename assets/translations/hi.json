@@ -296,6 +296,10 @@
     "sea_numbers_title": "दिन 313 · दक्षिण-पूर्व एशिया आपातकालीन नंबर",
     "play_listing_title": "दिन 314 · Play Store EU लिस्टिंग",
     "app_store_listing_title": "दिन 315 · App Store EU लिस्टिंग",
+    "play_rollout_title": "दिन 316 · Play स्टेज्ड रोलआउट",
+    "rollout_stage_tracker": "रोलआउट चरण ट्रैकर",
+    "country_targeting": "देश लक्ष्यीकरण",
+    "manual_steps": "Play Console के मैनुअल चरण",
     "search_country_hint": "देश खोजें",
     "countries_shown": "देश दिखाए गए"
   }
