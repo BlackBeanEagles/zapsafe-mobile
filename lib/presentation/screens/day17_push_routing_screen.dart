@@ -272,7 +272,7 @@ class _RoutingMatrix extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                      horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: _accent(cat).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -393,7 +393,7 @@ class _ActionRow extends StatelessWidget {
                     color: ZapColors.textSecondary,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'id: $id',
                   style: ZapTypography.monoSmall.copyWith(
@@ -523,7 +523,7 @@ class _HourPicker extends StatelessWidget {
             letterSpacing: 1.2,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Row(
           children: [
             IconButton.outlined(
@@ -600,7 +600,7 @@ class _IntentCard extends StatelessWidget {
   }
 
   Widget _kv(String k, String v) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
         child: Row(
           children: [
             SizedBox(

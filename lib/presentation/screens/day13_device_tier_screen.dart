@@ -319,7 +319,7 @@ class _TierComparisonTable extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                     decoration: BoxDecoration(
                       color: t.$3.withOpacity(isCurrent ? 0.25 : 0.1),
                       borderRadius: BorderRadius.circular(4),

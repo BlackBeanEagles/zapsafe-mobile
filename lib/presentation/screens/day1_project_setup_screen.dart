@@ -36,8 +36,8 @@ class Day1ProjectSetupScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: ZapSpacing.md, top: 8, bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            margin: const EdgeInsets.only(right: ZapSpacing.md, top: ZapSpacing.sm, bottom: ZapSpacing.sm),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
@@ -211,7 +211,7 @@ class _CodeBlock extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(ZapSpacing.lg),
         decoration: BoxDecoration(
-          color: const Color(0xFF0D0D16),
+          color: ZapColors.bgCard,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: const Color(0xFF2A2A3A)),
         ),
@@ -221,19 +221,19 @@ class _CodeBlock extends StatelessWidget {
             Row(
               children: [
                 const Icon(Icons.terminal_rounded,
-                    color: Color(0xFF6E6E82), size: 14),
+                    color: ZapColors.textSecondary, size: 14),
                 const SizedBox(width: 6),
                 const Text('terminal',
-                    style: TextStyle(color: Color(0xFF6E6E82), fontSize: 11)),
+                    style: TextStyle(color: ZapColors.textSecondary, fontSize: 11)),
                 const Spacer(),
                 const Icon(Icons.copy_rounded,
-                    color: Color(0xFF6E6E82), size: 14),
+                    color: ZapColors.textSecondary, size: 14),
               ],
             ),
             const SizedBox(height: ZapSpacing.md),
             Text(code,
                 style: const TextStyle(
-                    color: Color(0xFF06D6A0),
+                    color: ZapColors.safe,
                     fontSize: 12,
                     fontFamily: 'monospace',
                     height: 1.7)),
@@ -283,7 +283,7 @@ class _FolderTree extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D16),
+        color: ZapColors.bgCard,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFF2A2A3A)),
       ),
@@ -302,7 +302,7 @@ class _FolderTree extends StatelessWidget {
                       : Icons.insert_drive_file_rounded,
                   color: isDir
                       ? const Color(0xFFF59E0B)
-                      : const Color(0xFF6E6E82),
+                      : ZapColors.textSecondary,
                   size: 14,
                 ),
                 const SizedBox(width: 6),
@@ -311,7 +311,7 @@ class _FolderTree extends StatelessWidget {
                     name,
                     style: TextStyle(
                       color: isDir
-                          ? const Color(0xFFE0E0EE)
+                          ? ZapColors.textPrimary
                           : const Color(0xFF9E9EB8),
                       fontSize: 12,
                       fontFamily: 'monospace',
@@ -337,7 +337,7 @@ class _PackageList extends StatelessWidget {
     ('dio', '^5.3.0', 'HTTP client — better error handling than http', Color(0xFF10B981)),
     ('hive_flutter', '^1.1.0', 'Local persistent key-value storage', Color(0xFFF59E0B)),
     ('sqflite', '^2.3.0', 'Local SQLite for GPS traces + baseline', Color(0xFFEC4899)),
-    ('shared_preferences', '^2.2.0', 'Simple key-value (non-sensitive only)', Color(0xFF6E6E82)),
+    ('shared_preferences', '^2.2.0', 'Simple key-value (non-sensitive only)', ZapColors.textSecondary),
   ];
 
   @override
@@ -349,7 +349,7 @@ class _PackageList extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
-            color: const Color(0xFF0D0D16),
+            color: ZapColors.bgCard,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: color.withOpacity(0.2)),
           ),
@@ -377,10 +377,10 @@ class _PackageList extends StatelessWidget {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'monospace')),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: ZapSpacing.sm),
                         Text(version,
                             style: const TextStyle(
-                                color: Color(0xFF6E6E82),
+                                color: ZapColors.textSecondary,
                                 fontSize: 11,
                                 fontFamily: 'monospace')),
                       ],
@@ -453,7 +453,7 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         style: const TextStyle(
-            color: Color(0xFF6E6E82),
+            color: ZapColors.textSecondary,
             fontSize: 11,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2));

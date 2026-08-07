@@ -46,8 +46,8 @@ class Day9JwtStorageScreen extends ConsumerWidget {
         elevation: 0,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: ZapSpacing.md, top: 8, bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            margin: const EdgeInsets.only(right: ZapSpacing.md, top: ZapSpacing.sm, bottom: ZapSpacing.sm),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: ZapColors.info.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
@@ -159,9 +159,9 @@ class _Hero extends StatelessWidget {
           Row(
             children: [
               _Chip('flutter_secure_storage', ZapColors.info),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               _Chip('dio interceptor', ZapColors.safe),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               _Chip('LP-Keystore', ZapColors.warning),
             ],
           ),
@@ -239,7 +239,7 @@ class _StorageStrategyCard extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0D0D16),
+                  color: ZapColors.bgCard,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: r.color.withOpacity(0.25)),
                 ),
@@ -275,7 +275,7 @@ class _StorageStrategyCard extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                       decoration: BoxDecoration(
                         color: r.color.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(6),
@@ -363,7 +363,7 @@ class _TokenVaultDemo extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D16),
+        color: ZapColors.bgCard,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFF2A2A3A)),
       ),
@@ -438,7 +438,7 @@ class _TokenVaultDemo extends ConsumerWidget {
                     .reversed
                     .take(5)
                     .map((l) => Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
+                          padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
                           child: Text(l,
                               style: const TextStyle(
                                   color: Color(0xFF9E9EB8),
@@ -471,7 +471,7 @@ class _TokenRow extends StatelessWidget {
           color: hasToken ? ZapColors.safe : const Color(0xFF3A3A4A),
           size: 16,
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -494,7 +494,7 @@ class _TokenRow extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
           decoration: BoxDecoration(
             color: hasToken
                 ? ZapColors.safe.withOpacity(0.1)
@@ -529,7 +529,7 @@ class _InterceptorCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D16),
+        color: ZapColors.bgCard,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: active
@@ -704,7 +704,7 @@ class _SecurityRules extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
-            color: const Color(0xFF0D0D16),
+            color: ZapColors.bgCard,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: color.withOpacity(0.2)),
           ),
@@ -754,7 +754,7 @@ class _SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(text,
       style: const TextStyle(
-          color: Color(0xFF6E6E82),
+          color: ZapColors.textSecondary,
           fontSize: 11,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.2));

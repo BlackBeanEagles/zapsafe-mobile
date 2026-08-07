@@ -2059,7 +2059,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.dark_mode_rounded,
-              accent: Color(0xFF6E6E82),
+              accent: ZapColors.textSecondary,
               title: 'Day 211 · Dark Mode Consistency Audit',
               route: AppRoutes.darkModeAudit,
               hint: '/dark-mode-audit · 🟢 FRONTEND-ONLY · Section A Day 11/20 · 3-tab (Checklist / Theme Tokens / Export) · 4 phases Days 1-40/41-100/101-150/151-200 · 32 sample screens · status cycle — ✅ ⚠️ ❌ · per-row notes · filter chips · export summary + CSV · OLED token swatches bgPrimary #07070E',
@@ -2067,7 +2067,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.error_outline_rounded,
-              accent: Color(0xFFE63946),
+              accent: ZapColors.danger,
               title: 'Day 210 · Error States Sweep',
               route: AppRoutes.errorStates,
               hint: '/error-states · 🟣 POLISH · Section A Day 10/20 · 3-tab (Live Preview / Variants / Spec) · ZapErrorState + ZapErrorInline widgets · ZapErrorMapper from DioException · 4 variants network/403/500/timeout · never show raw exception · connection tip · Retry button · compact mode · adoption list Day 59/58/60/57/88',
@@ -2075,7 +2075,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.hourglass_bottom_rounded,
-              accent: Color(0xFFF4A261),
+              accent: ZapColors.warning,
               title: 'Day 209 · Loading States Sweep',
               route: AppRoutes.loadingStates,
               hint: '/loading-states · 🟣 POLISH · Section A Day 9/20 · 3-tab (Gallery / Simulate / Adoption Spec) · reusable zap_skeleton.dart · ZapSkeletonBone shimmer · 6 layouts: list tile/card/chart/contact/dashboard/messages · gallery chip picker · Simulate 1.4s load toggle · Riverpod when() pattern · adoption list for Day 59/68/82/83/207 screens',
@@ -2083,7 +2083,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.fact_check_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 208 · Design System Compliance Audit',
               route: AppRoutes.designSystemAudit,
               hint: '/design-system-audit · 🟢 FRONTEND-ONLY · Section A Day 8/20 · 3-tab (Checklist / Code Examples / Theme Files) · 8 manual audit rules with Pass/Fail toggles · progress bar · wrong vs right code snippets · critical badges on colors/typography/touch/semantics · links to lib/core/theme/ · mark all pass / clear all · celebration at 8/8',
@@ -2107,7 +2107,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.skip_next_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 205 · Onboarding Skip Paths',
               route: AppRoutes.onboardingSkipPaths,
               hint: '/onboarding-skip-paths · 🟣 POLISH · Section A Day 5/20 · 3-tab (Live Flow / Score Breakdown / Spec) · interactive 5-step onboarding mock · Tier 1 required · Tier 2 + Medical Card "Skip for now" · live Protection Score 15+25+10+15=65 · score strip updates per step · review skipped warnings · min 40 (terms+tier1) · integration notes for onboarding_provider + Day 202 banners',
@@ -2115,7 +2115,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.shield_moon_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 204 · Persistent Mode Status Card',
               route: AppRoutes.modeStatusCard,
               hint: '/mode-status-card · 🟣 POLISH · Section A Day 4/20 · 3-tab (Live Preview / Mode Controls / Spec) · reusable ModeStatusCard widget · 5 modes MINIMAL gray / MONITORING teal / ELEVATED orange / HIGH orange-red / CRITICAL red+pulse · collapsed: mode+battery+DCS chips · tap expand: GPS interval/protection score/models · animated color transitions · reduce-motion toggle · mock dashboard stack with Day 202+203 placeholders',
@@ -2123,7 +2123,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.radio_button_checked_rounded,
-              accent: Color(0xFFE63946),
+              accent: ZapColors.danger,
               title: 'Day 203 · SOS Long-Press Ring Animation',
               route: AppRoutes.sosLongPressRing,
               hint: '/sos-long-press-ring · 🟣 POLISH · Section A Day 3/20 · 3-tab (Live Preview / Controls / Spec) · reusable SosLongPressRingButton widget · 2s hold fixed · gray→red clockwise ring CustomPainter · haptic ramp light→heavy · early release "Cancelled" flash · mock SOS snackbar · size/haptics/reduce-motion toggles · dashboard integration note for TriggerOrchestrator',
@@ -2648,7 +2648,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             const SizedBox(height: ZapSpacing.lg),
             const _NavTile(
               icon: Icons.notifications_active_rounded,
-              accent: Color(0xFFE63946),
+              accent: ZapColors.danger,
               title: 'Day 306 · Production Notification Tiers',
               route: AppRoutes.notificationTiersPolish,
               hint: '/day-306-notification-tiers-polish · 🟣 POLISH · real 3-tier banner stack now live on the production dashboard (/dashboard) · critical=battery<10%/storage-full (must-ack) · important=unverified Tier-2 contact (dismissible) · suggestion=30-day drill reminder · ack persisted via SharedPreferences, cleared when condition clears',
@@ -2656,7 +2656,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.touch_app_rounded,
-              accent: Color(0xFFE63946),
+              accent: ZapColors.danger,
               title: 'Day 307 · Production SOS Long-Press Ring',
               route: AppRoutes.sosLongPressRingPolish,
               hint: '/day-307-sos-longpress-ring-polish · 🟣 POLISH · real SosTriggerButton now live on the production dashboard · 2s clockwise gray→red ring · haptic ramp light/medium/heavy · release-early "CANCELLED" flash · on completion dispatches the real TriggerOrchestrator.dispatchManual() → AppStateNotifier state machine · TalkBack semantics label',
@@ -2664,7 +2664,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.dashboard_customize_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 308 · Production Persistent Status Card',
               route: AppRoutes.statusCardPolish,
               hint: '/day-308-status-card-polish · 🟣 POLISH · real PersistentStatusCard now live on the production dashboard, >=16dp above the SOS button · collapsed=mode badge+battery+last DCS score · expanded (tap only, no drag-dismiss)=GPS quality+monitoring state+subscription tier/premium badge · rebuilds on every AppStateNotifier transition',
@@ -2672,7 +2672,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.filter_alt_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 309 · Production Evidence Vault Search',
               route: AppRoutes.evidenceVaultSearchPolish,
               hint: '/day-309-evidence-vault-search-polish · 🟣 POLISH · real filter bar now live on the production evidence vault (/evidence-vault) · chips=date range/trigger type(manual·AI·fall)/status(resolved·FP·drill)/tamper-only · search by SOS id prefix · AND logic · offline on local mock data · "no matches" empty state with Clear filters · found+documented a real unwired GET /api/v1/evidence/search/ endpoint (Day 209), added to Day 301 audit',
@@ -2680,7 +2680,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.flag_circle_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 310 · Section F Milestone — Integration Complete',
               route: AppRoutes.sectionFMilestone,
               hint: '/day-310-section-f-milestone · 🔗 milestone · checklist mirrors seedIntegrationAudit() (same function Day 301 uses, not a hand-copied duplicate) · stat grid=APIs wired/polish items shipped/endpoints audited/documented exceptions · per-day verify row with real caveats inline, not blanket green · links to Day 301 audit with live-computed refreshed counts · Section F complete → Section G begins',
@@ -2693,7 +2693,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             const SizedBox(height: ZapSpacing.lg),
             const _NavTile(
               icon: Icons.emergency_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 311 · EU Emergency Numbers Pack',
               route: AppRoutes.euEmergencyNumbers,
               hint: '/day-311-eu-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_eu.json · 112 EU-wide universal (Council Decision 91/396/EEC) + 27 member states · well-documented country overrides only (e.g. DE 110, FR 15/17/18) · unconfirmed countries show 112-only with a verify-locally note · tap to dial, long-press to copy',
@@ -2701,7 +2701,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.emergency_rounded,
-              accent: Color(0xFFF4A261),
+              accent: ZapColors.warning,
               title: 'Day 312 · LATAM Emergency Numbers Pack',
               route: AppRoutes.latamEmergencyNumbers,
               hint: '/day-312-latam-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_latam.json · Mexico/Brazil/Colombia/Argentina/Chile + Peru/Ecuador/Uruguay/Costa Rica/Panama (10 countries, well-documented numbers only) · no region-wide 112/911 equivalent so every country lists its own · tap to dial, long-press to copy',
@@ -2709,7 +2709,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.emergency_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 313 · SEA Emergency Numbers Pack',
               route: AppRoutes.seaEmergencyNumbers,
               hint: '/day-313-sea-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_sea.json · Singapore/Malaysia/Indonesia/Philippines/Vietnam/Thailand (the six the spec named) · no region-wide equivalent so every country lists its own · tap to dial, long-press to copy',
@@ -2717,7 +2717,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.storefront_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 314 · Play Store EU Listing Copy Generator',
               route: AppRoutes.playStoreEuListing,
               hint: '/day-314-play-store-eu-listing · 🟢 FRONTEND-ONLY · en/de/fr/es draft copy · real Play Store limits (title 30 · short desc 80 · full desc 4000) · live over-limit counter · copy-to-clipboard per field · references real LP27 "Lock Screen Suppression" (not a fabricated privacy feature) + generic privacy-by-design language',
@@ -2733,7 +2733,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.rocket_launch_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 316 · Play Console Staged Rollout Controller',
               route: AppRoutes.playStagedRollout,
               hint: '/day-316-play-staged-rollout · 🟢 FRONTEND-ONLY · simulated 5%→10%→25%→50%→100% stage tracker (no real Play Developer API for this exists) · India-first then EU-bundle country targeting toggles · 8-step manual Play Console runbook documented inline',
@@ -2741,7 +2741,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.rocket_launch_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 317 · App Store Phased Release Controller',
               route: AppRoutes.appStorePhasedRelease,
               hint: '/day-317-app-store-phased-release · 🟢 FRONTEND-ONLY · Apple\'s real fixed 7-day schedule (1/2/5/10/20/50/100%) · TestFlight group mapping (Internal/External-Beta/Production) · export full runbook as Markdown via clipboard',
@@ -2757,7 +2757,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.policy_rounded,
-              accent: Color(0xFFF4A261),
+              accent: ZapColors.warning,
               title: 'Day 319 · GDPR Consent Flow Wire',
               route: AppRoutes.gdprConsentWire,
               hint: '/day-319-gdpr-consent-wire · 🟡 MOCK-NOW · confirmed GET/PUT /api/v1/account/consent/ is real+live on backend (ConsentView) but not yet called · SharedPreferences persistence (ConsentWireStorage, Day 306 precedent) · real field names (location_sos/evidence_recording/cloud_backup/heatmap_contribution/analytics/model_improvement) · GDPR Art. 6(1) lawful-basis text per toggle · mock→API migration plan tab',
@@ -2765,7 +2765,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.public_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 320 · Section G Milestone — Global Listings Ready',
               route: AppRoutes.sectionGMilestone,
               hint: '/day-320-section-g-milestone · 🔗 milestone · mirrors Day 310\'s structure · stat grid=emergency packs/listing generators/rollout runbooks shipped/documented exceptions · per-day verify row with real caveats inline (e.g. Day 316 has no real Play API, Day 318 is mostly proposed pricing, Day 319 is MOCK-NOW by design) · Section G complete → Section H begins',
@@ -2802,7 +2802,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.inventory_2_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 324 · Release Candidate Build Manifest',
               route: AppRoutes.releaseCandidateManifest,
               hint: '/day-324-release-candidate-manifest · 🟢 · real app version+build read live off pubspec.yaml (bundled as an asset, AppVersionInfo.load()) · real kGitCommitHash build-time --dart-define constant with an honest not-stamped fallback (no fabricated hash) · real kZapsafeModels versions + real app_flags.dart feature flags · QR is a clearly-labelled MOCK placeholder (no qr_flutter dependency added) · RC checklist links to the real live Day 310 milestone; Day 320 now real and live (this merge) instead of the earlier NOT YET AVAILABLE placeholder note',
@@ -2818,7 +2818,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.speed_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 326 · Cold Start Optimization Report',
               route: AppRoutes.coldStartReport,
               hint: '/day-326-cold-start-report · 🟢 · real Stopwatch instrumentation added to main.dart\'s _bootstrap() (widgets_binding_ready/easy_localization_ready/firebase_ready/run_app_called), ZapSafeApp (first_frame_rendered) and the production dashboard (dashboard_first_build) · no device/emulator available so <2s is a documented TARGET, not a claimed measurement · 5 plausible slow steps grounded in a real main.dart/app_bootstrap_providers.dart read, incl. a genuine finding that DCSInferenceEngine (4 TFLite interpreters) loads unconditionally at boot before login, not gated like GPS/hydrator already are',
@@ -2850,7 +2850,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.rocket_launch_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 330 · Section H Milestone — v9.2 RC Ready',
               route: AppRoutes.sectionHMilestone,
               hint: '/day-330-section-h-rc-milestone · 🟢 milestone · mirrors the Day 310 pattern · stat grid=days shipped/clean verifies/documented exceptions/real gaps found+fixed(3: Days 322 detection-log, 328 battery start, 329 correct endpoint) · per-day honest checklist, not blanket green · links to Day 324 RC manifest + Day 310 Section F milestone + production dashboard',
@@ -3213,7 +3213,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             const SizedBox(height: ZapSpacing.lg),
             const _NavTile(
               icon: Icons.trending_up_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 371 · Rollout 50% → 100% Checklist',
               route: AppRoutes.rollout100Checklist,
               hint: '/day-371-rollout-100 · 🟢 real go/no-go checklist for advancing a rollout that has NOT started — Day 316\'s simulator is local-only, no real Play Console/App Store Connect call exists · 8 real gate items (crash-free rate, ANR, zero open P0 via Day 361, dwell time, support volume via Day 369, rating trend via Day 367, backend headroom per Day 257\'s real load test, rollback plan) · persists via SharedPreferences, all default unchecked',
@@ -3221,7 +3221,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.speed_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 372 · Performance at Scale Report',
               route: AppRoutes.performanceScaleReport,
               hint: '/day-372-performance-scale · 🟢 real manual-paste tool for API latency + error rate, DAU input clearly labeled EXAMPLE not real · cites Day 257\'s real production load-test numbers (~34 req/s sustained, P95 430ms @ 50 concurrent, 0% errors, degraded not broken at 100, 10K concurrent not achievable on current single-Oracle-VM hardware) as the only real data point that exists',
@@ -3229,7 +3229,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.report_problem_rounded,
-              accent: Color(0xFFF4A261),
+              accent: ZapColors.warning,
               title: 'Day 373 · False Positive Field Analysis',
               route: AppRoutes.falsePositiveField,
               hint: '/day-373-false-positive-field · 🟢 real, genuinely empty FP-report categorization tool — no real users exist yet so there is nothing to categorize · add-a-report form (category, real model_registry.dart trigger source, notes) persists via SharedPreferences · links directly to Day 329\'s DCS sensitivity slider as where a real aggregate FP rate would eventually feed back into',
@@ -3245,7 +3245,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.flag_circle_rounded,
-              accent: Color(0xFF06D6A0),
+              accent: ZapColors.safe,
               title: 'Day 375 · Section M Milestone',
               route: AppRoutes.sectionMMilestone,
               hint: '/day-375-section-m-milestone · 🟢 mirrors the Day 310/320/330/340/350/360 milestone pattern — real per-day verification for Days 366-374 (this batch + the prior 366-370 batch already on main), pending items genuinely pending, no real launch claimed · notes Section N (Scale & Stabilize, Days 376-385) continues next',
@@ -3277,7 +3277,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.groups_rounded,
-              accent: Color(0xFFE63946),
+              accent: ZapColors.danger,
               title: 'Day 379 · 10K Users Readiness Gate',
               route: AppRoutes.tenKUsersGate,
               hint: '/day-379-10k-users-gate · 🟢 explicitly backend\'s call, documents FRONTEND expectations only — real Dio timeout budget (connect 10s / receive 20s / send 20s from api_config.dart), real OTP_RATE_LIMIT=10/hr found in settings.py, no general API rate limit found (stated honestly, not invented) · cites Day 257\'s real production load-test conclusion verbatim: 10,000 concurrent not achievable on current single Oracle VM, ~34 req/s sustained is the defensible measured ceiling',
@@ -3285,7 +3285,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const _NavTile(
               icon: Icons.fact_check_rounded,
-              accent: Color(0xFF4CC9F0),
+              accent: ZapColors.info,
               title: 'Day 380 · Ops Checkpoint',
               route: AppRoutes.day380OpsCheckpoint,
               hint: '/day-380-ops-checkpoint · 🟢 real checkpoint of Days 371-379, not a section-end milestone celebration (spec\'s own note: "380 is an ops checkpoint day... not total project length") — headline finding: grepped all 9 screens for dio/http./Repository/ApiClient/.get(/.post(, zero hits, every one is FRONTEND-ONLY · restates Day 361\'s war room still defaults to 5 open P0s so "ready to launch" is FALSE right now, no rollout/hotfix/scale event claimed anywhere',
@@ -3718,7 +3718,7 @@ class _Week1Summary extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: a.$3.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

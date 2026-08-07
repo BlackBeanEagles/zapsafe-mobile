@@ -285,7 +285,7 @@ class _ChecklistSection extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: headerColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -302,7 +302,7 @@ class _ChecklistSection extends StatelessWidget {
           ),
           const SizedBox(height: ZapSpacing.md),
           ...items.map((i) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
                 child: Row(
                   children: [
                     Icon(

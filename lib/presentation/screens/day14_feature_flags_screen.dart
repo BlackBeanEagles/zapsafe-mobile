@@ -235,7 +235,7 @@ class _FeatureTile extends StatelessWidget {
               ),
               if (locked)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: ZapColors.warning.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),

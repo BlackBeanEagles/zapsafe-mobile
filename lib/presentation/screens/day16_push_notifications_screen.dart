@@ -283,7 +283,7 @@ class _StubModeNotice extends StatelessWidget {
                     letterSpacing: 1.5,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Firebase isn\'t configured yet. The service is running with a '
                   'deterministic stub token, and local notifications still work. '
