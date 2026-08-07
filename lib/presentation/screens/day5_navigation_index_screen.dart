@@ -2784,6 +2784,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-344-rtl-25lang-regression · 🟢 REAL grep-based static check across 5 wired screens (dashboard, SOS trigger, onboarding step 1, OTP verify, evidence vault) for hardcoded Alignment/EdgeInsets.only(left|right)/TextDirection/back-icons that survive Flutter\'s automatic RTL flip · 6 real findings incl. 1 safety-critical (sos_trigger_button.dart hardcodes TextDirection.ltr + unlocalized English for TalkBack SOS countdown announcements) · repo-wide counts for scale (97 arrow_back icons, 322 EdgeInsets.only(left/right)) · manual QA checklist (mirror icons, 200% font-scale+RTL combo, numeral bidi) stays genuinely PENDING — no device in this environment',
               dayBuilt: 'DAY 344 ✅',
             ),
+            const _NavTile(
+              icon: Icons.travel_explore_rounded,
+              accent: Color(0xFFEC4899),
+              title: 'Day 345 · i18n Missing Key Scanner',
+              route: AppRoutes.i18nMissingKeyScanner,
+              hint: '/day-345-i18n-missing-key-scanner · 🟢 genuinely working scanner — lists every assets/translations/*.json via Flutter\'s real AssetManifest (not a hardcoded list), flattens + diffs each against en.json (275 keys) live at runtime, sorts worst-first, exports a real text report to clipboard · real result at authoring time: 11/25 scanned locale files fully covered (the 10 Section J languages + pre-existing hi), 13 legacy locales still at 75/275 keys (200 missing each), 1 unlisted draft (ja.json, 20/275, not in kSupportedLanguages) surfaced because the scan reads the actual asset bundle not the supported-languages list',
+              dayBuilt: 'DAY 345 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

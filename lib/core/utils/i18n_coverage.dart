@@ -61,6 +61,33 @@ class LocaleCoverage {
   double get pct => totalEnKeys == 0 ? 0 : (presentCount / totalEnKeys) * 100;
 }
 
+/// Real directory listing of every `assets/translations/*.json` file bundled
+/// with the app, via Flutter's AssetManifest — not a hardcoded list. Returns
+/// locale codes (e.g. "hi", "ta"), excluding "en" itself. Used by Day 345's
+/// missing-key scanner so it finds genuinely every locale file present,
+/// including ones (like ja.json) that exist as drafts but aren't yet in
+/// kSupportedLanguages.
+Future<List<String>> listTranslationLocaleCodes() async {
+  try {
+    final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+    final manifest = jsonDecode(manifestRaw) as Map<String, dynamic>;
+    final codes = <String>[];
+    for (final path in manifest.keys) {
+      if (!path.startsWith('assets/translations/') || !path.endsWith('.json')) {
+        continue;
+      }
+      final fileName = path.substring('assets/translations/'.length);
+      final code = fileName.substring(0, fileName.length - '.json'.length);
+      if (code == 'en' || code.isEmpty) continue;
+      codes.add(code);
+    }
+    codes.sort();
+    return codes;
+  } catch (_) {
+    return const <String>[];
+  }
+}
+
 /// Computes real coverage for [code] by loading its JSON file and diffing
 /// keys against [enFlat] (pass the already-flattened en.json map so callers
 /// only load en.json once).

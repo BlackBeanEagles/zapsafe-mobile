@@ -326,6 +326,7 @@ import '../screens/day341_languages_16_18_screen.dart';             // Day 341
 import '../screens/day342_languages_19_21_screen.dart';             // Day 342
 import '../screens/day343_languages_22_25_screen.dart';             // Day 343
 import '../screens/day344_rtl_25lang_regression_screen.dart';       // Day 344
+import '../screens/day345_i18n_missing_key_scanner_screen.dart';    // Day 345
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1941,6 +1942,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.rtl25LangRegression,
         builder: (context, state) =>
             const Day344Rtl25LangRegressionScreen(),                         // Day 344
+      ),
+      GoRoute(
+        path: AppRoutes.i18nMissingKeyScanner,
+        builder: (context, state) =>
+            const Day345I18nMissingKeyScannerScreen(),                       // Day 345
       ),
       GoRoute(
         path: AppRoutes.vault,
