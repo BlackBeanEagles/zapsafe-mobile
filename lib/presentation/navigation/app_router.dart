@@ -215,6 +215,7 @@ import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
 import '../screens/day311_eu_emergency_numbers_screen.dart';       // Day 311
 import '../screens/day312_latam_emergency_numbers_screen.dart';    // Day 312
 import '../screens/day313_sea_emergency_numbers_screen.dart';      // Day 313
+import '../screens/day314_play_store_eu_listing_screen.dart';      // Day 314
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -448,6 +449,7 @@ class AppRoutes {
   static const euEmergencyNumbers       = '/day-311-eu-emergency-numbers';                 // Day 311
   static const latamEmergencyNumbers    = '/day-312-latam-emergency-numbers';              // Day 312
   static const seaEmergencyNumbers      = '/day-313-sea-emergency-numbers';                // Day 313
+  static const playStoreEuListing       = '/day-314-play-store-eu-listing';                // Day 314
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1152,6 +1154,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.seaEmergencyNumbers,
         builder: (context, state) =>
             const Day313SeaEmergencyNumbersScreen(),                          // Day 313
+      ),
+      GoRoute(
+        path: AppRoutes.playStoreEuListing,
+        builder: (context, state) =>
+            const Day314PlayStoreEuListingScreen(),                           // Day 314
       ),
       GoRoute(
         path: AppRoutes.vault,

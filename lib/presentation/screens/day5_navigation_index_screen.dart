@@ -1903,6 +1903,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-313-sea-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_sea.json · Singapore/Malaysia/Indonesia/Philippines/Vietnam/Thailand (the six the spec named) · no region-wide equivalent so every country lists its own · tap to dial, long-press to copy',
               dayBuilt: 'DAY 313 ✅',
             ),
+            const _NavTile(
+              icon: Icons.storefront_rounded,
+              accent: Color(0xFF4CC9F0),
+              title: 'Day 314 · Play Store EU Listing Copy Generator',
+              route: AppRoutes.playStoreEuListing,
+              hint: '/day-314-play-store-eu-listing · 🟢 FRONTEND-ONLY · en/de/fr/es draft copy · real Play Store limits (title 30 · short desc 80 · full desc 4000) · live over-limit counter · copy-to-clipboard per field · references real LP27 "Lock Screen Suppression" (not a fabricated privacy feature) + generic privacy-by-design language',
+              dayBuilt: 'DAY 314 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
