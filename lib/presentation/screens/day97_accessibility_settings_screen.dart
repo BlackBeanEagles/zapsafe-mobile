@@ -488,7 +488,7 @@ class _ActiveBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 4),
+      margin: const EdgeInsets.only(left: ZapSpacing.xs),
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: ZapColors.info.withOpacity(0.15),

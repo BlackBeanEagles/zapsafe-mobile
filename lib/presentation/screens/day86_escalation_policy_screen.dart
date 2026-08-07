@@ -621,7 +621,7 @@ class _FlowNode extends StatelessWidget {
           ),
           child: Icon(icon, color: color, size: 20),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           label,
           style: ZapTypography.bodySmall.copyWith(color: color, fontSize: 10),
@@ -646,7 +646,7 @@ class _FlowArrow extends StatelessWidget {
             Container(width: 4, height: 1, color: ZapColors.border),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           label,
           style: ZapTypography.bodySmall.copyWith(

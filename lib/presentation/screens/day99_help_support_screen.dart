@@ -128,7 +128,7 @@ class _HeroBanner extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Premium users get 4 h response · Free users 48 h',
                   style: ZapTypography.bodySmall.copyWith(
@@ -344,7 +344,7 @@ class _FaqTile extends StatelessWidget {
               // Category chip
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: ZapColors.info.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4),

@@ -279,7 +279,7 @@ class _UserCard extends StatelessWidget {
                         fontSize: 20,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       state.phone,
                       style: ZapTypography.bodyMedium.copyWith(
@@ -291,7 +291,7 @@ class _UserCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.verified_rounded,
                             size: 12, color: ZapColors.safe),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         Text(
                           'Member since ${state.memberSinceLabel}',
                           style: ZapTypography.bodySmall.copyWith(

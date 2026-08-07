@@ -174,7 +174,7 @@ class _HeroBanner extends StatelessWidget {
                 const SizedBox(height: ZapSpacing.sm),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: ZapSpacing.md, vertical: 4),
+                      horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.safe.withAlpha(26),
                     borderRadius:
@@ -219,7 +219,7 @@ class _BillingCycleToggle extends ConsumerWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: ZapColors.border),
       ),
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(ZapSpacing.xs),
       child: Row(
         children: BillingCycle.values.map((cycle) {
           final selected = state.billingCycle == cycle;
@@ -452,7 +452,7 @@ class _PlanCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.radio_button_checked_rounded,
                       size: 14, color: ZapColors.info),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: ZapSpacing.xs),
                   Text('Selected',
                       style: ZapTypography.labelSmall
                           .copyWith(color: ZapColors.info)),

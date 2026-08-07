@@ -548,7 +548,7 @@ class _ExportRequestCard extends StatelessWidget {
                                   ? ZapColors.textMuted
                                   : ZapColors.textSecondary,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: ZapSpacing.xs),
                             Text(
                               _fmtExpiry(r.expiresAt),
                               style: ZapTypography.bodySmall.copyWith(
@@ -856,7 +856,7 @@ class _ConsentTile extends ConsumerWidget {
                       Text(flag.label,
                           style: ZapTypography.labelLarge
                               .copyWith(color: ZapColors.textPrimary)),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(flag.description,
                           style: ZapTypography.bodySmall
                               .copyWith(color: ZapColors.textSecondary)),

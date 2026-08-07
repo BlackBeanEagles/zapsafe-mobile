@@ -411,7 +411,7 @@ class _ModelCardState extends ConsumerState<_ModelCard> {
                                 color: _confidenceColor(r.confidence),
                               ),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: ZapSpacing.xs),
                             Text(
                               '${(r.confidence * 100).round()}% confidence',
                               style: ZapTypography.bodySmall

@@ -462,7 +462,7 @@ class _InvoiceTileState extends ConsumerState<_InvoiceTile> {
                                               : ZapColors.textPrimary,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: ZapSpacing.xs),
                                   _StatusBadge(status: inv.status),
                                 ],
                               ),
@@ -844,7 +844,7 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 64),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.massive),
       child: Column(
         children: [
           const Icon(Icons.receipt_long_rounded,

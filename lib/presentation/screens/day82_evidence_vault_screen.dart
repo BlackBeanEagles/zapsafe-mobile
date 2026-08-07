@@ -307,7 +307,7 @@ class _PinGateState extends ConsumerState<_PinGate>
               }
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 140),
-                margin: const EdgeInsets.symmetric(horizontal: 8),
+                margin: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm),
                 width:  14, height: 14,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -853,7 +853,7 @@ class _EntryCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.access_time_rounded,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         _formatTime(entry.timestamp),
                         style: ZapTypography.bodySmall.copyWith(
@@ -863,7 +863,7 @@ class _EntryCard extends StatelessWidget {
                       const SizedBox(width: ZapSpacing.md),
                       const Icon(Icons.location_on_outlined,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Expanded(
                         child: Text(
                           entry.locationLabel,
@@ -880,7 +880,7 @@ class _EntryCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.sensors_rounded,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         entry.triggerType,
                         style: ZapTypography.bodySmall.copyWith(
