@@ -3227,6 +3227,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-372-performance-scale · 🟢 real manual-paste tool for API latency + error rate, DAU input clearly labeled EXAMPLE not real · cites Day 257\'s real production load-test numbers (~34 req/s sustained, P95 430ms @ 50 concurrent, 0% errors, degraded not broken at 100, 10K concurrent not achievable on current single-Oracle-VM hardware) as the only real data point that exists',
               dayBuilt: 'DAY 372 ✅',
             ),
+            const _NavTile(
+              icon: Icons.report_problem_rounded,
+              accent: Color(0xFFF4A261),
+              title: 'Day 373 · False Positive Field Analysis',
+              route: AppRoutes.falsePositiveField,
+              hint: '/day-373-false-positive-field · 🟢 real, genuinely empty FP-report categorization tool — no real users exist yet so there is nothing to categorize · add-a-report form (category, real model_registry.dart trigger source, notes) persists via SharedPreferences · links directly to Day 329\'s DCS sensitivity slider as where a real aggregate FP rate would eventually feed back into',
+              dayBuilt: 'DAY 373 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
