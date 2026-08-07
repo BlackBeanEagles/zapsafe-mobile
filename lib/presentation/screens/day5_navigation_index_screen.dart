@@ -1951,6 +1951,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-319-gdpr-consent-wire · 🟡 MOCK-NOW · confirmed GET/PUT /api/v1/account/consent/ is real+live on backend (ConsentView) but not yet called · SharedPreferences persistence (ConsentWireStorage, Day 306 precedent) · real field names (location_sos/evidence_recording/cloud_backup/heatmap_contribution/analytics/model_improvement) · GDPR Art. 6(1) lawful-basis text per toggle · mock→API migration plan tab',
               dayBuilt: 'DAY 319 ✅',
             ),
+            const _NavTile(
+              icon: Icons.public_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 320 · Section G Milestone — Global Listings Ready',
+              route: AppRoutes.sectionGMilestone,
+              hint: '/day-320-section-g-milestone · 🔗 milestone · mirrors Day 310\'s structure · stat grid=emergency packs/listing generators/rollout runbooks shipped/documented exceptions · per-day verify row with real caveats inline (e.g. Day 316 has no real Play API, Day 318 is mostly proposed pricing, Day 319 is MOCK-NOW by design) · Section G complete → Section H begins',
+              dayBuilt: 'DAY 320 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
