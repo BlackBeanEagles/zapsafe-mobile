@@ -2760,6 +2760,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-341-languages-16-18 · 🟢 REAL, full-coverage sw/id/th translations — every en.json namespace (255 keys), not a subset · id.json\'s existing 20-key Day-264 starter pack kept, remaining keys completed around it · sw.json + th.json created fresh · kSupportedLanguages + main.dart EasyLocalization supportedLocales both extended (15 → 18) so the real language selector actually offers these · coverage card is a live runtime scan of the JSON assets, not a hardcoded number',
               dayBuilt: 'DAY 341 ✅',
             ),
+            const _NavTile(
+              icon: Icons.translate_rounded,
+              accent: Color(0xFF7C3AED),
+              title: 'Day 342 · Languages 19-21 Full JSON',
+              route: AppRoutes.languages19to21,
+              hint: '/day-342-languages-19-21 · 🟢 REAL, full-coverage vi/tr/pl translations — same treatment as Day 341 · vi.json\'s existing 20-key Day-264 starter pack kept, remaining keys completed around it · tr.json + pl.json created fresh · kSupportedLanguages + main.dart supportedLocales extended 18 → 21 · live runtime coverage scan, no hardcoded numbers',
+              dayBuilt: 'DAY 342 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

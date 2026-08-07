@@ -28,9 +28,8 @@ class LangInfo {
   Locale get locale => Locale(code);
 }
 
-// Day 341 — 18 supported languages (15 original + sw/id/th, Section J
-// languages 16-18). Order: Indian first, then international, then Section J
-// additions in spec order. See day341_languages_16_18_screen.dart.
+// Day 341 added sw/id/th (15 -> 18). Day 342 adds vi/tr/pl (18 -> 21),
+// Section J languages 19-21. See day342_languages_19_21_screen.dart.
 const List<LangInfo> kSupportedLanguages = [
   LangInfo(code: 'en', name: 'English',    nativeName: 'English',    flag: '🇬🇧'),
   LangInfo(code: 'hi', name: 'Hindi',      nativeName: 'हिन्दी',      flag: '🇮🇳'),
@@ -50,6 +49,9 @@ const List<LangInfo> kSupportedLanguages = [
   LangInfo(code: 'sw', name: 'Swahili',    nativeName: 'Kiswahili',   flag: '🇰🇪'),
   LangInfo(code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩'),
   LangInfo(code: 'th', name: 'Thai',       nativeName: 'ไทย',         flag: '🇹🇭'),
+  LangInfo(code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt',  flag: '🇻🇳'),
+  LangInfo(code: 'tr', name: 'Turkish',    nativeName: 'Türkçe',      flag: '🇹🇷'),
+  LangInfo(code: 'pl', name: 'Polish',     nativeName: 'Polski',      flag: '🇵🇱'),
 ];
 
 // Demo translations shown on Day102TranslationDemoScreen (subset of key strings)
