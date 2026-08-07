@@ -112,6 +112,10 @@ class ApiConfig {
   // Alert Thresholds — Day 63 (authenticated CRUD)
   static const alertThresholds = '/api/v1/alert-thresholds/';
 
+  // Model version check — Day 71 backend / Day 325 first real Flutter wire
+  // (authenticated POST). zapsafe_backend/ml/urls_models.py.
+  static const modelsGetVersion = '/api/v1/models/get-version/';
+
   // Escalation Policies — Day 64 (authenticated CRUD + activate)
   static const escalationPolicies = '/api/v1/escalation-policies/';
 

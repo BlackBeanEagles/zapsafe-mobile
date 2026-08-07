@@ -1911,6 +1911,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-324-release-candidate-manifest · 🟢 · real app version+build read live off pubspec.yaml (bundled as an asset, AppVersionInfo.load()) · real kGitCommitHash build-time --dart-define constant with an honest not-stamped fallback (no fabricated hash) · real kZapsafeModels versions + real app_flags.dart feature flags · QR is a clearly-labelled MOCK placeholder (no qr_flutter dependency added) · RC checklist links to the real live Day 310 milestone; Day 320 honestly marked NOT YET AVAILABLE (separate in-progress branch, no route exists here)',
               dayBuilt: 'DAY 324 ✅',
             ),
+            const _NavTile(
+              icon: Icons.system_update_rounded,
+              accent: Color(0xFF3B82F6),
+              title: 'Day 325 · OTA Model Update UI',
+              route: AppRoutes.otaModelUpdate,
+              hint: '/day-325-ota-model-update · 🔵 EXISTING-API · POST /api/v1/models/get-version/ (real, live since Day 71) — first-ever Flutter wire, new ModelVersionService + provider + ApiConfig.modelsGetVersion constant · compares kZapsafeModels\' real _vN asset-filename version against the live server response, per-model update-available banner · download progress is an explicitly-labelled UI mock (no OTA_UPDATES_FOR_LATER.md exists in this repo to cite; real background download/model-swap genuinely does not exist yet, stated honestly)',
+              dayBuilt: 'DAY 325 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
