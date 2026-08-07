@@ -129,6 +129,9 @@ flutter:
     - assets/models/
     - assets/fonts/
     - assets/translations/          # Days 101-102 — i18n JSON files
+    - pubspec.yaml                  # Day 324 — RC manifest reads the real
+                                     # version/build number off this file at
+                                     # runtime instead of hardcoding a copy.
     # assets/icons/ and assets/data/emergency_numbers.json (Day 238 — regional
     # emergency numbers) were referenced here since the original Days 1-200
     # commit but the actual files were never committed to git and don't exist

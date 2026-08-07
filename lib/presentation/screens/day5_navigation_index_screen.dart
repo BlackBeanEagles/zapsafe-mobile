@@ -1903,6 +1903,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-323-journey-ml-confidence · 🟡 MOCK-NOW · found the spec\'s imagined journey/session/.../risk-score/ contract does not exist on the real backend (verified journey/urls.py) — real routes are journey/start/ + journey/<id>/checkpoint/, neither returns a score · JourneyModeCard now live on the production dashboard with a real local heuristic (computeJourneyRiskScore) from actual GpsSample speed/accuracy/time-of-day, not a random number · interactive breakdown on this screen',
               dayBuilt: 'DAY 323 ✅',
             ),
+            const _NavTile(
+              icon: Icons.inventory_2_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 324 · Release Candidate Build Manifest',
+              route: AppRoutes.releaseCandidateManifest,
+              hint: '/day-324-release-candidate-manifest · 🟢 · real app version+build read live off pubspec.yaml (bundled as an asset, AppVersionInfo.load()) · real kGitCommitHash build-time --dart-define constant with an honest not-stamped fallback (no fabricated hash) · real kZapsafeModels versions + real app_flags.dart feature flags · QR is a clearly-labelled MOCK placeholder (no qr_flutter dependency added) · RC checklist links to the real live Day 310 milestone; Day 320 honestly marked NOT YET AVAILABLE (separate in-progress branch, no route exists here)',
+              dayBuilt: 'DAY 324 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

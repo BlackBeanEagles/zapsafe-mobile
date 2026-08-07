@@ -215,6 +215,7 @@ import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
 import '../screens/day321_sos_trigger_refactor_screen.dart';       // Day 321
 import '../screens/day322_dcs_pipeline_wire_screen.dart';          // Day 322
 import '../screens/day323_journey_ml_confidence_screen.dart';      // Day 323
+import '../screens/day324_release_candidate_manifest_screen.dart'; // Day 324
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1159,6 +1160,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.journeyMlConfidence,
         builder: (context, state) =>
             const Day323JourneyMlConfidenceScreen(),                          // Day 323
+      ),
+      GoRoute(
+        path: AppRoutes.releaseCandidateManifest,
+        builder: (context, state) =>
+            const Day324ReleaseCandidateManifestScreen(),                     // Day 324
       ),
       GoRoute(
         path: AppRoutes.vault,
