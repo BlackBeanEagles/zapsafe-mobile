@@ -386,6 +386,8 @@
     "ratings_monitor_title": "Day 367 · Ratings & Reviews Monitor",
     "ratings_monitor_heading": "Manual-paste tool — no real store listing yet",
     "hotfix_executor_title": "Day 368 · Hotfix Release Executor",
-    "hotfix_executor_heading": "Real version-bump tool for whenever a hotfix is needed"
+    "hotfix_executor_heading": "Real version-bump tool for whenever a hotfix is needed",
+    "support_triage_title": "Day 369 · Support Ticket Triage",
+    "support_triage_heading": "Real, empty kanban board — no real tickets yet"
   }
 }

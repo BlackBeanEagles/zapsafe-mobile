@@ -3105,6 +3105,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-368-hotfix-executor · 🟢 real, working tool — version-bump arithmetic starts from the ACTUAL pubspec.yaml version (1.0.0+1, checked directly) and computes real patch/minor/major next-version values, not a hardcoded placeholder · changelog composer + 5% staged-rollout target (never 100% day one) · links to Day 293\'s playbook to execute and Day 316\'s rollout to stage · nothing here mutates pubspec.yaml or claims a hotfix has actually shipped',
               dayBuilt: 'DAY 368 ✅',
             ),
+            const _NavTile(
+              icon: Icons.view_kanban_rounded,
+              accent: Color(0xFF0D9488),
+              title: 'Day 369 · Support Ticket Triage',
+              route: AppRoutes.supportTriage,
+              hint: '/day-369-support-triage · 🟢 real, genuinely usable kanban (New / Investigating / Resolved) — board starts truly empty since there is no real launch and no real tickets exist · add a ticket, tag its category, move it through stages, persisted via SharedPreferences (established project precedent) · links directly to Day 294\'s real support macros for drafting the actual reply · not a mock UI standing in for a future feature — usable right now for whenever real tickets start arriving',
+              dayBuilt: 'DAY 369 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
