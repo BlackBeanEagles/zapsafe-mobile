@@ -289,5 +289,10 @@
     "clear_filters": "Clear filters",
     "back_to_dashboard": "Back to dashboard",
     "back_to_audit": "Back to integration audit"
+  },
+  "day311_320": {
+    "eu_numbers_title": "Day 311 · EU Emergency Numbers",
+    "search_country_hint": "Search country",
+    "countries_shown": "countries shown"
   }
 }

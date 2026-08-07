@@ -289,5 +289,10 @@
     "clear_filters": "फ़िल्टर साफ़ करें",
     "back_to_dashboard": "डैशबोर्ड पर वापस जाएं",
     "back_to_audit": "एकीकरण ऑडिट पर वापस जाएं"
+  },
+  "day311_320": {
+    "eu_numbers_title": "दिन 311 · EU आपातकालीन नंबर",
+    "search_country_hint": "देश खोजें",
+    "countries_shown": "देश दिखाए गए"
   }
 }

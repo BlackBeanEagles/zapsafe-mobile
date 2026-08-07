@@ -1876,6 +1876,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section G: Global Store Expansion (Days 311-320) ──────
+            const _SectionTitle('SECTION G · GLOBAL STORE EXPANSION · DAYS 311-320'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.emergency_rounded,
+              accent: Color(0xFF4CC9F0),
+              title: 'Day 311 · EU Emergency Numbers Pack',
+              route: AppRoutes.euEmergencyNumbers,
+              hint: '/day-311-eu-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_eu.json · 112 EU-wide universal (Council Decision 91/396/EEC) + 27 member states · well-documented country overrides only (e.g. DE 110, FR 15/17/18) · unconfirmed countries show 112-only with a verify-locally note · tap to dial, long-press to copy',
+              dayBuilt: 'DAY 311 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),

@@ -1,0 +1,321 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-08-07",
+  "source": "ZapSafe bundled reference · Day 311 EU pack · 112 is EU-wide mandated (Council Decision 91/396/EEC, Directive 2002/22/EC) · verify locally before travel",
+  "region": "European Union",
+  "countries": [
+    {
+      "code": "EU",
+      "name": "European Union (any member state)",
+      "flag": "🇪🇺",
+      "region": "Europe",
+      "notes": "112 works free of charge from any phone (with or without SIM/credit) in all 27 EU member states. This is the universal baseline — use it if unsure which country-specific number applies.",
+      "numbers": [
+        { "label": "Universal emergency (EU-wide)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "AT",
+      "name": "Austria",
+      "flag": "🇦🇹",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "133", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "122", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "144", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "flag": "🇧🇪",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy 100/101 still work.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "101", "primary": false, "service": "police" },
+        { "label": "Fire & ambulance", "number": "100", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "BG",
+      "name": "Bulgaria",
+      "flag": "🇧🇬",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "HR",
+      "name": "Croatia",
+      "flag": "🇭🇷",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "192", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "193", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "194", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "CY",
+      "name": "Cyprus",
+      "flag": "🇨🇾",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "CZ",
+      "name": "Czechia",
+      "flag": "🇨🇿",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "158", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "150", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "155", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "DK",
+      "name": "Denmark",
+      "flag": "🇩🇰",
+      "region": "Europe",
+      "notes": "112 is the number to use — Denmark has consolidated to 112 for all services; no distinct supplementary number needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "EE",
+      "name": "Estonia",
+      "flag": "🇪🇪",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "FI",
+      "name": "Finland",
+      "flag": "🇫🇮",
+      "region": "Europe",
+      "notes": "112 is the number to use — Finland has consolidated to 112 for all services; no distinct supplementary number needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "flag": "🇫🇷",
+      "region": "Europe",
+      "notes": "112 EU-wide plus dedicated SAMU/police/gendarmerie lines.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "SAMU (medical)", "number": "15", "primary": false, "service": "ambulance" },
+        { "label": "Police", "number": "17", "primary": false, "service": "police" },
+        { "label": "Fire brigade", "number": "18", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "region": "Europe",
+      "notes": "112 EU-wide; 110 police direct.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "110", "primary": false, "service": "police" }
+      ]
+    },
+    {
+      "code": "GR",
+      "name": "Greece",
+      "flag": "🇬🇷",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "100", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "199", "primary": false, "service": "fire" },
+        { "label": "Ambulance (EKAB)", "number": "166", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "HU",
+      "name": "Hungary",
+      "flag": "🇭🇺",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "107", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "105", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "104", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "flag": "🇮🇪",
+      "region": "Europe",
+      "notes": "Both 112 and 999 connect to the same emergency call centres.",
+      "numbers": [
+        { "label": "Emergency services", "number": "999", "primary": true, "service": "all" },
+        { "label": "Universal (EU)", "number": "112", "primary": false, "service": "all" }
+      ]
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "flag": "🇮🇹",
+      "region": "Europe",
+      "notes": "112 is the unified NUE (Numero Unico Emergenze) number, rolled out nationwide; legacy single-service numbers still route through it in most regions.",
+      "numbers": [
+        { "label": "Universal (EU / NUE)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police (legacy)", "number": "113", "primary": false, "service": "police" },
+        { "label": "Fire (legacy)", "number": "115", "primary": false, "service": "fire" },
+        { "label": "Ambulance (legacy)", "number": "118", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "LV",
+      "name": "Latvia",
+      "flag": "🇱🇻",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "LT",
+      "name": "Lithuania",
+      "flag": "🇱🇹",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "LU",
+      "name": "Luxembourg",
+      "flag": "🇱🇺",
+      "region": "Europe",
+      "notes": "112 EU-wide; 113 is the dedicated police line.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "113", "primary": false, "service": "police" }
+      ]
+    },
+    {
+      "code": "MT",
+      "name": "Malta",
+      "flag": "🇲🇹",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands",
+      "flag": "🇳🇱",
+      "region": "Europe",
+      "notes": "112 is the number to use — no distinct verified supplementary emergency number included here; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "PL",
+      "name": "Poland",
+      "flag": "🇵🇱",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "997", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "998", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "999", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "flag": "🇵🇹",
+      "region": "Europe",
+      "notes": "112 is the number to use — Portugal has consolidated to 112 for all services; no distinct supplementary number needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "RO",
+      "name": "Romania",
+      "flag": "🇷🇴",
+      "region": "Europe",
+      "notes": "112 is the number to use — Romania has consolidated to 112 for all services; no distinct supplementary number needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "SK",
+      "name": "Slovakia",
+      "flag": "🇸🇰",
+      "region": "Europe",
+      "notes": "112 EU-wide; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "158", "primary": false, "service": "police" },
+        { "label": "Fire", "number": "150", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "155", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "SI",
+      "name": "Slovenia",
+      "flag": "🇸🇮",
+      "region": "Europe",
+      "notes": "112 EU-wide (fire & ambulance); 113 is the dedicated police line.",
+      "numbers": [
+        { "label": "Universal (EU / fire & ambulance)", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police", "number": "113", "primary": false, "service": "police" }
+      ]
+    },
+    {
+      "code": "ES",
+      "name": "Spain",
+      "flag": "🇪🇸",
+      "region": "Europe",
+      "notes": "112 is the number to use — Spain's legacy service numbers vary by region, so only the EU-wide number is included; verify locally if needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "SE",
+      "name": "Sweden",
+      "flag": "🇸🇪",
+      "region": "Europe",
+      "notes": "112 is the number to use — Sweden has consolidated to 112 for all services; no distinct supplementary number needed.",
+      "numbers": [
+        { "label": "Universal (EU)", "number": "112", "primary": true, "service": "all" }
+      ]
+    }
+  ]
+}

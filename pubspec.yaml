@@ -129,14 +129,15 @@ flutter:
     - assets/models/
     - assets/fonts/
     - assets/translations/          # Days 101-102 — i18n JSON files
-    # assets/icons/ and assets/data/emergency_numbers.json (Day 238 — regional
-    # emergency numbers) were referenced here since the original Days 1-200
-    # commit but the actual files were never committed to git and don't exist
-    # anywhere on disk on this machine — confirmed via a full workspace search
-    # 2026-08-07. This was silently blocking `flutter test`/`flutter build`
-    # from any fresh checkout. Re-add both lines once the real content exists
-    # (real icon assets; real, verified regional emergency phone numbers —
-    # do not fabricate the latter, it's safety-critical data).
+    # assets/data/ — regional emergency-number JSON packs. The Day 238
+    # emergency_numbers.json (India/US/UK/etc. reference) was restored to
+    # the tree in commit 045e010 but this declaration line was never added
+    # back at the time, so it was silently unbundled (dead file) until Day
+    # 311 re-added it here alongside the new Days 311-313 EU/LATAM/SEA packs.
+    - assets/data/
+    # assets/icons/ — Day 238 also referenced this; still no icon assets
+    # exist anywhere on disk on this machine (confirmed 2026-08-07), so it
+    # stays commented out. Re-add once real icon content exists.
 
   # ZapSafe Design System Fonts (Day 2)
   # ClashDisplay: headings, mode labels, score numbers
