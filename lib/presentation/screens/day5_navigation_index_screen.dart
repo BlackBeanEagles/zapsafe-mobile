@@ -3235,6 +3235,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-373-false-positive-field · 🟢 real, genuinely empty FP-report categorization tool — no real users exist yet so there is nothing to categorize · add-a-report form (category, real model_registry.dart trigger source, notes) persists via SharedPreferences · links directly to Day 329\'s DCS sensitivity slider as where a real aggregate FP rate would eventually feed back into',
               dayBuilt: 'DAY 373 ✅',
             ),
+            const _NavTile(
+              icon: Icons.model_training_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 374 · Model Retrain Feedback Export',
+              route: AppRoutes.modelFeedbackExport,
+              hint: '/day-374-model-feedback-export · 🟢 real CSV/JSON export mechanism, starts genuinely empty — checked assets/models/DAY2*.md (40+ real files): all Kaggle-side training records, none are on-device field misclassification logs, so honestly nothing to export yet · add-a-misclassification form (real model_registry.dart keys: scream/motion/scene/fusion/aggressive_speech) + anonymized export format ready for the next real Kaggle retrain cycle',
+              dayBuilt: 'DAY 374 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
