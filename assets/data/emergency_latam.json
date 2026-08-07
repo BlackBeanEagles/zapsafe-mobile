@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-08-07",
+  "source": "ZapSafe bundled reference · Day 312 LATAM pack · only well-documented, publicly known official numbers included · verify locally before travel",
+  "region": "Latin America",
+  "countries": [
+    {
+      "code": "MX",
+      "name": "Mexico",
+      "flag": "🇲🇽",
+      "region": "Americas",
+      "notes": "911 is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "BR",
+      "name": "Brazil",
+      "flag": "🇧🇷",
+      "region": "Americas",
+      "notes": "Separate three-digit services; no unified 911/112 equivalent nationwide.",
+      "numbers": [
+        { "label": "Police", "number": "190", "primary": true, "service": "police" },
+        { "label": "Ambulance (SAMU)", "number": "192", "primary": false, "service": "ambulance" },
+        { "label": "Fire", "number": "193", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "CO",
+      "name": "Colombia",
+      "flag": "🇨🇴",
+      "region": "Americas",
+      "notes": "123 is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services (Línea 123)", "number": "123", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "AR",
+      "name": "Argentina",
+      "flag": "🇦🇷",
+      "region": "Americas",
+      "notes": "911 is the standard emergency number in most provinces; legacy single-service numbers still work in many areas.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" },
+        { "label": "Police (legacy)", "number": "101", "primary": false, "service": "police" },
+        { "label": "Fire (legacy)", "number": "100", "primary": false, "service": "fire" },
+        { "label": "Ambulance / SAME (legacy)", "number": "107", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "CL",
+      "name": "Chile",
+      "flag": "🇨🇱",
+      "region": "Americas",
+      "notes": "Separate three-digit services; no unified 911 nationwide.",
+      "numbers": [
+        { "label": "Police (Carabineros)", "number": "133", "primary": true, "service": "police" },
+        { "label": "Fire (Bomberos)", "number": "132", "primary": false, "service": "fire" },
+        { "label": "Ambulance (SAMU)", "number": "131", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "PE",
+      "name": "Peru",
+      "flag": "🇵🇪",
+      "region": "Americas",
+      "notes": "Separate services; 105 police is the most widely known nationwide number.",
+      "numbers": [
+        { "label": "Police (PNP)", "number": "105", "primary": true, "service": "police" },
+        { "label": "Fire (Bomberos)", "number": "116", "primary": false, "service": "fire" }
+      ]
+    },
+    {
+      "code": "EC",
+      "name": "Ecuador",
+      "flag": "🇪🇨",
+      "region": "Americas",
+      "notes": "911 (ECU 911) is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services (ECU 911)", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "UY",
+      "name": "Uruguay",
+      "flag": "🇺🇾",
+      "region": "Americas",
+      "notes": "911 is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "CR",
+      "name": "Costa Rica",
+      "flag": "🇨🇷",
+      "region": "Americas",
+      "notes": "911 is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "PA",
+      "name": "Panama",
+      "flag": "🇵🇦",
+      "region": "Americas",
+      "notes": "911 is the nationwide unified emergency number.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    }
+  ]
+}

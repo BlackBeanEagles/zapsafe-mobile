@@ -1887,6 +1887,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-311-eu-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_eu.json · 112 EU-wide universal (Council Decision 91/396/EEC) + 27 member states · well-documented country overrides only (e.g. DE 110, FR 15/17/18) · unconfirmed countries show 112-only with a verify-locally note · tap to dial, long-press to copy',
               dayBuilt: 'DAY 311 ✅',
             ),
+            const _NavTile(
+              icon: Icons.emergency_rounded,
+              accent: Color(0xFFF4A261),
+              title: 'Day 312 · LATAM Emergency Numbers Pack',
+              route: AppRoutes.latamEmergencyNumbers,
+              hint: '/day-312-latam-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_latam.json · Mexico/Brazil/Colombia/Argentina/Chile + Peru/Ecuador/Uruguay/Costa Rica/Panama (10 countries, well-documented numbers only) · no region-wide 112/911 equivalent so every country lists its own · tap to dial, long-press to copy',
+              dayBuilt: 'DAY 312 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
