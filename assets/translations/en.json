@@ -347,5 +347,27 @@
     "sentry_live_wire_title": "Day 338 · Sentry Crash-Free — Live Wire",
     "beta_feedback_r4_title": "Day 339 · Beta Feedback Round 4",
     "section_i_milestone_title": "Day 340 · Section I Milestone"
+  },
+  "day341_350": {
+    "languages16_18_title": "Day 341 · Languages 16-18",
+    "languages16_18_heading": "Swahili, Indonesian, Thai — full JSON coverage",
+    "languages19_21_title": "Day 342 · Languages 19-21",
+    "languages19_21_heading": "Vietnamese, Turkish, Polish — full JSON coverage",
+    "languages22_25_title": "Day 343 · Languages 22-25",
+    "languages22_25_heading": "Dutch, Italian, Korean, Persian — full JSON coverage",
+    "rtl_regression_title": "Day 344 · RTL Regression — 25 Languages",
+    "rtl_regression_heading": "Static RTL checks + manual QA checklist",
+    "missing_key_scanner_title": "Day 345 · i18n Missing Key Scanner",
+    "missing_key_scanner_heading": "Live key-coverage diff across every locale",
+    "cultural_adaptation_v2_title": "Day 346 · Cultural Adaptation QA v2",
+    "cultural_adaptation_v2_heading": "Per-region color and icon review checklist",
+    "indic_copy_review_title": "Day 347 · Hindi/Tamil/Telugu Copy Review",
+    "indic_copy_review_heading": "Native-speaker approval workflow for critical strings",
+    "voice_keywords_title": "Day 348 · Voice Trigger Keywords — 25 Languages",
+    "voice_keywords_heading": "Distress phrase map for hidden voice SOS",
+    "store_screenshots_title": "Day 349 · Multi-Language Store Screenshots",
+    "store_screenshots_heading": "Store-listing mockup generator + asset manifest",
+    "section_j_milestone_title": "Day 350 · Section J Milestone",
+    "section_j_milestone_heading": "25-language completion — real state"
   }
 }

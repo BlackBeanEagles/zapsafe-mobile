@@ -28,13 +28,16 @@ class LangInfo {
   Locale get locale => Locale(code);
 }
 
-// 15 supported languages — order: Indian first, then international
+// Day 341 added sw/id/th (15 -> 18). Day 342 added vi/tr/pl (18 -> 21).
+// Day 343 adds nl/it/ko/fa (21 -> 25) — the FINAL Section J batch, so this
+// list now covers the full 25-language target. fa (Persian) is RTL, same
+// treatment as ur/ar. See day343_languages_22_25_screen.dart.
 const List<LangInfo> kSupportedLanguages = [
   LangInfo(code: 'en', name: 'English',    nativeName: 'English',    flag: '🇬🇧'),
   LangInfo(code: 'hi', name: 'Hindi',      nativeName: 'हिन्दी',      flag: '🇮🇳'),
   LangInfo(code: 'ta', name: 'Tamil',      nativeName: 'தமிழ்',       flag: '🇮🇳'),
   LangInfo(code: 'te', name: 'Telugu',     nativeName: 'తెలుగు',      flag: '🇮🇳'),
-  LangInfo(code: 'ml', name: 'Malayalam',  nativeName: 'മലയാളം',     flag: '🇮🇳'),
+  LangInfo(code: 'ml', name: 'Malayalam',  nativeName: 'മലയാളం',     flag: '🇮🇳'),
   LangInfo(code: 'bn', name: 'Bengali',    nativeName: 'বাংলা',       flag: '🇮🇳'),
   LangInfo(code: 'mr', name: 'Marathi',    nativeName: 'मराठी',       flag: '🇮🇳'),
   LangInfo(code: 'gu', name: 'Gujarati',   nativeName: 'ગુજરાતી',    flag: '🇮🇳'),
@@ -45,6 +48,16 @@ const List<LangInfo> kSupportedLanguages = [
   LangInfo(code: 'fr', name: 'French',     nativeName: 'Français',    flag: '🇫🇷'),
   LangInfo(code: 'pt', name: 'Portuguese', nativeName: 'Português',   flag: '🇧🇷'),
   LangInfo(code: 'de', name: 'German',     nativeName: 'Deutsch',     flag: '🇩🇪'),
+  LangInfo(code: 'sw', name: 'Swahili',    nativeName: 'Kiswahili',   flag: '🇰🇪'),
+  LangInfo(code: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia', flag: '🇮🇩'),
+  LangInfo(code: 'th', name: 'Thai',       nativeName: 'ไทย',         flag: '🇹🇭'),
+  LangInfo(code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt',  flag: '🇻🇳'),
+  LangInfo(code: 'tr', name: 'Turkish',    nativeName: 'Türkçe',      flag: '🇹🇷'),
+  LangInfo(code: 'pl', name: 'Polish',     nativeName: 'Polski',      flag: '🇵🇱'),
+  LangInfo(code: 'nl', name: 'Dutch',      nativeName: 'Nederlands',  flag: '🇳🇱'),
+  LangInfo(code: 'it', name: 'Italian',    nativeName: 'Italiano',    flag: '🇮🇹'),
+  LangInfo(code: 'ko', name: 'Korean',     nativeName: '한국어',       flag: '🇰🇷'),
+  LangInfo(code: 'fa', name: 'Persian',    nativeName: 'فارسی',       flag: '🇮🇷', rtl: true),
 ];
 
 // Demo translations shown on Day102TranslationDemoScreen (subset of key strings)

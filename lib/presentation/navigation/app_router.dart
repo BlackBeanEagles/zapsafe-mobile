@@ -345,6 +345,16 @@ import '../screens/day337_legal_blockers_live_screen.dart';         // Day 337
 import '../screens/day338_sentry_live_wire_screen.dart';            // Day 338
 import '../screens/day339_beta_feedback_round4_screen.dart';        // Day 339
 import '../screens/day340_section_i_milestone_screen.dart';         // Day 340
+import '../screens/day341_languages_16_18_screen.dart';             // Day 341
+import '../screens/day342_languages_19_21_screen.dart';             // Day 342
+import '../screens/day343_languages_22_25_screen.dart';             // Day 343
+import '../screens/day344_rtl_25lang_regression_screen.dart';       // Day 344
+import '../screens/day345_i18n_missing_key_scanner_screen.dart';    // Day 345
+import '../screens/day346_cultural_adaptation_v2_screen.dart';      // Day 346
+import '../screens/day347_indic_copy_review_screen.dart';           // Day 347
+import '../screens/day348_voice_keywords_25lang_screen.dart';       // Day 348
+import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
+import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -713,6 +723,18 @@ class AppRoutes {
   static const sentryLiveWire            = '/day-338-sentry-live-wire';                    // Day 338
   static const betaFeedbackRound4        = '/day-339-beta-feedback-round4';                // Day 339
   static const sectionIMilestone         = '/day-340-section-i-milestone';                 // Day 340
+
+  // ─── Section J: 25-Language Completion (Days 341-350) ────────────────────
+  static const languages16to18           = '/day-341-languages-16-18';                     // Day 341
+  static const languages19to21           = '/day-342-languages-19-21';                     // Day 342
+  static const languages22to25           = '/day-343-languages-22-25';                     // Day 343
+  static const rtl25LangRegression       = '/day-344-rtl-25lang-regression';                // Day 344
+  static const i18nMissingKeyScanner     = '/day-345-i18n-missing-key-scanner';             // Day 345
+  static const culturalAdaptationV2      = '/day-346-cultural-adaptation-v2';               // Day 346
+  static const indicCopyReview           = '/day-347-indic-copy-review';                    // Day 347
+  static const voiceKeywords25Lang       = '/day-348-voice-keywords-25lang';                // Day 348
+  static const storeScreenshotsI18n      = '/day-349-store-screenshots-i18n';               // Day 349
+  static const sectionJMilestone         = '/day-350-section-j-25lang-milestone';           // Day 350
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2067,6 +2089,56 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionIMilestone,
         builder: (context, state) =>
             const Day340SectionIMilestoneScreen(),                           // Day 340
+      ),
+      GoRoute(
+        path: AppRoutes.languages16to18,
+        builder: (context, state) =>
+            const Day341Languages16to18Screen(),                             // Day 341
+      ),
+      GoRoute(
+        path: AppRoutes.languages19to21,
+        builder: (context, state) =>
+            const Day342Languages19to21Screen(),                             // Day 342
+      ),
+      GoRoute(
+        path: AppRoutes.languages22to25,
+        builder: (context, state) =>
+            const Day343Languages22to25Screen(),                             // Day 343
+      ),
+      GoRoute(
+        path: AppRoutes.rtl25LangRegression,
+        builder: (context, state) =>
+            const Day344Rtl25LangRegressionScreen(),                         // Day 344
+      ),
+      GoRoute(
+        path: AppRoutes.i18nMissingKeyScanner,
+        builder: (context, state) =>
+            const Day345I18nMissingKeyScannerScreen(),                       // Day 345
+      ),
+      GoRoute(
+        path: AppRoutes.culturalAdaptationV2,
+        builder: (context, state) =>
+            const Day346CulturalAdaptationV2Screen(),                        // Day 346
+      ),
+      GoRoute(
+        path: AppRoutes.indicCopyReview,
+        builder: (context, state) =>
+            const Day347IndicCopyReviewScreen(),                             // Day 347
+      ),
+      GoRoute(
+        path: AppRoutes.voiceKeywords25Lang,
+        builder: (context, state) =>
+            const Day348VoiceKeywords25LangScreen(),                         // Day 348
+      ),
+      GoRoute(
+        path: AppRoutes.storeScreenshotsI18n,
+        builder: (context, state) =>
+            const Day349StoreScreenshotsI18nScreen(),                        // Day 349
+      ),
+      GoRoute(
+        path: AppRoutes.sectionJMilestone,
+        builder: (context, state) =>
+            const Day350SectionJ25LangMilestoneScreen(),                     // Day 350
       ),
       GoRoute(
         path: AppRoutes.vault,

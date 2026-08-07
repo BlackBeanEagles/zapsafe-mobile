@@ -348,5 +348,27 @@
     "sentry_live_wire_title": "दिन 338 · Sentry क्रैश-फ्री — लाइव वायर",
     "beta_feedback_r4_title": "दिन 339 · बीटा फ़ीडबैक राउंड 4",
     "section_i_milestone_title": "दिन 340 · सेक्शन I माइलस्टोन"
+  },
+  "day341_350": {
+    "languages16_18_title": "दिन 341 · भाषाएं 16-18",
+    "languages16_18_heading": "स्वाहिली, इंडोनेशियाई, थाई — पूर्ण JSON कवरेज",
+    "languages19_21_title": "दिन 342 · भाषाएं 19-21",
+    "languages19_21_heading": "वियतनामी, तुर्की, पोलिश — पूर्ण JSON कवरेज",
+    "languages22_25_title": "दिन 343 · भाषाएं 22-25",
+    "languages22_25_heading": "डच, इतालवी, कोरियाई, फ़ारसी — पूर्ण JSON कवरेज",
+    "rtl_regression_title": "दिन 344 · RTL रिग्रेशन — 25 भाषाएं",
+    "rtl_regression_heading": "स्टैटिक RTL जांच + मैनुअल QA चेकलिस्ट",
+    "missing_key_scanner_title": "दिन 345 · i18n मिसिंग की स्कैनर",
+    "missing_key_scanner_heading": "हर लोकेल में लाइव की-कवरेज तुलना",
+    "cultural_adaptation_v2_title": "दिन 346 · सांस्कृतिक अनुकूलन QA v2",
+    "cultural_adaptation_v2_heading": "क्षेत्र-वार रंग और आइकन समीक्षा चेकलिस्ट",
+    "indic_copy_review_title": "दिन 347 · हिंदी/तमिल/तेलुगु कॉपी समीक्षा",
+    "indic_copy_review_heading": "महत्वपूर्ण स्ट्रिंग्स के लिए नेटिव-स्पीकर अनुमोदन वर्कफ़्लो",
+    "voice_keywords_title": "दिन 348 · वॉइस ट्रिगर कीवर्ड — 25 भाषाएं",
+    "voice_keywords_heading": "छुपे हुए वॉइस SOS के लिए संकट वाक्यांश मानचित्र",
+    "store_screenshots_title": "दिन 349 · बहु-भाषा स्टोर स्क्रीनशॉट",
+    "store_screenshots_heading": "स्टोर-लिस्टिंग मॉकअप जनरेटर + एसेट मैनिफ़ेस्ट",
+    "section_j_milestone_title": "दिन 350 · सेक्शन J माइलस्टोन",
+    "section_j_milestone_heading": "25-भाषा पूर्णता — वास्तविक स्थिति"
   }
 }

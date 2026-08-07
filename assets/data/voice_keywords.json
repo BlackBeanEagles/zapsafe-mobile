@@ -1,0 +1,149 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-08-07",
+  "source": "Day 348 draft — genuinely common distress words/phrases per language, chosen for plausibility as a short hidden voice-SOS trigger. NOT field-tested. Every entry needs native-speaker verification before this feeds a real voice-trigger pipeline — false negatives (trigger doesn't fire) are a safety risk, false positives (fires on ordinary speech) are a trust/battery risk.",
+  "note": "No pre-existing voice-trigger keyword precedent was found in this repo (grepped for voice/keyword/trigger/hotword/wake-word across lib/ — nothing implements phrase-based voice SOS today; audio detection here is ML-based scream/glass-break/distress-sound, not phrase recognition). This file is a fresh draft, not an extension of prior work.",
+  "languages": [
+    {
+      "code": "en", "name": "English",
+      "keywords": ["help me", "help"],
+      "verified": false
+    },
+    {
+      "code": "hi", "name": "Hindi",
+      "keywords": ["बचाओ", "मदद करो"],
+      "transliteration": ["bachao", "madad karo"],
+      "verified": false
+    },
+    {
+      "code": "ta", "name": "Tamil",
+      "keywords": ["காப்பாத்துங்க", "உதவி"],
+      "transliteration": ["kaapaathunga", "udhavi"],
+      "verified": false
+    },
+    {
+      "code": "te", "name": "Telugu",
+      "keywords": ["కాపాడండి", "సహాయం"],
+      "transliteration": ["kaapadandi", "sahayam"],
+      "verified": false
+    },
+    {
+      "code": "ml", "name": "Malayalam",
+      "keywords": ["രക്ഷിക്കൂ", "സഹായം"],
+      "transliteration": ["rakshikkoo", "sahayam"],
+      "verified": false
+    },
+    {
+      "code": "bn", "name": "Bengali",
+      "keywords": ["বাঁচাও", "সাহায্য করো"],
+      "transliteration": ["bachao", "shahajyo koro"],
+      "verified": false
+    },
+    {
+      "code": "mr", "name": "Marathi",
+      "keywords": ["वाचवा", "मदत करा"],
+      "transliteration": ["vachva", "madat kara"],
+      "verified": false
+    },
+    {
+      "code": "gu", "name": "Gujarati",
+      "keywords": ["બચાવો", "મદદ કરો"],
+      "transliteration": ["bachavo", "madad karo"],
+      "verified": false
+    },
+    {
+      "code": "pa", "name": "Punjabi",
+      "keywords": ["ਬਚਾਓ", "ਮਦਦ ਕਰੋ"],
+      "transliteration": ["bachao", "madad karo"],
+      "verified": false
+    },
+    {
+      "code": "ur", "name": "Urdu",
+      "keywords": ["بچاؤ", "مدد کرو"],
+      "transliteration": ["bachao", "madad karo"],
+      "rtl": true,
+      "verified": false
+    },
+    {
+      "code": "ar", "name": "Arabic",
+      "keywords": ["النجدة", "ساعدوني"],
+      "transliteration": ["an-najda", "sa'iduni"],
+      "rtl": true,
+      "verified": false
+    },
+    {
+      "code": "es", "name": "Spanish",
+      "keywords": ["ayuda", "socorro"],
+      "verified": false
+    },
+    {
+      "code": "fr", "name": "French",
+      "keywords": ["à l'aide", "au secours"],
+      "verified": false
+    },
+    {
+      "code": "pt", "name": "Portuguese",
+      "keywords": ["socorro", "ajuda"],
+      "verified": false
+    },
+    {
+      "code": "de", "name": "German",
+      "keywords": ["hilfe"],
+      "verified": false
+    },
+    {
+      "code": "sw", "name": "Swahili",
+      "keywords": ["nisaidie", "msaada"],
+      "verified": false
+    },
+    {
+      "code": "id", "name": "Indonesian",
+      "keywords": ["tolong"],
+      "verified": false
+    },
+    {
+      "code": "th", "name": "Thai",
+      "keywords": ["ช่วยด้วย"],
+      "transliteration": ["chuai duai"],
+      "verified": false
+    },
+    {
+      "code": "vi", "name": "Vietnamese",
+      "keywords": ["cứu tôi", "giúp tôi"],
+      "verified": false
+    },
+    {
+      "code": "tr", "name": "Turkish",
+      "keywords": ["imdat", "yardım et"],
+      "verified": false
+    },
+    {
+      "code": "pl", "name": "Polish",
+      "keywords": ["pomocy", "ratunku"],
+      "verified": false
+    },
+    {
+      "code": "nl", "name": "Dutch",
+      "keywords": ["help", "help me"],
+      "verified": false
+    },
+    {
+      "code": "it", "name": "Italian",
+      "keywords": ["aiuto"],
+      "verified": false
+    },
+    {
+      "code": "ko", "name": "Korean",
+      "keywords": ["살려주세요", "도와주세요"],
+      "transliteration": ["sallyeo juseyo", "dowajuseyo"],
+      "verified": false
+    },
+    {
+      "code": "fa", "name": "Persian",
+      "keywords": ["کمک", "نجات بده"],
+      "transliteration": ["komak", "najat bede"],
+      "rtl": true,
+      "verified": false
+    }
+  ]
+}

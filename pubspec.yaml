@@ -129,11 +129,14 @@ flutter:
     - assets/models/
     - assets/fonts/
     - assets/translations/          # Days 101-102 — i18n JSON files
-    # assets/data/ — regional emergency-number JSON packs. The Day 238
-    # emergency_numbers.json (India/US/UK/etc. reference) was restored to
-    # the tree in commit 045e010 but this declaration line was never added
-    # back at the time, so it was silently unbundled (dead file) until Day
-    # 311 re-added it here alongside the new Days 311-313 EU/LATAM/SEA packs.
+    # assets/data/ — regional emergency-number JSON packs plus, as of Day
+    # 348, the 25-language voice-SOS keyword draft (voice_keywords.json).
+    # The Day 238 emergency_numbers.json (India/US/UK/etc. reference) was
+    # restored to the tree in commit 045e010 but this declaration line was
+    # never added back at the time, so it was silently unbundled (dead
+    # file) until Day 311 re-added it here alongside the new Days 311-313
+    # EU/LATAM/SEA packs. This directory declaration covers every file
+    # inside it, so voice_keywords.json needs no separate line.
     - assets/data/
     # assets/icons/ — Day 238 also referenced this; still no icon assets
     # exist anywhere on disk on this machine (confirmed 2026-08-07), so it
