@@ -25,6 +25,7 @@ library;
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -72,7 +73,16 @@ class _SosTriggerButtonState extends ConsumerState<SosTriggerButton>
   Timer? _announceTimer;
   Timer? _cancelledFlashTimer;
 
-  static const _idleSemanticLabel = 'Hold to activate SOS, 2 seconds remaining';
+  // Real, localized, using the widget's actual holdDuration — was a
+  // hardcoded English 'Hold to activate SOS, 2 seconds remaining' const
+  // regardless of locale or the real configured hold duration. Found
+  // during Day 390's final verification alongside the announce() fixes
+  // below (Day 344's RTL regression already flagged this exact class of
+  // bug for the 3 SemanticsService.announce() calls; this static label
+  // had the same issue and was fixed at the same time).
+  String get _idleSemanticLabel => 'sos.hold_to_activate'.tr(
+        namedArgs: {'seconds': '${widget.holdDuration.inSeconds}'},
+      );
 
   @override
   void initState() {
@@ -121,9 +131,13 @@ class _SosTriggerButtonState extends ConsumerState<SosTriggerButton>
         t.cancel();
         return;
       }
+      // Real locale + real ambient text direction — was hardcoded English
+      // text + TextDirection.ltr regardless of the app's actual locale,
+      // breaking RTL/non-English screen-reader users during the app's
+      // most safety-critical flow (found by Day 344's RTL regression).
       SemanticsService.announce(
-        '$remaining second${remaining == 1 ? '' : 's'} remaining',
-        TextDirection.ltr,
+        'sos.seconds_remaining'.tr(namedArgs: {'seconds': '$remaining'}),
+        Directionality.of(context),
       );
     });
   }
@@ -143,7 +157,10 @@ class _SosTriggerButtonState extends ConsumerState<SosTriggerButton>
 
   void _flashCancelled() {
     setState(() => _showCancelled = true);
-    SemanticsService.announce('Cancelled', TextDirection.ltr);
+    SemanticsService.announce(
+      'sos.cancelled_announcement'.tr(),
+      Directionality.of(context),
+    );
     _cancelledFlashTimer?.cancel();
     _cancelledFlashTimer = Timer(const Duration(milliseconds: 300), () {
       if (mounted) setState(() => _showCancelled = false);
@@ -154,7 +171,10 @@ class _SosTriggerButtonState extends ConsumerState<SosTriggerButton>
     _announceTimer?.cancel();
     ref.read(triggerOrchestratorProvider).dispatchManual(TriggerMethod.manual,
         cause: 'Dashboard SOS long-press');
-    SemanticsService.announce('SOS activated', TextDirection.ltr);
+    SemanticsService.announce(
+      'sos.activated_announcement'.tr(),
+      Directionality.of(context),
+    );
     widget.onTriggered?.call();
   }
 

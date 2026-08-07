@@ -36,7 +36,11 @@
     "active": "SOS सक्रिय",
     "sent": "{count} संपर्कों को अलर्ट भेजा गया",
     "escalating": "बढ़ाया जा रहा है…",
-    "false_alarm": "क्या यह झूठा अलार्म था?"
+    "false_alarm": "क्या यह झूठा अलार्म था?",
+    "hold_to_activate": "SOS चालू करने के लिए दबाए रखें, {seconds} सेकंड शेष",
+    "seconds_remaining": "{seconds} सेकंड शेष",
+    "cancelled_announcement": "रद्द किया गया",
+    "activated_announcement": "SOS चालू हो गया"
   },
   "home": {
     "title": "ZapSafe",

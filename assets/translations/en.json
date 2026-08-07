@@ -36,7 +36,11 @@
     "active": "SOS ACTIVE",
     "sent": "Alert sent to {count} contacts",
     "escalating": "Escalating…",
-    "false_alarm": "Was this a false alarm?"
+    "false_alarm": "Was this a false alarm?",
+    "hold_to_activate": "Hold to activate SOS, {seconds} seconds remaining",
+    "seconds_remaining": "{seconds} seconds remaining",
+    "cancelled_announcement": "Cancelled",
+    "activated_announcement": "SOS activated"
   },
   "home": {
     "title": "ZapSafe",
