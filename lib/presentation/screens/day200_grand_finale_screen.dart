@@ -19,7 +19,6 @@ import '../../core/theme/spacing.dart';
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d200TabProvider    = StateProvider<int>((ref) => 0);
-final _confettiProvider   = StateProvider<bool>((ref) => false);
 final _expandedSecProvider= StateProvider<String?>((ref) => null);
 final _expandedPhaseProvider= StateProvider<int?>((ref) => null);
 

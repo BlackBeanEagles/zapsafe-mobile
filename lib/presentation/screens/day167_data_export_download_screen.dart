@@ -44,8 +44,6 @@ const _kExportId        = 'exp_20260530_abc123';
 const _kServerChecksum  = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
 const _kLocalChecksum   = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; // matches → pass
 const _kFileSize        = 52428800; // 50 MB in bytes
-const _kSavePathAndroid = '/storage/emulated/0/Downloads/zapsafe_export_20260530.zip';
-const _kSavePathiOS     = '/var/mobile/Containers/Data/Application/.../Documents/zapsafe_export_20260530.zip';
 
 class _ExportFile {
   final String   name;

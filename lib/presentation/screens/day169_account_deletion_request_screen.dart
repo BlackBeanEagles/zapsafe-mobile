@@ -1528,12 +1528,3 @@ Widget _kv(String k, String v) => Padding(
       Expanded(child: Text(v, style: const TextStyle(
           color: Color(0xFFD1D5DB), fontSize: 10, fontFamily: 'monospace'))),
     ]));
-
-Widget _code2(String code) => Container(
-    padding: const EdgeInsets.all(ZapSpacing.md),
-    decoration: BoxDecoration(
-        color: const Color(0xFF111111),
-        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-        border: Border.all(color: const Color(0xFF2A2A2A))),
-    child: Text(code, style: const TextStyle(color: Color(0xFF86EFAC),
-        fontSize: 10, fontFamily: 'monospace', height: 1.6)));

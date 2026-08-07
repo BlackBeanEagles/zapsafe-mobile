@@ -26,11 +26,8 @@ final _fixedProvider       = StateProvider<List<bool>>(
   (ref) => List.filled(6, false),
 );
 final _cwLogProvider       = StateProvider<_CwState>((ref) => _CwState.idle);
-final _demoIssueProvider   = StateProvider<int?>((ref) => null);
-final _demoStateProvider   = StateProvider<_DemoState>((ref) => _DemoState.idle);
 
 enum _CwState  { idle, loading, done }
-enum _DemoState { idle }
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 class _Issue {

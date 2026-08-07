@@ -25,8 +25,6 @@ import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _tosTocExpandedProvider   = StateProvider<bool>((ref) => false);
-final _tosExpandedItemsProvider =
-    StateProvider<Map<String, Set<int>>>((ref) => {});
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 const _kTosVersion     = '1.0';

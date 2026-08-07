@@ -105,7 +105,6 @@ final _permStatusProvider = StateProvider<Map<String, _PermStatus>>(
 final _activeTabProvider     = StateProvider<int>((ref) => 0);
 final _selectedOemProvider   = StateProvider<_OemType>((ref) => _OemType.stock);
 final _selectedPermForGuide  = StateProvider<String>((ref) => 'microphone');
-final _healthAnimProvider    = StateProvider<bool>((ref) => false);
 
 enum _OemType { stock, samsung, xiaomi, huawei, ios }
 

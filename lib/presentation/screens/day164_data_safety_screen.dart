@@ -25,8 +25,6 @@ import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider    = StateProvider<int>((ref) => 0);
-final _formStepProvider     = StateProvider<int>((ref) => 0);
-final _formAnswersProvider  = StateProvider<Map<String, String>>((ref) => {});
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 class _DataSafetyQuestion {
