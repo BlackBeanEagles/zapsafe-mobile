@@ -5,6 +5,7 @@
 // runner contract on the host VM without a Flutter binding.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:zapsafe_mobile/data/services/model_registry.dart';
 import 'package:zapsafe_mobile/domain/integration/month1_runner.dart';
 import 'package:zapsafe_mobile/domain/integration/month2_runner.dart';
 
@@ -16,10 +17,16 @@ void main() {
       expect(r.detail, contains('9 unique channels'));
     });
 
-    test('tfliteRegistry returns PASS with 4 model slots', () {
+    test('tfliteRegistry returns PASS · core 4 DCS slots + extended catalogue',
+        () {
       final r = month2PhaseRunners.tfliteRegistry();
       expect(r.status, PhaseStatus.pass);
-      expect(r.detail, contains('4 model slots'));
+      // Asserted against the live registry length rather than a hardcoded
+      // number so this doesn't go stale again every time a new model joins
+      // kZapsafeModels (it broke on a hardcoded '4' when aggressive_speech,
+      // the 5th entry, was added — see month2_runner.dart's tfliteRegistry).
+      expect(r.detail, contains('${kZapsafeModels.length} model slots'));
+      expect(r.detail, contains('4 core DCS'));
     });
 
     test('dcsWatcher returns PASS · vote + autoSos both fire', () {

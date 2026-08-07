@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/models/app_state.dart';
@@ -98,8 +99,10 @@ List<IntegrationPhase> buildMonth2Phases(WidgetRef ref) {
     // ─── ML / inference ─────────────────────────────────────────────────
     IntegrationPhase(
       key: 'tflite_registry',
-      name: 'TFLite registry · 4 model slots',
-      description: 'kZapsafeModels has 4 declared assets (placeholders today).',
+      name: 'TFLite registry · ${kZapsafeModels.length} model slots',
+      description:
+          'kZapsafeModels has ${kZapsafeModels.length} declared assets '
+          '(4 core DCS slots + extended catalogue).',
       runner: () async => month2PhaseRunners.tfliteRegistry(),
     ),
     IntegrationPhase(
@@ -213,21 +216,38 @@ abstract final class month2PhaseRunners {
   }
 
   static PhaseResult tfliteRegistry() {
-    if (kZapsafeModels.length != 4) {
-      throw 'kZapsafeModels has ${kZapsafeModels.length} entries, expected 4';
+    // The 4 core DCS fusion slots (scream/motion/scene/fusion) must stay at
+    // indices 0-3 in this exact order — DCSInferenceEngine addresses them
+    // positionally (kZapsafeModels[0..3]). The catalogue is otherwise free
+    // to grow past 4 as more shipped models (e.g. aggressive_speech) get
+    // catalogued without joining the core fusion engine. This was a hard
+    // `!= 4` check until the 5th entry (aggressive_speech) was added and
+    // broke it — see month2_runner_test.dart / DAY301_305_INTEGRATION_WIRING.md.
+    const coreSlotKeys = ['scream', 'motion', 'scene', 'fusion'];
+    if (kZapsafeModels.length < coreSlotKeys.length) {
+      throw 'kZapsafeModels has ${kZapsafeModels.length} entries, '
+          'expected at least ${coreSlotKeys.length}';
+    }
+    final actualCoreKeys =
+        kZapsafeModels.take(coreSlotKeys.length).map((m) => m.key).toList();
+    if (!listEquals(actualCoreKeys, coreSlotKeys)) {
+      throw 'core DCS slots 0-3 must be $coreSlotKeys in order, '
+          'got $actualCoreKeys';
     }
     final keys = kZapsafeModels.map((m) => m.key).toSet();
-    if (keys.length != 4) throw 'duplicate model key';
+    if (keys.length != kZapsafeModels.length) throw 'duplicate model key';
     final pathsOK = kZapsafeModels.every((m) =>
         m.assetPath.startsWith('assets/models/') &&
         m.assetPath.endsWith('.tflite'));
     if (!pathsOK) throw 'asset path does not match convention';
-    return const PhaseResult(
+    return PhaseResult(
       key: 'tflite_registry',
-      name: 'TFLite registry · 4 model slots',
+      name: 'TFLite registry · ${kZapsafeModels.length} model slots',
       status: PhaseStatus.pass,
-      detail: '4 model slots declared · paths conform to '
-          'assets/models/*.tflite',
+      detail: '${kZapsafeModels.length} model slots declared '
+          '(${coreSlotKeys.length} core DCS + '
+          '${kZapsafeModels.length - coreSlotKeys.length} extended) · '
+          'paths conform to assets/models/*.tflite',
     );
   }
 
