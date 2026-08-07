@@ -138,6 +138,9 @@ flutter:
     # assets/icons/ — Day 238 also referenced this; still no icon assets
     # exist anywhere on disk on this machine (confirmed 2026-08-07), so it
     # stays commented out. Re-add once real icon content exists.
+    - pubspec.yaml                  # Day 324 — RC manifest reads the real
+                                     # version/build number off this file at
+                                     # runtime instead of hardcoding a copy.
 
   # ZapSafe Design System Fonts (Day 2)
   # ClashDisplay: headings, mode labels, score numbers

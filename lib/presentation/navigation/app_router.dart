@@ -222,6 +222,16 @@ import '../screens/day317_app_store_phased_release_screen.dart';   // Day 317
 import '../screens/day318_regional_pricing_matrix_screen.dart';    // Day 318
 import '../screens/day319_gdpr_consent_wire_screen.dart';          // Day 319
 import '../screens/day320_section_g_milestone_screen.dart';        // Day 320
+import '../screens/day321_sos_trigger_refactor_screen.dart';       // Day 321
+import '../screens/day322_dcs_pipeline_wire_screen.dart';          // Day 322
+import '../screens/day323_journey_ml_confidence_screen.dart';      // Day 323
+import '../screens/day324_release_candidate_manifest_screen.dart'; // Day 324
+import '../screens/day325_ota_model_update_screen.dart';           // Day 325
+import '../screens/day326_cold_start_report_screen.dart';          // Day 326
+import '../screens/day327_memory_leak_tracker_screen.dart';        // Day 327
+import '../screens/day328_battery_monitoring_production_screen.dart'; // Day 328
+import '../screens/day329_false_positive_tuning_production_screen.dart'; // Day 329
+import '../screens/day330_section_h_rc_milestone_screen.dart';     // Day 330
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -462,6 +472,18 @@ class AppRoutes {
   static const regionalPricingMatrix    = '/day-318-regional-pricing-matrix';               // Day 318
   static const gdprConsentWire          = '/day-319-gdpr-consent-wire';                     // Day 319
   static const sectionGMilestone        = '/day-320-section-g-milestone';                   // Day 320
+
+  // ─── Section H: v9.2 Core & RC (Days 321-330) ────────────────────────────
+  static const sosTriggerRefactor       = '/day-321-sos-trigger-refactor';                 // Day 321
+  static const dcsPipelineWire          = '/day-322-dcs-pipeline-wire';                    // Day 322
+  static const journeyMlConfidence      = '/day-323-journey-ml-confidence';                // Day 323
+  static const releaseCandidateManifest = '/day-324-release-candidate-manifest';           // Day 324
+  static const otaModelUpdate           = '/day-325-ota-model-update';                     // Day 325
+  static const coldStartReport          = '/day-326-cold-start-report';                    // Day 326
+  static const memoryLeakTracker        = '/day-327-memory-leak-tracker';                  // Day 327
+  static const batteryMonitoringProd    = '/day-328-battery-monitoring-production';        // Day 328
+  static const falsePositiveTuningProd  = '/day-329-false-positive-tuning-production';     // Day 329
+  static const sectionHMilestone        = '/day-330-section-h-rc-milestone';               // Day 330
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1201,6 +1223,56 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionGMilestone,
         builder: (context, state) =>
             const Day320SectionGMilestoneScreen(),                            // Day 320
+      ),
+      GoRoute(
+        path: AppRoutes.sosTriggerRefactor,
+        builder: (context, state) =>
+            const Day321SosTriggerRefactorScreen(),                           // Day 321
+      ),
+      GoRoute(
+        path: AppRoutes.dcsPipelineWire,
+        builder: (context, state) =>
+            const Day322DcsPipelineWireScreen(),                              // Day 322
+      ),
+      GoRoute(
+        path: AppRoutes.journeyMlConfidence,
+        builder: (context, state) =>
+            const Day323JourneyMlConfidenceScreen(),                          // Day 323
+      ),
+      GoRoute(
+        path: AppRoutes.releaseCandidateManifest,
+        builder: (context, state) =>
+            const Day324ReleaseCandidateManifestScreen(),                     // Day 324
+      ),
+      GoRoute(
+        path: AppRoutes.otaModelUpdate,
+        builder: (context, state) =>
+            const Day325OtaModelUpdateScreen(),                               // Day 325
+      ),
+      GoRoute(
+        path: AppRoutes.coldStartReport,
+        builder: (context, state) =>
+            const Day326ColdStartReportScreen(),                             // Day 326
+      ),
+      GoRoute(
+        path: AppRoutes.memoryLeakTracker,
+        builder: (context, state) =>
+            const Day327MemoryLeakTrackerScreen(),                          // Day 327
+      ),
+      GoRoute(
+        path: AppRoutes.batteryMonitoringProd,
+        builder: (context, state) =>
+            const Day328BatteryMonitoringProductionScreen(),                // Day 328
+      ),
+      GoRoute(
+        path: AppRoutes.falsePositiveTuningProd,
+        builder: (context, state) =>
+            const Day329FalsePositiveTuningProductionScreen(),              // Day 329
+      ),
+      GoRoute(
+        path: AppRoutes.sectionHMilestone,
+        builder: (context, state) =>
+            const Day330SectionHRcMilestoneScreen(),                        // Day 330
       ),
       GoRoute(
         path: AppRoutes.vault,

@@ -309,5 +309,27 @@
     "milestone_heading": "Section G complete — Global Listings Ready",
     "search_country_hint": "Search country",
     "countries_shown": "countries shown"
+  },
+  "day321_330": {
+    "sos_trigger_refactor_title": "Day 321 · SOS Trigger Refactor",
+    "sos_trigger_refactor_heading": "Single entry point",
+    "dcs_pipeline_wire_title": "Day 322 · DCS Pipeline Wire",
+    "dcs_pipeline_wire_heading": "DCS pipeline, verified end-to-end",
+    "journey_confidence_title": "Day 323 · Journey ML Confidence",
+    "journey_confidence_heading": "Journey mode risk meter",
+    "rc_manifest_title": "Day 324 · Release Candidate Manifest",
+    "rc_manifest_heading": "v9.2 build manifest",
+    "ota_model_update_title": "Day 325 · OTA Model Update",
+    "ota_model_update_heading": "Model version check",
+    "cold_start_report_title": "Day 326 · Cold Start Report",
+    "cold_start_report_heading": "Splash → dashboard timing",
+    "memory_leak_tracker_title": "Day 327 · Memory Leak Tracker",
+    "memory_leak_tracker_heading": "Leak-suspect audit",
+    "battery_monitoring_prod_title": "Day 328 · Battery Monitoring (Production)",
+    "battery_monitoring_prod_heading": "MONITORING-mode battery tiers",
+    "false_positive_tuning_prod_title": "Day 329 · False Positive Tuning (Production)",
+    "false_positive_tuning_prod_heading": "DCS sensitivity",
+    "section_h_milestone_title": "Day 330 · Section H Milestone",
+    "section_h_milestone_heading": "v9.2 RC ready"
   }
 }

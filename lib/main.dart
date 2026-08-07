@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'core/monitoring/cold_start_timing.dart';
 import 'core/monitoring/crash_reporting.dart';
 import 'core/theme/app_theme.dart';
 import 'domain/providers/app_bootstrap_providers.dart';
@@ -18,10 +19,19 @@ import 'presentation/navigation/app_router.dart';
 Future<void> main() async => CrashReporting.init(_bootstrap);
 
 Future<void> _bootstrap() async {
+  // Day 326 — real cold-start instrumentation. Started at the very first
+  // line of bootstrap so every subsequent mark is a real elapsed-ms
+  // measurement, not a fabricated number. See
+  // core/monitoring/cold_start_timing.dart and
+  // day326_cold_start_report_screen.dart.
+  ColdStartTimings.instance.start();
+
   WidgetsFlutterBinding.ensureInitialized();
+  ColdStartTimings.instance.mark('widgets_binding_ready');
 
   // Days 101-102 — Easy Localization must initialise before runApp.
   await EasyLocalization.ensureInitialized();
+  ColdStartTimings.instance.mark('easy_localization_ready');
 
   // Best-effort Firebase init. If google-services.json / GoogleService-Info.plist
   // are missing, this throws — we catch it so the rest of the app still boots
@@ -29,7 +39,9 @@ Future<void> _bootstrap() async {
   // FCM call, so this graceful fallback is safe end-to-end.
   try {
     await Firebase.initializeApp();
+    ColdStartTimings.instance.mark('firebase_ready');
   } catch (e, stack) {
+    ColdStartTimings.instance.mark('firebase_failed');
     if (kDebugMode) {
       debugPrint('[boot] Firebase.initializeApp failed → push runs in stub mode: $e');
     }
@@ -69,6 +81,7 @@ Future<void> _bootstrap() async {
       ),
     ),
   );
+  ColdStartTimings.instance.mark('run_app_called');
 }
 
 /// Root widget. Uses [MaterialApp.router] + go_router for navigation
@@ -95,6 +108,9 @@ class ZapSafeApp extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final notifier = ref.read(currentLanguageCodeProvider.notifier);
       if (notifier.state != localeCode) notifier.state = localeCode;
+      // Day 326 — real "first frame rendered" mark. markOnce() so the
+      // countless rebuilds after the first one don't spam the table.
+      ColdStartTimings.instance.markOnce('first_frame_rendered');
     });
 
     return MaterialApp.router(
