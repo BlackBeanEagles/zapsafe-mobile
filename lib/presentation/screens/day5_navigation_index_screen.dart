@@ -3291,6 +3291,22 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-380-ops-checkpoint · 🟢 real checkpoint of Days 371-379, not a section-end milestone celebration (spec\'s own note: "380 is an ops checkpoint day... not total project length") — headline finding: grepped all 9 screens for dio/http./Repository/ApiClient/.get(/.post(, zero hits, every one is FRONTEND-ONLY · restates Day 361\'s war room still defaults to 5 open P0s so "ready to launch" is FALSE right now, no rollout/hotfix/scale event claimed anywhere',
               dayBuilt: 'DAY 380 ✅',
             ),
+            const _NavTile(
+              icon: Icons.build_circle_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 381 · Hotfix v1.0.1 Release (Demo)',
+              route: AppRoutes.hotfixV101,
+              hint: '/day-381-hotfix-v101 · 🟢 v1.0.1 has NOT shipped — no v1.0.0 is live anywhere to hotfix — built on Day 368\'s real hotfix executor, walks through one hypothetical patch cycle (detect → triage → fix → test → stage 5%) with real version arithmetic from the real pubspec.yaml value (1.0.0+1 → 1.0.1+2), example fix text explicitly labeled EXAMPLE not a real incident',
+              dayBuilt: 'DAY 381 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.build_circle_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 382 · Hotfix v1.0.2 Release (Demo)',
+              route: AppRoutes.hotfixV102,
+              hint: '/day-382-hotfix-v102 · 🟢 v1.0.2 has NOT shipped — neither has v1.0.1 before it — a second hypothetical cycle chained from Day 381\'s own hypothetical target purely for version-arithmetic continuity, extends the playbook with monitor/advance-rollout/rollback steps Day 381 kept short',
+              dayBuilt: 'DAY 382 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

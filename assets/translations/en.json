@@ -435,5 +435,27 @@
     "tenk_gate_heading": "Frontend expectations of backend — infra is backend's call",
     "ops_checkpoint_title": "Day 380 · Ops Checkpoint",
     "ops_checkpoint_heading": "Real checkpoint summary of Days 371-379"
+  },
+  "day381_390": {
+    "hotfix_v101_title": "Day 381 · Hotfix v1.0.1 (Demo)",
+    "hotfix_v101_heading": "v1.0.1 has NOT shipped — process demonstration only",
+    "hotfix_v102_title": "Day 382 · Hotfix v1.0.2 (Demo)",
+    "hotfix_v102_heading": "v1.0.2 has NOT shipped — second demonstration cycle",
+    "privacy_audit_followup_title": "Day 383 · Privacy Audit Follow-Up",
+    "privacy_audit_followup_heading": "Re-checked Day 337's findings — honest, mostly unchanged",
+    "dpdp_signoff_title": "Day 384 · DPDP Compliance Sign-Off",
+    "dpdp_signoff_heading": "Sign-off defaults NOT signed given real open gaps",
+    "support_macros_production_title": "Day 385 · Support Macros — Production",
+    "support_macros_production_heading": "Real macro tool wired into Day 369's ticket board",
+    "analytics_month1_title": "Day 386 · Analytics Month 1 Report",
+    "analytics_month1_heading": "Real endpoints, legitimately empty — no Month 1 exists yet",
+    "year_in_review_v2_title": "Day 387 · Year in Review v2",
+    "year_in_review_v2_heading": "Extends Day 275's template — no real launch-month numbers yet",
+    "v92_roadmap_lock_title": "Day 388 · v9.2 Roadmap Lock",
+    "v92_roadmap_lock_heading": "Finalizes Day 377's backlog into a lockable roadmap",
+    "penultimate_summary_title": "Day 389 · Penultimate Summary",
+    "penultimate_summary_heading": "Real summary of the Days 301-388 arc",
+    "project_complete_title": "Day 390 · Project Complete (Build)",
+    "project_complete_heading": "390/390 build days complete — launch readiness is separate and real"
   }
 }

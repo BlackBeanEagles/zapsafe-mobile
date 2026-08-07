@@ -436,5 +436,27 @@
     "tenk_gate_heading": "बैकएंड से फ्रंटएंड की अपेक्षाएं — इंफ्रा बैकएंड का निर्णय है",
     "ops_checkpoint_title": "दिन 380 · ऑप्स चेकपॉइंट",
     "ops_checkpoint_heading": "दिन 371-379 का वास्तविक चेकपॉइंट सारांश"
+  },
+  "day381_390": {
+    "hotfix_v101_title": "दिन 381 · हॉटफिक्स v1.0.1 (डेमो)",
+    "hotfix_v101_heading": "v1.0.1 अभी लॉन्च नहीं हुआ है — केवल प्रक्रिया प्रदर्शन",
+    "hotfix_v102_title": "दिन 382 · हॉटफिक्स v1.0.2 (डेमो)",
+    "hotfix_v102_heading": "v1.0.2 अभी लॉन्च नहीं हुआ है — दूसरा प्रदर्शन चक्र",
+    "privacy_audit_followup_title": "दिन 383 · गोपनीयता ऑडिट फॉलो-अप",
+    "privacy_audit_followup_heading": "दिन 337 के निष्कर्ष फिर से जांचे गए — अधिकतर अपरिवर्तित",
+    "dpdp_signoff_title": "दिन 384 · DPDP अनुपालन साइन-ऑफ",
+    "dpdp_signoff_heading": "वास्तविक खुली कमियों के कारण साइन-ऑफ डिफ़ॉल्ट रूप से नहीं",
+    "support_macros_production_title": "दिन 385 · सपोर्ट मैक्रोज़ — प्रोडक्शन",
+    "support_macros_production_heading": "दिन 369 के टिकट बोर्ड से जुड़ा वास्तविक मैक्रो टूल",
+    "analytics_month1_title": "दिन 386 · एनालिटिक्स महीना 1 रिपोर्ट",
+    "analytics_month1_heading": "वास्तविक एंडपॉइंट, वैध रूप से खाली — अभी कोई महीना 1 नहीं",
+    "year_in_review_v2_title": "दिन 387 · वर्ष समीक्षा v2",
+    "year_in_review_v2_heading": "दिन 275 के टेम्पलेट का विस्तार — अभी कोई वास्तविक लॉन्च-माह आंकड़े नहीं",
+    "v92_roadmap_lock_title": "दिन 388 · v9.2 रोडमैप लॉक",
+    "v92_roadmap_lock_heading": "दिन 377 के बैकलॉग को लॉक करने योग्य रोडमैप में अंतिम रूप देता है",
+    "penultimate_summary_title": "दिन 389 · अंतिम-पूर्व सारांश",
+    "penultimate_summary_heading": "दिन 301-388 यात्रा का वास्तविक सारांश",
+    "project_complete_title": "दिन 390 · प्रोजेक्ट पूर्ण (निर्माण)",
+    "project_complete_heading": "390/390 निर्माण दिन पूर्ण — लॉन्च तैयारी अलग और वास्तविक है"
   }
 }

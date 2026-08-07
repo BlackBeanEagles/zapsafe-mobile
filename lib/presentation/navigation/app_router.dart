@@ -385,6 +385,8 @@ import '../screens/day377_v92_backlog_screen.dart';                 // Day 377
 import '../screens/day378_competitor_benchmark_screen.dart';        // Day 378
 import '../screens/day379_10k_users_gate_screen.dart';              // Day 379
 import '../screens/day380_ops_checkpoint_screen.dart';              // Day 380
+import '../screens/day381_hotfix_v101_screen.dart';                 // Day 381
+import '../screens/day382_hotfix_v102_screen.dart';                 // Day 382
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -813,6 +815,21 @@ class AppRoutes {
   static const competitorBenchmark       = '/day-378-competitor-benchmark';                 // Day 378
   static const tenKUsersGate             = '/day-379-10k-users-gate';                       // Day 379
   static const day380OpsCheckpoint       = '/day-380-ops-checkpoint';                       // Day 380
+
+  // ─── Section O: Project Close (Days 381-390) ─────────────────────────────
+  // NOTE: no real v1.0.x hotfix has shipped (no v1.0.0 is live to hotfix in
+  // the first place) and no real public launch has occurred — every screen
+  // in this section defaults to honest not-yet-happened per its own header.
+  static const hotfixV101                = '/day-381-hotfix-v101';                          // Day 381
+  static const hotfixV102                = '/day-382-hotfix-v102';                          // Day 382
+  static const privacyAuditFollowup      = '/day-383-privacy-audit-followup';               // Day 383
+  static const dpdpSignoff               = '/day-384-dpdp-signoff';                         // Day 384
+  static const supportMacrosProduction   = '/day-385-support-macros-production';            // Day 385
+  static const analyticsMonth1           = '/day-386-analytics-month1';                     // Day 386
+  static const yearInReviewV2            = '/day-387-year-in-review-v2';                    // Day 387
+  static const v92RoadmapLock            = '/day-388-v92-roadmap-lock';                     // Day 388
+  static const day389PenultimateSummary  = '/day-389-penultimate-summary';                  // Day 389
+  static const projectCompleteMilestone  = '/day-390-project-complete';                     // Day 390
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2367,6 +2384,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.day380OpsCheckpoint,
         builder: (context, state) =>
             const Day380OpsCheckpointScreen(),                              // Day 380
+      ),
+      GoRoute(
+        path: AppRoutes.hotfixV101,
+        builder: (context, state) =>
+            const Day381HotfixV101Screen(),                                 // Day 381
+      ),
+      GoRoute(
+        path: AppRoutes.hotfixV102,
+        builder: (context, state) =>
+            const Day382HotfixV102Screen(),                                 // Day 382
       ),
       GoRoute(
         path: AppRoutes.vault,
