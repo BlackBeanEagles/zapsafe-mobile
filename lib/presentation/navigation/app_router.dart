@@ -391,6 +391,7 @@ import '../screens/day383_privacy_audit_followup_screen.dart';      // Day 383
 import '../screens/day384_dpdp_signoff_screen.dart';                // Day 384
 import '../screens/day385_support_macros_production_screen.dart';  // Day 385
 import '../screens/day386_analytics_month1_screen.dart';            // Day 386
+import '../screens/day387_year_in_review_v2_screen.dart';           // Day 387
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2418,6 +2419,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.analyticsMonth1,
         builder: (context, state) =>
             const Day386AnalyticsMonth1Screen(),                            // Day 386
+      ),
+      GoRoute(
+        path: AppRoutes.yearInReviewV2,
+        builder: (context, state) =>
+            const Day387YearInReviewV2Screen(),                             // Day 387
       ),
       GoRoute(
         path: AppRoutes.vault,

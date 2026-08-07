@@ -3339,6 +3339,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-386-analytics-month1 · 🟢 report TEMPLATE wired to the same 4 real backend endpoints Day 302 verified (sos-summary/detections/contacts-response-rate/device-health) — legitimately shows empty/zero or a real network error since no real Month 1 has happened, which is correct, not a bug',
               dayBuilt: 'DAY 386 ✅',
             ),
+            const _NavTile(
+              icon: Icons.emoji_events_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 387 · Year in Review v2',
+              route: AppRoutes.yearInReviewV2,
+              hint: '/day-387-year-in-review-v2 · 🟢 extends Day 275\'s template with a new Launch Month tab — Day 275\'s original mock summary/badges are unchanged, the new tab wires the same real (currently empty) analytics endpoints Day 386 uses, no fabricated launch-month numbers',
+              dayBuilt: 'DAY 387 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
