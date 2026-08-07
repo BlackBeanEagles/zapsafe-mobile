@@ -3251,6 +3251,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-375-section-m-milestone · 🟢 mirrors the Day 310/320/330/340/350/360 milestone pattern — real per-day verification for Days 366-374 (this batch + the prior 366-370 batch already on main), pending items genuinely pending, no real launch claimed · notes Section N (Scale & Stabilize, Days 376-385) continues next',
               dayBuilt: 'DAY 375 ✅',
             ),
+            const _NavTile(
+              icon: Icons.dns_rounded,
+              accent: Color(0xFFDC2626),
+              title: 'Day 376 · Month 10 Ops Milestone',
+              route: AppRoutes.month10Ops,
+              hint: '/day-376-month10-ops · 🟢 "Month 10" grounded in zapsafeworking/ZAPSAFE_MASTER_TIMELINE.md + ZAPSAFE_ML_TRAINING_STRATEGY.md\'s own real usage (post-launch scale era: federated learning, multi-region 100K-user infra, police coordination all explicitly "Month 10+") — day5\'s own Month-N-per-20-days numbering stopped incrementing at Month 11/Day 201 before switching to Section-letters, documented honestly rather than inventing a new scheme',
+              dayBuilt: 'DAY 376 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

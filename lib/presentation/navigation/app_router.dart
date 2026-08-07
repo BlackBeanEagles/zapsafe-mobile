@@ -380,6 +380,7 @@ import '../screens/day372_performance_scale_screen.dart';           // Day 372
 import '../screens/day373_false_positive_field_screen.dart';        // Day 373
 import '../screens/day374_model_feedback_export_screen.dart';       // Day 374
 import '../screens/day375_section_m_milestone_screen.dart';         // Day 375
+import '../screens/day376_month10_ops_screen.dart';                 // Day 376
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2337,6 +2338,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionMMilestone,
         builder: (context, state) =>
             const Day375SectionMMilestoneScreen(),                           // Day 375
+      ),
+      GoRoute(
+        path: AppRoutes.month10Ops,
+        builder: (context, state) =>
+            const Day376Month10OpsScreen(),                                  // Day 376
       ),
       GoRoute(
         path: AppRoutes.vault,
