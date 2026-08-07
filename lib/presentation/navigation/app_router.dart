@@ -207,6 +207,7 @@ import '../screens/day302_analytics_live_wire_screen.dart';        // Day 302
 import '../screens/day303_razorpay_live_wire_screen.dart';         // Day 303
 import '../screens/day304_delivery_status_live_wire_screen.dart';  // Day 304
 import '../screens/day305_accept_language_wire_screen.dart';       // Day 305
+import '../screens/day306_notification_tiers_polish_screen.dart';  // Day 306
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -428,6 +429,13 @@ class AppRoutes {
   static const razorpayLiveWire         = '/day-303-razorpay-live-wire';                   // Day 303
   static const deliveryStatusLiveWire   = '/day-304-delivery-status-live-wire';             // Day 304
   static const acceptLanguageWire       = '/day-305-accept-language-wire';                 // Day 305
+
+  // ─── Section F: Production Wiring (Days 306-310) ────────────────────────
+  static const notificationTiersPolish  = '/day-306-notification-tiers-polish';           // Day 306
+  static const sosLongPressRingPolish   = '/day-307-sos-longpress-ring-polish';            // Day 307
+  static const statusCardPolish         = '/day-308-status-card-polish';                   // Day 308
+  static const evidenceVaultSearchPolish = '/day-309-evidence-vault-search-polish';        // Day 309
+  static const sectionFMilestone        = '/day-310-section-f-milestone';                  // Day 310
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1092,6 +1100,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.acceptLanguageWire,
         builder: (context, state) =>
             const Day305AcceptLanguageWireScreen(),                           // Day 305
+      ),
+      GoRoute(
+        path: AppRoutes.notificationTiersPolish,
+        builder: (context, state) =>
+            const Day306NotificationTiersPolishScreen(),                      // Day 306
       ),
       GoRoute(
         path: AppRoutes.vault,

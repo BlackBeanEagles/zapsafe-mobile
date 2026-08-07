@@ -1831,6 +1831,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section F: Production Wiring (Days 306-310) ───────────
+            const _SectionTitle('SECTION F · PRODUCTION WIRING · DAYS 306-310'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.notifications_active_rounded,
+              accent: Color(0xFFE63946),
+              title: 'Day 306 · Production Notification Tiers',
+              route: AppRoutes.notificationTiersPolish,
+              hint: '/day-306-notification-tiers-polish · 🟣 POLISH · real 3-tier banner stack now live on the production dashboard (/dashboard) · critical=battery<10%/storage-full (must-ack) · important=unverified Tier-2 contact (dismissible) · suggestion=30-day drill reminder · ack persisted via SharedPreferences, cleared when condition clears',
+              dayBuilt: 'DAY 306 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),
