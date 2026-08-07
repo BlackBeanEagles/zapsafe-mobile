@@ -371,6 +371,28 @@
     "section_j_milestone_title": "दिन 350 · सेक्शन J माइलस्टोन",
     "section_j_milestone_heading": "25-भाषा पूर्णता — वास्तविक स्थिति"
   },
+  "day351_360": {
+    "sso_preview_title": "दिन 351 · एंटरप्राइज़ SSO पूर्वावलोकन",
+    "sso_preview_heading": "अपने संगठन के साथ साइन इन करें",
+    "insurance_wire_title": "दिन 352 · बीमा पार्टनरशिप वायर",
+    "insurance_wire_heading": "पार्टनर ऑफ़र पात्रता",
+    "b2b_admin_title": "दिन 353 · B2B एडमिन पोर्टल पूर्वावलोकन",
+    "b2b_admin_heading": "संगठन सुरक्षा अवलोकन",
+    "family_wire_title": "दिन 354 · फ़ैमिली डैशबोर्ड — लाइव वायर",
+    "family_wire_heading": "वास्तविक परिवार सदस्य SOS स्थिति",
+    "referral_wire_title": "दिन 355 · रेफ़रल — लाइव वायर",
+    "referral_wire_heading": "वास्तविक रेफ़रल कोड और आँकड़े",
+    "police_wire_title": "दिन 356 · पुलिस डिस्पैच — लाइव वायर",
+    "police_wire_heading": "वास्तविक डिस्पैच स्थिति पोलिंग",
+    "journey_wire_title": "दिन 357 · ग्रुप जर्नी — लाइव वायर",
+    "journey_wire_heading": "वास्तविक सेशन बनाना, जुड़ना और पैनिक",
+    "premium_polish_title": "दिन 358 · प्रीमियम टियर पॉलिश",
+    "premium_polish_heading": "एकीकृत प्रीमियम बैज और सीमाएं",
+    "sales_deck_title": "दिन 359 · एंटरप्राइज़ सेल्स डेक",
+    "sales_deck_heading": "पिच के माध्यम से स्वाइप करें",
+    "section_k_milestone_title": "दिन 360 · सेक्शन K माइलस्टोन",
+    "section_k_milestone_heading": "एंटरप्राइज़ पूर्वावलोकन पूर्ण — वास्तविक स्थिति"
+  },
   "day361_370": {
     "qa_war_room_title": "दिन 361 · अंतिम QA वॉर रूम",
     "qa_war_room_heading": "वास्तविक P0/P1/P2 निष्कर्ष — शून्य खुले P0 पर लॉन्च गेट",

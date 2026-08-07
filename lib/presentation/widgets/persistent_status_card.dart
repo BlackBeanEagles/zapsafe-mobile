@@ -31,6 +31,7 @@ import '../../domain/providers/app_state_provider.dart';
 import '../../domain/providers/battery_providers.dart';
 import '../../domain/providers/gps_providers.dart';
 import '../../domain/providers/premium_subscription_providers.dart';
+import 'premium_tier_badge.dart';
 import 'zap_badge.dart';
 import 'zap_card.dart';
 
@@ -167,11 +168,9 @@ class _ExpandedRows extends ConsumerWidget {
                 child: Text('Tier',
                     style: ZapTypography.bodySmall.copyWith(color: ZapColors.textSecondary)),
               ),
-              ZapBadge(
-                label: s.plan.apiValue.toUpperCase(),
-                intent: s.hasPremiumBenefits ? ZapBadgeIntent.safe : ZapBadgeIntent.neutral,
-                icon: s.hasPremiumBenefits ? Icons.workspace_premium_rounded : null,
-                size: ZapBadgeSize.small,
+              PremiumTierBadge(
+                planLabel: s.plan.apiValue.toUpperCase(),
+                isPremium: s.hasPremiumBenefits,
               ),
             ],
           ),

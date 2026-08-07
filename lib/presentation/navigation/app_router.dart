@@ -355,6 +355,16 @@ import '../screens/day347_indic_copy_review_screen.dart';           // Day 347
 import '../screens/day348_voice_keywords_25lang_screen.dart';       // Day 348
 import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
 import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
+import '../screens/day351_enterprise_sso_preview_screen.dart';      // Day 351
+import '../screens/day352_insurance_api_wire_screen.dart';          // Day 352
+import '../screens/day353_b2b_admin_preview_screen.dart';           // Day 353
+import '../screens/day354_family_dashboard_wire_screen.dart';       // Day 354
+import '../screens/day355_referral_live_wire_screen.dart';          // Day 355
+import '../screens/day356_police_dispatch_wire_screen.dart';        // Day 356
+import '../screens/day357_group_journey_wire_screen.dart';          // Day 357
+import '../screens/day358_premium_polish_screen.dart';              // Day 358
+import '../screens/day359_enterprise_sales_deck_screen.dart';       // Day 359
+import '../screens/day360_section_k_milestone_screen.dart';         // Day 360
 import '../screens/day361_final_qa_war_room_screen.dart';           // Day 361
 import '../screens/day362_play_store_submission_screen.dart';       // Day 362
 import '../screens/day363_app_store_submission_screen.dart';        // Day 363
@@ -745,6 +755,22 @@ class AppRoutes {
   static const voiceKeywords25Lang       = '/day-348-voice-keywords-25lang';                // Day 348
   static const storeScreenshotsI18n      = '/day-349-store-screenshots-i18n';               // Day 349
   static const sectionJMilestone         = '/day-350-section-j-25lang-milestone';           // Day 350
+
+  // ─── Section K: Enterprise & B2B (Days 351-360) ──────────────────────────
+  // Route constants for the whole batch are declared together (same
+  // forward-reference pattern as Section I) so nav-tile / info-tab links
+  // can point at later days before their GoRoute + screen land. Each
+  // GoRoute below is still added in its own day's commit.
+  static const enterpriseSsoPreview      = '/day-351-enterprise-sso-preview';               // Day 351
+  static const insuranceApiWire          = '/day-352-insurance-api-wire';                   // Day 352
+  static const b2bAdminPreview           = '/day-353-b2b-admin-preview';                    // Day 353
+  static const familyDashboardWire       = '/day-354-family-dashboard-wire';                // Day 354
+  static const referralLiveWire          = '/day-355-referral-live-wire';                   // Day 355
+  static const policeDispatchWire        = '/day-356-police-dispatch-wire';                 // Day 356
+  static const groupJourneyWire          = '/day-357-group-journey-wire';                   // Day 357
+  static const premiumPolish             = '/day-358-premium-polish';                       // Day 358
+  static const enterpriseSalesDeck       = '/day-359-enterprise-sales-deck';                // Day 359
+  static const sectionKMilestone         = '/day-360-section-k-milestone';                  // Day 360
 
   // ─── Section L: Public Launch Week (Days 361-365) ────────────────────────
   // NOTE: the app has NOT actually launched — see each screen's file header.
@@ -2166,6 +2192,56 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionJMilestone,
         builder: (context, state) =>
             const Day350SectionJ25LangMilestoneScreen(),                     // Day 350
+      ),
+      GoRoute(
+        path: AppRoutes.enterpriseSsoPreview,
+        builder: (context, state) =>
+            const Day351EnterpriseSsoPreviewScreen(),                        // Day 351
+      ),
+      GoRoute(
+        path: AppRoutes.insuranceApiWire,
+        builder: (context, state) =>
+            const Day352InsuranceApiWireScreen(),                            // Day 352
+      ),
+      GoRoute(
+        path: AppRoutes.b2bAdminPreview,
+        builder: (context, state) =>
+            const Day353B2bAdminPreviewScreen(),                             // Day 353
+      ),
+      GoRoute(
+        path: AppRoutes.familyDashboardWire,
+        builder: (context, state) =>
+            const Day354FamilyDashboardWireScreen(),                         // Day 354
+      ),
+      GoRoute(
+        path: AppRoutes.referralLiveWire,
+        builder: (context, state) =>
+            const Day355ReferralLiveWireScreen(),                            // Day 355
+      ),
+      GoRoute(
+        path: AppRoutes.policeDispatchWire,
+        builder: (context, state) =>
+            const Day356PoliceDispatchWireScreen(),                          // Day 356
+      ),
+      GoRoute(
+        path: AppRoutes.groupJourneyWire,
+        builder: (context, state) =>
+            const Day357GroupJourneyWireScreen(),                            // Day 357
+      ),
+      GoRoute(
+        path: AppRoutes.premiumPolish,
+        builder: (context, state) =>
+            const Day358PremiumPolishScreen(),                                // Day 358
+      ),
+      GoRoute(
+        path: AppRoutes.enterpriseSalesDeck,
+        builder: (context, state) =>
+            const Day359EnterpriseSalesDeckScreen(),                          // Day 359
+      ),
+      GoRoute(
+        path: AppRoutes.sectionKMilestone,
+        builder: (context, state) =>
+            const Day360SectionKMilestoneScreen(),                            // Day 360
       ),
       GoRoute(
         path: AppRoutes.finalQaWarRoom,
