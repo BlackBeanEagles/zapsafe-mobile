@@ -3347,6 +3347,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-387-year-in-review-v2 · 🟢 extends Day 275\'s template with a new Launch Month tab — Day 275\'s original mock summary/badges are unchanged, the new tab wires the same real (currently empty) analytics endpoints Day 386 uses, no fabricated launch-month numbers',
               dayBuilt: 'DAY 387 ✅',
             ),
+            const _NavTile(
+              icon: Icons.lock_rounded,
+              accent: Color(0xFFFBBF24),
+              title: 'Day 388 · v9.2 Roadmap Lock',
+              route: AppRoutes.v92RoadmapLock,
+              hint: '/day-388-v92-roadmap-lock · 🟢 finalizes Day 377\'s backlog with a real, SharedPreferences-persisted lock state (survives app restart, real timestamp) — same 3 items/priority/provenance as Day 377, still a planning document not a build claim',
+              dayBuilt: 'DAY 388 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
