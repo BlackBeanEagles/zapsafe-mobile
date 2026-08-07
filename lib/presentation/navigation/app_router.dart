@@ -356,6 +356,8 @@ import '../screens/day348_voice_keywords_25lang_screen.dart';       // Day 348
 import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
 import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
 import '../screens/day351_enterprise_sso_preview_screen.dart';      // Day 351
+import '../screens/day352_insurance_api_wire_screen.dart';          // Day 352
+import '../screens/day353_b2b_admin_preview_screen.dart';           // Day 353
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2161,6 +2163,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.enterpriseSsoPreview,
         builder: (context, state) =>
             const Day351EnterpriseSsoPreviewScreen(),                        // Day 351
+      ),
+      GoRoute(
+        path: AppRoutes.insuranceApiWire,
+        builder: (context, state) =>
+            const Day352InsuranceApiWireScreen(),                            // Day 352
+      ),
+      GoRoute(
+        path: AppRoutes.b2bAdminPreview,
+        builder: (context, state) =>
+            const Day353B2bAdminPreviewScreen(),                             // Day 353
       ),
       GoRoute(
         path: AppRoutes.vault,

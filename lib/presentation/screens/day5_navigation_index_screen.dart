@@ -3039,6 +3039,22 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-351-enterprise-sso-preview · 🟡 MOCK-NOW — verified zapsafe_backend has no `enterprise` app and no SAML/OAuth provider model at all (grepped enterprise/sso across every app) · real, clearly-labeled provider-picker UI (Okta/Entra ID/Google Workspace/OneLogin) simulating redirect → callback → done, no live network call · documents the proposed future contract (GET providers/, POST start/) inline, never pretends either endpoint is real',
               dayBuilt: 'DAY 351 ✅',
             ),
+            const _NavTile(
+              icon: Icons.health_and_safety_rounded,
+              accent: Color(0xFF004C8F),
+              title: 'Day 352 · Insurance Partnership API Wire',
+              route: AppRoutes.insuranceApiWire,
+              hint: '/day-352-insurance-api-wire · 🟡 MOCK-NOW — extends Day 272 · verified zapsafe_backend has no `partners` app and no insurance endpoint at all (grepped partner/insurance across every urls.py/views.py — the only 2 hits are unrelated comments) · adds a real "re-check backend for this endpoint" panel + documented proposed contract (GET /api/v1/partners/insurance/, POST .../apply/) on top of Day 272\'s existing mock UI, which stays the source of truth for demo data',
+              dayBuilt: 'DAY 352 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.corporate_fare_rounded,
+              accent: Color(0xFF0F172A),
+              title: 'Day 353 · B2B Admin Portal Preview',
+              route: AppRoutes.b2bAdminPreview,
+              hint: '/day-353-b2b-admin-preview · 🟡 MOCK-NOW — verified zapsafe_backend has no org/tenant model anywhere (grepped org/tenant/enterprise/company/business — the 2 "tenant" hits are just comments about a hypothetical future) · org users list + SOS(30d) count + avg response SLA metric, realistic structure, clearly mock · distinct from Day 277\'s licensing/roster mock — this is the admin-console/KPI angle',
+              dayBuilt: 'DAY 353 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
