@@ -212,6 +212,7 @@ import '../screens/day307_sos_longpress_ring_screen.dart';         // Day 307
 import '../screens/day308_persistent_status_card_screen.dart';     // Day 308
 import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
 import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
+import '../screens/day321_sos_trigger_refactor_screen.dart';       // Day 321
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -440,6 +441,18 @@ class AppRoutes {
   static const statusCardPolish         = '/day-308-status-card-polish';                   // Day 308
   static const evidenceVaultSearchPolish = '/day-309-evidence-vault-search-polish';        // Day 309
   static const sectionFMilestone        = '/day-310-section-f-milestone';                  // Day 310
+
+  // ─── Section H: v9.2 Core & RC (Days 321-330) ────────────────────────────
+  static const sosTriggerRefactor       = '/day-321-sos-trigger-refactor';                 // Day 321
+  static const dcsPipelineWire          = '/day-322-dcs-pipeline-wire';                    // Day 322
+  static const journeyMlConfidence      = '/day-323-journey-ml-confidence';                // Day 323
+  static const releaseCandidateManifest = '/day-324-release-candidate-manifest';           // Day 324
+  static const otaModelUpdate           = '/day-325-ota-model-update';                     // Day 325
+  static const coldStartReport          = '/day-326-cold-start-report';                    // Day 326
+  static const memoryLeakTracker        = '/day-327-memory-leak-tracker';                  // Day 327
+  static const batteryMonitoringProd    = '/day-328-battery-monitoring-production';        // Day 328
+  static const falsePositiveTuningProd  = '/day-329-false-positive-tuning-production';     // Day 329
+  static const sectionHMilestone        = '/day-330-section-h-rc-milestone';               // Day 330
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1129,6 +1142,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionFMilestone,
         builder: (context, state) =>
             const Day310SectionFMilestoneScreen(),                            // Day 310
+      ),
+      GoRoute(
+        path: AppRoutes.sosTriggerRefactor,
+        builder: (context, state) =>
+            const Day321SosTriggerRefactorScreen(),                           // Day 321
       ),
       GoRoute(
         path: AppRoutes.vault,

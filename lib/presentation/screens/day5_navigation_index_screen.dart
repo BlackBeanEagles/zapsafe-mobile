@@ -1876,6 +1876,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section H: v9.2 Core & RC (Days 321-330) ───────────────
+            const _SectionTitle('SECTION H · V9.2 CORE & RC · DAYS 321-330'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.hub_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 321 · SOS Trigger Production Refactor',
+              route: AppRoutes.sosTriggerRefactor,
+              hint: '/day-321-sos-trigger-refactor · 🔗 · new SosTriggerController — single entry point for manual/fall/DCS-auto/duress-PIN, extract-and-delegate wrapper around the real Day 39 TriggerOrchestrator + AppStateNotifier, not a fork · day39/day71/sos_trigger_button.dart NOT rewritten to depend on it yet (documented, out of scope) · unit tests cover all 4 entry points',
+              dayBuilt: 'DAY 321 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),

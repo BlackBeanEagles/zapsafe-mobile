@@ -289,5 +289,27 @@
     "clear_filters": "फ़िल्टर साफ़ करें",
     "back_to_dashboard": "डैशबोर्ड पर वापस जाएं",
     "back_to_audit": "एकीकरण ऑडिट पर वापस जाएं"
+  },
+  "day321_330": {
+    "sos_trigger_refactor_title": "दिन 321 · SOS ट्रिगर रिफ़ैक्टर",
+    "sos_trigger_refactor_heading": "एकल प्रवेश बिंदु",
+    "dcs_pipeline_wire_title": "दिन 322 · DCS पाइपलाइन वायरिंग",
+    "dcs_pipeline_wire_heading": "DCS पाइपलाइन, अंत-से-अंत सत्यापित",
+    "journey_confidence_title": "दिन 323 · जर्नी ML कॉन्फिडेंस",
+    "journey_confidence_heading": "जर्नी मोड जोखिम मीटर",
+    "rc_manifest_title": "दिन 324 · रिलीज़ कैंडिडेट मेनिफ़ेस्ट",
+    "rc_manifest_heading": "v9.2 बिल्ड मेनिफ़ेस्ट",
+    "ota_model_update_title": "दिन 325 · OTA मॉडल अपडेट",
+    "ota_model_update_heading": "मॉडल वर्शन जांच",
+    "cold_start_report_title": "दिन 326 · कोल्ड स्टार्ट रिपोर्ट",
+    "cold_start_report_heading": "स्प्लैश → डैशबोर्ड समय",
+    "memory_leak_tracker_title": "दिन 327 · मेमोरी लीक ट्रैकर",
+    "memory_leak_tracker_heading": "लीक-संदिग्ध ऑडिट",
+    "battery_monitoring_prod_title": "दिन 328 · बैटरी मॉनिटरिंग (प्रोडक्शन)",
+    "battery_monitoring_prod_heading": "MONITORING-मोड बैटरी स्तर",
+    "false_positive_tuning_prod_title": "दिन 329 · फ़ॉल्स पॉज़िटिव ट्यूनिंग (प्रोडक्शन)",
+    "false_positive_tuning_prod_heading": "DCS संवेदनशीलता",
+    "section_h_milestone_title": "दिन 330 · सेक्शन H मील का पत्थर",
+    "section_h_milestone_heading": "v9.2 RC तैयार"
   }
 }
