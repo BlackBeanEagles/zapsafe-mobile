@@ -1866,6 +1866,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-309-evidence-vault-search-polish · 🟣 POLISH · real filter bar now live on the production evidence vault (/evidence-vault) · chips=date range/trigger type(manual·AI·fall)/status(resolved·FP·drill)/tamper-only · search by SOS id prefix · AND logic · offline on local mock data · "no matches" empty state with Clear filters · found+documented a real unwired GET /api/v1/evidence/search/ endpoint (Day 209), added to Day 301 audit',
               dayBuilt: 'DAY 309 ✅',
             ),
+            const _NavTile(
+              icon: Icons.flag_circle_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 310 · Section F Milestone — Integration Complete',
+              route: AppRoutes.sectionFMilestone,
+              hint: '/day-310-section-f-milestone · 🔗 milestone · checklist mirrors seedIntegrationAudit() (same function Day 301 uses, not a hand-copied duplicate) · stat grid=APIs wired/polish items shipped/endpoints audited/documented exceptions · per-day verify row with real caveats inline, not blanket green · links to Day 301 audit with live-computed refreshed counts · Section F complete → Section G begins',
+              dayBuilt: 'DAY 310 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

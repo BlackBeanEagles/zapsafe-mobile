@@ -7,7 +7,7 @@
 /// real `ApiClient`/`Dio` call to that exact path exists in a committed
 /// service file; `mock` when a screen/feature exists but still runs on
 /// local/hardcoded data; `missing` when the backend endpoint is real but no
-/// frontend code calls it yet. See `_seedAudit()` for the full list and the
+/// frontend code calls it yet. See `seedIntegrationAudit()` for the full list and the
 /// source comment on each entry.
 /// Tag: 🔗 WIRE
 ///
@@ -55,7 +55,7 @@ class IntegrationAuditEntry {
 ///   grep 'path(' across zapsafe_backend/*/urls.py  (endpoint existence)
 ///   grep 'ApiClient|dio\.' across zapsafe_mobile lib/data/services/*.dart (wiring)
 /// Run 2026-08-06/07. Not a fabricated 40-item placeholder list.
-List<IntegrationAuditEntry> _seedAudit() => const [
+List<IntegrationAuditEntry> seedIntegrationAudit() => const [
       // ─── Auth ──────────────────────────────────────────────────────────
       IntegrationAuditEntry(
         group: 'Auth',
@@ -593,7 +593,7 @@ class Day301BackendIntegrationAuditScreen extends StatefulWidget {
 
 class _Day301BackendIntegrationAuditScreenState
     extends State<Day301BackendIntegrationAuditScreen> {
-  late final List<IntegrationAuditEntry> _entries = _seedAudit();
+  late final List<IntegrationAuditEntry> _entries = seedIntegrationAudit();
   String? _expandedEndpoint;
 
   int get _liveCount => _entries.where((e) => e.status == AuditStatus.live).length;
