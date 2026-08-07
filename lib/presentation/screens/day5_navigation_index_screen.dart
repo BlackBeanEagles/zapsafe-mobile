@@ -3049,6 +3049,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-362-play-store-submission · 🟢 real manual Play Console checklist — content rating, data safety, target API level, Play App Signing, signed AAB upload, store listing, pricing/countries, final review · genuine repo finding: android/app/build.gradle inherits targetSdkVersion from Flutter\'s own default rather than pinning a number · every step defaults UNCHECKED, nothing has been submitted · explicitly notes the AAB/signing steps are blocked by Day 361\'s open P0s (debug-signed release keys) until those are actually fixed · links to Day 316\'s staged rollout simulation rather than re-implementing it',
               dayBuilt: 'DAY 362 ✅',
             ),
+            const _NavTile(
+              icon: Icons.apple_rounded,
+              accent: Color(0xFF0A84FF),
+              title: 'Day 363 · App Store Submission Executor',
+              route: AppRoutes.appStoreSubmission,
+              hint: '/day-363-app-store-submission · 🟢 real manual App Store Connect checklist — archive, upload, review info, demo account, export compliance, submit for review · every step defaults UNCHECKED, nothing has been submitted · Review Info tab is pre-filled from Day 284\'s ACTUAL test account constants (reviewer@zapsafe.app / ZapSafe2026! / PIN 123456 / duress PIN 999999) copy-referenced not re-invented, so the two screens never drift apart · links back to Day 284\'s full generator for the complete LP27 explanation',
+              dayBuilt: 'DAY 363 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

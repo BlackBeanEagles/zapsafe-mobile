@@ -357,6 +357,7 @@ import '../screens/day349_store_screenshots_i18n_screen.dart';      // Day 349
 import '../screens/day350_section_j_25lang_milestone_screen.dart';  // Day 350
 import '../screens/day361_final_qa_war_room_screen.dart';           // Day 361
 import '../screens/day362_play_store_submission_screen.dart';       // Day 362
+import '../screens/day363_app_store_submission_screen.dart';        // Day 363
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2168,6 +2169,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.playStoreSubmission,
         builder: (context, state) =>
             const Day362PlayStoreSubmissionScreen(),                         // Day 362
+      ),
+      GoRoute(
+        path: AppRoutes.appStoreSubmission,
+        builder: (context, state) =>
+            const Day363AppStoreSubmissionScreen(),                          // Day 363
       ),
       GoRoute(
         path: AppRoutes.vault,
