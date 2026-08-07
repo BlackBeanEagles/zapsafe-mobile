@@ -322,6 +322,7 @@ import '../screens/day334_battery_soak_production_screen.dart';     // Day 334
 import '../screens/day335_accessibility_full_pass_screen.dart';     // Day 335
 import '../screens/day336_security_execution_screen.dart';          // Day 336
 import '../screens/day337_legal_blockers_live_screen.dart';         // Day 337
+import '../screens/day338_sentry_live_wire_screen.dart';            // Day 338
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1905,6 +1906,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.legalBlockersLive,
         builder: (context, state) =>
             const Day337LegalBlockersLiveScreen(),                           // Day 337
+      ),
+      GoRoute(
+        path: AppRoutes.sentryLiveWire,
+        builder: (context, state) =>
+            const Day338SentryLiveWireScreen(),                              // Day 338
       ),
       GoRoute(
         path: AppRoutes.vault,

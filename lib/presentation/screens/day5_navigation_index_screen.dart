@@ -2747,6 +2747,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-337-legal-blockers-live · 🟡 re-checks Day 286\'s tracker against the real zapsafe_backend Django project (read directly, not invented) · export (Day 69) + account deletion (Day 70) are genuinely LIVE end-to-end via older endpoints · newer /api/v1/account/* surface (consent, sessions, retention, audit-log) is real backend confirmed in account/views.py but has zero frontend caller · third-party sharing disclosure has no backend route anywhere — genuinely unimplemented',
               dayBuilt: 'DAY 337 ✅',
             ),
+            const _NavTile(
+              icon: Icons.bug_report_rounded,
+              accent: Color(0xFF6C5CE7),
+              title: 'Day 338 · Sentry Crash-Free — Live Wire',
+              route: AppRoutes.sentryLiveWire,
+              hint: '/day-338-sentry-live-wire · 🔵 surfaces the real Day 257 Sentry wiring (sentry_flutter ^7.16.0, CrashReporting.dsn/isEnabled/environment read live, not hardcoded) · 99.5% gate confirmed from Day 288\'s own _kTargetPct constant, not re-typed from the spec · PRIMARY path is a real manual-paste input (no live Sentry account in this environment) persisted via SharedPreferences · log starts empty until a real number is pasted in',
+              dayBuilt: 'DAY 338 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
