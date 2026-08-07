@@ -42,7 +42,7 @@ import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kAccent = Color(0xFFF4A261);
+const _kAccent = ZapColors.warning;
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 const _kPrefsKey = 'day373_fp_reports_v1';
 

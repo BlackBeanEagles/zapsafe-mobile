@@ -39,7 +39,7 @@ import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kAccent = Color(0xFF06D6A0);
+const _kAccent = ZapColors.safe;
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 const _kPrefsKeyPrefix = 'day371_rollout100_item_v1_';
 

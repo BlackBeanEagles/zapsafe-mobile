@@ -40,7 +40,7 @@ import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kAccent = Color(0xFF4CC9F0);
+const _kAccent = ZapColors.info;
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 const _kExampleDau = 0; // no real launch → no real DAU; example shown separately in UI copy
 

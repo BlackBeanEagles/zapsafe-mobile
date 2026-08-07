@@ -33,6 +33,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../widgets/zap_error_state.dart';
+import '../widgets/zap_skeleton.dart';
 
 const _kAccent = Color(0xFFEF4444);
 const _kAssetPath = 'assets/data/voice_keywords.json';
@@ -105,10 +107,13 @@ class Day348VoiceKeywords25LangScreen extends ConsumerWidget {
         title: Text('day341_350.voice_keywords_title'.tr()),
       ),
       body: dataAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text('Failed to load $_kAssetPath: $e',
-              style: const TextStyle(color: ZapColors.danger)),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(ZapSpacing.lg),
+          child: ZapSkeletonList(count: 4),
+        ),
+        error: (e, _) => ZapErrorState.fromError(
+          error: e,
+          onRetry: () => ref.invalidate(_keywordDataProvider),
         ),
         data: (data) => _Body(data: data),
       ),

@@ -45,6 +45,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_error_state.dart';
+import '../widgets/zap_skeleton.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const _kAccent = Color(0xFF0D9488);
@@ -221,8 +223,14 @@ class Day385SupportMacrosProductionScreen extends ConsumerWidget {
         ],
       ),
       body: ticketsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e', style: const TextStyle(color: ZapColors.danger))),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(ZapSpacing.lg),
+          child: ZapSkeletonList(count: 4),
+        ),
+        error: (e, _) => ZapErrorState.fromError(
+          error: e,
+          onRetry: () => ref.invalidate(_d385TicketsProvider),
+        ),
         data: (tickets) {
           if (tickets.isEmpty) {
             return ListView(
