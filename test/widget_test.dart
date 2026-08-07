@@ -19,8 +19,14 @@ void main() {
     );
     await tester.pump();
 
-    // Hero banner headline (updated in Day 41).
-    expect(find.text('Month 3 Underway'), findsOneWidget);
+    // Hero banner headline. Was 'Month 3 Underway' (Day 41 text) until the
+    // Day 274-stash rescue merge brought in the Day 300 _Hero rewrite
+    // ('300 Screens Shipped' / 'DAY 300 · SECTION E COMPLETE') that had
+    // been sitting uncommitted this whole time — same stale-assertion
+    // pattern as the kZapsafeModels count fix in month2_runner_test.dart.
+    // _Hero itself could be freshened again to a Day 310 banner later;
+    // this just re-syncs the test to the real, already-shipped content.
+    expect(find.text('300 Screens Shipped'), findsOneWidget);
 
     // Key nav tiles are present.
     expect(find.text('Day 7 · Phone Entry'), findsOneWidget);
