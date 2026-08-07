@@ -1850,6 +1850,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-307-sos-longpress-ring-polish · 🟣 POLISH · real SosTriggerButton now live on the production dashboard · 2s clockwise gray→red ring · haptic ramp light/medium/heavy · release-early "CANCELLED" flash · on completion dispatches the real TriggerOrchestrator.dispatchManual() → AppStateNotifier state machine · TalkBack semantics label',
               dayBuilt: 'DAY 307 ✅',
             ),
+            const _NavTile(
+              icon: Icons.dashboard_customize_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 308 · Production Persistent Status Card',
+              route: AppRoutes.statusCardPolish,
+              hint: '/day-308-status-card-polish · 🟣 POLISH · real PersistentStatusCard now live on the production dashboard, >=16dp above the SOS button · collapsed=mode badge+battery+last DCS score · expanded (tap only, no drag-dismiss)=GPS quality+monitoring state+subscription tier/premium badge · rebuilds on every AppStateNotifier transition',
+              dayBuilt: 'DAY 308 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

@@ -24,6 +24,7 @@ import '../../../data/models/app_state.dart';
 import '../../../domain/providers/app_state_provider.dart';
 import '../../navigation/app_router.dart';
 import '../../widgets/notification_tier_banners.dart';
+import '../../widgets/persistent_status_card.dart';
 import '../../widgets/sos_trigger_button.dart';
 import '../../widgets/zap_badge.dart';
 import '../../widgets/zap_card.dart';
@@ -74,6 +75,13 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
               // Day 306 — three-tier notification banners.
               const NotificationTierBannerStack(),
               const SizedBox(height: ZapSpacing.sm),
+
+              // Day 308 — persistent status card (tap to expand only, no
+              // drag-to-dismiss). Placed in normal document flow above the
+              // SOS button with an explicit >=16dp gap below, so it can
+              // never overlap the button regardless of screen size.
+              const PersistentStatusCard(),
+              const SizedBox(height: ZapSpacing.lg), // >= 16dp gap (Day 308 acceptance)
 
               // Day 307 — long-press SOS trigger.
               Center(
@@ -137,8 +145,8 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
                     ),
                     const _StatusRow(
                       label: 'Persistent status card',
-                      done: false,
-                      note: 'Day 308 — not yet wired into this scaffold',
+                      done: true,
+                      note: 'Day 308 — collapsed/expanded, tap-only, real signals',
                     ),
                     const _StatusRow(
                       label: 'Protection Score ring + Start Journey shortcut',
