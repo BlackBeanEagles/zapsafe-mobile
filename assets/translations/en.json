@@ -298,6 +298,12 @@
     "gonogo_v2_heading": "40-item pre-launch checklist",
     "regression_v2_title": "Day 332 · Full Regression Runner v2",
     "parity_exec_title": "Day 333 · Platform Parity — Execution",
-    "soak_prod_title": "Day 334 · Battery Soak — Production Log"
+    "soak_prod_title": "Day 334 · Battery Soak — Production Log",
+    "a11y_full_title": "Day 335 · Accessibility Full-App Pass",
+    "security_exec_title": "Day 336 · Security Pre-Launch — Execution",
+    "legal_blockers_live_title": "Day 337 · Legal Blockers — Live Tracker",
+    "sentry_live_wire_title": "Day 338 · Sentry Crash-Free — Live Wire",
+    "beta_feedback_r4_title": "Day 339 · Beta Feedback Round 4",
+    "section_i_milestone_title": "Day 340 · Section I Milestone"
   }
 }

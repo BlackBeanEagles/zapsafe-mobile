@@ -319,6 +319,7 @@ import '../screens/day331_gonogo_gate_v2_screen.dart';              // Day 331
 import '../screens/day332_regression_runner_v2_screen.dart';        // Day 332
 import '../screens/day333_platform_parity_execution_screen.dart';   // Day 333
 import '../screens/day334_battery_soak_production_screen.dart';     // Day 334
+import '../screens/day335_accessibility_full_pass_screen.dart';     // Day 335
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1887,6 +1888,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.batterySoakProduction,
         builder: (context, state) =>
             const Day334BatterySoakProductionScreen(),                        // Day 334
+      ),
+      GoRoute(
+        path: AppRoutes.accessibilityFullPass,
+        builder: (context, state) =>
+            const Day335AccessibilityFullPassScreen(),                        // Day 335
       ),
       GoRoute(
         path: AppRoutes.vault,

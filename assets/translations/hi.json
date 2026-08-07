@@ -299,6 +299,12 @@
     "gonogo_v2_heading": "40-आइटम प्री-लॉन्च चेकलिस्ट",
     "regression_v2_title": "दिन 332 · पूर्ण रिग्रेशन रनर v2",
     "parity_exec_title": "दिन 333 · प्लेटफ़ॉर्म समानता — निष्पादन",
-    "soak_prod_title": "दिन 334 · बैटरी सोक — प्रोडक्शन लॉग"
+    "soak_prod_title": "दिन 334 · बैटरी सोक — प्रोडक्शन लॉग",
+    "a11y_full_title": "दिन 335 · एक्सेसिबिलिटी फुल-ऐप पास",
+    "security_exec_title": "दिन 336 · सुरक्षा प्री-लॉन्च — निष्पादन",
+    "legal_blockers_live_title": "दिन 337 · कानूनी अवरोधक — लाइव ट्रैकर",
+    "sentry_live_wire_title": "दिन 338 · Sentry क्रैश-फ्री — लाइव वायर",
+    "beta_feedback_r4_title": "दिन 339 · बीटा फ़ीडबैक राउंड 4",
+    "section_i_milestone_title": "दिन 340 · सेक्शन I माइलस्टोन"
   }
 }

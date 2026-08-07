@@ -2723,6 +2723,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-334-battery-soak-production · 🟢 replaces Day 297\'s accelerated-timer simulation with a real manual-entry form (device, elapsed hours, battery %, thermal throttle Y/N, notes) · real local persistence via SharedPreferences · log starts and stays empty until a real 8hr device soak is actually run — no fabricated data',
               dayBuilt: 'DAY 334 ✅',
             ),
+            const _NavTile(
+              icon: Icons.accessibility_new_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 335 · Accessibility Full-App Pass',
+              route: AppRoutes.accessibilityFullPass,
+              hint: '/day-335-accessibility-full-pass · 🟢 extends Day 214\'s single-flow WCAG audit to 44 real production flows (Core-tagged RouteRow entries in day289\'s route catalogue) × TalkBack/VoiceOver script, tap to cycle PENDING→PASS→FAIL · real static checks: 212 Semantics( occurrences / 53 files, 1 real 44dp touch-target FAIL (Day 9), 1 deliberate WARN (snackbar) · live screen-reader items stay PENDING — no device in this environment',
+              dayBuilt: 'DAY 335 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
