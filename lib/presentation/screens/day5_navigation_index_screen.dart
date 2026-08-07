@@ -3323,6 +3323,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-384-dpdp-signoff · 🟡 MOCK-NOW "wire when export/delete APIs live" (export+deletion already ARE live via Day 69/70) — real gate logic: sign-off stays permanently disabled while third-party sharing disclosure remains genuinely unimplemented (Day 337/383), default state is honestly NOT signed off',
               dayBuilt: 'DAY 384 ✅',
             ),
+            const _NavTile(
+              icon: Icons.support_agent_rounded,
+              accent: Color(0xFF0D9488),
+              title: 'Day 385 · Support Macros — Production',
+              route: AppRoutes.supportMacrosProduction,
+              hint: '/day-385-support-macros-production · 🟢 real read/write integration with Day 369\'s ACTUAL SharedPreferences board storage (same key day369_support_triage_v1, same JSON shape) — pick a real ticket, attach a Day 294 macro reply, "Attach & resolve" genuinely writes stage=resolved back so Day 369\'s board reflects it, not a separate parallel data source',
+              dayBuilt: 'DAY 385 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
