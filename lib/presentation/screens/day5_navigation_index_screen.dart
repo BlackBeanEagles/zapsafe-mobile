@@ -2776,6 +2776,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-343-languages-22-25 · 🟢 REAL, full-coverage nl/it/ko/fa translations — the FINAL Section J batch · ko.json (Day 264) + fa.json (Day 263 RTL pack) both had their 20-key starters kept, remaining keys completed around them · nl.json + it.json created fresh · fa flagged RTL in kSupportedLanguages same as ur/ar · kSupportedLanguages + main.dart supportedLocales reach 25 → 25, the full target · live runtime coverage scan, no hardcoded numbers',
               dayBuilt: 'DAY 343 ✅',
             ),
+            const _NavTile(
+              icon: Icons.compare_arrows_rounded,
+              accent: Color(0xFF06B6D4),
+              title: 'Day 344 · RTL Regression — 25 Languages',
+              route: AppRoutes.rtl25LangRegression,
+              hint: '/day-344-rtl-25lang-regression · 🟢 REAL grep-based static check across 5 wired screens (dashboard, SOS trigger, onboarding step 1, OTP verify, evidence vault) for hardcoded Alignment/EdgeInsets.only(left|right)/TextDirection/back-icons that survive Flutter\'s automatic RTL flip · 6 real findings incl. 1 safety-critical (sos_trigger_button.dart hardcodes TextDirection.ltr + unlocalized English for TalkBack SOS countdown announcements) · repo-wide counts for scale (97 arrow_back icons, 322 EdgeInsets.only(left/right)) · manual QA checklist (mirror icons, 200% font-scale+RTL combo, numeral bidi) stays genuinely PENDING — no device in this environment',
+              dayBuilt: 'DAY 344 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
