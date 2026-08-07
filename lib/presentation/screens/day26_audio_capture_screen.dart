@@ -292,7 +292,7 @@ class _RmsCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: chipColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),

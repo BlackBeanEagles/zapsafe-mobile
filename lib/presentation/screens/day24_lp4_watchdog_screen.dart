@@ -379,7 +379,7 @@ class _ContractCard extends StatelessWidget {
                 Container(
                   width: 6,
                   height: 6,
-                  margin: const EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: ZapSpacing.sm),
                   decoration: BoxDecoration(
                     color: r.$3,
                     shape: BoxShape.circle,

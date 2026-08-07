@@ -447,7 +447,7 @@ class _PlatformChecklist extends StatelessWidget {
         children: items.map((i) {
           final (label, done, deferredTo) = i;
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
             child: Row(
               children: [
                 Icon(

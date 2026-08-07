@@ -283,7 +283,7 @@ class _ParityCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, color: color, size: 16),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(
           label,
           style: ZapTypography.labelSmall.copyWith(
