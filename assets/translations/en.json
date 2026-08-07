@@ -388,6 +388,8 @@
     "hotfix_executor_title": "Day 368 · Hotfix Release Executor",
     "hotfix_executor_heading": "Real version-bump tool for whenever a hotfix is needed",
     "support_triage_title": "Day 369 · Support Ticket Triage",
-    "support_triage_heading": "Real, empty kanban board — no real tickets yet"
+    "support_triage_heading": "Real, empty kanban board — no real tickets yet",
+    "week1_retro_title": "Day 370 · Week 1 Retrospective",
+    "week1_retro_heading": "Fillable template — no real Week 1 has happened yet"
   }
 }

@@ -364,6 +364,7 @@ import '../screens/day366_live_sos_dashboard_screen.dart';          // Day 366
 import '../screens/day367_ratings_reviews_monitor_screen.dart';     // Day 367
 import '../screens/day368_hotfix_executor_screen.dart';             // Day 368
 import '../screens/day369_support_triage_screen.dart';              // Day 369
+import '../screens/day370_week1_retrospective_screen.dart';         // Day 370
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2210,6 +2211,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.supportTriage,
         builder: (context, state) =>
             const Day369SupportTriageScreen(),                               // Day 369
+      ),
+      GoRoute(
+        path: AppRoutes.week1Retrospective,
+        builder: (context, state) =>
+            const Day370Week1RetrospectiveScreen(),                          // Day 370
       ),
       GoRoute(
         path: AppRoutes.vault,

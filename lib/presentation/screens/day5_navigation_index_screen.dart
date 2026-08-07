@@ -3113,6 +3113,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-369-support-triage · 🟢 real, genuinely usable kanban (New / Investigating / Resolved) — board starts truly empty since there is no real launch and no real tickets exist · add a ticket, tag its category, move it through stages, persisted via SharedPreferences (established project precedent) · links directly to Day 294\'s real support macros for drafting the actual reply · not a mock UI standing in for a future feature — usable right now for whenever real tickets start arriving',
               dayBuilt: 'DAY 369 ✅',
             ),
+            const _NavTile(
+              icon: Icons.edit_note_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 370 · Week 1 Retrospective',
+              route: AppRoutes.week1Retrospective,
+              hint: '/day-370-week1-retrospective · 🟢 explicitly a TEMPLATE for a retrospective that has not happened — there was no real Week 1 since there is no real launch (Day 361: 5 open P0s) · 4 real fillable sections (what went well / bugs found / user quotes / action items), every field starts genuinely empty and persists via SharedPreferences · illustrative EXAMPLE text is togglable per-section, clearly labeled "EXAMPLE — illustrative only, not real", and is NEVER pre-filled into the actual input fields · links to Day 367 reviews and Day 369 triage as real sources for future real quotes/bugs',
+              dayBuilt: 'DAY 370 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
