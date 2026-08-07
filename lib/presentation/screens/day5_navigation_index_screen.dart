@@ -2731,6 +2731,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-335-accessibility-full-pass · 🟢 extends Day 214\'s single-flow WCAG audit to 44 real production flows (Core-tagged RouteRow entries in day289\'s route catalogue) × TalkBack/VoiceOver script, tap to cycle PENDING→PASS→FAIL · real static checks: 212 Semantics( occurrences / 53 files, 1 real 44dp touch-target FAIL (Day 9), 1 deliberate WARN (snackbar) · live screen-reader items stay PENDING — no device in this environment',
               dayBuilt: 'DAY 335 ✅',
             ),
+            const _NavTile(
+              icon: Icons.security_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 336 · Security Pre-Launch — Execution',
+              route: AppRoutes.securityExecution,
+              hint: '/day-336-security-execution · 🟢 replaces Day 285\'s assumed checklist defaults with real static-analysis findings from this repo · cert pinning NOT implemented (plain Dio), FLAG_SECURE NOT set, root detection is UI-only, release build signed with DEBUG keys, no ProGuard/R8 · JWT storage via FlutterSecureStorage genuinely real · runtime-pentest-only items (MITM, Frida, MobSF) stay PENDING — no device/CI in this environment',
+              dayBuilt: 'DAY 336 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

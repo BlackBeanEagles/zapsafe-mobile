@@ -320,6 +320,7 @@ import '../screens/day332_regression_runner_v2_screen.dart';        // Day 332
 import '../screens/day333_platform_parity_execution_screen.dart';   // Day 333
 import '../screens/day334_battery_soak_production_screen.dart';     // Day 334
 import '../screens/day335_accessibility_full_pass_screen.dart';     // Day 335
+import '../screens/day336_security_execution_screen.dart';          // Day 336
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1893,6 +1894,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.accessibilityFullPass,
         builder: (context, state) =>
             const Day335AccessibilityFullPassScreen(),                        // Day 335
+      ),
+      GoRoute(
+        path: AppRoutes.securityExecution,
+        builder: (context, state) =>
+            const Day336SecurityExecutionScreen(),                            // Day 336
       ),
       GoRoute(
         path: AppRoutes.vault,
