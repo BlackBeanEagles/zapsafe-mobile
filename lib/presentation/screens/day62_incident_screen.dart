@@ -773,7 +773,7 @@ class _PeriodChips extends StatelessWidget {
           onTap: () => onSelect(d),
           child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: active ? ZapColors.danger : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(20),
@@ -808,7 +808,7 @@ class _StatusChips extends StatelessWidget {
           onTap: () => onSelect(f.value),
           child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: active ? ZapColors.bgElevated : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(20),
@@ -913,7 +913,7 @@ class _ContactRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
       child: Row(
         children: [
           Icon(

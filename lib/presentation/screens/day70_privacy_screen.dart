@@ -442,7 +442,7 @@ class _PrivacyInfoCard extends StatelessWidget {
         children: [
           const Icon(Icons.info_outline_rounded,
               size: 13, color: ZapColors.info),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               'All consent flags default to OFF. ZapSafe never shares data '
@@ -624,7 +624,7 @@ class _DeletionInfoCard extends StatelessWidget {
                   style: ZapTypography.labelSmall),
             ],
           ),
-          SizedBox(height: 4),
+          SizedBox(height: ZapSpacing.xs),
           Text(
             'Submitting a deletion request notifies the ZapSafe admin team. '
             'Your data will be permanently wiped within 30 days. '
@@ -766,7 +766,7 @@ class _DeletionRequestCard extends StatelessWidget {
 
           // Reason (if any)
           if (deletion.reason.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             _InfoRow(
               icon:  Icons.chat_bubble_outline_rounded,
               label: 'Reason',

@@ -16,6 +16,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../core/constants/api_config.dart';
+import '../../core/theme/spacing.dart';
 
 class DoNotDisturbScreen extends StatefulWidget {
   const DoNotDisturbScreen({super.key});
@@ -153,7 +154,7 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: Color(0xFF6366F1)))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(ZapSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -178,13 +179,13 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: ZapSpacing.xxl),
 
                   // ── DND Master Toggle ──────────────────────────────────
                   _buildSectionLabel('QUIET HOURS'),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: ZapSpacing.md),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.lg, vertical: 14),
                     decoration: BoxDecoration(
                       color: const Color(0xFF1C1C1E),
                       borderRadius: BorderRadius.circular(12),
@@ -199,7 +200,7 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                               'Enable Quiet Hours',
                               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: ZapSpacing.xs),
                             Text(
                               _dndRangeLabel(),
                               style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 13),
@@ -216,16 +217,16 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                   ),
 
                   if (_dndEnabled) ...[
-                    const SizedBox(height: 16),
+                    const SizedBox(height: ZapSpacing.lg),
                     // ── Hour Pickers ─────────────────────────────────────
                     Row(
                       children: [
                         Expanded(child: _buildHourPicker('Start', _startHour, (v) => setState(() => _startHour = v))),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: ZapSpacing.md),
                         Expanded(child: _buildHourPicker('End', _endHour, (v) => setState(() => _endHour = v))),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: ZapSpacing.sm),
                     Text(
                       'DND active: ${_formatHour(_startHour)} → ${_formatHour(_endHour)}',
                       style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
@@ -237,9 +238,9 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
 
                   // ── Language Selector ──────────────────────────────────
                   _buildSectionLabel('LANGUAGE'),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: ZapSpacing.md),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.lg),
                     decoration: BoxDecoration(
                       color: const Color(0xFF1C1C1E),
                       borderRadius: BorderRadius.circular(12),
@@ -264,12 +265,12 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: ZapSpacing.xxxl),
 
                   // ── Error Message ──────────────────────────────────────
                   if (_errorMsg != null)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.only(bottom: ZapSpacing.md),
                       child: Text(
                         _errorMsg!,
                         style: const TextStyle(color: Color(0xFFEF4444), fontSize: 13),
@@ -298,7 +299,7 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                             ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: ZapSpacing.xl),
                 ],
               ),
             ),
@@ -319,7 +320,7 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
 
   Widget _buildHourPicker(String label, int currentHour, ValueChanged<int> onChanged) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C1E),
         borderRadius: BorderRadius.circular(12),
@@ -328,12 +329,12 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             _formatHour(currentHour),
             style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -383,7 +383,7 @@ class _CreateCard extends StatelessWidget {
             const SizedBox(height: ZapSpacing.xs),
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: ZapSpacing.sm, vertical: 4),
+                  horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
               decoration: BoxDecoration(
                 color: ZapColors.bgElevated,
                 borderRadius: BorderRadius.circular(8),
@@ -411,7 +411,7 @@ class _CreateCard extends StatelessWidget {
                           if (p.isDefault) ...[
                             const Icon(Icons.star_rounded,
                                 size: 12, color: ZapColors.safe),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: ZapSpacing.xs),
                           ],
                           Expanded(
                             child: Text(p.name,
@@ -580,7 +580,7 @@ class _CheckInCard extends StatelessWidget {
                               : ZapColors.safe,
                       foregroundColor: ZapColors.bgPrimary,
                       padding:
-                          const EdgeInsets.symmetric(vertical: 12),
+                          const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -612,7 +612,7 @@ class _CheckInCard extends StatelessWidget {
                       side: const BorderSide(
                           color: ZapColors.bgElevated),
                       padding:
-                          const EdgeInsets.symmetric(vertical: 12),
+                          const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -640,7 +640,7 @@ class _CheckInCard extends StatelessWidget {
                           color: ZapColors.danger,
                           width: 0.8),
                       padding:
-                          const EdgeInsets.symmetric(vertical: 12),
+                          const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -731,7 +731,7 @@ class _StatusFilterChips extends StatelessWidget {
           onTap: () => onSelect(o.$1),
           child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: active ? o.$3 : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(20),
@@ -793,7 +793,7 @@ class _MetaRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(children: [
         Icon(icon, size: 13, color: color),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(text,
             style: ZapTypography.labelSmall.copyWith(color: color)),
       ]);

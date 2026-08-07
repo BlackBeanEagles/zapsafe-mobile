@@ -209,7 +209,7 @@ class _PeriodSelector extends StatelessWidget {
       children: DashboardPeriod.values.map((p) {
         final active = p == selected;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.xs),
           child: InkWell(
             onTap: () => onChanged(p),
             borderRadius: BorderRadius.circular(20),
@@ -301,7 +301,7 @@ class _SafetyScoreCard extends StatelessWidget {
                     letterSpacing: 0.8,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   _label,
                   style: ZapTypography.headlineSmall.copyWith(
@@ -715,7 +715,7 @@ class _HeatmapPanel extends StatelessWidget {
         children: [
           // Hour axis labels
           Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 4),
+            padding: const EdgeInsets.only(left: ZapSpacing.xl, bottom: ZapSpacing.xs),
             child: Row(
               children: List.generate(24, (h) {
                 final showLabel = h % 4 == 0;
@@ -782,7 +782,7 @@ class _HeatmapPanel extends StatelessWidget {
                   color: ZapColors.textMuted, fontSize: 9,
                 ),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               ...List.generate(5, (i) {
                 return Container(
                   width:  12,
@@ -794,7 +794,7 @@ class _HeatmapPanel extends StatelessWidget {
                   ),
                 );
               }),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 'High',
                 style: ZapTypography.labelSmall.copyWith(

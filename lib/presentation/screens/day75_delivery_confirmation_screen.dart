@@ -14,6 +14,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../core/constants/api_config.dart';
+import '../../core/theme/spacing.dart';
 
 class DeliveryConfirmationScreen extends StatefulWidget {
   final String? sosId;
@@ -152,7 +153,7 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
                 if (_errorMsg != null)
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.lg, vertical: 10),
                     color: const Color(0xFF1C1C1E),
                     child: Text(
                       _errorMsg!,
@@ -166,7 +167,7 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.mark_email_unread_outlined, color: Color(0xFF6B7280), size: 48),
-                          SizedBox(height: 12),
+                          SizedBox(height: ZapSpacing.md),
                           Text('No delivery data yet', style: TextStyle(color: Color(0xFF6B7280), fontSize: 16)),
                           SizedBox(height: 6),
                           Text('Trigger an SOS to see delivery status', style: TextStyle(color: Color(0xFF4B5563), fontSize: 13)),
@@ -177,7 +178,7 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
                 else
                   Expanded(
                     child: ListView.builder(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(ZapSpacing.lg),
                       itemCount: _contacts.length,
                       itemBuilder: (ctx, i) => _buildContactCard(_contacts[i]),
                     ),
@@ -193,8 +194,8 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
     final bool acked = push?['acked_at'] != null || sms?['acked_at'] != null;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: ZapSpacing.md),
+      padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C1E),
         borderRadius: BorderRadius.circular(14),
@@ -237,7 +238,7 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
               ),
               if (acked)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: const Color(0xFF6366F1).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(20),
@@ -272,7 +273,7 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
     return Row(
       children: [
         Icon(channelIcon, color: const Color(0xFF9CA3AF), size: 16),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Text(channelLabel, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 13)),
         const Spacer(),
         Icon(_statusIcon(status), color: color, size: 16),
