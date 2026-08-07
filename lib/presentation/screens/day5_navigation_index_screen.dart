@@ -3065,6 +3065,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-364-launch-day-runbook · 🟢 explicit PLANNING DOCUMENT banner — minute-by-minute T-24h→T+24h timeline for a launch day that has not happened, offsets are relative not real timestamps · roles are this project\'s actual founder/intern/support/on-call split · SOS monitoring escalation path is separated out as safety-critical, routes through Day 294\'s real support macros rather than invented copy · every timeline item links to the real day it depends on (Day 361 war room, Day 293 hotfix playbook, Day 316 staged rollout, Day 288 crash-free gate)',
               dayBuilt: 'DAY 364 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rocket_launch_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 365 · PUBLIC LAUNCH MILESTONE (Preview)',
+              route: AppRoutes.publicLaunchMilestone,
+              hint: '/day-365-public-launch · 🟢 UNMISSABLE persistent red "PREVIEW ONLY — public launch has NOT occurred" banner on every tab, not just a one-time dialog · confetti + haptic celebration code KEPT (real Day 365 deliverable for whenever launch genuinely happens) but reframed to celebrate the real 365-day BUILD milestone, not a fake public launch · stat grid is honest: 365 build-days + 390 build target + 25 languages are REAL, "countries live" is explicitly 0 not fabricated · share message is a labeled DRAFT, never auto-posted · CTA previews Day 366 post-launch monitoring rather than claiming it is already live',
+              dayBuilt: 'DAY 365 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
@@ -3179,13 +3187,19 @@ class _Hero extends StatelessWidget {
   }
 }
 
-/// Compact progress strip — Day 300 of 365 toward global launch.
+/// Compact progress strip — Day 365 of 390 build progress.
+///
+/// This tracks real BUILD progress (days of this project actually
+/// constructed), not a claim that public launch has happened. Updated at
+/// Day 365 per that day's own milestone screen — see
+/// `day365_public_launch_milestone_screen.dart` for the full honesty
+/// framing (365/390 build days vs. 0 real launched countries/users).
 class _MilestoneProgressCard extends StatelessWidget {
   const _MilestoneProgressCard();
 
   @override
   Widget build(BuildContext context) {
-    const progress = 300 / 365;
+    const progress = 365 / 390;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(ZapSpacing.md),
@@ -3201,7 +3215,7 @@ class _MilestoneProgressCard extends StatelessWidget {
             children: [
               const Expanded(
                 child: Text(
-                  'Global launch progress',
+                  'Build progress (not a launch claim)',
                   style: TextStyle(
                     color: ZapColors.textPrimary,
                     fontWeight: FontWeight.w700,
@@ -3210,7 +3224,7 @@ class _MilestoneProgressCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'Day 300 / 365',
+                'Day 365 / 390',
                 style: ZapTypography.monoSmall.copyWith(color: const Color(0xFFF59E0B)),
               ),
             ],
@@ -3227,7 +3241,8 @@ class _MilestoneProgressCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '${(progress * 100).round()}% to worldwide rollout · 65 Phase 2 days ahead',
+            '${(progress * 100).round()}% of the 390-day build target · public '
+            'launch itself has NOT happened — see Day 361 war room',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
           ),
         ],
