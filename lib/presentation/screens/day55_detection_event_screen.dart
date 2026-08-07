@@ -331,7 +331,7 @@ class _LogEventForm extends StatelessWidget {
                       Icon(_typeIcon(t),
                           color: active ? color : ZapColors.textSecondary,
                           size: 14),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         t.label,
                         style: ZapTypography.labelSmall.copyWith(
@@ -706,7 +706,7 @@ class _FilterChip extends StatelessWidget {
             Icon(icon,
                 size: 13,
                 color: active ? color : ZapColors.textSecondary),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               label,
               style: ZapTypography.labelSmall.copyWith(
@@ -880,7 +880,7 @@ class _EventCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     // Mode badge
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -907,7 +907,7 @@ class _EventCard extends StatelessWidget {
                       ),
                     ),
                     if (record.triggeredSos) ...[
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 1),

@@ -290,7 +290,7 @@ class _DetectionModeCard extends StatelessWidget {
           const SizedBox(height: ZapSpacing.md),
           Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: _tierColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(4),

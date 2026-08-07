@@ -202,7 +202,7 @@ class _AnalyticsBody extends StatelessWidget {
           children: [
             const Icon(Icons.access_time_rounded,
                 size: 13, color: ZapColors.textSecondary),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               'Updated ${fmt.format(result.generatedAt)}',
               style: ZapTypography.labelSmall
@@ -603,7 +603,7 @@ class _BarChart extends StatelessWidget {
         final label = labels[e.key] ?? e.key;
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
+          padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
           child: Row(
             children: [
               SizedBox(
@@ -748,7 +748,7 @@ class _ModeLabel extends StatelessWidget {
         width: 8, height: 8,
         decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
-      const SizedBox(width: 4),
+      const SizedBox(width: ZapSpacing.xs),
       Text(
         '$label  $count  (${(pct * 100).toStringAsFixed(0)}%)',
         style: ZapTypography.labelSmall
@@ -856,7 +856,7 @@ class _ErrorState extends StatelessWidget {
             Text('Failed to load analytics',
                 style: ZapTypography.bodyMedium
                     .copyWith(color: ZapColors.textPrimary)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(message,
                 style: ZapTypography.labelSmall
                     .copyWith(color: ZapColors.textSecondary),
