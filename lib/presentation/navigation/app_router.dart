@@ -375,6 +375,7 @@ import '../screens/day367_ratings_reviews_monitor_screen.dart';     // Day 367
 import '../screens/day368_hotfix_executor_screen.dart';             // Day 368
 import '../screens/day369_support_triage_screen.dart';              // Day 369
 import '../screens/day370_week1_retrospective_screen.dart';         // Day 370
+import '../screens/day371_rollout_100_screen.dart';                 // Day 371
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -788,6 +789,21 @@ class AppRoutes {
   static const hotfixExecutor            = '/day-368-hotfix-executor';                      // Day 368
   static const supportTriage             = '/day-369-support-triage';                       // Day 369
   static const week1Retrospective        = '/day-370-week1-retrospective';                  // Day 370
+
+  // ─── Section N: Scale & Stabilize (Days 371-380) ─────────────────────────
+  // NOTE: no real rollout, hotfix, or scale event has happened — every
+  // "current state" default below is honest not-yet-happened, per each
+  // screen's own file header.
+  static const rollout100Checklist       = '/day-371-rollout-100';                          // Day 371
+  static const performanceScaleReport    = '/day-372-performance-scale';                    // Day 372
+  static const falsePositiveField        = '/day-373-false-positive-field';                 // Day 373
+  static const modelFeedbackExport       = '/day-374-model-feedback-export';                // Day 374
+  static const sectionMMilestone         = '/day-375-section-m-milestone';                  // Day 375
+  static const month10Ops                = '/day-376-month10-ops';                          // Day 376
+  static const v92BacklogLock            = '/day-377-v92-backlog';                          // Day 377
+  static const competitorBenchmark       = '/day-378-competitor-benchmark';                 // Day 378
+  static const tenKUsersGate             = '/day-379-10k-users-gate';                       // Day 379
+  static const day380OpsCheckpoint       = '/day-380-ops-checkpoint';                       // Day 380
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2292,6 +2308,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.week1Retrospective,
         builder: (context, state) =>
             const Day370Week1RetrospectiveScreen(),                          // Day 370
+      ),
+      GoRoute(
+        path: AppRoutes.rollout100Checklist,
+        builder: (context, state) =>
+            const Day371Rollout100Screen(),                                  // Day 371
       ),
       GoRoute(
         path: AppRoutes.vault,

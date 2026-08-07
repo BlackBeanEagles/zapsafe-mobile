@@ -413,5 +413,27 @@
     "support_triage_heading": "Real, empty kanban board — no real tickets yet",
     "week1_retro_title": "Day 370 · Week 1 Retrospective",
     "week1_retro_heading": "Fillable template — no real Week 1 has happened yet"
+  },
+  "day371_380": {
+    "rollout100_title": "Day 371 · Rollout 50% → 100%",
+    "rollout100_heading": "Real checklist tool — no real rollout is in flight yet",
+    "performance_scale_title": "Day 372 · Performance at Scale Report",
+    "performance_scale_heading": "Manual-paste latency/error tool + labeled example DAU",
+    "fp_field_title": "Day 373 · False Positive Field Analysis",
+    "fp_field_heading": "Real, empty categorization tool — no real users yet",
+    "model_feedback_export_title": "Day 374 · Model Retrain Feedback Export",
+    "model_feedback_export_heading": "Real export mechanism — no real field data yet",
+    "section_m_milestone_title": "Day 375 · Section M Milestone",
+    "section_m_milestone_heading": "Real per-day verification — Section N begins next",
+    "month10_ops_title": "Day 376 · Month 10 Ops Milestone",
+    "month10_ops_heading": "Real ops status, grounded in the project's own timeline docs",
+    "v92_backlog_title": "Day 377 · v9.2 Feature Backlog Lock",
+    "v92_backlog_heading": "Planning document — not a claim these are built",
+    "competitor_benchmark_title": "Day 378 · Competitor Benchmark Update",
+    "competitor_benchmark_heading": "Feature matrix vs Life360, Noonlight, bSafe",
+    "tenk_gate_title": "Day 379 · 10K Users Readiness Gate",
+    "tenk_gate_heading": "Frontend expectations of backend — infra is backend's call",
+    "ops_checkpoint_title": "Day 380 · Ops Checkpoint",
+    "ops_checkpoint_heading": "Real checkpoint summary of Days 371-379"
   }
 }

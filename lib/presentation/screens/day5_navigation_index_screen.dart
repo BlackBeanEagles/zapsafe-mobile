@@ -3208,6 +3208,19 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section N screens ────────────────────────────────────
+            const _SectionTitle('SECTION N · SCALE & STABILIZE (371-380)'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.trending_up_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 371 · Rollout 50% → 100% Checklist',
+              route: AppRoutes.rollout100Checklist,
+              hint: '/day-371-rollout-100 · 🟢 real go/no-go checklist for advancing a rollout that has NOT started — Day 316\'s simulator is local-only, no real Play Console/App Store Connect call exists · 8 real gate items (crash-free rate, ANR, zero open P0 via Day 361, dwell time, support volume via Day 369, rating trend via Day 367, backend headroom per Day 257\'s real load test, rollback plan) · persists via SharedPreferences, all default unchecked',
+              dayBuilt: 'DAY 371 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),
