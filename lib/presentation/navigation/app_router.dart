@@ -214,6 +214,7 @@ import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
 import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
 import '../screens/day311_eu_emergency_numbers_screen.dart';       // Day 311
 import '../screens/day312_latam_emergency_numbers_screen.dart';    // Day 312
+import '../screens/day313_sea_emergency_numbers_screen.dart';      // Day 313
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -446,6 +447,7 @@ class AppRoutes {
   // ─── Section G: Global Store Expansion (Days 311-320) ────────────────────
   static const euEmergencyNumbers       = '/day-311-eu-emergency-numbers';                 // Day 311
   static const latamEmergencyNumbers    = '/day-312-latam-emergency-numbers';              // Day 312
+  static const seaEmergencyNumbers      = '/day-313-sea-emergency-numbers';                // Day 313
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1145,6 +1147,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.latamEmergencyNumbers,
         builder: (context, state) =>
             const Day312LatamEmergencyNumbersScreen(),                        // Day 312
+      ),
+      GoRoute(
+        path: AppRoutes.seaEmergencyNumbers,
+        builder: (context, state) =>
+            const Day313SeaEmergencyNumbersScreen(),                          // Day 313
       ),
       GoRoute(
         path: AppRoutes.vault,

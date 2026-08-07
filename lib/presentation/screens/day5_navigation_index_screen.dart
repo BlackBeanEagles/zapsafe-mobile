@@ -1895,6 +1895,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-312-latam-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_latam.json · Mexico/Brazil/Colombia/Argentina/Chile + Peru/Ecuador/Uruguay/Costa Rica/Panama (10 countries, well-documented numbers only) · no region-wide 112/911 equivalent so every country lists its own · tap to dial, long-press to copy',
               dayBuilt: 'DAY 312 ✅',
             ),
+            const _NavTile(
+              icon: Icons.emergency_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 313 · SEA Emergency Numbers Pack',
+              route: AppRoutes.seaEmergencyNumbers,
+              hint: '/day-313-sea-emergency-numbers · 🟢 FRONTEND-ONLY · assets/data/emergency_sea.json · Singapore/Malaysia/Indonesia/Philippines/Vietnam/Thailand (the six the spec named) · no region-wide equivalent so every country lists its own · tap to dial, long-press to copy',
+              dayBuilt: 'DAY 313 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

@@ -1,0 +1,77 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-08-07",
+  "source": "ZapSafe bundled reference · Day 313 SEA pack · only well-documented, publicly known official numbers included · verify locally before travel",
+  "region": "Southeast Asia",
+  "countries": [
+    {
+      "code": "SG",
+      "name": "Singapore",
+      "flag": "🇸🇬",
+      "region": "Asia",
+      "notes": "999 for police & SCDF; 995 for ambulance & fire.",
+      "numbers": [
+        { "label": "Police", "number": "999", "primary": true, "service": "police" },
+        { "label": "Ambulance & fire (SCDF)", "number": "995", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "MY",
+      "name": "Malaysia",
+      "flag": "🇲🇾",
+      "region": "Asia",
+      "notes": "999 is the unified emergency number nationwide; 112 also works as a GSM mobile fallback.",
+      "numbers": [
+        { "label": "Emergency services", "number": "999", "primary": true, "service": "all" },
+        { "label": "GSM mobile fallback", "number": "112", "primary": false, "service": "all" }
+      ]
+    },
+    {
+      "code": "ID",
+      "name": "Indonesia",
+      "flag": "🇮🇩",
+      "region": "Asia",
+      "notes": "112 is the national unified emergency number; legacy single-service numbers still commonly used.",
+      "numbers": [
+        { "label": "Universal emergency", "number": "112", "primary": true, "service": "all" },
+        { "label": "Police (legacy)", "number": "110", "primary": false, "service": "police" },
+        { "label": "Fire (legacy)", "number": "113", "primary": false, "service": "fire" },
+        { "label": "Ambulance (legacy)", "number": "118", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "PH",
+      "name": "Philippines",
+      "flag": "🇵🇭",
+      "region": "Asia",
+      "notes": "911 is the nationwide unified emergency hotline.",
+      "numbers": [
+        { "label": "Emergency services", "number": "911", "primary": true, "service": "all" }
+      ]
+    },
+    {
+      "code": "VN",
+      "name": "Vietnam",
+      "flag": "🇻🇳",
+      "region": "Asia",
+      "notes": "Separate services; no unified 911/112 equivalent nationwide.",
+      "numbers": [
+        { "label": "Police", "number": "113", "primary": true, "service": "police" },
+        { "label": "Fire", "number": "114", "primary": false, "service": "fire" },
+        { "label": "Ambulance", "number": "115", "primary": false, "service": "ambulance" }
+      ]
+    },
+    {
+      "code": "TH",
+      "name": "Thailand",
+      "flag": "🇹🇭",
+      "region": "Asia",
+      "notes": "191 is the general police/emergency number; separate lines exist for fire and medical.",
+      "numbers": [
+        { "label": "Police / general emergency", "number": "191", "primary": true, "service": "police" },
+        { "label": "Fire", "number": "199", "primary": false, "service": "fire" },
+        { "label": "Medical emergency (EMS)", "number": "1669", "primary": false, "service": "ambulance" }
+      ]
+    }
+  ]
+}
