@@ -3089,6 +3089,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-366-live-sos-dashboard · 🟡→🔵 upgraded from MOCK-NOW: all 3 metrics (SOS triggered count, delivery success %, avg ack time) wire the REAL Day 302 endpoints (sosSummaryRawProvider + contactResponseRateRawProvider — GET /api/v1/analytics/sos-summary/ + /contacts/response-rate/), no mock fallback, same raw-provider pattern as Day 338 · legitimately shows zero/empty/error since no real launch exists — that IS the correct honest state, explicitly labeled as such rather than hidden or faked',
               dayBuilt: 'DAY 366 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rate_review_rounded,
+              accent: Color(0xFFFBBF24),
+              title: 'Day 367 · Ratings & Reviews Monitor',
+              route: AppRoutes.ratingsReviewsMonitor,
+              hint: '/day-367-ratings-reviews-monitor · 🟢 genuinely 100% manual-paste tool — neither Play nor App Store expose an in-app-readable reviews API, so this is correctly not "MOCK", it is the real intended workflow · sentiment tags (positive/neutral/negative) + real starter response-template drafts per sentiment · log persists via SharedPreferences (this project\'s established precedent, same as Day 338) and starts genuinely empty since there is no real store listing yet',
+              dayBuilt: 'DAY 367 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
