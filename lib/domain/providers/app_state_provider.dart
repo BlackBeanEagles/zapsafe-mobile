@@ -217,7 +217,8 @@ class AppStateNotifier extends StateNotifier<AppState> {
     }
   }
 
-  /// Cold-start restore when GET /api/v1/sos/active/ returns a live event.
+  /// Day 302 — cold-start restore when GET /api/v1/sos/active/ returns a
+  /// live event (session hydration after an app restart mid-SOS).
   void restoreActiveSos({String cause = 'hydrated active SOS'}) {
     _cancelAlertCountdown();
     _silentlyEscalating = false;

@@ -5,6 +5,7 @@ import '../../data/services/api_client.dart';
 import '../../data/services/auth_service.dart';
 import '../../data/services/token_storage.dart';
 import '../state/auth_state.dart';
+import 'i18n_providers.dart';
 
 // ─── Singletons ───────────────────────────────────────────────────────
 
@@ -22,6 +23,9 @@ final Provider<ApiClient> apiClientProvider = Provider<ApiClient>((ref) {
   final storage = ref.watch(tokenStorageProvider);
   return ApiClient.build(
     tokenProvider: () => storage.readAccessToken(),
+    // Day 305 — reads the real app locale, bridged from EasyLocalization's
+    // context.locale by ZapSafeApp on every rebuild (see main.dart).
+    languageProvider: () => ref.read(currentLanguageCodeProvider),
     refresher: () async {
       // Pull the *latest* refresh token from storage each time — by the time
       // a 401 fires, the user may have logged out, in which case we abort

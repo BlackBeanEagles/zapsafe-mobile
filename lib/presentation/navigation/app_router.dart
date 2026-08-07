@@ -305,6 +305,16 @@ import '../screens/day297_battery_soak_log_screen.dart'; // Day 297
 import '../screens/day298_gonogo_gate_screen.dart'; // Day 298
 import '../screens/day299_penultimate_summary_screen.dart'; // Day 299
 import '../screens/day300_halfway_launch_milestone_screen.dart'; // Day 300
+import '../screens/day301_backend_integration_audit_screen.dart';  // Day 301
+import '../screens/day302_analytics_live_wire_screen.dart';        // Day 302
+import '../screens/day303_razorpay_live_wire_screen.dart';         // Day 303
+import '../screens/day304_delivery_status_live_wire_screen.dart';  // Day 304
+import '../screens/day305_accept_language_wire_screen.dart';       // Day 305
+import '../screens/day306_notification_tiers_polish_screen.dart';  // Day 306
+import '../screens/day307_sos_longpress_ring_screen.dart';         // Day 307
+import '../screens/day308_persistent_status_card_screen.dart';     // Day 308
+import '../screens/day309_evidence_vault_search_screen.dart';      // Day 309
+import '../screens/day310_section_f_milestone_screen.dart';        // Day 310
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -619,6 +629,20 @@ class AppRoutes {
   static const gonogoGate                = '/gonogo-gate';                              // Day 298
   static const penultimateSummary        = '/penultimate-summary';                        // Day 299
   static const day300Milestone           = '/day-300-milestone';                          // Day 300
+
+  // ─── Section F: Production Wiring (Days 301-305) ────────────────────────
+  static const integrationAudit         = '/day-301-integration-audit';                    // Day 301
+  static const analyticsLiveWire        = '/day-302-analytics-live-wire';                  // Day 302
+  static const razorpayLiveWire         = '/day-303-razorpay-live-wire';                   // Day 303
+  static const deliveryStatusLiveWire   = '/day-304-delivery-status-live-wire';             // Day 304
+  static const acceptLanguageWire       = '/day-305-accept-language-wire';                 // Day 305
+
+  // ─── Section F: Production Wiring (Days 306-310) ────────────────────────
+  static const notificationTiersPolish  = '/day-306-notification-tiers-polish';           // Day 306
+  static const sosLongPressRingPolish   = '/day-307-sos-longpress-ring-polish';            // Day 307
+  static const statusCardPolish         = '/day-308-status-card-polish';                   // Day 308
+  static const evidenceVaultSearchPolish = '/day-309-evidence-vault-search-polish';        // Day 309
+  static const sectionFMilestone        = '/day-310-section-f-milestone';                  // Day 310
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1773,6 +1797,56 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.day300Milestone,
         builder: (context, state) =>
             const Day300HalfwayLaunchMilestoneScreen(),                          // Day 300
+      ),
+      GoRoute(
+        path: AppRoutes.integrationAudit,
+        builder: (context, state) =>
+            const Day301BackendIntegrationAuditScreen(),                      // Day 301
+      ),
+      GoRoute(
+        path: AppRoutes.analyticsLiveWire,
+        builder: (context, state) =>
+            const Day302AnalyticsLiveWireScreen(),                            // Day 302
+      ),
+      GoRoute(
+        path: AppRoutes.razorpayLiveWire,
+        builder: (context, state) =>
+            const Day303RazorpayLiveWireScreen(),                             // Day 303
+      ),
+      GoRoute(
+        path: AppRoutes.deliveryStatusLiveWire,
+        builder: (context, state) =>
+            const Day304DeliveryStatusLiveWireScreen(),                       // Day 304
+      ),
+      GoRoute(
+        path: AppRoutes.acceptLanguageWire,
+        builder: (context, state) =>
+            const Day305AcceptLanguageWireScreen(),                           // Day 305
+      ),
+      GoRoute(
+        path: AppRoutes.notificationTiersPolish,
+        builder: (context, state) =>
+            const Day306NotificationTiersPolishScreen(),                      // Day 306
+      ),
+      GoRoute(
+        path: AppRoutes.sosLongPressRingPolish,
+        builder: (context, state) =>
+            const Day307SosLongpressRingScreen(),                             // Day 307
+      ),
+      GoRoute(
+        path: AppRoutes.statusCardPolish,
+        builder: (context, state) =>
+            const Day308PersistentStatusCardScreen(),                         // Day 308
+      ),
+      GoRoute(
+        path: AppRoutes.evidenceVaultSearchPolish,
+        builder: (context, state) =>
+            const Day309EvidenceVaultSearchScreen(),                          // Day 309
+      ),
+      GoRoute(
+        path: AppRoutes.sectionFMilestone,
+        builder: (context, state) =>
+            const Day310SectionFMilestoneScreen(),                            // Day 310
       ),
       GoRoute(
         path: AppRoutes.vault,
