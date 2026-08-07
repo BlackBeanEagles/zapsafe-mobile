@@ -322,6 +322,7 @@ import '../screens/day334_battery_soak_production_screen.dart';     // Day 334
 import '../screens/day335_accessibility_full_pass_screen.dart';     // Day 335
 import '../screens/day336_security_execution_screen.dart';          // Day 336
 import '../screens/day337_legal_blockers_live_screen.dart';         // Day 337
+import '../screens/day341_languages_16_18_screen.dart';             // Day 341
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -666,6 +667,18 @@ class AppRoutes {
   static const sentryLiveWire            = '/day-338-sentry-live-wire';                    // Day 338
   static const betaFeedbackRound4        = '/day-339-beta-feedback-round4';                // Day 339
   static const sectionIMilestone         = '/day-340-section-i-milestone';                 // Day 340
+
+  // ─── Section J: 25-Language Completion (Days 341-350) ────────────────────
+  static const languages16to18           = '/day-341-languages-16-18';                     // Day 341
+  static const languages19to21           = '/day-342-languages-19-21';                     // Day 342
+  static const languages22to25           = '/day-343-languages-22-25';                     // Day 343
+  static const rtl25LangRegression       = '/day-344-rtl-25lang-regression';                // Day 344
+  static const i18nMissingKeyScanner     = '/day-345-i18n-missing-key-scanner';             // Day 345
+  static const culturalAdaptationV2      = '/day-346-cultural-adaptation-v2';               // Day 346
+  static const indicCopyReview           = '/day-347-indic-copy-review';                    // Day 347
+  static const voiceKeywords25Lang       = '/day-348-voice-keywords-25lang';                // Day 348
+  static const storeScreenshotsI18n      = '/day-349-store-screenshots-i18n';               // Day 349
+  static const sectionJMilestone         = '/day-350-section-j-25lang-milestone';           // Day 350
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -1905,6 +1918,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.legalBlockersLive,
         builder: (context, state) =>
             const Day337LegalBlockersLiveScreen(),                           // Day 337
+      ),
+      GoRoute(
+        path: AppRoutes.languages16to18,
+        builder: (context, state) =>
+            const Day341Languages16to18Screen(),                             // Day 341
       ),
       GoRoute(
         path: AppRoutes.vault,

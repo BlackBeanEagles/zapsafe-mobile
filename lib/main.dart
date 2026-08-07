@@ -44,7 +44,8 @@ Future<void> _bootstrap() async {
 
   runApp(
     EasyLocalization(
-      // Days 101-102 — 15 supported locales (ur + ar are RTL)
+      // Days 101-102 — 15 supported locales (ur + ar are RTL).
+      // Day 341 — +sw/id/th (Section J languages 16-18) → 18 total.
       supportedLocales: const [
         Locale('en'),
         Locale('hi'),
@@ -61,6 +62,9 @@ Future<void> _bootstrap() async {
         Locale('fr'),
         Locale('pt'),
         Locale('de'),
+        Locale('sw'),
+        Locale('id'),
+        Locale('th'),
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
