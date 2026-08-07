@@ -440,7 +440,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -681,7 +681,7 @@ class _PipelineCard extends StatelessWidget {
               _StepSt.pending => const Icon(Icons.radio_button_unchecked_rounded,
                   color: Color(0xFF2A2A2A), size: 14),
             },
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(child: Text(s.label, style: TextStyle(
                 color: s.status == _StepSt.pending
                     ? const Color(0xFF4B5563) : Colors.white,
@@ -809,7 +809,7 @@ class _BlockCompleteTab extends StatelessWidget {
         const Text('Secure Storage Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 187 – 188  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

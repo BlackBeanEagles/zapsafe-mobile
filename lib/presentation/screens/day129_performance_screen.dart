@@ -759,7 +759,7 @@ class _WaterfallChart extends StatelessWidget {
             width: 10, height: 10,
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: const TextStyle(
                 color: Color(0xFF9CA3AF), fontSize: 9)),
@@ -1521,7 +1521,7 @@ Widget _diffBlock(String filename, String before, String after) =>
                   fontFamily: 'monospace',
                   height: 1.5),
             )),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...after.split('\n').map((l) => Text(
               '+ $l',
               style: const TextStyle(

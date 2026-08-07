@@ -375,7 +375,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -714,7 +714,7 @@ class _SurveyResults extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 _statChip('612', 'responded', const Color(0xFF3B82F6)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 _statChip('235', 'no response', const Color(0xFF4B5563)),
               ],
             ),
@@ -759,7 +759,7 @@ class _SurveyResults extends StatelessWidget {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700)),
                       ]),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(3),
                         child: LinearProgressIndicator(
@@ -1243,7 +1243,7 @@ class _RetentionChart extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text('${day}',
                           style: TextStyle(
                               color: isSelected
@@ -1267,7 +1267,7 @@ class _RetentionChart extends StatelessWidget {
             width: 12, height: 8,
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: const TextStyle(
                 color: Color(0xFF9CA3AF), fontSize: 10)),
@@ -1313,7 +1313,7 @@ class _RetentionDayDetail extends StatelessWidget {
               Row(children: [
                 const Icon(Icons.trending_up_rounded,
                     color: Color(0xFF10B981), size: 16),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Text(
                   '+${delta.round()} pp improvement',
                   style: const TextStyle(
@@ -1322,7 +1322,7 @@ class _RetentionDayDetail extends StatelessWidget {
                       fontWeight: FontWeight.w700),
                 ),
               ]),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 day <= 3
                     ? 'Early retention: users engaged right after install'

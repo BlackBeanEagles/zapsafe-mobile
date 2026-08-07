@@ -12,6 +12,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -649,7 +650,7 @@ class _NotifyPanel extends ConsumerWidget {
               width: 40, height: 40,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                    colors: [Color(0xFFE63946), Color(0xFFB01F2A)]),
+                    colors: [ZapColors.danger, Color(0xFFB01F2A)]),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.bolt_rounded,

@@ -449,7 +449,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
             child: Column(children: [
               Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(label, style: TextStyle(
                   color: isActive ? color : const Color(0xFF6B7280),
                   fontSize: 9,
@@ -714,7 +714,7 @@ class _EventRow extends StatelessWidget {
                 const SizedBox(height: 3),
                 Row(children: [
                   _miniChip(_typeLabel[event.type]!, typeColor),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: ZapSpacing.xs),
                   _miniChip(_catLabel[event.cat]!, _catColor[event.cat]!),
                   const Spacer(),
                   Text(_fmtTime(event.ts),
@@ -960,7 +960,7 @@ class _SummaryTab extends ConsumerWidget {
                   style: TextStyle(color: color, fontSize: 10,
                       fontWeight: FontWeight.w700)),
             ]),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             ClipRRect(
               borderRadius: BorderRadius.circular(3),
               child: LinearProgressIndicator(

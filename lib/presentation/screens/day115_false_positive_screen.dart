@@ -764,7 +764,7 @@ class _FlowSteps extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       desc,
                       style: const TextStyle(

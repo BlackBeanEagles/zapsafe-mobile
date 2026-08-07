@@ -320,7 +320,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -500,7 +500,7 @@ class _ScoreRing extends StatelessWidget {
                 fontWeight: FontWeight.w900, height: 1.0)),
             Text('/ $maxScore', style: const TextStyle(
                 color: Color(0xFF6B7280), fontSize: 12)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -535,7 +535,7 @@ class _FeatureDetail extends StatelessWidget {
           child: Row(children: [
             Icon(passed ? Icons.check_circle_rounded : Icons.cancel_rounded,
                 color: passed ? card.color : const Color(0xFFEF4444), size: 14),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(child: Text(item.label, style: const TextStyle(
                 color: Colors.white, fontSize: 11))),
             Text('+${item.points} pts', style: TextStyle(
@@ -630,7 +630,7 @@ class _FullScanTab extends ConsumerWidget {
                                 color: color, size: 14)
                             : const Icon(Icons.radio_button_unchecked_rounded,
                                 color: Color(0xFF2A2A2A), size: 14),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     Expanded(child: Text(checkLabel, style: TextStyle(
                         color: isDone || isRunning
                             ? Colors.white : const Color(0xFF4B5563),
@@ -764,7 +764,7 @@ class _ScoreBreakdownTab extends ConsumerWidget {
                   Icon(passed ? Icons.check_circle_rounded : Icons.cancel_rounded,
                       color: passed ? item.color : const Color(0xFFEF4444),
                       size: 14),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(child: Text(item.label, style: const TextStyle(
                       color: Colors.white, fontSize: 11))),
                   // Weight bar
@@ -777,7 +777,7 @@ class _ScoreBreakdownTab extends ConsumerWidget {
                             valueColor: AlwaysStoppedAnimation(
                                 passed ? item.color : const Color(0xFF4B5563)),
                             minHeight: 4))),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Text('${item.points}',
                         style: TextStyle(
                             color: passed ? item.color : const Color(0xFF4B5563),

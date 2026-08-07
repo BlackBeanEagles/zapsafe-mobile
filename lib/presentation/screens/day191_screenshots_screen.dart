@@ -338,7 +338,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -427,18 +427,18 @@ class _GalleryTab extends ConsumerWidget {
           const SizedBox(height: ZapSpacing.sm),
           Text(shot.screenName, style: const TextStyle(
               color: Color(0xFF9CA3AF), fontSize: 10)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(shot.headline.replaceAll('\n', ' '),
               style: const TextStyle(color: Colors.white, fontSize: 14,
                   fontWeight: FontWeight.w800)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(shot.subline, style: const TextStyle(
               color: Color(0xFF9CA3AF), fontSize: 11, height: 1.4)),
           const SizedBox(height: ZapSpacing.md),
           const Text('WHY INCLUDE THIS SCREEN',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 9,
                   fontWeight: FontWeight.w700, letterSpacing: 1)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(shot.whyInclude, style: const TextStyle(
               color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5)),
           const SizedBox(height: ZapSpacing.md),
@@ -500,7 +500,7 @@ class _DeviceFrame extends StatelessWidget {
             Container(
               height: 24, color: const Color(0xFF050505),
               child: Row(children: [
-                const SizedBox(width: 16),
+                const SizedBox(width: ZapSpacing.lg),
                 const Spacer(),
                 // Notch/pill
                 Container(width: 60, height: 10, margin: const EdgeInsets.only(top: 7),
@@ -508,7 +508,7 @@ class _DeviceFrame extends StatelessWidget {
                         color: const Color(0xFF1A1A1A),
                         borderRadius: BorderRadius.circular(5))),
                 const Spacer(),
-                const SizedBox(width: 16),
+                const SizedBox(width: ZapSpacing.lg),
               ])),
             // App content area
             Container(
@@ -543,7 +543,7 @@ class _ScreenContent extends StatelessWidget {
           height: 44,
           color: const Color(0xFF0F0F0F),
           child: Row(children: [
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             Icon(Icons.bolt_rounded, color: shot.accentColor, size: 16),
             const SizedBox(width: 6),
             const Text('ZapSafe', style: TextStyle(color: Colors.white,
@@ -560,7 +560,7 @@ class _ScreenContent extends StatelessWidget {
                   color: shot.accentColor.withOpacity(0.1),
                   shape: BoxShape.circle),
               child: Icon(shot.icon, color: shot.accentColor, size: 32)),
-            const SizedBox(height: 12),
+            const SizedBox(height: ZapSpacing.md),
             // Feature list mini
             ...shot.keyFeatures.take(3).map((f) => Padding(
                 padding: const EdgeInsets.only(bottom: 6, left: 16, right: 16),

@@ -322,7 +322,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -413,10 +413,10 @@ class _AlignmentTab extends ConsumerWidget {
               const SizedBox(height: ZapSpacing.sm),
               _alignCell(Icons.policy_rounded, const Color(0xFF10B981),
                   'Policy', row.policySection),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               _alignCell(Icons.android_rounded, const Color(0xFF3DDC84),
                   'Play', row.playSafety),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               _alignCell(Icons.apple_rounded, const Color(0xFF9CA3AF),
                   'Apple', row.appleLabel),
               if (!row.isAligned && row.misalignNote != null) ...[
@@ -656,7 +656,7 @@ class _DataSafetyTab extends ConsumerWidget {
                               Text(item.answer, style: const TextStyle(
                                   color: Colors.white, fontSize: 12,
                                   fontWeight: FontWeight.w700)),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(item.detail, style: const TextStyle(
                                   color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5)),
                             ])),
@@ -705,7 +705,7 @@ class _BlockCompleteTab extends StatelessWidget {
         const Text('Privacy & Compliance Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 195 – 196  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

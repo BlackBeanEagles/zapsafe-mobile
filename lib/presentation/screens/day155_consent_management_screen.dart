@@ -484,7 +484,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -674,7 +674,7 @@ class _ConsentCardState extends ConsumerState<_ConsentCard> {
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
                 color: const Color(0xFF4B5563), size: 14),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 _expanded
                     ? 'Hide explanation'
@@ -755,14 +755,14 @@ class _ConsentCardState extends ConsumerState<_ConsentCard> {
           children: [
             Row(children: [
               Icon(icon, color: color, size: 13),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(label,
                   style: TextStyle(
                       color: color, fontSize: 9,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.5)),
             ]),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(text,
                 style: const TextStyle(
                     color: Color(0xFF9CA3AF),

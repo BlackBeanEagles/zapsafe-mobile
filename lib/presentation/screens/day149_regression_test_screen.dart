@@ -352,7 +352,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -748,7 +748,7 @@ class _RegionTab extends StatelessWidget {
                               color: const Color(0xFF10B981), size: 12),
                         ],
                       ]),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       // Dual bar
                       Stack(children: [
                         Container(
@@ -814,7 +814,7 @@ class _RegionTab extends StatelessWidget {
             width: 14, height: 8,
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 9)),
       ]);

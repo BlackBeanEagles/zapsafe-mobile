@@ -565,7 +565,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -724,14 +724,14 @@ class _PermissionCardState extends State<_PermissionCard> {
             Column(children: [
               Row(children: [
                 Icon(_statusIcon, color: _statusColor, size: 12),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Text(_statusLabel,
                     style: TextStyle(
                         color: _statusColor,
                         fontSize: 10,
                         fontWeight: FontWeight.w700)),
               ]),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               // Manage button
               GestureDetector(
                 onTap: () {
@@ -777,7 +777,7 @@ class _PermissionCardState extends State<_PermissionCard> {
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
                 color: const Color(0xFF4B5563), size: 14),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 _expanded ? 'Hide details' : 'Why is this needed?',
                 style: TextStyle(
@@ -911,7 +911,7 @@ class _PermissionCardState extends State<_PermissionCard> {
                     color: color, fontSize: 9,
                     fontWeight: FontWeight.w800, letterSpacing: 0.5)),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(text,
               style: const TextStyle(
                   color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5)),
@@ -1125,7 +1125,7 @@ class _StatusSummaryTab extends StatelessWidget {
                       ? Icons.cancel_rounded
                       : Icons.help_outline_rounded,
               color: color, size: 14),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               status == _PermStatus.granted
                   ? 'Granted'
@@ -1150,7 +1150,7 @@ class _StatusSummaryTab extends StatelessWidget {
           ),
           child: Column(children: [
             Icon(icon, color: color, size: 20),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text('$count',
                 style: TextStyle(
                     color: color, fontSize: 20, fontWeight: FontWeight.w900)),

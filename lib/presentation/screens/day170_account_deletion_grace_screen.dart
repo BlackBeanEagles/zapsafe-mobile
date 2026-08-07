@@ -289,7 +289,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
             child: Column(children: [
               Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(label, style: TextStyle(
                   color: isActive ? color : const Color(0xFF6B7280),
                   fontSize: 9,
@@ -488,7 +488,7 @@ class _CountdownRing extends StatelessWidget {
           Text('days remaining',
               style: TextStyle(color: color.withOpacity(0.8),
                   fontSize: 11, fontWeight: FontWeight.w600)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text('of 30', style: const TextStyle(
               color: Color(0xFF4B5563), fontSize: 10)),
           const SizedBox(height: 6),
@@ -707,7 +707,7 @@ class _NotificationsTab extends ConsumerWidget {
                       child: Text(notif.delivered ? 'Delivered ✅' : 'Failed ❌',
                           style: TextStyle(color: deliveredColor, fontSize: 9,
                               fontWeight: FontWeight.w700))),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(_fmtTime(notif.sentAt),
                         style: const TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
                   ]),

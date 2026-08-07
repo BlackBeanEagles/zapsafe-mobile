@@ -377,7 +377,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -596,7 +596,7 @@ class _PermissionRationaleTab extends ConsumerWidget {
                         isAfter ? Icons.check_rounded : Icons.warning_rounded,
                         color: color, size: 12,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Expanded(
                         child: Text(item,
                             style: TextStyle(
@@ -1110,7 +1110,7 @@ class _TimingTestTabState extends ConsumerState<_TimingTestTab> {
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       if (isDone && stepTime != null)
                         Text(_fmt(stepTime),
                             style: TextStyle(

@@ -411,7 +411,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -548,7 +548,7 @@ class _QaTab extends ConsumerWidget {
                         child: Text(flow.dayRef, style: TextStyle(
                             color: flow.color, fontSize: 8, fontWeight: FontWeight.w700))),
                       if (flow.critical) ...[
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                           decoration: BoxDecoration(
@@ -755,7 +755,7 @@ class _SigningTab extends ConsumerWidget {
               Expanded(child: Text('Limit',
                   style: TextStyle(color: Color(0xFF6B7280), fontSize: 9,
                       fontWeight: FontWeight.w700))),
-              SizedBox(width: 20),
+              SizedBox(width: ZapSpacing.xl),
             ])),
           ..._kSizes.asMap().entries.map((e) {
             final i = e.key;
@@ -896,7 +896,7 @@ class _BlockCompleteTab extends StatelessWidget {
         const Text('Release Checklist Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 197 – 198  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

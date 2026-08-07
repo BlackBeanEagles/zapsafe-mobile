@@ -457,7 +457,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -707,7 +707,7 @@ class _ArchDiagram extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('Call chain:', style: TextStyle(
                 color: Color(0xFF6B7280), fontSize: 9, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               isAndroid
                   ? '1. App calls Cipher.init(key) where key is in Keystore\n'
@@ -781,7 +781,7 @@ class _CryptoStepList extends StatelessWidget {
                               ? Icons.cancel_rounded
                               : Icons.radio_button_unchecked_rounded,
                       color: color, size: 14),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(child: Text(s.label, style: TextStyle(
                   color: s.status == _StepStatus.pending
                       ? const Color(0xFF4B5563) : Colors.white,
@@ -1078,7 +1078,7 @@ class _BlockCompleteTab extends StatelessWidget {
         const Text('Biometric Lock Block',
             style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 183 – 184  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

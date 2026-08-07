@@ -335,7 +335,7 @@ class _TabBar extends StatelessWidget {
               ),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label, style: TextStyle(
                     color: isActive ? color : const Color(0xFF6B7280),
                     fontSize: 9,
@@ -507,7 +507,7 @@ class _HubTab extends ConsumerWidget {
           child: Column(children: [
             Icon(isOn ? Icons.toggle_on_rounded : Icons.toggle_off_rounded,
                 color: isOn ? color : const Color(0xFF4B5563), size: 24),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isOn ? color : const Color(0xFF6B7280), fontSize: 10,
                 fontWeight: isOn ? FontWeight.w700 : FontWeight.w400),
@@ -735,7 +735,7 @@ class _SignOffTab extends StatelessWidget {
                 style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                     fontWeight: FontWeight.w700, letterSpacing: 1),
                 textAlign: TextAlign.center),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             const Text('COMPLETE ✅',
                 style: TextStyle(color: Colors.white, fontSize: 24,
                     fontWeight: FontWeight.w900),

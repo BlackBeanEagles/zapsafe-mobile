@@ -335,7 +335,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -398,7 +398,7 @@ class _StepPipeline extends ConsumerWidget {
                   valueColor: AlwaysStoppedAnimation(
                       isDone ? const Color(0xFF10B981) : accentColor),
                   minHeight: 5)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Row(children: [
             Text('$currentStep / ${steps.length} steps',
                 style: const TextStyle(color: Color(0xFF6B7280), fontSize: 9)),
@@ -779,7 +779,7 @@ class _StatusTab extends ConsumerWidget {
           Text('Tomorrow: Day 200',
               style: TextStyle(color: Color(0xFFF59E0B), fontSize: 14,
                   fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-          SizedBox(height: 4),
+          SizedBox(height: ZapSpacing.xs),
           Text('THE GRAND FINALE',
               style: TextStyle(color: Colors.white, fontSize: 20,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),

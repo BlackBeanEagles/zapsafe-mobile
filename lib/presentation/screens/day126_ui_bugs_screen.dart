@@ -529,7 +529,7 @@ class _TextOverflowBug extends ConsumerWidget {
                     softWrap: false,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 if (isFixed)
                   const Text('Text clips off the right ❌',
                       style: TextStyle(
@@ -571,7 +571,7 @@ class _TextOverflowBug extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 const Text('Wraps cleanly ✅',
                     style: TextStyle(
                         color: Color(0xFF10B981), fontSize: 10)),

@@ -249,7 +249,7 @@ class _ProblemSelector extends ConsumerWidget {
                       Text(sub,
                           style: const TextStyle(
                               color: Color(0xFF6B7280), fontSize: 11)),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       _pill(isDone ? 'Fixed' : 'Open',
                           isDone ? const Color(0xFF10B981) : const Color(0xFF4B5563)),
                     ],

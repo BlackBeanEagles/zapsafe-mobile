@@ -24,6 +24,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -269,7 +270,7 @@ class _TabBar extends StatelessWidget {
               ),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -662,7 +663,7 @@ class _AnalyticsToggleCardState extends State<_AnalyticsToggleCard> {
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
                 color: const Color(0xFF4B5563), size: 14),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 _expanded ? 'Hide details' : 'What is collected?',
                 style: TextStyle(
@@ -712,7 +713,7 @@ class _AnalyticsToggleCardState extends State<_AnalyticsToggleCard> {
                     decoration: BoxDecoration(
                         color: color, shape: BoxShape.circle),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Text(item,
                         style: const TextStyle(
@@ -1140,7 +1141,7 @@ class _AttPromptMock extends StatelessWidget {
               width: 56, height: 56,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                    colors: [Color(0xFFE63946), Color(0xFFB01F2A)]),
+                    colors: [ZapColors.danger, Color(0xFFB01F2A)]),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: const Icon(Icons.bolt_rounded,

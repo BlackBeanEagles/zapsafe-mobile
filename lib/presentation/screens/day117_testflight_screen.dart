@@ -9,6 +9,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -200,7 +201,7 @@ class _Hero extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.apple_rounded, color: Colors.white, size: 13),
-                    SizedBox(width: 4),
+                    SizedBox(width: ZapSpacing.xs),
                     Text('iOS Only', style: TextStyle(color: Colors.white70, fontSize: 10)),
                   ],
                 ),
@@ -714,7 +715,7 @@ class _TestFlightInviteCard extends StatelessWidget {
                   height: 52,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFE63946), Color(0xFFB01F2A)],
+                      colors: [ZapColors.danger, Color(0xFFB01F2A)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -732,7 +733,7 @@ class _TestFlightInviteCard extends StatelessWidget {
                               color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700)),
                       Text('Anthropic Safety Labs',
                           style: TextStyle(color: Color(0xFF8E8E93), fontSize: 13)),
-                      SizedBox(height: 4),
+                      SizedBox(height: ZapSpacing.xs),
                       Row(
                         children: [
                           _PillBadge('v0.5-beta', Color(0xFF0A84FF)),
@@ -819,7 +820,7 @@ class _InfoCell extends StatelessWidget {
     return Column(
       children: [
         Icon(icon, color: const Color(0xFF8E8E93), size: 18),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(value,
             style: const TextStyle(
                 color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),

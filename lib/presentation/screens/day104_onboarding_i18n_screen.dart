@@ -207,7 +207,7 @@ class _LocaleSelector extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: kSupportedLanguages.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.sm),
             itemBuilder: (_, i) {
               final lang = kSupportedLanguages[i];
               final selected = lang.code == state.selectedCode;

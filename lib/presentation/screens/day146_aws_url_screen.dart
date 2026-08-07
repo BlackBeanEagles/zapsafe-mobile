@@ -210,7 +210,7 @@ class _Hero extends StatelessWidget {
                         decorationColor: Color(0xFFEF4444)),
                   ),
                 ]),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Row(children: [
                   const Icon(Icons.add_circle_outline_rounded,
                       color: Color(0xFF10B981), size: 13),
@@ -318,7 +318,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -489,12 +489,12 @@ class _SwitchTab extends ConsumerWidget {
             if (selected)
               Icon(Icons.check_circle_rounded, color: color, size: 14),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(subtitle,
               style: TextStyle(
                   color: color.withOpacity(0.7), fontSize: 9,
                   fontWeight: FontWeight.w600)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(desc,
               style: const TextStyle(
                   color: Color(0xFF6B7280), fontSize: 10, height: 1.4)),
@@ -556,7 +556,7 @@ class _AwsArchCard extends StatelessWidget {
                 ),
                 child: Column(children: [
                   Icon(icon, color: color, size: 20),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(title,
                       style: TextStyle(
                           color: color, fontSize: 9,

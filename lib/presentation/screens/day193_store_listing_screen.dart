@@ -286,7 +286,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -509,7 +509,7 @@ class _PlaySearchPreview extends StatelessWidget {
                     border: Border.all(color: const Color(0xFF2A2A2A))),
                 child: const Row(children: [
                   Icon(Icons.search, color: Color(0xFF4B5563), size: 12),
-                  SizedBox(width: 4),
+                  SizedBox(width: ZapSpacing.xs),
                   Text('personal safety', style: TextStyle(
                       color: Color(0xFF6B7280), fontSize: 9)),
                 ])),
@@ -537,11 +537,11 @@ class _PlaySearchPreview extends StatelessWidget {
               Row(children: [
                 ...List.generate(5, (i) => const Icon(Icons.star_rounded,
                     color: Color(0xFFFBBF24), size: 11)),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 const Text('4.8  ·  10K+ downloads',
                     style: TextStyle(color: Color(0xFF6B7280), fontSize: 9)),
               ]),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               const Text(
                 _kPlayShortDesc,
                 style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 10, height: 1.4),
@@ -602,7 +602,7 @@ class _AppleSearchPreview extends StatelessWidget {
               Row(children: [
                 ...List.generate(5, (i) => const Icon(Icons.star_rounded,
                     color: Color(0xFFFBBF24), size: 11)),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 const Text('4.8', style: TextStyle(
                     color: Color(0xFF6B7280), fontSize: 10)),
               ]),

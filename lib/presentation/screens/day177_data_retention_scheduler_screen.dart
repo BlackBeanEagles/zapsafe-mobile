@@ -373,7 +373,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -452,7 +452,7 @@ class _UpcomingTab extends ConsumerWidget {
           const SizedBox(height: 6),
           const Row(children: [
             Icon(Icons.circle, color: Color(0xFFEF4444), size: 8),
-            SizedBox(width: 4),
+            SizedBox(width: ZapSpacing.xs),
             Text('= deletion day', style: TextStyle(
                 color: Color(0xFF6B7280), fontSize: 9)),
           ]),
@@ -515,7 +515,7 @@ class _UpcomingTab extends ConsumerWidget {
                   ])),
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                     Icon(del.icon, color: del.color, size: 16),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     if (del.canPostpone)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -664,7 +664,7 @@ class _DeletionDetail extends StatelessWidget {
                 border: Border.all(color: c.withOpacity(0.35))),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(icon, color: c, size: 12),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(l, style: TextStyle(color: c, fontSize: 9,
                   fontWeight: FontWeight.w700)),
             ])));

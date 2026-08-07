@@ -415,7 +415,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -475,7 +475,7 @@ class _CertificateTab extends ConsumerWidget {
                         color: Colors.white, fontSize: 16,
                         fontWeight: FontWeight.w800),
                     textAlign: TextAlign.center),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 const Text('ZapSafe Legal Compliance Record',
                     style: TextStyle(
                         color: Color(0xFF9CA3AF), fontSize: 11),

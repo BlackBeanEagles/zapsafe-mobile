@@ -515,7 +515,7 @@ class _LivePreview extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Text(
                     '· Live',
                     style: TextStyle(
@@ -526,7 +526,7 @@ class _LivePreview extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: ZapSpacing.md),
               // Heading
               Text(
                 'ZapSafe is Active',
@@ -536,7 +536,7 @@ class _LivePreview extends StatelessWidget {
                   fontWeight: boldText ? FontWeight.w800 : FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               // Subtitle — uses muted color, main contrast demo
               Text(
                 'Monitoring audio & motion continuously',
@@ -591,7 +591,7 @@ class _LivePreview extends StatelessWidget {
                     color: mutedColor,
                     size: 12 * scale,
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: ZapSpacing.xs),
                   Flexible(
                     child: Text(
                       highContrast
@@ -856,7 +856,7 @@ class _ContrastRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _PassBadge(pass: entry.passAA,  label: 'AA'),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       _PassBadge(pass: entry.passAAA, label: 'AAA'),
                     ],
                   ),
@@ -919,7 +919,7 @@ class _AltPaletteSuggestion extends StatelessWidget {
             children: [
               Icon(Icons.auto_fix_high_rounded,
                   color: Color(0xFF10B981), size: 18),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Text(
                 'Recommended Fix',
                 style: TextStyle(
@@ -949,7 +949,7 @@ class _AltPaletteSuggestion extends StatelessWidget {
             ratio: '8.0:1',
             level: 'AAA',
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           const _AltRow(
             fromHex: '#6B7280',
             fromColor: Color(0xFF6B7280),
@@ -1061,7 +1061,7 @@ class _AltRow extends StatelessWidget {
             fontFamily: 'monospace',
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
           decoration: BoxDecoration(

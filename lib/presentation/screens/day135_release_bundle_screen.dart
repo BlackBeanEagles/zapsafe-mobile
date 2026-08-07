@@ -15,6 +15,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -533,7 +534,7 @@ class _ReleaseCardState extends State<_ReleaseCard> {
                                   style: const TextStyle(
                                       fontSize: 13, height: 1.4),
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: ZapSpacing.xs),
                                 Expanded(
                                   child: Text(c.substring(2),
                                       style: const TextStyle(
@@ -921,7 +922,7 @@ class _NotifyPanel extends ConsumerWidget {
               width: 36, height: 36,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                    colors: [Color(0xFFE63946), Color(0xFFB01F2A)]),
+                    colors: [ZapColors.danger, Color(0xFFB01F2A)]),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(Icons.bolt_rounded,
@@ -1093,7 +1094,7 @@ class _FirstHourMetrics extends ConsumerWidget {
           ),
           child: Column(children: [
             Icon(icon, color: color, size: 16),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(value,
                 style: TextStyle(
                     color: color,

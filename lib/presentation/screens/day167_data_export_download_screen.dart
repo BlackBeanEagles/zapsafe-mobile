@@ -285,7 +285,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label, style: TextStyle(
                     color: isActive ? color : const Color(0xFF6B7280),
                     fontSize: 9,
@@ -549,7 +549,7 @@ class _PhasePipeline extends StatelessWidget {
                         color: color, strokeWidth: 2)))
                 : Icon(isDone ? Icons.check_rounded : icon,
                     color: color, size: 14)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(label, style: TextStyle(color: color, fontSize: 8,
               fontWeight: FontWeight.w600), textAlign: TextAlign.center),
         ]);
@@ -610,7 +610,7 @@ class _ProgressBlock extends StatelessWidget {
       color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, color: color, size: 12),
-      const SizedBox(width: 4),
+      const SizedBox(width: ZapSpacing.xs),
       Text(label, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w600)),
     ]));
 }
@@ -829,7 +829,7 @@ class _IntegrityTab extends ConsumerWidget {
             const SizedBox(height: ZapSpacing.sm),
             Text(checksum, style: TextStyle(color: color, fontSize: 11,
                 fontFamily: 'monospace', fontWeight: FontWeight.w600, height: 1.4)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             const Text('long-press to copy',
                 style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
           ])),

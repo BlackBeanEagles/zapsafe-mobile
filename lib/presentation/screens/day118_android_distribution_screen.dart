@@ -13,6 +13,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -237,7 +238,7 @@ class _Hero extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.android_rounded, color: Color(0xFF3DDC84), size: 13),
-                    SizedBox(width: 4),
+                    SizedBox(width: ZapSpacing.xs),
                     Text('Android', style: TextStyle(color: Colors.white70, fontSize: 10)),
                   ],
                 ),
@@ -702,7 +703,7 @@ class _BuildCommands extends StatelessWidget {
                       fontSize: 10,
                       fontFamily: 'monospace',
                       fontWeight: FontWeight.w600)),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(cmd,
                   style: const TextStyle(
                       color: Color(0xFFE6EDF3),
@@ -790,7 +791,7 @@ class _PlaySetupGuide extends ConsumerWidget {
                                   fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                                 )),
                             if (isActive) ...[
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(desc,
                                   style: const TextStyle(
                                       color: Color(0xFF9CA3AF), fontSize: 11, height: 1.4)),
@@ -1084,7 +1085,7 @@ class _PlayInviteCard extends StatelessWidget {
                   height: 52,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFE63946), Color(0xFFB01F2A)],
+                      colors: [ZapColors.danger, Color(0xFFB01F2A)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -1106,7 +1107,7 @@ class _PlayInviteCard extends StatelessWidget {
                       Text('Anthropic Safety Labs',
                           style: TextStyle(
                               color: Color(0xFF9CA3AF), fontSize: 12)),
-                      SizedBox(height: 4),
+                      SizedBox(height: ZapSpacing.xs),
                       Row(
                         children: [
                           _Badge('v0.5-beta',  Color(0xFF3DDC84)),
@@ -1215,7 +1216,7 @@ class _InfoCell extends StatelessWidget {
     return Column(
       children: [
         Icon(icon, color: const Color(0xFF6B7280), size: 16),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(value,
             style: const TextStyle(
                 color: Colors.white,

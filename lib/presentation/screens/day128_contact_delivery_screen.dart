@@ -767,7 +767,7 @@ class _DeliveryBadge extends StatelessWidget {
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Icon(icon, color: color, size: 11),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: TextStyle(
                 color: color, fontSize: 10, fontWeight: FontWeight.w700)),

@@ -397,7 +397,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -561,7 +561,7 @@ class _PrivacyPolicyTab extends ConsumerWidget {
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                           _row('Required', sec.required_, const Color(0xFFEF4444)),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: ZapSpacing.xs),
                           _row('Evidence', sec.notes, const Color(0xFF10B981)),
                         ]))
                     : const SizedBox.shrink(),
@@ -734,7 +734,7 @@ class _IarcTab extends ConsumerWidget {
           border: Border.all(color: color.withOpacity(0.5), width: 2)),
       child: Center(child: Text(rating, style: TextStyle(
           color: color, fontSize: 14, fontWeight: FontWeight.w900)))),
-    const SizedBox(height: 4),
+    const SizedBox(height: ZapSpacing.xs),
     Text(system, style: TextStyle(color: color.withOpacity(0.8),
         fontSize: 9, fontWeight: FontWeight.w700)),
   ]);

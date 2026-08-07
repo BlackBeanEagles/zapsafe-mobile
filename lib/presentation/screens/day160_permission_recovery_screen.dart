@@ -502,7 +502,7 @@ class _TabBar extends StatelessWidget {
               ),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -655,7 +655,7 @@ class _PermSelector extends StatelessWidget {
                         fontSize: 10,
                         fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
                 if (p.isCritical) ...[
-                  const SizedBox(width: 4),
+                  const SizedBox(width: ZapSpacing.xs),
                   Container(
                     width: 6, height: 6,
                     decoration: const BoxDecoration(
@@ -985,7 +985,7 @@ class _HealthDashboardTab extends ConsumerWidget {
                           color: scoreColor, fontSize: 15,
                           fontWeight: FontWeight.w800),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       '$granted granted · $denied denied · $notAsked not asked',
                       style: const TextStyle(

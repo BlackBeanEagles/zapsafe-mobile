@@ -525,7 +525,7 @@ class _LiveRegionDemo extends ConsumerWidget {
         const Icon(Icons.timer_rounded, color: Color(0xFFF59E0B), size: 18),
         const SizedBox(width: 6),
         Text(label, style: const TextStyle(color: Color(0xFFFCD34D), fontSize: 15, fontWeight: FontWeight.w700)),
-        const SizedBox(width: 12),
+        const SizedBox(width: ZapSpacing.md),
         GestureDetector(
           onTap: () {
             final c = ref.read(_countdownProvider);
@@ -581,7 +581,7 @@ class _ExcludeDemo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.chevron_right_rounded, color: const Color(0xFF374151).withOpacity(0.5), size: 24),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         const Text('Decorative icon (not readable to TalkBack when excluded)', style: TextStyle(color: Color(0xFF6B7280), fontSize: 12)),
       ],
     );

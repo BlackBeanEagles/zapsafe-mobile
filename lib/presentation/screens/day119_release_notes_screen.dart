@@ -753,7 +753,7 @@ class _CountChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 11),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(label,
               style: TextStyle(
                   color: color,

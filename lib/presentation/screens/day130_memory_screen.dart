@@ -422,7 +422,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive
@@ -629,7 +629,7 @@ class _MemBreakdown extends StatelessWidget {
                             color: Color(0xFF10B981), size: 12),
                       ),
                   ]),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(3),
                     child: AnimatedContainer(
@@ -1592,7 +1592,7 @@ Widget _diffBlock(String filename, String before, String after) =>
                 fontSize: 11,
                 fontFamily: 'monospace',
                 height: 1.5))),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...after.split('\n').map((l) => Text('+ $l',
             style: const TextStyle(
                 color: Color(0xFF7EE787),

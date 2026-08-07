@@ -196,7 +196,7 @@ class _LocaleSelector extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: kSupportedLanguages.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.sm),
         itemBuilder: (_, i) {
           final lang     = kSupportedLanguages[i];
           final selected = lang.code == state.selectedCode;
@@ -503,7 +503,7 @@ class _ZoneCheckinPreview extends StatelessWidget {
           Icon(icon, color: color, size: 16),
           const SizedBox(width: 10),
           SizedBox(width: 130, child: Text(key, style: const TextStyle(color: Color(0xFF6B7280), fontSize: 11, fontFamily: 'monospace'))),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(child: Text(value, style: const TextStyle(color: Color(0xFFE5E7EB), fontSize: 13))),
         ],
       ),

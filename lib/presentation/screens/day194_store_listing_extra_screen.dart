@@ -281,7 +281,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -412,7 +412,7 @@ class _AppStoreProductPageMock extends StatelessWidget {
             const Text('ZapSafe is your personal safety companion...',
                 style: TextStyle(color: Color(0xFF6B7280), fontSize: 11),
                 maxLines: 2, overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             const Text('More', style: TextStyle(
                 color: Color(0xFF0071E3), fontSize: 11)),
           ])),
@@ -722,7 +722,7 @@ class _AbTestDetail extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(label, style: TextStyle(color: color, fontSize: 9,
             fontWeight: FontWeight.w700)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(text, style: const TextStyle(color: Color(0xFFD1D5DB),
             fontSize: 11, height: 1.4)),
       ]));
@@ -759,7 +759,7 @@ class _BlockSignOff extends StatelessWidget {
         const Text('Store Listing Block',
             style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 193 – 194  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

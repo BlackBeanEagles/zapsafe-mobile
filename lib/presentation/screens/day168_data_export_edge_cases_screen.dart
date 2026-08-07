@@ -357,7 +357,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -654,7 +654,7 @@ class _RequestMock extends StatelessWidget {
             minHeight: 4,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Row(children: [
           const Text('Cooldown started: May 30, 2026',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 9)),
@@ -893,7 +893,7 @@ class _GdprTab extends ConsumerWidget {
                                       fontSize: 9,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: 1)),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(point.body,
                                   style: const TextStyle(
                                       color: Color(0xFFD1D5DB),
@@ -926,7 +926,7 @@ class _GdprTab extends ConsumerWidget {
                                         fontWeight: FontWeight.w700,
                                         letterSpacing: 1)),
                               ]),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(point.zapSafeImpl,
                                   style: const TextStyle(
                                       color: Color(0xFFD1D5DB),
@@ -1153,7 +1153,7 @@ class _EdgeCaseDetail extends StatelessWidget {
                   fontSize: 9,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(ec.apiError,
               style: const TextStyle(
                   color: Color(0xFF86EFAC),
@@ -1275,7 +1275,7 @@ class _SimulatedState extends StatelessWidget {
                           color: ec.color,
                           fontSize: 12,
                           fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(ec.uiResponse,
                       style: const TextStyle(
                           color: Color(0xFF9CA3AF),
@@ -1318,7 +1318,7 @@ class _BlockCompleteCard extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Text('DAYS 166 – 168 ✅',
               style: TextStyle(
                   color: Colors.white,

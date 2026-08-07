@@ -485,7 +485,7 @@ class _SosPreview extends StatelessWidget {
                 children: [
                   const Icon(Icons.sos_rounded,
                       color: ZapColors.danger, size: 28),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Directionality(

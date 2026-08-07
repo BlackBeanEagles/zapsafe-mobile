@@ -240,7 +240,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -279,7 +279,7 @@ class _SignOffTab extends StatelessWidget {
             style: TextStyle(color: Color(0xFF10B981), fontSize: 15,
                 fontWeight: FontWeight.w700, letterSpacing: 0.5),
             textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 181 – 190  ·  COMPLETE ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
@@ -343,7 +343,7 @@ class _SignOffTab extends StatelessWidget {
             ]),
             Text(title, style: const TextStyle(color: Colors.white,
                 fontSize: 13, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(bullets, style: const TextStyle(color: Color(0xFF6B7280),
                 fontSize: 10, height: 1.6)),
           ]),

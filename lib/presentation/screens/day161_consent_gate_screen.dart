@@ -24,6 +24,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import 'day151_privacy_policy_screen.dart';
 import 'day153_terms_of_service_screen.dart';
@@ -229,7 +230,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -444,7 +445,7 @@ class _ConsentGateCard extends ConsumerWidget {
             border: Border(bottom: BorderSide(color: Color(0xFF1A1A1A))),
           ),
           child: const Row(children: [
-            Icon(Icons.bolt_rounded, color: Color(0xFFE63946), size: 22),
+            Icon(Icons.bolt_rounded, color: ZapColors.danger, size: 22),
             SizedBox(width: ZapSpacing.sm),
             Text('ZapSafe',
                 style: TextStyle(
@@ -762,12 +763,12 @@ class _ConsentCheckRow extends StatelessWidget {
           child: Row(children: [
             const SizedBox(width: 30), // align with text
             Icon(icon, color: color, size: 12),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text('Read full $linkLabel →',
                 style: TextStyle(
                     color: color, fontSize: 10,
                     fontWeight: FontWeight.w600)),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Text('Updated $updatedDate',
                 style: const TextStyle(
                     color: Color(0xFF4B5563), fontSize: 9)),
@@ -892,7 +893,7 @@ class _UpdateModeTab extends ConsumerWidget {
                       color: color, fontSize: 10,
                       fontWeight: FontWeight.w800, letterSpacing: 0.5)),
             ]),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(subtitle,
                 style: const TextStyle(
                     color: Color(0xFF9CA3AF), fontSize: 10, height: 1.3)),
@@ -962,7 +963,7 @@ class _PolicyUpdateBannerMock extends StatelessWidget {
                     style: TextStyle(
                         color: Color(0xFFF59E0B), fontSize: 10,
                         fontWeight: FontWeight.w700)),
-                SizedBox(height: 4),
+                SizedBox(height: ZapSpacing.xs),
                 Text(
                   '• Data now hosted on AWS ap-south-1 (Mumbai, India)\n'
                   '• Evidence retention now configurable: 7/30/90 days\n'

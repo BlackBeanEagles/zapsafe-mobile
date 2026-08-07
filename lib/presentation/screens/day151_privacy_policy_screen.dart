@@ -675,7 +675,7 @@ class _PolicyFooter extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 12,
                     fontWeight: FontWeight.w600)),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(_kContactEmail,
               style: const TextStyle(
                   color: Color(0xFF06B6D4),

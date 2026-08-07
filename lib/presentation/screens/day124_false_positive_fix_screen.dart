@@ -759,7 +759,7 @@ class _ThresholdFix extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               m1 >= 0.88
                   ? '✅ Recommended threshold applied — target FP rate achieved'

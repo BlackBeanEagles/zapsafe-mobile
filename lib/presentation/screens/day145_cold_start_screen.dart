@@ -562,7 +562,7 @@ class _FlameChart extends StatelessWidget {
             ),
           ),
         ]),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
 
         // Phase bars
         ...phases.map((p) {
@@ -577,7 +577,7 @@ class _FlameChart extends StatelessWidget {
               children: [
                 Row(children: [
                   Icon(sIcon, color: sColor, size: 11),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: ZapSpacing.xs),
                   Expanded(
                     child: Text(p.name,
                         style: TextStyle(
@@ -626,11 +626,11 @@ class _FlameChart extends StatelessWidget {
             ),
           );
         }),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         // Target line label
         Row(children: [
           Container(width: 10, height: 2, color: const Color(0xFF10B981).withOpacity(0.6)),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           const Text('< 2000ms target',
               style: TextStyle(color: Color(0xFF10B981), fontSize: 8)),
         ]),
@@ -1296,7 +1296,7 @@ Widget _diffBlock(String filename, String before, String after) => Container(
             style: const TextStyle(
                 color: Color(0xFFFF7B72), fontSize: 11,
                 fontFamily: 'monospace', height: 1.5))),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...after.split('\n').map((l) => Text('+ $l',
             style: const TextStyle(
                 color: Color(0xFF7EE787), fontSize: 11,

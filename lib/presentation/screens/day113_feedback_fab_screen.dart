@@ -451,13 +451,13 @@ class _MockScreenDemo extends StatelessWidget {
                             color: Color(0xFF10B981),
                             label: 'Detection active',
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: ZapSpacing.sm),
                           const _MockCard(
                             icon: Icons.people_rounded,
                             color: Color(0xFF3B82F6),
                             label: '3 emergency contacts',
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: ZapSpacing.sm),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             padding: const EdgeInsets.symmetric(
@@ -485,7 +485,7 @@ class _MockScreenDemo extends StatelessWidget {
                                       : Colors.white24,
                                   size: 16,
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: ZapSpacing.sm),
                                 Text(
                                   isBeta
                                       ? 'Feedback FAB  ·  tap the button →'
@@ -593,7 +593,7 @@ class _MockCard extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: color, size: 16),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Text(
             label,
             style: TextStyle(color: color, fontSize: 12),
@@ -945,7 +945,7 @@ class _ApiRow extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
@@ -973,7 +973,7 @@ class _ApiRow extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             description,
             style: const TextStyle(

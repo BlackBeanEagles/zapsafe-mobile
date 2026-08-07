@@ -425,7 +425,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -520,7 +520,7 @@ class _RequestFlowTab extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(labels[i],
                           style: TextStyle(
                               color: isActive || isComplete
@@ -532,7 +532,7 @@ class _RequestFlowTab extends ConsumerWidget {
                                   : FontWeight.w400)),
                     ]),
                   ),
-                  if (i < 2) const SizedBox(width: 4),
+                  if (i < 2) const SizedBox(width: ZapSpacing.xs),
                 ]),
               );
             }),
@@ -1004,7 +1004,7 @@ class _FeatureAvailabilityTab extends ConsumerWidget {
           ),
           child: Column(children: [
             Icon(icon, color: color, size: 20),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text('$count', style: TextStyle(
                 color: color, fontSize: 20, fontWeight: FontWeight.w900)),
             Text(label, style: const TextStyle(
@@ -1339,12 +1339,12 @@ class PermissionStatusBadge extends StatelessWidget {
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Icon(icon, color: color, size: 12),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(permissionName,
               style: const TextStyle(
                   color: Colors.white, fontSize: 10,
                   fontWeight: FontWeight.w600)),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Icon(_statusIcon, color: _statusColor, size: 10),
         ]),
       ),

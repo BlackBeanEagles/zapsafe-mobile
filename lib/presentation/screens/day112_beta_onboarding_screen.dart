@@ -90,7 +90,7 @@ class Day112BetaOnboardingScreen extends ConsumerWidget {
                   children: [
                     Icon(Icons.check_rounded,
                         color: Color(0xFF10B981), size: 14),
-                    SizedBox(width: 4),
+                    SizedBox(width: ZapSpacing.xs),
                     Text(
                       'Acknowledged',
                       style: TextStyle(

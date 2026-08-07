@@ -434,7 +434,7 @@ class _AlertPendingDemoState extends ConsumerState<_AlertPendingDemo>
                       ),
                     ]),
                     if (running) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Row(children: [
                         const SizedBox(width: 22),
                         Text('Detected at 12:45 PM · M1 Scream model',
@@ -601,7 +601,7 @@ class _AlertPendingDemoState extends ConsumerState<_AlertPendingDemo>
           children: [
             Row(children: [
               Icon(icon, color: color, size: 14),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(label,
                   style: TextStyle(
                       color: color,
@@ -968,7 +968,7 @@ class _FpRateComparison extends StatelessWidget {
             child: Column(children: [
               const Icon(Icons.arrow_forward_rounded,
                   color: Color(0xFF4B5563), size: 20),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text('${passCount}/${totalTests}\ntests pass',
                   style: const TextStyle(
                       color: Color(0xFF6B7280),
@@ -1059,7 +1059,7 @@ class _FpRateComparison extends StatelessWidget {
               ),
             ),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

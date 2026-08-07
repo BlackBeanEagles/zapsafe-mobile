@@ -479,7 +479,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
             child: Column(children: [
               Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(label, style: TextStyle(
                   color: isActive ? color : const Color(0xFF6B7280),
                   fontSize: 9,
@@ -593,7 +593,7 @@ class _EdgeCasesTab extends ConsumerWidget {
           if (isSim) ...[
             const SizedBox(height: 2),
             _SimContainer(ec: ec),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             GestureDetector(
               onTap: () =>
                   ref.read(_simulatingProvider.notifier).state = null,
@@ -876,7 +876,7 @@ class _LegalTab extends ConsumerWidget {
                                   style: TextStyle(color: Color(0xFF6B7280),
                                       fontSize: 9, fontWeight: FontWeight.w700,
                                       letterSpacing: 1)),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(point.legalText,
                                   style: const TextStyle(
                                       color: Color(0xFFD1D5DB),
@@ -905,7 +905,7 @@ class _LegalTab extends ConsumerWidget {
                                         fontSize: 9, fontWeight: FontWeight.w700,
                                         letterSpacing: 1)),
                               ]),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: ZapSpacing.xs),
                               Text(point.zapImpl,
                                   style: const TextStyle(
                                       color: Color(0xFFD1D5DB),
@@ -984,7 +984,7 @@ class _BlockCompleteTab extends StatelessWidget {
               style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                   fontWeight: FontWeight.w700, letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Text('DAYS 169 – 172  ✅',
               style: TextStyle(color: Colors.white, fontSize: 22,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),

@@ -468,7 +468,7 @@ class _HealthScoreCard extends ConsumerWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w800),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   overallScore >= 80
                       ? 'All legal docs accepted and consent configured.'
@@ -513,7 +513,7 @@ class _DimensionBar extends StatelessWidget {
                   color: dim.color, fontSize: 11,
                   fontWeight: FontWeight.w700)),
         ]),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ClipRRect(
           borderRadius: BorderRadius.circular(3),
           child: LinearProgressIndicator(
@@ -639,7 +639,7 @@ class _TabBar extends StatelessWidget {
               child: Column(children: [
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),

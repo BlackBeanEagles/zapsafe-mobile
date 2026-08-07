@@ -21,6 +21,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -399,7 +400,7 @@ class _TabBar extends StatelessWidget {
               ),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label, style: TextStyle(
                     color: isActive ? color : const Color(0xFF6B7280),
                     fontSize: 10,
@@ -699,9 +700,9 @@ class _EventCardState extends State<_EventCard> {
                     child: Column(children: [
                       const Divider(height: ZapSpacing.md, color: Color(0xFF2A2A2A)),
                       _detailRow('Trigger', e.trigger),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       _detailRow('Captures', e.captures),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       _detailRow('Consent needed',
                           e.requiresConsent ? 'YES — only fires when analytics is ON' : 'NO — local only or core function'),
                     ]),
@@ -775,7 +776,7 @@ class _ApplePrivacyLabelTab extends StatelessWidget {
                 Container(
                   width: 44, height: 44,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [Color(0xFFE63946), Color(0xFFB01F2A)]),
+                    gradient: const LinearGradient(colors: [ZapColors.danger, Color(0xFFB01F2A)]),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(Icons.bolt_rounded, color: Colors.white, size: 24),
@@ -816,7 +817,7 @@ class _ApplePrivacyLabelTab extends StatelessWidget {
                           child: Row(children: [
                             Container(width: 4, height: 4,
                                 decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: ZapSpacing.sm),
                             Text(label.type, style: const TextStyle(color: Colors.white, fontSize: 11)),
                             if (label.purpose != '—') ...[
                               const Spacer(),

@@ -459,7 +459,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -524,7 +524,7 @@ class _BreakdownTab extends StatelessWidget {
                 children: [
                   _splitBadge('${optimisable.toStringAsFixed(1)} MB',
                       'Optimisable', const Color(0xFF10B981)),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   _splitBadge('${fixed.toStringAsFixed(1)} MB',
                       'Fixed (SDK)', const Color(0xFF4B5563)),
                 ],
@@ -771,7 +771,7 @@ class _ComponentsTabState extends State<_ComponentsTab> {
                                   color: Colors.white,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: ZapSpacing.xs),
                           // Size bar
                           ClipRRect(
                             borderRadius: BorderRadius.circular(3),

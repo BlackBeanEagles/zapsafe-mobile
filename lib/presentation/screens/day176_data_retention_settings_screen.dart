@@ -420,7 +420,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -535,7 +535,7 @@ class _RetentionTab extends ConsumerWidget {
                           color: isFixed ? const Color(0xFF6B7280) : cat.color,
                           fontSize: 10, fontWeight: FontWeight.w700)),
                       if (isFixed) ...[
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         const Icon(Icons.lock_rounded,
                             color: Color(0xFF4B5563), size: 10),
                       ],

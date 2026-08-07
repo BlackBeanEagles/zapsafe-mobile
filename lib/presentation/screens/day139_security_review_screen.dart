@@ -317,7 +317,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -648,7 +648,7 @@ class _SecurityCategory extends StatelessWidget {
                       u[idx] = true;
                       ref.read(_securityProvider.notifier).state = u;
                     }),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     _btn('❌', result == false, const Color(0xFFEF4444), () {
                       final u = List<bool?>.from(ref.read(_securityProvider));
                       u[idx] = false;

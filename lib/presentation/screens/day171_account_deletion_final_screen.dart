@@ -319,7 +319,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
             child: Column(children: [
               Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(label, style: TextStyle(
                   color: isActive ? color : const Color(0xFF6B7280),
                   fontSize: 9,
@@ -621,18 +621,18 @@ class _MockScreen extends StatelessWidget {
         backgroundColor: Color(0xFF2A2A2A),
         valueColor: AlwaysStoppedAnimation(Color(0xFFEF4444)),
         minHeight: 6)),
-    const SizedBox(height: 8),
+    const SizedBox(height: ZapSpacing.sm),
     const Text('Erasing Evidence Vault…  (60%)',
         style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 10)),
     const SizedBox(height: ZapSpacing.md),
     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       _doneChip('Location ✓'),
-      const SizedBox(width: 4),
+      const SizedBox(width: ZapSpacing.xs),
       _doneChip('Analytics ✓'),
-      const SizedBox(width: 4),
+      const SizedBox(width: ZapSpacing.xs),
       _doneChip('Contacts ✓'),
     ]),
-    const SizedBox(height: 4),
+    const SizedBox(height: ZapSpacing.xs),
     const Text('Do not close the app.', style: TextStyle(
         color: Color(0xFF6B7280), fontSize: 9)),
   ]);
@@ -764,7 +764,7 @@ class _ReAuthGateDetail extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Icon(Icons.circle, color: Color(0xFFF59E0B), size: 6),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(t.$1, style: const TextStyle(color: Colors.white,
                       fontSize: 11, fontWeight: FontWeight.w600)),
@@ -807,7 +807,7 @@ class _FinalWarningDetail extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Icon(Icons.circle, color: Color(0xFFEF4444), size: 6),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(t.$1, style: const TextStyle(color: Colors.white,
                       fontSize: 11, fontWeight: FontWeight.w600)),

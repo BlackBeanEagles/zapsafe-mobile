@@ -458,7 +458,7 @@ class _SetupGuide extends ConsumerWidget {
                                           : FontWeight.w400,
                                     )),
                                 if (isActive) ...[
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: ZapSpacing.xs),
                                   Text(desc,
                                       style: const TextStyle(
                                         color: Color(0xFF9CA3AF),
@@ -767,7 +767,7 @@ class _CrashTile extends StatelessWidget {
                           )),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   // Affected bar
                   Row(
                     children: [

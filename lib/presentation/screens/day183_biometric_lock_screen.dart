@@ -437,7 +437,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -527,7 +527,7 @@ class _LockDemoTab extends ConsumerWidget {
                 Icon(_biometricIcon[b]!,
                     color: isActive ? const Color(0xFF8B5CF6) : const Color(0xFF6B7280),
                     size: 20),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(_biometricLabel[b]!, style: TextStyle(
                     color: isActive ? const Color(0xFF8B5CF6) : const Color(0xFF6B7280),
                     fontSize: 9,
@@ -975,10 +975,10 @@ class _Lp18Tab extends ConsumerWidget {
                           child: Column(children: [
                             _lp18Row('Trigger',  item.triggerAction,
                                 Icons.bolt_rounded, item.color),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: ZapSpacing.sm),
                             _lp18Row('Prompt',   item.biometricPrompt,
                                 Icons.fingerprint_rounded, const Color(0xFF8B5CF6)),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: ZapSpacing.sm),
                             _lp18Row('On failure', item.onFailure,
                                 Icons.cancel_rounded, const Color(0xFFEF4444)),
                           ])))

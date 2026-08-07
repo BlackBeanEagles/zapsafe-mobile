@@ -554,7 +554,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -670,12 +670,12 @@ class _StoreCard extends StatelessWidget {
         ]),
         const SizedBox(height: ZapSpacing.sm),
         _infoRow('Backing', store.backingStore, store.color),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         _infoRow('Encryption', store.encryption, store.color),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         _infoRow('Key storage', store.keyStorage, store.color),
         if (store.usesByZapSafe) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           _infoRow('Used for', store.usedFor, store.color),
         ],
       ]));

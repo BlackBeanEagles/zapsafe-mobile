@@ -404,7 +404,7 @@ class _TagPanel extends ConsumerWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w800),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Text(
             'github.com/zapsafe-app/zapsafe-mobile/releases/tag/v0.5-beta-final',
             style: TextStyle(
@@ -501,7 +501,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -654,7 +654,7 @@ class _VersionCardState extends State<_VersionCard> {
                               children: [
                                 Text(h.substring(0, 2),
                                     style: const TextStyle(fontSize: 13)),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: ZapSpacing.xs),
                                 Expanded(
                                   child: Text(h.substring(2),
                                       style: const TextStyle(

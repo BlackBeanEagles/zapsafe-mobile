@@ -344,7 +344,7 @@ class _TabBar extends StatelessWidget {
                     width: isActive ? 2 : 1)),
             child: Column(children: [
               Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(label, style: TextStyle(
                   color: isActive ? color : const Color(0xFF6B7280),
                   fontSize: 9,
@@ -491,7 +491,7 @@ class _WhatGetsDeletedTab extends ConsumerWidget {
                                         children: [
                                       Icon(Icons.circle, color: cat.color,
                                           size: 5),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: ZapSpacing.sm),
                                       Expanded(child: Text(item,
                                           style: const TextStyle(
                                               color: Color(0xFFD1D5DB),
@@ -581,7 +581,7 @@ class _StepIndicator extends StatelessWidget {
               : Center(child: Text('${idx + 1}',
                   style: TextStyle(color: color, fontSize: 11,
                       fontWeight: FontWeight.w800)))),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(labels[idx], style: TextStyle(
             color: isNow || isDone ? const Color(0xFFEF4444) : const Color(0xFF4B5563),
             fontSize: 8, fontWeight: isNow ? FontWeight.w700 : FontWeight.w400)),
@@ -882,7 +882,7 @@ class _Step2ReAuth extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.md),
         _OtpInput(onChanged: (v) =>
             ref.read(_otpEnteredProvider.notifier).state = v),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         const Text('Mock OTP is 123456',
             style: TextStyle(color: Color(0xFF4B5563), fontSize: 10)),
         const SizedBox(height: ZapSpacing.xl),

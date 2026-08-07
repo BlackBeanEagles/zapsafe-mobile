@@ -335,7 +335,7 @@ class _SourceTabs extends StatelessWidget {
               ),
               child: Column(children: [
                 Icon(icon, color: isActive ? color : const Color(0xFF4B5563), size: 20),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                       color: isActive ? color : const Color(0xFF6B7280),
@@ -431,7 +431,7 @@ class _SentryTab extends StatelessWidget {
                       Text('${(frac * 100).round()}%',
                           style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w700)),
                     ]),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(2),
                       child: LinearProgressIndicator(
@@ -624,7 +624,7 @@ class _FalsePositiveTab extends StatelessWidget {
                       Text('${(rate * 100).toStringAsFixed(1)}%',
                           style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w700)),
                     ]),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(3),
                       child: LinearProgressIndicator(
@@ -634,7 +634,7 @@ class _FalsePositiveTab extends StatelessWidget {
                         minHeight: 8,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text('Common cause: $trigger',
                         style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
                   ],
@@ -663,7 +663,7 @@ class _FalsePositiveTab extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     const Icon(Icons.arrow_right_rounded, color: Color(0xFFF59E0B), size: 18),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Expanded(child: Text(t,
                         style: const TextStyle(color: Color(0xFFD1D5DB), fontSize: 12, height: 1.5))),
                   ]),
@@ -872,7 +872,7 @@ class _SentimentCard extends StatelessWidget {
             final (icon, color, label, pct) = s;
             return Column(children: [
               Icon(icon, color: color, size: 32),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text('$pct%',
                   style: TextStyle(
                       color: color, fontSize: 16, fontWeight: FontWeight.w800)),

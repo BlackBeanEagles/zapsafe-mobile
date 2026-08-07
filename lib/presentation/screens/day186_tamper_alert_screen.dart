@@ -243,7 +243,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -292,7 +292,7 @@ class _AlertTab extends ConsumerWidget {
               Icon(Icons.warning_amber_rounded,
                   color: mode == _AlertMode.safeMode
                       ? const Color(0xFFF59E0B) : const Color(0xFF6B7280), size: 20),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text('Safe Mode', style: TextStyle(
                   color: mode == _AlertMode.safeMode
                       ? const Color(0xFFF59E0B) : const Color(0xFF6B7280),
@@ -319,7 +319,7 @@ class _AlertTab extends ConsumerWidget {
               Icon(Icons.block_rounded,
                   color: mode == _AlertMode.block
                       ? const Color(0xFFEF4444) : const Color(0xFF6B7280), size: 20),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text('Block', style: TextStyle(
                   color: mode == _AlertMode.block
                       ? const Color(0xFFEF4444) : const Color(0xFF6B7280),
@@ -423,7 +423,7 @@ class _SafeModeScreen extends StatelessWidget {
               ])),
             const SizedBox(height: ZapSpacing.md),
             _mockBtn('Continue in Safe Mode', const Color(0xFFF59E0B)),
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             const Text('Learn more about device security →',
                 style: TextStyle(color: Color(0xFF4B5563), fontSize: 10)),
           ]),
@@ -453,7 +453,7 @@ class _BlockScreen extends StatelessWidget {
             const Text('ZapSafe Cannot Run',
                 style: TextStyle(color: Color(0xFFEF4444), fontSize: 18,
                     fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             const Text(
               'This device has been rooted or jailbroken. '
               'ZapSafe cannot guarantee the security of your '
@@ -609,7 +609,7 @@ class _ScoringTab extends ConsumerWidget {
                     width: isFlagged ? 2 : 1)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               if (isFlagged) Icon(Icons.warning_rounded, color: c.color, size: 11),
-              if (isFlagged) const SizedBox(width: 4),
+              if (isFlagged) const SizedBox(width: ZapSpacing.xs),
               Text('${c.name} (+${c.weight})',
                   style: TextStyle(
                       color: isFlagged ? c.color : const Color(0xFF6B7280),
@@ -642,7 +642,7 @@ class _ScoringTab extends ConsumerWidget {
                     width: isFlagged ? 2 : 1)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               if (isFlagged) Icon(Icons.warning_rounded, color: c.color, size: 11),
-              if (isFlagged) const SizedBox(width: 4),
+              if (isFlagged) const SizedBox(width: ZapSpacing.xs),
               Text('${c.name} (+${c.weight})',
                   style: TextStyle(
                       color: isFlagged ? c.color : const Color(0xFF6B7280),
@@ -771,16 +771,16 @@ class _ScoringTab extends ConsumerWidget {
           border: Border.all(color: barColor.withOpacity(0.35))),
       child: Column(children: [
         Text(label, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 9)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text('$score / 100', style: TextStyle(color: barColor, fontSize: 20,
             fontWeight: FontWeight.w900)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ClipRRect(borderRadius: BorderRadius.circular(3),
             child: LinearProgressIndicator(
                 value: score.clamp(0, 100) / 100,
                 backgroundColor: const Color(0xFF2A2A2A),
                 valueColor: AlwaysStoppedAnimation(barColor), minHeight: 5)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
           decoration: BoxDecoration(
@@ -863,7 +863,7 @@ class _PlayIntegrityFlow extends StatelessWidget {
                           color: Color(0xFF3DDC84), strokeWidth: 2))
                   : Icon(isDone ? Icons.check_circle_rounded : icon,
                       color: color, size: 14),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(child: Text(label, style: TextStyle(
                   color: isDone || isNow ? Colors.white : const Color(0xFF4B5563),
                   fontSize: 11))),
@@ -942,7 +942,7 @@ class _BlockCompleteTab extends StatelessWidget {
         const Text('Root / Jailbreak Detection Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text('DAYS 185 – 186  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),

@@ -1115,9 +1115,9 @@ class _SummaryTab extends ConsumerWidget {
               ),
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 _badge2('44.9', 'Day 141', const Color(0xFFEF4444)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 _badge2('34.7', 'Day 143', const Color(0xFFF59E0B)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 _badge2(apkAfter.toStringAsFixed(1), 'Now',
                     apkAfter < 28 ? const Color(0xFF10B981) : const Color(0xFFF59E0B)),
               ]),
@@ -1136,7 +1136,7 @@ class _SummaryTab extends ConsumerWidget {
                 minHeight: 8,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1211,7 +1211,7 @@ class _SummaryTab extends ConsumerWidget {
           Text('$value MB',
               style: TextStyle(
                   color: color, fontSize: 11, fontWeight: FontWeight.w700)),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(label,
               style: const TextStyle(
                   color: Color(0xFF4B5563), fontSize: 9)),

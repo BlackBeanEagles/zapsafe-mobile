@@ -419,7 +419,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -664,7 +664,7 @@ class _ScanResults extends StatelessWidget {
             const SizedBox(height: ZapSpacing.sm),
             Text('Response mode: ${_modeLabel(mode)}',
                 style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(_modeAction(mode), style: TextStyle(
                 color: headerColor, fontSize: 11, fontWeight: FontWeight.w600)),
           ],
@@ -919,7 +919,7 @@ class _CheckListTab extends StatelessWidget {
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(label, style: TextStyle(color: color, fontSize: 9,
             fontWeight: FontWeight.w700)),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Expanded(child: Text(body, style: const TextStyle(
             color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5))),
       ]));

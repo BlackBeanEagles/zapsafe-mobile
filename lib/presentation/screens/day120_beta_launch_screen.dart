@@ -1249,7 +1249,7 @@ class _PhaseSummary extends StatelessWidget {
                               color: color,
                               fontSize: 10,
                               fontWeight: FontWeight.w600)),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(label,
                           style: const TextStyle(
                               color: Color(0xFFD1D5DB),

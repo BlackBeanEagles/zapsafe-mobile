@@ -377,7 +377,7 @@ class _LocaleSelector extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: kSupportedLanguages.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.sm),
         itemBuilder: (_, i) {
           final lang = kSupportedLanguages[i];
           final selected = lang.code == state.selectedCode;
@@ -482,7 +482,7 @@ class _PreviewRow extends StatelessWidget {
               style: const TextStyle(color: Color(0xFF6D28D9), fontSize: 11, fontFamily: 'monospace'),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(value, style: const TextStyle(color: Color(0xFFE5E7EB), fontSize: 13)),
           ),

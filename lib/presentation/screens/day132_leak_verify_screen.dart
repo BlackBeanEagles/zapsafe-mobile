@@ -1325,7 +1325,7 @@ Widget _diffBlock(String filename, String before, String after) =>
                 fontSize: 11,
                 fontFamily: 'monospace',
                 height: 1.5))),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...after.split('\n').map((l) => Text('+ $l',
             style: const TextStyle(
                 color: Color(0xFF7EE787),

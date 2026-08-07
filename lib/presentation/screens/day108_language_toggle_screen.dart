@@ -184,7 +184,7 @@ class _CurrentLanguageCard extends StatelessWidget {
               children: [
                 const Text('CURRENT LANGUAGE',
                     style: TextStyle(color: Color(0xFF10B981), fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 1.1)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(lang.nativeName,
                     style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800)),
                 Text(lang.name,
@@ -262,10 +262,10 @@ class _LivePreviewCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: color, size: 15),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           SizedBox(width: 120,
               child: Text(key, style: const TextStyle(color: Color(0xFF6B7280), fontSize: 11, fontFamily: 'monospace'))),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(child: Text(value, style: const TextStyle(color: Color(0xFFE5E7EB), fontSize: 13, fontWeight: FontWeight.w600))),
         ],
       ),

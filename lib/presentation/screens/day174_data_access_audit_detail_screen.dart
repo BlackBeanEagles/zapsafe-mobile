@@ -477,7 +477,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -538,7 +538,7 @@ class _DrillDownTab extends ConsumerWidget {
                       fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                       fontFamily: 'monospace')),
                   if (e.suspicious) ...[
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     const Icon(Icons.warning_rounded, color: Color(0xFFEF4444), size: 10),
                   ],
                 ]),
@@ -657,7 +657,7 @@ class _ForensicCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 6),
                 child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const Icon(Icons.circle, color: Color(0xFFEF4444), size: 5),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(child: Text(r, style: const TextStyle(
                       color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5))),
                 ]))),
@@ -836,7 +836,7 @@ class _SessionMiniCard extends StatelessWidget {
         Text('${session.device}  ·  ${session.city}  ·  '
             '${session.eventCount} events in this session',
             style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text('Started: ${_fmtShort(session.startedAt)}  '
             '·  Last active: ${_fmtShort(session.lastActive)}',
             style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
@@ -901,11 +901,11 @@ class _ExportTab extends ConsumerWidget {
       const SizedBox(height: ZapSpacing.md),
       Row(children: [
         _rangeBtn('7 days',  _ExportRange.days7,  range, ref),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         _rangeBtn('30 days', _ExportRange.days30, range, ref),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         _rangeBtn('90 days', _ExportRange.days90, range, ref),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         _rangeBtn('All',     _ExportRange.all,    range, ref),
       ]),
       const SizedBox(height: ZapSpacing.lg),
@@ -1018,7 +1018,7 @@ class _ExportTab extends ConsumerWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(label, style: TextStyle(color: isOn ? color : Colors.white,
               fontSize: 14, fontWeight: FontWeight.w700)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(sub, style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10,
               height: 1.4)),
         ])));

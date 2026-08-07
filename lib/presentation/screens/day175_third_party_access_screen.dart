@@ -387,7 +387,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -503,7 +503,7 @@ class _ThirdPartyTab extends ConsumerWidget {
                         Row(children: [
                           Icon(Icons.access_time_rounded,
                               color: const Color(0xFF4B5563), size: 11),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ZapSpacing.xs),
                           Expanded(child: Text(party.accessedWhen,
                               style: const TextStyle(
                                   color: Color(0xFF4B5563), fontSize: 9),
@@ -901,7 +901,7 @@ class _BlockCompleteTab extends StatelessWidget {
               style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                   fontWeight: FontWeight.w700, letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Text('DAYS 173 – 175  ✅',
               style: TextStyle(color: Colors.white, fontSize: 22,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),

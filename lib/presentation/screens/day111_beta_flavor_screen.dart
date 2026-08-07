@@ -462,7 +462,7 @@ class _LivePreview extends StatelessWidget {
                             children: [
                               Icon(Icons.feedback_rounded,
                                   color: Color(0xFFF97316), size: 16),
-                              SizedBox(width: 8),
+                              SizedBox(width: ZapSpacing.sm),
                               Text(
                                 'Feedback FAB  ·  only visible in beta builds',
                                 style: TextStyle(
@@ -486,7 +486,7 @@ class _LivePreview extends StatelessWidget {
                             children: [
                               Icon(Icons.feedback_outlined,
                                   color: Color(0xFF4B5563), size: 16),
-                              SizedBox(width: 8),
+                              SizedBox(width: ZapSpacing.sm),
                               Text(
                                 'Feedback FAB  ·  hidden in prod builds',
                                 style: TextStyle(
@@ -596,7 +596,7 @@ class _FlavorConfigCard extends StatelessWidget {
             children: [
               _FileChip('lib/core/config/flavor_config.dart',
                   Color(0xFF79C0FF)),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               _FileChip('lib/main_beta.dart', Color(0xFFF97316)),
             ],
           ),

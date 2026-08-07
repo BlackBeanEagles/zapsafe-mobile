@@ -401,7 +401,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -637,7 +637,7 @@ class _DropOffFunnel extends StatelessWidget {
                             top: Radius.circular(2)),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text('S${i + 1}',
                         style: const TextStyle(
                             color: Color(0xFF6B7280), fontSize: 8),
@@ -736,7 +736,7 @@ class _RedesignTab extends ConsumerWidget {
                             ? step.color
                             : const Color(0xFF6B7280),
                         size: 18),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text('Step ${step.number}',
                         style: TextStyle(
                             color: isActive
@@ -1020,7 +1020,7 @@ class _TimeComparison extends StatelessWidget {
                 Text(label,
                     style: const TextStyle(
                         color: Color(0xFF9CA3AF), fontSize: 11)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Row(children: [
                   Expanded(
                     flex: oldSec,
@@ -1031,7 +1031,7 @@ class _TimeComparison extends StatelessWidget {
                   ),
                   Expanded(
                     flex: oldTotal - oldSec,
-                    child: const SizedBox(height: 12),
+                    child: const SizedBox(height: ZapSpacing.md),
                   ),
                 ]),
                 const SizedBox(height: 2),
@@ -1045,7 +1045,7 @@ class _TimeComparison extends StatelessWidget {
                   ),
                   Expanded(
                     flex: oldTotal - newSec,
-                    child: const SizedBox(height: 12),
+                    child: const SizedBox(height: ZapSpacing.md),
                   ),
                 ]),
               ],
@@ -1088,7 +1088,7 @@ class _TimeComparison extends StatelessWidget {
             width: 12, height: 12,
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: const TextStyle(
                 color: Color(0xFF9CA3AF), fontSize: 10)),
@@ -1139,7 +1139,7 @@ class _DemoTab extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text('${stepData.duration}',
                         style: TextStyle(
                             color: isActive

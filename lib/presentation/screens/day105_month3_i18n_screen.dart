@@ -381,7 +381,7 @@ class _LocaleSelector extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: kSupportedLanguages.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.sm),
         itemBuilder: (_, i) {
           final lang = kSupportedLanguages[i];
           final selected = lang.code == state.selectedCode;
@@ -439,11 +439,11 @@ class _LivePreview extends StatelessWidget {
             Row(
               children: [
                 Text(state.lang.flag, style: const TextStyle(fontSize: 20)),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Text(state.lang.nativeName,
                     style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700)),
                 if (state.isRtl) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                     decoration: BoxDecoration(
@@ -509,7 +509,7 @@ class _PreviewGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w700, fontFamily: 'monospace', letterSpacing: 0.5)),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...rows.map((r) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
@@ -519,7 +519,7 @@ class _PreviewGroup extends StatelessWidget {
                 width: 130,
                 child: Text(r.key, style: const TextStyle(color: Color(0xFF6B7280), fontSize: 11, fontFamily: 'monospace')),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(child: Text(r.value, style: const TextStyle(color: Color(0xFFE5E7EB), fontSize: 13))),
             ],
           ),

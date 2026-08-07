@@ -406,7 +406,7 @@ class _TabBar extends StatelessWidget {
                 Icon(icon,
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(label,
                     style: TextStyle(
                         color: isActive ? color : const Color(0xFF6B7280),
@@ -729,7 +729,7 @@ class _DauChart extends StatelessWidget {
           // Legend
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             _dLegend(const Color(0xFFEF4444).withOpacity(0.4), 'Before'),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             _dLegend(const Color(0xFF10B981), 'After v0.5-beta-2'),
           ]),
         ]),
@@ -791,7 +791,7 @@ class _DauChart extends StatelessWidget {
             width: 12, height: 8,
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label,
             style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 9)),
       ]);
@@ -1090,15 +1090,15 @@ class _DecisionCard extends StatelessWidget {
                       fontWeight: FontWeight.w600)),
             ),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Row(children: [
             const Icon(Icons.person_rounded, color: Color(0xFF6B7280), size: 11),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(item.source,
                 style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
             const SizedBox(width: ZapSpacing.md),
             const Icon(Icons.timer_rounded, color: Color(0xFF6B7280), size: 11),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(item.effort,
                 style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
           ]),

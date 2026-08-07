@@ -428,7 +428,7 @@ class _CrashSelector extends ConsumerWidget {
                 Text('Crash ${i + 1}',
                     style: const TextStyle(
                         color: Color(0xFF9CA3AF), fontSize: 9)),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -522,7 +522,7 @@ class _CrashDetail extends ConsumerWidget {
               Row(children: [
                 Icon(Icons.smartphone_rounded,
                     color: crash.priorityColor, size: 14),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Text(crash.os,
                     style: const TextStyle(
                         color: Color(0xFF9CA3AF), fontSize: 11)),
@@ -674,7 +674,7 @@ Widget _codeBlock(List<(String, _DiffType)> lines, {bool showLineNumbers = false
                     textAlign: TextAlign.right,
                   ),
                 ),
-              if (showLineNumbers) const SizedBox(width: 8),
+              if (showLineNumbers) const SizedBox(width: ZapSpacing.sm),
               Text(prefix,
                   style: TextStyle(
                       color: fg,

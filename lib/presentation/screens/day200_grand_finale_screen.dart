@@ -330,7 +330,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -545,7 +545,7 @@ class _CelebrationTab extends ConsumerWidget {
             border: Border.all(color: color.withOpacity(0.4))),
         child: Column(children: [
           Icon(icon, color: color, size: 22),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(label, style: TextStyle(color: color, fontSize: 11,
               fontWeight: FontWeight.w700)),
           Text(url, style: const TextStyle(color: Color(0xFF4B5563), fontSize: 8),

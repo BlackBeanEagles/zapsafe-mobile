@@ -694,7 +694,7 @@ class _FixCardState extends ConsumerState<_FixCard> {
                   fontSize: 8,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 1)),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(text,
               style: TextStyle(
                   color: color.withOpacity(0.9),
@@ -932,7 +932,7 @@ class _A11yCategory extends StatelessWidget {
                         ref.read(_a11yProvider.notifier).state = updated;
                       },
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     _resultBtn(
                       '❌',
                       result == false,
@@ -1009,7 +1009,7 @@ Widget _diffBlock(String filename, String before, String after) =>
                 fontSize: 11,
                 fontFamily: 'monospace',
                 height: 1.5))),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         ...after.split('\n').map((l) => Text('+ $l',
             style: const TextStyle(
                 color: Color(0xFF7EE787),

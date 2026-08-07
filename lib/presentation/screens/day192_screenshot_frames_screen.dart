@@ -415,7 +415,7 @@ class _TabBar extends StatelessWidget {
                   width: isActive ? 2 : 1)),
           child: Column(children: [
             Icon(icon, color: isActive ? color : const Color(0xFF6B7280), size: 18),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(label, style: TextStyle(
                 color: isActive ? color : const Color(0xFF6B7280), fontSize: 9,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400)),
@@ -575,7 +575,7 @@ class _ToolDetail extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(title, style: TextStyle(color: color, fontSize: 10,
               fontWeight: FontWeight.w700, letterSpacing: 1)),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           ...items.map((s) => Padding(
               padding: const EdgeInsets.only(bottom: 5),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -793,7 +793,7 @@ class _LocaleScreenshotPreview extends StatelessWidget {
                     Container(
                       height: 40, color: const Color(0xFF0F0F0F),
                       child: Row(children: [
-                        const SizedBox(width: 12),
+                        const SizedBox(width: ZapSpacing.md),
                         const Icon(Icons.bolt_rounded,
                             color: Color(0xFFEF4444), size: 14),
                         const SizedBox(width: 5),
