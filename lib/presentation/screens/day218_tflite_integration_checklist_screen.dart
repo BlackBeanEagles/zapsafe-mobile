@@ -508,7 +508,7 @@ class _StatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(status.icon, size: 12, color: status.color),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(
             status.label,
             style: TextStyle(
@@ -594,7 +594,7 @@ class _IntegrationTab extends StatelessWidget {
               const Row(
                 children: [
                   Icon(Icons.folder_rounded, color: ZapColors.warning, size: 20),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'assets/models/',
                     style: TextStyle(
@@ -662,7 +662,7 @@ class _IntegrationTab extends StatelessWidget {
                 children: [
                   Icon(Icons.cloud_download_rounded,
                       color: ZapColors.info, size: 20),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'model_download_service.dart',
                     style: TextStyle(

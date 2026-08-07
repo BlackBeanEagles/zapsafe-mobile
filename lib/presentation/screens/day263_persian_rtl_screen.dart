@@ -186,7 +186,7 @@ class _PackTab extends StatelessWidget {
         Row(
           children: [
             const Text('🇮🇷', style: TextStyle(fontSize: 32)),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -470,7 +470,7 @@ class _MockAppShell extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   status,
                   style: const TextStyle(
@@ -591,7 +591,7 @@ class _CheckRow extends StatelessWidget {
             size: 16,
             color: pass ? ZapColors.safe : ZapColors.danger,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

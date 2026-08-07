@@ -332,7 +332,7 @@ class _SummaryTab extends ConsumerWidget {
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: ZapSpacing.xs),
                         Text(
                           'Gamified annual summary · mock data',
                           style: TextStyle(
@@ -377,7 +377,7 @@ class _SummaryTab extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Icon(Icons.star_rounded, size: 14, color: _kAccent),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     h,
@@ -449,7 +449,7 @@ class _SummaryTab extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   OutlinedButton(
                     onPressed: () =>
                         ref.read(_d275TabProvider.notifier).state = 1,

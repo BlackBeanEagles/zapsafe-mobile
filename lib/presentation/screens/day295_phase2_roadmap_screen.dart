@@ -472,7 +472,7 @@ class _TimelineTab extends ConsumerWidget {
           child: const Row(
             children: [
               Icon(Icons.map_rounded, color: _kAccent),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'Phase 2 begins after Day 300 Section E sign-off. '
@@ -708,7 +708,7 @@ class _ThemesTab extends ConsumerWidget {
                   Row(
                     children: [
                       Icon(_phaseIcon(phase), color: color, size: 22),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: ZapSpacing.sm),
                       Expanded(
                         child: Text(
                           _phaseLabel(phase),
@@ -728,7 +728,7 @@ class _ThemesTab extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Text(
                     '${days.length} build days'
                     '${deferred > 0 ? ' · $deferred deferred' : ''}',
@@ -737,7 +737,7 @@ class _ThemesTab extends ConsumerWidget {
                       fontSize: 11,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
@@ -747,13 +747,13 @@ class _ThemesTab extends ConsumerWidget {
                       minHeight: 6,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   const Text(
                     '0% complete — planning phase',
                     style: TextStyle(color: ZapColors.textMuted, fontSize: 9),
                   ),
                   if (phase == _RoadmapPhase.globalLaunch) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: ZapSpacing.sm),
                     ActionChip(
                       label: const Text('Day 291 Global Compare'),
                       onPressed: () =>
@@ -761,7 +761,7 @@ class _ThemesTab extends ConsumerWidget {
                     ),
                   ],
                   if (phase == _RoadmapPhase.v92) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: ZapSpacing.sm),
                     ActionChip(
                       label: const Text('Day 290 Rollout Sim'),
                       onPressed: () =>
@@ -769,7 +769,7 @@ class _ThemesTab extends ConsumerWidget {
                     ),
                   ],
                   if (phase == _RoadmapPhase.deferred) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: ZapSpacing.sm),
                     const Text(
                       'Wearables remain out of v9.2 scope per Day 260 milestone '
                       '(phone-only). Spike days are optional R&D.',
@@ -803,7 +803,7 @@ class _ThemesTab extends ConsumerWidget {
                   fontSize: 12,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               _ReleaseMilestone(
                 label: 'v9.1 (Section E)',
                 range: 'Days 281–300',
@@ -850,7 +850,7 @@ class _ReleaseMilestone extends StatelessWidget {
       child: Row(
         children: [
           Icon(Icons.circle, size: 8, color: color),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               '$label ($range)',

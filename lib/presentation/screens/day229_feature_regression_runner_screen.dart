@@ -656,7 +656,7 @@ class _ProgressRingHeader extends StatelessWidget {
                   '🟢 FRONTEND-ONLY · Section B Day 9/20',
                   style: TextStyle(color: ZapColors.safe, fontSize: 10),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '$_kFeatureCount features + $_kLpCount LP defenses · ${stats.evaluated} evaluated',
                   style: const TextStyle(
@@ -785,7 +785,7 @@ class _ChecklistTab extends ConsumerWidget {
                 child: const Text('Mark visible pass'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: OutlinedButton(
                 onPressed: () => context.push(AppRoutes.qaPass),
@@ -824,7 +824,7 @@ class _ChecklistTab extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Text(
                 row.category.label,
                 style: TextStyle(
@@ -897,7 +897,7 @@ class _RegressionRowCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(verdict.icon, color: verdict.color, size: 18),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -931,7 +931,7 @@ class _RegressionRowCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             children: [
               _VerdictButton(
@@ -1029,7 +1029,7 @@ class _ProgressTab extends StatelessWidget {
             child: const Row(
               children: [
                 Icon(Icons.celebration_rounded, color: ZapColors.safe),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'All 53 rows pass — regression green ✅',
@@ -1093,7 +1093,7 @@ class _ProgressTab extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
@@ -1151,7 +1151,7 @@ class _ExportTab extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           '${stats.pass} pass · ${stats.fail} fail · ${stats.pending} pending',
           style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),

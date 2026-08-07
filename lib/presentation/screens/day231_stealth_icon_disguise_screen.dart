@@ -318,7 +318,7 @@ class _DisguiseTab extends ConsumerWidget {
                         ),
                         child: Icon(d.icon, color: Colors.white, size: 26),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: ZapSpacing.sm),
                       Text(
                         d.label,
                         style: TextStyle(
@@ -501,7 +501,7 @@ class _LauncherPreviewCard extends StatelessWidget {
             ),
             child: Icon(disguise.icon, color: Colors.white, size: 30),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             disguise.label,
             style: const TextStyle(

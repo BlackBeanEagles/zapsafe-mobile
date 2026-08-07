@@ -413,7 +413,7 @@ class _ChecklistTab extends ConsumerWidget {
                 child: const Text('Clear all'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {
@@ -478,7 +478,7 @@ class _ProgressCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: ZapSpacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -491,7 +491,7 @@ class _ProgressCard extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Critical: $critDone/$critTotal · '
                   '${critDone == critTotal ? "Ready for sign-off ✅" : "Complete critical items first"}',
@@ -500,7 +500,7 @@ class _ProgressCard extends StatelessWidget {
                     fontSize: 11,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
@@ -593,7 +593,7 @@ class _ChecklistRow extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   item.description,
                   style: const TextStyle(
@@ -903,7 +903,7 @@ class _SignOffTab extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 launchReady
                     ? 'All critical items, full checklist, and MSG91 mock gate pass.'

@@ -473,7 +473,7 @@ class _HashRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: ZapColors.info, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -574,7 +574,7 @@ class _EvidenceTab extends ConsumerWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'Police operators verify integrity — raw vault files require warrant.',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),

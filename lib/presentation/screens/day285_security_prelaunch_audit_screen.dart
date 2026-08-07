@@ -416,7 +416,7 @@ class _ChecklistTab extends ConsumerWidget {
                             height: 1.35,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         ActionChip(
                           label: Text('${item.dayLink} →'),
                           visualDensity: VisualDensity.compact,

@@ -309,7 +309,7 @@ class _DashboardTab extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: ZapSpacing.xs),
                         Text(
                           _kIndustry,
                           style: TextStyle(
@@ -575,7 +575,7 @@ class _LicensesTab extends ConsumerWidget {
                   fontSize: 12,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               for (final item in const [
                 'Admin dashboard + night-shift roster view',
                 'Journey mode + SOS for all provisioned seats',

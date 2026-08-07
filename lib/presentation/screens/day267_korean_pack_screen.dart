@@ -212,7 +212,7 @@ class _PackTab extends StatelessWidget {
         Row(
           children: [
             const Text('🇰🇷', style: TextStyle(fontSize: 32)),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,7 +376,7 @@ class _ReviewTab extends ConsumerWidget {
           backgroundColor: ZapColors.border,
           color: allDone ? ZapColors.safe : _kAccent,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         Text(
           '${reviewed.length}/${_kCoreKeys.length} keys reviewed · '
           '${allDone ? 'ready to approve' : 'QA in progress'}',

@@ -445,7 +445,7 @@ class _ResultCard extends StatelessWidget {
                       value: metric.targetLabel,
                       color: ZapColors.textSecondary,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     _MetricPill(
                       label: 'Measured',
                       value: showPlaceholder
@@ -649,7 +649,7 @@ class _BeforeAfterTab extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Row(
                         children: [
                           Icon(
@@ -659,7 +659,7 @@ class _BeforeAfterTab extends ConsumerWidget {
                             size: 14,
                             color: improved ? ZapColors.safe : ZapColors.warning,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: ZapSpacing.xs),
                           Expanded(
                             child: Text(
                               m.day129Link,

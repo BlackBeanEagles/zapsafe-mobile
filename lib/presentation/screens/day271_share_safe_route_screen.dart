@@ -237,7 +237,7 @@ class _PreviewTab extends ConsumerWidget {
             minimumSize: const Size(double.infinity, 48),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         Row(
           children: [
             Expanded(
@@ -247,7 +247,7 @@ class _PreviewTab extends ConsumerWidget {
                 label: const Text('Save PNG'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () {
@@ -345,7 +345,7 @@ class _ShareRouteCard extends StatelessWidget {
                   child: const Icon(Icons.shield_rounded,
                       color: _kAccent, size: 16),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -438,14 +438,14 @@ class _ShareRouteCard extends StatelessWidget {
                         label: route.distance,
                         isDark: isDark,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: ZapSpacing.sm),
                       _MetaChip(
                         icon: Icons.schedule_rounded,
                         label: route.duration,
                         isDark: isDark,
                       ),
                       if (includeScore) ...[
-                        const SizedBox(width: 8),
+                        const SizedBox(width: ZapSpacing.sm),
                         _MetaChip(
                           icon: Icons.verified_user_rounded,
                           label: _scoreLabel(score),
@@ -569,7 +569,7 @@ class _MetaChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 12, color: color),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(
             label,
             style: TextStyle(

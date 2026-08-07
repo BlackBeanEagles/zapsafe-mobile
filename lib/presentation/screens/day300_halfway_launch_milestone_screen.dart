@@ -320,7 +320,7 @@ class _CelebrationTab extends ConsumerWidget {
                   letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               const Text(
                 '300 days · 300 screens · Sections A-E complete.\n'
                 'Section E (Days 281-300) signed off · 82% to Day 365.',
@@ -473,7 +473,7 @@ class _StatsTab extends ConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -582,7 +582,7 @@ class _Phase2Tab extends ConsumerWidget {
           child: const Row(
             children: [
               Icon(Icons.flag_rounded, color: Color(0xFF7C3AED)),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'Day 365 is the global launch milestone — '

@@ -359,7 +359,7 @@ class _RunnerTab extends ConsumerWidget {
               label: Text(cycling ? 'Pause cycle' : 'Start cycle'),
               style: FilledButton.styleFrom(backgroundColor: _kAccent),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             OutlinedButton.icon(
               onPressed: onAdvance,
               icon: const Icon(Icons.skip_next_rounded, size: 18),
@@ -568,7 +568,7 @@ class _SamplePreview extends StatelessWidget {
                 _lookupFlat(flat, 'home.status_safe') ?? '',
                 style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               FilledButton(
                 onPressed: () {},
                 style: FilledButton.styleFrom(backgroundColor: ZapColors.danger),
@@ -591,7 +591,7 @@ class _SamplePreview extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 _lookupFlat(flat, 'sos.countdown') ?? '',
                 textAlign: TextAlign.center,
@@ -626,7 +626,7 @@ class _SamplePreview extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(_lookupFlat(flat, 'auth.verify') ?? ''),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 _lookupFlat(flat, 'premium.title') ?? '',
                 style: const TextStyle(color: ZapColors.textMuted, fontSize: 12),
@@ -673,7 +673,7 @@ class _ChecklistTab extends ConsumerWidget {
           backgroundColor: ZapColors.border,
           color: done == applicable ? ZapColors.safe : _kAccent,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         Text(
           '$done/$applicable screenshot checks · translator QA checklist',
           style: TextStyle(
@@ -691,7 +691,7 @@ class _ChecklistTab extends ConsumerWidget {
             title: Row(
               children: [
                 Text(locale.flag),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Text(
                   '${locale.name} (${locale.code})',
                   style: const TextStyle(
@@ -701,7 +701,7 @@ class _ChecklistTab extends ConsumerWidget {
                   ),
                 ),
                 if (locale.rtl) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   const Text(
                     'RTL',
                     style: TextStyle(color: ZapColors.warning, fontSize: 10),
@@ -810,7 +810,7 @@ class _ChecklistTab extends ConsumerWidget {
             minimumSize: const Size(double.infinity, 48),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         OutlinedButton.icon(
           onPressed: () {
             final report = _buildChecklistReport(checklist);

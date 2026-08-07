@@ -303,7 +303,7 @@ class _SummaryTab extends ConsumerWidget {
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: ZapSpacing.xs),
               Text(
                 'One day before Day 300 — halfway to global launch (Day 365). '
                 '$_kNewDaysSince200 new build days since the Day 200 grand finale.',
@@ -374,7 +374,7 @@ class _SummaryTab extends ConsumerWidget {
                       minHeight: 6,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     sec.highlight,
                     style: const TextStyle(
@@ -535,7 +535,7 @@ class _StatsTab extends ConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

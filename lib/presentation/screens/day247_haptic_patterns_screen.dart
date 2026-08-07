@@ -521,7 +521,7 @@ class _TestTab extends ConsumerWidget {
           child: Column(
             children: [
               Icon(Icons.vibration_rounded, size: 48, color: pattern.color),
-              const SizedBox(height: 12),
+              const SizedBox(height: ZapSpacing.md),
               Text(
                 pattern.label,
                 style: TextStyle(
@@ -573,7 +573,7 @@ class _TestTab extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             Expanded(
               child: OutlinedButton(
                 onPressed: playing ? onStop : null,

@@ -288,7 +288,7 @@ class _PhrasesTab extends ConsumerWidget {
               Row(
                 children: [
                   Icon(Icons.mic_rounded, color: _kAccent),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Primary phrase',
                     style: TextStyle(
@@ -299,7 +299,7 @@ class _PhrasesTab extends ConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 '"Hey Siri, ZapSafe SOS"',
                 style: TextStyle(
@@ -308,7 +308,7 @@ class _PhrasesTab extends ConsumerWidget {
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: ZapSpacing.xs),
               Text(
                 'Hands-free SOS when you cannot reach the screen.',
                 style: TextStyle(
@@ -423,7 +423,7 @@ class _PhraseTile extends StatelessWidget {
                               fontSize: 13,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: ZapSpacing.xs),
                           Text(
                             phrase.action,
                             style: const TextStyle(
@@ -446,7 +446,7 @@ class _PhraseTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Row(
                   children: [
                     Expanded(
@@ -516,7 +516,7 @@ class _SetupTab extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(Icons.android_rounded, color: ZapColors.info),
-                    SizedBox(width: 8),
+                    SizedBox(width: ZapSpacing.sm),
                     Text(
                       'Android detected',
                       style: TextStyle(
@@ -527,7 +527,7 @@ class _SetupTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: ZapSpacing.sm),
                 Text(
                   'Siri Shortcuts are iOS-only. On Android use Google Assistant '
                   'voice commands — built on Day 249.',
@@ -674,7 +674,7 @@ class _PlatformPicker extends StatelessWidget {
               fontSize: 10,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Wrap(
             spacing: 8,
             children: [

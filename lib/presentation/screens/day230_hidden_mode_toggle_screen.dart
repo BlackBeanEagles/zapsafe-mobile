@@ -330,7 +330,7 @@ class _TogglesTab extends ConsumerWidget {
                 children: [
                   Icon(Icons.warning_amber_rounded,
                       color: ZapColors.warning, size: 20),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Tradeoffs — read before enabling',
                     style: TextStyle(
@@ -341,7 +341,7 @@ class _TogglesTab extends ConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Hidden Mode reduces visibility of ZapSafe on your device. '
                 'SOS still works via hardware triggers, but contacts may '
@@ -468,7 +468,7 @@ class _TogglesTab extends ConsumerWidget {
                 child: const Text('Discard'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               flex: 2,
               child: FilledButton.icon(
@@ -635,7 +635,7 @@ class _PreviewTab extends ConsumerWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           prefs.enabled
               ? 'Mock OS surfaces with Hidden Mode ${prefs.activeSubCount}/4 active'
@@ -662,7 +662,7 @@ class _PreviewTab extends ConsumerWidget {
                   ),
                   child: const Icon(Icons.bolt_rounded, color: Colors.white),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: ZapSpacing.md),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -767,7 +767,7 @@ class _PreviewTab extends ConsumerWidget {
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   notifBody,
                   style: const TextStyle(

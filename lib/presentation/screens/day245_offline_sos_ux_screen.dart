@@ -347,7 +347,7 @@ class _OfflineBanner extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.flight_rounded, color: ZapColors.danger, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               'Airplane mode (simulated) · $pendingCount item(s) queued locally',
@@ -416,7 +416,7 @@ class _SimulateTab extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Recording, GPS capture, and evidence vault run on-device with no '
                 'signal. Alerts and uploads queue locally — they send automatically '
@@ -598,7 +598,7 @@ class _QueueTab extends ConsumerWidget {
               count: pending,
               color: ZapColors.warning,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             _QueueStatChip(
               label: 'Synced',
               count: synced,
@@ -741,7 +741,7 @@ class _QueueItemTile extends StatelessWidget {
             ),
             child: Icon(item.icon, color: item.typeColor, size: 20),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -761,7 +761,7 @@ class _QueueItemTile extends StatelessWidget {
                     fontSize: 10,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '${item.sizeKb} KB · queued ${_kTimeFmt.format(item.queuedAt)}',
                   style: const TextStyle(

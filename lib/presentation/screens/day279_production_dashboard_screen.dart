@@ -286,7 +286,7 @@ class _DashboardTab extends ConsumerWidget {
                         fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       'Day 4 widget pattern · $score/100',
                       style: const TextStyle(
@@ -453,7 +453,7 @@ class _DeltaTab extends ConsumerWidget {
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -472,7 +472,7 @@ class _DeltaTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

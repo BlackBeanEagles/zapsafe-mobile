@@ -626,7 +626,7 @@ class _TimelineBlock extends StatelessWidget {
                 color: active ? _kAccent : ZapColors.textMuted,
                 size: 18,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   title,
@@ -655,7 +655,7 @@ class _TimelineBlock extends StatelessWidget {
               fontSize: 10,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           ...items.map((i) {
             final st = _statusFromKey(statuses[i.id]);
             return Padding(

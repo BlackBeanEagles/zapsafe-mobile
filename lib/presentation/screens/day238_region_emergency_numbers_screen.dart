@@ -481,7 +481,7 @@ class _DialTab extends ConsumerWidget {
               Row(
                 children: [
                   Text(country.flag, style: const TextStyle(fontSize: 32)),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ZapSpacing.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -626,7 +626,7 @@ class _NumberDialCard extends StatelessWidget {
             backgroundColor: ZapColors.danger.withOpacity(0.12),
             child: Icon(number.icon, color: ZapColors.danger, size: 20),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -727,7 +727,7 @@ class _SourceTab extends ConsumerWidget {
                   fontSize: 13,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               const _MetaRow(label: 'Path', value: _kAssetPath),
               _MetaRow(label: 'Version', value: bundle.version),
               _MetaRow(label: 'Updated', value: bundle.updatedAt),

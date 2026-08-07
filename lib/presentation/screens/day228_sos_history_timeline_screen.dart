@@ -462,7 +462,7 @@ class _TimelineCard extends StatelessWidget {
                             _OutcomeBadge(outcome: entry.outcome),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         Text(
                           _fmtDate(entry.triggeredAt),
                           style: const TextStyle(
@@ -470,7 +470,7 @@ class _TimelineCard extends StatelessWidget {
                             fontSize: 10,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         Text(
                           entry.locationLabel,
                           style: const TextStyle(
@@ -563,7 +563,7 @@ class _TimelineCard extends StatelessWidget {
                         ),
                       if (entry.evidenceCount > 0 &&
                           entry.outcome == SosOutcome.policeDispatched)
-                        const SizedBox(width: 8),
+                        const SizedBox(width: ZapSpacing.sm),
                       if (entry.outcome == SosOutcome.policeDispatched)
                         Expanded(
                           child: FilledButton.icon(
@@ -816,7 +816,7 @@ class _YearFilterTab extends ConsumerWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           selected == null
               ? 'Showing all ${_kMockHistory.length} events'
@@ -1049,7 +1049,7 @@ class _EndpointCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   path,
@@ -1063,7 +1063,7 @@ class _EndpointCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             description,
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),

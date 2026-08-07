@@ -436,7 +436,7 @@ class _TabBar extends StatelessWidget {
                     color: isActive ? color : const Color(0xFF6B7280),
                     size: 18,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     label,
                     style: TextStyle(
@@ -592,7 +592,7 @@ class _SummaryTab extends ConsumerWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         detail,
                         style: const TextStyle(
@@ -601,7 +601,7 @@ class _SummaryTab extends ConsumerWidget {
                           height: 1.45,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         dayRef,
                         style: TextStyle(
@@ -681,7 +681,7 @@ class _SummaryTab extends ConsumerWidget {
                           color: Color(0xFF10B981),
                           size: 18,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         Icon(
                           isExp
                               ? Icons.keyboard_arrow_up_rounded
@@ -779,7 +779,7 @@ class _MetricsTab extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     title,
                     style: const TextStyle(
@@ -846,7 +846,7 @@ class _MetricsTab extends StatelessWidget {
                     fontSize: 10,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: ZapSpacing.md),
                 Text(
                   measured,
                   style: TextStyle(
@@ -857,7 +857,7 @@ class _MetricsTab extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Icon(
                   pass ? Icons.check_circle_rounded : Icons.cancel_rounded,
                   color: pass

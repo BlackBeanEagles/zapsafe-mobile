@@ -228,7 +228,7 @@ class _ProgressHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
@@ -803,7 +803,7 @@ class _ThemeTokensTab extends StatelessWidget {
               children: [
                 const Icon(Icons.check_box_outline_blank_rounded,
                     size: 16, color: ZapColors.textMuted),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     c,

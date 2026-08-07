@@ -561,7 +561,7 @@ class _NotificationPreviewCard extends StatelessWidget {
           Row(
             children: [
               Icon(Icons.notifications_rounded, color: nudge.color, size: 18),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               const Text(
                 'ZapSafe · now',
                 style: TextStyle(
@@ -572,7 +572,7 @@ class _NotificationPreviewCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             nudge.title,
             style: const TextStyle(
@@ -581,7 +581,7 @@ class _NotificationPreviewCard extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             nudge.body,
             style: const TextStyle(
@@ -646,7 +646,7 @@ class _HistoryRow extends StatelessWidget {
             size: 16,
             color: entry.delivered ? ZapColors.safe : ZapColors.textMuted,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

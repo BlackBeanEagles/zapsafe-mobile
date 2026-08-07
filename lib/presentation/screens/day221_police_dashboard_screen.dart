@@ -207,7 +207,7 @@ class _OverviewTab extends ConsumerWidget {
             children: [
               Icon(Icons.settings_rounded,
                   color: ZapColors.textMuted, size: 16),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'Settings  ›  Safety  ›  Police Integration',
@@ -419,7 +419,7 @@ class _PendingCard extends StatelessWidget {
             children: [
               Icon(Icons.hourglass_top_rounded,
                   color: ZapColors.warning, size: 22),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Text(
                 'Connection pending',
                 style: TextStyle(
@@ -612,7 +612,7 @@ class _LastDrillCard extends StatelessWidget {
             children: [
               Icon(Icons.fitness_center_rounded,
                   color: ZapColors.info, size: 18),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Text(
                 'Last police drill',
                 style: TextStyle(
@@ -630,7 +630,7 @@ class _LastDrillCard extends StatelessWidget {
               fontSize: 12,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'Protection score +${drill.scoreDelta} · ${drill.departmentResponse}',
             style: const TextStyle(
@@ -720,7 +720,7 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'POST /api/v1/police/connection/request/ · mock 202 response',
           style: TextStyle(
@@ -1015,7 +1015,7 @@ class _EndpointCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   path,

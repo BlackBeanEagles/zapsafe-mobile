@@ -376,7 +376,7 @@ class _SetupTab extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             Text(
               '${done.length}/${steps.length}',
               style: const TextStyle(
@@ -731,7 +731,7 @@ class _MediumScoreBody extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: ZapSpacing.md),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -749,7 +749,7 @@ class _MediumScoreBody extends StatelessWidget {
                 _scoreLabel(score),
                 style: TextStyle(color: color, fontSize: 10),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 tip,
                 style: const TextStyle(

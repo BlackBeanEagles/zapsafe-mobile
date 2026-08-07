@@ -364,7 +364,7 @@ class _PreviewFrame extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(screen.icon, size: 14, color: screen.accent),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Text(
                   screen.title,
                   style: TextStyle(
@@ -517,7 +517,7 @@ class _OverflowBadge extends StatelessWidget {
             size: compact ? 12 : 14,
             color: overflow ? ZapColors.danger : ZapColors.safe,
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: ZapSpacing.xs),
           Text(
             overflow ? 'OVERFLOW' : 'OK',
             style: TextStyle(
@@ -778,7 +778,7 @@ class _DashboardMiniPreview extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             children: [
               Container(
@@ -798,7 +798,7 @@ class _DashboardMiniPreview extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               const Expanded(
                 child: Text(
                   'Protection score · 4 AI models active',
@@ -832,7 +832,7 @@ class _DashboardMiniPreview extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
         ],
       ),
     );
@@ -879,7 +879,7 @@ class _AlertPendingMiniPreview extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: ZapSpacing.md),
           const Center(
             child: Text(
               '8',
@@ -967,7 +967,7 @@ class _SettingsMiniPreview extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           const _SettingsRow(
             icon: Icons.person_outline_rounded,
             title: 'Account & profile',
@@ -1039,7 +1039,7 @@ class _SettingsRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 16, color: ZapColors.textMuted),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1129,7 +1129,7 @@ class _IssuesTab extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(screen.icon, color: screen.accent, size: 20),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     Expanded(
                       child: Text(
                         screen.title,
@@ -1142,7 +1142,7 @@ class _IssuesTab extends ConsumerWidget {
                     _OverflowBadge(overflow: overflow),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   screen.route,
                   style: const TextStyle(
@@ -1284,7 +1284,7 @@ class _SpecTab extends StatelessWidget {
               children: [
                 const Icon(Icons.chevron_right_rounded,
                     size: 16, color: ZapColors.textMuted),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Expanded(
                   child: RichText(
                     text: TextSpan(

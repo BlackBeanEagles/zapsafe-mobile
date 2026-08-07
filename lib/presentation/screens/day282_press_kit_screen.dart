@@ -589,7 +589,7 @@ class _DownloadTab extends ConsumerWidget {
                 child: const Text('Select all'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: OutlinedButton(
                 onPressed: () {

@@ -286,7 +286,7 @@ class _ProgressStrip extends StatelessWidget {
                   style: const TextStyle(color: ZapColors.danger, fontSize: 11),
                 ),
               if (unchecked > 0) ...[
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Text(
                   '$unchecked left',
                   style: const TextStyle(
@@ -433,7 +433,7 @@ class _ChecklistTab extends ConsumerWidget {
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Screen is design-system compliant for this audit pass.',
                   style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
@@ -834,7 +834,7 @@ class _CodeSnippet extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             code,
             style: const TextStyle(

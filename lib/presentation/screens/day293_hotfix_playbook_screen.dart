@@ -452,7 +452,7 @@ class _FlowchartTab extends ConsumerWidget {
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 '${step.owner} · SLA ${step.sla} · ${step.dayLink}',
                 style: const TextStyle(
@@ -460,7 +460,7 @@ class _FlowchartTab extends ConsumerWidget {
                   fontSize: 10,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Row(
                 children: [
                   if (step.route != null)
@@ -525,7 +525,7 @@ class _RunbookTab extends ConsumerWidget {
             child: const Row(
               children: [
                 Icon(Icons.check_circle_rounded, color: ZapColors.safe),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'All 8 steps complete — hotfix pipeline green ✅',

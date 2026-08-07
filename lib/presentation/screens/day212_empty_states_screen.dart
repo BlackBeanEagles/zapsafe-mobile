@@ -132,7 +132,7 @@ class _LivePreviewTab extends ConsumerWidget {
         Row(
           children: [
             Icon(ZapEmptyMapper.icon(variant.kind), color: accent, size: 20),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: Text(
                 variant.label,
@@ -496,7 +496,7 @@ class _SpecTab extends StatelessWidget {
               children: [
                 const Icon(Icons.chevron_right_rounded,
                     size: 16, color: ZapColors.textMuted),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Expanded(
                   child: RichText(
                     text: TextSpan(

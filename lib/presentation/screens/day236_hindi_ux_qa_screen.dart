@@ -489,7 +489,7 @@ class _CompareRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     entry.context,
@@ -678,7 +678,7 @@ class _TruncationCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'EN: ${entry.english}',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -810,7 +810,7 @@ class _ReportTab extends ConsumerWidget {
                 child: const Text('Clear reviewed'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {
@@ -897,7 +897,7 @@ class _StatGrid extends StatelessWidget {
             color: ZapColors.info,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Expanded(
           child: _StatBox(
             label: 'Truncation',
@@ -905,7 +905,7 @@ class _StatGrid extends StatelessWidget {
             color: truncated == 0 ? ZapColors.safe : ZapColors.warning,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: ZapSpacing.sm),
         Expanded(
           child: _StatBox(
             label: 'Reviewed',
@@ -1008,7 +1008,7 @@ class _CategoryStatRow extends StatelessWidget {
             '$total strings',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Text(
             truncated == 0 ? '0 trunc' : '$truncated trunc',
             style: TextStyle(

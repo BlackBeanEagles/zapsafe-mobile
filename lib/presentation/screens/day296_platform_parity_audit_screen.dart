@@ -469,11 +469,11 @@ class _MatrixTab extends ConsumerWidget {
         const Row(
           children: [
             Icon(Icons.android_rounded, color: _kAndroid, size: 18),
-            SizedBox(width: 4),
+            SizedBox(width: ZapSpacing.xs),
             Text('Android', style: TextStyle(fontSize: 10, color: _kAndroid)),
             Spacer(),
             Icon(Icons.apple_rounded, color: _kIos, size: 18),
-            SizedBox(width: 4),
+            SizedBox(width: ZapSpacing.xs),
             Text('iOS', style: TextStyle(fontSize: 10, color: _kIos)),
           ],
         ),
@@ -593,7 +593,7 @@ class _MatrixTab extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Text(
                     row.feature,
                     style: const TextStyle(
@@ -602,7 +602,7 @@ class _MatrixTab extends ConsumerWidget {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -620,7 +620,7 @@ class _MatrixTab extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -710,7 +710,7 @@ class _GapsTab extends ConsumerWidget {
                         color: _levelColor(row.level),
                         size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: ZapSpacing.sm),
                       Expanded(
                         child: Text(
                           row.feature,
@@ -740,7 +740,7 @@ class _GapsTab extends ConsumerWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     row.notes,
                     style: const TextStyle(

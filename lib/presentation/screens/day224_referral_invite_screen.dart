@@ -171,7 +171,7 @@ Future<void> _showMockShareSheet(BuildContext context, WidgetRef ref) async {
               fontSize: 16,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Text(
             'Native share sheet simulation — no external app launch.',
             style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -271,7 +271,7 @@ class _InviteTab extends ConsumerWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: ZapSpacing.xs),
               Text(
                 'You and your friend both earn +10 when they complete onboarding.',
                 style: TextStyle(
@@ -823,7 +823,7 @@ class _EndpointCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   path,

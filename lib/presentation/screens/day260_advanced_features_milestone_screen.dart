@@ -610,7 +610,7 @@ class _HeroCard extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 8),
+          SizedBox(height: ZapSpacing.sm),
           Text(
             'Journey · Trusted Circle · Ride Safety · Accessibility · '
             'Group/Family · Widgets · Fall detection · Smart nudges — '
@@ -771,7 +771,7 @@ class _MetricsTab extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Text(
                   '${b.$3}',
                   style: const TextStyle(
@@ -824,7 +824,7 @@ class _SectionDTab extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'i18n expansion to 25 languages, deeper family features, '
                 'personal analytics, and pre-launch marketing assets.',
@@ -861,7 +861,7 @@ class _SectionDTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(b.$3, color: b.$2, size: 22),
-                const SizedBox(width: 12),
+                const SizedBox(width: ZapSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -874,7 +874,7 @@ class _SectionDTab extends StatelessWidget {
                           fontSize: 11,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         b.$4,
                         style: const TextStyle(

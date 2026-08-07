@@ -551,7 +551,7 @@ class _HeroCard extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 8),
+          SizedBox(height: ZapSpacing.sm),
           Text(
             'Police · Referral · Stealth LP24 · India prep — '
             '19 feature days shipped in Section B (221-239).',
@@ -756,7 +756,7 @@ class _NextTab extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Core phone features + accessibility — Journey Mode, Trusted Circle, '
                 'Ride Safety, Fake Call, hearing mode, family/group flows. '
@@ -794,7 +794,7 @@ class _NextTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(b.$3, color: b.$2, size: 22),
-                const SizedBox(width: 12),
+                const SizedBox(width: ZapSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -807,7 +807,7 @@ class _NextTab extends StatelessWidget {
                           fontSize: 11,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         b.$4,
                         style: const TextStyle(
@@ -838,7 +838,7 @@ class _NextTab extends StatelessWidget {
                 color: _kSectionDTeaser.$4,
                 size: 24,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -851,7 +851,7 @@ class _NextTab extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       _kSectionDTeaser.$2,
                       style: const TextStyle(

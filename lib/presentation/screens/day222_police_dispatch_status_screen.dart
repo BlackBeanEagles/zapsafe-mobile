@@ -362,7 +362,7 @@ class _LiveDispatchTab extends ConsumerWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Row(
                 children: [
                   const Expanded(
@@ -606,7 +606,7 @@ class _TimelineStepTile extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       spec.subtitle,
                       style: const TextStyle(
@@ -616,7 +616,7 @@ class _TimelineStepTile extends StatelessWidget {
                       ),
                     ),
                     if (state == _StepVisualState.active) ...[
-                      const SizedBox(height: 8),
+                      const SizedBox(height: ZapSpacing.sm),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -827,7 +827,7 @@ class _ApiContractTab extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   const Expanded(
                     child: Text(
                       '/api/v1/police/dispatch/{sos_id}/',

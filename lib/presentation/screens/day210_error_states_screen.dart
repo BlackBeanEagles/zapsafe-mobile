@@ -226,7 +226,7 @@ class _LivePreviewTab extends ConsumerWidget {
                 'User: ${ZapErrorMapper.title(variant.kind)}',
                 style: const TextStyle(color: ZapColors.safe, fontSize: 12),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               GestureDetector(
                 onTap: () => ref.read(_d210ShowRawProvider.notifier).state =
                     !showRaw,
@@ -454,7 +454,7 @@ class _SpecTab extends StatelessWidget {
               children: [
                 const Icon(Icons.chevron_right_rounded,
                     size: 16, color: ZapColors.textMuted),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Expanded(
                   child: RichText(
                     text: TextSpan(

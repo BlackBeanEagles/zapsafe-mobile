@@ -777,7 +777,7 @@ class _MatrixTab extends ConsumerWidget {
                 children: [
                   Icon(Icons.monitor_heart_rounded,
                       color: ZapColors.safe, size: 20),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Live health ping',
                     style: TextStyle(
@@ -787,7 +787,7 @@ class _MatrixTab extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 'GET ${ApiConfig.baseUrl}/api/v1/health/',
                 style: const TextStyle(
@@ -1058,7 +1058,7 @@ class _JsonSampleTab extends ConsumerWidget {
         Row(
           children: [
             _StatusChip(status: status),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: Text(
                 row.usedBy,

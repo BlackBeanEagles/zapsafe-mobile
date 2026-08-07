@@ -508,7 +508,7 @@ class _SensitivityTab extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       enabled
                           ? 'Continuous IMU sampling at 50 Hz · estimated '
@@ -888,7 +888,7 @@ class _StateDot extends StatelessWidget {
                 )
               : null,
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           label,
           style: TextStyle(
@@ -938,7 +938,7 @@ class _StreamRow extends StatelessWidget {
               fontFamily: 'monospace',
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

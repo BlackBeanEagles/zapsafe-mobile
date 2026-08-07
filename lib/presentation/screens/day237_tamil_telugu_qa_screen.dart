@@ -659,7 +659,7 @@ class _CompareRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     entry.context,
@@ -869,7 +869,7 @@ class _LayoutIssueCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   entry.context,
@@ -898,7 +898,7 @@ class _LayoutIssueCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'EN: ${entry.english}',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -953,7 +953,7 @@ class _ReportTab extends ConsumerWidget {
                 color: ZapColors.info,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatBox(
                 label: 'Layout flags',
@@ -961,7 +961,7 @@ class _ReportTab extends ConsumerWidget {
                 color: allFlags.isEmpty ? ZapColors.safe : ZapColors.warning,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatBox(
                 label: 'Reviewed',
@@ -1040,7 +1040,7 @@ class _ReportTab extends ConsumerWidget {
                 child: const Text('Clear reviewed'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {

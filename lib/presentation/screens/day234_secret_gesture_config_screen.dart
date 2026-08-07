@@ -407,7 +407,7 @@ class _GesturesTab extends ConsumerWidget {
                 child: const Text('Discard'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               flex: 2,
               child: FilledButton.icon(
@@ -461,7 +461,7 @@ class _SectionHeader extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: color, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Text(
             title,
             style: TextStyle(
@@ -543,7 +543,7 @@ class _OptionTile extends StatelessWidget {
                       ),
                     ),
                     if (badge != null && badge != '—') ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 6,
@@ -604,7 +604,7 @@ class _SummaryTab extends ConsumerWidget {
                   fontSize: 13,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 _summaryLine(prefs),
                 style: const TextStyle(
@@ -725,7 +725,7 @@ class _DecoyMapCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: color, size: 20),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   title,

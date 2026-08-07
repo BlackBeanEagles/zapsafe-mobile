@@ -459,7 +459,7 @@ class _ActivePanicBanner extends ConsumerWidget {
             color: _kAccent,
             size: 20,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               phase == _PanicPhase.complete
@@ -539,7 +539,7 @@ class _PanicTab extends ConsumerWidget {
                   fontSize: 12,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 '${_kGroupMembers.length} members · $totalContacts emergency contacts '
                 'will be notified at once',
@@ -610,7 +610,7 @@ class _PanicTab extends ConsumerWidget {
                           color: Colors.white,
                           size: 48,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ZapSpacing.sm),
                         Text(
                           isDone
                               ? 'DISPATCHED'
@@ -730,7 +730,7 @@ class _DispatchTab extends ConsumerWidget {
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Triggered ${triggered?.toIso8601String() ?? '—'} · '
                   '$delivered / ${rows.length} delivered',
@@ -968,7 +968,7 @@ class _MemberSummaryTile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

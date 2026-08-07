@@ -446,7 +446,7 @@ class _RouteCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             children: [
               _VerdictBtn(
@@ -538,7 +538,7 @@ class _ProgressTab extends ConsumerWidget {
             child: const Row(
               children: [
                 Icon(Icons.celebration_rounded, color: ZapColors.safe),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'All $kRouteCount screens pass — full regression green ✅',
@@ -604,7 +604,7 @@ class _ProgressTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(

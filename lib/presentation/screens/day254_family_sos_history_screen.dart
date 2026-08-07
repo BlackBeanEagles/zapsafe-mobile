@@ -455,7 +455,7 @@ class _ActiveSosBanner extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               '$memberName has an unresolved SOS in history view',
@@ -524,7 +524,7 @@ class _TimelineTab extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -904,7 +904,7 @@ class _TimelineEventTile extends StatelessWidget {
                             ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: ZapSpacing.sm),
                       Text(
                         event.title,
                         style: const TextStyle(
@@ -913,7 +913,7 @@ class _TimelineEventTile extends StatelessWidget {
                           fontSize: 13,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         event.occurredAt,
                         style: const TextStyle(
@@ -922,7 +922,7 @@ class _TimelineEventTile extends StatelessWidget {
                         ),
                       ),
                       if (expanded) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ZapSpacing.sm),
                         Text(
                           event.detail,
                           style: const TextStyle(
@@ -931,7 +931,7 @@ class _TimelineEventTile extends StatelessWidget {
                             height: 1.4,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ZapSpacing.sm),
                         _DetailRow(
                           label: 'Duration',
                           value: event.duration,
@@ -1023,7 +1023,7 @@ class _MemberPickTile extends StatelessWidget {
                 color: ZapColors.danger,
                 size: 18,
               ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Icon(
               selected ? Icons.check_circle : Icons.chevron_right_rounded,
               color: selected ? _kAccent : ZapColors.textMuted,

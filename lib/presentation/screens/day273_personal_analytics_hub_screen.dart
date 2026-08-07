@@ -233,9 +233,9 @@ class _InsightsTab extends ConsumerWidget {
         const Row(
           children: [
             _StatCard(label: 'Safety score', value: '84', delta: '+12 pts'),
-            SizedBox(width: 8),
+            SizedBox(width: ZapSpacing.sm),
             _StatCard(label: 'Journeys', value: '12', delta: '30d'),
-            SizedBox(width: 8),
+            SizedBox(width: ZapSpacing.sm),
             _StatCard(label: 'Near-miss', value: '2', delta: 'reported'),
           ],
         ),
@@ -501,7 +501,7 @@ class _HourRiskStrip extends StatelessWidget {
               fontSize: 11,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           SizedBox(
             height: 28,
             child: Row(
@@ -523,7 +523,7 @@ class _HourRiskStrip extends StatelessWidget {
               }),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
