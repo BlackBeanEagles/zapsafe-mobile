@@ -23,6 +23,7 @@ import '../../../core/theme/typography.dart';
 import '../../../data/models/app_state.dart';
 import '../../../domain/providers/app_state_provider.dart';
 import '../../navigation/app_router.dart';
+import '../../widgets/journey_mode_card.dart';
 import '../../widgets/notification_tier_banners.dart';
 import '../../widgets/persistent_status_card.dart';
 import '../../widgets/sos_trigger_button.dart';
@@ -106,6 +107,14 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
               ),
               const SizedBox(height: ZapSpacing.sm),
 
+              // Day 323 — journey mode card with a real locally-computed
+              // 0-100 safety-confidence meter (heuristic, MOCK-NOW — see
+              // journey_risk_heuristic.dart for why).
+              JourneyModeCard(
+                onTap: () => context.go(AppRoutes.journeyMlConfidence),
+              ),
+              const SizedBox(height: ZapSpacing.sm),
+
               ZapCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,9 +158,14 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
                       note: 'Day 308 — collapsed/expanded, tap-only, real signals',
                     ),
                     const _StatusRow(
+                      label: 'Journey mode confidence card',
+                      done: true,
+                      note: 'Day 323 — real local heuristic from GpsSample fields, MOCK-NOW (no live risk-score endpoint)',
+                    ),
+                    const _StatusRow(
                       label: 'Protection Score ring + Start Journey shortcut',
                       done: false,
-                      note: 'not yet wired into this scaffold',
+                      note: 'still not wired — separate from the Day 323 journey confidence card above',
                     ),
                   ],
                 ),

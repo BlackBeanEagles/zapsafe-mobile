@@ -1895,6 +1895,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-322-dcs-pipeline-wire · 🔗 · verifies (source-read, no device) DCSScoreWatcher → TriggerOrchestrator → AppStateNotifier → dashboard nav, already real end-to-end · NEW real wire: DCS fusion scores now also POST to the existing /api/v1/ml/detection-events/ (Day 55) via dcsDetectionLogSubmitterProvider — previously only the 7 individual model pipelines logged, DCS fusion itself was a silent gap · honest per-slot model report: scream/motion/scene are real TFL3 models, M9 fusion (dcs_fusion_v1.tflite) is still the Day-31 placeholder stub',
               dayBuilt: 'DAY 322 ✅',
             ),
+            const _NavTile(
+              icon: Icons.route_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 323 · Journey Mode ML Confidence UI',
+              route: AppRoutes.journeyMlConfidence,
+              hint: '/day-323-journey-ml-confidence · 🟡 MOCK-NOW · found the spec\'s imagined journey/session/.../risk-score/ contract does not exist on the real backend (verified journey/urls.py) — real routes are journey/start/ + journey/<id>/checkpoint/, neither returns a score · JourneyModeCard now live on the production dashboard with a real local heuristic (computeJourneyRiskScore) from actual GpsSample speed/accuracy/time-of-day, not a random number · interactive breakdown on this screen',
+              dayBuilt: 'DAY 323 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
