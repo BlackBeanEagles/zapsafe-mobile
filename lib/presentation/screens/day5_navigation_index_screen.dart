@@ -1951,6 +1951,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-329-false-positive-tuning-production · 🟣 · found the spec\'s suggested device-health POST endpoint (real, Day 302) has no threshold field in its actual schema — used the real, actually-correct PATCH /api/v1/alert-thresholds/<id>/ (Day 63, model_type=dcs, min_confidence) instead, documented why · reuses the existing AlertThresholdService rather than duplicating it · real warning copy about the sensitivity tradeoff · no "Day 258 fall detection tuning" screen exists in this repo to extend, stated honestly',
               dayBuilt: 'DAY 329 ✅',
             ),
+            const _NavTile(
+              icon: Icons.rocket_launch_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 330 · Section H Milestone — v9.2 RC Ready',
+              route: AppRoutes.sectionHMilestone,
+              hint: '/day-330-section-h-rc-milestone · 🟢 milestone · mirrors the Day 310 pattern · stat grid=days shipped/clean verifies/documented exceptions/real gaps found+fixed(3: Days 322 detection-log, 328 battery start, 329 correct endpoint) · per-day honest checklist, not blanket green · links to Day 324 RC manifest + Day 310 Section F milestone + production dashboard',
+              dayBuilt: 'DAY 330 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
