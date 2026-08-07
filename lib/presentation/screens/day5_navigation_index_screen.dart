@@ -1887,6 +1887,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-321-sos-trigger-refactor · 🔗 · new SosTriggerController — single entry point for manual/fall/DCS-auto/duress-PIN, extract-and-delegate wrapper around the real Day 39 TriggerOrchestrator + AppStateNotifier, not a fork · day39/day71/sos_trigger_button.dart NOT rewritten to depend on it yet (documented, out of scope) · unit tests cover all 4 entry points',
               dayBuilt: 'DAY 321 ✅',
             ),
+            const _NavTile(
+              icon: Icons.hub_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 322 · DCS Pipeline Production Wire',
+              route: AppRoutes.dcsPipelineWire,
+              hint: '/day-322-dcs-pipeline-wire · 🔗 · verifies (source-read, no device) DCSScoreWatcher → TriggerOrchestrator → AppStateNotifier → dashboard nav, already real end-to-end · NEW real wire: DCS fusion scores now also POST to the existing /api/v1/ml/detection-events/ (Day 55) via dcsDetectionLogSubmitterProvider — previously only the 7 individual model pipelines logged, DCS fusion itself was a silent gap · honest per-slot model report: scream/motion/scene are real TFL3 models, M9 fusion (dcs_fusion_v1.tflite) is still the Day-31 placeholder stub',
+              dayBuilt: 'DAY 322 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
