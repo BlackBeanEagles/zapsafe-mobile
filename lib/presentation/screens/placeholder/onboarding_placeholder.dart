@@ -17,9 +17,10 @@ class OnboardingPlaceholderScreen extends StatelessWidget {
       features: [
         'Step 1 — Choose UI mode (Standard / Simple / High Contrast)',
         'Step 2 — Drop home location pin (geohash-reduced before send)',
-        'Step 3 — Add first emergency contact (Tier 1)',
-        'Step 4 — Fill medical card (blood type, allergies, meds)',
-        'Step 5 — Done, Protection Score starts at 40 points',
+        'Step 3 — Add Tier 1 contact (required)',
+        'Step 4 — Medical card (skippable — Day 205, +15 score)',
+        'Step 5 — Tier 2 contact (skippable — Day 205, +10 score)',
+        'Done — Protection Score 40 minimum, 65 if nothing skipped',
         'Phone OTP verification before any data leaves the device',
       ],
     );

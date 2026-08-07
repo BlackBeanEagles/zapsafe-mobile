@@ -79,20 +79,20 @@ class _Day35Week7ReviewScreenState
       ),
       IntegrationPhase(
         key: 'registry',
-        name: 'ModelRegistry · 4 assets discoverable',
-        description: 'kZapsafeModels declares 4 entries; loadAll() succeeds.',
+        name: 'ModelRegistry · 5 assets discoverable',
+        description: 'kZapsafeModels declares 5 entries; loadAll() succeeds.',
         runner: () async {
           final list = await ref
               .read(modelAssetStatusesProvider.future);
-          if (list.length != 4) {
-            throw 'expected 4 assets, got ${list.length}';
+          if (list.length != 5) {
+            throw 'expected 5 assets, got ${list.length}';
           }
           final present = list.where((s) => s.sizeBytes > 0).length;
           return PhaseResult(
             key: 'registry',
-            name: 'ModelRegistry · 4 assets discoverable',
+            name: 'ModelRegistry · 5 assets discoverable',
             status: PhaseStatus.pass,
-            detail: '$present / 4 assets present in bundle',
+            detail: '$present / 5 assets present in bundle',
           );
         },
       ),

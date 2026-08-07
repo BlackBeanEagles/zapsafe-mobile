@@ -95,7 +95,7 @@ const _kPhase2 = [
     'Backend Catch-Up (Days 1-30)',
     Color(0xFFEF4444),
     Icons.dns_rounded,
-    'The backend is currently at Day 78. '
+    'The backend is at ~Day 89 (analytics live). '
     '~50 API endpoints are documented in MOCK-NOW screens '
     '(Days 152-180). Phase 2 implements them all: '
     'account management, data export, deletion, audit log, sessions.',
@@ -118,6 +118,14 @@ const _kPhase2 = [
     'auto-SOS when distress score ≥ 0.85 for 3 windows.',
   ),
   (
+    'Phone-Only Polish (Days 201-300)',
+    Color(0xFF10B981),
+    Icons.smartphone_rounded,
+    'No wearables — smartphone app only. '
+    'Production polish, police UI, stealth mode, group journey, '
+    '10 new languages, launch prep. See DAYS_201_300_DETAILED_INSTRUCTIONS.md.',
+  ),
+  (
     'Phase 2 Languages (Arabic, Tamil, Telugu)',
     Color(0xFFF59E0B),
     Icons.translate_rounded,
@@ -132,14 +140,6 @@ const _kPhase2 = [
     'ZapSafe for organisations: bulk user management, '
     'admin dashboard, custom escalation policies per team, '
     'API access for HR systems, HIPAA compliance layer.',
-  ),
-  (
-    'Wearable Integration',
-    Color(0xFF10B981),
-    Icons.watch_rounded,
-    'WearOS + watchOS companion: SOS trigger from wrist, '
-    'heart rate anomaly detection, fall detection via wrist IMU. '
-    'Platform channel extension from Day 23 MAUI.',
   ),
 ];
 

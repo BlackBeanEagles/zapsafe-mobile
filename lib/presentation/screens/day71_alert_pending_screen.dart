@@ -73,6 +73,7 @@ library;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,6 +83,9 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/constants/app_flags.dart';
+import '../../domain/providers/app_state_provider.dart';
+import '../../domain/providers/sos_providers.dart';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -187,7 +191,11 @@ class _Day71AlertPendingScreenState
       TweenSequenceItem(tween: Tween(begin:  9.0, end:  0.0), weight: 1),
     ]).animate(_shakeCtrl);
 
-    _startCountdown();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _syncCountdownFromStateMachine();
+      _startCountdownUiTick();
+    });
     _startProximityDetection();
     _checkTestMode();
   }
@@ -201,26 +209,34 @@ class _Day71AlertPendingScreenState
     super.dispose();
   }
 
-  // ── Countdown ─────────────────────────────────────────────────────────────────
+  // ── Countdown (synced with AppStateNotifier LP15 timer) ─────────────────
 
-  void _startCountdown() {
-    _timer = Timer.periodic(const Duration(seconds: 1), _onTick);
+  void _syncCountdownFromStateMachine() {
+    final notifier = ref.read(appStateProvider.notifier);
+    final started = notifier.alertCountdownStartedAt;
+    if (started == null) {
+      _secondsLeft = _kInitialSeconds;
+      return;
+    }
+    final elapsed = DateTime.now().difference(started).inSeconds;
+    _secondsLeft = (_kInitialSeconds - elapsed).clamp(0, _kInitialSeconds);
+    if (_secondsLeft == 0) _fired = true;
   }
 
-  void _onTick(Timer t) {
-    HapticFeedback.mediumImpact(); // silent — attacker cannot hear it
-    setState(() {
-      _secondsLeft = (_secondsLeft - 1).clamp(0, _kInitialSeconds);
+  /// UI-only tick — the authoritative countdown lives in [AppStateNotifier].
+  void _startCountdownUiTick() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+      _syncCountdownFromStateMachine();
+      if (_secondsLeft > 0 && !_cancelled) {
+        HapticFeedback.mediumImpact();
+        setState(() {});
+        _fadeCtrl.forward(from: 0.0);
+      }
+      if (_secondsLeft == 0 && !_fired) {
+        setState(() => _fired = true);
+      }
     });
-    _fadeCtrl.forward(from: 0.0);
-
-    if (_secondsLeft == 0) {
-      t.cancel();
-      setState(() {
-        _fired = true;
-      });
-      // Day 75+ wires in: POST /sos/trigger → navigate to SOSActiveScreen.
-    }
   }
 
   // ── Proximity detection (Day 72) ──────────────────────────────────────────────
@@ -299,7 +315,7 @@ class _Day71AlertPendingScreenState
     if (entered == cancelPin) {
       await _onPinCorrect();
     } else if (entered == duressPin) {
-      await _onDuressPin();
+      await _onDuressPin(duressPin: duressPin);
     } else {
       _onPinWrong();
     }
@@ -329,12 +345,13 @@ class _Day71AlertPendingScreenState
 
     if (authenticated) {
       await HapticFeedback.heavyImpact();
+      ref.read(appStateProvider.notifier).onCancelWithRealPIN();
       setState(() {
         _awaitingBiometric = false;
         _cancelled         = true;
       });
       await Future<void>.delayed(const Duration(milliseconds: 1500));
-      if (mounted) Navigator.of(context).pop();
+      // Navigation handled by appStateNavigationBridgeProvider.
     } else {
       // Biometric failed or cancelled by user.
       // No shake — looks suspicious to attacker if biometric dialog closes
@@ -347,7 +364,8 @@ class _Day71AlertPendingScreenState
       });
       // Resume countdown only if it hasn't already expired.
       if (mounted && !_fired) {
-        _startCountdown();
+        _timer?.cancel();
+        _startCountdownUiTick();
       }
     }
   }
@@ -387,23 +405,19 @@ class _Day71AlertPendingScreenState
   /// Critical rule: the UI presented here MUST be visually indistinguishable
   /// from _onPinCorrect() — same checkmark, same haptic, same timing.
   /// An attacker watching over the user's shoulder cannot tell the difference.
-  Future<void> _onDuressPin() async {
+  Future<void> _onDuressPin({required String duressPin}) async {
     _timer?.cancel();
-    await HapticFeedback.heavyImpact(); // identical haptic to genuine cancel
+    await HapticFeedback.heavyImpact();
 
     setState(() {
-      _isDuressCancel = true; // internal flag only — UI branch below is same
-      _cancelled      = true; // renders _CancelledView — same as genuine cancel
+      _isDuressCancel = true;
+      _cancelled      = true;
     });
 
-    // Fire-and-forget: tell backend this was a duress cancel so it continues
-    // the SOS silently.  Does NOT await — cannot block the fake-cancel UX.
-    _postDuressCancel();
+    ref.read(appStateProvider.notifier).onCancelWithDuressPIN();
+    _postDuressCancel(duressPin);
 
     await Future<void>.delayed(const Duration(milliseconds: 1500));
-    if (mounted) {
-      Navigator.of(context).pop(); // returns to whatever was under the screen
-    }
   }
 
   /// Fire-and-forget stub: POST /api/v1/sos/cancel/ with duress:true.
@@ -418,13 +432,19 @@ class _Day71AlertPendingScreenState
   /// The backend receives duress=true and IGNORES the cancel — the SOS
   /// stays active and escalation continues normally.  The user's device
   /// UI shows "cancelled" but contacts are still being notified.
-  Future<void> _postDuressCancel() async {
-    // Safety assertion: this method must only be called after _isDuressCancel
-    // has been set.  Catches any future refactor that accidentally calls this
-    // on a genuine cancel path.
+  Future<void> _postDuressCancel(String duressPin) async {
     assert(_isDuressCancel, '_postDuressCancel called but _isDuressCancel is false');
-    // TODO Day 75: apiClient.post('/api/v1/sos/cancel/', {'duress': true, 'sos_id': sosId});
-    debugPrint('[LP3] Duress cancel triggered — SOS continues silently on backend.');
+    final session = ref.read(activeSosSessionProvider);
+    if (session == null || kUseMockData) {
+      if (kDebugMode) {
+        debugPrint('[LP3] Duress cancel — no active SOS session yet (alert pending).');
+      }
+      return;
+    }
+    unawaited(ref.read(sosServiceProvider).cancel(
+          sosId: session.sosId,
+          pin: duressPin,
+        ));
   }
 
   void _onPinWrong() {

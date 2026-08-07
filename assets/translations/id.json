@@ -1,0 +1,38 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "Keamanan di tangan Anda",
+  "common": {
+    "save": "Simpan",
+    "cancel": "Batal",
+    "back": "Kembali",
+    "done": "Selesai"
+  },
+  "sos": {
+    "trigger": "PICU SOS",
+    "countdown": "SOS dalam {seconds} d",
+    "active": "SOS AKTIF",
+    "cancel": "Batalkan SOS",
+    "sent": "Alert dikirim ke {count} kontak"
+  },
+  "home": {
+    "status_safe": "Anda aman",
+    "hold_for_sos": "Tahan untuk SOS"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "language": "Bahasa"
+  },
+  "language": {
+    "select": "Pilih Bahasa",
+    "rtl_note": "Bahasa ini dibaca dari kiri ke kanan"
+  },
+  "contacts": {
+    "title": "Kontak Darurat"
+  },
+  "auth": {
+    "verify": "Verifikasi"
+  },
+  "premium": {
+    "title": "Upgrade ke Premium"
+  }
+}

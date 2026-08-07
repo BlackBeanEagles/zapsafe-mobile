@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import '../../data/models/app_state.dart';
 import '../../data/models/fall_event.dart';
 import '../../data/models/trigger_event.dart';
+import '../../ml/inference/silence_after_distress_rule.dart';
 import '../providers/app_state_provider.dart';
 
 /// Day 39 — one row in the orchestrator's recent-events log.
@@ -58,15 +59,17 @@ class TriggerOrchestrator {
   int _dcsAutoSosCount = 0;
   int _fallCount = 0;
   int _manualCount = 0;
+  int _silenceEscalationCount = 0;
   bool _attached = false;
 
   int get dcsAlertCount    => _dcsAlertCount;
   int get dcsAutoSosCount  => _dcsAutoSosCount;
   int get fallCount        => _fallCount;
   int get manualCount      => _manualCount;
+  int get silenceEscalationCount => _silenceEscalationCount;
   bool get isAttached      => _attached;
   int get totalDispatched  =>
-      _dcsAlertCount + _dcsAutoSosCount + _fallCount + _manualCount;
+      _dcsAlertCount + _dcsAutoSosCount + _fallCount + _manualCount + _silenceEscalationCount;
 
   final ListQueue<OrchestratorEvent> _history = ListQueue();
   List<OrchestratorEvent> get history => List.unmodifiable(_history);
@@ -134,6 +137,14 @@ class TriggerOrchestrator {
           'freefall=${e.freefallDurationMs}ms',
     );
     _log('IMU', 'FALL');
+  }
+
+  /// Day 94 Track P — scream → silence + still → CRITICAL unconscious path.
+  void dispatchSilenceAfterDistress(SilenceAfterDistressResult result) {
+    if (!result.shouldEscalate) return;
+    _silenceEscalationCount++;
+    _notifier.onSilenceAfterDistressEscalation(cause: result.cause);
+    _log('DCS', 'SILENCE_AFTER_DISTRESS');
   }
 
   void _log(String source, String label) {

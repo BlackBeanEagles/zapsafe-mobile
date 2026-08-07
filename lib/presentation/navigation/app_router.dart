@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/app_flags.dart';
+import '../../domain/providers/app_bootstrap_providers.dart';
+import '../../domain/providers/auth_providers.dart';
+
 import '../screens/auth/otp_verify_screen.dart';
 import '../screens/auth/phone_entry_screen.dart';
 import '../screens/day1_project_setup_screen.dart';
@@ -73,7 +77,6 @@ import '../screens/day70_privacy_screen.dart';
 import '../screens/day71_alert_pending_screen.dart';
 import '../screens/onboarding/permissions_screen.dart';
 import '../screens/placeholder/contacts_placeholder.dart';
-import '../screens/placeholder/dashboard_placeholder.dart';
 import '../screens/placeholder/onboarding_placeholder.dart';
 import '../screens/placeholder/settings_placeholder.dart';
 import '../screens/day73_do_not_disturb_screen.dart';     // Day 73
@@ -202,6 +205,106 @@ import '../screens/day197_release_checklist_screen.dart';          // Day 197
 import '../screens/day198_qa_pass_screen.dart';                    // Day 198
 import '../screens/day199_final_submission_screen.dart';           // Day 199
 import '../screens/day200_grand_finale_screen.dart';               // Day 200
+import '../screens/day201_device_qa_harness_screen.dart';          // Day 201
+import '../screens/day202_dashboard_notifications_screen.dart';    // Day 202
+import '../screens/day203_sos_long_press_ring_screen.dart';       // Day 203
+import '../screens/day204_mode_status_card_screen.dart';          // Day 204
+import '../screens/day205_onboarding_skip_paths_screen.dart';   // Day 205
+import '../screens/day206_vault_search_filter_screen.dart';     // Day 206
+import '../screens/day207_chat_offline_queue_screen.dart';    // Day 207
+import '../screens/day208_design_system_audit_screen.dart';  // Day 208
+import '../screens/day209_loading_states_screen.dart';     // Day 209
+import '../screens/day210_error_states_screen.dart';     // Day 210
+import '../screens/day211_dark_mode_audit_screen.dart'; // Day 211
+import '../screens/day212_empty_states_screen.dart';    // Day 212
+import '../screens/day213_animation_polish_screen.dart'; // Day 213
+import '../screens/day214_a11y_screen_reader_audit_screen.dart'; // Day 214
+import '../screens/day215_font_scale_regression_screen.dart';   // Day 215
+import '../screens/day216_i18n_coverage_audit_screen.dart';   // Day 216
+import '../screens/day217_performance_profiling_screen.dart'; // Day 217
+import '../screens/day218_tflite_integration_checklist_screen.dart'; // Day 218
+import '../screens/day219_backend_integration_audit_screen.dart'; // Day 219
+import '../screens/day220_polish_milestone_screen.dart'; // Day 220
+import '../screens/day221_police_dashboard_screen.dart'; // Day 221
+import '../screens/day222_police_dispatch_status_screen.dart'; // Day 222
+import '../screens/day223_police_weblink_preview_screen.dart'; // Day 223
+import '../screens/day224_referral_invite_screen.dart'; // Day 224
+import '../screens/day225_referral_rewards_screen.dart'; // Day 225
+import '../screens/day226_admin_analytics_screen.dart'; // Day 226
+import '../screens/day227_notification_history_v3_screen.dart'; // Day 227
+import '../screens/day228_sos_history_timeline_screen.dart'; // Day 228
+import '../screens/day229_feature_regression_runner_screen.dart'; // Day 229
+import '../screens/day230_hidden_mode_toggle_screen.dart'; // Day 230
+import '../screens/day231_stealth_icon_disguise_screen.dart'; // Day 231
+import '../screens/day232_decoy_calculator_screen.dart'; // Day 232
+import '../screens/day233_decoy_weather_screen.dart'; // Day 233
+import '../screens/day234_secret_gesture_config_screen.dart'; // Day 234
+import '../screens/day235_stealth_settings_hub_screen.dart'; // Day 235
+import '../screens/day236_hindi_ux_qa_screen.dart'; // Day 236
+import '../screens/day237_tamil_telugu_qa_screen.dart'; // Day 237
+import '../screens/day238_region_emergency_numbers_screen.dart'; // Day 238
+import '../screens/day239_india_launch_readiness_screen.dart'; // Day 239
+import '../screens/day240_catchup_milestone_screen.dart'; // Day 240
+import '../screens/day241_journey_mode_v2_screen.dart'; // Day 241
+import '../screens/day242_trusted_circle_v2_screen.dart'; // Day 242
+import '../screens/day243_ride_safety_v2_screen.dart'; // Day 243
+import '../screens/day244_fake_call_polish_screen.dart'; // Day 244
+import '../screens/day245_offline_sos_ux_screen.dart'; // Day 245
+import '../screens/day246_hearing_impaired_visual_screen.dart'; // Day 246
+import '../screens/day247_haptic_patterns_screen.dart'; // Day 247
+import '../screens/day248_siri_shortcuts_screen.dart'; // Day 248
+import '../screens/day249_voice_assistant_setup_screen.dart'; // Day 249
+import '../screens/day250_group_journey_create_screen.dart'; // Day 250
+import '../screens/day251_group_journey_live_map_screen.dart'; // Day 251
+import '../screens/day252_group_panic_screen.dart'; // Day 252
+import '../screens/day253_family_alerts_dashboard_screen.dart'; // Day 253
+import '../screens/day254_family_sos_history_screen.dart'; // Day 254
+import '../screens/day255_child_mode_admin_screen.dart'; // Day 255
+import '../screens/day256_home_widget_sos_screen.dart'; // Day 256
+import '../screens/day257_home_widget_score_screen.dart'; // Day 257
+import '../screens/day258_fall_detection_tuning_screen.dart'; // Day 258
+import '../screens/day259_smart_notifications_screen.dart'; // Day 259
+import '../screens/day260_advanced_features_milestone_screen.dart'; // Day 260
+import '../screens/day261_language_expansion_hub_screen.dart'; // Day 261
+import '../screens/day262_translation_workflow_screen.dart'; // Day 262
+import '../screens/day263_persian_rtl_screen.dart'; // Day 263
+import '../screens/day264_indonesian_pack_screen.dart'; // Day 264
+import '../screens/day265_vietnamese_pack_screen.dart'; // Day 265
+import '../screens/day266_japanese_pack_screen.dart'; // Day 266
+import '../screens/day267_korean_pack_screen.dart'; // Day 267
+import '../screens/day268_multilang_qa_runner_screen.dart'; // Day 268
+import '../screens/day269_cultural_adaptation_screen.dart'; // Day 269
+import '../screens/day270_community_heatmap_screen.dart'; // Day 270
+import '../screens/day271_share_safe_route_screen.dart'; // Day 271
+import '../screens/day272_insurance_partnership_screen.dart'; // Day 272
+import '../screens/day273_personal_analytics_hub_screen.dart'; // Day 273
+import '../screens/day274_weekly_digest_v2_screen.dart'; // Day 274
+import '../screens/day275_year_in_review_screen.dart'; // Day 275
+import '../screens/day276_reverse_image_search_screen.dart'; // Day 276
+import '../screens/day277_enterprise_b2b_preview_screen.dart'; // Day 277
+import '../screens/day278_counselor_queue_polish_screen.dart'; // Day 278
+import '../screens/day279_production_dashboard_screen.dart'; // Day 279
+import '../screens/day280_section_d_milestone_screen.dart'; // Day 280
+import '../screens/day281_landing_preview_screen.dart'; // Day 281
+import '../screens/day282_press_kit_screen.dart'; // Day 282
+import '../screens/day283_demo_video_storyboard_screen.dart'; // Day 283
+import '../screens/day284_store_review_notes_screen.dart';   // Day 284
+import '../screens/day285_security_prelaunch_audit_screen.dart'; // Day 285
+import '../screens/day286_legal_blockers_tracker_screen.dart'; // Day 286
+import '../screens/day287_beta_feedback_round3_screen.dart'; // Day 287
+import '../screens/day288_crash_free_tracker_screen.dart'; // Day 288
+import '../screens/day289_full_regression_runner_screen.dart'; // Day 289
+import '../screens/day290_staged_rollout_simulator_screen.dart'; // Day 290
+import '../screens/day291_global_india_compare_screen.dart'; // Day 291
+import '../screens/day292_post_launch_monitoring_screen.dart'; // Day 292
+import '../screens/day293_hotfix_playbook_screen.dart'; // Day 293
+import '../screens/day294_support_macros_screen.dart'; // Day 294
+import '../screens/day295_phase2_roadmap_screen.dart'; // Day 295
+import '../screens/day296_platform_parity_audit_screen.dart'; // Day 296
+import '../screens/day297_battery_soak_log_screen.dart'; // Day 297
+import '../screens/day298_gonogo_gate_screen.dart'; // Day 298
+import '../screens/day299_penultimate_summary_screen.dart'; // Day 299
+import '../screens/day300_halfway_launch_milestone_screen.dart'; // Day 300
 import '../screens/day301_backend_integration_audit_screen.dart';  // Day 301
 import '../screens/day302_analytics_live_wire_screen.dart';        // Day 302
 import '../screens/day303_razorpay_live_wire_screen.dart';         // Day 303
@@ -232,6 +335,16 @@ import '../screens/day327_memory_leak_tracker_screen.dart';        // Day 327
 import '../screens/day328_battery_monitoring_production_screen.dart'; // Day 328
 import '../screens/day329_false_positive_tuning_production_screen.dart'; // Day 329
 import '../screens/day330_section_h_rc_milestone_screen.dart';     // Day 330
+import '../screens/day331_gonogo_gate_v2_screen.dart';              // Day 331
+import '../screens/day332_regression_runner_v2_screen.dart';        // Day 332
+import '../screens/day333_platform_parity_execution_screen.dart';   // Day 333
+import '../screens/day334_battery_soak_production_screen.dart';     // Day 334
+import '../screens/day335_accessibility_full_pass_screen.dart';     // Day 335
+import '../screens/day336_security_execution_screen.dart';          // Day 336
+import '../screens/day337_legal_blockers_live_screen.dart';         // Day 337
+import '../screens/day338_sentry_live_wire_screen.dart';            // Day 338
+import '../screens/day339_beta_feedback_round4_screen.dart';        // Day 339
+import '../screens/day340_section_i_milestone_screen.dart';         // Day 340
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -446,6 +559,106 @@ class AppRoutes {
   static const qaPass                   = '/qa-pass';                                      // Day 198
   static const finalSubmission          = '/final-submission';                             // Day 199
   static const grandFinale              = '/grand-finale';                                 // Day 200
+  static const deviceQaHarness          = '/device-qa-harness';                            // Day 201
+  static const dashboardNotifications   = '/dashboard-notifications';                      // Day 202
+  static const sosLongPressRing         = '/sos-long-press-ring';                          // Day 203
+  static const modeStatusCard           = '/mode-status-card';                             // Day 204
+  static const onboardingSkipPaths      = '/onboarding-skip-paths';                      // Day 205
+  static const vaultSearchFilter        = '/vault-search-filter';                        // Day 206
+  static const chatOfflineQueue         = '/chat-offline-queue';                         // Day 207
+  static const designSystemAudit        = '/design-system-audit';                        // Day 208
+  static const loadingStates            = '/loading-states';                             // Day 209
+  static const errorStates              = '/error-states';                               // Day 210
+  static const darkModeAudit            = '/dark-mode-audit';                            // Day 211
+  static const emptyStates              = '/empty-states';                               // Day 212
+  static const animationPolish          = '/animation-polish';                           // Day 213
+  static const a11yScreenReaderAudit    = '/a11y-screen-reader-audit';                   // Day 214
+  static const fontScaleRegression      = '/font-scale-regression';                        // Day 215
+  static const i18nCoverageAudit        = '/i18n-coverage-audit';                          // Day 216
+  static const performanceProfiling     = '/performance-profiling';                        // Day 217
+  static const tfliteIntegrationChecklist = '/tflite-integration-checklist';               // Day 218
+  static const backendIntegrationAudit  = '/backend-integration-audit';                  // Day 219
+  static const polishMilestone          = '/polish-milestone';                             // Day 220
+  static const policeDashboard          = '/police-dashboard';                             // Day 221
+  static const policeDispatchStatus     = '/police-dispatch-status';                       // Day 222
+  static const policeWeblinkPreview     = '/police-weblink-preview';                       // Day 223
+  static const referralInvite           = '/referral-invite';                              // Day 224
+  static const referralRewards          = '/referral-rewards';                             // Day 225
+  static const adminAnalytics           = '/admin-analytics';                              // Day 226
+  static const notificationHistoryV3    = '/notification-history-v3';                      // Day 227
+  static const sosHistoryTimeline       = '/sos-history-timeline';                         // Day 228
+  static const featureRegressionRunner  = '/feature-regression-runner';                    // Day 229
+  static const hiddenModeToggle         = '/hidden-mode-toggle';                           // Day 230
+  static const stealthIconDisguise      = '/stealth-icon-disguise';                        // Day 231
+  static const decoyCalculator          = '/decoy-calculator';                             // Day 232
+  static const decoyWeather             = '/decoy-weather';                                // Day 233
+  static const secretGestureConfig      = '/secret-gesture-config';                        // Day 234
+  static const stealthSettingsHub       = '/stealth-settings-hub';                         // Day 235
+  static const hindiUxQa                = '/hindi-ux-qa';                                  // Day 236
+  static const tamilTeluguQa            = '/tamil-telugu-qa';                              // Day 237
+  static const regionEmergencyNumbers   = '/region-emergency-numbers';                    // Day 238
+  static const indiaLaunchReadiness     = '/india-launch-readiness';                      // Day 239
+  static const sectionBCatchupMilestone = '/section-b-milestone';                         // Day 240
+  static const journeyModeV2            = '/journey-mode-v2';                             // Day 241
+  static const trustedCircleV2          = '/trusted-circle-v2';                           // Day 242
+  static const rideSafetyV2             = '/ride-safety-v2';                              // Day 243
+  static const fakeCallPolish           = '/fake-call-polish';                            // Day 244
+  static const offlineSosUx             = '/offline-sos-ux';                              // Day 245
+  static const hearingImpairedVisual    = '/hearing-impaired-visual';                     // Day 246
+  static const hapticPatterns           = '/haptic-patterns';                               // Day 247
+  static const siriShortcuts            = '/siri-shortcuts';                                // Day 248
+  static const voiceAssistantSetup      = '/voice-assistant-setup';                         // Day 249
+  static const groupJourneyCreate       = '/group-journey-create';                          // Day 250
+  static const groupJourneyLiveMap      = '/group-journey-live-map';                        // Day 251
+  static const groupJourneyPanic        = '/group-journey-panic';                           // Day 252
+  static const familyAlertsDashboard    = '/family-alerts-dashboard';                       // Day 253
+  static const familySosHistory         = '/family-sos-history';                            // Day 254
+  static const childModeAdmin           = '/child-mode-admin';                              // Day 255
+  static const homeWidgetSos            = '/home-widget-sos';                               // Day 256
+  static const homeWidgetScore          = '/home-widget-score';                           // Day 257
+  static const fallDetectionTuning      = '/fall-detection-tuning';                       // Day 258
+  static const smartNotifications       = '/smart-notifications';                         // Day 259
+  static const sectionCAdvancedMilestone = '/section-c-advanced-milestone';               // Day 260
+  static const languageExpansionHub      = '/language-expansion-hub';                   // Day 261
+  static const translationWorkflow       = '/translation-workflow';                     // Day 262
+  static const persianRtl                = '/persian-rtl';                              // Day 263
+  static const indonesianPack            = '/indonesian-pack';                          // Day 264
+  static const vietnamesePack            = '/vietnamese-pack';                          // Day 265
+  static const japanesePack              = '/japanese-pack';                            // Day 266
+  static const koreanPack                = '/korean-pack';                              // Day 267
+  static const multilangQaRunner         = '/multilang-qa-runner';                      // Day 268
+  static const culturalAdaptation        = '/cultural-adaptation';                       // Day 269
+  static const communityHeatmap          = '/community-heatmap';                           // Day 270
+  static const shareSafeRoute            = '/share-safe-route';                            // Day 271
+  static const insurancePartnership      = '/insurance-partnership';                       // Day 272
+  static const personalAnalyticsHub      = '/personal-analytics-hub';                      // Day 273
+  static const weeklyDigestV2            = '/weekly-digest-v2';                            // Day 274
+  static const yearInReview              = '/year-in-review';                              // Day 275
+  static const reverseImageSearch        = '/reverse-image-search';                        // Day 276
+  static const enterpriseB2bPreview      = '/enterprise-b2b-preview';                    // Day 277
+  static const counselorQueuePolish      = '/counselor-queue-polish';                    // Day 278
+  static const productionDashboard       = '/production-dashboard';                      // Day 279
+  static const sectionDMilestone         = '/section-d-milestone';                       // Day 280
+  static const landingPreview            = '/landing-preview';                           // Day 281
+  static const pressKit                  = '/press-kit';                                 // Day 282
+  static const demoVideoStoryboard       = '/demo-video-storyboard';                    // Day 283
+  static const storeReviewNotes          = '/store-review-notes';                       // Day 284
+  static const securityPrelaunchAudit    = '/security-prelaunch-audit';                 // Day 285
+  static const legalBlockersTracker      = '/legal-blockers-tracker';                   // Day 286
+  static const betaFeedbackRound3        = '/beta-feedback-round3';                     // Day 287
+  static const crashFreeTracker          = '/crash-free-tracker';                       // Day 288
+  static const fullRegressionRunner      = '/full-regression-runner';                   // Day 289
+  static const stagedRolloutSimulator    = '/staged-rollout-simulator';                 // Day 290
+  static const globalIndiaCompare        = '/global-india-compare';                     // Day 291
+  static const postLaunchMonitoring      = '/post-launch-monitoring';                   // Day 292
+  static const hotfixPlaybook            = '/hotfix-playbook';                          // Day 293
+  static const supportMacros             = '/support-macros';                           // Day 294
+  static const phase2Roadmap             = '/phase2-roadmap';                           // Day 295
+  static const platformParityAudit       = '/platform-parity-audit';                    // Day 296
+  static const batterySoakLog            = '/battery-soak-log';                         // Day 297
+  static const gonogoGate                = '/gonogo-gate';                              // Day 298
+  static const penultimateSummary        = '/penultimate-summary';                        // Day 299
+  static const day300Milestone           = '/day-300-milestone';                          // Day 300
 
   // ─── Section F: Production Wiring (Days 301-305) ────────────────────────
   static const integrationAudit         = '/day-301-integration-audit';                    // Day 301
@@ -484,6 +697,22 @@ class AppRoutes {
   static const batteryMonitoringProd    = '/day-328-battery-monitoring-production';        // Day 328
   static const falsePositiveTuningProd  = '/day-329-false-positive-tuning-production';     // Day 329
   static const sectionHMilestone        = '/day-330-section-h-rc-milestone';               // Day 330
+
+  // ─── Section I: Launch Hardening (Days 331-340) ──────────────────────────
+  // Route constants for the whole batch are declared together so early days
+  // (e.g. Day 331's gate v2) can forward-reference later days by path before
+  // their GoRoute + screen land later in this same session. Each GoRoute
+  // below is added in its own day's commit.
+  static const gonogoGateV2              = '/day-331-gonogo-gate-v2';                      // Day 331
+  static const regressionRunnerV2        = '/day-332-regression-runner-v2';                // Day 332
+  static const platformParityExecution   = '/day-333-platform-parity-execution';           // Day 333
+  static const batterySoakProduction     = '/day-334-battery-soak-production';             // Day 334
+  static const accessibilityFullPass     = '/day-335-accessibility-full-pass';             // Day 335
+  static const securityExecution         = '/day-336-security-execution';                  // Day 336
+  static const legalBlockersLive         = '/day-337-legal-blockers-live';                 // Day 337
+  static const sentryLiveWire            = '/day-338-sentry-live-wire';                    // Day 338
+  static const betaFeedbackRound4        = '/day-339-beta-feedback-round4';                // Day 339
+  static const sectionIMilestone         = '/day-340-section-i-milestone';                 // Day 340
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -491,12 +720,26 @@ class AppRoutes {
 /// Watches [isOnboardedProvider] so unauthenticated users always get pushed
 /// to /onboarding regardless of which deep link they came in on.
 final routerProvider = Provider<GoRouter>((ref) {
+  const initialRoute = String.fromEnvironment(
+    'INITIAL_ROUTE',
+    defaultValue: kProductionShell ? AppRoutes.dashboard : AppRoutes.home,
+  );
+
   return GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: initialRoute,
     debugLogDiagnostics: true,
     redirect: (context, state) {
       final isOnboarded = ref.read(isOnboardedProvider);
-      final loggingIn = state.matchedLocation == AppRoutes.onboarding;
+      final isLoggedIn = ref.read(isLoggedInProvider);
+      final location = state.matchedLocation;
+      final loggingIn = location == AppRoutes.onboarding;
+
+      if (productionAuthRedirect(
+        isLoggedIn: isLoggedIn,
+        location: location,
+      )) {
+        return AppRoutes.phoneEntry;
+      }
 
       // Not onboarded → force onboarding screen
       if (!isOnboarded && !loggingIn) return AppRoutes.onboarding;
@@ -517,7 +760,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.dashboard,
-        builder: (context, state) => const DashboardPlaceholderScreen(),
+        builder: (context, state) =>
+            const Day279ProductionDashboardScreen(),
       ),
       GoRoute(
         path: AppRoutes.sosActive,
@@ -1125,6 +1369,506 @@ final routerProvider = Provider<GoRouter>((ref) {
             const Day200GrandFinaleScreen(),                                  // Day 200 🏆
       ),
       GoRoute(
+        path: AppRoutes.deviceQaHarness,
+        builder: (context, state) =>
+            const Day201DeviceQaHarnessScreen(),                              // Day 201
+      ),
+      GoRoute(
+        path: AppRoutes.dashboardNotifications,
+        builder: (context, state) =>
+            const Day202DashboardNotificationsScreen(),                       // Day 202
+      ),
+      GoRoute(
+        path: AppRoutes.sosLongPressRing,
+        builder: (context, state) =>
+            const Day203SosLongPressRingScreen(),                               // Day 203
+      ),
+      GoRoute(
+        path: AppRoutes.modeStatusCard,
+        builder: (context, state) =>
+            const Day204ModeStatusCardScreen(),                                 // Day 204
+      ),
+      GoRoute(
+        path: AppRoutes.onboardingSkipPaths,
+        builder: (context, state) =>
+            const Day205OnboardingSkipPathsScreen(),                            // Day 205
+      ),
+      GoRoute(
+        path: AppRoutes.vaultSearchFilter,
+        builder: (context, state) =>
+            const Day206VaultSearchFilterScreen(),                              // Day 206
+      ),
+      GoRoute(
+        path: AppRoutes.chatOfflineQueue,
+        builder: (context, state) =>
+            const Day207ChatOfflineQueueScreen(),                               // Day 207
+      ),
+      GoRoute(
+        path: AppRoutes.designSystemAudit,
+        builder: (context, state) =>
+            const Day208DesignSystemAuditScreen(),                              // Day 208
+      ),
+      GoRoute(
+        path: AppRoutes.loadingStates,
+        builder: (context, state) =>
+            const Day209LoadingStatesScreen(),                                  // Day 209
+      ),
+      GoRoute(
+        path: AppRoutes.errorStates,
+        builder: (context, state) =>
+            const Day210ErrorStatesScreen(),                                    // Day 210
+      ),
+      GoRoute(
+        path: AppRoutes.darkModeAudit,
+        builder: (context, state) =>
+            const Day211DarkModeAuditScreen(),                                  // Day 211
+      ),
+      GoRoute(
+        path: AppRoutes.emptyStates,
+        builder: (context, state) =>
+            const Day212EmptyStatesScreen(),                                    // Day 212
+      ),
+      GoRoute(
+        path: AppRoutes.animationPolish,
+        builder: (context, state) =>
+            const Day213AnimationPolishScreen(),                                // Day 213
+      ),
+      GoRoute(
+        path: AppRoutes.a11yScreenReaderAudit,
+        builder: (context, state) =>
+            const Day214A11yScreenReaderAuditScreen(),                          // Day 214
+      ),
+      GoRoute(
+        path: AppRoutes.fontScaleRegression,
+        builder: (context, state) =>
+            const Day215FontScaleRegressionScreen(),                            // Day 215
+      ),
+      GoRoute(
+        path: AppRoutes.i18nCoverageAudit,
+        builder: (context, state) =>
+            const Day216I18nCoverageAuditScreen(),                              // Day 216
+      ),
+      GoRoute(
+        path: AppRoutes.performanceProfiling,
+        builder: (context, state) =>
+            const Day217PerformanceProfilingScreen(),                           // Day 217
+      ),
+      GoRoute(
+        path: AppRoutes.tfliteIntegrationChecklist,
+        builder: (context, state) =>
+            const Day218TfliteIntegrationChecklistScreen(),                     // Day 218
+      ),
+      GoRoute(
+        path: AppRoutes.backendIntegrationAudit,
+        builder: (context, state) =>
+            const Day219BackendIntegrationAuditScreen(),                          // Day 219
+      ),
+      GoRoute(
+        path: AppRoutes.polishMilestone,
+        builder: (context, state) =>
+            const Day220PolishMilestoneScreen(),                                  // Day 220
+      ),
+      GoRoute(
+        path: AppRoutes.policeDashboard,
+        builder: (context, state) =>
+            const Day221PoliceDashboardScreen(),                                // Day 221
+      ),
+      GoRoute(
+        path: AppRoutes.policeDispatchStatus,
+        builder: (context, state) =>
+            const Day222PoliceDispatchStatusScreen(),                           // Day 222
+      ),
+      GoRoute(
+        path: AppRoutes.policeWeblinkPreview,
+        builder: (context, state) =>
+            const Day223PoliceWeblinkPreviewScreen(),                           // Day 223
+      ),
+      GoRoute(
+        path: AppRoutes.referralInvite,
+        builder: (context, state) =>
+            const Day224ReferralInviteScreen(),                               // Day 224
+      ),
+      GoRoute(
+        path: AppRoutes.referralRewards,
+        builder: (context, state) =>
+            const Day225ReferralRewardsScreen(),                              // Day 225
+      ),
+      GoRoute(
+        path: AppRoutes.adminAnalytics,
+        builder: (context, state) =>
+            const Day226AdminAnalyticsScreen(),                               // Day 226
+      ),
+      GoRoute(
+        path: AppRoutes.notificationHistoryV3,
+        builder: (context, state) =>
+            const Day227NotificationHistoryV3Screen(),                        // Day 227
+      ),
+      GoRoute(
+        path: AppRoutes.sosHistoryTimeline,
+        builder: (context, state) =>
+            const Day228SosHistoryTimelineScreen(),                           // Day 228
+      ),
+      GoRoute(
+        path: AppRoutes.featureRegressionRunner,
+        builder: (context, state) =>
+            const Day229FeatureRegressionRunnerScreen(),                        // Day 229
+      ),
+      GoRoute(
+        path: AppRoutes.hiddenModeToggle,
+        builder: (context, state) =>
+            const Day230HiddenModeToggleScreen(),                               // Day 230
+      ),
+      GoRoute(
+        path: AppRoutes.stealthIconDisguise,
+        builder: (context, state) =>
+            const Day231StealthIconDisguiseScreen(),                            // Day 231
+      ),
+      GoRoute(
+        path: AppRoutes.decoyCalculator,
+        builder: (context, state) =>
+            const Day232DecoyCalculatorScreen(),                                // Day 232
+      ),
+      GoRoute(
+        path: AppRoutes.decoyWeather,
+        builder: (context, state) =>
+            const Day233DecoyWeatherScreen(),                                   // Day 233
+      ),
+      GoRoute(
+        path: AppRoutes.secretGestureConfig,
+        builder: (context, state) =>
+            const Day234SecretGestureConfigScreen(),                            // Day 234
+      ),
+      GoRoute(
+        path: AppRoutes.stealthSettingsHub,
+        builder: (context, state) =>
+            const Day235StealthSettingsHubScreen(),                               // Day 235
+      ),
+      GoRoute(
+        path: AppRoutes.hindiUxQa,
+        builder: (context, state) =>
+            const Day236HindiUxQaScreen(),                                        // Day 236
+      ),
+      GoRoute(
+        path: AppRoutes.tamilTeluguQa,
+        builder: (context, state) =>
+            const Day237TamilTeluguQaScreen(),                                    // Day 237
+      ),
+      GoRoute(
+        path: AppRoutes.regionEmergencyNumbers,
+        builder: (context, state) =>
+            const Day238RegionEmergencyNumbersScreen(),                           // Day 238
+      ),
+      GoRoute(
+        path: AppRoutes.indiaLaunchReadiness,
+        builder: (context, state) =>
+            const Day239IndiaLaunchReadinessScreen(),                             // Day 239
+      ),
+      GoRoute(
+        path: AppRoutes.sectionBCatchupMilestone,
+        builder: (context, state) =>
+            const Day240CatchupMilestoneScreen(),                                 // Day 240
+      ),
+      GoRoute(
+        path: AppRoutes.journeyModeV2,
+        builder: (context, state) =>
+            const Day241JourneyModeV2Screen(),                                    // Day 241
+      ),
+      GoRoute(
+        path: AppRoutes.trustedCircleV2,
+        builder: (context, state) =>
+            const Day242TrustedCircleV2Screen(),                                  // Day 242
+      ),
+      GoRoute(
+        path: AppRoutes.rideSafetyV2,
+        builder: (context, state) =>
+            const Day243RideSafetyV2Screen(),                                     // Day 243
+      ),
+      GoRoute(
+        path: AppRoutes.fakeCallPolish,
+        builder: (context, state) =>
+            const Day244FakeCallPolishScreen(),                                   // Day 244
+      ),
+      GoRoute(
+        path: AppRoutes.offlineSosUx,
+        builder: (context, state) =>
+            const Day245OfflineSosUxScreen(),                                     // Day 245
+      ),
+      GoRoute(
+        path: AppRoutes.hearingImpairedVisual,
+        builder: (context, state) =>
+            const Day246HearingImpairedVisualScreen(),                            // Day 246
+      ),
+      GoRoute(
+        path: AppRoutes.hapticPatterns,
+        builder: (context, state) =>
+            const Day247HapticPatternsScreen(),                                   // Day 247
+      ),
+      GoRoute(
+        path: AppRoutes.siriShortcuts,
+        builder: (context, state) =>
+            const Day248SiriShortcutsScreen(),                                    // Day 248
+      ),
+      GoRoute(
+        path: AppRoutes.voiceAssistantSetup,
+        builder: (context, state) =>
+            const Day249VoiceAssistantSetupScreen(),                                // Day 249
+      ),
+      GoRoute(
+        path: AppRoutes.groupJourneyCreate,
+        builder: (context, state) =>
+            const Day250GroupJourneyCreateScreen(),                                 // Day 250
+      ),
+      GoRoute(
+        path: AppRoutes.groupJourneyLiveMap,
+        builder: (context, state) =>
+            const Day251GroupJourneyLiveMapScreen(),                                // Day 251
+      ),
+      GoRoute(
+        path: AppRoutes.groupJourneyPanic,
+        builder: (context, state) =>
+            const Day252GroupPanicScreen(),                                       // Day 252
+      ),
+      GoRoute(
+        path: AppRoutes.familyAlertsDashboard,
+        builder: (context, state) =>
+            const Day253FamilyAlertsDashboardScreen(),                            // Day 253
+      ),
+      GoRoute(
+        path: AppRoutes.familySosHistory,
+        builder: (context, state) =>
+            const Day254FamilySosHistoryScreen(),                                 // Day 254
+      ),
+      GoRoute(
+        path: AppRoutes.childModeAdmin,
+        builder: (context, state) =>
+            const Day255ChildModeAdminScreen(),                                   // Day 255
+      ),
+      GoRoute(
+        path: AppRoutes.homeWidgetSos,
+        builder: (context, state) =>
+            const Day256HomeWidgetSosScreen(),                                    // Day 256
+      ),
+      GoRoute(
+        path: AppRoutes.homeWidgetScore,
+        builder: (context, state) =>
+            const Day257HomeWidgetScoreScreen(),                                  // Day 257
+      ),
+      GoRoute(
+        path: AppRoutes.fallDetectionTuning,
+        builder: (context, state) =>
+            const Day258FallDetectionTuningScreen(),                              // Day 258
+      ),
+      GoRoute(
+        path: AppRoutes.smartNotifications,
+        builder: (context, state) =>
+            const Day259SmartNotificationsScreen(),                               // Day 259
+      ),
+      GoRoute(
+        path: AppRoutes.sectionCAdvancedMilestone,
+        builder: (context, state) =>
+            const Day260AdvancedFeaturesMilestoneScreen(),                        // Day 260
+      ),
+      GoRoute(
+        path: AppRoutes.languageExpansionHub,
+        builder: (context, state) =>
+            const Day261LanguageExpansionHubScreen(),                               // Day 261
+      ),
+      GoRoute(
+        path: AppRoutes.translationWorkflow,
+        builder: (context, state) =>
+            const Day262TranslationWorkflowScreen(),                                // Day 262
+      ),
+      GoRoute(
+        path: AppRoutes.persianRtl,
+        builder: (context, state) =>
+            const Day263PersianRtlScreen(),                                         // Day 263
+      ),
+      GoRoute(
+        path: AppRoutes.indonesianPack,
+        builder: (context, state) =>
+            const Day264IndonesianPackScreen(),                                     // Day 264
+      ),
+      GoRoute(
+        path: AppRoutes.vietnamesePack,
+        builder: (context, state) =>
+            const Day265VietnamesePackScreen(),                                     // Day 265
+      ),
+      GoRoute(
+        path: AppRoutes.japanesePack,
+        builder: (context, state) =>
+            const Day266JapanesePackScreen(),                                       // Day 266
+      ),
+      GoRoute(
+        path: AppRoutes.koreanPack,
+        builder: (context, state) =>
+            const Day267KoreanPackScreen(),                                         // Day 267
+      ),
+      GoRoute(
+        path: AppRoutes.multilangQaRunner,
+        builder: (context, state) =>
+            const Day268MultilangQaRunnerScreen(),                                  // Day 268
+      ),
+      GoRoute(
+        path: AppRoutes.culturalAdaptation,
+        builder: (context, state) =>
+            const Day269CulturalAdaptationScreen(),                                 // Day 269
+      ),
+      GoRoute(
+        path: AppRoutes.communityHeatmap,
+        builder: (context, state) =>
+            const Day270CommunityHeatmapScreen(),                                   // Day 270
+      ),
+      GoRoute(
+        path: AppRoutes.shareSafeRoute,
+        builder: (context, state) =>
+            const Day271ShareSafeRouteScreen(),                                     // Day 271
+      ),
+      GoRoute(
+        path: AppRoutes.insurancePartnership,
+        builder: (context, state) =>
+            const Day272InsurancePartnershipScreen(),                               // Day 272
+      ),
+      GoRoute(
+        path: AppRoutes.personalAnalyticsHub,
+        builder: (context, state) =>
+            const Day273PersonalAnalyticsHubScreen(),                             // Day 273
+      ),
+      GoRoute(
+        path: AppRoutes.weeklyDigestV2,
+        builder: (context, state) =>
+            const Day274WeeklyDigestV2Screen(),                                     // Day 274
+      ),
+      GoRoute(
+        path: AppRoutes.yearInReview,
+        builder: (context, state) =>
+            const Day275YearInReviewScreen(),                                       // Day 275
+      ),
+      GoRoute(
+        path: AppRoutes.reverseImageSearch,
+        builder: (context, state) =>
+            const Day276ReverseImageSearchScreen(),                                 // Day 276
+      ),
+      GoRoute(
+        path: AppRoutes.enterpriseB2bPreview,
+        builder: (context, state) =>
+            const Day277EnterpriseB2bPreviewScreen(),                              // Day 277
+      ),
+      GoRoute(
+        path: AppRoutes.counselorQueuePolish,
+        builder: (context, state) =>
+            const Day278CounselorQueuePolishScreen(),                              // Day 278
+      ),
+      GoRoute(
+        path: AppRoutes.productionDashboard,
+        builder: (context, state) =>
+            const Day279ProductionDashboardScreen(),                               // Day 279
+      ),
+      GoRoute(
+        path: AppRoutes.sectionDMilestone,
+        builder: (context, state) =>
+            const Day280SectionDMilestoneScreen(),                                 // Day 280
+      ),
+      GoRoute(
+        path: AppRoutes.landingPreview,
+        builder: (context, state) =>
+            const Day281LandingPreviewScreen(),                                    // Day 281
+      ),
+      GoRoute(
+        path: AppRoutes.pressKit,
+        builder: (context, state) =>
+            const Day282PressKitScreen(),                                          // Day 282
+      ),
+      GoRoute(
+        path: AppRoutes.demoVideoStoryboard,
+        builder: (context, state) =>
+            const Day283DemoVideoStoryboardScreen(),                                 // Day 283
+      ),
+      GoRoute(
+        path: AppRoutes.storeReviewNotes,
+        builder: (context, state) =>
+            const Day284StoreReviewNotesScreen(),                                    // Day 284
+      ),
+      GoRoute(
+        path: AppRoutes.securityPrelaunchAudit,
+        builder: (context, state) =>
+            const Day285SecurityPrelaunchAuditScreen(),                              // Day 285
+      ),
+      GoRoute(
+        path: AppRoutes.legalBlockersTracker,
+        builder: (context, state) =>
+            const Day286LegalBlockersTrackerScreen(),                                // Day 286
+      ),
+      GoRoute(
+        path: AppRoutes.betaFeedbackRound3,
+        builder: (context, state) =>
+            const Day287BetaFeedbackRound3Screen(),                                  // Day 287
+      ),
+      GoRoute(
+        path: AppRoutes.crashFreeTracker,
+        builder: (context, state) =>
+            const Day288CrashFreeTrackerScreen(),                                    // Day 288
+      ),
+      GoRoute(
+        path: AppRoutes.fullRegressionRunner,
+        builder: (context, state) =>
+            const Day289FullRegressionRunnerScreen(),                                // Day 289
+      ),
+      GoRoute(
+        path: AppRoutes.stagedRolloutSimulator,
+        builder: (context, state) =>
+            const Day290StagedRolloutSimulatorScreen(),                              // Day 290
+      ),
+      GoRoute(
+        path: AppRoutes.globalIndiaCompare,
+        builder: (context, state) =>
+            const Day291GlobalIndiaCompareScreen(),                                  // Day 291
+      ),
+      GoRoute(
+        path: AppRoutes.postLaunchMonitoring,
+        builder: (context, state) =>
+            const Day292PostLaunchMonitoringScreen(),                                // Day 292
+      ),
+      GoRoute(
+        path: AppRoutes.hotfixPlaybook,
+        builder: (context, state) =>
+            const Day293HotfixPlaybookScreen(),                                    // Day 293
+      ),
+      GoRoute(
+        path: AppRoutes.supportMacros,
+        builder: (context, state) =>
+            const Day294SupportMacrosScreen(),                                   // Day 294
+      ),
+      GoRoute(
+        path: AppRoutes.phase2Roadmap,
+        builder: (context, state) =>
+            const Day295Phase2RoadmapScreen(),                                   // Day 295
+      ),
+      GoRoute(
+        path: AppRoutes.platformParityAudit,
+        builder: (context, state) =>
+            const Day296PlatformParityAuditScreen(),                             // Day 296
+      ),
+      GoRoute(
+        path: AppRoutes.batterySoakLog,
+        builder: (context, state) =>
+            const Day297BatterySoakLogScreen(),                                // Day 297
+      ),
+      GoRoute(
+        path: AppRoutes.gonogoGate,
+        builder: (context, state) =>
+            const Day298GonogoGateScreen(),                                    // Day 298
+      ),
+      GoRoute(
+        path: AppRoutes.penultimateSummary,
+        builder: (context, state) =>
+            const Day299PenultimateSummaryScreen(),                              // Day 299
+      ),
+      GoRoute(
+        path: AppRoutes.day300Milestone,
+        builder: (context, state) =>
+            const Day300HalfwayLaunchMilestoneScreen(),                          // Day 300
+      ),
+      GoRoute(
         path: AppRoutes.integrationAudit,
         builder: (context, state) =>
             const Day301BackendIntegrationAuditScreen(),                      // Day 301
@@ -1273,6 +2017,56 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.sectionHMilestone,
         builder: (context, state) =>
             const Day330SectionHRcMilestoneScreen(),                        // Day 330
+      ),
+      GoRoute(
+        path: AppRoutes.gonogoGateV2,
+        builder: (context, state) =>
+            const Day331GonogoGateV2Screen(),                                 // Day 331
+      ),
+      GoRoute(
+        path: AppRoutes.regressionRunnerV2,
+        builder: (context, state) =>
+            const Day332RegressionRunnerV2Screen(),                           // Day 332
+      ),
+      GoRoute(
+        path: AppRoutes.platformParityExecution,
+        builder: (context, state) =>
+            const Day333PlatformParityExecutionScreen(),                      // Day 333
+      ),
+      GoRoute(
+        path: AppRoutes.batterySoakProduction,
+        builder: (context, state) =>
+            const Day334BatterySoakProductionScreen(),                        // Day 334
+      ),
+      GoRoute(
+        path: AppRoutes.accessibilityFullPass,
+        builder: (context, state) =>
+            const Day335AccessibilityFullPassScreen(),                        // Day 335
+      ),
+      GoRoute(
+        path: AppRoutes.securityExecution,
+        builder: (context, state) =>
+            const Day336SecurityExecutionScreen(),                            // Day 336
+      ),
+      GoRoute(
+        path: AppRoutes.legalBlockersLive,
+        builder: (context, state) =>
+            const Day337LegalBlockersLiveScreen(),                           // Day 337
+      ),
+      GoRoute(
+        path: AppRoutes.sentryLiveWire,
+        builder: (context, state) =>
+            const Day338SentryLiveWireScreen(),                              // Day 338
+      ),
+      GoRoute(
+        path: AppRoutes.betaFeedbackRound4,
+        builder: (context, state) =>
+            const Day339BetaFeedbackRound4Screen(),                          // Day 339
+      ),
+      GoRoute(
+        path: AppRoutes.sectionIMilestone,
+        builder: (context, state) =>
+            const Day340SectionIMilestoneScreen(),                           // Day 340
       ),
       GoRoute(
         path: AppRoutes.vault,

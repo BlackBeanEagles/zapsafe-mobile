@@ -654,6 +654,13 @@ class I18nState {
   Map<String, String> get demoStrings =>
       kDemoTranslations[selectedCode] ?? kDemoTranslations['en']!;
 
+  /// Day 107 — alerts / vault / profile preview keys (also in assets/translations/*.json).
+  Map<String, String> get month4Strings =>
+      kMonth4Translations[selectedCode] ?? kMonth4Translations['en']!;
+
+  List<String> get alertLifecycle =>
+      kAlertLifecycle[selectedCode] ?? kAlertLifecycle['en']!;
+
   I18nState copyWith({String? selectedCode}) =>
       I18nState(selectedCode: selectedCode ?? this.selectedCode);
 }

@@ -30,10 +30,7 @@ import 'trigger_orchestrator_providers.dart';
 /// Routes that require an authenticated session when [kProductionShell] is on.
 const _protectedPrefixes = <String>{
   AppRoutes.dashboard,
-  // Day 302 note: `AppRoutes.productionDashboard` (Day 279 production
-  // dashboard screen) is referenced by other in-flight work but that
-  // screen/route does not exist on `main` yet — omitted here rather than
-  // fabricated, so this stays a real guard list, not an aspirational one.
+  AppRoutes.productionDashboard,
   AppRoutes.settingsV2,
   AppRoutes.contactsV2,
   AppRoutes.evidenceVault,

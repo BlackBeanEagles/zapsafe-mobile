@@ -1,0 +1,38 @@
+{
+  "app_name": "ZapSafe",
+  "tagline": "An toàn trong tay bạn",
+  "common": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "back": "Quay lại",
+    "done": "Xong"
+  },
+  "sos": {
+    "trigger": "KÍCH HOẠT SOS",
+    "countdown": "SOS sau {seconds} giây",
+    "active": "SOS ĐANG HOẠT ĐỘNG",
+    "cancel": "Hủy SOS",
+    "sent": "Đã gửi cảnh báo tới {count} liên hệ"
+  },
+  "home": {
+    "status_safe": "Bạn đang an toàn",
+    "hold_for_sos": "Nhấn và giữ để SOS"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "language": "Ngôn ngữ"
+  },
+  "language": {
+    "select": "Chọn ngôn ngữ",
+    "rtl_note": "Ngôn ngữ này đọc từ trái sang phải"
+  },
+  "contacts": {
+    "title": "Liên hệ khẩn cấp"
+  },
+  "auth": {
+    "verify": "Xác minh"
+  },
+  "premium": {
+    "title": "Nâng cấp Premium"
+  }
+}
