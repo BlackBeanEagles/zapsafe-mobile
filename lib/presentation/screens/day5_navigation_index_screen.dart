@@ -2755,6 +2755,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-338-sentry-live-wire · 🔵 surfaces the real Day 257 Sentry wiring (sentry_flutter ^7.16.0, CrashReporting.dsn/isEnabled/environment read live, not hardcoded) · 99.5% gate confirmed from Day 288\'s own _kTargetPct constant, not re-typed from the spec · PRIMARY path is a real manual-paste input (no live Sentry account in this environment) persisted via SharedPreferences · log starts empty until a real number is pasted in',
               dayBuilt: 'DAY 338 ✅',
             ),
+            const _NavTile(
+              icon: Icons.forum_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 339 · Beta Feedback Round 4',
+              route: AppRoutes.betaFeedbackRound4,
+              hint: '/day-339-beta-feedback-round4 · 🟣 extends Day 287 Round 3 with NPS, SOS-confidence rating, and self-reported false-positive rate since RC (anchored to Day 331\'s gate — Day 330\'s RC milestone is on main but not merged into this worktree) · analytics_api_service.dart + zapsafe_backend/analytics/urls.py confirmed to have NO custom-event endpoint, so submissions go to a real local SharedPreferences log, not a live POST · log starts empty until a real beta tester submits',
+              dayBuilt: 'DAY 339 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
