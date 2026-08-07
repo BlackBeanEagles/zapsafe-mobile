@@ -3055,6 +3055,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-353-b2b-admin-preview · 🟡 MOCK-NOW — verified zapsafe_backend has no org/tenant model anywhere (grepped org/tenant/enterprise/company/business — the 2 "tenant" hits are just comments about a hypothetical future) · org users list + SOS(30d) count + avg response SLA metric, realistic structure, clearly mock · distinct from Day 277\'s licensing/roster mock — this is the admin-console/KPI angle',
               dayBuilt: 'DAY 353 ✅',
             ),
+            const _NavTile(
+              icon: Icons.family_restroom_rounded,
+              accent: Color(0xFF7C3AED),
+              title: 'Day 354 · Family Dashboard — Production Wire',
+              route: AppRoutes.familyDashboardWire,
+              hint: '/day-354-family-dashboard-wire · 🔵 REAL API — GET /api/v1/family/dashboard/ and GET /api/v1/family/members/{id}/sos-history/ both verified real by reading family/views.py + family/serializers.py directly (real FamilyLink model, Days 224-225) · wired with NO mock fallback (raw provider) so a real empty/error state shows exactly as returned · tapping a member drills into their real per-member SOS history using the real member UUID (not Day 254\'s mock string ids) · extends Day 254',
+              dayBuilt: 'DAY 354 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
