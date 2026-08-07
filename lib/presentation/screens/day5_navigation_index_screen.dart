@@ -3307,6 +3307,22 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-382-hotfix-v102 · 🟢 v1.0.2 has NOT shipped — neither has v1.0.1 before it — a second hypothetical cycle chained from Day 381\'s own hypothetical target purely for version-arithmetic continuity, extends the playbook with monitor/advance-rollout/rollback steps Day 381 kept short',
               dayBuilt: 'DAY 382 ✅',
             ),
+            const _NavTile(
+              icon: Icons.privacy_tip_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 383 · Privacy Audit Follow-Up',
+              route: AppRoutes.privacyAuditFollowup,
+              hint: '/day-383-privacy-audit-followup · 🟢 real re-check of Day 337\'s DPDP findings — grepped lib/data/services + zapsafe_backend/account/urls.py again this session, read day319\'s screen header directly, confirmed every yellow/red status is UNCHANGED (0/7 categories changed) since this remains frontend-only work with no backend changes originating from this worktree',
+              dayBuilt: 'DAY 383 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.fact_check_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 384 · DPDP Compliance Sign-Off',
+              route: AppRoutes.dpdpSignoff,
+              hint: '/day-384-dpdp-signoff · 🟡 MOCK-NOW "wire when export/delete APIs live" (export+deletion already ARE live via Day 69/70) — real gate logic: sign-off stays permanently disabled while third-party sharing disclosure remains genuinely unimplemented (Day 337/383), default state is honestly NOT signed off',
+              dayBuilt: 'DAY 384 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
