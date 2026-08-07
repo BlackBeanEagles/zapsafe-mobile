@@ -2824,6 +2824,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-349-store-screenshots-i18n · 🟢 real live-rendered frame mockups (phone silhouette + gradient + icon + headline/subline overlay) for Day 191\'s real 6 hero screens × en/hi/ta/te, with genuine new hi/ta/te translations of Day 191\'s English marketing copy · honestly states no device/emulator exists in this environment so no ACTUAL screenshot can be captured — this is the layout mockup a designer would composite into, not a PNG · real exportable asset manifest (24 files: filename + screen + language + headline + subline + capture status) copied to clipboard',
               dayBuilt: 'DAY 349 ✅',
             ),
+            const _NavTile(
+              icon: Icons.flag_circle_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 350 · Section J Milestone — 25 Languages',
+              route: AppRoutes.sectionJMilestone,
+              hint: '/day-350-section-j-25lang-milestone · 🟢 mirrors Day 310\'s milestone pattern (Days 321-330 milestones not present in this worktree) · reuses the EXACT SAME i18n_coverage.dart helpers Day 345 uses (loadFlatLocale/computeCoverage/listTranslationLocaleCodes) for a live re-scan, so its numbers can never drift from reality · real checklist for Days 341-349: 4 VERIFIED (341/342/343/345), 5 documented EXCEPTIONS (344 RTL manual-QA pending, 346 0/7 cultural items reviewed, 347 0/26 strings approved + ta/te onboarding gap, 348 0/25 voice keywords field-verified, 349 no device for real screenshot capture) · real language-selector count reaches 25/25 · notes Section K (Enterprise & B2B, Days 351-360) begins next',
+              dayBuilt: 'DAY 350 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
