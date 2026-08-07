@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/monitoring/cold_start_timing.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
@@ -45,6 +46,11 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appState = ref.watch(appStateProvider);
+
+    // Day 326 — real "first dashboard build" mark for the cold-start
+    // report (splash -> dashboard). markOnce() since build() reruns on
+    // every appStateProvider change.
+    ColdStartTimings.instance.markOnce('dashboard_first_build');
 
     return Scaffold(
       backgroundColor: ZapColors.bgPrimary,

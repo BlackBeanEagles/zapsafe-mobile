@@ -1919,6 +1919,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-325-ota-model-update · 🔵 EXISTING-API · POST /api/v1/models/get-version/ (real, live since Day 71) — first-ever Flutter wire, new ModelVersionService + provider + ApiConfig.modelsGetVersion constant · compares kZapsafeModels\' real _vN asset-filename version against the live server response, per-model update-available banner · download progress is an explicitly-labelled UI mock (no OTA_UPDATES_FOR_LATER.md exists in this repo to cite; real background download/model-swap genuinely does not exist yet, stated honestly)',
               dayBuilt: 'DAY 325 ✅',
             ),
+            const _NavTile(
+              icon: Icons.speed_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 326 · Cold Start Optimization Report',
+              route: AppRoutes.coldStartReport,
+              hint: '/day-326-cold-start-report · 🟢 · real Stopwatch instrumentation added to main.dart\'s _bootstrap() (widgets_binding_ready/easy_localization_ready/firebase_ready/run_app_called), ZapSafeApp (first_frame_rendered) and the production dashboard (dashboard_first_build) · no device/emulator available so <2s is a documented TARGET, not a claimed measurement · 5 plausible slow steps grounded in a real main.dart/app_bootstrap_providers.dart read, incl. a genuine finding that DCSInferenceEngine (4 TFLite interpreters) loads unconditionally at boot before login, not gated like GPS/hydrator already are',
+              dayBuilt: 'DAY 326 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
