@@ -3071,6 +3071,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-355-referral-live-wire · 🔵 REAL API — GET /api/v1/referral/code/ and .../stats/ both verified real by reading referral/views.py + serializers.py + models.py directly (real ReferralCode/ReferralEvent models, Days 206-207) · corrects 2 real details Day 224\'s mock got wrong: bonus is 50 pts/completion (POINTS_PER_COMPLETED_REFERRAL) not +10, and both endpoints are gated behind the `referral` feature flag server-side — a 403 FEATURE_DISABLED is surfaced as an expected state, not a generic error · extends Day 224/225',
               dayBuilt: 'DAY 355 ✅',
             ),
+            const _NavTile(
+              icon: Icons.local_police_rounded,
+              accent: Color(0xFF1D4ED8),
+              title: 'Day 356 · Police Dispatch — Production Wire',
+              route: AppRoutes.policeDispatchWire,
+              hint: '/day-356-police-dispatch-wire · 🔵 REAL API — GET /api/v1/police/dispatch/{sos_id}/ verified real by reading police/dispatch_views.py + dispatch_serializers.py + models.py directly · the endpoint itself is real and always 200s, but its data is honestly mock-shaped by design: no live police dispatch integration exists, so it falls back to a deterministic SIMULATED timeline (is_mock: true) for every real SOS today — shown as-is, not hidden · real "poll every 5s" re-fires the actual GET on a timer, genuine polling not a countdown animation · extends Days 221-223',
+              dayBuilt: 'DAY 356 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

@@ -360,6 +360,7 @@ import '../screens/day352_insurance_api_wire_screen.dart';          // Day 352
 import '../screens/day353_b2b_admin_preview_screen.dart';           // Day 353
 import '../screens/day354_family_dashboard_wire_screen.dart';       // Day 354
 import '../screens/day355_referral_live_wire_screen.dart';          // Day 355
+import '../screens/day356_police_dispatch_wire_screen.dart';        // Day 356
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2185,6 +2186,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.referralLiveWire,
         builder: (context, state) =>
             const Day355ReferralLiveWireScreen(),                            // Day 355
+      ),
+      GoRoute(
+        path: AppRoutes.policeDispatchWire,
+        builder: (context, state) =>
+            const Day356PoliceDispatchWireScreen(),                          // Day 356
       ),
       GoRoute(
         path: AppRoutes.vault,
