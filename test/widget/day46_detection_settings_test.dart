@@ -8,7 +8,6 @@ import 'package:zapsafe_mobile/presentation/screens/day46_detection_settings_scr
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 Widget _wrap({DetectionSettings? initial}) {
-  final notifier = DetectionSettingsNotifier();
   return ProviderScope(
     overrides: [
       if (initial != null)
