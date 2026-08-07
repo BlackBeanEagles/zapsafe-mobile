@@ -3057,6 +3057,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-363-app-store-submission · 🟢 real manual App Store Connect checklist — archive, upload, review info, demo account, export compliance, submit for review · every step defaults UNCHECKED, nothing has been submitted · Review Info tab is pre-filled from Day 284\'s ACTUAL test account constants (reviewer@zapsafe.app / ZapSafe2026! / PIN 123456 / duress PIN 999999) copy-referenced not re-invented, so the two screens never drift apart · links back to Day 284\'s full generator for the complete LP27 explanation',
               dayBuilt: 'DAY 363 ✅',
             ),
+            const _NavTile(
+              icon: Icons.event_note_rounded,
+              accent: Color(0xFFF97316),
+              title: 'Day 364 · Launch Day Runbook',
+              route: AppRoutes.launchDayRunbook,
+              hint: '/day-364-launch-day-runbook · 🟢 explicit PLANNING DOCUMENT banner — minute-by-minute T-24h→T+24h timeline for a launch day that has not happened, offsets are relative not real timestamps · roles are this project\'s actual founder/intern/support/on-call split · SOS monitoring escalation path is separated out as safety-critical, routes through Day 294\'s real support macros rather than invented copy · every timeline item links to the real day it depends on (Day 361 war room, Day 293 hotfix playbook, Day 316 staged rollout, Day 288 crash-free gate)',
+              dayBuilt: 'DAY 364 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
