@@ -3243,6 +3243,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-374-model-feedback-export · 🟢 real CSV/JSON export mechanism, starts genuinely empty — checked assets/models/DAY2*.md (40+ real files): all Kaggle-side training records, none are on-device field misclassification logs, so honestly nothing to export yet · add-a-misclassification form (real model_registry.dart keys: scream/motion/scene/fusion/aggressive_speech) + anonymized export format ready for the next real Kaggle retrain cycle',
               dayBuilt: 'DAY 374 ✅',
             ),
+            const _NavTile(
+              icon: Icons.flag_circle_rounded,
+              accent: Color(0xFF06D6A0),
+              title: 'Day 375 · Section M Milestone',
+              route: AppRoutes.sectionMMilestone,
+              hint: '/day-375-section-m-milestone · 🟢 mirrors the Day 310/320/330/340/350/360 milestone pattern — real per-day verification for Days 366-374 (this batch + the prior 366-370 batch already on main), pending items genuinely pending, no real launch claimed · notes Section N (Scale & Stabilize, Days 376-385) continues next',
+              dayBuilt: 'DAY 375 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
