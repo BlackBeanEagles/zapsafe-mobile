@@ -1,13 +1,26 @@
 /// Day 92-93 — Premium Feature Highlights state.
 ///
-/// Fully self-contained mock Riverpod state — no API calls.
-/// Covers feature catalogue, category filter, and mock subscription status.
+/// Feature catalogue + category filter below are still fully self-
+/// contained mock data (no real "which features are on my plan" API
+/// exists). [subscriptionUsageProvider]'s isPremium/contacts/storage
+/// fields, however, were rewired for real on Day 358 (premium tier
+/// polish) — it now reads the real Day 303 `subscriptionStatusProvider`
+/// (contactLimit, storageLimitMb/storageUsedBytes, hasPremiumBenefits)
+/// and the real Day 83 `contactsProvider` (actual contact count) when
+/// available, falling back to the original seeded mock only while that
+/// data is loading or on error/offline. `activeTimers`/`timersLimit` and
+/// `safeZones`/`safeZonesLimit` stay hardcoded mock — no real backend
+/// endpoint reports check-in-timer or safe-zone *usage counts* today
+/// (Day 65/58 only expose CRUD, not a usage-summary endpoint), documented
+/// honestly rather than silently left looking real.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/colors.dart';
+import 'contacts_providers.dart';
+import 'premium_subscription_providers.dart';
 
 // ─── Feature category ─────────────────────────────────────────────────────────
 
@@ -342,20 +355,66 @@ class SubscriptionUsage {
   }
 }
 
-// Mock: user is on free plan with some usage
-final subscriptionUsageProvider = Provider<SubscriptionUsage>(
-  (_) => const SubscriptionUsage(
-    isPremium:       false,
-    contactsUsed:    2,
-    contactsLimit:   3,
-    storageMbUsed:   14.3,
-    storageMbLimit:  100,
-    activeTimers:    1,
-    timersLimit:     2,
-    safeZones:       2,
-    safeZonesLimit:  3,
-  ),
+// Original seeded mock — free plan with some usage. Used verbatim as the
+// fallback while the real subscription status hasn't loaded yet (or is
+// unavailable offline), so this screen never flashes an empty/zero state.
+const _kMockUsageFallback = SubscriptionUsage(
+  isPremium:       false,
+  contactsUsed:    2,
+  contactsLimit:   3,
+  storageMbUsed:   14.3,
+  storageMbLimit:  100,
+  activeTimers:    1,
+  timersLimit:     2,
+  safeZones:       2,
+  safeZonesLimit:  3,
 );
+
+/// Day 358 — real where real data exists, honestly mock where it doesn't.
+///
+/// isPremium / contactsLimit / storage*: from the real Day 303
+/// `subscriptionStatusProvider` once it resolves.
+/// contactsUsed: from the real Day 83 `contactsProvider` (actual list
+/// length), not a hardcoded number.
+/// activeTimers / timersLimit / safeZones / safeZonesLimit: still mock —
+/// no real backend usage-count endpoint exists for either (see file
+/// header).
+final subscriptionUsageProvider = Provider<SubscriptionUsage>((ref) {
+  final realStatus = ref.watch(subscriptionStatusProvider).valueOrNull;
+  final realContactsUsed = ref.watch(contactsProvider).length;
+
+  if (realStatus == null) {
+    // Still loading / offline / error — real contact count is still
+    // reflected even in this fallback branch since contactsProvider is
+    // synchronous and separately real.
+    return SubscriptionUsage(
+      isPremium:      _kMockUsageFallback.isPremium,
+      contactsUsed:   realContactsUsed,
+      contactsLimit:  _kMockUsageFallback.contactsLimit,
+      storageMbUsed:  _kMockUsageFallback.storageMbUsed,
+      storageMbLimit: _kMockUsageFallback.storageMbLimit,
+      activeTimers:   _kMockUsageFallback.activeTimers,
+      timersLimit:    _kMockUsageFallback.timersLimit,
+      safeZones:      _kMockUsageFallback.safeZones,
+      safeZonesLimit: _kMockUsageFallback.safeZonesLimit,
+    );
+  }
+
+  return SubscriptionUsage(
+    isPremium:      realStatus.hasPremiumBenefits,
+    contactsUsed:   realContactsUsed,
+    contactsLimit:  realStatus.contactLimit,
+    storageMbUsed:  realStatus.storageUsedBytes / (1024 * 1024),
+    // SubscriptionStatus.storageLimitMb is always a finite number on the
+    // real backend (no "0/null = unlimited" convention documented for
+    // storage the way contactLimit has) — passed through as-is.
+    storageMbLimit: realStatus.storageLimitMb,
+    activeTimers:   _kMockUsageFallback.activeTimers,
+    timersLimit:    _kMockUsageFallback.timersLimit,
+    safeZones:      _kMockUsageFallback.safeZones,
+    safeZonesLimit: _kMockUsageFallback.safeZonesLimit,
+  );
+});
 
 // ─── Filter provider ──────────────────────────────────────────────────────────
 

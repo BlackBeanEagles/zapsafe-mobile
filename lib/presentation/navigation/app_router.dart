@@ -362,6 +362,7 @@ import '../screens/day354_family_dashboard_wire_screen.dart';       // Day 354
 import '../screens/day355_referral_live_wire_screen.dart';          // Day 355
 import '../screens/day356_police_dispatch_wire_screen.dart';        // Day 356
 import '../screens/day357_group_journey_wire_screen.dart';          // Day 357
+import '../screens/day358_premium_polish_screen.dart';              // Day 358
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2197,6 +2198,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.groupJourneyWire,
         builder: (context, state) =>
             const Day357GroupJourneyWireScreen(),                            // Day 357
+      ),
+      GoRoute(
+        path: AppRoutes.premiumPolish,
+        builder: (context, state) =>
+            const Day358PremiumPolishScreen(),                                // Day 358
       ),
       GoRoute(
         path: AppRoutes.vault,

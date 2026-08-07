@@ -1,4 +1,11 @@
 /// Day 92-93 — Premium Feature Highlights screen.
+///
+/// Day 358 — `_UsageCard`'s header now also shows the shared
+/// [PremiumTierBadge] (same visual treatment as Day 308's real-wired
+/// badge) alongside its existing "Premium Plan"/"Free Plan" label, and
+/// [subscriptionUsageProvider] itself was rewired to read real Day 303
+/// subscription status + real Day 83 contact count instead of a
+/// hardcoded mock (see `premium_features_providers.dart`'s header).
 library;
 
 import 'package:flutter/material.dart';
@@ -8,6 +15,7 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../domain/providers/premium_features_providers.dart';
+import '../widgets/premium_tier_badge.dart';
 
 // ─── Root screen ──────────────────────────────────────────────────────────────
 
@@ -119,6 +127,11 @@ class _UsageCard extends StatelessWidget {
                 style: ZapTypography.labelLarge.copyWith(
                   color: isPremium ? ZapColors.info : ZapColors.textPrimary,
                 ),
+              ),
+              const SizedBox(width: ZapSpacing.sm),
+              PremiumTierBadge(
+                planLabel: isPremium ? 'PREMIUM' : 'FREE',
+                isPremium: isPremium,
               ),
               const Spacer(),
               if (!isPremium)

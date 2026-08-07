@@ -3087,6 +3087,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-357-group-journey-wire · 🔵 REAL API + REAL SIDE EFFECTS — all 4 endpoints (create/join/state/panic) verified real by reading journey/views.py + serializers.py + models.py directly (Days 221-223) · POST .../panic/ genuinely creates a real SOSEvent (trigger_type=GROUP_PANIC) and dispatches it for every JOINED member, not just the caller — the actual production code path a real emergency hits · gated behind a confirmation dialog since this is not a simulation · extends Days 250-252',
               dayBuilt: 'DAY 357 ✅',
             ),
+            const _NavTile(
+              icon: Icons.workspace_premium_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 358 · Premium Tier Production Polish',
+              route: AppRoutes.premiumPolish,
+              hint: '/day-358-premium-polish · 🟣 real bounded code changes — grepped premium/free tier/contact limit across lib/presentation/, found 4 independent "what tier am I on" systems that never synced (Day 91/92/93 own local mocks + Day 308\'s real Day 303 wire) · new shared PremiumTierBadge widget applied to Day 308 (drop-in) + Day 92 (additive) · Day 92\'s subscriptionUsageProvider rewired to real Day 303 status + real Day 83 contact count, was previously hardcoded false/2/3 forever · Day 91/93\'s own local mock providers honestly left un-consolidated (documented gap, not silently skipped) — full audit + rationale on the screen',
+              dayBuilt: 'DAY 358 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
