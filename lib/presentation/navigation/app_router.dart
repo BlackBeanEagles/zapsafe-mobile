@@ -390,6 +390,7 @@ import '../screens/day382_hotfix_v102_screen.dart';                 // Day 382
 import '../screens/day383_privacy_audit_followup_screen.dart';      // Day 383
 import '../screens/day384_dpdp_signoff_screen.dart';                // Day 384
 import '../screens/day385_support_macros_production_screen.dart';  // Day 385
+import '../screens/day386_analytics_month1_screen.dart';            // Day 386
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2412,6 +2413,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.supportMacrosProduction,
         builder: (context, state) =>
             const Day385SupportMacrosProductionScreen(),                    // Day 385
+      ),
+      GoRoute(
+        path: AppRoutes.analyticsMonth1,
+        builder: (context, state) =>
+            const Day386AnalyticsMonth1Screen(),                            // Day 386
       ),
       GoRoute(
         path: AppRoutes.vault,

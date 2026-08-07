@@ -3331,6 +3331,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-385-support-macros-production · 🟢 real read/write integration with Day 369\'s ACTUAL SharedPreferences board storage (same key day369_support_triage_v1, same JSON shape) — pick a real ticket, attach a Day 294 macro reply, "Attach & resolve" genuinely writes stage=resolved back so Day 369\'s board reflects it, not a separate parallel data source',
               dayBuilt: 'DAY 385 ✅',
             ),
+            const _NavTile(
+              icon: Icons.analytics_rounded,
+              accent: Color(0xFF3B82F6),
+              title: 'Day 386 · Analytics Month 1 Report',
+              route: AppRoutes.analyticsMonth1,
+              hint: '/day-386-analytics-month1 · 🟢 report TEMPLATE wired to the same 4 real backend endpoints Day 302 verified (sos-summary/detections/contacts-response-rate/device-health) — legitimately shows empty/zero or a real network error since no real Month 1 has happened, which is correct, not a bug',
+              dayBuilt: 'DAY 386 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
