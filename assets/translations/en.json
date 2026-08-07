@@ -240,5 +240,23 @@
     "verify": "Verify",
     "verified": "Verified",
     "avatar": "Profile Photo"
+  },
+  "day301_305": {
+    "audit_title": "Day 301 · Integration Audit",
+    "audit_heading": "Real backend integration audit",
+    "analytics_title": "Day 302 · Analytics Live Wire",
+    "analytics_heading": "Live analytics QA",
+    "razorpay_title": "Day 303 · Razorpay Live Wire",
+    "razorpay_heading": "Live subscription status",
+    "delivery_title": "Day 304 · Delivery Status Live Wire",
+    "delivery_heading": "Live delivery cascade",
+    "accept_language_title": "Day 305 · Accept-Language Wire",
+    "accept_language_heading": "Accept-Language header audit",
+    "back_to_audit": "Back to integration audit",
+    "retry": "Retry",
+    "fire_test_call": "Fire test call",
+    "start_polling": "Start polling",
+    "start_checkout": "Start checkout (premium)",
+    "cancel_subscription": "Cancel at period end"
   }
 }

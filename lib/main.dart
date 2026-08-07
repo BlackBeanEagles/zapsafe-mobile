@@ -7,6 +7,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'core/monitoring/crash_reporting.dart';
 import 'core/theme/app_theme.dart';
 import 'domain/providers/app_bootstrap_providers.dart';
+import 'domain/providers/i18n_providers.dart';
 import 'domain/providers/push_providers.dart';
 import 'presentation/navigation/app_router.dart';
 
@@ -85,6 +86,16 @@ class ZapSafeApp extends ConsumerWidget {
 
     // Production wiring — SOS orchestrator, GPS bridge, backend + navigation.
     ref.watch(appBootstrapProvider);
+
+    // Day 305 — bridge EasyLocalization's real active locale into the
+    // Riverpod-backed provider api_client.dart reads on every request.
+    // Deferred to post-frame: writing to a provider synchronously during
+    // another provider's build is disallowed by Riverpod.
+    final localeCode = context.locale.languageCode;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(currentLanguageCodeProvider.notifier);
+      if (notifier.state != localeCode) notifier.state = localeCode;
+    });
 
     return MaterialApp.router(
       title: 'ZapSafe',

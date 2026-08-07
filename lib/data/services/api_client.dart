@@ -16,6 +16,42 @@ typedef AccessTokenProvider = Future<String?> Function();
 /// if refresh failed (which forces a re-login).
 typedef TokenRefresher = Future<String?> Function();
 
+/// Day 305 — returns the app's current active language code (e.g. 'en',
+/// 'hi'), sourced from EasyLocalization's `context.locale` via a Riverpod
+/// bridge provider. Returning null/empty falls back to 'en'.
+typedef LanguageCodeProvider = String? Function();
+
+/// Day 305 — one captured outgoing request, for the Accept-Language QA
+/// screen to display without needing a live backend response. Populated by
+/// [_AcceptLanguageInterceptor] on every request, success or failure.
+class AcceptLanguageLogEntry {
+  const AcceptLanguageLogEntry({
+    required this.method,
+    required this.path,
+    required this.languageHeader,
+    required this.at,
+  });
+
+  final String method;
+  final String path;
+  final String languageHeader;
+  final DateTime at;
+}
+
+/// Day 305 — ring buffer of the last 30 requests' Accept-Language headers.
+/// A plain static list (not a provider) so it survives regardless of
+/// which widget tree constructed the [ApiClient] — the QA screen reads it
+/// directly.
+class AcceptLanguageAuditLog {
+  AcceptLanguageAuditLog._();
+  static final List<AcceptLanguageLogEntry> entries = [];
+
+  static void record(AcceptLanguageLogEntry entry) {
+    entries.insert(0, entry);
+    if (entries.length > 30) entries.removeLast();
+  }
+}
+
 /// Thin wrapper around [Dio] that wires our auth, logging, and error
 /// translation in one place. Every Day 7+ service should ride on this.
 class ApiClient {
@@ -27,6 +63,7 @@ class ApiClient {
   factory ApiClient.build({
     AccessTokenProvider? tokenProvider,
     TokenRefresher? refresher,
+    LanguageCodeProvider? languageProvider,
   }) {
     final dio = Dio(
       BaseOptions(
@@ -45,6 +82,11 @@ class ApiClient {
       ),
     );
 
+    // Day 305 — centralised Accept-Language on EVERY request (auth'd and
+    // public alike, so OTP verify carries it too), before the auth
+    // interceptor so the header is present even on unauthenticated calls.
+    dio.interceptors.add(_AcceptLanguageInterceptor(languageProvider));
+
     dio.interceptors.add(_AuthInterceptor(
       dio: dio,
       tokenProvider: tokenProvider,
@@ -58,6 +100,35 @@ class ApiClient {
     }
 
     return ApiClient._(dio);
+  }
+}
+
+// ─── Accept-Language interceptor (Day 305) ───────────────────────────────
+//
+// Sets `Accept-Language: <code>` on every outgoing request from the app's
+// real active locale (EasyLocalization, bridged in via [languageProvider]).
+// Backend `AcceptLanguageMiddleware` (Day 103, confirmed live in
+// `zapsafe_backend/zapsafe_backend/settings.py` MIDDLEWARE) reads this to
+// activate Django translations and localize error-code messages.
+
+class _AcceptLanguageInterceptor extends Interceptor {
+  _AcceptLanguageInterceptor(this.languageProvider);
+  final LanguageCodeProvider? languageProvider;
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final code = languageProvider?.call();
+    final header = (code == null || code.isEmpty) ? 'en' : code;
+    options.headers['Accept-Language'] = header;
+
+    AcceptLanguageAuditLog.record(AcceptLanguageLogEntry(
+      method: options.method,
+      path: options.path,
+      languageHeader: header,
+      at: DateTime.now(),
+    ));
+
+    handler.next(options);
   }
 }
 

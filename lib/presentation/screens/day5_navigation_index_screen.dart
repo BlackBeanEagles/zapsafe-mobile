@@ -1786,6 +1786,51 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
             ),
             const SizedBox(height: ZapSpacing.huge),
 
+            // ─── Section F: Production Wiring (Days 301-305) ───────────
+            const _SectionTitle('SECTION F · PRODUCTION WIRING · DAYS 301-305'),
+            const SizedBox(height: ZapSpacing.lg),
+            const _NavTile(
+              icon: Icons.fact_check_rounded,
+              accent: Color(0xFF3B82F6),
+              title: 'Day 301 · Backend Integration Audit Hub',
+              route: AppRoutes.integrationAudit,
+              hint: '/day-301-integration-audit · 🔗 WIRE · real grep-derived audit of every frontend↔backend endpoint, grouped Auth/SOS/Contacts/Analytics/Premium/Notifications/i18n/GPS+Evidence/Privacy&Account/Police-Referral-Journey-Family · live=green mock=amber missing=red · tap row to expand source file · export JSON to clipboard',
+              dayBuilt: 'DAY 301 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.query_stats_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 302 · Wire Analytics APIs',
+              route: AppRoutes.analyticsLiveWire,
+              hint: '/day-302-analytics-live-wire · 🔵 EXISTING-API · GET sos-summary/ detections/ contacts/response-rate/ device-health/ · real AnalyticsApiService · error states 401/500/network/empty · kUseMockData fallback documented',
+              dayBuilt: 'DAY 302 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.payments_rounded,
+              accent: Color(0xFFF59E0B),
+              title: 'Day 303 · Wire Razorpay Premium Flow',
+              route: AppRoutes.razorpayLiveWire,
+              hint: '/day-303-razorpay-live-wire · 🔵 EXISTING-API · POST subscription/create/ GET status/ POST cancel/ · real tier badge + contact/storage limits + sms_priority from live payload · Razorpay test-mode checkout documented as a manual step',
+              dayBuilt: 'DAY 303 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.local_shipping_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 304 · Wire SOS Delivery Status',
+              route: AppRoutes.deliveryStatusLiveWire,
+              hint: '/day-304-delivery-status-live-wire · 🔵 EXISTING-API · GET sos/<id>/delivery-status/ polled every 5s for 60s · real per-contact push+sms channel status · MSG91 badge for +91 numbers, Twilio for others',
+              dayBuilt: 'DAY 304 ✅',
+            ),
+            const _NavTile(
+              icon: Icons.translate_rounded,
+              accent: Color(0xFF8B5CF6),
+              title: 'Day 305 · Accept-Language Header Wiring',
+              route: AppRoutes.acceptLanguageWire,
+              hint: '/day-305-accept-language-wire · 🔗 WIRE · centralized Dio interceptor sends real Accept-Language on every request · toggle locale → fire test call → see real captured header · backend AcceptLanguageMiddleware (Day 103) confirmed live',
+              dayBuilt: 'DAY 305 ✅',
+            ),
+            const SizedBox(height: ZapSpacing.huge),
+
             // ─── Progress Summary ─────────────────────────────────────
             const _SectionTitle('WEEKS 1–3 · PROGRESS'),
             const SizedBox(height: ZapSpacing.lg),
