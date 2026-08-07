@@ -76,9 +76,6 @@ import '../screens/day69_data_export_screen.dart';
 import '../screens/day70_privacy_screen.dart';
 import '../screens/day71_alert_pending_screen.dart';
 import '../screens/onboarding/permissions_screen.dart';
-import '../screens/placeholder/contacts_placeholder.dart';
-import '../screens/placeholder/onboarding_placeholder.dart';
-import '../screens/placeholder/settings_placeholder.dart';
 import '../screens/day73_do_not_disturb_screen.dart';     // Day 73
 import '../screens/day75_delivery_confirmation_screen.dart'; // Day 75
 import '../screens/day76_notification_history_screen.dart';  // Day 76 (history)
@@ -395,7 +392,6 @@ import '../screens/day387_year_in_review_v2_screen.dart';           // Day 387
 import '../screens/day388_v92_roadmap_lock_screen.dart';            // Day 388
 import '../screens/day389_penultimate_summary_screen.dart';         // Day 389
 import '../screens/day390_project_complete_milestone_screen.dart';  // Day 390
-import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
 ///
@@ -880,8 +876,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const Day5NavigationIndexScreen(),
       ),
       GoRoute(
+        // Real onboarding step 1 (Day 41), not the old Day 5-46 stub.
+        // Found during Day 390's final verification: the redirect logic
+        // above (`if (!isOnboarded && !loggingIn) return AppRoutes.onboarding;`)
+        // sends every first-time user here, so this stub was the real
+        // front door — not dead code. The 5-step flow (Days 41-45) already
+        // existed at its own route; this just points the front door at it.
         path: AppRoutes.onboarding,
-        builder: (context, state) => const OnboardingPlaceholderScreen(),
+        builder: (context, state) => const Day41OnboardingStep1Screen(),
       ),
       GoRoute(
         path: AppRoutes.dashboard,
@@ -2444,16 +2446,24 @@ final routerProvider = Provider<GoRouter>((ref) {
             const Day390ProjectCompleteMilestoneScreen(),                   // Day 390
       ),
       GoRoute(
+        // Real Day 82 evidence vault (extended with Day 309's real filters),
+        // not the old Day 5-46 stub. Found during Day 390's final
+        // verification alongside the onboarding/contacts/settings gaps
+        // below — same class of bug, real screens already existed at
+        // AppRoutes.evidenceVault but this older alias still pointed at
+        // the placeholder.
         path: AppRoutes.vault,
-        builder: (context, state) => const VaultPlaceholderScreen(),
+        builder: (context, state) => const Day82EvidenceVaultScreen(),
       ),
       GoRoute(
+        // Real Day 83 contact management, not the old Day 5-46 stub.
         path: AppRoutes.contacts,
-        builder: (context, state) => const ContactsPlaceholderScreen(),
+        builder: (context, state) => const Day83ContactManagementScreen(),
       ),
       GoRoute(
+        // Real Day 81 settings, not the old Day 5-46 stub.
         path: AppRoutes.settings,
-        builder: (context, state) => const SettingsPlaceholderScreen(),
+        builder: (context, state) => const Day81SettingsScreen(),
       ),
       GoRoute(
         path: AppRoutes.day6,

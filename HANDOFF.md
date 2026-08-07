@@ -1,3 +1,48 @@
+# ZapSafe Mobile — Frontend Handoff
+
+> **⚠️ CURRENT STATUS — Day 390/390 build complete (2026-08-07). Read this
+> box first; everything below it is a historical snapshot frozen at Day 45
+> and is stale for anything past that point (still useful as an early
+> project-history record, not as current status).**
+>
+> **Build status:** all 90 days of the Days 301-390 plan are real, wired,
+> and independently verified — `flutter analyze` 0 errors, `flutter test`
+> 756 passed / 6 skipped / 0 failed, all 90 `day3{01..90}_*_screen.dart`
+> routes registered and nav-tiled. 25 languages complete (Day 341-350).
+> Days 1-390 exist as real screens; the project's own numbering treats
+> Day 390 as "build complete," a statement about the frontend codebase,
+> not about being live.
+>
+> **🔴 NOT launch-ready — real, currently-open blockers, found by this
+> project's own audits, not yet fixed:**
+> - No certificate pinning; `FLAG_SECURE` unset; the release Android build
+>   is signed with **debug keys**, not a real release signing config
+>   (Day 336 security execution).
+> - The SOS trigger button hardcodes English text + LTR direction in its
+>   screen-reader announcements during countdown/cancel/activation — the
+>   app's single most safety-critical flow breaks for RTL/non-English
+>   screen-reader users (Day 344 RTL regression).
+> - Tamil and Telugu translations are missing the entire onboarding
+>   namespace — falls back to English there (Day 347 Indic copy review).
+> - Real DPDP compliance gaps: third-party sharing disclosure has no
+>   backend route anywhere; several `/api/v1/account/*` endpoints are
+>   real-but-unwired on the frontend (Day 337/383/384).
+> - Day 361's Final QA War Room — the project's own go/no-go gate —
+>   defaults to 5 open P0s and stays that way until each is genuinely
+>   fixed and checked off, not just built-around.
+>
+> **The app has never actually launched.** No app store submission has
+> happened (Day 362/363 are unexecuted checklists), no real users exist,
+> and every "post-launch"/"live"/"rollout"/"hotfix" screen in Days 361-390
+> is real, working tooling for when that becomes true — not a record of
+> something that already happened. See `day390_project_complete_milestone_screen.dart`
+> and `day361_final_qa_war_room_screen.dart` for the live, computed state.
+>
+> **Next step for launch:** fix the real P0s above, then execute (not
+> just build) Days 361-365 for real.
+>
+> --- *original Day-45 snapshot below, kept for history* ---
+
 # ZapSafe Mobile — Frontend Handoff (snapshot at end of Day 45)
 
 > **Purpose of this doc:** drop this file into a new Claude / Cursor chat
