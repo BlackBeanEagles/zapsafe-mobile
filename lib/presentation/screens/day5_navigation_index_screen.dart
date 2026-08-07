@@ -3063,6 +3063,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-354-family-dashboard-wire · 🔵 REAL API — GET /api/v1/family/dashboard/ and GET /api/v1/family/members/{id}/sos-history/ both verified real by reading family/views.py + family/serializers.py directly (real FamilyLink model, Days 224-225) · wired with NO mock fallback (raw provider) so a real empty/error state shows exactly as returned · tapping a member drills into their real per-member SOS history using the real member UUID (not Day 254\'s mock string ids) · extends Day 254',
               dayBuilt: 'DAY 354 ✅',
             ),
+            const _NavTile(
+              icon: Icons.card_giftcard_rounded,
+              accent: Color(0xFF10B981),
+              title: 'Day 355 · Referral — Production Wire',
+              route: AppRoutes.referralLiveWire,
+              hint: '/day-355-referral-live-wire · 🔵 REAL API — GET /api/v1/referral/code/ and .../stats/ both verified real by reading referral/views.py + serializers.py + models.py directly (real ReferralCode/ReferralEvent models, Days 206-207) · corrects 2 real details Day 224\'s mock got wrong: bonus is 50 pts/completion (POINTS_PER_COMPLETED_REFERRAL) not +10, and both endpoints are gated behind the `referral` feature flag server-side — a 403 FEATURE_DISABLED is surfaced as an expected state, not a generic error · extends Day 224/225',
+              dayBuilt: 'DAY 355 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
