@@ -173,11 +173,11 @@ class _Day38FallbackAndStateScreenState
                     ref.read(batteryServiceProvider).injectLevel(lvl),
                 onRefresh: () async {
                   await ref.read(batteryServiceProvider).refresh();
-                  if (mounted) ZapSnackbar.info(context, 'Battery polled');
+                  if (context.mounted) ZapSnackbar.info(context, 'Battery polled');
                 },
                 onStart: () async {
                   await ref.read(batteryServiceProvider).start();
-                  if (mounted) {
+                  if (context.mounted) {
                     ZapSnackbar.success(context, 'Battery service started');
                   }
                 },

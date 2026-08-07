@@ -66,7 +66,7 @@ class _Day16PushNotificationsScreenState
                 tokenAsync: tokenAsync,
                 onCopy: (token) async {
                   await Clipboard.setData(ClipboardData(text: token));
-                  if (mounted) ZapSnackbar.success(context, 'Token copied');
+                  if (context.mounted) ZapSnackbar.success(context, 'Token copied');
                 },
                 onRefresh: () => ref.invalidate(fcmTokenProvider),
               ),

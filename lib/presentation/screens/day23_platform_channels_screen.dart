@@ -70,7 +70,7 @@ class _Day23PlatformChannelsScreenState
                 sample: imuAsync.valueOrNull,
                 onStart: () async {
                   final ok = await sensor.start();
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   setState(() => _sensorRunning = ok);
                   if (ok) {
                     ZapSnackbar.success(
@@ -81,7 +81,7 @@ class _Day23PlatformChannelsScreenState
                 },
                 onStop: () async {
                   await sensor.stop();
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   setState(() => _sensorRunning = false);
                   ZapSnackbar.info(context, 'Sensor stream stopped');
                 },
@@ -97,7 +97,7 @@ class _Day23PlatformChannelsScreenState
                 onStart: () async {
                   final ok = await audio.start();
                   ref.invalidate(audioRecordingProvider);
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   if (ok) {
                     ZapSnackbar.success(
                         context, 'Audio capture started · stub for now');
@@ -108,7 +108,7 @@ class _Day23PlatformChannelsScreenState
                 onStop: () async {
                   await audio.stop();
                   ref.invalidate(audioRecordingProvider);
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   ZapSnackbar.info(context, 'Audio capture stopped');
                 },
               ),
