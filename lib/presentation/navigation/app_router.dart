@@ -362,6 +362,7 @@ import '../screens/day364_launch_day_runbook_screen.dart';          // Day 364
 import '../screens/day365_public_launch_milestone_screen.dart';     // Day 365
 import '../screens/day366_live_sos_dashboard_screen.dart';          // Day 366
 import '../screens/day367_ratings_reviews_monitor_screen.dart';     // Day 367
+import '../screens/day368_hotfix_executor_screen.dart';             // Day 368
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -2198,6 +2199,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.ratingsReviewsMonitor,
         builder: (context, state) =>
             const Day367RatingsReviewsMonitorScreen(),                       // Day 367
+      ),
+      GoRoute(
+        path: AppRoutes.hotfixExecutor,
+        builder: (context, state) =>
+            const Day368HotfixExecutorScreen(),                              // Day 368
       ),
       GoRoute(
         path: AppRoutes.vault,

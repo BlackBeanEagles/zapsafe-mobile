@@ -3097,6 +3097,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-367-ratings-reviews-monitor · 🟢 genuinely 100% manual-paste tool — neither Play nor App Store expose an in-app-readable reviews API, so this is correctly not "MOCK", it is the real intended workflow · sentiment tags (positive/neutral/negative) + real starter response-template drafts per sentiment · log persists via SharedPreferences (this project\'s established precedent, same as Day 338) and starts genuinely empty since there is no real store listing yet',
               dayBuilt: 'DAY 367 ✅',
             ),
+            const _NavTile(
+              icon: Icons.build_circle_rounded,
+              accent: Color(0xFFEF4444),
+              title: 'Day 368 · Hotfix Release Executor',
+              route: AppRoutes.hotfixExecutor,
+              hint: '/day-368-hotfix-executor · 🟢 real, working tool — version-bump arithmetic starts from the ACTUAL pubspec.yaml version (1.0.0+1, checked directly) and computes real patch/minor/major next-version values, not a hardcoded placeholder · changelog composer + 5% staged-rollout target (never 100% day one) · links to Day 293\'s playbook to execute and Day 316\'s rollout to stage · nothing here mutates pubspec.yaml or claims a hotfix has actually shipped',
+              dayBuilt: 'DAY 368 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
