@@ -22,6 +22,7 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../data/services/fall_detector.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const _kAccent = Color(0xFFF97316);
@@ -771,23 +772,10 @@ class _TestTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.sm),
         if (events.isEmpty)
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(ZapSpacing.lg),
-            decoration: BoxDecoration(
-              color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: ZapColors.border),
-            ),
-            child: const Text(
-              'Tap Test fall to inject synthetic freefall + impact samples '
-              'into a mock IMU feature stream (same sequence as Day 36).',
-              style: TextStyle(
-                color: ZapColors.textSecondary,
-                fontSize: 12,
-                height: 1.45,
-              ),
-            ),
+          const ZapEmptyInline(
+            title: 'Tap Test fall to inject synthetic freefall + impact '
+                'samples into a mock IMU feature stream (same sequence as '
+                'Day 36).',
           )
         else
           ...events.map((e) => _StreamRow(event: e)),

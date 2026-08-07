@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Catalogue ─────────────────────────────────────────────────────────────────
 enum _StringCategory { sos, legal, onboarding, ui }
@@ -797,15 +798,7 @@ class _LayoutTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (flags.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(ZapSpacing.xl),
-              child: Text(
-                'No layout flags for this filter.',
-                style: TextStyle(color: ZapColors.textMuted, fontSize: 12),
-              ),
-            ),
-          )
+          const ZapEmptyInline(title: 'No layout flags for this filter.')
         else
           ...flags.map((f) => _LayoutIssueCard(flag: f)),
         const SizedBox(height: ZapSpacing.lg),

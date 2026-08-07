@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const _kAccent = Color(0xFF14B8A6);
@@ -617,11 +618,8 @@ class _QueueTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (sorted.isEmpty)
-          const Center(
-            child: Text(
-              'Queue empty — trigger offline SOS on Simulate tab.',
-              style: TextStyle(color: ZapColors.textMuted, fontSize: 12),
-            ),
+          const ZapEmptyInline(
+            title: 'Queue empty — trigger offline SOS on Simulate tab.',
           )
         else
           ...sorted.map(

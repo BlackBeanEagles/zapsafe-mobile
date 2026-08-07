@@ -18,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const _kAccent = Color(0xFF7C3AED);
@@ -603,14 +604,7 @@ class _TimelineTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (events.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
-            child: Text(
-              'No events for this filter.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: ZapColors.textMuted),
-            ),
-          )
+          const ZapEmptyInline(title: 'No events for this filter.')
         else
           ...events.asMap().entries.map((entry) {
             final i = entry.key;

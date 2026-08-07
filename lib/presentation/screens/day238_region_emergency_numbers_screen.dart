@@ -19,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 const _kAssetPath = 'assets/data/emergency_numbers.json';
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
@@ -364,15 +365,7 @@ class _RegionsTab extends ConsumerWidget {
           ),
         ),
         if (countries.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(ZapSpacing.xl),
-            child: Center(
-              child: Text(
-                'No countries match your search.',
-                style: TextStyle(color: ZapColors.textMuted),
-              ),
-            ),
-          ),
+          const ZapEmptyInline(title: 'No countries match your search.'),
       ],
     );
   }

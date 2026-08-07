@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Model ─────────────────────────────────────────────────────────────────────
 enum SosOutcome {
@@ -373,14 +374,12 @@ class _TimelineTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (entries.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(ZapSpacing.xl),
-              child: Text(
-                'No SOS events for this year.',
-                style: TextStyle(color: ZapColors.textMuted),
-              ),
-            ),
+          ZapEmptyInline(
+            title: 'No SOS events for this year.',
+            actionLabel: year != null ? 'Clear $year filter' : null,
+            onAction: year != null
+                ? () => ref.read(_d228YearProvider.notifier).state = null
+                : null,
           )
         else
           ...entries.map((entry) {

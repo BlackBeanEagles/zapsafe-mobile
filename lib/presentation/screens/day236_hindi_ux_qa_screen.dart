@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── String catalogue ──────────────────────────────────────────────────────────
 enum _StringCategory { sos, legal, onboarding, ui }
@@ -594,15 +595,9 @@ class _TruncationTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (truncated.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(ZapSpacing.xl),
-              child: Text(
+          const ZapEmptyInline(
+            title:
                 'No truncation flags — widen previews or add longer HI copy to test.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: ZapColors.textMuted, fontSize: 12),
-              ),
-            ),
           )
         else
           ...truncated.map((e) => _TruncationCard(entry: e)),
