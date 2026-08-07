@@ -15,13 +15,16 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
 import '../../../data/models/app_state.dart';
 import '../../../domain/providers/app_state_provider.dart';
+import '../../navigation/app_router.dart';
 import '../../widgets/notification_tier_banners.dart';
+import '../../widgets/sos_trigger_button.dart';
 import '../../widgets/zap_badge.dart';
 import '../../widgets/zap_card.dart';
 
@@ -72,6 +75,29 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
               const NotificationTierBannerStack(),
               const SizedBox(height: ZapSpacing.sm),
 
+              // Day 307 — long-press SOS trigger.
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xl),
+                  child: Column(
+                    children: [
+                      SosTriggerButton(
+                        onTriggered: () => context.go(AppRoutes.sosActive),
+                      ),
+                      const SizedBox(height: ZapSpacing.md),
+                      Text(
+                        'Hold 2s to trigger SOS',
+                        style: ZapTypography.labelSmall.copyWith(
+                          color: ZapColors.textMuted,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: ZapSpacing.sm),
+
               ZapCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,8 +132,8 @@ class DashboardPlaceholderScreen extends ConsumerWidget {
                     ),
                     const _StatusRow(
                       label: 'SOS long-press trigger',
-                      done: false,
-                      note: 'Day 307 — not yet wired into this scaffold',
+                      done: true,
+                      note: 'Day 307 — 2s clockwise ring, haptic ramp, real dispatchManual()',
                     ),
                     const _StatusRow(
                       label: 'Persistent status card',

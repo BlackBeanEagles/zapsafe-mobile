@@ -1842,6 +1842,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-306-notification-tiers-polish · 🟣 POLISH · real 3-tier banner stack now live on the production dashboard (/dashboard) · critical=battery<10%/storage-full (must-ack) · important=unverified Tier-2 contact (dismissible) · suggestion=30-day drill reminder · ack persisted via SharedPreferences, cleared when condition clears',
               dayBuilt: 'DAY 306 ✅',
             ),
+            const _NavTile(
+              icon: Icons.touch_app_rounded,
+              accent: Color(0xFFE63946),
+              title: 'Day 307 · Production SOS Long-Press Ring',
+              route: AppRoutes.sosLongPressRingPolish,
+              hint: '/day-307-sos-longpress-ring-polish · 🟣 POLISH · real SosTriggerButton now live on the production dashboard · 2s clockwise gray→red ring · haptic ramp light/medium/heavy · release-early "CANCELLED" flash · on completion dispatches the real TriggerOrchestrator.dispatchManual() → AppStateNotifier state machine · TalkBack semantics label',
+              dayBuilt: 'DAY 307 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

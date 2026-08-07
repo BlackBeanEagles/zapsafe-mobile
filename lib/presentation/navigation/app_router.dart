@@ -208,6 +208,7 @@ import '../screens/day303_razorpay_live_wire_screen.dart';         // Day 303
 import '../screens/day304_delivery_status_live_wire_screen.dart';  // Day 304
 import '../screens/day305_accept_language_wire_screen.dart';       // Day 305
 import '../screens/day306_notification_tiers_polish_screen.dart';  // Day 306
+import '../screens/day307_sos_longpress_ring_screen.dart';         // Day 307
 import '../screens/placeholder/vault_placeholder.dart';
 
 /// Provider that holds whether the user has finished onboarding.
@@ -1105,6 +1106,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.notificationTiersPolish,
         builder: (context, state) =>
             const Day306NotificationTiersPolishScreen(),                      // Day 306
+      ),
+      GoRoute(
+        path: AppRoutes.sosLongPressRingPolish,
+        builder: (context, state) =>
+            const Day307SosLongpressRingScreen(),                             // Day 307
       ),
       GoRoute(
         path: AppRoutes.vault,
