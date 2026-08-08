@@ -377,7 +377,7 @@ class _AppStoreProductPageMock extends StatelessWidget {
           border: Border.all(color: const Color(0xFF2A2A2A))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(

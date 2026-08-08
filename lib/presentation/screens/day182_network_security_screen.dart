@@ -630,7 +630,7 @@ class _IosAtsTab extends ConsumerWidget {
         child: Column(children: [
           // Header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
             decoration: const BoxDecoration(
                 color: Color(0xFF111111),
                 borderRadius: BorderRadius.only(

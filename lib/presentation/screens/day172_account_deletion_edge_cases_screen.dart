@@ -1175,7 +1175,7 @@ class _MockCard extends StatelessWidget {
         ])),
       const SizedBox(height: ZapSpacing.sm),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
             color: const Color(0xFF111111),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

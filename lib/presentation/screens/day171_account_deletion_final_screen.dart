@@ -518,7 +518,7 @@ class _MockScreen extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Phone notch bar
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(

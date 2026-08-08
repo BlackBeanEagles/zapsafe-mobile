@@ -491,7 +491,7 @@ class _PlaySearchPreview extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Header
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
@@ -568,7 +568,7 @@ class _AppleSearchPreview extends StatelessWidget {
       child: Column(children: [
         // Header
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
@@ -880,7 +880,7 @@ class _AsoTab extends ConsumerWidget {
         child: Column(children: [
           // Table header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
             color: const Color(0xFF111111),
             child: const Row(children: [
               Expanded(flex: 2, child: Text('Factor',

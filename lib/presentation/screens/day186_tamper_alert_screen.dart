@@ -510,7 +510,7 @@ class _BlockScreen extends StatelessWidget {
 }
 
 Widget _phoneHeader(String label, Color color) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
     decoration: BoxDecoration(
         color: color.withOpacity(0.08),
         borderRadius: const BorderRadius.only(

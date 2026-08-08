@@ -344,7 +344,7 @@ class _ScreenChecklist extends StatelessWidget {
         children: List.generate(_screens.length, (i) {
           final isLast = i == _screens.length - 1;
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.md),
             decoration: BoxDecoration(
               border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFF1F1F1F))),
             ),

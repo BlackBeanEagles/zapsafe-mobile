@@ -510,7 +510,7 @@ class _TimelineTab extends ConsumerWidget {
 
       // Search bar
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
             color: const Color(0xFF1A1A1A),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

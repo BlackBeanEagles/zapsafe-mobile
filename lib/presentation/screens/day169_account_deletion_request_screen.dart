@@ -941,7 +941,7 @@ class _OtpInputState extends State<_OtpInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
           color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -1446,7 +1446,7 @@ Widget _inputField({required String hint,
     TextInputType keyboardType = TextInputType.text,
     ValueChanged<String>? onChanged}) =>
     Container(
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
           color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

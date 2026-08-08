@@ -447,7 +447,7 @@ class _PatternCard extends ConsumerWidget {
           // TalkBack says
           Container(
             margin: const EdgeInsets.fromLTRB(ZapSpacing.md, 0, ZapSpacing.md, ZapSpacing.md),
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: ZapSpacing.sm),
             decoration: BoxDecoration(
               color: const Color(0xFF0D1B0D),
               borderRadius: BorderRadius.circular(8),

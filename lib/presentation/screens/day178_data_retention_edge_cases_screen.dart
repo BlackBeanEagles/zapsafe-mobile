@@ -675,7 +675,7 @@ class _SimCard extends StatelessWidget {
           border: Border.all(color: ec.color.withOpacity(0.5), width: 2)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: BoxDecoration(
               color: ec.color.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
