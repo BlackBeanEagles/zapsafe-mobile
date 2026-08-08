@@ -326,7 +326,7 @@ class _SosAlertStrip extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 20),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               '$count family member${count == 1 ? '' : 's'} with active SOS — '
@@ -461,7 +461,7 @@ class _DashboardTab extends ConsumerWidget {
                   color: _kAccent,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: _StatCard(
                   label: 'SOS active',
@@ -472,7 +472,7 @@ class _DashboardTab extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             children: [
               Expanded(
@@ -483,7 +483,7 @@ class _DashboardTab extends ConsumerWidget {
                   color: _scoreColor(avgScore),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: _StatCard(
                   label: 'Offline 24h+',
@@ -743,7 +743,7 @@ class _StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: color, size: 20),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             value,
             style: TextStyle(

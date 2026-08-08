@@ -514,7 +514,7 @@ class _SpecTab extends StatelessWidget {
               children: [
                 const Icon(Icons.chevron_right_rounded,
                     size: 16, color: ZapColors.textMuted),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
@@ -1168,7 +1168,7 @@ class _MockPage extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Container(
             height: 8,
             width: double.infinity,

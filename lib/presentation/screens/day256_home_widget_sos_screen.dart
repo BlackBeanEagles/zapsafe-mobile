@@ -320,7 +320,7 @@ class _SetupTab extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             Text(
               '${done.length}/${steps.length}',
               style: const TextStyle(
@@ -735,7 +735,7 @@ class _MediumWidgetBody extends StatelessWidget {
                   fontSize: 13,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 'Tap to trigger emergency',
                 style: TextStyle(

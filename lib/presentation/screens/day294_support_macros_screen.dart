@@ -519,7 +519,7 @@ class _MacrosTab extends ConsumerWidget {
                         fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       macro.body.split('\n').first,
                       maxLines: 2,
@@ -724,7 +724,7 @@ class _ComposeTabState extends ConsumerState<_ComposeTab> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 'Subject: $subject',
                 style: const TextStyle(

@@ -289,7 +289,7 @@ class _ScanTab extends ConsumerWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   !optIn
                       ? 'Enable opt-in on the Privacy tab before running any hash scan.'
@@ -487,7 +487,7 @@ class _ScanTab extends ConsumerWidget {
                             : ZapColors.safe,
                         size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: ZapSpacing.sm),
                       Expanded(
                         child: Text(
                           match.title,
@@ -543,7 +543,7 @@ class _ScanTab extends ConsumerWidget {
                 children: [
                   Icon(Icons.search_off_rounded,
                       color: ZapColors.textMuted, size: 18),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Text(
                       'No matches in local hash index · photo hash stays on device.',
@@ -617,7 +617,7 @@ class _FlowSteps extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Text(
                       step.$2,
@@ -721,7 +721,7 @@ class _PrivacyTab extends ConsumerWidget {
           icon: const Icon(Icons.settings_outlined, size: 16),
           label: const Text('Open Privacy Settings (Day 157)'),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         OutlinedButton.icon(
           onPressed: () => context.push(AppRoutes.consentManagement),
           icon: const Icon(Icons.verified_user_outlined, size: 16),

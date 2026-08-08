@@ -652,7 +652,7 @@ class _VaultEntryCard extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     entry.locationLabel,
                     style: const TextStyle(
@@ -665,7 +665,7 @@ class _VaultEntryCard extends StatelessWidget {
                     children: [
                       Icon(Icons.folder_zip_rounded,
                           size: 14, color: _expiryColor),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         '${entry.streamCount} streams · expires in ${entry.daysUntilExpiry}d',
                         style: TextStyle(color: _expiryColor, fontSize: 11),
@@ -674,7 +674,7 @@ class _VaultEntryCard extends StatelessWidget {
                         const Spacer(),
                         const Icon(Icons.warning_amber_rounded,
                             size: 14, color: ZapColors.danger),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         const Text(
                           'Tamper flag',
                           style: TextStyle(
@@ -1138,7 +1138,7 @@ class _SpecTab extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   r.$2,
                   style: const TextStyle(

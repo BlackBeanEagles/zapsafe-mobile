@@ -327,7 +327,7 @@ class _RoadmapTab extends StatelessWidget {
                 color: ZapColors.safe,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatCard(
                 value: '$plannedCount',
@@ -637,7 +637,7 @@ class _LanguageTile extends StatelessWidget {
             Row(
               children: [
                 Text(flag, style: const TextStyle(fontSize: 20)),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -679,7 +679,7 @@ class _LanguageTile extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             _LangBarRow(flag: '', label: '', pct: pct, hideLabel: true),
             Text(
               stage,
@@ -721,7 +721,7 @@ class _LangBarRow extends StatelessWidget {
         children: [
           if (!hideLabel && flag.isNotEmpty) ...[
             Text(flag, style: const TextStyle(fontSize: 16)),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
           ],
           if (!hideLabel && label.isNotEmpty)
             SizedBox(
@@ -745,7 +745,7 @@ class _LangBarRow extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           SizedBox(
             width: 36,
             child: Text(
@@ -759,7 +759,7 @@ class _LangBarRow extends StatelessWidget {
             ),
           ),
           if (badge != null && badgeColor != null) ...[
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               badge!,
               style: TextStyle(color: badgeColor, fontSize: 8),

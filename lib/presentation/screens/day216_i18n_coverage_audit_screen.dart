@@ -342,7 +342,7 @@ class _CoverageTab extends ConsumerWidget {
               children: [
                 Icon(Icons.warning_amber_rounded,
                     color: ZapColors.warning, size: 18),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'Long-string overflow risk: German (de) and Tamil (ta) — '
@@ -436,7 +436,7 @@ class _CoverageTable extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(lang.flag, style: const TextStyle(fontSize: 14)),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: ZapSpacing.xs),
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

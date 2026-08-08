@@ -488,7 +488,7 @@ class _EndpointsTab extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(_statusIcon(st), size: 14, color: _statusColor(st)),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: ZapSpacing.xs),
                               Text(
                                 _statusLabel(st),
                                 style: TextStyle(
@@ -511,7 +511,7 @@ class _EndpointsTab extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Text(
                     '${e.method} ${e.path}',
                     style: const TextStyle(
@@ -612,7 +612,7 @@ class _BoardTab extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 blocked
                     ? '$red endpoints still blocked — GDPR deletion path incomplete.'

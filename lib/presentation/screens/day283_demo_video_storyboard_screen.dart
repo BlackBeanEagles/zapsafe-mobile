@@ -275,7 +275,7 @@ class _StoryboardTab extends ConsumerWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: _kScenes.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.sm),
             itemBuilder: (context, i) {
               final s = _kScenes[i];
               final isSelected = selected == i;
@@ -300,7 +300,7 @@ class _StoryboardTab extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(s.icon, size: 20, color: s.color),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         '${s.number}',
                         style: TextStyle(
@@ -405,7 +405,7 @@ class _StoryboardTab extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   IconButton.filled(
                     onPressed: selected < _kScenes.length - 1
                         ? () => ref

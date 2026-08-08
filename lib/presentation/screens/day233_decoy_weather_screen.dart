@@ -103,7 +103,7 @@ void _showUnlockSheet(BuildContext context, String method) {
           const Row(
             children: [
               Icon(Icons.lock_open_rounded, color: ZapColors.safe),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Text(
                 'Safety layer unlocked',
                 style: TextStyle(
@@ -114,7 +114,7 @@ void _showUnlockSheet(BuildContext context, String method) {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             'Decoy weather · unlocked via $method',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -132,7 +132,7 @@ void _showUnlockSheet(BuildContext context, String method) {
               backgroundColor: ZapColors.danger,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
@@ -145,7 +145,7 @@ void _showUnlockSheet(BuildContext context, String method) {
               backgroundColor: ZapColors.warning,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           OutlinedButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
@@ -314,7 +314,7 @@ class _WeatherTab extends StatelessWidget {
             children: [
               Icon(Icons.location_on_rounded,
                   color: Colors.white70, size: 18),
-              SizedBox(width: 4),
+              SizedBox(width: ZapSpacing.xs),
               Text(
                 _kCity,
                 style: TextStyle(
@@ -336,7 +336,7 @@ class _WeatherTab extends StatelessWidget {
               children: [
                 Icon(Icons.wb_cloudy_rounded,
                     color: Colors.white.withOpacity(0.9), size: 72),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 const Text(
                   '$_kCurrentTemp°',
                   style: TextStyle(
@@ -352,7 +352,7 @@ class _WeatherTab extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 const Text(
                   'H:33°  L:26° · Feels like 35°',
                   style: TextStyle(color: Colors.white54, fontSize: 12),
@@ -366,7 +366,7 @@ class _WeatherTab extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: _kHourly.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              separatorBuilder: (_, __) => const SizedBox(width: ZapSpacing.md),
               itemBuilder: (context, i) {
                 final h = _kHourly[i];
                 return Container(
@@ -444,7 +444,7 @@ class _WeatherTab extends StatelessWidget {
                             fontSize: 12,
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: ZapSpacing.md),
                         Text(
                           '${d.high}°',
                           style: const TextStyle(
@@ -569,7 +569,7 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
                   fontSize: 11,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Row(
                 children: [
                   Expanded(
@@ -580,7 +580,7 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
                       child: Text(listening ? 'Stop listener' : 'Start listener'),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: FilledButton(
                       onPressed: widget.onShakeSimulate,
@@ -612,7 +612,7 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
                   color: const Color(0xFF8B5CF6),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Listener(
                 onPointerDown: (_) => _startVolumeHold(),
                 onPointerUp: (_) => _cancelVolumeHold(),
@@ -719,7 +719,7 @@ class _UnlockCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: color, size: 22),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   title,
@@ -732,7 +732,7 @@ class _UnlockCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             subtitle,
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -767,7 +767,7 @@ class _SafetyTab extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.sos_rounded, color: ZapColors.danger),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Hardware SOS always works',
                     style: TextStyle(
@@ -777,7 +777,7 @@ class _SafetyTab extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Weather decoy does not disable power-button SOS, background DCS, '
                 'or IMU fall detection. Only the visible UI is disguised.',

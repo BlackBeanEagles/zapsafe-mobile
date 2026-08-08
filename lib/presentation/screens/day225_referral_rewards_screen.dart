@@ -320,7 +320,7 @@ class _ScorePill extends StatelessWidget {
           label,
           style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
@@ -603,7 +603,7 @@ class _LeaderboardTab extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'Referral bonuses feed into your Protection Score rank.',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),

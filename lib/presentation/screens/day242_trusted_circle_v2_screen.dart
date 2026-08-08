@@ -352,7 +352,7 @@ class _ActiveSessionBanner extends ConsumerWidget {
               shape: BoxShape.circle,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,9 +440,9 @@ class _CircleTab extends ConsumerWidget {
                 const Row(
                   children: [
                     _LegendDot(color: ZapColors.safe, label: 'Tier 1'),
-                    SizedBox(width: 16),
+                    SizedBox(width: ZapSpacing.lg),
                     _LegendDot(color: ZapColors.warning, label: 'Tier 2'),
-                    SizedBox(width: 16),
+                    SizedBox(width: ZapSpacing.lg),
                     _LegendDot(
                       color: Color(0xFF3B82F6),
                       label: 'You',
@@ -517,7 +517,7 @@ class _ShareTab extends ConsumerWidget {
                       Icons.share_location_rounded,
                       color: Color(0xFF3B82F6),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     const Text(
                       'Active share session',
                       style: TextStyle(
@@ -538,7 +538,7 @@ class _ShareTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   'Visible to: ${sharedContacts.map((c) => c.name.split(' ').first).join(', ')}',
                   style: const TextStyle(
@@ -546,7 +546,7 @@ class _ShareTab extends ConsumerWidget {
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Duration: ${_formatDurationLabel(duration)} · auto-stops at expiry',
                   style: const TextStyle(
@@ -581,7 +581,7 @@ class _ShareTab extends ConsumerWidget {
             fontSize: 12,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'Select Tier 1/2 contacts. They receive a push when sharing starts (mock).',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -985,7 +985,7 @@ class _LegendDot extends StatelessWidget {
           height: 10,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(
           label,
           style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),

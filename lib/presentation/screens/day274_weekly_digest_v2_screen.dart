@@ -192,7 +192,7 @@ class _DigestTab extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: ZapSpacing.xs),
               Text(
                 'Your safety week at a glance · mock digest',
                 style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
@@ -201,9 +201,9 @@ class _DigestTab extends ConsumerWidget {
               Row(
                 children: [
                   _MiniStat(label: 'Score', value: '86', color: ZapColors.safe),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   _MiniStat(label: 'Journeys', value: '3', color: _kAccent),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   _MiniStat(label: 'Drills', value: '2/3', color: ZapColors.warning),
                 ],
               ),
@@ -226,7 +226,7 @@ class _DigestTab extends ConsumerWidget {
               children: [
                 const Icon(Icons.check_circle_outline_rounded,
                     size: 14, color: _kAccent),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     h,
@@ -265,7 +265,7 @@ class _DigestTab extends ConsumerWidget {
                         : Icons.notifications_active_rounded,
                     color: drillDone ? ZapColors.safe : ZapColors.warning,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Text(
                       drillDone
@@ -314,7 +314,7 @@ class _DigestTab extends ConsumerWidget {
                         child: const Text('Mark drill done'),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     OutlinedButton(
                       onPressed: drillSnoozed
                           ? null
@@ -577,7 +577,7 @@ class _StreaksTab extends ConsumerWidget {
                   ),
                   child: Icon(streak.icon, color: streak.color),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: ZapSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -643,7 +643,7 @@ class _StreaksTab extends ConsumerWidget {
                       fontSize: 10,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Container(
                     width: 24,
                     height: 24,

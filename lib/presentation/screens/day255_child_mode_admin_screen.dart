@@ -329,7 +329,7 @@ class _ChildSosBanner extends StatelessWidget {
       child: const Row(
         children: [
           Icon(Icons.child_care_rounded, color: ZapColors.danger, size: 18),
-          SizedBox(width: 8),
+          SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               'Child SOS active · cancel requires family admin PIN',
@@ -397,7 +397,7 @@ class _SetupTab extends ConsumerWidget {
                 backgroundColor: _kChildColor.withOpacity(0.2),
                 child: const Icon(Icons.child_care_rounded, color: _kChildColor),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -474,7 +474,7 @@ class _SetupTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.md),
         _PinDots(filled: entry.length, length: _kPinLength),
         if (error != null) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             error,
             style: const TextStyle(color: ZapColors.danger, fontSize: 11),
@@ -620,7 +620,7 @@ class _DemoTab extends ConsumerWidget {
           child: Column(
             children: [
               const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 48),
-              const SizedBox(height: 12),
+              const SizedBox(height: ZapSpacing.md),
               const Text(
                 'SOS ACTIVE',
                 style: TextStyle(
@@ -629,7 +629,7 @@ class _DemoTab extends ConsumerWidget {
                   fontSize: 18,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 '${_kChildProfile.name}\'s device · contacts notified (mock)',
                 style: const TextStyle(
@@ -663,7 +663,7 @@ class _DemoTab extends ConsumerWidget {
           const SizedBox(height: ZapSpacing.md),
           _PinDots(filled: pinEntry.length, length: _kPinLength),
           if (error != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             Text(
               error,
               textAlign: TextAlign.center,

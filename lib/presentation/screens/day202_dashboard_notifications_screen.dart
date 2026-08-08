@@ -543,7 +543,7 @@ class _SpecTab extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     'Color: ${r.$2}\nBehavior: ${r.$3}\nExample: ${r.$4}',
                     style: const TextStyle(

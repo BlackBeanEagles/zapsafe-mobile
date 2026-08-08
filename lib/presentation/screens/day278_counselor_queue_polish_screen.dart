@@ -265,7 +265,7 @@ class _SosContextBanner extends StatelessWidget {
       child: const Row(
         children: [
           Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 18),
-          SizedBox(width: 8),
+          SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,7 +309,7 @@ class _QueueStrip extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.hourglass_top_rounded, color: _kAccent, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,7 +365,7 @@ class _ConnectedBanner extends StatelessWidget {
       child: const Row(
         children: [
           Icon(Icons.support_agent_rounded, color: ZapColors.safe, size: 18),
-          SizedBox(width: 8),
+          SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               'Priya M. joined · trauma-informed counselor · SOS context loaded',
@@ -421,7 +421,7 @@ class _MessageBubble extends StatelessWidget {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               message.time,
               style: const TextStyle(
@@ -496,7 +496,7 @@ class _ChatInputBarState extends State<_ChatInputBar> {
               },
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           IconButton.filled(
             onPressed: () {
               widget.onSend(_controller.text);
@@ -636,7 +636,7 @@ class _QueueTab extends ConsumerWidget {
                   fontSize: 14,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Text(
                 state == _QueueState.connected
                     ? 'Priya M. · trauma-informed · SOS context shared'
@@ -722,7 +722,7 @@ class _QueueTab extends ConsumerWidget {
                   size: 16,
                   color: step.$3 ? ZapColors.safe : ZapColors.textMuted,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Text(
                   '${step.$1} · ${step.$2}',
                   style: TextStyle(

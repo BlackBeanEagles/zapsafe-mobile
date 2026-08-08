@@ -356,7 +356,7 @@ class _SurveyTab extends ConsumerWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: ZapSpacing.xs),
               Text(
                 'Measure whether polish work (Days 241-281) improved beta sentiment '
                 'before store submission.',
@@ -425,7 +425,7 @@ class _SurveyTab extends ConsumerWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   q.prompt,
                   style: const TextStyle(
@@ -434,7 +434,7 @@ class _SurveyTab extends ConsumerWidget {
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Wrap(
                   spacing: 8,
                   children: [

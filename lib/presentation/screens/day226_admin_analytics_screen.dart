@@ -468,7 +468,7 @@ class _HealthRow extends StatelessWidget {
             value,
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Text(
             actual,
             style: TextStyle(
@@ -549,7 +549,7 @@ class _AccessGateTab extends ConsumerWidget {
                 children: [
                   Icon(Icons.info_outline_rounded,
                       color: ZapColors.textMuted, size: 18),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'ZapSafe v1.0.0 (226)',
                     style: TextStyle(
@@ -640,7 +640,7 @@ class _AccessGateTab extends ConsumerWidget {
             child: const Row(
               children: [
                 Icon(Icons.check_circle_rounded, color: ZapColors.safe),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'Unlocked — Dashboard tab shows live mock metrics.',
@@ -703,7 +703,7 @@ class _ApiContractTab extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   const Expanded(
                     child: Text(
                       '/api/v1/admin/analytics/summary/',

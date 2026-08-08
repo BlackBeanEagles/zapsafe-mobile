@@ -23,7 +23,7 @@ import '../../domain/providers/accessibility_providers.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kFlashRed = Color(0xFFE63946);
+const _kFlashRed = ZapColors.danger;
 const _kAccent = Color(0xFFEF4444);
 const _kTabs = ['Settings', 'Preview', 'Info'];
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
@@ -260,7 +260,7 @@ class _FlashOverlay extends ConsumerWidget {
                   size: 64,
                   color: Colors.white.withOpacity(0.9),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: ZapSpacing.lg),
                 const Text(
                   'VISUAL ALERT',
                   style: TextStyle(
@@ -270,7 +270,7 @@ class _FlashOverlay extends ConsumerWidget {
                     letterSpacing: 4,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   'Reduced motion · steady panel',
                   style: TextStyle(
@@ -445,7 +445,7 @@ class _SettingsTab extends ConsumerWidget {
                   fontSize: 11,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               const Text(
                 'When reduce motion is active, rapid red flashes are replaced with a '
                 'steady visual alert panel (WCAG / vestibular safety).',
@@ -494,7 +494,7 @@ class _PreviewTab extends ConsumerWidget {
             fontSize: 12,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'Simulates SOS visual alert when audio is unavailable. Full-screen overlay on test.',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -517,7 +517,7 @@ class _PreviewTab extends ConsumerWidget {
                         size: 48,
                         color: ZapColors.textMuted.withOpacity(0.5),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: ZapSpacing.md),
                       const Text(
                         'App screen (mock)',
                         style: TextStyle(
@@ -586,7 +586,7 @@ class _PreviewTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(Icons.warning_amber_rounded, color: ZapColors.warning, size: 20),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'Accessibility warning shown before first test. Users with '

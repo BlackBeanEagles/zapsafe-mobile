@@ -290,7 +290,7 @@ class _LandingTab extends ConsumerWidget {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: ZapSpacing.sm),
                     Text(
                       'Personal safety that respects your privacy.',
                       textAlign: TextAlign.center,
@@ -319,7 +319,7 @@ class _LandingTab extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: ZapSpacing.sm),
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
@@ -476,7 +476,7 @@ class _LinksTab extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(link.icon, size: 18, color: _kAccent),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     Expanded(
                       child: Text(
                         link.label,
@@ -496,7 +496,7 @@ class _LinksTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   'Landing: ${link.landingHref}',
                   style: const TextStyle(
@@ -559,7 +559,7 @@ class _LinksTab extends ConsumerWidget {
             child: const Row(
               children: [
                 Icon(Icons.verified_rounded, color: ZapColors.safe, size: 18),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'All landing links match store listing URLs (mock).',

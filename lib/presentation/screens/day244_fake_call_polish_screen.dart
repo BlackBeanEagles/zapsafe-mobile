@@ -22,7 +22,7 @@ import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kSosBackdrop = Color(0xFF07070E);
+const _kSosBackdrop = ZapColors.bgPrimary;
 const _kCallAccent = Color(0xFF6366F1);
 const _kTabs = ['Settings', 'Demo', 'Safety'];
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
@@ -323,7 +323,7 @@ class _SettingsTab extends ConsumerWidget {
                 backgroundColor: avatar.color.withOpacity(0.25),
                 child: Icon(avatar.icon, color: avatar.color, size: 44),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Text(
                 _displayCallerName(nameCtrl.text, avatarId),
                 style: const TextStyle(
@@ -373,7 +373,7 @@ class _SettingsTab extends ConsumerWidget {
             fontSize: 12,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'Production uses device photo picker. Mock presets for QA — no gallery permission needed.',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -449,7 +449,7 @@ class _SettingsTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(Icons.visibility_off_rounded, color: ZapColors.warning, size: 18),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'Safety: call screen must never show "SOS", "Emergency", or ZapSafe branding. '
@@ -491,7 +491,7 @@ class _DemoTab extends ConsumerWidget {
             fontSize: 12,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         const Text(
           'LP27 discreet screen runs underneath. Fake call overlays it — attacker sees a normal call.',
           style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -769,7 +769,7 @@ class _MockSosBackdrop extends StatelessWidget {
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -792,7 +792,7 @@ class _MockSosBackdrop extends StatelessWidget {
               fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: ZapSpacing.xxl),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
@@ -855,13 +855,13 @@ class _IncomingCallOverlay extends ConsumerWidget {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 48),
+              const SizedBox(height: ZapSpacing.huge),
               if (isConnected) ...[
                 const Text(
                   'mobile',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   _formatCallElapsed(startedAt),
                   style: const TextStyle(
@@ -875,13 +875,13 @@ class _IncomingCallOverlay extends ConsumerWidget {
                   'mobile',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 const Text(
                   'Incoming call…',
                   style: TextStyle(color: Colors.white38, fontSize: 13),
                 ),
               ],
-              const SizedBox(height: 32),
+              const SizedBox(height: ZapSpacing.xxxl),
               SizedBox(
                 width: 160,
                 height: 160,
@@ -921,7 +921,7 @@ class _IncomingCallOverlay extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: ZapSpacing.xxl),
               Text(
                 displayName,
                 style: const TextStyle(
@@ -962,7 +962,7 @@ class _IncomingCallOverlay extends ConsumerWidget {
                     ],
                   ),
                 ),
-              const SizedBox(height: 32),
+              const SizedBox(height: ZapSpacing.xxxl),
             ],
           ),
         ),
@@ -1001,7 +1001,7 @@ class _CallActionButton extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         Text(
           label,
           style: const TextStyle(color: Colors.white70, fontSize: 12),

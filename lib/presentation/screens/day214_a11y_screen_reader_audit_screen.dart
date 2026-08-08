@@ -666,7 +666,7 @@ class _ChecklistTab extends ConsumerWidget {
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Screen reader audit complete for this pass.',
                   style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
@@ -759,7 +759,7 @@ class _CheckItemCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -794,7 +794,7 @@ class _CheckItemCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     Icon(
                       expanded
                           ? Icons.expand_less_rounded
@@ -822,7 +822,7 @@ class _CheckItemCard extends StatelessWidget {
                   color: ZapColors.safe,
                   onTap: onPass,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 _VerdictChip(
                   label: 'Fail',
                   selected: verdict == A11yVerdict.fail,
@@ -878,13 +878,13 @@ class _CheckItemCard extends StatelessWidget {
                     label: 'TalkBack',
                     text: item.talkBackExpected,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   _ExpectRow(
                     icon: Icons.phone_iphone_rounded,
                     label: 'VoiceOver',
                     text: item.voiceOverExpected,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     'WCAG ${item.wcag}',
                     style: const TextStyle(
@@ -1088,7 +1088,7 @@ class _TestScriptTab extends ConsumerWidget {
                 children: [
                   Icon(Icons.visibility_off_rounded,
                       color: ZapColors.danger, size: 20),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Eyes-closed test script',
                     style: TextStyle(
@@ -1099,7 +1099,7 @@ class _TestScriptTab extends ConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Dashboard → SOS flow. Perform on a physical device with '
                 'TalkBack or VoiceOver. Expand each step for details.',
@@ -1219,7 +1219,7 @@ class _TestScriptTab extends ConsumerWidget {
                             fontSize: 11,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         Text(
                           step.expected,
                           style: const TextStyle(

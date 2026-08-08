@@ -427,7 +427,7 @@ class _LivePreviewCard extends StatelessWidget {
               children: [
                 const Icon(Icons.emergency_rounded,
                     color: ZapColors.danger, size: 18),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -647,7 +647,7 @@ class _CustomizeTab extends ConsumerWidget {
                 child: const Text('Reset to India'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {

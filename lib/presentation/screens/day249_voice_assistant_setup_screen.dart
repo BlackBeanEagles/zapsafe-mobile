@@ -589,7 +589,7 @@ class _CommandTile extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             Text(
               command.phrase,
               style: const TextStyle(
@@ -598,7 +598,7 @@ class _CommandTile extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               command.action,
               style: const TextStyle(

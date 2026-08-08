@@ -342,7 +342,7 @@ class _CompareTab extends ConsumerWidget {
                         fontSize: 10,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: ZapSpacing.xs),
                     Text(
                       '14+ locales · Twilio · USD pricing',
                       style: TextStyle(
@@ -374,7 +374,7 @@ class _CompareTab extends ConsumerWidget {
                         fontSize: 10,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: ZapSpacing.xs),
                     Text(
                       'hi/ta/te · MSG91 · ₹ pricing · ERSS 112',
                       style: TextStyle(
@@ -490,9 +490,9 @@ class _CompareCard extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           _ValueRow(label: 'Global', value: row.globalValue, color: ZapColors.info),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           _ValueRow(label: 'India', value: row.indiaValue, color: _kIndiaGreen),
           const SizedBox(height: 6),
           Text(

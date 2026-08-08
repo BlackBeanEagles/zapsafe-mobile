@@ -640,7 +640,7 @@ class _CreateTab extends ConsumerWidget {
                               ? ZapColors.textMuted
                               : _kAccent,
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: ZapSpacing.md),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -758,7 +758,7 @@ class _MembersTab extends ConsumerWidget {
                     fontFamily: 'monospace',
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '${session.destination.label} · '
                   'ETA ${_formatDurationLabel(session.etaMinutes)} · '
@@ -1196,7 +1196,7 @@ class _InviteLinkTile extends StatelessWidget {
               fontSize: 12,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           SelectableText(
             link.link,
             style: const TextStyle(
@@ -1205,7 +1205,7 @@ class _InviteLinkTile extends StatelessWidget {
               fontFamily: 'monospace',
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           OutlinedButton.icon(
             onPressed: () {
               Clipboard.setData(ClipboardData(text: link.link));

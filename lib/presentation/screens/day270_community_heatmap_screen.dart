@@ -231,7 +231,7 @@ class _HeatmapTab extends ConsumerWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 const Text(
                   'Enable opt-in in Privacy Settings to contribute anonymous '
                   'near-miss reports and view your tiles on the community map.',
@@ -260,7 +260,7 @@ class _HeatmapTab extends ConsumerWidget {
               selectedColor: _kAccent.withOpacity(0.2),
               onSelected: optIn ? (v) => ref.read(_d270ShowCommunityProvider.notifier).state = v : null,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             FilterChip(
               label: const Text('Your contributions'),
               selected: showMine,
@@ -303,11 +303,11 @@ class _HeatmapTab extends ConsumerWidget {
         Row(
           children: [
             const _LegendSwatch(color: ZapColors.bgCard, label: 'Low'),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             _LegendSwatch(color: _kAccent.withOpacity(0.6), label: 'Medium'),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             const _LegendSwatch(color: ZapColors.danger, label: 'High'),
-            const SizedBox(width: 12),
+            const SizedBox(width: ZapSpacing.md),
             Container(
               width: 14,
               height: 14,
@@ -316,7 +316,7 @@ class _HeatmapTab extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             const Text(
               'Your report',
               style: TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -428,7 +428,7 @@ class _LegendSwatch extends StatelessWidget {
             border: Border.all(color: ZapColors.border),
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(label, style: const TextStyle(color: ZapColors.textMuted, fontSize: 10)),
       ],
     );
@@ -551,13 +551,13 @@ class _ContributionsTab extends ConsumerWidget {
               value: optIn ? '${_kMockContributions.length}' : '0',
               color: _kAccent,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             _StatCard(
               label: 'Areas',
               value: optIn ? '${_kMockContributions.length}' : '0',
               color: ZapColors.info,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             _StatCard(
               label: '90-day reach',
               value: optIn ? '1.2k' : '—',

@@ -1072,7 +1072,7 @@ class _SkippedBanner extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'Protection Score −$delta · add later from Settings',
             style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
@@ -1325,7 +1325,7 @@ class _SpecTab extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   r.$2,
                   style: const TextStyle(

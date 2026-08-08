@@ -367,7 +367,7 @@ class _WorkflowTab extends ConsumerWidget {
               children: [
                 Icon(Icons.format_textdirection_r_to_l_rounded,
                     size: 16, color: ZapColors.warning),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     'RTL locale — include Directionality + Day 263 RTL preview.',
@@ -482,7 +482,7 @@ class _StepCard extends StatelessWidget {
           Row(
             children: [
               Icon(step.icon, size: 18, color: color),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   step.title,
@@ -505,7 +505,7 @@ class _StepCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             step.subtitle,
             style: const TextStyle(
@@ -668,7 +668,7 @@ class _CheckRow extends StatelessWidget {
             size: 18,
             color: check.pass ? ZapColors.safe : ZapColors.danger,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -141,7 +141,7 @@ class Day207ChatOfflineQueueScreen extends ConsumerWidget {
                           size: 14,
                           color: failed > 0 ? ZapColors.danger : ZapColors.warning,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: ZapSpacing.xs),
                         Text(
                           '$queueTotal',
                           style: TextStyle(
@@ -367,7 +367,7 @@ class _MessageBubble extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           _MessageStatusRow(message: message, onRetry: onRetry),
         ],
       ),
@@ -398,7 +398,7 @@ class _MessageStatusRow extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.done_all_rounded, size: 12, color: ZapColors.safe),
-            SizedBox(width: 4),
+            SizedBox(width: ZapSpacing.xs),
             Text('Delivered',
                 style: TextStyle(color: ZapColors.safe, fontSize: 10)),
           ],
@@ -408,7 +408,7 @@ class _MessageStatusRow extends StatelessWidget {
           children: [
             Icon(Icons.schedule_send_rounded,
                 size: 12, color: ZapColors.warning),
-            SizedBox(width: 4),
+            SizedBox(width: ZapSpacing.xs),
             Text('Will send when online',
                 style: TextStyle(color: ZapColors.warning, fontSize: 10)),
           ],
@@ -434,11 +434,11 @@ class _MessageStatusRow extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline_rounded,
                 size: 12, color: ZapColors.danger),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             const Text('Failed to send',
                 style: TextStyle(color: ZapColors.danger, fontSize: 10)),
             if (onRetry != null) ...[
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Semantics(
                 label: 'Retry sending message',
                 button: true,
@@ -937,7 +937,7 @@ class _SpecTab extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   r.$2,
                   style: const TextStyle(

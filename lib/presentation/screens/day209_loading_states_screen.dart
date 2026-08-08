@@ -56,7 +56,7 @@ Widget _mockLoadedCard(String title, String subtitle, Color accent) {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           subtitle,
           style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
@@ -493,7 +493,7 @@ class _AdoptionSpecTab extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Widget: ${l.subtitle}',
                   style: const TextStyle(
@@ -502,7 +502,7 @@ class _AdoptionSpecTab extends StatelessWidget {
                     fontFamily: 'monospace',
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Adopt: ${l.adoptScreen}',
                   style: const TextStyle(

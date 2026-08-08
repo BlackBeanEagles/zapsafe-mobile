@@ -18,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const _kAccent = Color(0xFF7C3AED);
@@ -455,7 +456,7 @@ class _ActiveSosBanner extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               '$memberName has an unresolved SOS in history view',
@@ -524,7 +525,7 @@ class _TimelineTab extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -603,14 +604,7 @@ class _TimelineTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (events.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
-            child: Text(
-              'No events for this filter.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: ZapColors.textMuted),
-            ),
-          )
+          const ZapEmptyInline(title: 'No events for this filter.')
         else
           ...events.asMap().entries.map((entry) {
             final i = entry.key;
@@ -904,7 +898,7 @@ class _TimelineEventTile extends StatelessWidget {
                             ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: ZapSpacing.sm),
                       Text(
                         event.title,
                         style: const TextStyle(
@@ -913,7 +907,7 @@ class _TimelineEventTile extends StatelessWidget {
                           fontSize: 13,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(
                         event.occurredAt,
                         style: const TextStyle(
@@ -922,7 +916,7 @@ class _TimelineEventTile extends StatelessWidget {
                         ),
                       ),
                       if (expanded) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ZapSpacing.sm),
                         Text(
                           event.detail,
                           style: const TextStyle(
@@ -931,7 +925,7 @@ class _TimelineEventTile extends StatelessWidget {
                             height: 1.4,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ZapSpacing.sm),
                         _DetailRow(
                           label: 'Duration',
                           value: event.duration,
@@ -1023,7 +1017,7 @@ class _MemberPickTile extends StatelessWidget {
                 color: ZapColors.danger,
                 size: 18,
               ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Icon(
               selected ? Icons.check_circle : Icons.chevron_right_rounded,
               color: selected ? _kAccent : ZapColors.textMuted,

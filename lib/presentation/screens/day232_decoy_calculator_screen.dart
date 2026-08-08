@@ -503,7 +503,7 @@ void _showUnlockSheet(BuildContext context, WidgetRef ref) {
           const Row(
             children: [
               Icon(Icons.lock_open_rounded, color: ZapColors.safe),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Text(
                 'Safety layer unlocked',
                 style: TextStyle(
@@ -514,7 +514,7 @@ void _showUnlockSheet(BuildContext context, WidgetRef ref) {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           const Text(
             'Secret accepted: === then 767 (SOS keypad). Choose action:',
             style: TextStyle(color: ZapColors.textMuted, fontSize: 11),
@@ -532,7 +532,7 @@ void _showUnlockSheet(BuildContext context, WidgetRef ref) {
               backgroundColor: ZapColors.danger,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
@@ -545,7 +545,7 @@ void _showUnlockSheet(BuildContext context, WidgetRef ref) {
               backgroundColor: ZapColors.warning,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           OutlinedButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
@@ -638,7 +638,7 @@ class _SecretUnlockTab extends ConsumerWidget {
                   fontSize: 12,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               Row(
                 children: [
                   Expanded(
@@ -654,7 +654,7 @@ class _SecretUnlockTab extends ConsumerWidget {
                       child: const Text('Simulate arm'),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: FilledButton(
                       onPressed: calc.secretArmed
@@ -799,7 +799,7 @@ class _SafetyTab extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.sos_rounded, color: ZapColors.danger, size: 22),
-                  SizedBox(width: 8),
+                  SizedBox(width: ZapSpacing.sm),
                   Text(
                     'Hardware SOS always works',
                     style: TextStyle(
@@ -810,7 +810,7 @@ class _SafetyTab extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: ZapSpacing.sm),
               Text(
                 'Decoy calculator does NOT disable safety triggers. '
                 'Power button ×5, volume SOS, and background DCS pipeline '

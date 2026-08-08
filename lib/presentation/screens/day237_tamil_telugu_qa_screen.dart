@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Catalogue ─────────────────────────────────────────────────────────────────
 enum _StringCategory { sos, legal, onboarding, ui }
@@ -659,7 +660,7 @@ class _CompareRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     entry.context,
@@ -797,15 +798,7 @@ class _LayoutTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         if (flags.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(ZapSpacing.xl),
-              child: Text(
-                'No layout flags for this filter.',
-                style: TextStyle(color: ZapColors.textMuted, fontSize: 12),
-              ),
-            ),
-          )
+          const ZapEmptyInline(title: 'No layout flags for this filter.')
         else
           ...flags.map((f) => _LayoutIssueCard(flag: f)),
         const SizedBox(height: ZapSpacing.lg),
@@ -869,7 +862,7 @@ class _LayoutIssueCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   entry.context,
@@ -898,7 +891,7 @@ class _LayoutIssueCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'EN: ${entry.english}',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -953,7 +946,7 @@ class _ReportTab extends ConsumerWidget {
                 color: ZapColors.info,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatBox(
                 label: 'Layout flags',
@@ -961,7 +954,7 @@ class _ReportTab extends ConsumerWidget {
                 color: allFlags.isEmpty ? ZapColors.safe : ZapColors.warning,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatBox(
                 label: 'Reviewed',
@@ -1040,7 +1033,7 @@ class _ReportTab extends ConsumerWidget {
                 child: const Text('Clear reviewed'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {

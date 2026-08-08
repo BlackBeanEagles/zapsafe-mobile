@@ -411,7 +411,7 @@ class _DeviationAlertBanner extends StatelessWidget {
             color: color,
             size: 20,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               autoSos
@@ -672,7 +672,7 @@ class _RideTab extends ConsumerWidget {
                       color: _kRideAccent,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ZapSpacing.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -771,7 +771,7 @@ class _RideTab extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ZapSpacing.md),
                   OutlinedButton(
                     onPressed: onEndRide,
                     style: OutlinedButton.styleFrom(

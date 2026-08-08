@@ -433,7 +433,7 @@ class _SoakTab extends ConsumerWidget {
           child: const Row(
             children: [
               Icon(Icons.sensors_rounded, color: _kAccent),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'MONITORING mode active — passive geofence + heartbeat. '
@@ -535,7 +535,7 @@ class _SoakTab extends ConsumerWidget {
                 style: FilledButton.styleFrom(backgroundColor: _kAccent),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             IconButton(
               onPressed: running ? null : onReset,
               icon: const Icon(Icons.refresh_rounded),
@@ -579,7 +579,7 @@ class _LiveMetricCard extends StatelessWidget {
       child: Column(
         children: [
           Icon(icon, color: color, size: 22),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             label,
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
@@ -660,7 +660,7 @@ class _LogTab extends ConsumerWidget {
                         ? ZapColors.safe
                         : ZapColors.warning,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Text(
                       'Drain $totalDrain% (gate ≤ $_kMaxDrainPct%)'

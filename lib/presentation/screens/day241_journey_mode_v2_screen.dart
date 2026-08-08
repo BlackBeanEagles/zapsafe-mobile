@@ -672,7 +672,7 @@ class _LiveTab extends ConsumerWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     const Text(
                       'Live sharing',
                       style: TextStyle(
@@ -693,7 +693,7 @@ class _LiveTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   '→ ${destination.label} · ${contact?.name ?? '—'}',
                   style: const TextStyle(
@@ -701,7 +701,7 @@ class _LiveTab extends ConsumerWidget {
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
@@ -711,7 +711,7 @@ class _LiveTab extends ConsumerWidget {
                     color: const Color(0xFF8B5CF6),
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '${(progress * 100).round()}% route · $checkIns check-in${checkIns == 1 ? '' : 's'}',
                   style: const TextStyle(
@@ -740,7 +740,7 @@ class _LiveTab extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               OutlinedButton(
                 onPressed: onEndSession,
                 style: OutlinedButton.styleFrom(

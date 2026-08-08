@@ -325,7 +325,7 @@ class _NotifRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(entry.type.icon, color: entry.status.color, size: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -354,7 +354,7 @@ class _NotifRow extends StatelessWidget {
           ),
           _StatusChip(status: entry.status),
           if (!read) ...[
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             IconButton(
               icon: const Icon(Icons.mark_email_read_outlined, size: 18),
               color: ZapColors.info,
@@ -430,7 +430,7 @@ class _BatchReadTab extends ConsumerWidget {
                 child: const Text('Select all unread'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: OutlinedButton(
                 onPressed: selected.isEmpty
@@ -543,7 +543,7 @@ class _ExportTab extends ConsumerWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           '${entries.length} rows · includes read state + SOS event ID',
           style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),

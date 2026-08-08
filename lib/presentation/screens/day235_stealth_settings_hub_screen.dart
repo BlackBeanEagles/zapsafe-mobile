@@ -433,7 +433,7 @@ class _StatusHeroCard extends StatelessWidget {
           Row(
             children: [
               Icon(Icons.shield_moon_rounded, color: level.color, size: 28),
-              const SizedBox(width: 12),
+              const SizedBox(width: ZapSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -466,12 +466,12 @@ class _StatusHeroCard extends StatelessWidget {
                 label: 'Layers',
                 value: '${snapshot.activeLayerCount}/4',
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               _MetricChip(
                 label: 'Decoy',
                 value: snapshot.inDecoyShell ? 'LIVE' : 'Idle',
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: ZapSpacing.sm),
               _MetricChip(
                 label: 'Icon',
                 value: snapshot.iconDisguised ? 'Hidden' : 'Visible',
@@ -631,7 +631,7 @@ class _QuickTestTab extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: ZapSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -681,7 +681,7 @@ class _QuickTestTab extends ConsumerWidget {
                 child: const Text('Reset checklist'),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: FilledButton(
                 onPressed: () {
@@ -753,7 +753,7 @@ class _TestRow extends StatelessWidget {
             Row(
               children: [
                 Icon(item.icon, color: item.color, size: 18),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     item.title,
@@ -780,7 +780,7 @@ class _TestRow extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             Row(
               children: [
                 TextButton(
@@ -891,7 +891,7 @@ class _EmergencyExitTab extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               const Text(
                 'Instantly drop stealth and show the real ZapSafe app. '
                 'Use when concealment is no longer safe or you need full UI access.',
@@ -1035,7 +1035,7 @@ class _ExitStep extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

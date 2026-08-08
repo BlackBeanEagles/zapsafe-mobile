@@ -549,7 +549,7 @@ class _ChecklistTab extends ConsumerWidget {
                               height: 1.35,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: ZapSpacing.xs),
                           Text(
                             item.dayRef,
                             style: TextStyle(
@@ -672,7 +672,7 @@ class _GateTab extends ConsumerWidget {
                 color: ZapColors.safe,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatChip(
                 label: 'Warn',
@@ -680,7 +680,7 @@ class _GateTab extends ConsumerWidget {
                 color: ZapColors.warning,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: ZapSpacing.sm),
             Expanded(
               child: _StatChip(
                 label: 'Fail',

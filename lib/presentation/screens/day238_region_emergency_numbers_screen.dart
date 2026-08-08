@@ -19,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
+import '../widgets/zap_empty_state.dart';
 
 const _kAssetPath = 'assets/data/emergency_numbers.json';
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
@@ -364,15 +365,7 @@ class _RegionsTab extends ConsumerWidget {
           ),
         ),
         if (countries.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(ZapSpacing.xl),
-            child: Center(
-              child: Text(
-                'No countries match your search.',
-                style: TextStyle(color: ZapColors.textMuted),
-              ),
-            ),
-          ),
+          const ZapEmptyInline(title: 'No countries match your search.'),
       ],
     );
   }
@@ -481,7 +474,7 @@ class _DialTab extends ConsumerWidget {
               Row(
                 children: [
                   Text(country.flag, style: const TextStyle(fontSize: 32)),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ZapSpacing.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -626,7 +619,7 @@ class _NumberDialCard extends StatelessWidget {
             backgroundColor: ZapColors.danger.withOpacity(0.12),
             child: Icon(number.icon, color: ZapColors.danger, size: 20),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: ZapSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -727,7 +720,7 @@ class _SourceTab extends ConsumerWidget {
                   fontSize: 13,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: ZapSpacing.sm),
               const _MetaRow(label: 'Path', value: _kAssetPath),
               _MetaRow(label: 'Version', value: bundle.version),
               _MetaRow(label: 'Updated', value: bundle.updatedAt),

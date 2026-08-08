@@ -428,7 +428,7 @@ class _PartnerOfferCard extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Row(
                     children: [
                       Text(
@@ -446,7 +446,7 @@ class _PartnerOfferCard extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: ZapSpacing.sm),
                       Text(
                         _formatInr(plan.annualPremium),
                         style: TextStyle(
@@ -530,7 +530,7 @@ class _VerifyTab extends ConsumerWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               const Text(
                 'Mock ledger used to validate partner discount eligibility.',
                 style: TextStyle(color: ZapColors.textSecondary, fontSize: 11),
@@ -606,7 +606,7 @@ class _VerifyTab extends ConsumerWidget {
                   color: pass ? ZapColors.safe : ZapColors.textMuted,
                   size: 18,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: ZapSpacing.sm),
                 Expanded(
                   child: Text(
                     rule.$2,
@@ -636,7 +636,7 @@ class _VerifyTab extends ConsumerWidget {
             minimumSize: const Size(double.infinity, 48),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: ZapSpacing.sm),
         FilledButton.icon(
           onPressed: !eligible || applied
               ? null

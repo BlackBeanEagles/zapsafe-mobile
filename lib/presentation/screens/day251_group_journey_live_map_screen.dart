@@ -428,7 +428,7 @@ class _DeviationAlertBanner extends StatelessWidget {
             color: ZapColors.warning,
             size: 20,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
               'Group route deviation · $memberName · '
@@ -550,7 +550,7 @@ class _MapTab extends ConsumerWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: ZapSpacing.sm),
                     const Text(
                       'Group live · $_kMockSessionId',
                       style: TextStyle(
@@ -571,7 +571,7 @@ class _MapTab extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: ZapSpacing.sm),
                 Text(
                   '→ $_kDestinationLabel · ${members.length} members on map',
                   style: const TextStyle(
@@ -580,7 +580,7 @@ class _MapTab extends ConsumerWidget {
                   ),
                 ),
                 if (hasDeviation) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: ZapSpacing.sm),
                   Text(
                     '⚠ ${worst.def.shortName} · '
                     '${worst.deviationMeters.round()}m off route',
@@ -618,7 +618,7 @@ class _MapTab extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ZapSpacing.md),
                   OutlinedButton(
                     onPressed: onEndSession,
                     style: OutlinedButton.styleFrom(
