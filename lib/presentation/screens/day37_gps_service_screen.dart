@@ -317,7 +317,7 @@ class _LatestFixCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: qualityColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -412,7 +412,7 @@ class _CadenceCard extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: ZapColors.info.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),

@@ -532,7 +532,7 @@ class _ThresholdCard extends StatelessWidget {
                     onTap: onToggle,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                          horizontal: ZapSpacing.sm, vertical: 3),
                       decoration: BoxDecoration(
                         color: t.isActive
                             ? ZapColors.safe.withOpacity(0.15)
@@ -733,7 +733,7 @@ class _ModelTypeDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: ZapSpacing.sm, vertical: 4),
+            horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
           color: ZapColors.bgElevated,
           borderRadius: BorderRadius.circular(8),
@@ -971,7 +971,7 @@ class _ActiveFilterChips extends StatelessWidget {
           onTap: () => onSelect(o.$1),
           child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: active ? ZapColors.warning : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(20),

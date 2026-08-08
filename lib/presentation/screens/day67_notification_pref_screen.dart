@@ -340,7 +340,7 @@ class _PrefCard extends StatelessWidget {
                   children: [
                     const Icon(Icons.error_outline,
                         size: 13, color: ZapColors.danger),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Expanded(
                       child: Text(error!,
                           style: ZapTypography.labelSmall.copyWith(

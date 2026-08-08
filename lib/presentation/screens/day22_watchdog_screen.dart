@@ -312,7 +312,7 @@ class _IosCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: regColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -328,7 +328,7 @@ class _IosCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             IosBackgroundHandler.taskIdentifier,
             style: ZapTypography.monoSmall.copyWith(
@@ -419,7 +419,7 @@ class _ComparisonCard extends StatelessWidget {
                   children: [
                     Icon(Icons.android_rounded,
                         color: ZapColors.safe, size: 16),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Text(
                       'ANDROID',
                       style: ZapTypography.labelSmall.copyWith(
@@ -438,7 +438,7 @@ class _ComparisonCard extends StatelessWidget {
                   children: [
                     Icon(Icons.apple_rounded,
                         color: ZapColors.info, size: 16),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Text(
                       'iOS',
                       style: ZapTypography.labelSmall.copyWith(

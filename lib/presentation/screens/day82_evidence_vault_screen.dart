@@ -38,6 +38,7 @@ import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../domain/providers/vault_providers.dart';
 import '../widgets/zap_chip.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
@@ -307,7 +308,7 @@ class _PinGateState extends ConsumerState<_PinGate>
               }
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 140),
-                margin: const EdgeInsets.symmetric(horizontal: 8),
+                margin: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm),
                 width:  14, height: 14,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -556,30 +557,17 @@ class _VaultBrowserState extends ConsumerState<_VaultBrowser> {
     );
   }
 
+  // Consistency fix: this screen is the documented adopter for
+  // ZapEmptyKind.vault (see zap_empty_state.dart's adoptScreen map), but was
+  // never wired up to it -- it had its own hand-rolled empty state instead.
+  // Wired to the shared widget here; icon/copy kept identical to the
+  // original so this is a pure consistency fix, not a copy/behavior change.
   Widget _emptyVault() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.inventory_2_outlined,
-              size: 48, color: ZapColors.textMuted),
-          const SizedBox(height: ZapSpacing.lg),
-          Text(
-            'No evidence files',
-            style: ZapTypography.headlineSmall.copyWith(
-              color: ZapColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: ZapSpacing.sm),
-          Text(
-            'Evidence is stored automatically\nwhen an SOS event occurs.',
-            textAlign: TextAlign.center,
-            style: ZapTypography.bodyMedium.copyWith(
-              color: ZapColors.textMuted, height: 1.5,
-            ),
-          ),
-        ],
-      ),
+    return const ZapEmptyState(
+      icon: Icons.inventory_2_outlined,
+      accent: ZapColors.textMuted,
+      title: 'No evidence files',
+      message: 'Evidence is stored automatically\nwhen an SOS event occurs.',
     );
   }
 
@@ -853,7 +841,7 @@ class _EntryCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.access_time_rounded,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         _formatTime(entry.timestamp),
                         style: ZapTypography.bodySmall.copyWith(
@@ -863,7 +851,7 @@ class _EntryCard extends StatelessWidget {
                       const SizedBox(width: ZapSpacing.md),
                       const Icon(Icons.location_on_outlined,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Expanded(
                         child: Text(
                           entry.locationLabel,
@@ -880,7 +868,7 @@ class _EntryCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.sensors_rounded,
                           size: 12, color: ZapColors.textMuted),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: ZapSpacing.xs),
                       Text(
                         entry.triggerType,
                         style: ZapTypography.bodySmall.copyWith(

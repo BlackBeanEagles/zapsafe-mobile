@@ -296,7 +296,7 @@ class _PeriodSelector extends StatelessWidget {
       children: _Period.values.map((p) {
         final active = p == selected;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.xs),
           child: InkWell(
             onTap: () => onChanged(p),
             borderRadius: BorderRadius.circular(20),
@@ -945,7 +945,7 @@ class _SafetyScoreCard extends StatelessWidget {
                     letterSpacing: 0.8,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   _scoreLabel,
                   style: ZapTypography.headlineSmall.copyWith(

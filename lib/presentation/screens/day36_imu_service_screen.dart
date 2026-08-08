@@ -329,7 +329,7 @@ class _LiveReadoutCard extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: chipColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -446,7 +446,7 @@ class _FeaturesCard extends StatelessWidget {
           _row('gyroMean',  f.gyroMean,  'rad/s'),
           _row('gyroVar',   f.gyroVar,   'rad²/s²'),
           _row('gyroPeak',  f.gyroPeak,  'rad/s'),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             't = ${f.timestampMs} (Δ = ${_msSince(f.timestampMs)} ms ago)',
             style: ZapTypography.monoSmall.copyWith(
@@ -502,7 +502,7 @@ class _FallRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
       child: Container(
         padding: const EdgeInsets.symmetric(
             horizontal: ZapSpacing.md, vertical: 6),

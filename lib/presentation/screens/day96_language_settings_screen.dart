@@ -255,7 +255,7 @@ class _CurrentLanguageBanner extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(language.nativeName,
                     style: ZapTypography.headlineSmall
                         .copyWith(color: ZapColors.textPrimary)),
@@ -268,7 +268,7 @@ class _CurrentLanguageBanner extends StatelessWidget {
           if (language.isRTL)
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: ZapSpacing.sm, vertical: 4),
+                  horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
               decoration: BoxDecoration(
                 color: ZapColors.warning.withAlpha(26),
                 borderRadius:
@@ -870,7 +870,7 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 48),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.huge),
       child: Column(
         children: [
           const Icon(Icons.search_off_rounded,

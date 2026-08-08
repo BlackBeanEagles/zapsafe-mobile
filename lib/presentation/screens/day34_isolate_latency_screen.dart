@@ -463,7 +463,7 @@ class _StatsTable extends StatelessWidget {
             child: Center(
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: chip(m).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -484,7 +484,7 @@ class _StatsTable extends StatelessWidget {
             child: Center(
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: chip(w).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -600,7 +600,7 @@ class _CaveatCard extends StatelessWidget {
                     letterSpacing: 1.0,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '`Interpreter` wraps a native FFI pointer that is not '
                   'serialisable. Day 34 worker path always uses the pure-Dart '

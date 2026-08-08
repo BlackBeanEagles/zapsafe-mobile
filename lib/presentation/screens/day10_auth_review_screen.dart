@@ -44,8 +44,8 @@ class Day10AuthReviewScreen extends ConsumerWidget {
         elevation: 0,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: ZapSpacing.md, top: 8, bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            margin: const EdgeInsets.only(right: ZapSpacing.md, top: ZapSpacing.sm, bottom: ZapSpacing.sm),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
@@ -74,7 +74,7 @@ class Day10AuthReviewScreen extends ConsumerWidget {
             const SizedBox(height: ZapSpacing.sm),
             const Text(
               'Tap any scenario to simulate the error handling:',
-              style: TextStyle(color: Color(0xFF6E6E82), fontSize: 12),
+              style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
             ),
             const SizedBox(height: ZapSpacing.md),
             const _ErrorScenarios(),
@@ -158,9 +158,9 @@ class _Hero extends StatelessWidget {
           const Row(
             children: [
               _PillStat(label: 'Steps', value: '5', color: ZapColors.safe),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               _PillStat(label: 'Error states', value: '5', color: ZapColors.warning),
-              SizedBox(width: 8),
+              SizedBox(width: ZapSpacing.sm),
               _PillStat(label: 'Tests pass', value: '100%', color: ZapColors.info),
             ],
           ),
@@ -195,7 +195,7 @@ class _AuthFlowDiagram extends StatelessWidget {
   static const _steps = [
     _FlowStep(
       icon: Icons.phone_iphone_rounded,
-      color: Color(0xFF4CC9F0),
+      color: ZapColors.info,
       title: 'Phone Entry (Day 7)',
       detail: 'User enters +91 phone number with country picker.\n'
           'Tap "Send OTP" → POST /api/v1/auth/otp/request/\n'
@@ -211,7 +211,7 @@ class _AuthFlowDiagram extends StatelessWidget {
     ),
     _FlowStep(
       icon: Icons.lock_rounded,
-      color: Color(0xFF06D6A0),
+      color: ZapColors.safe,
       title: 'Token Storage (Day 9)',
       detail: 'access_token → Android Keystore / iOS Keychain.\n'
           'refresh_token → same hardware-backed store.\n'
@@ -239,7 +239,7 @@ class _AuthFlowDiagram extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D16),
+        color: ZapColors.bgCard,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFF2A2A3A)),
       ),
@@ -278,7 +278,7 @@ class _AuthFlowDiagram extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 13,
                               fontWeight: FontWeight.w700)),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: ZapSpacing.xs),
                       Text(s.detail,
                           style: const TextStyle(
                               color: Color(0xFF9E9EB8),
@@ -327,7 +327,7 @@ class _ErrorScenarios extends ConsumerWidget {
     _Scenario(
       index: 1,
       icon: Icons.dialpad_rounded,
-      color: Color(0xFFE63946),
+      color: ZapColors.danger,
       title: 'Wrong OTP',
       httpCode: '400 Bad Request',
       userMessage: 'Incorrect code. You have 2 attempts remaining.',
@@ -390,7 +390,7 @@ class _ErrorScenarios extends ConsumerWidget {
             decoration: BoxDecoration(
               color: isActive
                   ? s.color.withOpacity(0.1)
-                  : const Color(0xFF0D0D16),
+                  : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isActive
@@ -436,7 +436,7 @@ class _ErrorScenarios extends ConsumerWidget {
                       isActive
                           ? Icons.expand_less_rounded
                           : Icons.expand_more_rounded,
-                      color: const Color(0xFF6E6E82),
+                      color: ZapColors.textSecondary,
                       size: 18,
                     ),
                   ],
@@ -604,7 +604,7 @@ class _SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(text,
       style: const TextStyle(
-          color: Color(0xFF6E6E82),
+          color: ZapColors.textSecondary,
           fontSize: 11,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.2));

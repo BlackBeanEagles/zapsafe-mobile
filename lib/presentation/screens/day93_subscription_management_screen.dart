@@ -241,7 +241,7 @@ class _PlanCard extends StatelessWidget {
               // status badge
               Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: ZapSpacing.sm, vertical: 4),
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: detail.status.color.withAlpha(26),
                   borderRadius:
@@ -254,7 +254,7 @@ class _PlanCard extends StatelessWidget {
                   children: [
                     Icon(detail.status.icon,
                         size: 12, color: detail.status.color),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: ZapSpacing.xs),
                     Text(detail.status.label,
                         style: ZapTypography.labelSmall
                             .copyWith(color: detail.status.color)),
@@ -278,7 +278,7 @@ class _PlanCard extends StatelessWidget {
                   height: 1.0,
                 ),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text('/ mo',
@@ -302,7 +302,7 @@ class _PlanCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             '\$${detail.billingCycle.billedAmount.toStringAsFixed(2)} '
             'billed ${detail.billingCycle == MgmtBillingCycle.annual ? 'annually' : 'monthly'}',

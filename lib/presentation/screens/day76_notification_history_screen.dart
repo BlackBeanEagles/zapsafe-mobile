@@ -16,6 +16,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../core/constants/api_config.dart';
+import '../../core/theme/spacing.dart';
 
 class NotificationHistoryScreen extends StatefulWidget {
   const NotificationHistoryScreen({super.key});
@@ -169,7 +170,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
                 if (_errorMsg != null)
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.lg, vertical: ZapSpacing.sm),
                     color: const Color(0xFF1C1C1E),
                     child: Text(
                       _errorMsg!,
@@ -203,7 +204,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
               color: const Color(0xFF4B5563),
               size: 48,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: ZapSpacing.md),
             Text(
               'No ${channel ?? ''} notifications yet',
               style: const TextStyle(color: Color(0xFF6B7280), fontSize: 15),
@@ -216,7 +217,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
       onRefresh: () => _loadHistory(channel: channel),
       color: const Color(0xFF6366F1),
       child: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(ZapSpacing.lg),
         itemCount: items.length,
         itemBuilder: (ctx, i) => _buildNotifCard(items[i]),
       ),
@@ -275,7 +276,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                     decoration: BoxDecoration(
                       color: _statusColor(status).withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
@@ -289,7 +290,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     _formatDateTime(notif['sent_at'] as String?),
                     style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10),
@@ -298,7 +299,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: ZapSpacing.sm),
           Text(
             notif['body'] as String? ?? '',
             style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
@@ -306,11 +307,11 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
             overflow: TextOverflow.ellipsis,
           ),
           if (hasSosLink) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: ZapSpacing.sm),
             Row(
               children: const [
                 Icon(Icons.link_rounded, color: Color(0xFF6366F1), size: 13),
-                SizedBox(width: 4),
+                SizedBox(width: ZapSpacing.xs),
                 Text(
                   'Linked to SOS event',
                   style: TextStyle(color: Color(0xFF6366F1), fontSize: 11),

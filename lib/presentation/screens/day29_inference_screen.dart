@@ -345,7 +345,7 @@ class _LatestCard extends StatelessWidget {
               ),
               if (latest!.isConfident)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: ZapColors.danger.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -541,7 +541,7 @@ class _ResultRow extends StatelessWidget {
       InferenceSeverity.high   => ZapColors.danger,
     };
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
       child: Container(
         padding: const EdgeInsets.symmetric(
             horizontal: ZapSpacing.md, vertical: 6),

@@ -537,7 +537,7 @@ class _DeltaBadge extends StatelessWidget {
           size:  14,
           color: color,
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: ZapSpacing.xs),
         Text(
           '${positive ? '+' : ''}$delta vs yesterday',
           style: ZapTypography.labelSmall.copyWith(

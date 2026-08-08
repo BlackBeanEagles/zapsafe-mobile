@@ -516,7 +516,7 @@ class _DeviceCard extends StatelessWidget {
               const Spacer(),
               // Status
               Icon(_statusIcon, color: _statusColor, size: 16),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 entry.statusDisplay,
                 style: ZapTypography.labelSmall.copyWith(
@@ -611,7 +611,7 @@ class _DeviceCard extends StatelessWidget {
 
           // ── Tested date ───────────────────────────────────────────────
           if (entry.testedDate != null) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               'Tested ${_formatDate(entry.testedDate!)}',
               style: ZapTypography.labelSmall.copyWith(

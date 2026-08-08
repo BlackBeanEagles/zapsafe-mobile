@@ -83,7 +83,7 @@ class _Day18DrillsAndScheduleScreenState
                 children: [
                   const Expanded(child: _SectionLabel('PENDING SCHEDULED')),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                     decoration: BoxDecoration(
                       color: ZapColors.info.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(4),
@@ -404,7 +404,7 @@ class _PendingList extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         Text(
                           'id: ${p.id}  ·  payload: ${p.payload ?? "—"}',
                           style: ZapTypography.monoSmall.copyWith(
@@ -506,7 +506,7 @@ class _DrillCard extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: ZapColors.warning.withOpacity(0.15),
               borderRadius: BorderRadius.circular(4),
@@ -527,7 +527,7 @@ class _DrillCard extends StatelessWidget {
               color: ZapColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           _bullet('Same channel · bypass DND · max priority'),
           _bullet('Same iOS + Android action buttons'),
           _bullet('Same /sos-active routing'),
@@ -554,7 +554,7 @@ class _DrillCard extends StatelessWidget {
                       style: ZapTypography.bodySmall.copyWith(
                         color: ZapColors.textSecondary,
                       )),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text('data: ${lastDrill!.data}',
                       style: ZapTypography.monoSmall.copyWith(
                         color: ZapColors.textSecondary,

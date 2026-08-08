@@ -399,7 +399,7 @@ class _FeatureCard extends StatelessWidget {
                     ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
 
             // subtitle
             Text(feature.subtitle,
@@ -821,7 +821,7 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 64),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.massive),
       child: Column(
         children: [
           const Icon(Icons.category_rounded,

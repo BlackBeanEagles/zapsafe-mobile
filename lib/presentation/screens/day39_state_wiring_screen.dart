@@ -429,7 +429,7 @@ class _StateCard extends StatelessWidget {
               if (silentlyEscalating)
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: ZapColors.danger.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(4),

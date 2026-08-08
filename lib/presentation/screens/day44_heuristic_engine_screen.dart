@@ -475,7 +475,7 @@ class _ResultCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 LinearProgressIndicator(
                   value: result.score,
                   backgroundColor: ZapColors.bgSurface,
@@ -483,7 +483,7 @@ class _ResultCard extends StatelessWidget {
                   minHeight: 4,
                   borderRadius: BorderRadius.circular(2),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '${result.latencyMs} ms  ·  '
                   '${result.isConfident ? "✓ TRIGGER" : "below threshold"}',

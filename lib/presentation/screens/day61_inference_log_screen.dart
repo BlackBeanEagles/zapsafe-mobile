@@ -226,7 +226,7 @@ class _PeriodChips extends StatelessWidget {
           child: GestureDetector(
             onTap: () => onChanged(d),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 5),
               decoration: BoxDecoration(
                 color: isSelected
                     ? ZapColors.info.withOpacity(0.15)
@@ -274,8 +274,8 @@ class _ModelTypeChips extends StatelessWidget {
         return GestureDetector(
           onTap: () => onChanged(value),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            margin: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
+            margin: const EdgeInsets.only(bottom: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: isSelected
                   ? ZapColors.warning.withOpacity(0.15)
@@ -1012,7 +1012,7 @@ class _ModelStatCard extends StatelessWidget {
             children: [
               const Icon(Icons.percent_rounded,
                   size: 13, color: ZapColors.textSecondary),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 'Confidence avg: ${entry.avgConfidence != null ? entry.avgConfidence!.toStringAsFixed(2) : "–"}',
                 style: ZapTypography.bodySmall.copyWith(
@@ -1022,7 +1022,7 @@ class _ModelStatCard extends StatelessWidget {
               const Spacer(),
               const Icon(Icons.crisis_alert_rounded,
                   size: 13, color: ZapColors.danger),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
               Text(
                 'SOS: ${(entry.sosRate * 100).toStringAsFixed(1)}%',
                 style: ZapTypography.bodySmall.copyWith(

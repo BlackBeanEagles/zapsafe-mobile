@@ -234,7 +234,7 @@ class _SummaryCard extends StatelessWidget {
             const SizedBox(height: ZapSpacing.xs),
             for (final e in top3)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
                 child: Row(
                   children: [
                     Icon(_meta(e.key).icon, size: 13, color: _meta(e.key).color),
@@ -375,7 +375,7 @@ class _FilterChip extends StatelessWidget {
             Icon(meta.icon,
                 size: 13,
                 color: selected ? meta.color : ZapColors.textSecondary),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               meta.label,
               style: ZapTypography.labelSmall.copyWith(
@@ -451,7 +451,7 @@ class _EntryCard extends StatelessWidget {
                 // resource chip
                 if (entry.resourceType.isNotEmpty || entry.resourceId.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: const EdgeInsets.only(top: ZapSpacing.xs),
                     child: _ResourceChip(
                         type: entry.resourceType, id: entry.resourceId),
                   ),

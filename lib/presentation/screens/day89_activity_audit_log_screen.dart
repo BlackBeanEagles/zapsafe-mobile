@@ -371,7 +371,7 @@ class _CatChip extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(
-            horizontal: ZapSpacing.sm, vertical: 4),
+            horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
           color: selected ? color.withOpacity(0.15) : ZapColors.bgSurface,
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -385,7 +385,7 @@ class _CatChip extends StatelessWidget {
           children: [
             Icon(icon,
                 size: 12, color: selected ? color : ZapColors.textMuted),
-            const SizedBox(width: 4),
+            const SizedBox(width: ZapSpacing.xs),
             Text(
               label,
               style: ZapTypography.labelSmall.copyWith(
@@ -531,7 +531,7 @@ class _AuditTileState extends State<_AuditTile> {
                                     style: ZapTypography.labelSmall.copyWith(
                                         color: ZapColors.textMuted),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: ZapSpacing.xs),
                                   if (e.severity != AuditSeverity.info)
                                     Icon(
                                       e.severity.dotIcon,

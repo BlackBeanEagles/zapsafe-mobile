@@ -437,7 +437,7 @@ class _ContactTile extends ConsumerWidget {
               GestureDetector(
                 onTap: () => _showOptions(context, ref),
                 child: const Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(ZapSpacing.xs),
                   child: Icon(
                     Icons.more_vert_rounded,
                     size:  18,
@@ -640,7 +640,7 @@ class _OptionsSheet extends StatelessWidget {
                       : ZapColors.info;
               return Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.xs),
                   child: OutlinedButton(
                     onPressed: isCurrent ? null : () => onChangeTier(t),
                     style: OutlinedButton.styleFrom(

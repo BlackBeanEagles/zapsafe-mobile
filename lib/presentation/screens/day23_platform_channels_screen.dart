@@ -244,7 +244,7 @@ class _RegistryCard extends StatelessWidget {
                 Container(
                   width: 6,
                   height: 6,
-                  margin: const EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: ZapSpacing.sm),
                   decoration: BoxDecoration(
                     color: r.$4,
                     shape: BoxShape.circle,
@@ -328,10 +328,10 @@ class _SensorCard extends StatelessWidget {
           if (sample != null && running) ...[
             _axisRow('ACCEL', sample!.ax, sample!.ay, sample!.az,
                 sample!.accelMagnitude, ZapColors.danger),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             _axisRow('GYRO ', sample!.gx, sample!.gy, sample!.gz,
                 sample!.gyroMagnitude, ZapColors.info),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               't = ${sample!.timestampMs} ms',
               style: ZapTypography.monoSmall.copyWith(
@@ -421,7 +421,7 @@ class _SensorCard extends StatelessWidget {
             ? ('STREAMING', ZapColors.safe)
             : ('STOPPED', ZapColors.warning);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
       decoration: BoxDecoration(
         color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(4),
@@ -476,7 +476,7 @@ class _AudioCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),

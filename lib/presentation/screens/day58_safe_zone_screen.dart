@@ -477,7 +477,7 @@ class _AddZoneForm extends StatelessWidget {
         hintStyle: ZapTypography.labelSmall.copyWith(
             color: ZapColors.textSecondary.withOpacity(0.5)),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            const EdgeInsets.symmetric(horizontal: 14, vertical: ZapSpacing.md),
         filled: true,
         fillColor: ZapColors.bgElevated,
         border: OutlineInputBorder(
@@ -893,7 +893,7 @@ class _ZoneCard extends StatelessWidget {
                 style: ZapTypography.labelSmall
                     .copyWith(color: ZapColors.textSecondary),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
 
               // ── Notification badges ───────────────────────────────────
               Row(
@@ -947,7 +947,7 @@ class _ZoneCard extends StatelessWidget {
                               ? ZapColors.safe.withOpacity(0.4)
                               : ZapColors.border,
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: ZapSpacing.sm),
                       ),
                     ),
                   ),
@@ -964,7 +964,7 @@ class _ZoneCard extends StatelessWidget {
                       side: BorderSide(
                           color: ZapColors.danger.withOpacity(0.4)),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 14),
+                          vertical: ZapSpacing.sm, horizontal: 14),
                     ),
                   ),
                 ],
@@ -988,7 +988,7 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
       decoration: BoxDecoration(
         color: isActive
             ? ZapColors.safe.withOpacity(0.12)
@@ -1075,7 +1075,7 @@ class _CountBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: ZapColors.info.withOpacity(0.10),
         borderRadius: BorderRadius.circular(20),
@@ -1145,7 +1145,7 @@ class _EmptyList extends StatelessWidget {
               style: ZapTypography.bodyMedium
                   .copyWith(color: ZapColors.textSecondary),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               hasFilter
                   ? 'Try clearing the filter'

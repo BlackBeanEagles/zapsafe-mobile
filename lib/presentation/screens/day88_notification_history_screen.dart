@@ -309,7 +309,7 @@ class _FilterRow extends ConsumerWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-            horizontal: ZapSpacing.lg, vertical: 8),
+            horizontal: ZapSpacing.lg, vertical: ZapSpacing.sm),
         child: Row(
           children: [
             // Channel chips
@@ -417,7 +417,7 @@ class _Chip extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(
-            horizontal: ZapSpacing.sm, vertical: 4),
+            horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
           color: selected ? c.withOpacity(0.15) : ZapColors.bgSurface,
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -431,7 +431,7 @@ class _Chip extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon, size: 12, color: selected ? c : ZapColors.textMuted),
-              const SizedBox(width: 4),
+              const SizedBox(width: ZapSpacing.xs),
             ],
             Text(
               label,
@@ -573,7 +573,7 @@ class _NotifTileState extends State<_NotifTile> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   _StatusBadge(status: e.status),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: ZapSpacing.xs),
                                   Text(
                                     _fmtTime(e.sentAt),
                                     style: ZapTypography.labelSmall.copyWith(
@@ -610,7 +610,7 @@ class _NotifTileState extends State<_NotifTile> {
                               children: [
                                 const Icon(Icons.link_rounded,
                                     color: ZapColors.danger, size: 12),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: ZapSpacing.xs),
                                 Flexible(
                                   child: Text(
                                     'SOS: ${e.sosEventId}',
@@ -666,7 +666,7 @@ class _NotifTileState extends State<_NotifTile> {
                                     Icon(e.type.icon,
                                         size: 12,
                                         color: ZapColors.textMuted),
-                                    const SizedBox(width: 4),
+                                    const SizedBox(width: ZapSpacing.xs),
                                     Expanded(
                                       child: Text(
                                         '${e.type.label}  ·  '

@@ -427,7 +427,7 @@ class _CircleStat extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: ZapSpacing.xs),
         Text(
           label,
           style: ZapTypography.labelSmall

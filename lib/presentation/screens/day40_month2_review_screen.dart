@@ -351,7 +351,7 @@ class _MilestoneTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: ZapSpacing.xs),
                   Text(
                     milestone.summary,
                     style: ZapTypography.bodySmall.copyWith(
@@ -515,7 +515,7 @@ class _PhaseTile extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -531,7 +531,7 @@ class _PhaseTile extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Padding(
               padding: const EdgeInsets.only(left: 28),
               child: Text(
@@ -542,7 +542,7 @@ class _PhaseTile extends StatelessWidget {
               ),
             ),
             if (result != null && result!.detail.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: ZapSpacing.xs),
               Padding(
                 padding: const EdgeInsets.only(left: 28),
                 child: Text(

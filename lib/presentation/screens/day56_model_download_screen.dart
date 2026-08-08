@@ -412,7 +412,7 @@ class _ReportForm extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                        horizontal: ZapSpacing.md, vertical: 6),
                     decoration: BoxDecoration(
                       color: selected
                           ? color.withOpacity(0.15)
@@ -566,7 +566,7 @@ class _ReportForm extends StatelessWidget {
         hintStyle: ZapTypography.labelSmall.copyWith(
             color: ZapColors.textSecondary.withOpacity(0.5)),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            const EdgeInsets.symmetric(horizontal: 14, vertical: ZapSpacing.md),
         filled: true,
         fillColor: ZapColors.bgElevated,
         border: OutlineInputBorder(
@@ -927,7 +927,7 @@ class _FChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 6),
         decoration: BoxDecoration(
           color: selected ? color.withOpacity(0.15) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
@@ -975,7 +975,7 @@ class _DownloadCard extends StatelessWidget {
                 // Type badge
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                      horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: _typeColor(record.modelType).withOpacity(0.12),
                     borderRadius: BorderRadius.circular(6),
@@ -994,7 +994,7 @@ class _DownloadCard extends StatelessWidget {
                 // SHA256 badge
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                      horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: record.sha256Verified
                         ? ZapColors.safe.withOpacity(0.10)
@@ -1046,7 +1046,7 @@ class _DownloadCard extends StatelessWidget {
                   color: ZapColors.textPrimary,
                   fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
 
             // ── Metrics row ──────────────────────────────────────────────
             Row(
@@ -1118,7 +1118,7 @@ class _CountBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: ZapColors.info.withOpacity(0.10),
         borderRadius: BorderRadius.circular(20),
@@ -1160,7 +1160,7 @@ class _EmptyHistory extends StatelessWidget {
               style: ZapTypography.bodyMedium
                   .copyWith(color: ZapColors.textSecondary),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Text(
               hasFilter
                   ? 'Try clearing the filter'

@@ -353,7 +353,7 @@ class _VoteCard extends StatelessWidget {
               ],
               const SizedBox(width: ZapSpacing.md),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: ZapColors.info.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -563,7 +563,7 @@ class _EventRow extends StatelessWidget {
     final isAutoSos = event.kind == TriggerKind.autoSos;
     final color = isAutoSos ? ZapColors.danger : ZapColors.warning;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: ZapSpacing.xs),
       child: Container(
         padding: const EdgeInsets.symmetric(
             horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),

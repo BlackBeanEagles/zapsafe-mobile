@@ -199,7 +199,7 @@ class _ActiveCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -294,7 +294,7 @@ class _AssetRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -310,7 +310,7 @@ class _AssetRow extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: ZapSpacing.xs),
             Padding(
               padding: const EdgeInsets.only(left: 28),
               child: Column(
@@ -339,7 +339,7 @@ class _AssetRow extends StatelessWidget {
                     ),
                   ),
                   if (status.isPlaceholder) ...[
-                    const SizedBox(height: 4),
+                    const SizedBox(height: ZapSpacing.xs),
                     Text(
                       '"${status.previewSnippet}"',
                       style: ZapTypography.monoSmall.copyWith(

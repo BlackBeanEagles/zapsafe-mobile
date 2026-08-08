@@ -264,7 +264,7 @@ class _PlaceholderHint extends StatelessWidget {
           children: [
             Row(children: [
               Icon(Icons.info_outline_rounded, size: 14, color: ZapColors.info),
-              SizedBox(width: 4),
+              SizedBox(width: ZapSpacing.xs),
               Text('Runtime placeholders',
                   style: ZapTypography.labelSmall),
             ]),
@@ -529,7 +529,7 @@ class _TemplateCard extends StatelessWidget {
                             _DefaultBadge(),
                           ],
                         ]),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         Text(
                           t.body,
                           maxLines: 2,
@@ -537,7 +537,7 @@ class _TemplateCard extends StatelessWidget {
                           style: ZapTypography.bodySmall
                               .copyWith(color: ZapColors.textSecondary),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: ZapSpacing.xs),
                         // Append flags row
                         Wrap(spacing: 4, children: [
                           if (t.includeLocation)

@@ -244,7 +244,7 @@ class _SlotTable extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                     decoration: BoxDecoration(
                       color: (s.real ? ZapColors.safe : ZapColors.warning)
                           .withOpacity(0.15),
@@ -265,7 +265,7 @@ class _SlotTable extends StatelessWidget {
           const SizedBox(height: ZapSpacing.sm),
           Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: ZapSpacing.sm, vertical: 4),
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: ZapColors.info.withOpacity(0.10),
               borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -274,7 +274,7 @@ class _SlotTable extends StatelessWidget {
               children: [
                 const Icon(Icons.info_outline_rounded,
                     color: ZapColors.info, size: 14),
-                const SizedBox(width: 4),
+                const SizedBox(width: ZapSpacing.xs),
                 Expanded(
                   child: Text(
                     'engine.runs = ${engine.runs} · all 4 slots load in '
@@ -341,7 +341,7 @@ class _DcsScoreCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: headerColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -393,7 +393,7 @@ class _DcsScoreCard extends StatelessWidget {
             ? ZapColors.warning
             : ZapColors.safe;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
       child: Row(
         children: [
           SizedBox(

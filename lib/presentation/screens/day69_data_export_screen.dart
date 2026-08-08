@@ -200,7 +200,7 @@ class _InfoCard extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(icon, size: 13, color: ZapColors.info),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: ZapSpacing.sm),
                   Text('$label  ',
                       style: ZapTypography.bodySmall),
                   Expanded(
@@ -404,7 +404,7 @@ class _PayloadSheet extends StatelessWidget {
               children: [
                 Icon(Icons.download_done_rounded,
                     size: 18, color: ZapColors.safe),
-                SizedBox(width: 8),
+                SizedBox(width: ZapSpacing.sm),
                 Text('Your Data Export',
                     style: ZapTypography.headlineSmall),
               ],

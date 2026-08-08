@@ -365,7 +365,7 @@ class _FallbackCard extends StatelessWidget {
               if (s != null)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                      horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: providerColor.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -460,7 +460,7 @@ class _AppStateCard extends StatelessWidget {
               if (silentlyEscalating)
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                   decoration: BoxDecoration(
                     color: ZapColors.danger.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(4),
@@ -685,7 +685,7 @@ class _BatteryCard extends StatelessWidget {
               const SizedBox(width: ZapSpacing.md),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 3),
                 decoration: BoxDecoration(
                   color: tierColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -741,7 +741,7 @@ class _BatteryTierTable extends StatelessWidget {
         children: [
           for (final r in rows)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
               child: Row(
                 children: [
                   SizedBox(

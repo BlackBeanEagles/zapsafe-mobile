@@ -780,7 +780,7 @@ class _HistoryEmpty extends StatelessWidget {
               color: ZapColors.textSecondary,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: ZapSpacing.xs),
           Text(
             'Run your first drill above to see results here.',
             style: ZapTypography.bodySmall.copyWith(
@@ -866,7 +866,7 @@ class _HistoryCard extends StatelessWidget {
 
           // Right: score delta
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: deltaColor.withOpacity(0.12),
               borderRadius: BorderRadius.circular(6),
