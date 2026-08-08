@@ -173,10 +173,17 @@ const _kBugs = [
   _BugItem(
     id: 'p1_vault_pin_hardcoded',
     priority: _Priority.p1,
-    title: 'Vault PIN hardcoded; Hive never initialised',
-    detail: "kVaultDevPin = '1234' in vault_providers.dart with its own "
-        "'hardcoded for dev' comment. hive_flutter is a pubspec dependency "
-        'that Hive.initFlutter() never actually calls anywhere in lib/.',
+    title: 'Vault PIN now real and user-configurable; Hive still never initialised',
+    detail: "Fixed: kVaultDevPin = '1234' (shared by every install) is gone. "
+        'VaultPinStorage now stores a salted SHA-256 hash of a real, '
+        'user-chosen PIN in FlutterSecureStorage, set via a real 2-step '
+        'setup flow in day82_evidence_vault_screen.dart (choose → confirm), '
+        'with weak-PIN rejection (no straight runs / repeated digits) and '
+        'the LP23 wipe cascade now also clearing the stored PIN so a wipe '
+        'forces real re-setup. Not build/device-verified in this sandbox — '
+        'flutter analyze/test only. Still open: hive_flutter is a pubspec '
+        'dependency that Hive.initFlutter() never actually calls anywhere '
+        'in lib/.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),

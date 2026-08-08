@@ -26,6 +26,8 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/services/vault_pin_storage.dart';
+
 // ─── File type ────────────────────────────────────────────────────────────────
 
 enum EvidenceFileType {
@@ -232,8 +234,22 @@ final vaultWipedProvider = StateProvider<bool>((ref) => false);
 final vaultEvidenceProvider =
     Provider<List<EvidenceEntry>>((ref) => _buildMockEntries());
 
-// LP16 — vault PIN is hardcoded for dev; stored in FlutterSecureStorage in prod.
-const kVaultDevPin = '1234';
+// LP16 — was: vault PIN hardcoded to '1234' for every install (Day 336/361
+// P1 finding). Now backed by [VaultPinStorage] — a real, per-install,
+// user-chosen PIN, its hash held in FlutterSecureStorage (Keystore/Keychain
+// backed), the same storage mechanism already used for auth tokens
+// ([TokenStorage]). See vault_pin_storage.dart for the full design note.
+final vaultPinStorageProvider = Provider<VaultPinStorage>((ref) => VaultPinStorage());
+
+/// Whether a real vault PIN has ever been set on this device. Drives
+/// whether the PIN gate shows "set up your PIN" (first run / post-wipe)
+/// or "enter your PIN" (already configured).
+/// Callers must `ref.invalidate(vaultHasPinProvider)` after `setPin()` /
+/// `clearPin()` — Riverpod FutureProviders don't otherwise know storage
+/// changed underneath them.
+final vaultHasPinProvider = FutureProvider<bool>((ref) {
+  return ref.watch(vaultPinStorageProvider).hasPin();
+});
 
 // ─── Day 309 — Evidence Vault Search filters ───────────────────────────────────
 

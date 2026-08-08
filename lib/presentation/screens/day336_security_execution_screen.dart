@@ -201,14 +201,17 @@ const _kFindings = [
     title: 'Encrypted local storage',
     verdict: _Verdict.mixed,
     detail: 'JWT tokens genuinely use FlutterSecureStorage (Keychain/'
-        'Keystore) — real PASS for that. But hive_flutter is never '
-        'initialised (no Hive.initFlutter() call anywhere in lib/); '
-        'SharedPreferences is the project\'s real local-persistence '
-        'precedent instead (Days 306/307/333/334). Vault PIN is hardcoded '
-        'kVaultDevPin = \'1234\' with its own "stored in FlutterSecureStorage '
-        'in prod" TODO comment.',
+        'Keystore) — real PASS for that. Vault PIN also now real: '
+        'VaultPinStorage stores a salted SHA-256 hash of a user-chosen '
+        'PIN in FlutterSecureStorage (was: hardcoded kVaultDevPin = '
+        "'1234' shared by every install — fixed). hive_flutter is still "
+        'never initialised (no Hive.initFlutter() call anywhere in lib/); '
+        'SharedPreferences remains the project\'s real local-persistence '
+        'precedent instead (Days 306/307/333/334) — that part is still '
+        'MIXED, not a full PASS.',
     sourceFile: 'lib/data/services/token_storage.dart · '
-        'lib/domain/providers/vault_providers.dart:235-236',
+        'lib/data/services/vault_pin_storage.dart · '
+        'lib/domain/providers/vault_providers.dart',
     day285Default: 'PASS',
   ),
   _Finding(

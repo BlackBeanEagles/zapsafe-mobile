@@ -4,12 +4,18 @@
 ///
 /// ── LP16 — Vault PIN ─────────────────────────────────────────────────────────
 ///   Separate 4-digit PIN from the SOS cancel/duress PIN (LP3).
-///   DEV badge shown when no PIN is stored; fallback: 1234.
+///   Was: hardcoded to a shared literal ('1234') for every install (a real
+///   Day 336/361 P1 finding). Now a real, user-chosen, per-install PIN —
+///   its salted hash held in FlutterSecureStorage via [VaultPinStorage],
+///   the same storage mechanism [TokenStorage] already uses for auth
+///   tokens. First run (or post-wipe) shows a real 2-step "choose PIN,
+///   confirm PIN" setup flow instead of an unlock screen.
 ///
 /// ── LP23 — Cascade wipe ──────────────────────────────────────────────────────
 ///   3 wrong PINs → key-rotation warning banner.
-///   5 wrong PINs → vault wiped (files purged, PIN cleared).
-///   In emulator dev mode the cascade resets on app restart.
+///   5 wrong PINs → vault wiped (files purged, stored PIN cleared so a
+///   wipe also forces real PIN re-setup, not just a file purge with the
+///   old PIN still valid).
 ///
 /// ── File browser (unlocked state) ────────────────────────────────────────────
 ///   • Per-event cards: SOS ID, timestamp, location, trigger type, tamper flag
@@ -139,18 +145,228 @@ class _WipedView extends StatelessWidget {
 
 // ─── PIN gate (LP16 / LP23) ───────────────────────────────────────────────────
 
-class _PinGate extends ConsumerStatefulWidget {
+/// Routes between the real "set up a PIN" flow (no PIN stored yet — first
+/// run, or right after an LP23 wipe) and the real "enter your PIN" verify
+/// flow, based on [vaultHasPinProvider]'s actual storage-backed answer.
+class _PinGate extends ConsumerWidget {
   const _PinGate();
 
   @override
-  ConsumerState<_PinGate> createState() => _PinGateState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hasPin = ref.watch(vaultHasPinProvider);
+    return hasPin.when(
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: ZapColors.safe),
+      ),
+      error: (_, __) => const _PinSetupFlow(), // storage unreadable → treat as unset, safest default
+      data: (has) => has ? const _PinVerifyFlow() : const _PinSetupFlow(),
+    );
+  }
 }
 
-class _PinGateState extends ConsumerState<_PinGate>
+/// Real first-time (or post-wipe) PIN setup: choose a 4-digit PIN, then
+/// confirm it, then store its hash via [VaultPinStorage].
+class _PinSetupFlow extends ConsumerStatefulWidget {
+  const _PinSetupFlow();
+
+  @override
+  ConsumerState<_PinSetupFlow> createState() => _PinSetupFlowState();
+}
+
+class _PinSetupFlowState extends ConsumerState<_PinSetupFlow>
+    with SingleTickerProviderStateMixin {
+  final List<int> _pin = [];
+  String? _firstPin;
+  bool _error = false;
+  String? _errorText;
+
+  late final AnimationController _shakeCtrl;
+  late final Animation<double> _shakeAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _shakeCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 480),
+    );
+    _shakeAnim = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: -8.0), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -8.0, end: 8.0), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 8.0, end: -8.0), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: -8.0, end: 0.0), weight: 1),
+    ]).animate(_shakeCtrl);
+  }
+
+  @override
+  void dispose() {
+    _shakeCtrl.dispose();
+    super.dispose();
+  }
+
+  bool get _isConfirmStage => _firstPin != null;
+
+  void _onDigit(int d) {
+    if (_pin.length >= 4) return;
+    setState(() => _pin.add(d));
+    HapticFeedback.selectionClick();
+    if (_pin.length == 4) _onPinComplete();
+  }
+
+  void _onDelete() {
+    if (_pin.isEmpty) return;
+    setState(() => _pin.removeLast());
+    HapticFeedback.selectionClick();
+  }
+
+  void _shakeAndClear(String message) {
+    HapticFeedback.heavyImpact();
+    _shakeCtrl.forward(from: 0.0);
+    setState(() {
+      _error = true;
+      _errorText = message;
+    });
+    Future<void>.delayed(const Duration(milliseconds: 560)).then((_) {
+      if (mounted) setState(() { _error = false; _pin.clear(); });
+    });
+  }
+
+  Future<void> _onPinComplete() async {
+    final entered = _pin.join();
+    if (!_isConfirmStage) {
+      // Stage 1: choose PIN. Reject trivially weak PINs (all-same-digit or
+      // a straight run) so this real setup step isn't easy to defeat with
+      // '0000'/'1234' out of habit.
+      if (_isWeakPin(entered)) {
+        _shakeAndClear('Choose a less predictable PIN');
+        return;
+      }
+      setState(() {
+        _firstPin = entered;
+        _pin.clear();
+      });
+      return;
+    }
+    // Stage 2: confirm PIN.
+    if (entered != _firstPin) {
+      _shakeAndClear("PINs didn't match — start again");
+      setState(() => _firstPin = null);
+      return;
+    }
+    await ref.read(vaultPinStorageProvider).setPin(entered);
+    ref.invalidate(vaultHasPinProvider);
+    ref.read(vaultLockedProvider.notifier).state = false;
+    ref.read(vaultWrongPinCountProvider.notifier).state = 0;
+  }
+
+  bool _isWeakPin(String pin) {
+    if (pin.split('').toSet().length == 1) return true; // '1111' etc.
+    final digits = pin.split('').map(int.parse).toList();
+    var ascending = true, descending = true;
+    for (var i = 1; i < digits.length; i++) {
+      if (digits[i] != digits[i - 1] + 1) ascending = false;
+      if (digits[i] != digits[i - 1] - 1) descending = false;
+    }
+    return ascending || descending; // '1234', '4321' etc.
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Spacer(),
+        Container(
+          width: 64, height: 64,
+          decoration: BoxDecoration(
+            color: ZapColors.safe.withOpacity(0.12),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Icon(
+            _isConfirmStage ? Icons.check_circle_outline_rounded : Icons.lock_rounded,
+            size: 30, color: ZapColors.safe,
+          ),
+        ),
+        const SizedBox(height: ZapSpacing.lg),
+        Text(
+          _isConfirmStage ? 'Confirm your PIN' : 'Set up your vault PIN',
+          style: ZapTypography.headlineSmall.copyWith(
+            color: ZapColors.textPrimary, fontFamily: 'ClashDisplay',
+          ),
+        ),
+        const SizedBox(height: ZapSpacing.sm),
+        Text(
+          _error && _errorText != null
+              ? _errorText!
+              : _isConfirmStage
+                  ? 'Re-enter the same 4 digits to confirm'
+                  : 'Choose a 4-digit PIN to protect your evidence files. '
+                    "This is separate from your app login and SOS cancel PIN.",
+          style: ZapTypography.bodySmall.copyWith(
+            color: _error ? ZapColors.danger : ZapColors.textSecondary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: ZapSpacing.xxxl),
+        AnimatedBuilder(
+          animation: _shakeAnim,
+          builder: (_, child) => Transform.translate(
+            offset: Offset(_shakeAnim.value, 0),
+            child: child,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(4, (i) {
+              final filled = i < _pin.length;
+              final Color dotColor;
+              if (_error && filled) {
+                dotColor = ZapColors.danger;
+              } else if (filled) {
+                dotColor = ZapColors.safe;
+              } else {
+                dotColor = ZapColors.bgSurface;
+              }
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 140),
+                margin: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm),
+                width: 14, height: 14,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: dotColor,
+                  border: Border.all(
+                    color: filled ? Colors.transparent : ZapColors.border,
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+        const SizedBox(height: ZapSpacing.xxxl),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.xxxl),
+          child: _PinPad(onDigit: _onDigit, onDelete: _onDelete),
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+}
+
+/// Real PIN verify flow — used once a PIN has actually been set. Checks
+/// entries against [VaultPinStorage]'s stored hash, applies the LP23
+/// wrong-attempt cascade, and clears the stored PIN on wipe.
+class _PinVerifyFlow extends ConsumerStatefulWidget {
+  const _PinVerifyFlow();
+
+  @override
+  ConsumerState<_PinVerifyFlow> createState() => _PinVerifyFlowState();
+}
+
+class _PinVerifyFlowState extends ConsumerState<_PinVerifyFlow>
     with SingleTickerProviderStateMixin {
 
   final List<int> _pin = [];
   bool _error = false;
+  bool _checking = false;
 
   late final AnimationController _shakeCtrl;
   late final Animation<double>   _shakeAnim;
@@ -177,33 +393,39 @@ class _PinGateState extends ConsumerState<_PinGate>
   }
 
   void _onDigit(int d) {
-    if (_pin.length >= 4) return;
+    if (_pin.length >= 4 || _checking) return;
     setState(() => _pin.add(d));
     HapticFeedback.selectionClick();
     if (_pin.length == 4) _validate();
   }
 
   void _onDelete() {
-    if (_pin.isEmpty) return;
+    if (_pin.isEmpty || _checking) return;
     setState(() => _pin.removeLast());
     HapticFeedback.selectionClick();
   }
 
-  void _validate() {
+  Future<void> _validate() async {
+    setState(() => _checking = true);
     final entered = _pin.join();
-    if (entered == kVaultDevPin) {
+    final ok = await ref.read(vaultPinStorageProvider).verifyPin(entered);
+    if (!mounted) return;
+    if (ok) {
       ref.read(vaultLockedProvider.notifier).state = false;
       ref.read(vaultWrongPinCountProvider.notifier).state = 0;
+      setState(() => _checking = false);
     } else {
       final count = ref.read(vaultWrongPinCountProvider) + 1;
       ref.read(vaultWrongPinCountProvider.notifier).state = count;
       if (count >= 5) {
+        await ref.read(vaultPinStorageProvider).clearPin();
+        ref.invalidate(vaultHasPinProvider);
         ref.read(vaultWipedProvider.notifier).state = true;
         return;
       }
       HapticFeedback.heavyImpact();
       _shakeCtrl.forward(from: 0.0);
-      setState(() => _error = true);
+      setState(() { _error = true; _checking = false; });
       Future<void>.delayed(const Duration(milliseconds: 560)).then((_) {
         if (mounted) setState(() { _error = false; _pin.clear(); });
       });
@@ -262,27 +484,6 @@ class _PinGateState extends ConsumerState<_PinGate>
           'Enter your vault PIN to access evidence files',
           style: ZapTypography.bodySmall.copyWith(color: ZapColors.textSecondary),
           textAlign: TextAlign.center,
-        ),
-
-        // DEV badge
-        const SizedBox(height: ZapSpacing.md),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: ZapSpacing.sm, vertical: 3,
-          ),
-          decoration: BoxDecoration(
-            color:        ZapColors.warning.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(4),
-            border:       Border.all(color: ZapColors.warning.withOpacity(0.4)),
-          ),
-          child: Text(
-            'DEV  PIN: $kVaultDevPin',
-            style: TextStyle(
-              fontSize:   10,
-              color:      ZapColors.warning.withOpacity(0.8),
-              fontFamily: 'IBMPlexMono',
-            ),
-          ),
         ),
 
         const SizedBox(height: ZapSpacing.xxxl),

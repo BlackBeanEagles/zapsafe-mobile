@@ -46,6 +46,7 @@ dependencies:
   sqflite: ^2.3.0
   shared_preferences: ^2.2.0
   flutter_secure_storage: ^9.0.0
+  crypto: ^3.0.3
 
   # Sensors & permissions
   sensors_plus: ^4.0.0
