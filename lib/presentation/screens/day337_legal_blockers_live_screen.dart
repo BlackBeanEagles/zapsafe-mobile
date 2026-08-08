@@ -34,16 +34,19 @@
 ///   path: `/api/v1/account/retention/` (+`purge-now/`). Third-party
 ///   sharing transparency has no backend equivalent at all, under any path.
 ///
-/// **The honest conclusion:** the two most legally load-bearing DPDP
-/// rights — data portability/export and account deletion/erasure — are
-/// GREEN for real, end-to-end, via the *older* Day 69/70 endpoints, not
-/// the newer Day 147 `/api/v1/account/*` surface Day 286 was tracking.
-/// Session management, consent sync, audit-log, and retention all have
-/// real backend support but zero frontend caller (YELLOW). Third-party
-/// sharing transparency is genuinely unimplemented on either side (RED).
+/// **The honest conclusion (updated for Play Store item 10):** export,
+/// erasure, consent sync, session management, and retention (2 of its 7
+/// UI categories — the 2 the backend actually has fields for) are now
+/// GREEN, real, end-to-end — export/erasure via the *older* Day 69/70
+/// endpoints, the other three via account_service.dart calling the
+/// newer Day 147 `/api/v1/account/*` surface directly. Audit-log
+/// remains YELLOW (real backend, no frontend caller — lower priority
+/// since the older `/api/v1/audit-log/` already serves the practical
+/// need). Third-party sharing transparency is genuinely unimplemented
+/// on either side (RED) — the one true remaining gap.
 ///
-/// Tag: 🟡 MOCK-NOW → several rows are now genuinely 🔵 LIVE (export,
-/// deletion) after checking the real backend; the rest stay honestly
+/// Tag: 🟡 MOCK-NOW → 5 of 6 non-third-party rows are now genuinely
+/// 🔵 LIVE after real wiring; audit-log and third-party stay honestly
 /// yellow/red, not upgraded without evidence.
 ///
 /// Route: [AppRoutes.legalBlockersLive] → `/day-337-legal-blockers-live`
@@ -133,23 +136,31 @@ const _kCategories = [
   _DpdpCategory(
     id: 'consent',
     requirement: 'Consent management (granular, withdrawable)',
-    status: _Status.yellow,
-    evidence: 'Real Django view at /api/v1/account/consent/ '
-        '(ConsentView in account/views.py, GET+PATCH) — confirmed by '
-        'reading the source. No Dart service calls it.',
-    route: null,
-    routeLabel: '',
+    status: _Status.green,
+    evidence: 'Fixed (Play Store item 10): account_service.dart now calls '
+        'the real GET/PUT /api/v1/account/consent/ (ConsentView) from '
+        'day319_gdpr_consent_wire_screen.dart, implementing that screen\'s '
+        'own previously-documented migration plan — GET on load with a '
+        'local ConsentWireStorage fallback, PUT in the background per '
+        'toggle. Not build/device-verified against a live backend in this '
+        'sandbox.',
+    route: AppRoutes.gdprConsentWire,
+    routeLabel: 'Day 319 GDPR Consent Wire (live)',
   ),
   _DpdpCategory(
     id: 'sessions',
     requirement: 'Session transparency + revocation',
-    status: _Status.yellow,
-    evidence: 'Real endpoints: GET /api/v1/account/sessions/, POST '
-        '.../revoke-all/, POST .../<id>/ (SessionListView, '
-        'SessionRevokeAllView, SessionRevokeView) — confirmed real. No '
-        'Dart service calls any of them.',
-    route: null,
-    routeLabel: '',
+    status: _Status.green,
+    evidence: 'Fixed (Play Store item 10): account_service.dart now calls '
+        'the real GET /api/v1/account/sessions/, POST .../revoke-all/, '
+        'DELETE .../<id>/ from day179_active_sessions_screen.dart Tab 1. '
+        'The real response is a simpler shape than the old mock assumed '
+        '(no os/app_version/country/suspicious fields) — the screen shows '
+        'what the server actually returns rather than fabricated detail. '
+        'Tab 2 (Login History) stays honestly mock — no backend endpoint '
+        'for it exists anywhere. Not build/device-verified.',
+    route: AppRoutes.activeSessions,
+    routeLabel: 'Day 179 Active Sessions (live, Tab 1)',
   ),
   _DpdpCategory(
     id: 'audit_log',
@@ -157,23 +168,28 @@ const _kCategories = [
     status: _Status.yellow,
     evidence: 'Real AuditLogView at /api/v1/account/audit-log/ — distinct '
         'from the OLDER, already-wired /api/v1/audit-log/ (Day 68, live '
-        'via audit_log_service.dart). The account-scoped one is real but '
-        'unwired.',
+        'via audit_log_service.dart). The account-scoped one is still '
+        'real but unwired — lower priority than it was since the older '
+        'endpoint already serves the practical DPDP need.',
     route: null,
     routeLabel: '',
   ),
   _DpdpCategory(
     id: 'retention',
     requirement: 'Scheduled retention purge (storage-limitation principle)',
-    status: _Status.yellow,
-    evidence: 'Real RetentionView + RetentionPurgeNowView at '
-        '/api/v1/account/retention/ (+purge-now/) — confirmed in '
-        'account/urls.py + views.py. Day 286 originally tracked a '
-        'different, non-existent path (/api/v1/data-retention/purge) as '
-        'RED; the real functionality exists, just unwired and at a '
-        'different URL than Day 286 guessed.',
-    route: null,
-    routeLabel: '',
+    status: _Status.green,
+    evidence: 'Fixed (Play Store item 10): account_service.dart now calls '
+        'the real GET/PUT /api/v1/account/retention/ from '
+        'day176_data_retention_settings_screen.dart — but honestly only '
+        'for the 2 of 7 categories the backend actually has fields for '
+        '(evidence_days, gps_days; each restricted to 7/30/90). The other '
+        '5 categories on that screen (SOS events, analytics, audit log, '
+        'notifications, profile) have no backend retention field and are '
+        'now correctly labeled local-only rather than falsely claiming '
+        'server enforcement. purge-now (RetentionPurgeNowView) still has '
+        'no frontend caller. Not build/device-verified.',
+    route: AppRoutes.dataRetentionSettings,
+    routeLabel: 'Day 176 Data Retention (live, 2/7 categories)',
   ),
   _DpdpCategory(
     id: 'third_party',

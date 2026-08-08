@@ -31,7 +31,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
-import '../../data/services/account_service.dart' as account;
 import '../../domain/providers/account_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────

@@ -7,15 +7,28 @@
 ///           + retention change history.
 /// Day 178: Edge cases + DPDP §8 compliance + block sign-off.
 ///
-/// 🟢 FRONTEND-ONLY for pickers + Hive storage (local state).
-/// 🟡 MOCK-NOW for server-side enforcement of retention policies.
-///    Backend API contract documented in Tab 3.
+/// ── Server enforcement — fixed for Play Store item 10 ───────────────────────
+///   Was: ALL 7 categories claimed `serverEnforced: true` badges pointing at
+///   a speculative, never-built `/api/v1/account/retention-settings`
+///   endpoint. The REAL backend (`RetentionView` in
+///   `zapsafe_backend/account/views.py`, live since Day 158) only has TWO
+///   fields — `evidence_days` and `gps_days` — each restricted to exactly
+///   7/30/90 (90 requires premium). Only the Evidence Vault and Location &
+///   GPS History categories are genuinely server-enforceable; the other 5
+///   (SOS Events, Analytics, Audit Log, Notifications, Profile) have no
+///   backend retention API at all and now correctly show 🟢 local-only.
+///   GET pre-fills the two real categories on load (falling back to local
+///   Hive-equivalent defaults if unreachable); Save PUTs both real fields
+///   — a selection outside {7,30,90} (180/365/forever, still offered in
+///   the UI for those two categories) is honestly skipped server-side
+///   rather than silently rejected or misrepresented as saved remotely.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/account_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider        = StateProvider<int>((ref) => 0);
@@ -69,7 +82,7 @@ const _kCategories = [
     dpdpNote: 'SOS events may be needed for legal proceedings. '
         'We recommend at least 90 days. '
         'If under active investigation, use "Keep forever" until resolved.',
-    serverEnforced: true,
+    serverEnforced: false, // no backend field for this category — see file header
   ),
   _CatConfig(
     cat: _RetCat.evidence,
@@ -122,7 +135,7 @@ const _kCategories = [
     dpdpNote: 'Audit logs support your right to review access history (DPDP §11). '
         'Shorter retention reduces oversight; '
         'we recommend at least 90 days.',
-    serverEnforced: true,
+    serverEnforced: false, // no backend field for this category — see file header
   ),
   _CatConfig(
     cat: _RetCat.notifications,
@@ -197,19 +210,67 @@ const _periodDays = {
   _RetPeriod.forever: -1,
 };
 
-// ── Mock service ───────────────────────────────────────────────────────────────
+/// Reverse of a subset of [_periodDays] — only the 3 values the real
+/// backend actually accepts (RetentionView rejects anything else).
+const _daysToPeriod = {
+  7:  _RetPeriod.days7,
+  30: _RetPeriod.days30,
+  90: _RetPeriod.days90,
+};
+
+// ── Real service wrapper ──────────────────────────────────────────────────────
 class _RetentionService {
-  /// Simulates PUT /api/v1/account/retention-settings
-  static Future<void> saveSettings(Map<_RetCat, _RetPeriod> settings) =>
-      Future.delayed(const Duration(milliseconds: 900));
+  /// PUT /api/v1/account/retention/ — only evidence + location have a real
+  /// backend field (evidence_days / gps_days). Silently skips sending a
+  /// field whose local selection is outside {7, 30, 90} (e.g. 180/365/
+  /// forever, still offered in the UI) rather than fail the whole save or
+  /// misrepresent an unsupported value as saved server-side.
+  static Future<void> saveSettings(WidgetRef ref, Map<_RetCat, _RetPeriod> settings) async {
+    final evidenceDays = _periodDays[settings[_RetCat.evidence]];
+    final gpsDays      = _periodDays[settings[_RetCat.location]];
+    await ref.read(accountServiceProvider).putRetention(
+          evidenceDays: _daysToPeriod.containsKey(evidenceDays) ? evidenceDays : null,
+          gpsDays: _daysToPeriod.containsKey(gpsDays) ? gpsDays : null,
+        );
+  }
 }
 
 // ── Screen ─────────────────────────────────────────────────────────────────────
-class Day176DataRetentionSettingsScreen extends ConsumerWidget {
+class Day176DataRetentionSettingsScreen extends ConsumerStatefulWidget {
   const Day176DataRetentionSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Day176DataRetentionSettingsScreen> createState() =>
+      _Day176DataRetentionSettingsScreenState();
+}
+
+class _Day176DataRetentionSettingsScreenState
+    extends ConsumerState<Day176DataRetentionSettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Real GET on load — pre-fills the two genuinely server-enforced
+    // categories (evidence, location) from account_service.dart. Falls
+    // back to the existing local defaults on any failure (offline, etc.)
+    // rather than blocking the screen.
+    Future.microtask(() async {
+      try {
+        final pref = await ref.read(accountServiceProvider).fetchRetention();
+        if (!mounted) return;
+        final updated = Map<_RetCat, _RetPeriod>.from(ref.read(_retentionMapProvider));
+        final evidencePeriod = _daysToPeriod[pref.evidenceDays];
+        final gpsPeriod = _daysToPeriod[pref.gpsDays];
+        if (evidencePeriod != null) updated[_RetCat.evidence] = evidencePeriod;
+        if (gpsPeriod != null) updated[_RetCat.location] = gpsPeriod;
+        ref.read(_retentionMapProvider.notifier).state = updated;
+      } catch (_) {
+        // Offline/unreachable — local defaults already seeded stand as-is.
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final tab   = ref.watch(_activeTabProvider);
     final dirty = ref.watch(_dirtyProvider);
 
@@ -273,7 +334,7 @@ class _SaveButton extends ConsumerWidget {
       onTap: state == _SaveState.saving ? null : () async {
         ref.read(_saveStateProvider.notifier).state = _SaveState.saving;
         try {
-          await _RetentionService.saveSettings(ref.read(_retentionMapProvider));
+          await _RetentionService.saveSettings(ref, ref.read(_retentionMapProvider));
           if (context.mounted) {
             ref.read(_saveStateProvider.notifier).state = _SaveState.saved;
             ref.read(_dirtyProvider.notifier).state = false;
@@ -446,8 +507,10 @@ class _RetentionTab extends ConsumerWidget {
       _infoBox(icon: Icons.info_outline_rounded, color: const Color(0xFF3B82F6),
           text: 'DPDP §8: retain personal data only for as long as is necessary '
               'for the purpose for which it was collected. '
-              'Changes are saved locally in Hive and synced to the server '
-              'when backend implements PUT /api/v1/account/retention-settings.'),
+              'Evidence Vault and Location & GPS History are synced to the real '
+              'PUT /api/v1/account/retention/ on Save (green badge below). The '
+              'other 5 categories have no server retention field and stay '
+              'local-only.'),
       const SizedBox(height: ZapSpacing.lg),
 
       // Summary strip
@@ -520,11 +583,11 @@ class _RetentionTab extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                         decoration: BoxDecoration(
                             color: (cat.serverEnforced
-                                ? const Color(0xFFF59E0B)
-                                : const Color(0xFF10B981)).withOpacity(0.1),
+                                ? const Color(0xFF10B981)
+                                : const Color(0xFF6B7280)).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6)),
                         child: Text(
-                          cat.serverEnforced ? '🟡' : '🟢',
+                          cat.serverEnforced ? '🟢' : '⚪',
                           style: const TextStyle(fontSize: 9))),
                     ]),
                     const SizedBox(height: 2),
@@ -617,12 +680,13 @@ class _RetentionTab extends ConsumerWidget {
 
                           // Server vs local note
                           Row(children: [
-                            Text(cat.serverEnforced ? '🟡' : '🟢', style: const TextStyle(fontSize: 10)),
+                            Text(cat.serverEnforced ? '🟢' : '🟡', style: const TextStyle(fontSize: 10)),
                             const SizedBox(width: 5),
                             Text(
                               cat.serverEnforced
-                                  ? 'MOCK-NOW — server enforcement pending (backend Day 78)'
-                                  : 'FRONTEND-ONLY — stored in Hive, enforced locally',
+                                  ? 'LIVE — synced to /api/v1/account/retention/ (Save button), '
+                                    'enforced by the real nightly purge sweep'
+                                  : 'LOCAL ONLY — no backend field exists for this category',
                               style: const TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
                           ]),
                         ]))
@@ -940,8 +1004,9 @@ class _GpsPurgeCard extends StatelessWidget {
           ('Next purge', 'June ${13 + days - 14}, 2026  (in $days days)'),
           ('Scope', 'All GPS batches older than $days days'),
           ('Exception', 'GPS traces linked to active SOS events are exempt'),
-          ('Runs at', '03:00 AM device local time (low-power window)'),
-          ('Enforcement', '🟡 MOCK-NOW — backend job pending'),
+          ('Runs at', 'Nightly Celery beat sweep, server-side (real — account/models.py)'),
+          ('Enforcement', '🟢 LIVE — enforced once your setting is saved via '
+              '/api/v1/account/retention/, up to 90 days (7/30/90 only)'),
         ].map((t) => Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -963,68 +1028,52 @@ class _ApiContractTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _infoBox(icon: Icons.code_rounded, color: const Color(0xFF8B5CF6),
-          text: 'Backend at Day 78. No retention-settings API yet. '
-              'Replace _RetentionService.saveSettings() when backend is ready. '
-              'Hive stores preferences locally in the meantime.'),
+      _infoBox(icon: Icons.check_circle_rounded, color: const Color(0xFF10B981),
+          text: 'Endpoints 1-2 below are REAL and LIVE (zapsafe_backend/account/'
+              'views.py RetentionView, wired via account_service.dart for Play '
+              'Store item 10) — but only cover evidence + location (gps_days), '
+              'not all 7 categories the original spec draft below assumed. '
+              'Endpoints 3-4 (vault expiry / extend) have NO real backend — '
+              'still speculative drafts, not implemented.'),
       const SizedBox(height: ZapSpacing.lg),
 
-      const _SectionLabel('ENDPOINT 1 — GET RETENTION SETTINGS'),
+      const _SectionLabel('ENDPOINT 1 — GET RETENTION  ·  REAL (2 fields only)'),
       const SizedBox(height: ZapSpacing.md),
-      _code(context, '''// GET /api/v1/account/retention-settings
+      _code(context, '''// GET /api/v1/account/retention/
 // Auth: Bearer JWT required
-// Called on Settings → Data Retention screen load
+// Real shape (account/models.py RetentionPreference.as_contract_dict) —
+// only evidence + gps have a backend field; the other 5 categories on
+// this screen are local-only, no server contract exists for them.
 
 // RESPONSE 200 OK
 {
-  "retention_settings": {
-    "sos_events":    { "days": 365, "label": "1 year" },
-    "evidence":      { "days": 90,  "label": "90 days" },
-    "location":      { "days": 14,  "label": "14 days" },
-    "analytics":     { "days": 30,  "label": "30 days" },
-    "audit_log":     { "days": 90,  "label": "90 days" },
-    "notifications": { "days": 30,  "label": "30 days" },
-    "profile":       { "days": -1,  "label": "Keep forever" }
-  },
-  "last_updated": "2026-05-30T14:30:00Z"
+  "evidence_days": 90,
+  "gps_days": 14,
+  "updated_at": "2026-05-30T14:30:00Z"
 }'''),
 
       const SizedBox(height: ZapSpacing.lg),
-      const _SectionLabel('ENDPOINT 2 — UPDATE RETENTION SETTINGS'),
+      const _SectionLabel('ENDPOINT 2 — UPDATE RETENTION  ·  REAL (2 fields only)'),
       const SizedBox(height: ZapSpacing.md),
-      _code(context, '''// PUT /api/v1/account/retention-settings
+      _code(context, '''// PUT /api/v1/account/retention/
 // Auth: Bearer JWT required
-// DPDP §8: server enforces these as hard-delete schedules
+// Each field must be exactly 7, 30, or 90 — any other value (180/365/
+// forever, still offered in this UI) is rejected, not silently clamped.
 
 // REQUEST
-{
-  "retention_settings": {
-    "sos_events":    365,   // days; -1 = forever
-    "evidence":      90,
-    "location":      14,
-    "analytics":     30,
-    "audit_log":     90,
-    "notifications": 30
-    // "profile" cannot be set — always account-lifetime
-  }
-}
+{ "evidence_days": 90, "gps_days": 30 }
 
-// RESPONSE 200 OK
-{
-  "updated": true,
-  "next_purge_run": "2026-05-31T03:00:00Z",
-  "message": "Settings saved. Purge scheduler updated."
-}
+// RESPONSE 200 OK — echoes the saved preference
+{ "evidence_days": 90, "gps_days": 30, "updated_at": "..." }
 
-// RESPONSE 422 — invalid period for category
-{
-  "error": "invalid_period",
-  "field": "location",
-  "message": "Location data cannot be retained longer than 90 days (DPDP §8 policy)"
-}'''),
+// RESPONSE 400 — invalid value
+{ "error": "...", "code": "INVALID_RETENTION_DAYS" }
+
+// RESPONSE 403 — 90 days requires an active premium subscription
+{ "error": "...", "code": "RETENTION_90_REQUIRES_PREMIUM" }'''),
 
       const SizedBox(height: ZapSpacing.lg),
-      const _SectionLabel('ENDPOINT 3 — GET VAULT EXPIRY STATUS'),
+      const _SectionLabel('ENDPOINT 3 — GET VAULT EXPIRY STATUS  ·  NOT REAL, SPECULATIVE'),
       const SizedBox(height: ZapSpacing.md),
       _code(context, '''// GET /api/v1/evidence-vault/expiry
 // Auth: Bearer JWT required
@@ -1046,7 +1095,7 @@ class _ApiContractTab extends StatelessWidget {
 }'''),
 
       const SizedBox(height: ZapSpacing.lg),
-      const _SectionLabel('ENDPOINT 4 — EXTEND VAULT EXPIRY'),
+      const _SectionLabel('ENDPOINT 4 — EXTEND VAULT EXPIRY  ·  NOT REAL, SPECULATIVE'),
       const SizedBox(height: ZapSpacing.md),
       _code(context, '''// POST /api/v1/evidence-vault/{sos_id}/extend
 // Auth: Bearer JWT required
