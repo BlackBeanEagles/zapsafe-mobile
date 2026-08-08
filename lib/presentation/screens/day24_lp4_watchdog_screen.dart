@@ -86,7 +86,7 @@ class _Day24Lp4WatchdogScreenState
                 onEnqueue: () async {
                   final ok = await channel.enqueue();
                   ref.invalidate(watchdogStatusProvider);
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   if (ok) {
                     ZapSnackbar.success(
                         context, 'Watchdog enqueued · 15-min KEEP policy');
@@ -96,7 +96,7 @@ class _Day24Lp4WatchdogScreenState
                 },
                 onCancel: () async {
                   final ok = await channel.cancel();
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   if (ok) {
                     ZapSnackbar.info(context, 'Watchdog cancelled');
                   } else {

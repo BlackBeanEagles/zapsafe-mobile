@@ -104,12 +104,12 @@ class _Day18DrillsAndScheduleScreenState
                 onCancel: (id) async {
                   await service.cancelScheduled(id);
                   await _refreshPending();
-                  if (mounted) ZapSnackbar.info(context, 'Scheduled #$id cancelled');
+                  if (context.mounted) ZapSnackbar.info(context, 'Scheduled #$id cancelled');
                 },
                 onCancelAll: () async {
                   await service.cancelAllScheduled();
                   await _refreshPending();
-                  if (mounted) ZapSnackbar.info(context, 'All scheduled notifications cancelled');
+                  if (context.mounted) ZapSnackbar.info(context, 'All scheduled notifications cancelled');
                 },
                 onRefresh: _refreshPending,
               ),

@@ -11,7 +11,6 @@
 //
 // We never call .start() / .pollOnce() — those need the real plugin.
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';

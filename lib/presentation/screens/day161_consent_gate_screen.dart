@@ -37,16 +37,11 @@ const _kPrivacyVersion = kCurrentPrivacyVersion;
 const _kTermsVersion   = kCurrentTermsVersion;
 
 // ── Providers ──────────────────────────────────────────────────────────────────
-enum _ConsentGateMode { firstLaunch }
-
-final _gateModeProvider    = StateProvider<_ConsentGateMode>(
-    (ref) => _ConsentGateMode.firstLaunch);
 final _privacyCheckedProvider  = StateProvider<bool>((ref) => false);
 final _termsCheckedProvider    = StateProvider<bool>((ref) => false);
 final _activeTabProvider       = StateProvider<int>((ref) => 0);
 final _acceptStateProvider     = StateProvider<_AcceptState>(
     (ref) => _AcceptState.idle);
-final _scrolledEnoughProvider  = StateProvider<bool>((ref) => false);
 
 enum _AcceptState { idle, saving, done }
 

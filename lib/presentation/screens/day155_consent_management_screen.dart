@@ -204,7 +204,6 @@ final _consentValuesProvider = StateProvider<Map<ConsentType, bool>>(
       item.type: item.defaultValue,
   },
 );
-final _expandedItemProvider  = StateProvider<ConsentType?>((ref) => null);
 final _lastChangedProvider   = StateProvider<List<_ChangeRecord>>((ref) => []);
 final _activeTabProvider     = StateProvider<int>((ref) => 0);
 

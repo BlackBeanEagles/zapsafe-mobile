@@ -26,7 +26,6 @@ final _timeFilterProvider   = StateProvider<_TimeRange>((ref) => _TimeRange.days
 final _catFilterProvider    = StateProvider<_DataCat?>((ref) => null);
 final _expandedProvider     = StateProvider<String?>((ref) => null);  // event id
 final _searchQueryProvider  = StateProvider<String>((ref) => '');
-final _statExpandedProvider = StateProvider<int?>((ref) => null);
 
 // ── Enums ──────────────────────────────────────────────────────────────────────
 enum _EventType  { read, write, delete, export, login, failed }

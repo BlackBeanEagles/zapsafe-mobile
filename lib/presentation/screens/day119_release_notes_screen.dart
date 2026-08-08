@@ -778,14 +778,6 @@ class _EntryRow extends StatelessWidget {
     }
   }
 
-  IconData get _icon {
-    switch (entry.type) {
-      case _EntryType.feature:     return Icons.star_rounded;
-      case _EntryType.fix:         return Icons.build_rounded;
-      case _EntryType.improvement: return Icons.trending_up_rounded;
-    }
-  }
-
   String get _prefix {
     switch (entry.type) {
       case _EntryType.feature:     return '✨';

@@ -55,7 +55,7 @@ const _kWhatsNewV110 = '''ZapSafe v1.1 — AI Detection Update
 Questions? support@zapsafe.app''';
 
 // Hindi localised listing
-const _kHiTitle     = 'ZapSafe — व्यक्तिगत सुरक्षा SOS';   // 33 chars (Play allows 30, trim to "ZapSafe — सेफ्टी")
+// Untrimmed title 'ZapSafe — व्यक्तिगत सुरक्षा SOS' is 33 chars (Play allows 30), so it's trimmed below.
 const _kHiTitleTrim = 'ZapSafe — सेफ्टी SOS';               // 22 chars
 const _kHiShortDesc = 'SOS अलर्ट, एविडेंस वॉल्ट और इमरजेंसी कॉन्टैक्ट — एक ऐप में।';
 const _kHiFullDescSnippet = '''ZapSafe आपका व्यक्तिगत सुरक्षा साथी है।
@@ -854,7 +854,7 @@ class _Chip extends StatelessWidget {
 
 // ── _CopyCard ─────────────────────────────────────────────────────────────────
 class _CopyCard extends StatelessWidget {
-  final String label, sublabel, text, tip;
+  final String label, sublabel, text;
   final int maxChars;
   final Color color;
   final BuildContext context;
@@ -862,7 +862,6 @@ class _CopyCard extends StatelessWidget {
     required this.label, required this.sublabel, required this.text,
     required this.maxChars, required this.color,
     required this.context,
-    this.tip = '',
   });
 
   @override

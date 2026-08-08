@@ -23,7 +23,6 @@ import '../../core/theme/spacing.dart';
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider  = StateProvider<int>((ref) => 0);
 final _tagStateProvider   = StateProvider<_TagState>((ref) => _TagState.idle);
-final _confettiProvider   = StateProvider<bool>((ref) => false);
 
 enum _TagState { idle, tagging, pushing, done }
 

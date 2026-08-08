@@ -42,14 +42,6 @@ const _kReleaseNotes = [
       'Memory usage on low-RAM devices reduced by ~60 MB.'),
 ];
 
-const _kDistSteps = [
-  (Icons.build_rounded,         Color(0xFF3B82F6), 'Build release AAB + IPA'),
-  (Icons.verified_rounded,      Color(0xFF8B5CF6), 'Code-sign both artefacts'),
-  (Icons.cloud_upload_rounded,  Color(0xFFF59E0B), 'Upload to TestFlight + Play'),
-  (Icons.rate_review_rounded,   Color(0xFFEF4444), 'Apple review (~30 min)'),
-  (Icons.check_circle_rounded,  Color(0xFF10B981), 'Both tracks live → notify testers'),
-];
-
 const _kVerifyChecks = [
   'Sentry: android_11_sms_crash — 0 new events in last 24h',
   'Sentry: ios_oom_location — 0 new events in last 24h',

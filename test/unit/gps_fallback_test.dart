@@ -1,6 +1,5 @@
 // Day 38 — GPS fallback policy + CellLocationService + GpsSample.provider.
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zapsafe_mobile/data/models/gps_sample.dart';

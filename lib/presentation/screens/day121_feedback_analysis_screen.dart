@@ -18,7 +18,6 @@ import '../../core/theme/spacing.dart';
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider      = StateProvider<int>((ref) => 0);
 final _expandedBugProvider    = StateProvider<int?>((ref) => null);
-final _expandedFrProvider     = StateProvider<int?>((ref) => null);
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 class _Bug {
