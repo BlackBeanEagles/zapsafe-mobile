@@ -891,7 +891,7 @@ class _CrashRateCard extends ConsumerWidget {
       ),
       child: Column(children: [
         Row(children: [
-          Expanded(child: _RateBox('Before', '0.31%', const Color(0xFFEF4444))),
+          const Expanded(child: _RateBox('Before', '0.31%', Color(0xFFEF4444))),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: ZapSpacing.md),
             child: Icon(Icons.arrow_forward_rounded,
@@ -955,8 +955,8 @@ class _RateBox extends StatelessWidget {
                 color: color, fontSize: 24, fontWeight: FontWeight.w900)),
         Text(label,
             style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        Text('crash rate',
-            style: const TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
+        const Text('crash rate',
+            style: TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
       ]),
     );
   }

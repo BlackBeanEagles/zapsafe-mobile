@@ -193,14 +193,14 @@ class _Hero extends StatelessWidget {
               borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: const Color(0xFF30363D)),
             ),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  const Icon(Icons.remove_circle_outline_rounded,
+                  Icon(Icons.remove_circle_outline_rounded,
                       color: Color(0xFFEF4444), size: 13),
-                  const SizedBox(width: 6),
-                  const Text(
+                  SizedBox(width: 6),
+                  Text(
                     'api.zapsafe.app  (DigitalOcean)',
                     style: TextStyle(
                         color: Color(0xFFFF7B72),
@@ -210,12 +210,12 @@ class _Hero extends StatelessWidget {
                         decorationColor: Color(0xFFEF4444)),
                   ),
                 ]),
-                const SizedBox(height: ZapSpacing.xs),
+                SizedBox(height: ZapSpacing.xs),
                 Row(children: [
-                  const Icon(Icons.add_circle_outline_rounded,
+                  Icon(Icons.add_circle_outline_rounded,
                       color: Color(0xFF10B981), size: 13),
-                  const SizedBox(width: 6),
-                  const Text(
+                  SizedBox(width: 6),
+                  Text(
                     'api-aws.zapsafe.app  (AWS ap-south-1)',
                     style: TextStyle(
                         color: Color(0xFF7EE787),

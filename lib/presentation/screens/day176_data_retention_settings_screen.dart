@@ -310,7 +310,7 @@ class _SaveButton extends ConsumerWidget {
             ? const SizedBox(width: 14, height: 14,
                 child: CircularProgressIndicator(
                     color: Color(0xFF10B981), strokeWidth: 2))
-            : Row(mainAxisSize: MainAxisSize.min, children: const [
+            : const Row(mainAxisSize: MainAxisSize.min, children: [
                 Icon(Icons.save_rounded, color: Colors.white, size: 13),
                 SizedBox(width: 5),
                 Text('Save', style: TextStyle(color: Colors.white,
@@ -529,7 +529,7 @@ class _RetentionTab extends ConsumerWidget {
                     ]),
                     const SizedBox(height: 2),
                     Row(children: [
-                      Text('Retention: ', style: const TextStyle(
+                      const Text('Retention: ', style: TextStyle(
                           color: Color(0xFF6B7280), fontSize: 10)),
                       Text(_periodLabel[current]!, style: TextStyle(
                           color: isFixed ? const Color(0xFF6B7280) : cat.color,

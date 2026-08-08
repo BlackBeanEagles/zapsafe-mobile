@@ -397,8 +397,8 @@ class _Hero extends StatelessWidget {
           const SizedBox(height: ZapSpacing.md),
           Row(children: [
             _HStat('$total',  'Test cases',  const Color(0xFF3B82F6)),
-            _HStat('7',       'Categories',  const Color(0xFF8B5CF6)),
-            _HStat('< 500ms', 'Latency target', const Color(0xFFF59E0B)),
+            const _HStat('7',       'Categories',  Color(0xFF8B5CF6)),
+            const _HStat('< 500ms', 'Latency target', Color(0xFFF59E0B)),
             _HStat(
               done ? (failed == 0 ? '$passed ✅' : '$failed ❌') : '$passed/$total',
               done ? (failed == 0 ? 'All pass' : 'Failures') : 'Progress',
@@ -846,10 +846,10 @@ class _PassCard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: ZapSpacing.lg),
-        Wrap(
+        const Wrap(
           spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _Chip('Critical flow ✅',    Color(0xFFEF4444)),
             _Chip('Analytics ✅',         Color(0xFF3B82F6)),
             _Chip('Premium ✅',           Color(0xFF8B5CF6)),

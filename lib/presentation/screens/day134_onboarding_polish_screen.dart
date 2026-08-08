@@ -1235,8 +1235,8 @@ class _TimingTestTabState extends ConsumerState<_TimingTestTab> {
                   child: Row(children: [
                     Container(
                       width: 24, height: 24,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2A2A2A),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF2A2A2A),
                         shape: BoxShape.circle,
                       ),
                       child: Center(

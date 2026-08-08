@@ -796,7 +796,7 @@ class _StabilityTestState extends ConsumerState<_StabilityTest> {
           if (readings.isNotEmpty) _MiniChart(readings: readings),
         ] else if (state == _StabilityState.passed) ...[
           // Full result chart
-          _MiniChart(readings: _kStableReadings),
+          const _MiniChart(readings: _kStableReadings),
           const SizedBox(height: ZapSpacing.lg),
           const Icon(Icons.verified_rounded,
               color: Color(0xFF10B981), size: 44),

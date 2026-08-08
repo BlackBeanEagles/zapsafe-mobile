@@ -163,7 +163,7 @@ class BiometricService {
         localizedReason: reason,
         options: const AuthenticationOptions(
           biometricOnly: false,   // allow device PIN as fallback
-          stickyAuth: true,       // don\'t cancel on app backgrounding
+          stickyAuth: true,       // don't cancel on app backgrounding
           sensitiveTransaction: true,  // extra security indicator (iOS)
           useErrorDialogs: true,
         ),
@@ -642,13 +642,13 @@ class _UnlockedState extends StatelessWidget {
           color: const Color(0xFF10B981).withOpacity(0.07),
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.35))),
-      child: Column(children: [
-        const Icon(Icons.lock_open_rounded, color: Color(0xFF10B981), size: 36),
-        const SizedBox(height: ZapSpacing.sm),
-        const Text('App is unlocked', style: TextStyle(
+      child: const Column(children: [
+        Icon(Icons.lock_open_rounded, color: Color(0xFF10B981), size: 36),
+        SizedBox(height: ZapSpacing.sm),
+        Text('App is unlocked', style: TextStyle(
             color: Color(0xFF10B981), fontSize: 14, fontWeight: FontWeight.w700)),
-        const SizedBox(height: 6),
-        const Text('Tap below to simulate locking the app '
+        SizedBox(height: 6),
+        Text('Tap below to simulate locking the app '
             '(as if user backgrounded it past the timeout).',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11),
             textAlign: TextAlign.center),
@@ -686,7 +686,7 @@ class _LockedScreenMock extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Phone header strip
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF0A0A0A),
               borderRadius: BorderRadius.only(
@@ -741,13 +741,13 @@ class _LockedScreenMock extends StatelessWidget {
             if (!isLockedOut) ...[
               // Biometric button
               if (isUnlocking)
-                Column(children: [
-                  const SizedBox(
+                const Column(children: [
+                  SizedBox(
                     width: 56, height: 56,
                     child: CircularProgressIndicator(
                         color: Color(0xFF8B5CF6), strokeWidth: 3)),
-                  const SizedBox(height: ZapSpacing.sm),
-                  const Text('Verifying…',
+                  SizedBox(height: ZapSpacing.sm),
+                  Text('Verifying…',
                       style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 11)),
                 ])
               else
@@ -901,15 +901,15 @@ class _Lp18Tab extends ConsumerWidget {
             color: const Color(0xFFF59E0B).withOpacity(0.07),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.35))),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
             Icon(Icons.security_rounded, color: Color(0xFFF59E0B), size: 16),
             SizedBox(width: ZapSpacing.sm),
             Text('ZapSafe LP18 Compliance', style: TextStyle(
                 color: Color(0xFFF59E0B), fontSize: 12, fontWeight: FontWeight.w700)),
           ]),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          Text(
             'Status: ✅ Active — local_auth called before each gated operation.\n'
             'Platform: Android uses BiometricPrompt API / iOS uses LAContext.\n'
             'Fallback: Device PIN always allowed — no biometric-only lock-in.\n'

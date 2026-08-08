@@ -377,7 +377,7 @@ class _AppStoreProductPageMock extends StatelessWidget {
           border: Border.all(color: const Color(0xFF2A2A2A))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
@@ -400,12 +400,12 @@ class _AppStoreProductPageMock extends StatelessWidget {
                   borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(
                       color: const Color(0xFF9CA3AF).withOpacity(0.3))),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Promotional text (above description)',
+              child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Promotional text (above description)',
                     style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 8,
                         fontWeight: FontWeight.w700, letterSpacing: 1)),
-                const SizedBox(height: 5),
-                const Text(_kPromoText, style: TextStyle(
+                SizedBox(height: 5),
+                Text(_kPromoText, style: TextStyle(
                     color: Colors.white, fontSize: 11, height: 1.5)),
               ])),
             const SizedBox(height: ZapSpacing.sm),
@@ -753,19 +753,19 @@ class _BlockSignOff extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.5), width: 2),
       ),
-      child: Column(children: [
-        const Text('✍️', style: TextStyle(fontSize: 40)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Store Listing Block',
+      child: const Column(children: [
+        Text('✍️', style: TextStyle(fontSize: 40)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Store Listing Block',
             style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 193 – 194  ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 193 – 194  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('Title + subtitle ✅',    Color(0xFF8B5CF6)),
           _Chip('Short description ✅',   Color(0xFF3B82F6)),
           _Chip('Full description ✅',    Color(0xFF3B82F6)),
@@ -815,11 +815,11 @@ class _BlockSignOff extends StatelessWidget {
     const SizedBox(height: ZapSpacing.md),
     // 4/10 bar
     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        const Text('Section D progress',
+      const Row(children: [
+        Text('Section D progress',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const Spacer(),
-        const Text('4 / 10 days  ·  2 / 5 blocks',
+        Spacer(),
+        Text('4 / 10 days  ·  2 / 5 blocks',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                 fontWeight: FontWeight.w700)),
       ]),

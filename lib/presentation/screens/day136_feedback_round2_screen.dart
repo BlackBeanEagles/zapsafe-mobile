@@ -608,8 +608,8 @@ class _SurveyQuestion extends StatelessWidget {
       child: Row(children: [
         Container(
           width: 26, height: 26,
-          decoration: BoxDecoration(
-            color: const Color(0xFF2A2A2A),
+          decoration: const BoxDecoration(
+            color: Color(0xFF2A2A2A),
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -692,19 +692,19 @@ class _SurveyResults extends StatelessWidget {
             const Icon(Icons.sentiment_very_satisfied_rounded,
                 color: Color(0xFF10B981), size: 44),
             const SizedBox(width: ZapSpacing.lg),
-            Expanded(
+            const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Tester Satisfaction',
+                  Text('Tester Satisfaction',
                       style: TextStyle(
                           color: Color(0xFF9CA3AF), fontSize: 11)),
-                  const Text('4.4 / 5',
+                  Text('4.4 / 5',
                       style: TextStyle(
                           color: Color(0xFF10B981),
                           fontSize: 32,
                           fontWeight: FontWeight.w900)),
-                  const Text('avg rating from 612 responses',
+                  Text('avg rating from 612 responses',
                       style: TextStyle(
                           color: Color(0xFF9CA3AF), fontSize: 11)),
                 ],
@@ -787,10 +787,10 @@ class _SurveyResults extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF2A2A2A)),
           ),
-          child: Column(children: [
-            const _SectionLabel('TOP COMMENT'),
-            const SizedBox(height: ZapSpacing.md),
-            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: const Column(children: [
+            _SectionLabel('TOP COMMENT'),
+            SizedBox(height: ZapSpacing.md),
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Icon(Icons.format_quote_rounded,
                   color: Color(0xFF10B981), size: 18),
               SizedBox(width: ZapSpacing.sm),
@@ -807,8 +807,8 @@ class _SurveyResults extends StatelessWidget {
                 ),
               ),
             ]),
-            const SizedBox(height: ZapSpacing.sm),
-            const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            SizedBox(height: ZapSpacing.sm),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Text('— Beta tester, Samsung S23, Android 13',
                   style: TextStyle(
                       color: Color(0xFF6B7280), fontSize: 10)),
@@ -1244,7 +1244,7 @@ class _RetentionChart extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: ZapSpacing.xs),
-                      Text('${day}',
+                      Text('$day',
                           style: TextStyle(
                               color: isSelected
                                   ? const Color(0xFF10B981)

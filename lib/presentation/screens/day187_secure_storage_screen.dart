@@ -845,7 +845,7 @@ class _DataMapTab extends ConsumerWidget {
 
       // Table header
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
         decoration: const BoxDecoration(
             color: Color(0xFF111111),
             borderRadius: BorderRadius.only(

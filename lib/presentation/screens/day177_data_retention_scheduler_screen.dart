@@ -190,35 +190,35 @@ class _HistoryEntry {
 final _kHistory = [
   _HistoryEntry(
     ts: DateTime(2026, 5, 30, 14, 15),
-    category: 'Analytics & Crash Logs', color: Color(0xFF8B5CF6),
+    category: 'Analytics & Crash Logs', color: const Color(0xFF8B5CF6),
     icon: Icons.bar_chart_rounded,
     fromPeriod: '90 days', toPeriod: '30 days',
     changedBy: 'User', reason: 'Reduced after toggling analytics consent off.',
   ),
   _HistoryEntry(
     ts: DateTime(2026, 5, 22, 10, 00),
-    category: 'Evidence Vault', color: Color(0xFFF59E0B),
+    category: 'Evidence Vault', color: const Color(0xFFF59E0B),
     icon: Icons.lock_rounded,
     fromPeriod: '1 year', toPeriod: '90 days',
     changedBy: 'User', reason: 'Reduced for storage savings.',
   ),
   _HistoryEntry(
     ts: DateTime(2026, 4, 15, 9, 00),
-    category: 'Location & GPS', color: Color(0xFF10B981),
+    category: 'Location & GPS', color: const Color(0xFF10B981),
     icon: Icons.location_on_rounded,
     fromPeriod: '30 days', toPeriod: '14 days',
     changedBy: 'User', reason: 'Tightened for privacy after reading DPDP §8.',
   ),
   _HistoryEntry(
     ts: DateTime(2026, 3, 10, 12, 30),
-    category: 'Notification History', color: Color(0xFF6B7280),
+    category: 'Notification History', color: const Color(0xFF6B7280),
     icon: Icons.notifications_rounded,
     fromPeriod: '7 days', toPeriod: '30 days',
     changedBy: 'User', reason: 'Extended for better review capability.',
   ),
   _HistoryEntry(
     ts: DateTime(2026, 1, 15, 9, 0),
-    category: 'All categories', color: Color(0xFF3B82F6),
+    category: 'All categories', color: const Color(0xFF3B82F6),
     icon: Icons.settings_rounded,
     fromPeriod: '—', toPeriod: 'ZapSafe defaults',
     changedBy: 'System default', reason: 'Initial account setup — ZapSafe recommended defaults applied.',
@@ -1103,16 +1103,16 @@ class _HistoryTab extends ConsumerWidget {
             color: const Color(0xFF8B5CF6).withOpacity(0.06),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3))),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
             Icon(Icons.gavel_rounded, color: Color(0xFF8B5CF6), size: 14),
             SizedBox(width: ZapSpacing.sm),
             Text('GDPR Art. 5(2) — Accountability',
                 style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 11,
                     fontWeight: FontWeight.w700)),
           ]),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          Text(
             '"The controller shall be responsible for, and be able to demonstrate '
             'compliance with, paragraph 1." This change history is part of that '
             'demonstration — ZapSafe logs every retention change with timestamp, '

@@ -1127,17 +1127,17 @@ class _D140Gate extends StatelessWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5)),
         ),
-        child: Column(children: [
-          const Icon(Icons.local_offer_rounded, color: Color(0xFF10B981), size: 52),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('v0.5-beta-final TAGGED 🎉',
+        child: const Column(children: [
+          Icon(Icons.local_offer_rounded, color: Color(0xFF10B981), size: 52),
+          SizedBox(height: ZapSpacing.md),
+          Text('v0.5-beta-final TAGGED 🎉',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w900),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'git tag v0.5-beta-final\n'
             'Days 111-139 complete.\n'
             'App is production-ready. Day 140 = final verification.',
@@ -1148,12 +1148,12 @@ class _D140Gate extends StatelessWidget {
                 fontFamily: 'monospace'),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: ZapSpacing.lg),
+          SizedBox(height: ZapSpacing.lg),
           Wrap(
             spacing: ZapSpacing.sm,
             runSpacing: ZapSpacing.sm,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               _Chip('29 days (111-139)',  Color(0xFF10B981)),
               _Chip('Crash 0.09%',        Color(0xFF10B981)),
               _Chip('Retention D7: 43%',  Color(0xFF3B82F6)),

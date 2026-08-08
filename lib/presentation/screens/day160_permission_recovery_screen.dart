@@ -573,7 +573,7 @@ class _RecoveryGuideTab extends ConsumerWidget {
           color: guide.color,
           onTap: () => ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
+              content: const Text(
                   'In production: openAppSettings() → '
                   'Settings → Apps → ZapSafe → Permissions'),
               backgroundColor: guide.color,
@@ -1116,8 +1116,8 @@ class _HealthDashboardTab extends ConsumerWidget {
                                   : const Color(0xFF4B5563),
                               fontSize: 14,
                               fontWeight: FontWeight.w900)),
-                      Text('pts',
-                          style: const TextStyle(
+                      const Text('pts',
+                          style: TextStyle(
                               color: Color(0xFF4B5563), fontSize: 8)),
                     ]),
                     const SizedBox(width: ZapSpacing.sm),

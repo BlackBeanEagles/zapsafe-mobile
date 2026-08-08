@@ -695,25 +695,25 @@ class _RetroTab extends StatelessWidget {
             border: Border.all(
                 color: const Color(0xFF10B981).withOpacity(0.4)),
           ),
-          child: Column(children: [
-            const Text('30-Day Beta Retrospective',
+          child: const Column(children: [
+            Text('30-Day Beta Retrospective',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w900),
                 textAlign: TextAlign.center),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
+            SizedBox(height: ZapSpacing.sm),
+            Text(
               'Days 111-140 · 1 developer · 1,000 testers · 30 fixes',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ZapSpacing.lg),
+            SizedBox(height: ZapSpacing.lg),
             Wrap(
               spacing: ZapSpacing.sm,
               runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('30 days',             Color(0xFF10B981)),
                 _Chip('1,000 testers',       Color(0xFF3B82F6)),
                 _Chip('847 active',          Color(0xFF10B981)),

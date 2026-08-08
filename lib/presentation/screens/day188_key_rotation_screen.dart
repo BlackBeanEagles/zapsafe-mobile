@@ -86,7 +86,7 @@ const _kBoxes = [
 const _triggerInfo = {
   _Trigger.biometricChange: (
     'New biometric enrolled',
-    const Color(0xFFF59E0B),
+    Color(0xFFF59E0B),
     Icons.fingerprint_rounded,
     'A new finger or face was added to the device. '
         'The old hardware-bound Hive key (tied to previous biometric set) '
@@ -96,7 +96,7 @@ const _triggerInfo = {
   ),
   _Trigger.manual: (
     'Manual rotation',
-    const Color(0xFF3B82F6),
+    Color(0xFF3B82F6),
     Icons.refresh_rounded,
     'User manually requests key rotation via Settings → Security. '
         'Useful after: sharing device temporarily, suspicion of key compromise, '
@@ -105,7 +105,7 @@ const _triggerInfo = {
   ),
   _Trigger.compromise: (
     'Compromise detected',
-    const Color(0xFFEF4444),
+    Color(0xFFEF4444),
     Icons.warning_rounded,
     'Day 185-186 root/jailbreak detection flagged the device. '
         'ZapSafe cannot guarantee Keychain/Keystore integrity on a compromised device, '
@@ -803,19 +803,19 @@ class _BlockCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
       ),
-      child: Column(children: [
-        const Text('🔑', style: TextStyle(fontSize: 44)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Secure Storage Block',
+      child: const Column(children: [
+        Text('🔑', style: TextStyle(fontSize: 44)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Secure Storage Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 187 – 188  ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 187 – 188  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('Storage audit ✅',         Color(0xFF10B981)),
           _Chip('4 stores mapped ✅',       Color(0xFF3B82F6)),
           _Chip('10-item data map ✅',      Color(0xFF8B5CF6)),
@@ -868,11 +868,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
     // 8/10 progress
     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        const Text('Section C progress',
+      const Row(children: [
+        Text('Section C progress',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const Spacer(),
-        const Text('8 / 10 days  ·  4 / 5 blocks',
+        Spacer(),
+        Text('8 / 10 days  ·  4 / 5 blocks',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                 fontWeight: FontWeight.w700)),
       ]),

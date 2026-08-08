@@ -1085,7 +1085,7 @@ class _ResultsTab extends ConsumerWidget {
       return s + (isDone ? e.value.sizeMbAfter : e.value.sizeMbBefore);
     });
 
-    final apkBefore = 44.9;
+    const apkBefore = 44.9;
     final apkAfter  = apkBefore - (totalBefore - totalAfter);
 
     return Column(

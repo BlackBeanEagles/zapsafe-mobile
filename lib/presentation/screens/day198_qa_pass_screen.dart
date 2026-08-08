@@ -517,7 +517,11 @@ class _QaTab extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       final updated = Set<String>.from(checked);
-                      if (isDone) updated.remove(flow.id); else updated.add(flow.id);
+                      if (isDone) {
+                        updated.remove(flow.id);
+                      } else {
+                        updated.add(flow.id);
+                      }
                       ref.read(_flowCheckedProvider.notifier).state = updated;
                     },
                     child: AnimatedContainer(
@@ -739,7 +743,7 @@ class _SigningTab extends ConsumerWidget {
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Column(children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
             decoration: const BoxDecoration(
                 color: Color(0xFF111111),
                 borderRadius: BorderRadius.only(
@@ -890,19 +894,19 @@ class _BlockCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
       ),
-      child: Column(children: [
-        const Text('✅', style: TextStyle(fontSize: 44)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Release Checklist Block',
+      child: const Column(children: [
+        Text('✅', style: TextStyle(fontSize: 44)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Release Checklist Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 197 – 198  ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 197 – 198  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('38-item checklist ✅',   Color(0xFF3B82F6)),
           _Chip('8 quality gates ✅',     Color(0xFF10B981)),
           _Chip('10 QA flows ✅',         Color(0xFF10B981)),
@@ -954,11 +958,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
     // 8/10 bar
     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        const Text('Section D progress',
+      const Row(children: [
+        Text('Section D progress',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const Spacer(),
-        const Text('8 / 10 days  ·  4 / 5 blocks',
+        Spacer(),
+        Text('8 / 10 days  ·  4 / 5 blocks',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                 fontWeight: FontWeight.w700)),
       ]),
@@ -985,14 +989,14 @@ class _BlockCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.4)),
       ),
-      child: Column(children: [
-        const Text('🏆', style: TextStyle(fontSize: 40)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('The Final Two Days',
+      child: const Column(children: [
+        Text('🏆', style: TextStyle(fontSize: 40)),
+        SizedBox(height: ZapSpacing.md),
+        Text('The Final Two Days',
             style: TextStyle(color: Colors.white, fontSize: 16,
                 fontWeight: FontWeight.w800), textAlign: TextAlign.center),
-        const SizedBox(height: 6),
-        const Text(
+        SizedBox(height: 6),
+        Text(
           'Day 199: Submit ZapSafe to Play Store + App Store. '
           'Upload AAB and IPA. Fill in all store metadata. '
           'Submit for review.\n\n'
@@ -1001,9 +1005,9 @@ class _BlockCompleteTab extends StatelessWidget {
           'Security score 100/100. ZapSafe is live 🚀',
           style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
           textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('200 days 🗓️',         Color(0xFF3B82F6)),
           _Chip('150+ screens 📱',      Color(0xFF8B5CF6)),
           _Chip('Play Store 🟢',        Color(0xFF3DDC84)),

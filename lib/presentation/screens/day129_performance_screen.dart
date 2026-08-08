@@ -856,7 +856,7 @@ class _BatteryBreakdown extends StatelessWidget {
         ..._kBatteryProcesses.map((p) {
           final pct =
               showOptimised ? p.pctAfter : p.pctBefore;
-          final maxPct = 10.0;
+          const maxPct = 10.0;
           return Padding(
             padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
             child: Row(children: [
@@ -1337,27 +1337,27 @@ class _CompletionCard extends StatelessWidget {
         border: Border.all(
             color: const Color(0xFF10B981).withOpacity(0.4)),
       ),
-      child: Column(children: [
-        const Icon(Icons.speed_rounded,
+      child: const Column(children: [
+        Icon(Icons.speed_rounded,
             color: Color(0xFF10B981), size: 44),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Day 129 Complete!',
+        SizedBox(height: ZapSpacing.md),
+        Text('Day 129 Complete!',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.w800)),
-        const SizedBox(height: ZapSpacing.sm),
-        const Text(
+        SizedBox(height: ZapSpacing.sm),
+        Text(
           'Cold start: 5.2s → 1.8s\nBattery: 20%/hr → 6%/hr',
           style: TextStyle(
               color: Color(0xFF9CA3AF), fontSize: 13, height: 1.6),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(
           spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _Chip('DB deferred',           Color(0xFF3B82F6)),
             _Chip('TFLite deferred',       Color(0xFF8B5CF6)),
             _Chip('GPS adaptive',          Color(0xFF10B981)),

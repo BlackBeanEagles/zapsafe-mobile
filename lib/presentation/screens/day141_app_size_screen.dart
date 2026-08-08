@@ -753,7 +753,7 @@ class _ComponentsTabState extends State<_ComponentsTab> {
                       ),
                       child: Center(
                         child: Text(
-                          '${comp.sizeMb.toStringAsFixed(1)}',
+                          comp.sizeMb.toStringAsFixed(1),
                           style: TextStyle(
                               color: comp.color,
                               fontSize: 11,

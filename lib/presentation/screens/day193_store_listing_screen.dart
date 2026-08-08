@@ -43,9 +43,9 @@ Set up Tier 1 (notify first), Tier 2 (backup), and Tier 3 (final fallback) '
 contacts. ZapSafe escalates automatically if nobody responds.
 
 ⏱ CHECK-IN TIMERS
-Dead-man\'s switch — if you don\'t check in, your contacts are notified. '
+Dead-man's switch — if you don't check in, your contacts are notified. '
 Perfect for solo hikes, late nights, or any situation where you need '
-someone to know you\'re safe.
+someone to know you're safe.
 
 🛡 PROTECTION SCORE
 See your safety score at a glance. ZapSafe monitors your setup — contacts '
@@ -86,7 +86,7 @@ SMART ESCALATION
 Tier 1 → 2 → 3 contact hierarchy. Auto-escalates if nobody responds.
 
 CHECK-IN TIMERS
-Dead-man\'s switch for solo travellers and night-shift workers.
+Dead-man's switch for solo travellers and night-shift workers.
 
 PROTECTION SCORE
 Live safety score — contacts, location, drills, permissions.
@@ -491,7 +491,7 @@ class _PlaySearchPreview extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Header
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
@@ -568,16 +568,16 @@ class _AppleSearchPreview extends StatelessWidget {
       child: Column(children: [
         // Header
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           decoration: const BoxDecoration(
               color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(ZapSpacing.radius),
                   topRight: Radius.circular(ZapSpacing.radius))),
-          child: Row(children: [
-            const Icon(Icons.apple_rounded, color: Color(0xFF9CA3AF), size: 13),
-            const SizedBox(width: 6),
-            const Text('App Store search result',
+          child: const Row(children: [
+            Icon(Icons.apple_rounded, color: Color(0xFF9CA3AF), size: 13),
+            SizedBox(width: 6),
+            Text('App Store search result',
                 style: TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
           ])),
         // Search result
@@ -643,7 +643,7 @@ class _DescriptionTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final store = ref.watch(_storeTabProvider);
     final desc  = store == _Store.play ? _kPlayFullDesc : _kAppleFullDesc;
-    final max   = 4000;
+    const max   = 4000;
     final len   = desc.length;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -880,7 +880,7 @@ class _AsoTab extends ConsumerWidget {
         child: Column(children: [
           // Table header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
             color: const Color(0xFF111111),
             child: const Row(children: [
               Expanded(flex: 2, child: Text('Factor',

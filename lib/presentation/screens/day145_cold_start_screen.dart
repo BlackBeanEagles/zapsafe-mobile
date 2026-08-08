@@ -462,7 +462,7 @@ class _ProfileTab extends ConsumerWidget {
                   'Collecting startup frames…', loading: true)
             else ...[
               Row(children: [
-                _pBox('${_kTotalMs} ms', 'Total blocking', const Color(0xFFF97316)),
+                _pBox('$_kTotalMs ms', 'Total blocking', const Color(0xFFF97316)),
                 const SizedBox(width: ZapSpacing.sm),
                 _pBox('${_kPhases.where((p) => p.status == 'ok').length}/${_kPhases.length}',
                     'Phases OK', const Color(0xFF10B981)),
@@ -481,7 +481,7 @@ class _ProfileTab extends ConsumerWidget {
         if (state == _ProfileState.done) ...[
           const _SectionLabel('STARTUP FLAME CHART  ·  POST D141-144'),
           const SizedBox(height: ZapSpacing.md),
-          _FlameChart(phases: _kPhases, totalMs: _kTotalMs),
+          const _FlameChart(phases: _kPhases, totalMs: _kTotalMs),
           const SizedBox(height: ZapSpacing.lg),
           _infoBox(
             icon: Icons.warning_amber_rounded,
@@ -541,9 +541,9 @@ class _FlameChart extends StatelessWidget {
       ),
       child: Column(children: [
         // Time axis
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text('0 ms', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8, fontFamily: 'monospace')),
             Text('500 ms', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8, fontFamily: 'monospace')),
             Text('1000 ms', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8, fontFamily: 'monospace')),
@@ -688,8 +688,8 @@ class _TweaksTab extends ConsumerWidget {
                         fontWeight: FontWeight.w800,
                         fontFamily: 'monospace'),
                   ),
-                  Text('  cold start',
-                      style: const TextStyle(
+                  const Text('  cold start',
+                      style: TextStyle(
                           color: Color(0xFF6B7280), fontSize: 11)),
                 ]),
               ],
@@ -1061,23 +1061,23 @@ class _SignOffTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF10B981).withOpacity(0.4)),
           ),
-          child: Column(children: [
-            const Icon(Icons.emoji_events_rounded,
+          child: const Column(children: [
+            Icon(Icons.emoji_events_rounded,
                 color: Color(0xFF10B981), size: 44),
-            const SizedBox(height: ZapSpacing.md),
-            const Text(
+            SizedBox(height: ZapSpacing.md),
+            Text(
               'Performance Phase Complete!\nDays 141-145 ✅',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18, fontWeight: FontWeight.w900),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ZapSpacing.lg),
+            SizedBox(height: ZapSpacing.lg),
             Wrap(
               spacing: ZapSpacing.sm,
               runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('APK 44.9→26 MB',       Color(0xFF10B981)),
                 _Chip('Cold start < 2s ✅',    Color(0xFF10B981)),
                 _Chip('ML models −59%',         Color(0xFFEF4444)),

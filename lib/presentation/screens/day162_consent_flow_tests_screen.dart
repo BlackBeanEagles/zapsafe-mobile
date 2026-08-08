@@ -1040,10 +1040,10 @@ class _EdgeCasesTab extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: ZapSpacing.lg),
-            Wrap(
+            const Wrap(
               spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('Gate screen ✅',        Color(0xFF8B5CF6)),
                 _Chip('Policy update mode ✅', Color(0xFFF59E0B)),
                 _Chip('GoRouter redirect ✅',  Color(0xFF3B82F6)),

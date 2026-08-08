@@ -321,7 +321,7 @@ class _ContrastBug extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.lg),
 
         // Before/after toggle
-        _SectionLabel('COLOUR CONTRAST PREVIEW'),
+        const _SectionLabel('COLOUR CONTRAST PREVIEW'),
         const SizedBox(height: ZapSpacing.md),
         Row(children: [
           Expanded(
@@ -448,7 +448,7 @@ class _TextOverflowBug extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.lg),
 
         // Language picker
-        _SectionLabel('LANGUAGE PREVIEW'),
+        const _SectionLabel('LANGUAGE PREVIEW'),
         const SizedBox(height: ZapSpacing.md),
         Row(children: [
           ...[_PreviewLang.en, _PreviewLang.hi, _PreviewLang.ta]
@@ -630,7 +630,7 @@ class _IconTintBug extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
 
-        _SectionLabel('ICON PREVIEW  ·  API 29 SIMULATION'),
+        const _SectionLabel('ICON PREVIEW  ·  API 29 SIMULATION'),
         const SizedBox(height: ZapSpacing.md),
 
         Container(
@@ -760,7 +760,7 @@ class _ButtonStyleBug extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
 
-        _SectionLabel('BUTTON STYLE AUDIT'),
+        const _SectionLabel('BUTTON STYLE AUDIT'),
         const SizedBox(height: ZapSpacing.md),
 
         // Before: inconsistent buttons

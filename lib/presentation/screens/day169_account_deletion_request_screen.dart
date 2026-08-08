@@ -614,14 +614,14 @@ class _Step0Warnings extends ConsumerWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.5), width: 2),
         ),
-        child: Column(children: [
-          const Icon(Icons.delete_forever_rounded, color: Color(0xFFEF4444), size: 40),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('This action starts the 30-day deletion process.',
+        child: const Column(children: [
+          Icon(Icons.delete_forever_rounded, color: Color(0xFFEF4444), size: 40),
+          SizedBox(height: ZapSpacing.md),
+          Text('This action starts the 30-day deletion process.',
               style: TextStyle(color: Colors.white, fontSize: 15,
                   fontWeight: FontWeight.w800), textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'After 30 days, your account and nearly all personal data will be '
             'permanently and irreversibly deleted. You can cancel at any time '
             'before day 30 to restore your account fully.',
@@ -941,7 +941,7 @@ class _OtpInputState extends State<_OtpInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
           color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -1162,7 +1162,7 @@ class _SuccessCard extends ConsumerWidget {
           style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11, height: 1.6),
           textAlign: TextAlign.center),
         const SizedBox(height: ZapSpacing.lg),
-        Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: const [
+        const Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
           _Chip('Grace period ⏳', Color(0xFFF59E0B)),
           _Chip('Contacts notified 📧', Color(0xFF3B82F6)),
           _Chip('Exports still available 📦', Color(0xFF8B5CF6)),
@@ -1446,7 +1446,7 @@ Widget _inputField({required String hint,
     TextInputType keyboardType = TextInputType.text,
     ValueChanged<String>? onChanged}) =>
     Container(
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
           color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

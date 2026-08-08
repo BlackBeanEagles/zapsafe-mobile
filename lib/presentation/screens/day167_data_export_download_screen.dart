@@ -69,71 +69,71 @@ class _ExportFolder {
 }
 
 final _kExportStructure = [
-  _ExportFolder(
-    name: 'profile/', icon: Icons.account_circle_rounded, color: const Color(0xFF3B82F6),
+  const _ExportFolder(
+    name: 'profile/', icon: Icons.account_circle_rounded, color: Color(0xFF3B82F6),
     files: [
       _ExportFile(name: 'profile.json', path: 'profile/profile.json', sizeBytes: 1800,
-          icon: Icons.data_object_rounded, color: const Color(0xFF3B82F6),
+          icon: Icons.data_object_rounded, color: Color(0xFF3B82F6),
           preview: '{\n  "name": "Priya Sharma",\n  "phone": "+91 98765 43210",\n  "member_since": "2025-01-15",\n  "subscription": "premium",\n  "device_tier": "A"\n}'),
     ],
   ),
-  _ExportFolder(
-    name: 'contacts/', icon: Icons.people_rounded, color: const Color(0xFF10B981),
+  const _ExportFolder(
+    name: 'contacts/', icon: Icons.people_rounded, color: Color(0xFF10B981),
     files: [
       _ExportFile(name: 'emergency_contacts.json', path: 'contacts/emergency_contacts.json', sizeBytes: 4200,
-          icon: Icons.data_object_rounded, color: const Color(0xFF10B981),
+          icon: Icons.data_object_rounded, color: Color(0xFF10B981),
           preview: '[\n  {\n    "tier": 1,\n    "name": "Rahul Sharma",\n    "phone": "+91 98111 22333",\n    "verified": true\n  },\n  {\n    "tier": 2,\n    "name": "Aarti Patel",\n    "phone": "+91 99000 11222",\n    "verified": true\n  }\n]'),
     ],
   ),
-  _ExportFolder(
-    name: 'sos_events/', icon: Icons.warning_rounded, color: const Color(0xFFEF4444),
+  const _ExportFolder(
+    name: 'sos_events/', icon: Icons.warning_rounded, color: Color(0xFFEF4444),
     files: [
       _ExportFile(name: 'events_index.json', path: 'sos_events/events_index.json', sizeBytes: 12000,
-          icon: Icons.data_object_rounded, color: const Color(0xFFEF4444),
+          icon: Icons.data_object_rounded, color: Color(0xFFEF4444),
           preview: '{\n  "total_events": 3,\n  "date_range": {\n    "from": "2025-02-01",\n    "to": "2026-05-30"\n  },\n  "events": [\n    { "id": "sos_001", "triggered_at": "2025-09-14T22:45:00Z", "resolved": true },\n    { "id": "sos_002", "triggered_at": "2026-01-03T11:22:00Z", "resolved": true }\n  ]\n}'),
       _ExportFile(name: 'sos_001/', path: 'sos_events/sos_001/', sizeBytes: 24000000,
-          icon: Icons.folder_rounded, color: const Color(0xFFEF4444),
+          icon: Icons.folder_rounded, color: Color(0xFFEF4444),
           preview: '📁 Contains: audio.aac, gps_trace.json, dcs_scores.json, contacts_notified.json'),
     ],
   ),
-  _ExportFolder(
-    name: 'location/', icon: Icons.location_on_rounded, color: const Color(0xFF10B981),
+  const _ExportFolder(
+    name: 'location/', icon: Icons.location_on_rounded, color: Color(0xFF10B981),
     files: [
       _ExportFile(name: 'safe_zones.json', path: 'location/safe_zones.json', sizeBytes: 3200,
-          icon: Icons.data_object_rounded, color: const Color(0xFF10B981),
+          icon: Icons.data_object_rounded, color: Color(0xFF10B981),
           preview: '[\n  { "name": "Home", "lat": 19.0760, "lng": 72.8777, "radius_m": 100 },\n  { "name": "Work", "lat": 18.9220, "lng": 72.8347, "radius_m": 50 }\n]'),
       _ExportFile(name: 'gps_history.json', path: 'location/gps_history.json', sizeBytes: 320000,
-          icon: Icons.data_object_rounded, color: const Color(0xFF10B981),
+          icon: Icons.data_object_rounded, color: Color(0xFF10B981),
           preview: '// 14-day GPS history (pruned for export).\n// Contains 1,247 location samples.\n// Accuracy ≤ 50 m only (high-quality gate).\n[\n  { "lat": 19.0760, "lng": 72.8777, "ts": "2026-05-29T08:12:00Z", "acc": 12 }\n  // ...1246 more\n]'),
     ],
   ),
-  _ExportFolder(
-    name: 'settings/', icon: Icons.tune_rounded, color: const Color(0xFF6B7280),
+  const _ExportFolder(
+    name: 'settings/', icon: Icons.tune_rounded, color: Color(0xFF6B7280),
     files: [
       _ExportFile(name: 'preferences.json', path: 'settings/preferences.json', sizeBytes: 3900,
-          icon: Icons.data_object_rounded, color: const Color(0xFF6B7280),
+          icon: Icons.data_object_rounded, color: Color(0xFF6B7280),
           preview: '{\n  "language": "en",\n  "notification_prefs": { "sos_alert": true, "drill": true },\n  "dnd": { "enabled": false, "start": 22, "end": 7 },\n  "analytics_consent": false,\n  "crash_consent": true\n}'),
       _ExportFile(name: 'consents.json', path: 'settings/consents.json', sizeBytes: 900,
-          icon: Icons.data_object_rounded, color: const Color(0xFF6B7280),
+          icon: Icons.data_object_rounded, color: Color(0xFF6B7280),
           preview: '{\n  "privacy_policy_version": "2.0",\n  "accepted_at": "2026-01-15T09:00:00Z",\n  "tos_version": "1.0",\n  "analytics": false,\n  "crash_reporting": true\n}'),
     ],
   ),
-  _ExportFolder(
-    name: 'audit_log/', icon: Icons.history_rounded, color: const Color(0xFF3B82F6),
+  const _ExportFolder(
+    name: 'audit_log/', icon: Icons.history_rounded, color: Color(0xFF3B82F6),
     files: [
       _ExportFile(name: 'activity_log.json', path: 'audit_log/activity_log.json', sizeBytes: 225000,
-          icon: Icons.data_object_rounded, color: const Color(0xFF3B82F6),
+          icon: Icons.data_object_rounded, color: Color(0xFF3B82F6),
           preview: '// 322 activity events across 6 months.\n[\n  {\n    "event": "sos_triggered",\n    "ts": "2026-05-29T22:45:00Z",\n    "device": "Samsung Galaxy S24",\n    "ip": "103.*.*.* (redacted)"\n  }\n  // ...321 more\n]'),
     ],
   ),
-  _ExportFolder(
-    name: '_meta/', icon: Icons.info_rounded, color: const Color(0xFFF59E0B),
+  const _ExportFolder(
+    name: '_meta/', icon: Icons.info_rounded, color: Color(0xFFF59E0B),
     files: [
       _ExportFile(name: 'manifest.json', path: '_meta/manifest.json', sizeBytes: 1100,
-          icon: Icons.data_object_rounded, color: const Color(0xFFF59E0B),
+          icon: Icons.data_object_rounded, color: Color(0xFFF59E0B),
           preview: '{\n  "export_id": "$_kExportId",\n  "generated_at": "2026-05-30T14:30:00Z",\n  "schema_version": "1.0",\n  "categories": ["profile","contacts","sos_events","location","settings","audit_log"],\n  "format": "zip",\n  "total_size_bytes": $_kFileSize,\n  "checksum_sha256": "$_kServerChecksum"\n}'),
       _ExportFile(name: 'README.txt', path: '_meta/README.txt', sizeBytes: 680,
-          icon: Icons.text_snippet_rounded, color: const Color(0xFFF59E0B),
+          icon: Icons.text_snippet_rounded, color: Color(0xFFF59E0B),
           preview: 'ZapSafe Personal Data Export\nGenerated: May 30, 2026\n\nThis archive contains all personal data ZapSafe holds for your account, as required by DPDP Act 2023 §11 and GDPR Art. 20.\n\nTo verify file integrity:\n  sha256sum zapsafe_export_20260530.zip\n  Expected: e3b0c442...b855\n\nQuestions? privacy@zapsafe.app'),
     ],
   ),
@@ -337,7 +337,7 @@ class _DownloadTabState extends ConsumerState<_DownloadTab> {
           child: Column(children: [
             _kv('Export ID',  _kExportId),
             _kv('File',       'zapsafe_export_20260530.zip'),
-            _kv('Size',       '50.0 MB (${_kFileSize} bytes)'),
+            _kv('Size',       '50.0 MB ($_kFileSize bytes)'),
             _kv('Expires',    'June 29, 2026'),
             _kv('Checksum',   '${_kServerChecksum.substring(0, 16)}…'),
           ]),
@@ -726,9 +726,9 @@ class _IntegrityTab extends ConsumerWidget {
           _statusCard(Icons.radar_rounded, const Color(0xFF10B981),
               'Checking…', 'Byte-by-byte comparison in progress', loading: true)
         else if (state == _IntegrityState.pass)
-          _ResultCard(pass: true)
+          const _ResultCard(pass: true)
         else
-          _ResultCard(pass: false),
+          const _ResultCard(pass: false),
 
         const SizedBox(height: ZapSpacing.xl),
 
@@ -863,7 +863,7 @@ class _ResultCard extends StatelessWidget {
           textAlign: TextAlign.center),
         if (pass) ...[
           const SizedBox(height: ZapSpacing.md),
-          Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: const [
+          const Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
             _Chip('Not corrupted ✓', Color(0xFF10B981)),
             _Chip('Not tampered ✓',  Color(0xFF10B981)),
             _Chip('50.0 MB ✓',       Color(0xFF10B981)),

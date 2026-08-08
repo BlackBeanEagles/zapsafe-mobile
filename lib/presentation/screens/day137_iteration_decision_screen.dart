@@ -659,25 +659,25 @@ class _DauFeatureTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // DAU chart
-        const _SectionLabel('DAILY ACTIVE USERS  ·  14 DAYS POST-RELEASE'),
-        const SizedBox(height: ZapSpacing.md),
-        const _DauChart(),
-        const SizedBox(height: ZapSpacing.xl),
+        _SectionLabel('DAILY ACTIVE USERS  ·  14 DAYS POST-RELEASE'),
+        SizedBox(height: ZapSpacing.md),
+        _DauChart(),
+        SizedBox(height: ZapSpacing.xl),
 
         // Feature usage
-        const _SectionLabel('FEATURE USAGE  ·  OPENS PER 1,000 SESSIONS'),
-        const SizedBox(height: ZapSpacing.md),
-        const _FeatureUsageChart(),
-        const SizedBox(height: ZapSpacing.lg),
+        _SectionLabel('FEATURE USAGE  ·  OPENS PER 1,000 SESSIONS'),
+        SizedBox(height: ZapSpacing.md),
+        _FeatureUsageChart(),
+        SizedBox(height: ZapSpacing.lg),
 
         // Insights
-        const _SectionLabel('KEY INSIGHTS'),
-        const SizedBox(height: ZapSpacing.md),
-        const _InsightsCard(),
+        _SectionLabel('KEY INSIGHTS'),
+        SizedBox(height: ZapSpacing.md),
+        _InsightsCard(),
       ],
     );
   }
@@ -774,9 +774,9 @@ class _DauChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: ZapSpacing.sm),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text('Day 1', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
             Text('Day 7', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
             Text('Day 14', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
@@ -1255,29 +1255,29 @@ class _GateCard extends StatelessWidget {
           border: Border.all(
               color: const Color(0xFF10B981).withOpacity(0.4)),
         ),
-        child: Column(children: [
-          const Icon(Icons.verified_rounded,
+        child: const Column(children: [
+          Icon(Icons.verified_rounded,
               color: Color(0xFF10B981), size: 44),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Day 137 Gate Passed ✅',
+          SizedBox(height: ZapSpacing.md),
+          Text('Day 137 Gate Passed ✅',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w800)),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'Iteration plan confirmed:\n'
             'Days 138-139 fix 4 items → Day 140 tag v0.5-beta-final',
             style: TextStyle(
                 color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: ZapSpacing.lg),
+          SizedBox(height: ZapSpacing.lg),
           Wrap(
             spacing: ZapSpacing.sm,
             runSpacing: ZapSpacing.sm,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               _Chip('DAU +96%',         Color(0xFF10B981)),
               _Chip('Crash 0.09%',      Color(0xFF10B981)),
               _Chip('Retention D7 43%', Color(0xFF10B981)),

@@ -575,7 +575,7 @@ class _GdprTab extends ConsumerWidget {
               )
             else if (scanState == _ScanState.scanning)
               _statusChip(Icons.radar_rounded, const Color(0xFF3B82F6),
-                  'Scanning ${doneCount}/${_kGdprChecks.length} requirements…',
+                  'Scanning $doneCount/${_kGdprChecks.length} requirements…',
                   loading: true)
             else ...[
               Row(children: [
@@ -677,7 +677,7 @@ class _GdprCheckRowState extends State<_GdprCheckRow> {
                   color: widget.result! ? const Color(0xFF10B981) : const Color(0xFFEF4444),
                   size: 16)
               else
-                Icon(Icons.hourglass_top_rounded, color: const Color(0xFF2A2A2A), size: 14),
+                const Icon(Icons.hourglass_top_rounded, color: Color(0xFF2A2A2A), size: 14),
               const SizedBox(width: ZapSpacing.sm),
               Icon(_expanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
                   color: const Color(0xFF4B5563), size: 14),
@@ -728,30 +728,30 @@ class _SignOffTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
           ),
-          child: Column(children: [
-            const Text('🎉', style: TextStyle(fontSize: 48)),
-            const SizedBox(height: ZapSpacing.md),
-            const Text('Section A: Privacy & Legal',
+          child: const Column(children: [
+            Text('🎉', style: TextStyle(fontSize: 48)),
+            SizedBox(height: ZapSpacing.md),
+            Text('Section A: Privacy & Legal',
                 style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                     fontWeight: FontWeight.w700, letterSpacing: 1),
                 textAlign: TextAlign.center),
-            const SizedBox(height: ZapSpacing.xs),
-            const Text('COMPLETE ✅',
+            SizedBox(height: ZapSpacing.xs),
+            Text('COMPLETE ✅',
                 style: TextStyle(color: Colors.white, fontSize: 24,
                     fontWeight: FontWeight.w900),
                 textAlign: TextAlign.center),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
+            SizedBox(height: ZapSpacing.sm),
+            Text(
               'Days 151-165  ·  15 screens  ·  7 sub-blocks\n'
               'DPDP Act 2023 + GDPR + App Store compliant',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ZapSpacing.lg),
+            SizedBox(height: ZapSpacing.lg),
             Wrap(
               spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('Privacy Policy ✅',    Color(0xFF3B82F6)),
                 _Chip('Terms of Service ✅',  Color(0xFF8B5CF6)),
                 _Chip('Consent Toggles ✅',   Color(0xFF8B5CF6)),

@@ -543,9 +543,9 @@ class _MemoryTimeline extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.sm),
         // X labels
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text('0 min', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
             Text('15 min', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
             Text('30 min', style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),

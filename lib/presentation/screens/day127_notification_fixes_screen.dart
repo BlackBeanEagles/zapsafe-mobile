@@ -318,7 +318,7 @@ class _ClarityFix extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
 
-        _SectionLabel('NOTIFICATION PREVIEW'),
+        const _SectionLabel('NOTIFICATION PREVIEW'),
         const SizedBox(height: ZapSpacing.md),
 
         // Toggle
@@ -516,25 +516,25 @@ class _DozeModeFix extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.lg),
 
         // Doze explanation diagram
-        _SectionLabel('HOW DOZE BLOCKS NOTIFICATIONS'),
+        const _SectionLabel('HOW DOZE BLOCKS NOTIFICATIONS'),
         const SizedBox(height: ZapSpacing.md),
         const _DozeTimeline(),
         const SizedBox(height: ZapSpacing.xl),
 
         // Permission request demo
-        _SectionLabel('STEP 1  ·  REQUEST SCHEDULE_EXACT_ALARM'),
+        const _SectionLabel('STEP 1  ·  REQUEST SCHEDULE_EXACT_ALARM'),
         const SizedBox(height: ZapSpacing.md),
         _PermissionDemo(state: permState),
         const SizedBox(height: ZapSpacing.xl),
 
         // Delay simulation
-        _SectionLabel('STEP 2  ·  SIMULATE NOTIFICATION DELIVERY'),
+        const _SectionLabel('STEP 2  ·  SIMULATE NOTIFICATION DELIVERY'),
         const SizedBox(height: ZapSpacing.md),
         _DelaySimulator(state: delayState),
         const SizedBox(height: ZapSpacing.xl),
 
         // Code fix
-        _SectionLabel('STEP 3  ·  CODE FIX'),
+        const _SectionLabel('STEP 3  ·  CODE FIX'),
         const SizedBox(height: ZapSpacing.md),
         _codeNote('sos_escalation_service.kt',
             '// Before — plain FCM (blocked by Doze)\n'
@@ -893,8 +893,8 @@ class _DelaySimulator extends ConsumerWidget {
               border: Border.all(
                   color: const Color(0xFFEF4444).withOpacity(0.3)),
             ),
-            child: Column(children: [
-              const Row(children: [
+            child: const Column(children: [
+              Row(children: [
                 Icon(Icons.block_rounded, color: Color(0xFFEF4444), size: 16),
                 SizedBox(width: ZapSpacing.sm),
                 Text('Notification BLOCKED by Doze',
@@ -903,8 +903,8 @@ class _DelaySimulator extends ConsumerWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w700)),
               ]),
-              const SizedBox(height: ZapSpacing.sm),
-              const Text(
+              SizedBox(height: ZapSpacing.sm),
+              Text(
                 'FCM push queued. Will deliver when device exits Doze '
                 'maintenance window (~30-90 seconds). SOS response delayed.',
                 style: TextStyle(

@@ -452,18 +452,18 @@ class _TrustedDevicesTab extends ConsumerWidget {
             },
           ),
           // Labels
-          Row(children: [
-            const Text('7d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
-            const Spacer(),
-            const Text('14d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
-            const Spacer(),
-            const Text('30d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
-            const Spacer(),
-            const Text('60d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
-            const Spacer(),
-            const Text('90d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
-            const Spacer(),
-            const Text('180d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+          const Row(children: [
+            Text('7d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+            Spacer(),
+            Text('14d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+            Spacer(),
+            Text('30d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+            Spacer(),
+            Text('60d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+            Spacer(),
+            Text('90d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
+            Spacer(),
+            Text('180d', style: TextStyle(color: Color(0xFF4B5563), fontSize: 9)),
           ]),
           const SizedBox(height: ZapSpacing.sm),
           // Security level indicator
@@ -872,24 +872,24 @@ class _SectionBCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.6), width: 2),
       ),
-      child: Column(children: [
-        const Text('🎉', style: TextStyle(fontSize: 52)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Section B: Data Rights',
+      child: const Column(children: [
+        Text('🎉', style: TextStyle(fontSize: 52)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Section B: Data Rights',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 15,
                 fontWeight: FontWeight.w700, letterSpacing: 0.5),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 166 – 180  ·  COMPLETE ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 166 – 180  ·  COMPLETE ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.sm),
-        const Text('15 screens  ·  5 blocks  ·  DPDP + GDPR compliant',
+        SizedBox(height: ZapSpacing.sm),
+        Text('15 screens  ·  5 blocks  ·  DPDP + GDPR compliant',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('Data Export ✅',          Color(0xFF8B5CF6)),
           _Chip('Account Deletion ✅',     Color(0xFFEF4444)),
           _Chip('Audit Log ✅',            Color(0xFF3B82F6)),
@@ -947,21 +947,21 @@ class _SectionBCompleteTab extends StatelessWidget {
     // Overall progress bar — Section B done
     const _SectionLabel('SECTION PROGRESS'),
     const SizedBox(height: ZapSpacing.md),
-    _ProgressCard(
+    const _ProgressCard(
         label: 'Section A — Privacy & Legal (Days 151-165)',
-        value: 1.0, color: const Color(0xFF10B981), tag: 'Done ✅'),
+        value: 1.0, color: Color(0xFF10B981), tag: 'Done ✅'),
     const SizedBox(height: ZapSpacing.sm),
-    _ProgressCard(
+    const _ProgressCard(
         label: 'Section B — Data Rights (Days 166-180)',
-        value: 1.0, color: const Color(0xFF10B981), tag: 'Done ✅'),
+        value: 1.0, color: Color(0xFF10B981), tag: 'Done ✅'),
     const SizedBox(height: ZapSpacing.sm),
-    _ProgressCard(
+    const _ProgressCard(
         label: 'Section C — Security Hardening (Days 181-190)',
-        value: 0.0, color: const Color(0xFF3B82F6), tag: 'Next →'),
+        value: 0.0, color: Color(0xFF3B82F6), tag: 'Next →'),
     const SizedBox(height: ZapSpacing.sm),
-    _ProgressCard(
+    const _ProgressCard(
         label: 'Section D — Store Prep & Polish (Days 191-200)',
-        value: 0.0, color: const Color(0xFF6B7280), tag: 'Upcoming'),
+        value: 0.0, color: Color(0xFF6B7280), tag: 'Upcoming'),
     const SizedBox(height: ZapSpacing.xl),
 
     // Section C preview

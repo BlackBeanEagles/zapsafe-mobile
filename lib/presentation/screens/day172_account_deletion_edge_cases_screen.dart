@@ -44,8 +44,8 @@ class _EdgeCase {
 }
 
 // ── simulated UI snippets ──────────────────────────────────────────────────────
-Widget _sosMockUI() => _MockCard(
-  color: const Color(0xFFEF4444),
+Widget _sosMockUI() => const _MockCard(
+  color: Color(0xFFEF4444),
   icon: Icons.warning_rounded,
   title: 'Cannot delete — SOS active',
   body: 'You have an active SOS event (sos_20260530_001). '
@@ -54,11 +54,11 @@ Widget _sosMockUI() => _MockCard(
       'SOS History before requesting deletion.',
   apiLabel: '409 { "error": "active_sos", "sos_id": "sos_20260530_001" }',
   actionLabel: 'View SOS History',
-  actionColor: const Color(0xFFEF4444),
+  actionColor: Color(0xFFEF4444),
 );
 
-Widget _holdMockUI() => _MockCard(
-  color: const Color(0xFFF59E0B),
+Widget _holdMockUI() => const _MockCard(
+  color: Color(0xFFF59E0B),
   icon: Icons.gavel_rounded,
   title: 'Evidence under legal hold',
   body: 'Your Evidence Vault contains data submitted to law enforcement. '
@@ -68,11 +68,11 @@ Widget _holdMockUI() => _MockCard(
   apiLabel: '409 { "error": "evidence_hold", "hold_until": "2026-12-01", '
       '"reason": "law_enforcement_ref: FIR/2026/123" }',
   actionLabel: 'Delete non-evidence data only',
-  actionColor: const Color(0xFFF59E0B),
+  actionColor: Color(0xFFF59E0B),
 );
 
-Widget _devicesMockUI() => _MockCard(
-  color: const Color(0xFF3B82F6),
+Widget _devicesMockUI() => const _MockCard(
+  color: Color(0xFF3B82F6),
   icon: Icons.devices_rounded,
   title: '3 devices will be signed out',
   body: 'Your ZapSafe account is active on 3 devices:\n'
@@ -83,11 +83,11 @@ Widget _devicesMockUI() => _MockCard(
       'Local Hive data will be wiped on each device on next app open.',
   apiLabel: 'GET /api/v1/account/sessions → 3 active sessions',
   actionLabel: 'Proceed with deletion',
-  actionColor: const Color(0xFF3B82F6),
+  actionColor: Color(0xFF3B82F6),
 );
 
-Widget _partialMockUI() => _MockCard(
-  color: const Color(0xFF8B5CF6),
+Widget _partialMockUI() => const _MockCard(
+  color: Color(0xFF8B5CF6),
   icon: Icons.error_outline_rounded,
   title: 'Deletion interrupted — retry',
   body: 'The deletion process was interrupted after 4 of 9 data categories '
@@ -97,11 +97,11 @@ Widget _partialMockUI() => _MockCard(
   apiLabel: '500 { "error": "wipe_interrupted", "wiped_categories": 4, '
       '"deletion_id": "del_20260530_xyz" }',
   actionLabel: 'Resume Deletion',
-  actionColor: const Color(0xFF8B5CF6),
+  actionColor: Color(0xFF8B5CF6),
 );
 
-Widget _reusePhoneMockUI() => _MockCard(
-  color: const Color(0xFF10B981),
+Widget _reusePhoneMockUI() => const _MockCard(
+  color: Color(0xFF10B981),
   icon: Icons.phone_iphone_rounded,
   title: 'New account — fresh start',
   body: 'Your previous ZapSafe account (+91 98765 43210) was deleted on '
@@ -110,11 +110,11 @@ Widget _reusePhoneMockUI() => _MockCard(
       'SOS history, or settings will be restored.',
   apiLabel: 'POST /auth/send-otp → 200 (phone number re-usable after deletion)',
   actionLabel: 'Continue setting up new account',
-  actionColor: const Color(0xFF10B981),
+  actionColor: Color(0xFF10B981),
 );
 
-Widget _timerMockUI() => _MockCard(
-  color: const Color(0xFF6B7280),
+Widget _timerMockUI() => const _MockCard(
+  color: Color(0xFF6B7280),
   icon: Icons.timer_off_rounded,
   title: 'Active check-in timers cancelled',
   body: 'You have 2 active check-in timers:\n'
@@ -124,7 +124,7 @@ Widget _timerMockUI() => _MockCard(
       'request is accepted. Your emergency contacts will not be alerted.',
   apiLabel: 'Deletion request auto-cancels timers via CASCADE DELETE on users table',
   actionLabel: 'Understood — proceed',
-  actionColor: const Color(0xFF6B7280),
+  actionColor: Color(0xFF6B7280),
 );
 
 final _kEdgeCases = [
@@ -752,10 +752,10 @@ class _LegalTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF10B981).withOpacity(0.35))),
         child: Column(children: [
-          Row(children: [
-            const Icon(Icons.verified_rounded, color: Color(0xFF10B981), size: 18),
-            const SizedBox(width: ZapSpacing.sm),
-            const Text('Deletion Compliance Score  —  6 / 6 Requirements Met',
+          const Row(children: [
+            Icon(Icons.verified_rounded, color: Color(0xFF10B981), size: 18),
+            SizedBox(width: ZapSpacing.sm),
+            Text('Deletion Compliance Score  —  6 / 6 Requirements Met',
                 style: TextStyle(color: Colors.white, fontSize: 13,
                     fontWeight: FontWeight.w700)),
           ]),
@@ -768,7 +768,7 @@ class _LegalTab extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation(Color(0xFF10B981)),
                 minHeight: 6)),
           const SizedBox(height: ZapSpacing.sm),
-          Wrap(spacing: 6, runSpacing: 6, children: const [
+          const Wrap(spacing: 6, runSpacing: 6, children: [
             _LChip('DPDP §13(1) ✅', Color(0xFF10B981)),
             _LChip('DPDP §13(2) ✅', Color(0xFF10B981)),
             _LChip('DPDP §13(3) ✅', Color(0xFF10B981)),
@@ -977,20 +977,20 @@ class _BlockCompleteTab extends StatelessWidget {
           border: Border.all(
               color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
         ),
-        child: Column(children: [
-          const Text('🗑️', style: TextStyle(fontSize: 44)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Account Deletion Block',
+        child: const Column(children: [
+          Text('🗑️', style: TextStyle(fontSize: 44)),
+          SizedBox(height: ZapSpacing.md),
+          Text('Account Deletion Block',
               style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                   fontWeight: FontWeight.w700, letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.xs),
-          const Text('DAYS 169 – 172  ✅',
+          SizedBox(height: ZapSpacing.xs),
+          Text('DAYS 169 – 172  ✅',
               style: TextStyle(color: Colors.white, fontSize: 22,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.lg),
+          SizedBox(height: ZapSpacing.lg),
           Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-              alignment: WrapAlignment.center, children: const [
+              alignment: WrapAlignment.center, children: [
             _Chip('Request flow ✅',          Color(0xFF8B5CF6)),
             _Chip('Grace period UI ✅',        Color(0xFFF59E0B)),
             _Chip('Day-30 walkthrough ✅',     Color(0xFFEF4444)),
@@ -1035,11 +1035,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
       // Section B progress bar
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          const Text('Section B progress',
+        const Row(children: [
+          Text('Section B progress',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-          const Spacer(),
-          const Text('2 / 5 blocks complete',
+          Spacer(),
+          Text('2 / 5 blocks complete',
               style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                   fontWeight: FontWeight.w700)),
         ]),
@@ -1175,7 +1175,7 @@ class _MockCard extends StatelessWidget {
         ])),
       const SizedBox(height: ZapSpacing.sm),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
             color: const Color(0xFF111111),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),

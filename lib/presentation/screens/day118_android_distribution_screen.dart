@@ -1125,11 +1125,11 @@ class _PlayInviteCard extends StatelessWidget {
           ),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
           // Stats row
-          Padding(
-            padding: const EdgeInsets.all(ZapSpacing.md),
+          const Padding(
+            padding: EdgeInsets.all(ZapSpacing.md),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
+              children: [
                 _InfoCell(Icons.people_rounded,     'Testers',   '1,000'),
                 _InfoCell(Icons.update_rounded,      'Updates',   'Auto'),
                 _InfoCell(Icons.star_rounded,        'Track',     'Internal'),

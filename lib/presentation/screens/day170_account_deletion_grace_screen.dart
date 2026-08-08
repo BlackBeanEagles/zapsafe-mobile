@@ -423,19 +423,19 @@ class _CountdownTab extends ConsumerWidget {
             color: const Color(0xFF8B5CF6).withOpacity(0.07),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.35))),
-        child: Row(children: [
-          const Icon(Icons.download_rounded, color: Color(0xFF8B5CF6), size: 20),
-          const SizedBox(width: ZapSpacing.md),
+        child: const Row(children: [
+          Icon(Icons.download_rounded, color: Color(0xFF8B5CF6), size: 20),
+          SizedBox(width: ZapSpacing.md),
           Expanded(child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Download your data before deletion',
+            Text('Download your data before deletion',
                 style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 12,
                     fontWeight: FontWeight.w700)),
-            const Text(
+            Text(
                 'Settings → Download My Data → Request ZIP export.',
                 style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
           ])),
-          const Icon(Icons.chevron_right_rounded,
+          Icon(Icons.chevron_right_rounded,
               color: Color(0xFF4B5563), size: 18),
         ]),
       ),
@@ -467,12 +467,12 @@ class _CountdownRing extends StatelessWidget {
       width: 200, height: 200,
       child: Stack(alignment: Alignment.center, children: [
         // Background circle
-        SizedBox(width: 200, height: 200,
+        const SizedBox(width: 200, height: 200,
             child: CircularProgressIndicator(
                 value: 1.0,
                 strokeWidth: 12,
                 valueColor: AlwaysStoppedAnimation(
-                    const Color(0xFF2A2A2A)))),
+                    Color(0xFF2A2A2A)))),
         // Progress arc (days elapsed = 1 - progress)
         SizedBox(width: 200, height: 200,
             child: CircularProgressIndicator(
@@ -489,7 +489,7 @@ class _CountdownRing extends StatelessWidget {
               style: TextStyle(color: color.withOpacity(0.8),
                   fontSize: 11, fontWeight: FontWeight.w600)),
           const SizedBox(height: ZapSpacing.xs),
-          Text('of 30', style: const TextStyle(
+          const Text('of 30', style: TextStyle(
               color: Color(0xFF4B5563), fontSize: 10)),
           const SizedBox(height: 6),
           // Remaining seconds/hours label
@@ -875,14 +875,14 @@ class _CancelTab extends ConsumerWidget {
               borderRadius: BorderRadius.circular(ZapSpacing.radius),
               border: Border.all(
                   color: const Color(0xFF10B981).withOpacity(0.45), width: 2)),
-          child: Column(children: [
-            const Icon(Icons.undo_rounded, color: Color(0xFF10B981), size: 36),
-            const SizedBox(height: ZapSpacing.md),
-            const Text('Cancel account deletion?',
+          child: const Column(children: [
+            Icon(Icons.undo_rounded, color: Color(0xFF10B981), size: 36),
+            SizedBox(height: ZapSpacing.md),
+            Text('Cancel account deletion?',
                 style: TextStyle(color: Colors.white, fontSize: 16,
                     fontWeight: FontWeight.w800), textAlign: TextAlign.center),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
+            SizedBox(height: ZapSpacing.sm),
+            Text(
               'Your account will be immediately restored.\n'
               'The 30-day grace period will be cancelled.\n'
               'All features and data will be re-enabled.',
@@ -1026,7 +1026,7 @@ class _CancelSuccessCard extends ConsumerWidget {
           style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
           textAlign: TextAlign.center),
         const SizedBox(height: ZapSpacing.lg),
-        Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: const [
+        const Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
           _Chip('SOS active ✅',         Color(0xFF10B981)),
           _Chip('Contacts restored ✅',  Color(0xFF10B981)),
           _Chip('All data intact ✅',    Color(0xFF10B981)),

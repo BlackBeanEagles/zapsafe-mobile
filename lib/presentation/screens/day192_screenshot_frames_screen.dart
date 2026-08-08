@@ -792,12 +792,12 @@ class _LocaleScreenshotPreview extends StatelessWidget {
                   Positioned.fill(child: Column(children: [
                     Container(
                       height: 40, color: const Color(0xFF0F0F0F),
-                      child: Row(children: [
-                        const SizedBox(width: ZapSpacing.md),
-                        const Icon(Icons.bolt_rounded,
+                      child: const Row(children: [
+                        SizedBox(width: ZapSpacing.md),
+                        Icon(Icons.bolt_rounded,
                             color: Color(0xFFEF4444), size: 14),
-                        const SizedBox(width: 5),
-                        const Text('ZapSafe', style: TextStyle(
+                        SizedBox(width: 5),
+                        Text('ZapSafe', style: TextStyle(
                             color: Colors.white, fontSize: 12,
                             fontWeight: FontWeight.w700)),
                       ])),
@@ -951,7 +951,11 @@ class _ExportChecklistTab extends ConsumerWidget {
                 GestureDetector(
                   onTap: () {
                     final updated = Set<String>.from(checked);
-                    if (isDone) updated.remove(item.id); else updated.add(item.id);
+                    if (isDone) {
+                      updated.remove(item.id);
+                    } else {
+                      updated.add(item.id);
+                    }
                     ref.read(_checkedItemsProvider.notifier).state = updated;
                   },
                   child: Padding(

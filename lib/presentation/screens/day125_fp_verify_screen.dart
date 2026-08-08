@@ -435,10 +435,10 @@ class _AlertPendingDemoState extends ConsumerState<_AlertPendingDemo>
                     ]),
                     if (running) ...[
                       const SizedBox(height: ZapSpacing.xs),
-                      Row(children: [
-                        const SizedBox(width: 22),
+                      const Row(children: [
+                        SizedBox(width: 22),
                         Text('Detected at 12:45 PM · M1 Scream model',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Color(0xFF9CA3AF),
                                 fontSize: 11)),
                       ]),
@@ -473,9 +473,9 @@ class _AlertPendingDemoState extends ConsumerState<_AlertPendingDemo>
                     ),
                     child: Center(
                       child: finished
-                          ? Column(
+                          ? const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Icon(Icons.bolt_rounded,
                                     color: Color(0xFF8B5CF6), size: 32),
                                 Text('SOS\nSent',
@@ -634,11 +634,11 @@ class _ScenarioPanel extends ConsumerWidget {
         // Progress header
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1A1A1A),
-            borderRadius: const BorderRadius.vertical(
+          decoration: const BoxDecoration(
+            color: Color(0xFF1A1A1A),
+            borderRadius: BorderRadius.vertical(
                 top: Radius.circular(ZapSpacing.radius)),
-            border: const Border(
+            border: Border(
               left: BorderSide(color: Color(0xFF2A2A2A)),
               right: BorderSide(color: Color(0xFF2A2A2A)),
               top: BorderSide(color: Color(0xFF2A2A2A)),
@@ -677,11 +677,11 @@ class _ScenarioPanel extends ConsumerWidget {
         ),
         // Scenario cards
         Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF1A1A1A),
-            borderRadius: const BorderRadius.vertical(
+          decoration: const BoxDecoration(
+            color: Color(0xFF1A1A1A),
+            borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(ZapSpacing.radius)),
-            border: const Border(
+            border: Border(
               left: BorderSide(color: Color(0xFF2A2A2A)),
               right: BorderSide(color: Color(0xFF2A2A2A)),
               bottom: BorderSide(color: Color(0xFF2A2A2A)),
@@ -960,8 +960,8 @@ class _FpRateComparison extends StatelessWidget {
       ),
       child: Column(children: [
         Row(children: [
-          Expanded(
-            child: _RateBox('Before', '7.8%', const Color(0xFFEF4444)),
+          const Expanded(
+            child: _RateBox('Before', '7.8%', Color(0xFFEF4444)),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md),
@@ -969,7 +969,7 @@ class _FpRateComparison extends StatelessWidget {
               const Icon(Icons.arrow_forward_rounded,
                   color: Color(0xFF4B5563), size: 20),
               const SizedBox(height: ZapSpacing.xs),
-              Text('${passCount}/${totalTests}\ntests pass',
+              Text('$passCount/$totalTests\ntests pass',
                   style: const TextStyle(
                       color: Color(0xFF6B7280),
                       fontSize: 9),
@@ -1012,11 +1012,11 @@ class _FpRateComparison extends StatelessWidget {
             // Background bar (full = 10% max)
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
+              child: const LinearProgressIndicator(
                 value: 1.0,
-                backgroundColor: const Color(0xFF2A2A2A),
+                backgroundColor: Color(0xFF2A2A2A),
                 valueColor:
-                    const AlwaysStoppedAnimation(Color(0xFF2A2A2A)),
+                    AlwaysStoppedAnimation(Color(0xFF2A2A2A)),
                 minHeight: 12,
               ),
             ),

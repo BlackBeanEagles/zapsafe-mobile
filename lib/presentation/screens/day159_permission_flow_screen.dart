@@ -690,11 +690,11 @@ class _Step0Rationale extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(ZapSpacing.radius - 2)),
           ),
-          child: Row(children: [
-            const Icon(Icons.info_outline_rounded, size: 12,
+          child: const Row(children: [
+            Icon(Icons.info_outline_rounded, size: 12,
                 color: Color(0xFF9CA3AF)),
-            const SizedBox(width: 6),
-            const Text('STEP 1 OF 3  ·  Rationale card (our screen)',
+            SizedBox(width: 6),
+            Text('STEP 1 OF 3  ·  Rationale card (our screen)',
                 style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 9,
                     fontWeight: FontWeight.w600)),
           ]),
@@ -1205,7 +1205,7 @@ class _StatusBadgeTab extends ConsumerWidget {
                 spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
                 children: _kPermissions.map((p) {
                   final status = statuses[p.id] ?? _PermStatus.notAsked;
-                  return PermissionStatusBadge(
+                  return _PermissionStatusBadge(
                     permissionName: p.name.split(' ').first,
                     icon: p.icon,
                     color: p.color,
@@ -1258,7 +1258,7 @@ class _StatusBadgeTab extends ConsumerWidget {
             Row(children: [
               const Text('Requires: ',
                   style: TextStyle(color: Color(0xFF4B5563), fontSize: 10)),
-              PermissionStatusBadge(
+              _PermissionStatusBadge(
                 permissionName: 'Mic',
                 icon: Icons.mic_rounded,
                 color: const Color(0xFF8B5CF6),
@@ -1266,7 +1266,7 @@ class _StatusBadgeTab extends ConsumerWidget {
                 onTap: () {},
               ),
               const SizedBox(width: 6),
-              PermissionStatusBadge(
+              _PermissionStatusBadge(
                 permissionName: 'Camera',
                 icon: Icons.videocam_rounded,
                 color: const Color(0xFF3B82F6),
@@ -1294,14 +1294,14 @@ class _StatusBadgeTab extends ConsumerWidget {
 
 // ── PermissionStatusBadge widget ───────────────────────────────────────────────
 /// Reusable inline permission status indicator.
-class PermissionStatusBadge extends StatelessWidget {
+class _PermissionStatusBadge extends StatelessWidget {
   final String      permissionName;
   final IconData    icon;
   final Color       color;
   final _PermStatus status;
   final VoidCallback onTap;
 
-  const PermissionStatusBadge({
+  const _PermissionStatusBadge({
     super.key,
     required this.permissionName,
     required this.icon,

@@ -501,8 +501,8 @@ class _ThirdPartyTab extends ConsumerWidget {
                       if (!isRevoked) ...[
                         const SizedBox(height: 3),
                         Row(children: [
-                          Icon(Icons.access_time_rounded,
-                              color: const Color(0xFF4B5563), size: 11),
+                          const Icon(Icons.access_time_rounded,
+                              color: Color(0xFF4B5563), size: 11),
                           const SizedBox(width: ZapSpacing.xs),
                           Expanded(child: Text(party.accessedWhen,
                               style: const TextStyle(
@@ -757,7 +757,7 @@ class _DpdpTab extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation(Color(0xFF10B981)),
                 minHeight: 6)),
           const SizedBox(height: ZapSpacing.sm),
-          Wrap(spacing: 6, runSpacing: 6, children: const [
+          const Wrap(spacing: 6, runSpacing: 6, children: [
             _LChip('§11(1)(a) ✅', Color(0xFF10B981)),
             _LChip('§11(1)(b) ✅', Color(0xFF3B82F6)),
             _LChip('§11(1)(c) ✅', Color(0xFF8B5CF6)),
@@ -894,20 +894,20 @@ class _BlockCompleteTab extends StatelessWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
         ),
-        child: Column(children: [
-          const Text('🔍', style: TextStyle(fontSize: 44)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Data Access Audit Log Block',
+        child: const Column(children: [
+          Text('🔍', style: TextStyle(fontSize: 44)),
+          SizedBox(height: ZapSpacing.md),
+          Text('Data Access Audit Log Block',
               style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                   fontWeight: FontWeight.w700, letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.xs),
-          const Text('DAYS 173 – 175  ✅',
+          SizedBox(height: ZapSpacing.xs),
+          Text('DAYS 173 – 175  ✅',
               style: TextStyle(color: Colors.white, fontSize: 22,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.lg),
+          SizedBox(height: ZapSpacing.lg),
           Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-              alignment: WrapAlignment.center, children: const [
+              alignment: WrapAlignment.center, children: [
             _Chip('Timeline (30 events) ✅',    Color(0xFF3B82F6)),
             _Chip('Multi-filter (type/time/cat) ✅', Color(0xFF3B82F6)),
             _Chip('Actor summary stats ✅',     Color(0xFF10B981)),
@@ -949,11 +949,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
       // Progress bar
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          const Text('Section B progress',
+        const Row(children: [
+          Text('Section B progress',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-          const Spacer(),
-          const Text('3 / 5 blocks complete',
+          Spacer(),
+          Text('3 / 5 blocks complete',
               style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                   fontWeight: FontWeight.w700)),
         ]),

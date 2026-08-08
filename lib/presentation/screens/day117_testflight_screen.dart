@@ -93,49 +93,49 @@ class Day117TestFlightScreen extends ConsumerWidget {
         title: const Text('Day 117 · iOS TestFlight'),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(ZapSpacing.lg),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(ZapSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _Hero(),
-            const SizedBox(height: ZapSpacing.xl),
+            _Hero(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Requirements checklist
-            const _SectionLabel('PRE-FLIGHT CHECKLIST'),
-            const SizedBox(height: ZapSpacing.md),
-            const _Checklist(),
-            const SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('PRE-FLIGHT CHECKLIST'),
+            SizedBox(height: ZapSpacing.md),
+            _Checklist(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Phase stepper
-            const _SectionLabel('BUILD & UPLOAD PHASES'),
-            const SizedBox(height: ZapSpacing.md),
-            const _PhaseStepper(),
-            const SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('BUILD & UPLOAD PHASES'),
+            SizedBox(height: ZapSpacing.md),
+            _PhaseStepper(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Simulated upload flow
-            const _SectionLabel('SIMULATE UPLOAD FLOW'),
-            const SizedBox(height: ZapSpacing.md),
-            const _UploadSimulator(),
-            const SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('SIMULATE UPLOAD FLOW'),
+            SizedBox(height: ZapSpacing.md),
+            _UploadSimulator(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Mock TestFlight invite card
-            const _SectionLabel('TESTFLIGHT INVITE  ·  WHAT TESTERS SEE'),
-            const SizedBox(height: ZapSpacing.md),
-            const _TestFlightInviteCard(),
-            const SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('TESTFLIGHT INVITE  ·  WHAT TESTERS SEE'),
+            SizedBox(height: ZapSpacing.md),
+            _TestFlightInviteCard(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Tester instructions
-            const _SectionLabel('TESTER STEPS'),
-            const SizedBox(height: ZapSpacing.md),
-            const _TesterSteps(),
-            const SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('TESTER STEPS'),
+            SizedBox(height: ZapSpacing.md),
+            _TesterSteps(),
+            SizedBox(height: ZapSpacing.xl),
 
             // Key facts
-            const _SectionLabel('KEY FACTS'),
-            const SizedBox(height: ZapSpacing.md),
-            const _KeyFacts(),
-            const SizedBox(height: ZapSpacing.huge),
+            _SectionLabel('KEY FACTS'),
+            SizedBox(height: ZapSpacing.md),
+            _KeyFacts(),
+            SizedBox(height: ZapSpacing.huge),
           ],
         ),
       ),
@@ -290,10 +290,10 @@ class _Checklist extends ConsumerWidget {
         // Progress bar
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1A1A1A),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(ZapSpacing.radius)),
-            border: const Border(
+          decoration: const BoxDecoration(
+            color: Color(0xFF1A1A1A),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(ZapSpacing.radius)),
+            border: Border(
               left: BorderSide(color: Color(0xFF2A2A2A)),
               right: BorderSide(color: Color(0xFF2A2A2A)),
               top: BorderSide(color: Color(0xFF2A2A2A)),
@@ -775,7 +775,7 @@ class _TestFlightInviteCard extends StatelessWidget {
                 const SizedBox(height: ZapSpacing.md),
                 const Divider(color: Color(0xFF3A3A3C)),
                 const SizedBox(height: ZapSpacing.md),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _InfoCell(Icons.calendar_today_rounded, 'Expires', '90 days'),

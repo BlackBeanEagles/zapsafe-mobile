@@ -510,7 +510,7 @@ class _TimelineTab extends ConsumerWidget {
 
       // Search bar
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.xs),
         decoration: BoxDecoration(
             color: const Color(0xFF1A1A1A),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
@@ -635,17 +635,17 @@ class _TimelineTab extends ConsumerWidget {
     return '${months[d.month - 1]} ${d.day}, ${d.year}';
   }
 
-  Widget _emptyState() => Center(
+  Widget _emptyState() => const Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xl),
+          padding: EdgeInsets.symmetric(vertical: ZapSpacing.xl),
           child: Column(children: [
-            const Icon(Icons.search_off_rounded,
+            Icon(Icons.search_off_rounded,
                 color: Color(0xFF2A2A2A), size: 40),
-            const SizedBox(height: ZapSpacing.md),
-            const Text('No events match your filters',
+            SizedBox(height: ZapSpacing.md),
+            Text('No events match your filters',
                 style: TextStyle(color: Color(0xFF6B7280), fontSize: 13)),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text('Try changing the time range or clearing filters.',
+            SizedBox(height: ZapSpacing.sm),
+            Text('Try changing the time range or clearing filters.',
                 style: TextStyle(color: Color(0xFF4B5563), fontSize: 11)),
           ]),
         ));

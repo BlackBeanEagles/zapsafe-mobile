@@ -483,12 +483,12 @@ class _MetricsTab extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: ZapSpacing.md, vertical: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xFF111111),
-                borderRadius: const BorderRadius.vertical(
+              decoration: const BoxDecoration(
+                color: Color(0xFF111111),
+                borderRadius: BorderRadius.vertical(
                     top: Radius.circular(ZapSpacing.radius - 1)),
               ),
-              child: Row(children: const [
+              child: const Row(children: [
                 Expanded(
                   flex: 3,
                   child: Text('Metric',
@@ -602,9 +602,9 @@ class _MetricsTab extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: ZapSpacing.md, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF111111),
-                borderRadius: const BorderRadius.vertical(
+              decoration: const BoxDecoration(
+                color: Color(0xFF111111),
+                borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(ZapSpacing.radius - 1)),
               ),
               child: const Row(children: [
@@ -680,7 +680,7 @@ class _RegionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxMs = 320.0;
+    const maxMs = 320.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -744,8 +744,8 @@ class _RegionTab extends StatelessWidget {
                                 fontWeight: FontWeight.w700)),
                         if (improved) ...[
                           const SizedBox(width: 6),
-                          Icon(Icons.trending_down_rounded,
-                              color: const Color(0xFF10B981), size: 12),
+                          const Icon(Icons.trending_down_rounded,
+                              color: Color(0xFF10B981), size: 12),
                         ],
                       ]),
                       const SizedBox(height: ZapSpacing.xs),
@@ -841,31 +841,31 @@ class _SignOffTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF10B981).withOpacity(0.45)),
           ),
-          child: Column(children: [
-            const Icon(Icons.verified_rounded,
+          child: const Column(children: [
+            Icon(Icons.verified_rounded,
                 color: Color(0xFF10B981), size: 44),
-            const SizedBox(height: ZapSpacing.md),
-            const Text(
+            SizedBox(height: ZapSpacing.md),
+            Text(
               'Performance Regression: PASS ✅',
               style: TextStyle(
                   color: Colors.white, fontSize: 18,
                   fontWeight: FontWeight.w900),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
+            SizedBox(height: ZapSpacing.sm),
+            Text(
               'AWS is within 10% of DigitalOcean on all 7 metrics.\n'
               'No blocking issues for v0.6-aws-production tag.',
               style: TextStyle(
                   color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: ZapSpacing.lg),
+            SizedBox(height: ZapSpacing.lg),
             Wrap(
               spacing: ZapSpacing.sm,
               runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('API +19% (< 200ms ✅)',   Color(0xFF3B82F6)),
                 _Chip('DB +11% (< 100ms ✅)',     Color(0xFF8B5CF6)),
                 _Chip('Cold start +2% ✅',        Color(0xFF10B981)),
@@ -913,10 +913,10 @@ class _FinalComparisonTable extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF30363D)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Performance Report v0.6-aws-production',
             style: TextStyle(
                 color: Color(0xFF79C0FF),
@@ -924,8 +924,8 @@ class _FinalComparisonTable extends StatelessWidget {
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: ZapSpacing.md),
-          const Text(
+          SizedBox(height: ZapSpacing.md),
+          Text(
             '| Metric             | Target   | DigitalOcean | AWS      | Δ%    | Pass |\n'
             '|--------------------|----------|-------------|----------|-------|------|\n'
             '| API response (p95) | < 200ms  | 150ms        | 178ms    | +19%  | ✅   |\n'
@@ -941,8 +941,8 @@ class _FinalComparisonTable extends StatelessWidget {
                 fontFamily: 'monospace',
                 height: 1.7),
           ),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'Decision: PROCEED to v0.6-aws-production tag (Day 150)',
             style: TextStyle(
                 color: Color(0xFF7EE787),
