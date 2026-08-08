@@ -128,13 +128,13 @@ class Day381HotfixV101Screen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(color: ZapColors.bgCard, borderRadius: BorderRadius.circular(10), border: Border.all(color: ZapColors.safe.withOpacity(0.4))),
-            child: Row(
+            child: const Row(
               children: [
-                const Icon(Icons.arrow_forward_rounded, color: ZapColors.safe),
-                const SizedBox(width: 8),
-                Text('$_kCurrentVersion  →  $_kTargetVersion', style: const TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 16)),
-                const Spacer(),
-                const Text('PATCH', style: TextStyle(color: ZapColors.textMuted, fontSize: 10, fontWeight: FontWeight.w700)),
+                Icon(Icons.arrow_forward_rounded, color: ZapColors.safe),
+                SizedBox(width: 8),
+                Text('$_kCurrentVersion  →  $_kTargetVersion', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 16)),
+                Spacer(),
+                Text('PATCH', style: TextStyle(color: ZapColors.textMuted, fontSize: 10, fontWeight: FontWeight.w700)),
               ],
             ),
           ),

@@ -207,7 +207,7 @@ class _Day321SosTriggerRefactorScreenState
           ),
           if (ctrl.silentlyEscalating) ...[
             const SizedBox(height: ZapSpacing.sm),
-            Center(
+            const Center(
               child: ZapBadge(
                 label: 'LP3 · SILENTLY ESCALATING',
                 intent: ZapBadgeIntent.danger,

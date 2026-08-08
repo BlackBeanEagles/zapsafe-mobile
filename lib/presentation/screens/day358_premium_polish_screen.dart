@@ -182,10 +182,10 @@ class Day358PremiumPolishScreen extends StatelessWidget {
           Text('SHARED BADGE — LIVE PREVIEW',
               style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
           const SizedBox(height: ZapSpacing.sm),
-          ZapCard(
+          const ZapCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
+              children: [
                 PremiumTierBadge(planLabel: 'FREE', isPremium: false),
                 PremiumTierBadge(planLabel: 'PREMIUM', isPremium: true),
                 PremiumTierBadge(planLabel: 'PREMIUM_PLUS', isPremium: true),

@@ -195,23 +195,23 @@ class Day384DpdpSignoffScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(color: ZapColors.bgCard, borderRadius: BorderRadius.circular(10), border: Border.all(color: ZapColors.border)),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Final sign-off', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 13)),
-                const SizedBox(height: 6),
-                const Text(
+                Text('Final sign-off', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 13)),
+                SizedBox(height: 6),
+                Text(
                   'Disabled by design while any category is genuinely blocked — this '
                   'is not a bug, it is the honest gate this screen exists to enforce.',
                   style: TextStyle(color: ZapColors.textSecondary, fontSize: 11, height: 1.4),
                 ),
-                const SizedBox(height: ZapSpacing.md),
+                SizedBox(height: ZapSpacing.md),
                 SwitchListTile(
                   value: false,
                   onChanged: null,
                   activeColor: ZapColors.safe,
-                  title: const Text('Sign off on DPDP compliance', style: TextStyle(color: ZapColors.textMuted, fontSize: 12)),
-                  subtitle: const Text('Blocked — third-party sharing disclosure unimplemented', style: TextStyle(color: ZapColors.danger, fontSize: 10)),
+                  title: Text('Sign off on DPDP compliance', style: TextStyle(color: ZapColors.textMuted, fontSize: 12)),
+                  subtitle: Text('Blocked — third-party sharing disclosure unimplemented', style: TextStyle(color: ZapColors.danger, fontSize: 10)),
                   contentPadding: EdgeInsets.zero,
                 ),
               ],

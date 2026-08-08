@@ -218,7 +218,7 @@ class Day351EnterpriseSsoPreviewScreen extends ConsumerWidget {
             icon: Icons.copy_rounded,
             fullWidth: true,
             onPressed: () {
-              Clipboard.setData(ClipboardData(
+              Clipboard.setData(const ClipboardData(
                 text: 'GET /api/v1/enterprise/sso/providers/\n'
                     'POST /api/v1/enterprise/sso/start/\n\n'
                     'Neither endpoint exists in zapsafe_backend yet — proposed '
