@@ -218,11 +218,22 @@ const _kFindings = [
     id: 'biometric_lock',
     mstgCode: 'MSTG-AUTH-1',
     title: 'Biometric app lock wired into a real gate',
-    verdict: _Verdict.fail,
-    detail: 'LocalAuthentication() is only constructed inside the demo '
-        'code of the Day 183/184 screens themselves — no standalone '
-        'BiometricService, nothing outside those two screens calls it.',
-    sourceFile: 'lib/presentation/screens/day183_biometric_lock_screen.dart',
+    verdict: _Verdict.mixed,
+    detail: 'Fixed for the Evidence Vault: a real standalone '
+        'BiometricService now exists (LocalAuthentication() was '
+        'previously only ever inside a *string literal* code sample in '
+        'the Day 183 screen, never actually called). It gates '
+        'day82_evidence_vault_screen.dart as a fast-path alongside the '
+        'real vault PIN, with MainActivity switched from FlutterActivity '
+        'to FlutterFragmentActivity (required by local_auth\'s Android '
+        'implementation) and the real USE_BIOMETRIC / '
+        'NSFaceIDUsageDescription platform declarations added. Not '
+        'build/device-verified in this sandbox. Still MIXED, not PASS: '
+        'the vault is the only real gate — app-wide lock-on-resume (the '
+        'Day 183/184 demo\'s own AppLockNotifier concept) is still not '
+        'built.',
+    sourceFile: 'lib/data/services/biometric_service.dart · '
+        'lib/presentation/screens/day82_evidence_vault_screen.dart',
     day285Default: 'PASS',
   ),
   _Finding(

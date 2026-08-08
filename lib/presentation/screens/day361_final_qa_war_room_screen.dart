@@ -190,10 +190,17 @@ const _kBugs = [
   _BugItem(
     id: 'p1_biometric_not_wired',
     priority: _Priority.p1,
-    title: 'Biometric app lock not wired into any real gated flow',
-    detail: 'LocalAuthentication() is only constructed inside the demo code '
-        'of day183/day184 — no standalone BiometricService exists, and '
-        'nothing outside those two screens calls it.',
+    title: 'Biometric unlock now real for the vault; no app-wide lock yet',
+    detail: 'Fixed: BiometricService (lib/data/services/biometric_service.'
+        'dart) is a real standalone implementation, wired as a fast-path '
+        'into day82_evidence_vault_screen.dart alongside the real vault '
+        'PIN. MainActivity now extends FlutterFragmentActivity (required '
+        'by local_auth on Android) with USE_BIOMETRIC / '
+        'NSFaceIDUsageDescription declared on both platforms. Not build/'
+        'device-verified in this sandbox. Still open: LocalAuthentication '
+        'is still only constructed inside day183/day184\'s own demo code '
+        'for the app-wide auto-lock concept those screens describe — that '
+        'part remains unbuilt.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),

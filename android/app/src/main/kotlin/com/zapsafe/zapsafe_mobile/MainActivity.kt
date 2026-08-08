@@ -6,11 +6,20 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
-class MainActivity : FlutterActivity() {
+// LP18 fix: local_auth's Android implementation (androidx.biometric.
+// BiometricPrompt) requires the host Activity to be a FragmentActivity —
+// FlutterActivity alone throws "local_auth plugin requires activity to
+// be a FragmentActivity" at runtime the first time authenticate() is
+// called. FlutterFragmentActivity is Flutter's own drop-in replacement
+// (same lifecycle/API surface) for exactly this case — see local_auth's
+// own README "Android Integration" section. Not build-verified in this
+// sandbox (no working Gradle toolchain), but this is a small, mechanical,
+// well-documented change with no other behavior difference.
+class MainActivity : FlutterFragmentActivity() {
     companion object {
         // Mirrored on the Flutter side in lib/data/services/background_service.dart.
         const val CHANNEL = "com.zapsafe/background_service"

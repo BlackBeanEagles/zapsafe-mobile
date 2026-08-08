@@ -80,5 +80,7 @@
 	<string>ZapSafe captures video evidence and recognises the blink-code trigger during a safety event.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>ZapSafe reads motion sensors to detect impacts and motion-based SOS triggers.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>ZapSafe uses Face ID to quickly and securely unlock your Evidence Vault.</string>
 </dict>
 </plist>

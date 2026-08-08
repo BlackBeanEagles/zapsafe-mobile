@@ -17,6 +17,17 @@
 ///   wipe also forces real PIN re-setup, not just a file purge with the
 ///   old PIN still valid).
 ///
+/// ── LP18 — Biometric unlock ──────────────────────────────────────────────────
+///   Was: LocalAuthentication() only ever existed inside a *string
+///   literal* code-sample in day183_biometric_lock_screen.dart's own
+///   preview UI — a real Day 336/361 P1 finding ("biometric unlock UI
+///   exists but isn't wired to a real auth gate"). [BiometricService]
+///   (lib/data/services/biometric_service.dart) is the real
+///   implementation, now actually wired here as a fast-path alongside
+///   the PIN — not a replacement for it. If the device has no biometrics
+///   enrolled, the button is hidden entirely and PIN entry is the only
+///   path, same as before this change.
+///
 /// ── File browser (unlocked state) ────────────────────────────────────────────
 ///   • Per-event cards: SOS ID, timestamp, location, trigger type, tamper flag
 ///   • Expandable: 6 forensic streams per event
@@ -38,10 +49,12 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:local_auth/local_auth.dart' show BiometricType;
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
+import '../../data/services/biometric_service.dart';
 import '../../domain/providers/vault_providers.dart';
 import '../widgets/zap_chip.dart';
 import '../widgets/zap_empty_state.dart';
@@ -368,6 +381,10 @@ class _PinVerifyFlowState extends ConsumerState<_PinVerifyFlow>
   bool _error = false;
   bool _checking = false;
 
+  bool _biometricAvailable = false;
+  bool _biometricAttempting = false;
+  List<BiometricType> _biometricTypes = const [];
+
   late final AnimationController _shakeCtrl;
   late final Animation<double>   _shakeAnim;
 
@@ -384,6 +401,50 @@ class _PinVerifyFlowState extends ConsumerState<_PinVerifyFlow>
       TweenSequenceItem(tween: Tween(begin:  8.0, end: -8.0), weight: 2),
       TweenSequenceItem(tween: Tween(begin: -8.0, end:  0.0), weight: 1),
     ]).animate(_shakeCtrl);
+    _initBiometrics();
+  }
+
+  Future<void> _initBiometrics() async {
+    final available = await BiometricService.isAvailable();
+    if (!mounted) return;
+    if (!available) return;
+    final types = await BiometricService.availableTypes();
+    if (!mounted) return;
+    setState(() {
+      _biometricAvailable = true;
+      _biometricTypes = types;
+    });
+    // Auto-prompt once on entry — a real device with biometrics enrolled
+    // shouldn't make the user tap an extra button just to see the OS
+    // prompt they were about to use anyway. Manual retry via the
+    // fingerprint button below still works if this is dismissed/fails.
+    _attemptBiometric();
+  }
+
+  IconData get _biometricIcon {
+    if (_biometricTypes.contains(BiometricType.face)) return Icons.face_rounded;
+    if (_biometricTypes.contains(BiometricType.iris)) return Icons.remove_red_eye_rounded;
+    return Icons.fingerprint_rounded;
+  }
+
+  Future<void> _attemptBiometric() async {
+    if (_biometricAttempting || _checking) return;
+    setState(() => _biometricAttempting = true);
+    try {
+      final ok = await BiometricService.authenticate(
+        'Unlock your ZapSafe Evidence Vault',
+      );
+      if (!mounted) return;
+      if (ok) {
+        ref.read(vaultLockedProvider.notifier).state = false;
+        ref.read(vaultWrongPinCountProvider.notifier).state = 0;
+      }
+    } on BiometricLockedOutException {
+      if (!mounted) return;
+      setState(() => _biometricAvailable = false); // fall back to PIN-only silently
+    } finally {
+      if (mounted) setState(() => _biometricAttempting = false);
+    }
   }
 
   @override
@@ -485,6 +546,29 @@ class _PinVerifyFlowState extends ConsumerState<_PinVerifyFlow>
           style: ZapTypography.bodySmall.copyWith(color: ZapColors.textSecondary),
           textAlign: TextAlign.center,
         ),
+
+        // ── LP18 — real biometric fast-path ────────────────────────────────
+        if (_biometricAvailable) ...[
+          const SizedBox(height: ZapSpacing.lg),
+          GestureDetector(
+            onTap: _attemptBiometric,
+            child: Container(
+              width: 52, height: 52,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ZapColors.info.withOpacity(0.12),
+                border: Border.all(color: ZapColors.info.withOpacity(0.4)),
+              ),
+              alignment: Alignment.center,
+              child: _biometricAttempting
+                  ? const SizedBox(
+                      width: 20, height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: ZapColors.info),
+                    )
+                  : Icon(_biometricIcon, color: ZapColors.info, size: 26),
+            ),
+          ),
+        ],
 
         const SizedBox(height: ZapSpacing.xxxl),
 

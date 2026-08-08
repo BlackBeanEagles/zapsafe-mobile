@@ -35,6 +35,12 @@
     <!-- Auto-start service after boot (DCS engine resumes itself) -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- LP18 — real biometric vault unlock (BiometricService /
+         local_auth). Required for BiometricPrompt on API 28 (Android 9)
+         and below; a no-op declaration on newer versions but still the
+         correct/documented one to include. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:label="zapsafe_mobile"
         android:name="${applicationName}"
