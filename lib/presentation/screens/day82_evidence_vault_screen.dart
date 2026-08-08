@@ -38,6 +38,7 @@ import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../domain/providers/vault_providers.dart';
 import '../widgets/zap_chip.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
@@ -556,30 +557,17 @@ class _VaultBrowserState extends ConsumerState<_VaultBrowser> {
     );
   }
 
+  // Consistency fix: this screen is the documented adopter for
+  // ZapEmptyKind.vault (see zap_empty_state.dart's adoptScreen map), but was
+  // never wired up to it -- it had its own hand-rolled empty state instead.
+  // Wired to the shared widget here; icon/copy kept identical to the
+  // original so this is a pure consistency fix, not a copy/behavior change.
   Widget _emptyVault() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.inventory_2_outlined,
-              size: 48, color: ZapColors.textMuted),
-          const SizedBox(height: ZapSpacing.lg),
-          Text(
-            'No evidence files',
-            style: ZapTypography.headlineSmall.copyWith(
-              color: ZapColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: ZapSpacing.sm),
-          Text(
-            'Evidence is stored automatically\nwhen an SOS event occurs.',
-            textAlign: TextAlign.center,
-            style: ZapTypography.bodyMedium.copyWith(
-              color: ZapColors.textMuted, height: 1.5,
-            ),
-          ),
-        ],
-      ),
+    return const ZapEmptyState(
+      icon: Icons.inventory_2_outlined,
+      accent: ZapColors.textMuted,
+      title: 'No evidence files',
+      message: 'Evidence is stored automatically\nwhen an SOS event occurs.',
     );
   }
 
