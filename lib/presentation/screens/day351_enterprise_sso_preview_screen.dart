@@ -196,7 +196,7 @@ class Day351EnterpriseSsoPreviewScreen extends ConsumerWidget {
             _SsoFlowCard(state: flowState, provider: selectedProvider, onReset: () => _resetSsoFlow(ref)),
           const SizedBox(height: ZapSpacing.xl),
           Text('FUTURE API CONTRACT (NOT IMPLEMENTED)',
-              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           ZapCard(
             child: SelectableText(
