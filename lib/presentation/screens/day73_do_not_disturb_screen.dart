@@ -167,8 +167,8 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.4)),
                     ),
-const                     child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 20),
                         SizedBox(width: 10),
                         Expanded(

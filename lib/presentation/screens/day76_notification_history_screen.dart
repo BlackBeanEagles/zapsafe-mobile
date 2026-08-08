@@ -308,7 +308,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
             overflow: TextOverflow.ellipsis,
           ),
           if (hasSosLink) ...[
-            const const const SizedBox(height: ZapSpacing.sm),
+            const SizedBox(height: ZapSpacing.sm),
             const Row(
               children: [
                 Icon(Icons.link_rounded, color: Color(0xFF6366F1), size: 13),
