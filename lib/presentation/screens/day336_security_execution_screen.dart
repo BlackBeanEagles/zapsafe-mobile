@@ -187,12 +187,25 @@ const _kFindings = [
     id: 'root_detection',
     mstgCode: 'MSTG-RESILIENCE-1',
     title: 'Root / jailbreak detection',
-    verdict: _Verdict.fail,
-    detail: 'day185_root_detection_screen.dart is an animated UI '
-        'simulation, not real detection — no safe_device, '
-        'flutter_jailbreak_detection, freerasp, or Play Integrity/'
-        'SafetyNet call anywhere in pubspec.yaml or lib/.',
-    sourceFile: 'lib/presentation/screens/day185_root_detection_screen.dart',
+    verdict: _Verdict.mixed,
+    detail: 'Fixed: safe_device is now a real pubspec.yaml dependency. '
+        'DeviceIntegrityService (lib/data/services/'
+        'device_integrity_service.dart) runs a real on-device scan '
+        '(SafeDevice.isJailBroken / isRealDevice / isMockLocation / '
+        'rootDetectionDetails), wired into day185_root_detection_screen.'
+        'dart\'s Run Scan button, replacing the old '
+        '_simulateJailbreakProvider fake toggle entirely. Per-row '
+        'results are only genuine where safe_device exposes a matching '
+        'signal (su binary, test-keys, debuggable on Android); other '
+        'rows honestly defer to the one real combined verdict rather '
+        'than a fabricated per-row "clean". Not build/device-verified in '
+        'this sandbox. Still MIXED, not full PASS: Play Integrity/'
+        'SafetyNet server-side attestation (the Day 186 spec\'s own '
+        'stated follow-up) is still not implemented — safe_device is a '
+        'client-only signal, spoofable by a sufficiently determined '
+        'attacker in a way a real Play Integrity token is not.',
+    sourceFile: 'lib/data/services/device_integrity_service.dart · '
+        'lib/presentation/screens/day185_root_detection_screen.dart',
     day285Default: 'PASS',
   ),
   _Finding(

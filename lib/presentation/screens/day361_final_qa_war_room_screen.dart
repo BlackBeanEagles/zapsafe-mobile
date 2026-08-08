@@ -145,10 +145,15 @@ const _kBugs = [
   _BugItem(
     id: 'p1_root_detection_sim',
     priority: _Priority.p1,
-    title: 'Root/jailbreak detection is a UI-only simulation',
-    detail: 'day185_root_detection_screen.dart animates a "scan" but no '
-        'safe_device, flutter_jailbreak_detection, freerasp, or Play '
-        'Integrity/SafetyNet call exists anywhere in pubspec.yaml or lib/.',
+    title: 'Root/jailbreak detection now real; Play Integrity still missing',
+    detail: 'Fixed: safe_device is a real pubspec.yaml dependency now. '
+        'DeviceIntegrityService runs a real on-device scan, wired into '
+        'day185_root_detection_screen.dart\'s Run Scan button in place '
+        'of the old fake _simulateJailbreakProvider toggle. Not build/'
+        'device-verified in this sandbox. Still open: no Play Integrity/'
+        'SafetyNet server-side attestation — safe_device alone is a '
+        'client-only signal, spoofable by a determined attacker in a way '
+        'a real signed attestation token is not.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),

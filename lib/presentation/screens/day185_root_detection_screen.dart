@@ -10,12 +10,26 @@
 ///    No server call needed for the check itself.
 ///    Play Integrity result (Day 186) does involve a server call
 ///    to verify the signed token, but the client code is still local.
+///
+/// ── Real detection (fixes Day 336/361 P1) ───────────────────────────────────
+///   Was: "Run Scan" only ever flipped a `_simulateJailbreakProvider` bool
+///   and animated fake per-check results — a real UI-only simulation,
+///   no safe_device/flutter_jailbreak_detection/freerasp/Play Integrity
+///   call anywhere. [DeviceIntegrityService]
+///   (lib/data/services/device_integrity_service.dart) now runs a real
+///   on-device scan via the `safe_device` package. The per-check list
+///   below remains a real, accurate reference of individual detection
+///   techniques (that documentation was never fake); only the subset
+///   with a genuine matching signal from safe_device get a real per-row
+///   result, the rest defer to the one real combined verdict rather than
+///   a fabricated per-row "clean".
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/device_integrity_service.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _d185TabProvider       = StateProvider<int>((ref) => 0);
@@ -23,7 +37,6 @@ final _scanStateProvider     = StateProvider<_ScanState>((ref) => _ScanState.idl
 final _scanResultsProvider   = StateProvider<List<_CheckResult>>((ref) => []);
 final _platformProvider      = StateProvider<_Platform>((ref) => _Platform.android);
 final _detectionModeProvider = StateProvider<_DetectionMode>((ref) => _DetectionMode.safeMode);
-final _simulateJailbreakProvider = StateProvider<bool>((ref) => false);
 final _expandedIosProvider   = StateProvider<int?>((ref) => null);
 final _expandedAosProvider   = StateProvider<int?>((ref) => null);
 
@@ -442,7 +455,6 @@ class _ScanTab extends ConsumerWidget {
     final results         = ref.watch(_scanResultsProvider);
     final platform        = ref.watch(_platformProvider);
     final mode            = ref.watch(_detectionModeProvider);
-    final simulateJB      = ref.watch(_simulateJailbreakProvider);
 
     final checks = platform == _Platform.ios ? _kIosChecks : _kAndroidChecks;
     final anyFlagged = results.any((r) => r.flagged);
@@ -466,53 +478,25 @@ class _ScanTab extends ConsumerWidget {
       ]),
       const SizedBox(height: ZapSpacing.lg),
 
-      // Simulate compromise toggle
+      // Real-scan notice — replaces the old "simulate compromise" toggle.
+      // There's nothing to simulate anymore: Run Scan below calls
+      // DeviceIntegrityService.scan(), a real on-device safe_device check.
       Container(
         padding: const EdgeInsets.all(ZapSpacing.md),
         decoration: BoxDecoration(
-            color: simulateJB
-                ? const Color(0xFFEF4444).withOpacity(0.07)
-                : const Color(0xFF1A1A1A),
+            color: const Color(0xFF1A1A1A),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-            border: Border.all(
-                color: simulateJB
-                    ? const Color(0xFFEF4444).withOpacity(0.4)
-                    : const Color(0xFF2A2A2A))),
-        child: Row(children: [
-          Icon(simulateJB ? Icons.warning_rounded : Icons.check_circle_rounded,
-              color: simulateJB ? const Color(0xFFEF4444) : const Color(0xFF10B981),
-              size: 18),
-          const SizedBox(width: ZapSpacing.md),
+            border: Border.all(color: const Color(0xFF2A2A2A))),
+        child: const Row(children: [
+          Icon(Icons.verified_user_rounded, color: Color(0xFF10B981), size: 18),
+          SizedBox(width: ZapSpacing.md),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(simulateJB ? 'Simulating compromised device' : 'Simulating clean device',
-                style: TextStyle(
-                    color: simulateJB ? const Color(0xFFEF4444) : Colors.white,
-                    fontSize: 12, fontWeight: FontWeight.w600)),
-            const Text('Toggle to see how ZapSafe responds to detected compromise',
+            Text('Real on-device scan',
+                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+            Text('Uses the safe_device package — actual root/jailbreak, '
+                'emulator, and mock-location signals from this device, not a simulation.',
                 style: TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
           ])),
-          GestureDetector(
-            onTap: () {
-              ref.read(_simulateJailbreakProvider.notifier).state = !simulateJB;
-              if (scanState != _ScanState.idle) {
-                ref.read(_scanStateProvider.notifier).state = _ScanState.idle;
-                ref.read(_scanResultsProvider.notifier).state = [];
-              }
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 46, height: 26,
-              decoration: BoxDecoration(
-                  color: simulateJB ? const Color(0xFFEF4444) : const Color(0xFF2A2A2A),
-                  borderRadius: BorderRadius.circular(13)),
-              child: Stack(children: [
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 200),
-                  left: simulateJB ? 22 : 2, top: 2,
-                  child: Container(width: 22, height: 22,
-                      decoration: const BoxDecoration(
-                          color: Colors.white, shape: BoxShape.circle))),
-              ]))),
         ])),
       const SizedBox(height: ZapSpacing.lg),
 
@@ -557,7 +541,7 @@ class _ScanTab extends ConsumerWidget {
         _primaryBtn(
           label: 'Run ${platform == _Platform.ios ? "iOS Jailbreak" : "Android Root"} Scan',
           color: const Color(0xFFEF4444),
-          onTap: () => _runScan(ref, platform, checks, simulateJB),
+          onTap: () => _runScan(ref, platform, checks),
         )
       else
         _ScanResults(
@@ -599,28 +583,56 @@ class _ScanTab extends ConsumerWidget {
         ])));
   }
 
-  Future<void> _runScan(WidgetRef ref, _Platform platform,
-      List<_Check> checks, bool simulate) async {
+  // Best-effort mapping from a real safe_device rootDetectionDetails key to
+  // the UI check row it most closely corresponds to. Only these rows get a
+  // genuine per-signal result; every other row honestly defers to the
+  // combined real verdict instead of a fabricated per-row "clean". See
+  // device_integrity_service.dart's header for why a full 1:1 mapping
+  // isn't possible — safe_device doesn't expose a distinct signal for
+  // every technique this screen documents.
+  static const _androidDetailKeyForCheck = {
+    'aos_su': 'suBinaryFound',
+    'aos_testkeys': 'hasTestKeys',
+    'aos_debuggable': 'isDebuggable',
+  };
+
+  Future<void> _runScan(
+      WidgetRef ref, _Platform platform, List<_Check> checks) async {
     ref.read(_scanStateProvider.notifier).state = _ScanState.scanning;
     ref.read(_scanResultsProvider.notifier).state = [];
 
+    final report = await DeviceIntegrityService.scan();
+
     final results = <_CheckResult>[];
     for (int i = 0; i < checks.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 380));
-      // Only flag if simulate is on and it's the first check
-      final flagged = simulate && i == 0;
-      results.add(_CheckResult(
-        check: checks[i],
-        flagged: flagged,
-        detail: flagged
-            ? '⚠ ${checks[i].id.replaceAll("_", "/")} found'
-            : 'Not found — clean',
-      ));
+      await Future.delayed(const Duration(milliseconds: 220)); // keeps the real scan-in-progress UI legible
+      final check = checks[i];
+      final mappedKey =
+          platform == _Platform.android ? _androidDetailKeyForCheck[check.id] : null;
+      final hasMappedSignal = mappedKey != null && report.rawDetails.containsKey(mappedKey);
+
+      final bool flagged;
+      final String detail;
+      if (hasMappedSignal) {
+        flagged = report.rawDetails[mappedKey] == true;
+        detail = flagged
+            ? '⚠ Real signal: $mappedKey = true'
+            : 'Real signal: $mappedKey = false — not found';
+      } else {
+        // No independent per-row signal from safe_device for this
+        // technique — defer to the one real combined verdict rather than
+        // claim a "clean" result this scan never actually checked.
+        flagged = report.isCompromised;
+        detail = report.isCompromised
+            ? '⚠ Covered by combined native scan result (compromised)'
+            : 'Covered by combined native scan result — not independently reported';
+      }
+      results.add(_CheckResult(check: check, flagged: flagged, detail: detail));
       ref.read(_scanResultsProvider.notifier).state = List.from(results);
     }
 
     ref.read(_scanStateProvider.notifier).state =
-        simulate ? _ScanState.compromised : _ScanState.clean;
+        report.shouldTriggerDetectionMode ? _ScanState.compromised : _ScanState.clean;
   }
 }
 

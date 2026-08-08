@@ -107,6 +107,7 @@ dependencies:
   showcaseview: ^3.0.0
   feature_discovery: ^0.14.1
   tutorial_coach_mark: ^1.2.11
+  safe_device: ^1.4.1
 
 dev_dependencies:
   flutter_test:
