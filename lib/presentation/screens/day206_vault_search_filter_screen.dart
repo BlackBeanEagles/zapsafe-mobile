@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Enums & model ─────────────────────────────────────────────────────────────
 enum VaultTriggerType { manual, ai, fall, drill }
@@ -756,51 +757,11 @@ class _EmptyFilterState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(ZapSpacing.xl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.search_off_rounded,
-                size: 56, color: ZapColors.textMuted),
-            const SizedBox(height: ZapSpacing.lg),
-            const Text(
-              'No entries match',
-              style: TextStyle(
-                color: ZapColors.textPrimary,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
-              'Try a broader date range, fewer filter chips, or a '
-              'different search term.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: ZapColors.textSecondary,
-                fontSize: 13,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: ZapSpacing.xl),
-            Semantics(
-              label: 'Clear all filters',
-              button: true,
-              child: FilledButton(
-                onPressed: onClear,
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(200, 75),
-                  backgroundColor: ZapColors.bgElevated,
-                  foregroundColor: ZapColors.textPrimary,
-                ),
-                child: const Text('Clear all filters'),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ZapEmptyInline(
+      title: 'No entries match — try a broader date range, fewer filter '
+          'chips, or a different search term.',
+      actionLabel: 'Clear all filters',
+      onAction: onClear,
     );
   }
 }

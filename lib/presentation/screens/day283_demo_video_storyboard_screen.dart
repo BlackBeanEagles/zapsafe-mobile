@@ -284,7 +284,7 @@ class _StoryboardTab extends ConsumerWidget {
                 onTap: () =>
                     ref.read(_d283SceneIndexProvider.notifier).state = i,
                 child: Container(
-                  width: 72,
+                  width: ZapSpacing.minTouchTarget,
                   padding: const EdgeInsets.all(ZapSpacing.sm),
                   decoration: BoxDecoration(
                     color: isSelected

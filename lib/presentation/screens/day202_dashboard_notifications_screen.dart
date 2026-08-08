@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../widgets/dashboard_notification_banner.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d202TabProvider = StateProvider<int>((ref) => 0);
@@ -188,18 +189,8 @@ class _PreviewTab extends ConsumerWidget {
                   },
                 ),
                 if (notifications.isEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(ZapSpacing.md),
-                    decoration: BoxDecoration(
-                      color: ZapColors.bgSurface,
-                      borderRadius:
-                          BorderRadius.circular(ZapSpacing.radiusSmall),
-                    ),
-                    child: const Text(
-                      'No active banners — dashboard is clean.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: ZapColors.textSecondary),
-                    ),
+                  const ZapEmptyInline(
+                    title: 'No active banners — dashboard is clean.',
                   ),
                 const SizedBox(height: ZapSpacing.xl),
                 const _SosPlaceholder(),

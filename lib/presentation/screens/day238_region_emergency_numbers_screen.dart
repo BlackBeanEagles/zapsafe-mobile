@@ -442,12 +442,7 @@ class _DialTab extends ConsumerWidget {
     final country = _countryByCode(bundle, code);
 
     if (country == null) {
-      return const Center(
-        child: Text(
-          'No country data',
-          style: TextStyle(color: ZapColors.textMuted),
-        ),
-      );
+      return const ZapEmptyInline(title: 'No country data');
     }
 
     return ListView(
