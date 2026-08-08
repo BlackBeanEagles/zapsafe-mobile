@@ -52,17 +52,17 @@ class IsolatedDcsRunner {
 Future<DCSScore> _runInferenceInIsolate(IsolatedInferenceInput input) async {
   final engine = DCSInferenceEngine.fromInterpreters(
     scream: EnergyStubInterpreter(),
-    motion: FixedStubInterpreter(
+    motion: const FixedStubInterpreter(
       modelLabel: 'iso-stub-motion',
       expectedInputSize: 6,
-      classLabels: const ['normal', 'unusual', 'fall'],
+      classLabels: ['normal', 'unusual', 'fall'],
       label: 'normal',
       score: 0.15,
     ),
-    scene: FixedStubInterpreter(
+    scene: const FixedStubInterpreter(
       modelLabel: 'iso-stub-scene',
       expectedInputSize: 8,
-      classLabels: const ['indoor', 'outdoor', 'transit'],
+      classLabels: ['indoor', 'outdoor', 'transit'],
       label: 'indoor',
       score: 0.25,
     ),

@@ -21,7 +21,7 @@ final familyApiServiceProvider = Provider<FamilyApiService>((ref) {
 FamilyDashboard _mockFamilyDashboard() => FamilyDashboard(
       count: 2,
       members: [
-        FamilyDashboardMember(
+        const FamilyDashboardMember(
           memberId: 'mock-member-1',
           fullName: 'Sunita Mehta',
           phone: '+91 98xxxxxx01',

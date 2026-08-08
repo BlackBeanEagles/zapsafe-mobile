@@ -87,7 +87,7 @@ List<IntegrationPhase> buildMonth2Phases(WidgetRef ref) {
       runner: () async {
         final audio = ref.read(audioChannelProvider);
         if (!audio.supported) throw 'No native audio implementation';
-        return PhaseResult(
+        return const PhaseResult(
           key: 'audio_supported',
           name: 'Audio capture pipeline supported',
           status: PhaseStatus.pass,
@@ -426,19 +426,19 @@ abstract final class month2PhaseRunners {
     final orch = TriggerOrchestrator(notifier: n);
 
     // Synthetic DCS auto-SOS — should skip the countdown.
-    final fusion = const InferenceResult(
+    const fusion = InferenceResult(
       label: 'scream',
       score: 0.92,
       classScores: {'scream': 0.92, 'normal': 0.08},
       latencyMs: 1,
       timestampMs: 0,
     );
-    final score = DCSScore(
+    const score = DCSScore(
       timestampMs: 0,
       audio: fusion,
       fusion: fusion,
     );
-    orch.dispatchDcs(TriggerEvent(
+    orch.dispatchDcs(const TriggerEvent(
       kind: TriggerKind.autoSos,
       score: score,
       passive: true,
@@ -465,7 +465,7 @@ abstract final class month2PhaseRunners {
       throw 'expected 2 dispatched events, got ${orch.totalDispatched}';
     }
     n.dispose();
-    return PhaseResult(
+    return const PhaseResult(
       key: 'orchestrator_wiring',
       name: 'TriggerOrchestrator · DCS + fall + manual',
       status: PhaseStatus.pass,

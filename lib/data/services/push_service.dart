@@ -699,7 +699,7 @@ class PushService {
       category: PushCategory.sosAlert,
       title: '${drillTitlePrefix}SOS Triggered',
       body:
-          '${drillTitlePrefix}${scenario ?? 'This is a practice run.'} No real escalation.',
+          '$drillTitlePrefix${scenario ?? 'This is a practice run.'} No real escalation.',
       data: const {drillFlagKey: 'true'},
     );
     await showLocal(payload);

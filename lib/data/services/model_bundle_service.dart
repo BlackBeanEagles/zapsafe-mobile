@@ -64,7 +64,7 @@ class ModelSlotResult {
 
   String get sizeMbLabel {
     if (sizeBytes == 0) return 'missing';
-    if (sizeBytes < 10000) return '${sizeBytes} B (placeholder)';
+    if (sizeBytes < 10000) return '$sizeBytes B (placeholder)';
     return '${(sizeBytes / (1024 * 1024)).toStringAsFixed(2)} MB';
   }
 }

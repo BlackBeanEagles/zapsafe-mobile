@@ -308,7 +308,7 @@ class MelSpectrogram {
   static double _hzToMel(double hz) {
     const fSp = 200.0 / 3.0;
     const minLogHz = 1000.0;
-    final minLogMel = minLogHz / fSp;
+    const minLogMel = minLogHz / fSp;
     final logstep = math.log(6.4) / 27.0;
     if (hz < minLogHz) return hz / fSp;
     return minLogMel + math.log(hz / minLogHz) / logstep;
@@ -317,7 +317,7 @@ class MelSpectrogram {
   static double _melToHz(double mel) {
     const fSp = 200.0 / 3.0;
     const minLogHz = 1000.0;
-    final minLogMel = minLogHz / fSp;
+    const minLogMel = minLogHz / fSp;
     final logstep = math.log(6.4) / 27.0;
     if (mel < minLogMel) return fSp * mel;
     return minLogHz * math.exp(logstep * (mel - minLogMel));
