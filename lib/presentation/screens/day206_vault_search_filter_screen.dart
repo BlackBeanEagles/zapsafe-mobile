@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Enums & model ─────────────────────────────────────────────────────────────
 enum VaultTriggerType { manual, ai, fall, drill }
@@ -196,7 +197,8 @@ List<VaultFilterEntry> filterVaultEntries({
       if (ts.isBefore(start)) return false;
     }
     if (dateEnd != null) {
-      final end = DateTime(dateEnd.year, dateEnd.month, dateEnd.day, 23, 59, 59);
+      final end =
+          DateTime(dateEnd.year, dateEnd.month, dateEnd.day, 23, 59, 59);
       if (ts.isAfter(end)) return false;
     }
     return true;
@@ -271,8 +273,8 @@ class Day206VaultSearchFilterScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.info.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12),
@@ -439,8 +441,8 @@ class _VaultSearchFieldState extends ConsumerState<_VaultSearchField> {
         decoration: InputDecoration(
           hintText: 'Search SOS ID or date (e.g. 14/06, SOS-2026)',
           hintStyle: const TextStyle(color: ZapColors.textMuted),
-          prefixIcon: const Icon(Icons.search_rounded,
-              color: ZapColors.textSecondary),
+          prefixIcon:
+              const Icon(Icons.search_rounded, color: ZapColors.textSecondary),
           suffixIcon: search.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.clear_rounded,
@@ -454,11 +456,11 @@ class _VaultSearchFieldState extends ConsumerState<_VaultSearchField> {
           filled: true,
           fillColor: ZapColors.bgCard,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             borderSide: const BorderSide(color: ZapColors.border),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             borderSide: const BorderSide(color: ZapColors.border),
           ),
           contentPadding: const EdgeInsets.symmetric(
@@ -528,11 +530,9 @@ class _ActiveFilterChips extends ConsumerWidget {
 
     if (tamper != VaultTamperFilter.all) {
       chips.add(_FilterChip(
-        label: tamper == VaultTamperFilter.tamperedOnly
-            ? 'Tampered'
-            : 'Clean',
-        onRemove: () =>
-            ref.read(_d206TamperProvider.notifier).state = VaultTamperFilter.all,
+        label: tamper == VaultTamperFilter.tamperedOnly ? 'Tampered' : 'Clean',
+        onRemove: () => ref.read(_d206TamperProvider.notifier).state =
+            VaultTamperFilter.all,
       ));
     }
 
@@ -757,51 +757,11 @@ class _EmptyFilterState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(ZapSpacing.xl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.search_off_rounded,
-                size: 56, color: ZapColors.textMuted),
-            const SizedBox(height: ZapSpacing.lg),
-            const Text(
-              'No entries match',
-              style: TextStyle(
-                color: ZapColors.textPrimary,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: ZapSpacing.sm),
-            const Text(
-              'Try a broader date range, fewer filter chips, or a '
-              'different search term.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: ZapColors.textSecondary,
-                fontSize: 13,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: ZapSpacing.xl),
-            Semantics(
-              label: 'Clear all filters',
-              button: true,
-              child: FilledButton(
-                onPressed: onClear,
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(200, 75),
-                  backgroundColor: ZapColors.bgElevated,
-                  foregroundColor: ZapColors.textPrimary,
-                ),
-                child: const Text('Clear all filters'),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ZapEmptyInline(
+      title: 'No entries match — try a broader date range, fewer filter '
+          'chips, or a different search term.',
+      actionLabel: 'Clear all filters',
+      onAction: onClear,
     );
   }
 }
@@ -965,8 +925,7 @@ class _FiltersTab extends ConsumerWidget {
             onSelectionChanged: (s) =>
                 ref.read(_d206TamperProvider.notifier).state = s.first,
             style: ButtonStyle(
-              minimumSize:
-                  MaterialStateProperty.all(const Size(0, 48)),
+              minimumSize: MaterialStateProperty.all(const Size(0, 48)),
             ),
           ),
         ),
@@ -974,7 +933,7 @@ class _FiltersTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.safe.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.safe.withOpacity(0.3)),
           ),
           child: Text(
@@ -1070,7 +1029,7 @@ class _FilterSection extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1125,7 +1084,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -1159,7 +1118,8 @@ class _SpecTab extends StatelessWidget {
             onPressed: () {
               Clipboard.setData(
                 const ClipboardData(
-                  text: 'filterVaultEntries(entries, query, dateStart, dateEnd, triggers, statuses, tamper)',
+                  text:
+                      'filterVaultEntries(entries, query, dateStart, dateEnd, triggers, statuses, tamper)',
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(
@@ -1178,7 +1138,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1230,8 +1190,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

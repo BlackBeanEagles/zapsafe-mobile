@@ -215,7 +215,8 @@ Map<String, dynamic> _soakPayload({
   required int elapsedSec,
   required List<_SoakCheckpoint> checkpoints,
 }) {
-  final logged = checkpoints.where((c) => c.status != _CheckpointStatus.pending).length;
+  final logged =
+      checkpoints.where((c) => c.status != _CheckpointStatus.pending).length;
   final start = checkpoints.isNotEmpty ? checkpoints.first.batteryPct : 100;
   final end = checkpoints.isNotEmpty ? checkpoints.last.batteryPct : 100;
   return {
@@ -257,7 +258,8 @@ String _buildSoakReport({
 }
 
 String _buildCsv(List<_SoakCheckpoint> checkpoints) {
-  final buf = StringBuffer('hour,battery_pct,thermal,drain_per_hr,status,notes\n');
+  final buf =
+      StringBuffer('hour,battery_pct,thermal,drain_per_hr,status,notes\n');
   for (final cp in checkpoints) {
     buf.writeln(
       '${cp.hour},${cp.batteryPct},${_thermalKey(cp.thermal)},'
@@ -272,7 +274,8 @@ final _d297TabProvider = StateProvider<int>((ref) => 0);
 final _d297DeviceProvider = StateProvider<String>((ref) => _kDevices.first.id);
 final _d297RunningProvider = StateProvider<bool>((ref) => false);
 final _d297ElapsedProvider = StateProvider<int>((ref) => 0);
-final _d297CheckpointsProvider = StateProvider<List<_SoakCheckpoint>>((ref) => []);
+final _d297CheckpointsProvider =
+    StateProvider<List<_SoakCheckpoint>>((ref) => []);
 final _d297TimerProvider = StateProvider<Timer?>((ref) => null);
 
 // ── Screen ────────────────────────────────────────────────────────────────────
@@ -347,8 +350,8 @@ class _Day297BatterySoakLogScreenState
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -421,7 +424,8 @@ class _SoakTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: '8hr MONITORING soak',
-          subtitle: 'Real device · screen off · pocket carry · accelerated timer',
+          subtitle:
+              'Real device · screen off · pocket carry · accelerated timer',
         ),
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
@@ -530,7 +534,8 @@ class _SoakTab extends ConsumerWidget {
             Expanded(
               child: FilledButton.icon(
                 onPressed: running ? onStop : onStart,
-                icon: Icon(running ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                icon: Icon(
+                    running ? Icons.pause_rounded : Icons.play_arrow_rounded),
                 label: Text(running ? 'Pause soak' : 'Start soak'),
                 style: FilledButton.styleFrom(backgroundColor: _kAccent),
               ),
@@ -573,7 +578,7 @@ class _LiveMetricCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Column(
@@ -626,7 +631,7 @@ class _LogTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: const Text(
@@ -643,7 +648,7 @@ class _LogTab extends ConsumerWidget {
                 color: (gatePass && !hasThrottle)
                     ? ZapColors.safe.withOpacity(0.12)
                     : ZapColors.warning.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(
                   color: (gatePass && !hasThrottle)
                       ? ZapColors.safe.withOpacity(0.4)
@@ -683,7 +688,7 @@ class _LogTab extends ConsumerWidget {
               padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: ZapColors.bgCard,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(
                   color: _statusColor(cp.status).withOpacity(0.35),
                 ),
@@ -815,7 +820,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.battery_charging_full_rounded,
           title: '8hr MONITORING soak',
-          subtitle: 'Screen off · pocket carry · passive geofence · no user taps.',
+          subtitle:
+              'Screen off · pocket carry · passive geofence · no user taps.',
         ),
         const _PolicyRow(
           icon: Icons.thermostat_rounded,
@@ -825,7 +831,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.speed_rounded,
           title: 'Drain gate',
-          subtitle: 'Total drain ≤ $_kMaxDrainPct% over 8h · hourly checkpoints.',
+          subtitle:
+              'Total drain ≤ $_kMaxDrainPct% over 8h · hourly checkpoints.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         const Text(
@@ -842,7 +849,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -873,7 +880,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1007,7 +1014,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1021,8 +1028,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

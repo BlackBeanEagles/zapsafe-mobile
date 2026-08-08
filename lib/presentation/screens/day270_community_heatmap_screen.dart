@@ -140,8 +140,8 @@ class Day270CommunityHeatmapScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (optIn ? ZapColors.safe : ZapColors.warning)
                       .withOpacity(0.15),
@@ -258,14 +258,19 @@ class _HeatmapTab extends ConsumerWidget {
               label: const Text('Community heat'),
               selected: showCommunity,
               selectedColor: _kAccent.withOpacity(0.2),
-              onSelected: optIn ? (v) => ref.read(_d270ShowCommunityProvider.notifier).state = v : null,
+              onSelected: optIn
+                  ? (v) =>
+                      ref.read(_d270ShowCommunityProvider.notifier).state = v
+                  : null,
             ),
             const SizedBox(width: ZapSpacing.sm),
             FilterChip(
               label: const Text('Your contributions'),
               selected: showMine,
               selectedColor: ZapColors.safe.withOpacity(0.2),
-              onSelected: optIn ? (v) => ref.read(_d270ShowMineProvider.notifier).state = v : null,
+              onSelected: optIn
+                  ? (v) => ref.read(_d270ShowMineProvider.notifier).state = v
+                  : null,
             ),
           ],
         ),
@@ -360,7 +365,7 @@ class _HeatmapGrid extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1.35,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(ZapSpacing.sm),
         decoration: BoxDecoration(
           color: ZapColors.bgCard,
           borderRadius: BorderRadius.circular(12),
@@ -429,7 +434,8 @@ class _LegendSwatch extends StatelessWidget {
           ),
         ),
         const SizedBox(width: ZapSpacing.xs),
-        Text(label, style: const TextStyle(color: ZapColors.textMuted, fontSize: 10)),
+        Text(label,
+            style: const TextStyle(color: ZapColors.textMuted, fontSize: 10)),
       ],
     );
   }
@@ -463,7 +469,8 @@ class _SelectedContributionCard extends StatelessWidget {
           Text(
             '${contribution.type} · ${contribution.daysAgo}d ago · '
             'hash ${contribution.anonymizedHash}',
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
           ),
         ],
       ),
@@ -604,7 +611,7 @@ class _ContributionsTab extends ConsumerWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   ),
                   child: const Icon(Icons.place_rounded, color: _kAccent),
                 ),
@@ -657,7 +664,7 @@ class _StatCard extends StatelessWidget {
         padding: const EdgeInsets.all(ZapSpacing.sm),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(color: color.withOpacity(0.3)),
         ),
         child: Column(
@@ -747,7 +754,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -767,7 +774,8 @@ class _InfoTab extends ConsumerWidget {
               ClipboardData(text: _kJsonEncoder.convert(payload)),
             );
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Heatmap contributions spec copied.')),
+              const SnackBar(
+                  content: Text('Heatmap contributions spec copied.')),
             );
           },
           icon: const Icon(Icons.copy_rounded, size: 16),
@@ -778,7 +786,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -877,7 +885,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -891,8 +899,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

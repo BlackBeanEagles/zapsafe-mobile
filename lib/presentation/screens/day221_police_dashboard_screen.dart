@@ -84,8 +84,8 @@ const _kIndianStates = [
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d221TabProvider = StateProvider<int>((ref) => 0);
-final _d221ConnectionStateProvider =
-    StateProvider<PoliceConnectionState>((ref) => PoliceConnectionState.notConnected);
+final _d221ConnectionStateProvider = StateProvider<PoliceConnectionState>(
+    (ref) => PoliceConnectionState.notConnected);
 final _d221ConnectionInfoProvider =
     StateProvider<PoliceConnectionInfo?>((ref) => null);
 final _d221SubmittingProvider = StateProvider<bool>((ref) => false);
@@ -200,7 +200,7 @@ class _OverviewTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Row(
@@ -224,8 +224,7 @@ class _OverviewTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.lg),
         switch (state) {
           PoliceConnectionState.notConnected => _NotConnectedCard(
-              onRequest: () =>
-                  ref.read(_d221TabProvider.notifier).state = 1,
+              onRequest: () => ref.read(_d221TabProvider.notifier).state = 1,
             ),
           PoliceConnectionState.pending => _PendingCard(
               requestId: requestId ?? 'pol_123',
@@ -242,7 +241,7 @@ class _OverviewTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.info.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.info.withOpacity(0.3)),
             ),
             child: Column(
@@ -332,7 +331,7 @@ class _NotConnectedCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.xl),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -409,7 +408,7 @@ class _PendingCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
         color: ZapColors.warning.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.warning.withOpacity(0.4)),
       ),
       child: Column(
@@ -487,8 +486,7 @@ class _ConnectedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = info ?? _kMockConnected;
-    final connectedLabel =
-        '${data.connectedAt.day.toString().padLeft(2, '0')}/'
+    final connectedLabel = '${data.connectedAt.day.toString().padLeft(2, '0')}/'
         '${data.connectedAt.month.toString().padLeft(2, '0')}/'
         '${data.connectedAt.year}';
 
@@ -504,7 +502,7 @@ class _ConnectedCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.safe.withOpacity(0.45), width: 2),
       ),
       child: Column(
@@ -550,8 +548,8 @@ class _ConnectedCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: ZapColors.safe.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -602,7 +600,7 @@ class _LastDrillCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -735,7 +733,7 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.3)),
             ),
             child: const Text(
@@ -754,7 +752,7 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             filled: true,
             fillColor: ZapColors.bgElevated,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -768,7 +766,7 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             filled: true,
             fillColor: ZapColors.bgElevated,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -799,11 +797,12 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             labelText: 'Badge / employee ID (optional)',
             labelStyle: const TextStyle(color: ZapColors.textMuted),
             hintText: 'For gov employees with pre-authorization',
-            hintStyle: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
+            hintStyle:
+                const TextStyle(color: ZapColors.textMuted, fontSize: 11),
             filled: true,
             fillColor: ZapColors.bgElevated,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -853,7 +852,7 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -959,7 +958,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -992,7 +991,7 @@ class _EndpointCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1066,7 +1065,8 @@ class _ConnectionChip extends StatelessWidget {
       PoliceConnectionState.connected => ('Connected', ZapColors.safe),
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(4),
@@ -1109,9 +1109,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected
-                            ? ZapColors.info
-                            : Colors.transparent,
+                        color: selected ? ZapColors.info : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -1123,8 +1121,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),

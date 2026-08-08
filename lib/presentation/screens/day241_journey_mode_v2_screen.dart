@@ -147,8 +147,7 @@ final _d241ContactProvider = StateProvider<_JourneyContact?>((ref) => null);
 final _d241DurationMinutesProvider = StateProvider<int>((ref) => 60);
 final _d241SessionActiveProvider = StateProvider<bool>((ref) => false);
 final _d241ProgressProvider = StateProvider<double>((ref) => 0);
-final _d241CurrentPositionProvider =
-    StateProvider<LatLng>((ref) => _kOrigin);
+final _d241CurrentPositionProvider = StateProvider<LatLng>((ref) => _kOrigin);
 final _d241SessionEndAtProvider = StateProvider<DateTime?>((ref) => null);
 final _d241CheckInCountProvider = StateProvider<int>((ref) => 0);
 final _d241SessionStartedAtProvider = StateProvider<DateTime?>((ref) => null);
@@ -324,13 +323,12 @@ class _Day241JourneyModeV2ScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.safe.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
-                    border:
-                        Border.all(color: ZapColors.safe.withOpacity(0.45)),
+                    border: Border.all(color: ZapColors.safe.withOpacity(0.45)),
                   ),
                   child: const Text(
                     'LIVE',
@@ -398,8 +396,7 @@ class _PlanTab extends ConsumerWidget {
           d.subtitle.toLowerCase().contains(query);
     }).toList();
 
-    final canStart =
-        destination != null && contact != null && !sessionActive;
+    final canStart = destination != null && contact != null && !sessionActive;
 
     return Column(
       children: [
@@ -477,7 +474,8 @@ class _PlanTab extends ConsumerWidget {
                     filled: true,
                     fillColor: ZapColors.bgPrimary,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                       borderSide: const BorderSide(color: ZapColors.border),
                     ),
                   ),
@@ -529,11 +527,10 @@ class _PlanTab extends ConsumerWidget {
                     return ChoiceChip(
                       label: Text(_formatDurationLabel(m)),
                       selected: selected,
-                      onSelected: (_) =>
-                          ref.read(_d241DurationMinutesProvider.notifier).state =
-                              m,
-                      selectedColor:
-                          const Color(0xFF8B5CF6).withOpacity(0.25),
+                      onSelected: (_) => ref
+                          .read(_d241DurationMinutesProvider.notifier)
+                          .state = m,
+                      selectedColor: const Color(0xFF8B5CF6).withOpacity(0.25),
                       labelStyle: TextStyle(
                         color: selected
                             ? const Color(0xFF8B5CF6)
@@ -855,7 +852,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -886,7 +883,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -945,13 +942,11 @@ class _SafetyTab extends ConsumerWidget {
             ),
             ActionChip(
               label: const Text('Day 240 Section B'),
-              onPressed: () =>
-                  context.push(AppRoutes.sectionBCatchupMilestone),
+              onPressed: () => context.push(AppRoutes.sectionBCatchupMilestone),
             ),
             ActionChip(
               label: const Text('Day 238 Emergency #'),
-              onPressed: () =>
-                  context.push(AppRoutes.regionEmergencyNumbers),
+              onPressed: () => context.push(AppRoutes.regionEmergencyNumbers),
             ),
           ],
         ),
@@ -1093,18 +1088,16 @@ class _DestinationTile extends StatelessWidget {
         color: selected
             ? const Color(0xFF8B5CF6).withOpacity(0.12)
             : ZapColors.bgPrimary,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
-                color: selected
-                    ? const Color(0xFF8B5CF6)
-                    : ZapColors.border,
+                color: selected ? const Color(0xFF8B5CF6) : ZapColors.border,
               ),
             ),
             child: Row(
@@ -1113,9 +1106,8 @@ class _DestinationTile extends StatelessWidget {
                   selected
                       ? Icons.radio_button_checked_rounded
                       : Icons.radio_button_off_rounded,
-                  color: selected
-                      ? const Color(0xFF8B5CF6)
-                      : ZapColors.textMuted,
+                  color:
+                      selected ? const Color(0xFF8B5CF6) : ZapColors.textMuted,
                   size: 20,
                 ),
                 const SizedBox(width: 10),
@@ -1165,24 +1157,21 @@ class _ContactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tierColor = contact.tier == 'Tier 1'
-        ? ZapColors.safe
-        : ZapColors.warning;
+    final tierColor =
+        contact.tier == 'Tier 1' ? ZapColors.safe : ZapColors.warning;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Material(
-        color: selected
-            ? tierColor.withOpacity(0.1)
-            : ZapColors.bgPrimary,
-        borderRadius: BorderRadius.circular(8),
+        color: selected ? tierColor.withOpacity(0.1) : ZapColors.bgPrimary,
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: selected ? tierColor : ZapColors.border,
               ),
@@ -1314,7 +1303,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1332,8 +1321,7 @@ class _TabBar extends StatelessWidget {
                     color: selected
                         ? const Color(0xFF8B5CF6)
                         : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

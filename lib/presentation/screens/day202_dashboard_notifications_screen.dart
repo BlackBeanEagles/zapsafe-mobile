@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../widgets/dashboard_notification_banner.dart';
+import '../widgets/zap_empty_state.dart';
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d202TabProvider = StateProvider<int>((ref) => 0);
@@ -56,7 +57,8 @@ const _kSeedNotifications = [
     id: 'suggestion_drill',
     tier: DashboardNotificationTier.suggestion,
     title: 'Monthly drill due',
-    message: 'Last drill was 28 days ago. A 10-second practice keeps contacts prepared.',
+    message:
+        'Last drill was 28 days ago. A 10-second practice keeps contacts prepared.',
     actionLabel: 'Start drill',
   ),
 ];
@@ -123,7 +125,8 @@ class _PreviewTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifications = Day202DashboardNotificationsScreen._visibleNotifications(ref);
+    final notifications =
+        Day202DashboardNotificationsScreen._visibleNotifications(ref);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -179,23 +182,15 @@ class _PreviewTab extends ConsumerWidget {
                   onAction: (id) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Action tapped for $id (mock navigation)'),
+                        content:
+                            Text('Action tapped for $id (mock navigation)'),
                       ),
                     );
                   },
                 ),
                 if (notifications.isEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(ZapSpacing.md),
-                    decoration: BoxDecoration(
-                      color: ZapColors.bgSurface,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      'No active banners — dashboard is clean.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: ZapColors.textSecondary),
-                    ),
+                  const ZapEmptyInline(
+                    title: 'No active banners — dashboard is clean.',
                   ),
                 const SizedBox(height: ZapSpacing.xl),
                 const _SosPlaceholder(),
@@ -219,7 +214,7 @@ class _PreviewTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.info.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.info.withOpacity(0.3)),
             ),
             child: const Text(
@@ -234,7 +229,8 @@ class _PreviewTab extends ConsumerWidget {
 
   Widget _badge(String label, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(4),
@@ -262,7 +258,7 @@ class _ModeBadge extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: ZapColors.safe.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
       ),
       child: const Row(
@@ -319,7 +315,7 @@ class _IntegrationNote extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgSurface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: const Column(
@@ -510,7 +506,12 @@ class _SpecTab extends StatelessWidget {
   Widget build(BuildContext context) {
     const rows = [
       ('Critical', 'Red / danger', 'Must acknowledge', 'Battery <10%'),
-      ('Important', 'Orange / warning', 'Dismissible (X)', 'Unverified contact'),
+      (
+        'Important',
+        'Orange / warning',
+        'Dismissible (X)',
+        'Unverified contact'
+      ),
       ('Suggestion', 'Blue / info', 'Dismissible (X)', 'Drill due'),
     ];
 
@@ -530,7 +531,7 @@ class _SpecTab extends StatelessWidget {
               padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: ZapColors.bgCard,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(color: ZapColors.border),
               ),
               child: Column(

@@ -27,9 +27,33 @@ const _kTabs = ['Summary', 'Badges', 'Info'];
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 const _kYearLabel = '2025';
 const _kMonthlyJourneys = [
-  2.0, 3.0, 4.0, 5.0, 3.0, 4.0, 6.0, 5.0, 4.0, 3.0, 5.0, 4.0,
+  2.0,
+  3.0,
+  4.0,
+  5.0,
+  3.0,
+  4.0,
+  6.0,
+  5.0,
+  4.0,
+  3.0,
+  5.0,
+  4.0,
 ];
-const _kMonthLabels = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+const _kMonthLabels = [
+  'J',
+  'F',
+  'M',
+  'A',
+  'M',
+  'J',
+  'J',
+  'A',
+  'S',
+  'O',
+  'N',
+  'D'
+];
 
 class _BadgeInfo {
   const _BadgeInfo({
@@ -209,10 +233,12 @@ class Day275YearInReviewScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: celebrate ? 'Hide celebration' : 'Celebrate',
-            onPressed: () => ref.read(_d275CelebrateProvider.notifier).state =
-                !celebrate,
+            onPressed: () =>
+                ref.read(_d275CelebrateProvider.notifier).state = !celebrate,
             icon: Icon(
-              celebrate ? Icons.celebration_rounded : Icons.celebration_outlined,
+              celebrate
+                  ? Icons.celebration_rounded
+                  : Icons.celebration_outlined,
               color: celebrate ? _kAccent : ZapColors.textMuted,
             ),
           ),
@@ -220,8 +246,8 @@ class Day275YearInReviewScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -246,8 +272,7 @@ class Day275YearInReviewScreen extends ConsumerWidget {
             children: [
               _TabBar(
                 tab: ref.watch(_d275TabProvider),
-                onSelect: (i) =>
-                    ref.read(_d275TabProvider.notifier).state = i,
+                onSelect: (i) => ref.read(_d275TabProvider.notifier).state = i,
               ),
               Expanded(
                 child: switch (ref.watch(_d275TabProvider)) {
@@ -299,7 +324,7 @@ class _SummaryTab extends ConsumerWidget {
                 _kAccent.withOpacity(0.06),
               ],
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: _kAccent.withOpacity(0.4)),
           ),
           child: Column(
@@ -576,7 +601,7 @@ class _BadgesTab extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(ZapSpacing.md),
                     decoration: BoxDecoration(
                       color: badge.color.withOpacity(badge.earned ? 0.2 : 0.08),
                       shape: BoxShape.circle,
@@ -655,11 +680,10 @@ class _BadgeTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(ZapSpacing.sm),
           decoration: BoxDecoration(
-            color: badge.earned
-                ? badge.color.withOpacity(0.1)
-                : ZapColors.bgCard,
+            color:
+                badge.earned ? badge.color.withOpacity(0.1) : ZapColors.bgCard,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: badge.earned
@@ -720,8 +744,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.share_rounded,
           title: 'Share card mock',
-          subtitle:
-              'Copies a privacy-safe stat line to clipboard · simulates '
+          subtitle: 'Copies a privacy-safe stat line to clipboard · simulates '
               'WhatsApp / story export without uploading user data.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -739,7 +762,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -770,7 +793,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -819,7 +842,8 @@ class _YearBarChart extends StatelessWidget {
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             rightTitles:
                 const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             leftTitles: AxisTitles(
@@ -891,7 +915,7 @@ class _StatChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: ZapColors.bgPrimary.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: _kAccent.withOpacity(0.25)),
       ),
       child: Column(
@@ -1018,7 +1042,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1032,8 +1056,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),
@@ -1109,7 +1132,7 @@ class _ConfettiOverlayState extends State<_ConfettiOverlay>
               for (final p in _particles)
                 Positioned(
                   left: p.x * MediaQuery.sizeOf(context).width,
-                  top: (( _controller.value + p.phase) % 1.0) * h * 0.85,
+                  top: ((_controller.value + p.phase) % 1.0) * h * 0.85,
                   child: Text(
                     p.emoji,
                     style: TextStyle(fontSize: p.size),

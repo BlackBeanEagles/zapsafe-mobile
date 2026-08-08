@@ -42,17 +42,21 @@ class _AreaInsight {
 }
 
 const _kSafestAreas = [
-  _AreaInsight(name: 'Indiranagar 100ft Rd', score: 92, visits: 14, risk: 'low'),
-  _AreaInsight(name: 'Koramangala 4th Block', score: 89, visits: 11, risk: 'low'),
+  _AreaInsight(
+      name: 'Indiranagar 100ft Rd', score: 92, visits: 14, risk: 'low'),
+  _AreaInsight(
+      name: 'Koramangala 4th Block', score: 89, visits: 11, risk: 'low'),
   _AreaInsight(name: 'Jayanagar 4th Block', score: 87, visits: 9, risk: 'low'),
   _AreaInsight(name: 'HSR Sector 1', score: 84, visits: 8, risk: 'low'),
   _AreaInsight(name: 'Whitefield ITPL', score: 78, visits: 6, risk: 'medium'),
 ];
 
 const _kRiskiestAreas = [
-  _AreaInsight(name: 'Shivajinagar (late night)', score: 41, visits: 2, risk: 'high'),
+  _AreaInsight(
+      name: 'Shivajinagar (late night)', score: 41, visits: 2, risk: 'high'),
   _AreaInsight(name: 'Majestic bus stand', score: 48, visits: 3, risk: 'high'),
-  _AreaInsight(name: 'Silk Board junction', score: 52, visits: 5, risk: 'medium'),
+  _AreaInsight(
+      name: 'Silk Board junction', score: 52, visits: 5, risk: 'medium'),
 ];
 
 class _TimeRisk {
@@ -100,8 +104,30 @@ const _kWeeklyScores = [72.0, 74.0, 76.0, 75.0, 78.0, 80.0, 82.0, 84.0];
 const _kWeeklyLabels = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'];
 const _kDayActivity = [3.0, 5.0, 4.0, 6.0, 8.0, 7.0, 2.0];
 const _kHourRisk = [
-  0.1, 0.1, 0.1, 0.1, 0.2, 0.3, 0.5, 0.7, 0.6, 0.4, 0.3, 0.3,
-  0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.85, 0.75, 0.9, 0.95, 0.8,
+  0.1,
+  0.1,
+  0.1,
+  0.1,
+  0.2,
+  0.3,
+  0.5,
+  0.7,
+  0.6,
+  0.4,
+  0.3,
+  0.3,
+  0.4,
+  0.5,
+  0.6,
+  0.7,
+  0.8,
+  0.9,
+  0.95,
+  0.85,
+  0.75,
+  0.9,
+  0.95,
+  0.8,
 ];
 
 Map<String, dynamic> _analyticsPayload(_AnalyticsPeriod period) => {
@@ -145,7 +171,8 @@ class Day273PersonalAnalyticsHubScreen extends ConsumerWidget {
                 ? null
                 : () async {
                     ref.read(_d273RefreshingProvider.notifier).state = true;
-                    await Future<void>.delayed(const Duration(milliseconds: 900));
+                    await Future<void>.delayed(
+                        const Duration(milliseconds: 900));
                     ref.read(_d273RefreshingProvider.notifier).state = false;
                     ref.read(_d273LastRefreshProvider.notifier).state =
                         DateTime.now().toIso8601String();
@@ -169,8 +196,8 @@ class Day273PersonalAnalyticsHubScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -282,7 +309,7 @@ class _StatCard extends StatelessWidget {
         padding: const EdgeInsets.all(ZapSpacing.sm),
         decoration: BoxDecoration(
           color: _kAccent.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(color: _kAccent.withOpacity(0.3)),
         ),
         child: Column(
@@ -297,7 +324,8 @@ class _StatCard extends StatelessWidget {
             ),
             Text(
               label,
-              style: const TextStyle(color: ZapColors.textPrimary, fontSize: 10),
+              style:
+                  const TextStyle(color: ZapColors.textPrimary, fontSize: 10),
             ),
             Text(
               delta,
@@ -333,7 +361,8 @@ class _SectionHeader extends StatelessWidget {
           ),
           Text(
             subtitle,
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
           ),
         ],
       ),
@@ -360,7 +389,7 @@ class _AreaRow extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.sm),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Row(
@@ -433,7 +462,7 @@ class _TimeRiskRow extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.sm),
       decoration: BoxDecoration(
         color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Row(
@@ -487,7 +516,7 @@ class _HourRiskStrip extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.sm),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -527,9 +556,12 @@ class _HourRiskStrip extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('00', style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
-              Text('12', style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
-              Text('23', style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
+              Text('00',
+                  style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
+              Text('12',
+                  style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
+              Text('23',
+                  style: TextStyle(color: ZapColors.textMuted, fontSize: 9)),
             ],
           ),
         ],
@@ -587,7 +619,8 @@ class _TrendsTab extends ConsumerWidget {
                 child: Text(
                   'Your safety score improved 12 points over 8 weeks · '
                   'Friday/Saturday evenings remain your highest-risk windows.',
-                  style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+                  style:
+                      TextStyle(color: ZapColors.textSecondary, fontSize: 12),
                 ),
               ),
             ],
@@ -749,7 +782,8 @@ class _WeeklyBarChart extends StatelessWidget {
                 BarChartRodData(
                   toY: values[i],
                   width: 14,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(4)),
                   color: i >= 4 ? _kAccent : _kAccent.withOpacity(0.55),
                 ),
               ],
@@ -812,7 +846,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -843,7 +877,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -942,7 +976,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -956,8 +990,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

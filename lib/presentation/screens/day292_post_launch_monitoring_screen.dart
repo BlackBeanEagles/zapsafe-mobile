@@ -275,8 +275,8 @@ class Day292PostLaunchMonitoringScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (alerts > 0 ? ZapColors.danger : _kAccent)
                       .withOpacity(0.15),
@@ -357,7 +357,7 @@ class _WarRoomTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: _kAccent.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: _kAccent.withOpacity(0.3)),
           ),
           child: Column(
@@ -398,23 +398,20 @@ class _WarRoomTab extends ConsumerWidget {
             FilterChip(
               label: const Text('0–24h'),
               selected: window == '0–24h',
-              onSelected: (_) => ref
-                  .read(_d292WindowFilterProvider.notifier)
-                  .state = '0–24h',
+              onSelected: (_) =>
+                  ref.read(_d292WindowFilterProvider.notifier).state = '0–24h',
             ),
             FilterChip(
               label: const Text('24–48h'),
               selected: window == '24–48h',
-              onSelected: (_) => ref
-                  .read(_d292WindowFilterProvider.notifier)
-                  .state = '24–48h',
+              onSelected: (_) =>
+                  ref.read(_d292WindowFilterProvider.notifier).state = '24–48h',
             ),
             FilterChip(
               label: const Text('48–72h'),
               selected: window == '48–72h',
-              onSelected: (_) => ref
-                  .read(_d292WindowFilterProvider.notifier)
-                  .state = '48–72h',
+              onSelected: (_) =>
+                  ref.read(_d292WindowFilterProvider.notifier).state = '48–72h',
             ),
           ],
         ),
@@ -434,7 +431,8 @@ class _WarRoomTab extends ConsumerWidget {
               children: [
                 InkWell(
                   onTap: () => _cycleStatus(ref, item.id),
-                  child: Icon(_statusIcon(st), color: _statusColor(st), size: 22),
+                  child:
+                      Icon(_statusIcon(st), color: _statusColor(st), size: 22),
                 ),
                 const SizedBox(width: ZapSpacing.sm),
                 Expanded(
@@ -474,8 +472,7 @@ class _WarRoomTab extends ConsumerWidget {
         OutlinedButton.icon(
           onPressed: () {
             ref.read(_d292StatusesProvider.notifier).state = {
-              for (final i in _kWarRoomItems)
-                i.id: _statusKey(i.defaultStatus),
+              for (final i in _kWarRoomItems) i.id: _statusKey(i.defaultStatus),
             };
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('War room reset to defaults.')),
@@ -536,7 +533,7 @@ class _TimelineTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -738,7 +735,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -769,7 +766,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -903,7 +900,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -917,8 +914,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

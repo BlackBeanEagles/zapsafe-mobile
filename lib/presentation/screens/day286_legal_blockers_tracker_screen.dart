@@ -285,7 +285,8 @@ Map<String, dynamic> _trackerPayload(Map<String, String> statuses) {
 }
 
 String _buildBlockerReport(Map<String, String> statuses) {
-  final buf = StringBuffer('ZapSafe Legal Launch Blockers (Section B 166-180)\n\n');
+  final buf =
+      StringBuffer('ZapSafe Legal Launch Blockers (Section B 166-180)\n\n');
   String? lastGroup;
   for (final e in _kEndpoints) {
     if (e.group != lastGroup) {
@@ -331,13 +332,15 @@ class Day286LegalBlockersTrackerScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
-                  color: (red > 0 ? ZapColors.danger : _kAccent).withOpacity(0.15),
+                  color:
+                      (red > 0 ? ZapColors.danger : _kAccent).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
-                    color: (red > 0 ? ZapColors.danger : _kAccent).withOpacity(0.45),
+                    color: (red > 0 ? ZapColors.danger : _kAccent)
+                        .withOpacity(0.45),
                   ),
                 ),
                 child: Text(
@@ -487,7 +490,8 @@ class _EndpointsTab extends ConsumerWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(_statusIcon(st), size: 14, color: _statusColor(st)),
+                              Icon(_statusIcon(st),
+                                  size: 14, color: _statusColor(st)),
                               const SizedBox(width: ZapSpacing.xs),
                               Text(
                                 _statusLabel(st),
@@ -588,9 +592,8 @@ class _BoardTab extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(ZapSpacing.lg),
           decoration: BoxDecoration(
-            color: blocked
-                ? ZapColors.danger.withOpacity(0.08)
-                : ZapColors.bgCard,
+            color:
+                blocked ? ZapColors.danger.withOpacity(0.08) : ZapColors.bgCard,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: blocked ? ZapColors.danger : ZapColors.border,
@@ -624,9 +627,18 @@ class _BoardTab extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: ZapSpacing.lg),
-              _StatRow(label: 'Ready (green)', value: '$green', color: ZapColors.safe),
-              _StatRow(label: 'Mock (yellow)', value: '$yellow', color: ZapColors.warning),
-              _StatRow(label: 'Blocked (red)', value: '$red', color: ZapColors.danger),
+              _StatRow(
+                  label: 'Ready (green)',
+                  value: '$green',
+                  color: ZapColors.safe),
+              _StatRow(
+                  label: 'Mock (yellow)',
+                  value: '$yellow',
+                  color: ZapColors.warning),
+              _StatRow(
+                  label: 'Blocked (red)',
+                  value: '$red',
+                  color: ZapColors.danger),
             ],
           ),
         ),
@@ -636,7 +648,7 @@ class _BoardTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -652,7 +664,8 @@ class _BoardTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.md),
         FilledButton.icon(
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: _buildBlockerReport(statuses)));
+            Clipboard.setData(
+                ClipboardData(text: _buildBlockerReport(statuses)));
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Blocker report copied.')),
             );
@@ -680,14 +693,16 @@ class _StatRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: ZapColors.textMuted, fontSize: 12)),
+          Text(label,
+              style: const TextStyle(color: ZapColors.textMuted, fontSize: 12)),
           Text(
             value,
-            style: TextStyle(color: color, fontWeight: FontWeight.w900, fontSize: 14),
+            style: TextStyle(
+                color: color, fontWeight: FontWeight.w900, fontSize: 14),
           ),
         ],
       ),
@@ -742,7 +757,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -773,7 +788,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -907,7 +922,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -921,8 +936,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

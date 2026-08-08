@@ -105,8 +105,8 @@ const _kTargetLocales = [
   _TargetLocale(code: 'ko', label: 'Korean (ko)', flag: '🇰🇷'),
 ];
 
-_TargetLocale _localeByCode(String code) =>
-    _kTargetLocales.firstWhere((l) => l.code == code, orElse: () => _kTargetLocales.first);
+_TargetLocale _localeByCode(String code) => _kTargetLocales
+    .firstWhere((l) => l.code == code, orElse: () => _kTargetLocales.first);
 
 const _kSampleEnSnippet = '''{
   "app_name": "ZapSafe",
@@ -155,7 +155,8 @@ final _d262StepStatusProvider = StateProvider<Map<String, _StepStatus>>(
 );
 final _d262RunningProvider = StateProvider<bool>((ref) => false);
 final _d262RunCountProvider = StateProvider<int>((ref) => 0);
-final _d262ValidationLogProvider = StateProvider<List<String>>((ref) => const []);
+final _d262ValidationLogProvider =
+    StateProvider<List<String>>((ref) => const []);
 
 // ── Screen ────────────────────────────────────────────────────────────────────
 class Day262TranslationWorkflowScreen extends ConsumerStatefulWidget {
@@ -237,8 +238,8 @@ class _Day262TranslationWorkflowScreenState
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -371,7 +372,8 @@ class _WorkflowTab extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     'RTL locale — include Directionality + Day 263 RTL preview.',
-                    style: TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+                    style:
+                        TextStyle(color: ZapColors.textSecondary, fontSize: 11),
                   ),
                 ),
               ],
@@ -469,7 +471,7 @@ class _StepCard extends StatelessWidget {
         color: status == _StepStatus.running
             ? _kAccent.withOpacity(0.06)
             : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: status == _StepStatus.pending
               ? ZapColors.border
@@ -517,7 +519,7 @@ class _StepCard extends StatelessWidget {
           const SizedBox(height: 6),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.bgPrimary,
               borderRadius: BorderRadius.circular(4),
@@ -594,7 +596,8 @@ class _ValidateTab extends StatelessWidget {
         Text(
           '$passCount/${checks.length} checks passed (mock)',
           style: TextStyle(
-            color: passCount == checks.length ? ZapColors.safe : ZapColors.warning,
+            color:
+                passCount == checks.length ? ZapColors.safe : ZapColors.warning,
             fontWeight: FontWeight.w700,
             fontSize: 11,
           ),
@@ -821,7 +824,7 @@ assets:
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -852,7 +855,7 @@ assets:
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -951,7 +954,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -965,8 +968,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

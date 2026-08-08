@@ -55,14 +55,40 @@ const _kSections = [
     dayRange: 'Days 1–40',
     accent: ZapColors.safe,
     entries: [
-      DarkAuditEntry(id: 'd4', name: 'Widgets Showcase', route: '/day4', dayLabel: 'Day 4'),
-      DarkAuditEntry(id: 'd5', name: 'Navigation Index', route: '/', dayLabel: 'Day 5'),
-      DarkAuditEntry(id: 'd6', name: 'Auth Foundation', route: '/day6', dayLabel: 'Day 6'),
-      DarkAuditEntry(id: 'd11', name: 'Permissions', route: '/permissions', dayLabel: 'Day 11'),
-      DarkAuditEntry(id: 'd20', name: 'Month 1 Review', route: '/month1-review', dayLabel: 'Day 20'),
-      DarkAuditEntry(id: 'd37', name: 'GPS Service', route: '/gps-service', dayLabel: 'Day 37'),
-      DarkAuditEntry(id: 'd39', name: 'State Wiring', route: '/state-wiring', dayLabel: 'Day 39'),
-      DarkAuditEntry(id: 'dash', name: 'Dashboard', route: '/dashboard', dayLabel: 'Day 46'),
+      DarkAuditEntry(
+          id: 'd4',
+          name: 'Widgets Showcase',
+          route: '/day4',
+          dayLabel: 'Day 4'),
+      DarkAuditEntry(
+          id: 'd5', name: 'Navigation Index', route: '/', dayLabel: 'Day 5'),
+      DarkAuditEntry(
+          id: 'd6', name: 'Auth Foundation', route: '/day6', dayLabel: 'Day 6'),
+      DarkAuditEntry(
+          id: 'd11',
+          name: 'Permissions',
+          route: '/permissions',
+          dayLabel: 'Day 11'),
+      DarkAuditEntry(
+          id: 'd20',
+          name: 'Month 1 Review',
+          route: '/month1-review',
+          dayLabel: 'Day 20'),
+      DarkAuditEntry(
+          id: 'd37',
+          name: 'GPS Service',
+          route: '/gps-service',
+          dayLabel: 'Day 37'),
+      DarkAuditEntry(
+          id: 'd39',
+          name: 'State Wiring',
+          route: '/state-wiring',
+          dayLabel: 'Day 39'),
+      DarkAuditEntry(
+          id: 'dash',
+          name: 'Dashboard',
+          route: '/dashboard',
+          dayLabel: 'Day 46'),
     ],
   ),
   DarkAuditSection(
@@ -71,14 +97,46 @@ const _kSections = [
     dayRange: 'Days 41–100',
     accent: ZapColors.info,
     entries: [
-      DarkAuditEntry(id: 'd41', name: 'Onboarding Step 1', route: '/onboarding/step1', dayLabel: 'Day 41'),
-      DarkAuditEntry(id: 'd51', name: 'Offline Status', route: '/offline-status', dayLabel: 'Day 51'),
-      DarkAuditEntry(id: 'd59', name: 'Protection Score', route: '/protection-score', dayLabel: 'Day 59'),
-      DarkAuditEntry(id: 'd68', name: 'Audit Log', route: '/audit-log-v2', dayLabel: 'Day 68'),
-      DarkAuditEntry(id: 'd76', name: 'SOS Active', route: '/sos-active', dayLabel: 'Day 76'),
-      DarkAuditEntry(id: 'd82', name: 'Evidence Vault', route: '/evidence-vault', dayLabel: 'Day 82'),
-      DarkAuditEntry(id: 'd83', name: 'Contacts v2', route: '/contacts-v2', dayLabel: 'Day 83'),
-      DarkAuditEntry(id: 'd97', name: 'Accessibility', route: '/accessibility-settings', dayLabel: 'Day 97'),
+      DarkAuditEntry(
+          id: 'd41',
+          name: 'Onboarding Step 1',
+          route: '/onboarding/step1',
+          dayLabel: 'Day 41'),
+      DarkAuditEntry(
+          id: 'd51',
+          name: 'Offline Status',
+          route: '/offline-status',
+          dayLabel: 'Day 51'),
+      DarkAuditEntry(
+          id: 'd59',
+          name: 'Protection Score',
+          route: '/protection-score',
+          dayLabel: 'Day 59'),
+      DarkAuditEntry(
+          id: 'd68',
+          name: 'Audit Log',
+          route: '/audit-log-v2',
+          dayLabel: 'Day 68'),
+      DarkAuditEntry(
+          id: 'd76',
+          name: 'SOS Active',
+          route: '/sos-active',
+          dayLabel: 'Day 76'),
+      DarkAuditEntry(
+          id: 'd82',
+          name: 'Evidence Vault',
+          route: '/evidence-vault',
+          dayLabel: 'Day 82'),
+      DarkAuditEntry(
+          id: 'd83',
+          name: 'Contacts v2',
+          route: '/contacts-v2',
+          dayLabel: 'Day 83'),
+      DarkAuditEntry(
+          id: 'd97',
+          name: 'Accessibility',
+          route: '/accessibility-settings',
+          dayLabel: 'Day 97'),
     ],
   ),
   DarkAuditSection(
@@ -87,14 +145,46 @@ const _kSections = [
     dayRange: 'Days 101–150',
     accent: ZapColors.warning,
     entries: [
-      DarkAuditEntry(id: 'd104', name: 'Onboarding i18n', route: '/onboarding-i18n', dayLabel: 'Day 104'),
-      DarkAuditEntry(id: 'd112', name: 'Beta Onboarding', route: '/beta-onboarding', dayLabel: 'Day 112'),
-      DarkAuditEntry(id: 'd120', name: 'Beta Launch', route: '/beta-launch', dayLabel: 'Day 120'),
-      DarkAuditEntry(id: 'd133', name: 'Onboarding Simplify', route: '/onboarding-simplify', dayLabel: 'Day 133'),
-      DarkAuditEntry(id: 'd138', name: 'Final Polish', route: '/final-polish', dayLabel: 'Day 138'),
-      DarkAuditEntry(id: 'd147', name: 'AWS Test', route: '/aws-test', dayLabel: 'Day 147'),
-      DarkAuditEntry(id: 'd149', name: 'Regression Test', route: '/regression-test', dayLabel: 'Day 149'),
-      DarkAuditEntry(id: 'd150', name: 'Production Release', route: '/production-release', dayLabel: 'Day 150'),
+      DarkAuditEntry(
+          id: 'd104',
+          name: 'Onboarding i18n',
+          route: '/onboarding-i18n',
+          dayLabel: 'Day 104'),
+      DarkAuditEntry(
+          id: 'd112',
+          name: 'Beta Onboarding',
+          route: '/beta-onboarding',
+          dayLabel: 'Day 112'),
+      DarkAuditEntry(
+          id: 'd120',
+          name: 'Beta Launch',
+          route: '/beta-launch',
+          dayLabel: 'Day 120'),
+      DarkAuditEntry(
+          id: 'd133',
+          name: 'Onboarding Simplify',
+          route: '/onboarding-simplify',
+          dayLabel: 'Day 133'),
+      DarkAuditEntry(
+          id: 'd138',
+          name: 'Final Polish',
+          route: '/final-polish',
+          dayLabel: 'Day 138'),
+      DarkAuditEntry(
+          id: 'd147',
+          name: 'AWS Test',
+          route: '/aws-test',
+          dayLabel: 'Day 147'),
+      DarkAuditEntry(
+          id: 'd149',
+          name: 'Regression Test',
+          route: '/regression-test',
+          dayLabel: 'Day 149'),
+      DarkAuditEntry(
+          id: 'd150',
+          name: 'Production Release',
+          route: '/production-release',
+          dayLabel: 'Day 150'),
     ],
   ),
   DarkAuditSection(
@@ -103,14 +193,46 @@ const _kSections = [
     dayRange: 'Days 151–200',
     accent: ZapColors.danger,
     entries: [
-      DarkAuditEntry(id: 'd166', name: 'Data Export Request', route: '/data-export-request', dayLabel: 'Day 166'),
-      DarkAuditEntry(id: 'd176', name: 'Data Retention', route: '/data-retention-settings', dayLabel: 'Day 176'),
-      DarkAuditEntry(id: 'd183', name: 'Biometric Lock', route: '/biometric-lock', dayLabel: 'Day 183'),
-      DarkAuditEntry(id: 'd191', name: 'Screenshots', route: '/screenshots', dayLabel: 'Day 191'),
-      DarkAuditEntry(id: 'd197', name: 'Release Checklist', route: '/release-checklist', dayLabel: 'Day 197'),
-      DarkAuditEntry(id: 'd199', name: 'Final Submission', route: '/final-submission', dayLabel: 'Day 199'),
-      DarkAuditEntry(id: 'd200', name: 'Grand Finale', route: '/grand-finale', dayLabel: 'Day 200'),
-      DarkAuditEntry(id: 'd201', name: 'Device QA Harness', route: '/device-qa-harness', dayLabel: 'Day 201'),
+      DarkAuditEntry(
+          id: 'd166',
+          name: 'Data Export Request',
+          route: '/data-export-request',
+          dayLabel: 'Day 166'),
+      DarkAuditEntry(
+          id: 'd176',
+          name: 'Data Retention',
+          route: '/data-retention-settings',
+          dayLabel: 'Day 176'),
+      DarkAuditEntry(
+          id: 'd183',
+          name: 'Biometric Lock',
+          route: '/biometric-lock',
+          dayLabel: 'Day 183'),
+      DarkAuditEntry(
+          id: 'd191',
+          name: 'Screenshots',
+          route: '/screenshots',
+          dayLabel: 'Day 191'),
+      DarkAuditEntry(
+          id: 'd197',
+          name: 'Release Checklist',
+          route: '/release-checklist',
+          dayLabel: 'Day 197'),
+      DarkAuditEntry(
+          id: 'd199',
+          name: 'Final Submission',
+          route: '/final-submission',
+          dayLabel: 'Day 199'),
+      DarkAuditEntry(
+          id: 'd200',
+          name: 'Grand Finale',
+          route: '/grand-finale',
+          dayLabel: 'Day 200'),
+      DarkAuditEntry(
+          id: 'd201',
+          name: 'Device QA Harness',
+          route: '/device-qa-harness',
+          dayLabel: 'Day 201'),
     ],
   ),
 ];
@@ -160,7 +282,8 @@ class Day211DarkModeAuditScreen extends ConsumerWidget {
               child: Text(
                 '$pass/$total',
                 style: TextStyle(
-                  color: pass == total ? ZapColors.safe : ZapColors.textSecondary,
+                  color:
+                      pass == total ? ZapColors.safe : ZapColors.textSecondary,
                   fontWeight: FontWeight.w800,
                   fontSize: 13,
                 ),
@@ -224,7 +347,8 @@ class _ProgressHeader extends StatelessWidget {
               const Spacer(),
               Text(
                 '$done / $total reviewed',
-                style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
+                style:
+                    const TextStyle(color: ZapColors.textMuted, fontSize: 11),
               ),
             ],
           ),
@@ -477,7 +601,7 @@ class _ChecklistTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -656,7 +780,7 @@ class _NoteFieldState extends State<_NoteField> {
           filled: true,
           fillColor: ZapColors.bgElevated,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             borderSide: const BorderSide(color: ZapColors.border),
           ),
           contentPadding: const EdgeInsets.all(ZapSpacing.sm),
@@ -736,7 +860,7 @@ class _ThemeTokensTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -746,7 +870,7 @@ class _ThemeTokensTab extends StatelessWidget {
                   height: 44,
                   decoration: BoxDecoration(
                     color: color,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(color: ZapColors.border),
                   ),
                 ),
@@ -843,7 +967,8 @@ class _ExportTab extends ConsumerWidget {
       ..writeln('---');
 
     for (final section in _kSections) {
-      buf.writeln('[Phase ${section.phase}] ${section.title} (${section.dayRange})');
+      buf.writeln(
+          '[Phase ${section.phase}] ${section.title} (${section.dayRange})');
       for (final e in section.entries) {
         final st = statuses[e.id] ?? DarkAuditStatus.unchecked;
         final tag = switch (st) {
@@ -882,7 +1007,7 @@ class _ExportTab extends ConsumerWidget {
                 : pass == _allEntries.length
                     ? ZapColors.safe.withOpacity(0.08)
                     : ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(
               color: fail > 0
                   ? ZapColors.danger.withOpacity(0.35)
@@ -935,7 +1060,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Text(
@@ -1043,8 +1168,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

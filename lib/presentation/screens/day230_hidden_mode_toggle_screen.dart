@@ -123,8 +123,7 @@ const _kSubToggles = [
     title: 'Minimize notifications',
     subtitle:
         'Heads-up suppressed · vibration off · generic channel for non-SOS',
-    tradeoff:
-        'Contacts may miss delivery receipts. SOS alerts still fire but '
+    tradeoff: 'Contacts may miss delivery receipts. SOS alerts still fire but '
         'use minimal visibility unless stealth lock-screen is off.',
     icon: Icons.notifications_off_outlined,
   ),
@@ -132,8 +131,7 @@ const _kSubToggles = [
     key: 'generic_recents_title',
     title: 'Generic app name in recents',
     subtitle: 'App switcher shows "Utilities" instead of ZapSafe',
-    tradeoff:
-        'Android/iOS may ignore custom titles on some OEM skins. '
+    tradeoff: 'Android/iOS may ignore custom titles on some OEM skins. '
         'You must remember which decoy name you chose.',
     icon: Icons.layers_rounded,
   ),
@@ -141,8 +139,7 @@ const _kSubToggles = [
     key: 'dim_launcher_label',
     title: 'Dim launcher label',
     subtitle: 'Short neutral label under home-screen icon',
-    tradeoff:
-        'Launcher may still show full name until Day 231 icon disguise '
+    tradeoff: 'Launcher may still show full name until Day 231 icon disguise '
         'is applied. Dim label alone does not change the icon.',
     icon: Icons.home_outlined,
   ),
@@ -150,8 +147,7 @@ const _kSubToggles = [
     key: 'stealth_lock_screen_alerts',
     title: 'Stealth lock-screen alerts',
     subtitle: 'SOS push text replaced with neutral "System service" copy',
-    tradeoff:
-        'Critical for concealment but slows contact recognition. '
+    tradeoff: 'Critical for concealment but slows contact recognition. '
         'Hardware SOS and volume triggers remain active.',
     icon: Icons.lock_outline_rounded,
   ),
@@ -181,8 +177,7 @@ bool _subEnabled(HiddenModePrefs prefs, String key) => switch (key) {
 
 HiddenModePrefs _setSub(HiddenModePrefs prefs, String key, bool value) =>
     switch (key) {
-      'minimize_notifications' =>
-        prefs.copyWith(minimizeNotifications: value),
+      'minimize_notifications' => prefs.copyWith(minimizeNotifications: value),
       'generic_recents_title' => prefs.copyWith(genericRecentsTitle: value),
       'dim_launcher_label' => prefs.copyWith(dimLauncherLabel: value),
       'stealth_lock_screen_alerts' =>
@@ -219,8 +214,8 @@ class Day230HiddenModeToggleScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: ZapSpacing.sm),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.warning.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -242,8 +237,8 @@ class Day230HiddenModeToggleScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: prefs.enabled
                       ? ZapColors.danger.withOpacity(0.12)
@@ -258,7 +253,8 @@ class Day230HiddenModeToggleScreen extends ConsumerWidget {
                 child: Text(
                   prefs.enabled ? 'HIDDEN ON' : 'STANDARD',
                   style: TextStyle(
-                    color: prefs.enabled ? ZapColors.danger : ZapColors.textMuted,
+                    color:
+                        prefs.enabled ? ZapColors.danger : ZapColors.textMuted,
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
                   ),
@@ -320,7 +316,7 @@ class _TogglesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.45)),
           ),
           child: const Column(
@@ -378,7 +374,7 @@ class _TogglesTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: on && prefs.enabled
                     ? ZapColors.danger.withOpacity(0.35)
@@ -413,9 +409,8 @@ class _TogglesTab extends ConsumerWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () => ref
-                      .read(_d230ExpandedProvider.notifier)
-                      .state = isExp ? null : t.key,
+                  onTap: () => ref.read(_d230ExpandedProvider.notifier).state =
+                      isExp ? null : t.key,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                     child: Row(
@@ -550,14 +545,11 @@ class _MasterToggleCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
-        color: enabled
-            ? ZapColors.danger.withOpacity(0.08)
-            : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        color: enabled ? ZapColors.danger.withOpacity(0.08) : ZapColors.bgCard,
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
-          color: enabled
-              ? ZapColors.danger.withOpacity(0.45)
-              : ZapColors.border,
+          color:
+              enabled ? ZapColors.danger.withOpacity(0.45) : ZapColors.border,
         ),
       ),
       child: Row(
@@ -611,12 +603,10 @@ class _PreviewTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(_d230PrefsProvider);
 
-    final recentsName = prefs.enabled && prefs.genericRecentsTitle
-        ? 'Utilities'
-        : 'ZapSafe';
-    final launcherLabel = prefs.enabled && prefs.dimLauncherLabel
-        ? 'Tools'
-        : 'ZapSafe';
+    final recentsName =
+        prefs.enabled && prefs.genericRecentsTitle ? 'Utilities' : 'ZapSafe';
+    final launcherLabel =
+        prefs.enabled && prefs.dimLauncherLabel ? 'Tools' : 'ZapSafe';
     final notifTitle = prefs.enabled && prefs.stealthLockScreenAlerts
         ? 'System service'
         : 'SOS ALERT — Priya needs help';
@@ -649,7 +639,7 @@ class _PreviewTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: const Color(0xFF1A2332),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             ),
             child: Row(
               children: [
@@ -658,7 +648,7 @@ class _PreviewTab extends ConsumerWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: ZapColors.danger.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   ),
                   child: const Icon(Icons.bolt_rounded, color: Colors.white),
                 ),
@@ -722,7 +712,7 @@ class _PreviewTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgElevated,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -784,7 +774,7 @@ class _PreviewTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -810,7 +800,7 @@ class _PreviewPanel extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -871,7 +861,7 @@ class _HiveBoxTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -899,7 +889,7 @@ class _HiveBoxTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -969,8 +959,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

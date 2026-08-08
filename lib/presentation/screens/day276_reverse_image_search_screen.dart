@@ -137,7 +137,8 @@ Map<String, dynamic> _searchPayload({
         'raw_image_leaves_device': false,
         'index_scope': 'local_cache_only',
       },
-      'wire_note': 'Mock demo · real flow uses on-device pHash + optional index sync',
+      'wire_note':
+          'Mock demo · real flow uses on-device pHash + optional index sync',
     };
 
 // ── Providers ─────────────────────────────────────────────────────────────────
@@ -183,8 +184,8 @@ class Day276ReverseImageSearchScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -352,7 +353,8 @@ class _ScanTab extends ConsumerWidget {
                         height: 48,
                         decoration: BoxDecoration(
                           color: preset.tint.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius:
+                              BorderRadius.circular(ZapSpacing.radiusSmall),
                         ),
                         child: Icon(preset.icon, color: preset.tint),
                       ),
@@ -399,9 +401,7 @@ class _ScanTab extends ConsumerWidget {
         SizedBox(
           width: double.infinity,
           child: FilledButton.icon(
-            onPressed: canScan
-                ? () => _runSearch(ref, selectedId)
-                : null,
+            onPressed: canScan ? () => _runSearch(ref, selectedId) : null,
             icon: searching
                 ? const SizedBox(
                     width: 16,
@@ -427,7 +427,7 @@ class _ScanTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: SelectableText(
@@ -482,9 +482,8 @@ class _ScanTab extends ConsumerWidget {
                         match.flagged
                             ? Icons.warning_amber_rounded
                             : Icons.check_circle_outline_rounded,
-                        color: match.flagged
-                            ? ZapColors.warning
-                            : ZapColors.safe,
+                        color:
+                            match.flagged ? ZapColors.warning : ZapColors.safe,
                         size: 18,
                       ),
                       const SizedBox(width: ZapSpacing.sm),
@@ -732,7 +731,7 @@ class _PrivacyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -790,7 +789,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -821,7 +820,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -955,7 +954,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -969,8 +968,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

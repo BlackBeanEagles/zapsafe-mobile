@@ -153,8 +153,8 @@ class Day272InsurancePartnershipScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (applied
                           ? ZapColors.safe
@@ -260,9 +260,8 @@ class _OfferTab extends ConsumerWidget {
           return Container(
             margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
-              color: selected
-                  ? _kPartnerBlue.withOpacity(0.08)
-                  : ZapColors.bgCard,
+              color:
+                  selected ? _kPartnerBlue.withOpacity(0.08) : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: selected
@@ -308,7 +307,8 @@ class _OfferTab extends ConsumerWidget {
                     ),
                   );
                 },
-          icon: Icon(eligible ? Icons.verified_rounded : Icons.fact_check_rounded),
+          icon: Icon(
+              eligible ? Icons.verified_rounded : Icons.fact_check_rounded),
           label: Text(eligible ? 'Review verification' : 'Verify eligibility'),
           style: FilledButton.styleFrom(
             backgroundColor: _kPartnerBlue,
@@ -333,7 +333,7 @@ class _PartnerOfferCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -355,8 +355,8 @@ class _PartnerOfferCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -376,10 +376,12 @@ class _PartnerOfferCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: _kPartnerRed,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   ),
                   child: Text(
-                    eligible ? '$_kDiscountPercent% OFF' : 'UP TO $_kDiscountPercent%',
+                    eligible
+                        ? '$_kDiscountPercent% OFF'
+                        : 'UP TO $_kDiscountPercent%',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
@@ -409,9 +411,9 @@ class _PartnerOfferCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(ZapSpacing.lg),
             child: Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(10),
@@ -463,7 +465,8 @@ class _PartnerOfferCard extends StatelessWidget {
                         ? 'Discount unlocked · verified SOS history'
                         : 'Verify SOS history to apply discount',
                     style: TextStyle(
-                      color: eligible ? const Color(0xFF86EFAC) : Colors.white70,
+                      color:
+                          eligible ? const Color(0xFF86EFAC) : Colors.white70,
                       fontSize: 11,
                     ),
                   ),
@@ -589,20 +592,19 @@ class _VerifyTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: 6),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: pass
-                  ? ZapColors.safe.withOpacity(0.08)
-                  : ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              color: pass ? ZapColors.safe.withOpacity(0.08) : ZapColors.bgCard,
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
-                color: pass
-                    ? ZapColors.safe.withOpacity(0.35)
-                    : ZapColors.border,
+                color:
+                    pass ? ZapColors.safe.withOpacity(0.35) : ZapColors.border,
               ),
             ),
             child: Row(
               children: [
                 Icon(
-                  pass ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
+                  pass
+                      ? Icons.check_circle_rounded
+                      : Icons.radio_button_unchecked,
                   color: pass ? ZapColors.safe : ZapColors.textMuted,
                   size: 18,
                 ),
@@ -611,7 +613,9 @@ class _VerifyTab extends ConsumerWidget {
                   child: Text(
                     rule.$2,
                     style: TextStyle(
-                      color: pass ? ZapColors.textPrimary : ZapColors.textSecondary,
+                      color: pass
+                          ? ZapColors.textPrimary
+                          : ZapColors.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -630,7 +634,9 @@ class _VerifyTab extends ConsumerWidget {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(Icons.verified_user_rounded),
-          label: Text(verifying ? 'Verifying SOS history…' : 'Verify SOS history (mock)'),
+          label: Text(verifying
+              ? 'Verifying SOS history…'
+              : 'Verify SOS history (mock)'),
           style: FilledButton.styleFrom(
             backgroundColor: _kPartnerBlue,
             minimumSize: const Size(double.infinity, 48),
@@ -726,7 +732,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -746,7 +752,8 @@ class _InfoTab extends ConsumerWidget {
               ClipboardData(text: _kJsonEncoder.convert(payload)),
             );
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Insurance partnership spec copied.')),
+              const SnackBar(
+                  content: Text('Insurance partnership spec copied.')),
             );
           },
           icon: const Icon(Icons.copy_rounded, size: 16),
@@ -757,7 +764,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -856,7 +863,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -870,8 +877,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kPartnerBlue : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

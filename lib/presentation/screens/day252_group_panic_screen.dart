@@ -216,7 +216,8 @@ class _DispatchRow {
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d252TabProvider = StateProvider<int>((ref) => 0);
 final _d252SessionActiveProvider = StateProvider<bool>((ref) => true);
-final _d252PhaseProvider = StateProvider<_PanicPhase>((ref) => _PanicPhase.idle);
+final _d252PhaseProvider =
+    StateProvider<_PanicPhase>((ref) => _PanicPhase.idle);
 final _d252HoldProgressProvider = StateProvider<double>((ref) => 0);
 final _d252DispatchRowsProvider =
     StateProvider<List<_DispatchRow>>((ref) => _buildDispatchRows());
@@ -252,7 +253,8 @@ class Day252GroupPanicScreen extends ConsumerStatefulWidget {
       _Day252GroupPanicScreenState();
 }
 
-class _Day252GroupPanicScreenState extends ConsumerState<Day252GroupPanicScreen> {
+class _Day252GroupPanicScreenState
+    extends ConsumerState<Day252GroupPanicScreen> {
   Timer? _holdTimer;
   Timer? _dispatchTimer;
   int _dispatchIndex = 0;
@@ -277,8 +279,8 @@ class _Day252GroupPanicScreenState extends ConsumerState<Day252GroupPanicScreen>
     _holdTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
       if (!mounted) return;
       final elapsed = DateTime.now().difference(started);
-      final progress =
-          (elapsed.inMilliseconds / _kHoldDuration.inMilliseconds).clamp(0.0, 1.0);
+      final progress = (elapsed.inMilliseconds / _kHoldDuration.inMilliseconds)
+          .clamp(0.0, 1.0);
       ref.read(_d252HoldProgressProvider.notifier).state = progress;
       if (progress >= 1.0) {
         _holdTimer?.cancel();
@@ -319,7 +321,8 @@ class _Day252GroupPanicScreenState extends ConsumerState<Day252GroupPanicScreen>
     _dispatchTimer?.cancel();
     _dispatchTimer = Timer.periodic(const Duration(milliseconds: 350), (_) {
       if (!mounted) return;
-      final current = List<_DispatchRow>.from(ref.read(_d252DispatchRowsProvider));
+      final current =
+          List<_DispatchRow>.from(ref.read(_d252DispatchRowsProvider));
       if (_dispatchIndex >= current.length) {
         _dispatchTimer?.cancel();
         ref.read(_d252PhaseProvider.notifier).state = _PanicPhase.complete;
@@ -338,7 +341,8 @@ class _Day252GroupPanicScreenState extends ConsumerState<Day252GroupPanicScreen>
       final idx = _dispatchIndex;
       Future<void>.delayed(const Duration(milliseconds: 220), () {
         if (!mounted) return;
-        final updated = List<_DispatchRow>.from(ref.read(_d252DispatchRowsProvider));
+        final updated =
+            List<_DispatchRow>.from(ref.read(_d252DispatchRowsProvider));
         if (idx >= updated.length) return;
         updated[idx].step = _DispatchStep.delivered;
         updated[idx].notifiedAt = DateTime.now();
@@ -380,8 +384,8 @@ class _Day252GroupPanicScreenState extends ConsumerState<Day252GroupPanicScreen>
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -523,7 +527,7 @@ class _PanicTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: _kGroupAccent.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: _kGroupAccent.withOpacity(0.35)),
           ),
           child: Column(
@@ -591,9 +595,7 @@ class _PanicTab extends ConsumerWidget {
                     height: 190,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: canTrigger
-                          ? _kAccent
-                          : _kAccent.withOpacity(0.35),
+                      color: canTrigger ? _kAccent : _kAccent.withOpacity(0.35),
                       boxShadow: [
                         BoxShadow(
                           color: _kAccent.withOpacity(0.35),
@@ -606,7 +608,9 @@ class _PanicTab extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          isDone ? Icons.check_rounded : Icons.emergency_rounded,
+                          isDone
+                              ? Icons.check_rounded
+                              : Icons.emergency_rounded,
                           color: Colors.white,
                           size: 48,
                         ),
@@ -715,7 +719,7 @@ class _DispatchTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -776,9 +780,8 @@ class _InfoTab extends ConsumerWidget {
     final response = {
       'panic_id': panicId ?? 'gp_789012',
       'status': phase == _PanicPhase.complete ? 'completed' : 'accepted',
-      'contacts_notified': phase == _PanicPhase.complete
-          ? _totalContactCount()
-          : 0,
+      'contacts_notified':
+          phase == _PanicPhase.complete ? _totalContactCount() : 0,
       'members': _kGroupMembers
           .map(
             (m) => {
@@ -827,7 +830,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -855,7 +858,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -899,7 +902,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -952,7 +955,7 @@ class _MemberSummaryTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Row(
@@ -994,7 +997,8 @@ class _MemberSummaryTile extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: _kAccent.withOpacity(0.1),
               borderRadius: BorderRadius.circular(4),
@@ -1040,7 +1044,7 @@ class _DispatchRowTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: step == _DispatchStep.delivered
               ? ZapColors.safe.withOpacity(0.35)
@@ -1152,7 +1156,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1166,8 +1170,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

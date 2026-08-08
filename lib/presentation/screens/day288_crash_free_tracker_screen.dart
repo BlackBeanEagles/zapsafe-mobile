@@ -79,16 +79,53 @@ const _kCrashIssues = [
 
 // Daily crash-free % for last 14 days (mock)
 const _kDailyCrashFree14d = [
-  99.41, 99.48, 99.52, 99.55, 99.50, 99.58, 99.61,
-  99.59, 99.63, 99.60, 99.64, 99.62, 99.65, 99.62,
+  99.41,
+  99.48,
+  99.52,
+  99.55,
+  99.50,
+  99.58,
+  99.61,
+  99.59,
+  99.63,
+  99.60,
+  99.64,
+  99.62,
+  99.65,
+  99.62,
 ];
 
 const _kDailyCrashFree30d = [
-  99.12, 99.18, 99.22, 99.25, 99.28, 99.30, 99.32,
-  99.35, 99.38, 99.40, 99.42, 99.44, 99.45, 99.47,
-  99.48, 99.50, 99.52, 99.51, 99.53, 99.54, 99.55,
-  99.56, 99.57, 99.58, 99.59, 99.60, 99.61, 99.62,
-  99.63, 99.62,
+  99.12,
+  99.18,
+  99.22,
+  99.25,
+  99.28,
+  99.30,
+  99.32,
+  99.35,
+  99.38,
+  99.40,
+  99.42,
+  99.44,
+  99.45,
+  99.47,
+  99.48,
+  99.50,
+  99.52,
+  99.51,
+  99.53,
+  99.54,
+  99.55,
+  99.56,
+  99.57,
+  99.58,
+  99.59,
+  99.60,
+  99.61,
+  99.62,
+  99.63,
+  99.62,
 ];
 
 enum _Window { d7, d14, d30 }
@@ -135,11 +172,13 @@ String _buildCrashReport({required _Window window}) {
   buf.writeln('Current: $_kCurrentPct%');
   buf.writeln('${window.name} avg: ${avg.toStringAsFixed(2)}%');
   buf.writeln('Target gate: $_kTargetPct%');
-  buf.writeln('Status: ${_kCurrentPct >= _kTargetPct ? 'PASSING' : 'BELOW TARGET'}');
+  buf.writeln(
+      'Status: ${_kCurrentPct >= _kTargetPct ? 'PASSING' : 'BELOW TARGET'}');
   buf.writeln();
   buf.writeln('── Recent issues ──');
   for (final i in _kCrashIssues) {
-    buf.writeln('[${i.status}] ${i.title} · ${i.platform} · ${i.events} events');
+    buf.writeln(
+        '[${i.status}] ${i.title} · ${i.platform} · ${i.events} events');
   }
   return buf.toString();
 }
@@ -167,8 +206,8 @@ class Day288CrashFreeTrackerScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (passing ? ZapColors.safe : ZapColors.danger)
                       .withOpacity(0.15),
@@ -300,7 +339,7 @@ class _DashboardTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.safe.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.safe.withOpacity(0.35)),
           ),
           child: const Row(
@@ -352,13 +391,15 @@ class _DashboardTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
               children: [
                 Icon(
-                  resolved ? Icons.check_circle_rounded : Icons.bug_report_rounded,
+                  resolved
+                      ? Icons.check_circle_rounded
+                      : Icons.bug_report_rounded,
                   color: resolved ? ZapColors.safe : ZapColors.warning,
                   size: 20,
                 ),
@@ -387,7 +428,8 @@ class _DashboardTab extends ConsumerWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: (resolved ? ZapColors.safe : ZapColors.warning)
                         .withOpacity(0.15),
@@ -659,7 +701,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.speed_rounded,
           title: '99.5% launch gate',
-          subtitle: 'Store release blocked if crash-free sessions drop below target.',
+          subtitle:
+              'Store release blocked if crash-free sessions drop below target.',
         ),
         const _PolicyRow(
           icon: Icons.timeline_rounded,
@@ -669,7 +712,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.bug_report_rounded,
           title: 'Issue feed',
-          subtitle: 'Resolved beta crashes · monitoring tablet layout edge case.',
+          subtitle:
+              'Resolved beta crashes · monitoring tablet layout edge case.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         const Text(
@@ -686,7 +730,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -717,7 +761,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -851,7 +895,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -865,8 +909,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

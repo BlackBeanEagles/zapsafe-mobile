@@ -217,7 +217,7 @@ class _LivePreviewTab extends ConsumerWidget {
             final next = _kScoreSteps[(i + 1) % _kScoreSteps.length];
             ref.read(_d213ScoreProvider.notifier).state = next;
           },
-          beforeLabel: 'Before · linear ${ _kScoreFillLegacyMs}ms',
+          beforeLabel: 'Before · linear ${_kScoreFillLegacyMs}ms',
           afterLabel: 'After · ${_kScoreFillPolishedMs}ms tick',
           before: _ScoreRingDemo(
             key: ValueKey('score-before-$score-$replayTick'),
@@ -358,8 +358,7 @@ class _ControlsTab extends ConsumerWidget {
             return FilterChip(
               label: Text(m.label),
               selected: selected,
-              onSelected: (_) =>
-                  ref.read(_d213ModeProvider.notifier).state = m,
+              onSelected: (_) => ref.read(_d213ModeProvider.notifier).state = m,
               selectedColor: m.accent.withOpacity(0.25),
               checkmarkColor: m.accent,
             );
@@ -372,8 +371,7 @@ class _ControlsTab extends ConsumerWidget {
           children: _kScoreSteps.map((s) {
             return ActionChip(
               label: Text('Score $s'),
-              onPressed: () =>
-                  ref.read(_d213ScoreProvider.notifier).state = s,
+              onPressed: () => ref.read(_d213ScoreProvider.notifier).state = s,
               backgroundColor: ZapColors.bgElevated,
             );
           }).toList(),
@@ -468,7 +466,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -573,7 +571,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -699,7 +697,7 @@ class _ComparePane extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.sm),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Center(child: child),
@@ -721,12 +719,13 @@ class _InfoChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusPill),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600),
+        style:
+            TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -820,7 +819,8 @@ class _SosBreatheDemoState extends State<_SosBreatheDemo>
             ),
           ],
         ),
-        child: const Icon(Icons.emergency_rounded, color: Colors.white, size: 26),
+        child:
+            const Icon(Icons.emergency_rounded, color: Colors.white, size: 26),
       ),
     );
   }
@@ -857,7 +857,7 @@ class _ModeMorphBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color, width: 1.5),
       ),
       child: Row(
@@ -1156,7 +1156,7 @@ class _MockPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: color.withOpacity(0.12),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(ZapSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1231,8 +1231,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

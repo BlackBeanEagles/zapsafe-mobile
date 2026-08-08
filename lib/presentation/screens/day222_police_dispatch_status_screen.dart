@@ -100,7 +100,8 @@ final _d222CurrentStepProvider =
     StateProvider<DispatchStepId>((ref) => DispatchStepId.received);
 final _d222AutoAdvanceProvider = StateProvider<bool>((ref) => true);
 final _d222DemoRunningProvider = StateProvider<bool>((ref) => false);
-final _d222TimelineProvider = StateProvider<List<DispatchTimelineEntry>>((ref) => []);
+final _d222TimelineProvider =
+    StateProvider<List<DispatchTimelineEntry>>((ref) => []);
 final _d222EtaProvider = StateProvider<int>((ref) => 12);
 final _d222TimerProvider = StateProvider<Timer?>((ref) => null);
 
@@ -128,7 +129,10 @@ void _cancelTimer(WidgetRef ref) {
 void _appendTimeline(WidgetRef ref, DispatchStepId step) {
   ref.read(_d222TimelineProvider.notifier).update((entries) {
     if (entries.any((e) => e.step == step.apiKey)) return entries;
-    return [...entries, DispatchTimelineEntry(step: step.apiKey, at: DateTime.now())];
+    return [
+      ...entries,
+      DispatchTimelineEntry(step: step.apiKey, at: DateTime.now())
+    ];
   });
 }
 
@@ -152,7 +156,8 @@ void _advanceStep(WidgetRef ref) {
   ref.read(_d222CurrentStepProvider.notifier).state = next;
   ref.read(_d222EtaProvider.notifier).state = _etaForStep(next);
   _appendTimeline(ref, next);
-  if (ref.read(_d222DemoRunningProvider) && ref.read(_d222AutoAdvanceProvider)) {
+  if (ref.read(_d222DemoRunningProvider) &&
+      ref.read(_d222AutoAdvanceProvider)) {
     _scheduleAutoAdvance(ref);
   }
 }
@@ -160,7 +165,8 @@ void _advanceStep(WidgetRef ref) {
 void _startDemo(WidgetRef ref) {
   _cancelTimer(ref);
   ref.read(_d222CurrentStepProvider.notifier).state = DispatchStepId.received;
-  ref.read(_d222EtaProvider.notifier).state = _etaForStep(DispatchStepId.received);
+  ref.read(_d222EtaProvider.notifier).state =
+      _etaForStep(DispatchStepId.received);
   ref.read(_d222TimelineProvider.notifier).state = [
     DispatchTimelineEntry(
       step: DispatchStepId.received.apiKey,
@@ -348,7 +354,7 @@ class _LiveDispatchTab extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.4)),
           ),
           child: Column(
@@ -550,7 +556,8 @@ class _TimelineStepTile extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(state == _StepVisualState.upcoming ? 0.08 : 0.18),
+                  color: color.withOpacity(
+                      state == _StepVisualState.upcoming ? 0.08 : 0.18),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: color.withOpacity(0.6),
@@ -578,7 +585,7 @@ class _TimelineStepTile extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    margin: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
                     color: state == _StepVisualState.complete
                         ? ZapColors.safe.withOpacity(0.5)
                         : ZapColors.border,
@@ -750,7 +757,7 @@ class _ControlsTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -803,7 +810,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -863,7 +870,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -890,7 +897,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.06),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.25)),
           ),
           child: SelectableText(
@@ -928,7 +935,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -950,7 +957,8 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final spec = _kSteps[step.index];
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: ZapColors.info.withOpacity(0.12),
         borderRadius: BorderRadius.circular(4),
@@ -1005,8 +1013,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),

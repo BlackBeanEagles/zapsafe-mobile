@@ -266,8 +266,8 @@ class _Day242TrustedCircleV2ScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: const Color(0xFF3B82F6).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -564,7 +564,8 @@ class _ShareTab extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: ZapColors.danger,
                       side: const BorderSide(color: ZapColors.danger),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                     ),
                   ),
                 ),
@@ -730,7 +731,8 @@ class _SafetyTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.timer_rounded,
           title: 'Session durations: 15m · 30m · 1h · 4h · 8h',
-          subtitle: 'Picker matches product spec. Auto-stops — no indefinite share.',
+          subtitle:
+              'Picker matches product spec. Auto-stops — no indefinite share.',
         ),
         const _PolicyRow(
           icon: Icons.stop_circle_outlined,
@@ -759,7 +761,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -790,7 +792,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -849,8 +851,7 @@ class _SafetyTab extends ConsumerWidget {
             ),
             ActionChip(
               label: const Text('Day 240 Section B'),
-              onPressed: () =>
-                  context.push(AppRoutes.sectionBCatchupMilestone),
+              onPressed: () => context.push(AppRoutes.sectionBCatchupMilestone),
             ),
           ],
         ),
@@ -882,7 +883,8 @@ class _CircleMap extends StatelessWidget {
         height: sessionActive ? 52 : 40,
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF3B82F6).withOpacity(sessionActive ? 0.25 : 0.15),
+            color: const Color(0xFF3B82F6)
+                .withOpacity(sessionActive ? 0.25 : 0.15),
             shape: BoxShape.circle,
             border: Border.all(
               color: const Color(0xFF3B82F6),
@@ -890,7 +892,9 @@ class _CircleMap extends StatelessWidget {
             ),
           ),
           child: Icon(
-            sessionActive ? Icons.share_location_rounded : Icons.person_pin_circle,
+            sessionActive
+                ? Icons.share_location_rounded
+                : Icons.person_pin_circle,
             color: const Color(0xFF3B82F6),
             size: sessionActive ? 26 : 22,
           ),
@@ -938,7 +942,8 @@ class _CircleMap extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: ZapColors.safe,
                       shape: BoxShape.circle,
-                      border: Border.all(color: ZapColors.bgPrimary, width: 1.5),
+                      border:
+                          Border.all(color: ZapColors.bgPrimary, width: 1.5),
                     ),
                   ),
                 ),
@@ -1013,17 +1018,16 @@ class _ContactListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Material(
-        color: selected
-            ? contact.tierColor.withOpacity(0.1)
-            : ZapColors.bgPrimary,
-        borderRadius: BorderRadius.circular(8),
+        color:
+            selected ? contact.tierColor.withOpacity(0.1) : ZapColors.bgPrimary,
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: selected ? contact.tierColor : ZapColors.border,
               ),
@@ -1214,7 +1218,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1232,8 +1236,7 @@ class _TabBar extends StatelessWidget {
                     color: selected
                         ? const Color(0xFF3B82F6)
                         : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

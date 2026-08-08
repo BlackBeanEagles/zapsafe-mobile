@@ -334,7 +334,7 @@ class _CoverageTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.warning.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
             ),
             child: const Row(
@@ -347,7 +347,8 @@ class _CoverageTab extends ConsumerWidget {
                   child: Text(
                     'Long-string overflow risk: German (de) and Tamil (ta) — '
                     'run Day 215 font-scale regression on settings rows.',
-                    style: TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+                    style:
+                        TextStyle(color: ZapColors.textSecondary, fontSize: 11),
                   ),
                 ),
               ],
@@ -391,7 +392,7 @@ class _CoverageTable extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -432,15 +433,18 @@ class _CoverageTable extends StatelessWidget {
                         SizedBox(
                           width: _colLang,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: ZapSpacing.sm),
                             child: Row(
                               children: [
-                                Text(lang.flag, style: const TextStyle(fontSize: 14)),
+                                Text(lang.flag,
+                                    style: const TextStyle(fontSize: 14)),
                                 const SizedBox(width: ZapSpacing.xs),
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         lang.code.toUpperCase(),
@@ -577,7 +581,8 @@ class _NsProgressBar extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             '${cell.translated}',
-            style: TextStyle(color: color, fontSize: 8, fontWeight: FontWeight.w700),
+            style: TextStyle(
+                color: color, fontSize: 8, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -640,7 +645,7 @@ class _MissingKeysTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Row(
@@ -671,11 +676,13 @@ class _MissingKeysTab extends ConsumerWidget {
               ),
               if (overflowRisk)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.warning.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: ZapColors.warning.withOpacity(0.4)),
+                    border:
+                        Border.all(color: ZapColors.warning.withOpacity(0.4)),
                   ),
                   child: const Text(
                     'OVERFLOW',
@@ -696,7 +703,7 @@ class _MissingKeysTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.warning.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
             ),
             child: Column(
@@ -747,7 +754,7 @@ class _MissingKeysTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -826,12 +833,13 @@ class _MissingKeysTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Column(
               children: [
-                Icon(Icons.check_circle_rounded, color: ZapColors.safe, size: 36),
+                Icon(Icons.check_circle_rounded,
+                    color: ZapColors.safe, size: 36),
                 SizedBox(height: ZapSpacing.sm),
                 Text(
                   '100% coverage — no missing keys',
@@ -860,7 +868,8 @@ class _ExportTab extends ConsumerWidget {
       ..writeln('── Per language ──');
     for (final lang in kSupportedLanguages) {
       final overall = overallPctFor(lang.code);
-      final risk = _kOverflowRiskCodes.contains(lang.code) ? ' [OVERFLOW RISK]' : '';
+      final risk =
+          _kOverflowRiskCodes.contains(lang.code) ? ' [OVERFLOW RISK]' : '';
       final rtl = lang.rtl ? ' [RTL]' : '';
       buf.writeln(
         '${lang.code.toUpperCase()} ${lang.nativeName}: $overall%$risk$rtl',
@@ -901,9 +910,8 @@ class _ExportTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = _buildSummary();
     final csv = _buildCsv();
-    final completeLangs = kSupportedLanguages
-        .where((l) => overallPctFor(l.code) >= 100)
-        .length;
+    final completeLangs =
+        kSupportedLanguages.where((l) => overallPctFor(l.code) >= 100).length;
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -931,7 +939,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Text(
@@ -988,7 +996,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1038,8 +1046,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

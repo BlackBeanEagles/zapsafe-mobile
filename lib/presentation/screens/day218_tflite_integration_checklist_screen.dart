@@ -364,7 +364,7 @@ class _ModelCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: status == TfliteSlotStatus.loaded
               ? ZapColors.safe.withOpacity(0.5)
@@ -383,7 +383,7 @@ class _ModelCard extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: slot.accent.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 ),
                 child: Icon(slot.icon, color: slot.accent, size: 24),
               ),
@@ -498,7 +498,8 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: status.color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(4),
@@ -585,7 +586,7 @@ class _IntegrationTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -593,7 +594,8 @@ class _IntegrationTab extends StatelessWidget {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.folder_rounded, color: ZapColors.warning, size: 20),
+                  Icon(Icons.folder_rounded,
+                      color: ZapColors.warning, size: 20),
                   SizedBox(width: ZapSpacing.sm),
                   Text(
                     'assets/models/',
@@ -652,7 +654,7 @@ class _IntegrationTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -781,9 +783,15 @@ class _SpecTab extends ConsumerWidget {
     final report = _buildReport(statuses);
 
     const flow = [
-      ('Placeholder', '1 KB stub in assets/models/ — Interpreter throws or uses EnergyStub'),
+      (
+        'Placeholder',
+        '1 KB stub in assets/models/ — Interpreter throws or uses EnergyStub'
+      ),
       ('Trained', 'Real weights on CDN / HuggingFace — verified sha256'),
-      ('Loaded', 'Interpreter.fromAsset succeeds · slot active in DCS pipeline'),
+      (
+        'Loaded',
+        'Interpreter.fromAsset succeeds · slot active in DCS pipeline'
+      ),
     ];
 
     return ListView(
@@ -803,7 +811,7 @@ class _SpecTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -858,7 +866,7 @@ class _SpecTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -896,7 +904,8 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected ? ZapColors.warning : Colors.transparent,
+                        color:
+                            selected ? ZapColors.warning : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -908,8 +917,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

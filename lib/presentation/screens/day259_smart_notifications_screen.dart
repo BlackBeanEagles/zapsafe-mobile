@@ -107,8 +107,8 @@ const _kNudgeCatalog = [
   ),
 ];
 
-_NudgeDef _nudgeById(String id) =>
-    _kNudgeCatalog.firstWhere((n) => n.id == id, orElse: () => _kNudgeCatalog.first);
+_NudgeDef _nudgeById(String id) => _kNudgeCatalog.firstWhere((n) => n.id == id,
+    orElse: () => _kNudgeCatalog.first);
 
 class _SimulatedNudge {
   const _SimulatedNudge({
@@ -240,8 +240,8 @@ class Day259SmartNotificationsScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (master ? _kAccent : ZapColors.textMuted)
                       .withOpacity(0.15),
@@ -466,19 +466,15 @@ class _NudgeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onSelect,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(ZapSpacing.sm),
         decoration: BoxDecoration(
-          color: selected
-              ? nudge.color.withOpacity(0.08)
-              : ZapColors.bgCard,
-          borderRadius: BorderRadius.circular(8),
+          color: selected ? nudge.color.withOpacity(0.08) : ZapColors.bgCard,
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(
-            color: selected
-                ? nudge.color.withOpacity(0.45)
-                : ZapColors.border,
+            color: selected ? nudge.color.withOpacity(0.45) : ZapColors.border,
           ),
         ),
         child: Row(
@@ -618,8 +614,7 @@ class _HistoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nudge = _nudgeById(entry.nudgeId);
-    final time =
-        '${entry.at.hour.toString().padLeft(2, '0')}:'
+    final time = '${entry.at.hour.toString().padLeft(2, '0')}:'
         '${entry.at.minute.toString().padLeft(2, '0')}:'
         '${entry.at.second.toString().padLeft(2, '0')}';
 
@@ -627,14 +622,10 @@ class _HistoryRow extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(ZapSpacing.sm),
       decoration: BoxDecoration(
-        color: entry.delivered
-            ? _kAccent.withOpacity(0.06)
-            : ZapColors.bgCard,
+        color: entry.delivered ? _kAccent.withOpacity(0.06) : ZapColors.bgCard,
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: entry.delivered
-              ? _kAccent.withOpacity(0.3)
-              : ZapColors.border,
+          color: entry.delivered ? _kAccent.withOpacity(0.3) : ZapColors.border,
         ),
       ),
       child: Row(
@@ -696,7 +687,7 @@ class _QuietHoursTab extends ConsumerWidget {
             color: inQuiet
                 ? ZapColors.warning.withOpacity(0.08)
                 : ZapColors.safe.withOpacity(0.06),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(
               color: inQuiet
                   ? ZapColors.warning.withOpacity(0.35)
@@ -714,8 +705,8 @@ class _QuietHoursTab extends ConsumerWidget {
                 child: Text(
                   inQuiet
                       ? 'Mock time ${_formatHour(mockHour)} is inside quiet hours '
-                      '(${_formatHour(start)} → ${_formatHour(end)}). '
-                      'Non-critical nudges are suppressed.'
+                          '(${_formatHour(start)} → ${_formatHour(end)}). '
+                          'Non-critical nudges are suppressed.'
                       : 'Mock time ${_formatHour(mockHour)} is outside quiet hours.',
                   style: const TextStyle(
                     color: ZapColors.textSecondary,
@@ -874,8 +865,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.nightlight_round,
           title: 'Quiet hours integration',
-          subtitle:
-              'Reads the same quiet window as Day 73. Journey and drill '
+          subtitle: 'Reads the same quiet window as Day 73. Journey and drill '
               'reminders wait until morning; safety-critical nudges can bypass.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -893,7 +883,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -924,7 +914,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1023,7 +1013,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1037,8 +1027,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

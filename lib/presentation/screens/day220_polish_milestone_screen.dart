@@ -26,11 +26,21 @@ final _d220ExpandedBlockProvider = StateProvider<int?>((ref) => null);
 // ── Section A days (201-219) ──────────────────────────────────────────────────
 const _kPolishDays = [
   (201, 'Device QA Harness', Icons.phone_android_rounded, Color(0xFF10B981)),
-  (202, 'Dashboard Notifications', Icons.notifications_rounded, Color(0xFF3B82F6)),
+  (
+    202,
+    'Dashboard Notifications',
+    Icons.notifications_rounded,
+    Color(0xFF3B82F6)
+  ),
   (203, 'SOS Long-Press Ring', Icons.sos_rounded, Color(0xFFEF4444)),
   (204, 'Mode Status Card', Icons.shield_rounded, Color(0xFF8B5CF6)),
   (205, 'Onboarding Skip Paths', Icons.skip_next_rounded, Color(0xFF06B6D4)),
-  (206, 'Vault Search & Filter', Icons.folder_special_rounded, Color(0xFFF59E0B)),
+  (
+    206,
+    'Vault Search & Filter',
+    Icons.folder_special_rounded,
+    Color(0xFFF59E0B)
+  ),
   (207, 'Chat Offline Queue', Icons.chat_rounded, Color(0xFF10B981)),
   (208, 'Design System Audit', Icons.palette_rounded, Color(0xFF8B5CF6)),
   (209, 'Loading States Sweep', Icons.hourglass_top_rounded, Color(0xFF3B82F6)),
@@ -53,7 +63,12 @@ const _kMetricGrid = [
   ('32', 'Screens dark-audited', 'Day 211 sample set', Color(0xFF6E6E82)),
   ('18/20', 'A11y items passed', 'WCAG 2.1 AA checklist', Color(0xFF10B981)),
   ('82%', 'i18n avg coverage', '15 langs × 11 namespaces', Color(0xFF2563EB)),
-  ('4/4', 'Perf targets PASS', 'Cold start · DCS · RAM · battery', Color(0xFF10B981)),
+  (
+    '4/4',
+    'Perf targets PASS',
+    'Cold start · DCS · RAM · battery',
+    Color(0xFF10B981)
+  ),
   ('0/8', 'TFLite models live', 'M1-M8 still placeholder', Color(0xFFEF4444)),
   ('6/53', 'API endpoints live', 'Backend catch-up pending', Color(0xFFF59E0B)),
 ];
@@ -156,8 +171,9 @@ class Day220PolishMilestoneScreen extends ConsumerWidget {
                 label: 'Toggle confetti celebration',
                 child: IconButton(
                   tooltip: 'Confetti',
-                  onPressed: () => ref.read(_d220ConfettiProvider.notifier).state =
-                      !confetti,
+                  onPressed: () => ref
+                      .read(_d220ConfettiProvider.notifier)
+                      .state = !confetti,
                   icon: Icon(
                     confetti
                         ? Icons.celebration_rounded
@@ -442,8 +458,7 @@ class _TabBar extends StatelessWidget {
                     style: TextStyle(
                       color: isActive ? color : const Color(0xFF6B7280),
                       fontSize: 9,
-                      fontWeight:
-                          isActive ? FontWeight.w700 : FontWeight.w400,
+                      fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -630,10 +645,12 @@ class _SummaryTab extends ConsumerWidget {
               duration: const Duration(milliseconds: 180),
               margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
               decoration: BoxDecoration(
-                color: isExp ? color.withOpacity(0.08) : const Color(0xFF1A1A1A),
+                color:
+                    isExp ? color.withOpacity(0.08) : const Color(0xFF1A1A1A),
                 borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(
-                  color: isExp ? color.withOpacity(0.45) : const Color(0xFF2A2A2A),
+                  color:
+                      isExp ? color.withOpacity(0.45) : const Color(0xFF2A2A2A),
                   width: isExp ? 2 : 1,
                 ),
               ),
@@ -648,7 +665,8 @@ class _SummaryTab extends ConsumerWidget {
                           height: 32,
                           decoration: BoxDecoration(
                             color: color.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius:
+                                BorderRadius.circular(ZapSpacing.radiusSmall),
                           ),
                           child: Icon(icon, color: color, size: 16),
                         ),
@@ -820,7 +838,7 @@ class _MetricsTab extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: pass
                     ? const Color(0xFF10B981).withOpacity(0.35)
@@ -860,9 +878,8 @@ class _MetricsTab extends StatelessWidget {
                 const SizedBox(width: ZapSpacing.sm),
                 Icon(
                   pass ? Icons.check_circle_rounded : Icons.cancel_rounded,
-                  color: pass
-                      ? const Color(0xFF10B981)
-                      : const Color(0xFFEF4444),
+                  color:
+                      pass ? const Color(0xFF10B981) : const Color(0xFFEF4444),
                   size: 16,
                 ),
               ],
@@ -874,7 +891,7 @@ class _MetricsTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: const Color(0xFF2563EB).withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(
               color: const Color(0xFF2563EB).withOpacity(0.3),
             ),
@@ -963,10 +980,12 @@ class _NextTab extends ConsumerWidget {
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
               decoration: BoxDecoration(
-                color: isExp ? color.withOpacity(0.07) : const Color(0xFF1A1A1A),
+                color:
+                    isExp ? color.withOpacity(0.07) : const Color(0xFF1A1A1A),
                 borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(
-                  color: isExp ? color.withOpacity(0.4) : const Color(0xFF2A2A2A),
+                  color:
+                      isExp ? color.withOpacity(0.4) : const Color(0xFF2A2A2A),
                   width: isExp ? 2 : 1,
                 ),
               ),
@@ -981,7 +1000,8 @@ class _NextTab extends ConsumerWidget {
                           height: 34,
                           decoration: BoxDecoration(
                             color: color.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius:
+                                BorderRadius.circular(ZapSpacing.radiusSmall),
                           ),
                           child: Icon(icon, color: color, size: 17),
                         ),

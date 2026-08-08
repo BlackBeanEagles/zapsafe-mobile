@@ -35,55 +35,55 @@ class _ErrorVariant {
 }
 
 List<_ErrorVariant> _buildVariants() => [
-  _ErrorVariant(
-    id: 'network',
-    label: 'Network offline',
-    kind: ZapErrorKind.network,
-    mockException: DioException(
-      requestOptions: RequestOptions(path: '/api/v1/protection-score/'),
-      type: DioExceptionType.connectionError,
-    ),
-    rawDevOnly: 'DioException [connection error]: Failed host lookup',
-  ),
-  _ErrorVariant(
-    id: 'forbidden',
-    label: '403 Forbidden',
-    kind: ZapErrorKind.forbidden,
-    mockException: DioException(
-      requestOptions: RequestOptions(path: '/api/v1/vault/'),
-      type: DioExceptionType.badResponse,
-      response: Response(
-        requestOptions: RequestOptions(path: '/api/v1/vault/'),
-        statusCode: 403,
+      _ErrorVariant(
+        id: 'network',
+        label: 'Network offline',
+        kind: ZapErrorKind.network,
+        mockException: DioException(
+          requestOptions: RequestOptions(path: '/api/v1/protection-score/'),
+          type: DioExceptionType.connectionError,
+        ),
+        rawDevOnly: 'DioException [connection error]: Failed host lookup',
       ),
-    ),
-    rawDevOnly: 'DioException [bad response]: 403 Forbidden',
-  ),
-  _ErrorVariant(
-    id: 'server',
-    label: '500 Server error',
-    kind: ZapErrorKind.server,
-    mockException: DioException(
-      requestOptions: RequestOptions(path: '/api/v1/sos/'),
-      type: DioExceptionType.badResponse,
-      response: Response(
-        requestOptions: RequestOptions(path: '/api/v1/sos/'),
-        statusCode: 500,
+      _ErrorVariant(
+        id: 'forbidden',
+        label: '403 Forbidden',
+        kind: ZapErrorKind.forbidden,
+        mockException: DioException(
+          requestOptions: RequestOptions(path: '/api/v1/vault/'),
+          type: DioExceptionType.badResponse,
+          response: Response(
+            requestOptions: RequestOptions(path: '/api/v1/vault/'),
+            statusCode: 403,
+          ),
+        ),
+        rawDevOnly: 'DioException [bad response]: 403 Forbidden',
       ),
-    ),
-    rawDevOnly: 'DioException [bad response]: 500 Internal Server Error',
-  ),
-  _ErrorVariant(
-    id: 'timeout',
-    label: 'Timeout',
-    kind: ZapErrorKind.timeout,
-    mockException: DioException(
-      requestOptions: RequestOptions(path: '/api/v1/contacts/'),
-      type: DioExceptionType.receiveTimeout,
-    ),
-    rawDevOnly: 'DioException [receive timeout]: 30000ms exceeded',
-  ),
-];
+      _ErrorVariant(
+        id: 'server',
+        label: '500 Server error',
+        kind: ZapErrorKind.server,
+        mockException: DioException(
+          requestOptions: RequestOptions(path: '/api/v1/sos/'),
+          type: DioExceptionType.badResponse,
+          response: Response(
+            requestOptions: RequestOptions(path: '/api/v1/sos/'),
+            statusCode: 500,
+          ),
+        ),
+        rawDevOnly: 'DioException [bad response]: 500 Internal Server Error',
+      ),
+      _ErrorVariant(
+        id: 'timeout',
+        label: 'Timeout',
+        kind: ZapErrorKind.timeout,
+        mockException: DioException(
+          requestOptions: RequestOptions(path: '/api/v1/contacts/'),
+          type: DioExceptionType.receiveTimeout,
+        ),
+        rawDevOnly: 'DioException [receive timeout]: 30000ms exceeded',
+      ),
+    ];
 
 final _kVariants = _buildVariants();
 
@@ -207,7 +207,7 @@ class _LivePreviewTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -228,8 +228,8 @@ class _LivePreviewTab extends ConsumerWidget {
               ),
               const SizedBox(height: ZapSpacing.xs),
               GestureDetector(
-                onTap: () => ref.read(_d210ShowRawProvider.notifier).state =
-                    !showRaw,
+                onTap: () =>
+                    ref.read(_d210ShowRawProvider.notifier).state = !showRaw,
                 child: Text(
                   showRaw
                       ? 'Dev only (hidden from UI): ${variant.rawDevOnly}'
@@ -294,7 +294,7 @@ class _VariantsTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: isSelected ? accent : ZapColors.border,
                 width: isSelected ? 2 : 1,
@@ -333,8 +333,7 @@ class _VariantsTab extends ConsumerWidget {
             onPressed: () {
               Clipboard.setData(
                 const ClipboardData(
-                  text:
-                      'error: (e, _) => ZapErrorState.fromError(\n'
+                  text: 'error: (e, _) => ZapErrorState.fromError(\n'
                       '  error: e,\n'
                       '  onRetry: () => ref.invalidate(myProvider),\n'
                       ')',
@@ -408,7 +407,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -498,7 +497,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -548,8 +547,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

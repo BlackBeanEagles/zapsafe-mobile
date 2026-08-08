@@ -409,7 +409,7 @@ class _SummaryTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -588,7 +588,8 @@ class _Badge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(4),
@@ -640,7 +641,7 @@ class _MetricsTab extends StatelessWidget {
               padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: ZapColors.bgCard,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(color: ZapColors.border),
               ),
               child: Column(
@@ -787,7 +788,7 @@ class _NextTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: b.$2.withOpacity(0.35)),
             ),
             child: Row(
@@ -828,7 +829,7 @@ class _NextTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: _kSectionDTeaser.$4.withOpacity(0.35)),
           ),
           child: Row(
@@ -871,7 +872,7 @@ class _NextTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
           ),
           child: const Text(
@@ -940,8 +941,7 @@ class _TabBar extends StatelessWidget {
                     color: selected
                         ? ZapColors.textPrimary
                         : ZapColors.textSecondary,
-                    fontWeight:
-                        selected ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 10,
                   ),
                 ),
@@ -1001,7 +1001,7 @@ class _ConfettiOverlayState extends State<_ConfettiOverlay>
           final h = MediaQuery.sizeOf(context).height;
           return Stack(
             children: _particles.map((p) {
-              final y = (( _controller.value + p.phase) % 1.0) * h;
+              final y = ((_controller.value + p.phase) % 1.0) * h;
               return Positioned(
                 left: p.x * MediaQuery.sizeOf(context).width,
                 top: y,

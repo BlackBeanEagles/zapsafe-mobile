@@ -161,7 +161,8 @@ Color _completenessColor(int pct) {
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d261TabProvider = StateProvider<int>((ref) => 0);
-final _d261FilterProvider = StateProvider<_LangFilter>((ref) => _LangFilter.all);
+final _d261FilterProvider =
+    StateProvider<_LangFilter>((ref) => _LangFilter.all);
 final _d261SelectedCodeProvider = StateProvider<String>((ref) => 'en');
 
 // ── Screen ────────────────────────────────────────────────────────────────────
@@ -187,8 +188,8 @@ class Day261LanguageExpansionHubScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -421,7 +422,7 @@ class _StatCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Column(
@@ -553,8 +554,8 @@ class _LanguagesTab extends ConsumerWidget {
               badgeColor: ZapColors.safe,
               stage: '$_kTotalKeys keys · EasyLocalization',
               selected: selected == lang.code,
-              onTap: () =>
-                  ref.read(_d261SelectedCodeProvider.notifier).state = lang.code,
+              onTap: () => ref.read(_d261SelectedCodeProvider.notifier).state =
+                  lang.code,
             );
           }),
         ],
@@ -580,8 +581,8 @@ class _LanguagesTab extends ConsumerWidget {
               badgeColor: _kAccent,
               stage: lang.stage,
               selected: selected == lang.code,
-              onTap: () =>
-                  ref.read(_d261SelectedCodeProvider.notifier).state = lang.code,
+              onTap: () => ref.read(_d261SelectedCodeProvider.notifier).state =
+                  lang.code,
             ),
           ),
         ],
@@ -620,13 +621,13 @@ class _LanguageTile extends StatelessWidget {
     final color = _completenessColor(pct);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(ZapSpacing.sm),
         decoration: BoxDecoration(
           color: selected ? color.withOpacity(0.08) : ZapColors.bgCard,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(
             color: selected ? color.withOpacity(0.45) : ZapColors.border,
           ),
@@ -847,7 +848,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -878,7 +879,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -982,7 +983,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -996,8 +997,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

@@ -69,8 +69,7 @@ class Day215FontScaleRegressionScreen extends ConsumerWidget {
     final tab = ref.watch(_d215TabProvider);
     final scale = ref.watch(_d215ScaleProvider);
     final overflows = ref.watch(_d215OverflowProvider);
-    final passCount =
-        overflows.values.where((overflow) => !overflow).length;
+    final passCount = overflows.values.where((overflow) => !overflow).length;
 
     return Scaffold(
       backgroundColor: ZapColors.bgPrimary,
@@ -158,7 +157,8 @@ class _ScaleStrip extends StatelessWidget {
               Text(
                 '$passCount/$total layouts OK',
                 style: TextStyle(
-                  color: passCount == total ? ZapColors.safe : ZapColors.warning,
+                  color:
+                      passCount == total ? ZapColors.safe : ZapColors.warning,
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                 ),
@@ -353,7 +353,8 @@ class _PreviewFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: '${screen.title} preview. ${overflow ? "Overflow detected" : "Layout OK"}',
+      label:
+          '${screen.title} preview. ${overflow ? "Overflow detected" : "Layout OK"}',
       button: true,
       selected: selected,
       child: GestureDetector(
@@ -724,20 +725,21 @@ class _DashboardMiniPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(ZapSpacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.35)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.shield_rounded, color: ZapColors.safe, size: 18),
+                const Icon(Icons.shield_rounded,
+                    color: ZapColors.safe, size: 18),
                 const SizedBox(width: 6),
                 const Expanded(
                   child: Column(
@@ -762,7 +764,8 @@ class _DashboardMiniPreview extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: ZapColors.bgElevated,
                     borderRadius: BorderRadius.circular(4),
@@ -845,7 +848,7 @@ class _AlertPendingMiniPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(ZapSpacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -854,7 +857,7 @@ class _AlertPendingMiniPreview extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: ZapColors.danger.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.danger),
             ),
             child: const Column(
@@ -907,7 +910,7 @@ class _AlertPendingMiniPreview extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: ZapColors.bgElevated,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(color: ZapColors.border),
                   ),
                   alignment: Alignment.center,
@@ -927,7 +930,7 @@ class _AlertPendingMiniPreview extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: ZapColors.safe.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(color: ZapColors.safe),
                   ),
                   alignment: Alignment.center,
@@ -955,7 +958,7 @@ class _SettingsMiniPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(ZapSpacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -988,7 +991,7 @@ class _SettingsMiniPreview extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               color: ZapColors.bgElevated,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -1117,7 +1120,7 @@ class _IssuesTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: overflow ? ZapColors.danger : ZapColors.border,
                 width: overflow ? 2 : 1,
@@ -1177,7 +1180,8 @@ class _IssuesTab extends ConsumerWidget {
                 ..writeln('');
               for (final s in FontScaleScreen.values) {
                 final o = overflows[s] ?? false;
-                buf.writeln('${s.title} (${s.route}): ${o ? "OVERFLOW" : "OK"}');
+                buf.writeln(
+                    '${s.title} (${s.route}): ${o ? "OVERFLOW" : "OK"}');
                 if (o) buf.writeln('  Fix: ${_fixHint(s)}');
               }
               Clipboard.setData(ClipboardData(text: buf.toString()));
@@ -1238,7 +1242,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -1314,7 +1318,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1364,8 +1368,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

@@ -129,11 +129,11 @@ class Day267KoreanPackScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
-                  color: (approved ? ZapColors.safe : _kAccent)
-                      .withOpacity(0.15),
+                  color:
+                      (approved ? ZapColors.safe : _kAccent).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
                     color: (approved ? ZapColors.safe : _kAccent)
@@ -236,7 +236,8 @@ class _PackTab extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
               decoration: BoxDecoration(
                 color: ZapColors.safe.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(4),
@@ -261,7 +262,7 @@ class _PackTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -333,7 +334,8 @@ class _MockPreview extends StatelessWidget {
           ),
           Text(
             status,
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
           ),
           const SizedBox(height: ZapSpacing.sm),
           SizedBox(
@@ -396,14 +398,11 @@ class _ReviewTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(ZapSpacing.sm),
             decoration: BoxDecoration(
-              color: done
-                  ? ZapColors.safe.withOpacity(0.06)
-                  : ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              color: done ? ZapColors.safe.withOpacity(0.06) : ZapColors.bgCard,
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
-                color: done
-                    ? ZapColors.safe.withOpacity(0.35)
-                    : ZapColors.border,
+                color:
+                    done ? ZapColors.safe.withOpacity(0.35) : ZapColors.border,
               ),
             ),
             child: Column(
@@ -423,9 +422,8 @@ class _ReviewTab extends ConsumerWidget {
                               } else {
                                 next.remove(key);
                               }
-                              ref
-                                  .read(_d267ReviewedProvider.notifier)
-                                  .state = next;
+                              ref.read(_d267ReviewedProvider.notifier).state =
+                                  next;
                               ref.read(_d267ApprovedProvider.notifier).state =
                                   false;
                             },
@@ -538,8 +536,7 @@ class _InfoTab extends ConsumerWidget {
       'core_keys': _kCoreKeys.map((e) => e.$1).toList(),
       'registration': {
         'easy_localization': "Locale('ko')",
-        'lang_info':
-            "LangInfo(code: 'ko', nativeName: '한국어', flag: '🇰🇷')",
+        'lang_info': "LangInfo(code: 'ko', nativeName: '한국어', flag: '🇰🇷')",
         'workflow': 'Day 262 template → Day 267 ko pack → expand to 236 keys',
       },
       'qa_checks': [
@@ -585,7 +582,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -616,7 +613,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -727,7 +724,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -741,8 +738,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

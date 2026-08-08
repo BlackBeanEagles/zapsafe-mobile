@@ -241,8 +241,7 @@ List<_HindiStringEntry> _truncatedEntries() =>
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d236TabProvider = StateProvider<int>((ref) => 0);
-final _d236CategoryProvider =
-    StateProvider<_StringCategory?>((ref) => null);
+final _d236CategoryProvider = StateProvider<_StringCategory?>((ref) => null);
 final _d236ReviewedProvider = StateProvider<Set<String>>((ref) => {});
 
 const _kTabs = ['Compare', 'Truncation', 'Report'];
@@ -289,8 +288,8 @@ class Day236HindiUxQaScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: truncated == 0
                       ? ZapColors.safe.withOpacity(0.15)
@@ -565,7 +564,7 @@ class _TruncationTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -606,7 +605,7 @@ class _TruncationTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
           ),
           child: const Text(
@@ -637,7 +636,7 @@ class _TruncationCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.warning.withOpacity(0.45)),
       ),
       child: Column(
@@ -656,8 +655,7 @@ class _TruncationCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: ZapColors.warning.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -689,7 +687,7 @@ class _TruncationCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: ZapColors.danger.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.danger.withOpacity(0.4)),
             ),
             child: Text(
@@ -741,8 +739,7 @@ class _ReportTab extends ConsumerWidget {
         ..._StringCategory.values.map((c) {
           final catEntries =
               _kCriticalStrings.where((e) => e.category == c).toList();
-          final catTrunc =
-              catEntries.where(_textOverflows).length;
+          final catTrunc = catEntries.where(_textOverflows).length;
           return _CategoryStatRow(
             category: c,
             total: catEntries.length,
@@ -857,7 +854,7 @@ class _ReportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -930,7 +927,7 @@ class _StatBox extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1055,8 +1052,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

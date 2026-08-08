@@ -162,13 +162,15 @@ class Day290StagedRolloutSimulatorScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
-                  color: (halted ? ZapColors.danger : _kAccent).withOpacity(0.15),
+                  color:
+                      (halted ? ZapColors.danger : _kAccent).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
-                    color: (halted ? ZapColors.danger : _kAccent).withOpacity(0.45),
+                    color: (halted ? ZapColors.danger : _kAccent)
+                        .withOpacity(0.45),
                   ),
                 ),
                 child: Text(
@@ -259,7 +261,9 @@ class _RolloutTab extends ConsumerWidget {
                           ),
                           decoration: BoxDecoration(
                             color: active
-                                ? (current ? _kAccent : _kAccent.withOpacity(0.5))
+                                ? (current
+                                    ? _kAccent
+                                    : _kAccent.withOpacity(0.5))
                                 : ZapColors.border,
                             borderRadius: BorderRadius.circular(4),
                           ),
@@ -290,7 +294,8 @@ class _RolloutTab extends ConsumerWidget {
               ),
               Text(
                 stage.durationHint,
-                style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
+                style:
+                    const TextStyle(color: ZapColors.textMuted, fontSize: 11),
               ),
             ],
           ),
@@ -300,7 +305,7 @@ class _RolloutTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.25)),
           ),
           child: Text(
@@ -317,9 +322,8 @@ class _RolloutTab extends ConsumerWidget {
           children: [
             Expanded(
               child: FilledButton.icon(
-                onPressed: halted || advancing || atMax
-                    ? null
-                    : () => _advance(ref),
+                onPressed:
+                    halted || advancing || atMax ? null : () => _advance(ref),
                 icon: advancing
                     ? const SizedBox(
                         width: 16,
@@ -340,7 +344,9 @@ class _RolloutTab extends ConsumerWidget {
                       ref.read(_d290HaltedProvider.notifier).state = h;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(h ? 'Rollout halted (mock).' : 'Rollout resumed.'),
+                          content: Text(h
+                              ? 'Rollout halted (mock).'
+                              : 'Rollout resumed.'),
                         ),
                       );
                     },
@@ -429,7 +435,7 @@ class _MetricsTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -557,7 +563,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.play_circle_rounded,
           title: 'Google Play staged rollout',
-          subtitle: '10% canary → expand only if vitals and reviews stay healthy.',
+          subtitle:
+              '10% canary → expand only if vitals and reviews stay healthy.',
         ),
         const _PolicyRow(
           icon: Icons.apple_rounded,
@@ -568,7 +575,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.link_rounded,
           title: 'Launch gates',
-          subtitle: 'Tie to Day 288 crash-free ≥ 99.5% and Day 289 full regression.',
+          subtitle:
+              'Tie to Day 288 crash-free ≥ 99.5% and Day 289 full regression.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         const Text(
@@ -585,7 +593,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -616,7 +624,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -750,7 +758,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -764,8 +772,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

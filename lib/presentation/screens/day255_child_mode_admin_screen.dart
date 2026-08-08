@@ -205,7 +205,8 @@ class Day255ChildModeAdminScreen extends ConsumerWidget {
     if (!ref.read(_d255LockEnabledProvider)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Enable child lock and set admin PIN on Setup tab first.'),
+          content:
+              Text('Enable child lock and set admin PIN on Setup tab first.'),
         ),
       );
       ref.read(_d255TabProvider.notifier).state = 0;
@@ -248,8 +249,8 @@ class Day255ChildModeAdminScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: lockEnabled
                       ? _kAccent.withOpacity(0.15)
@@ -395,7 +396,8 @@ class _SetupTab extends ConsumerWidget {
             children: [
               CircleAvatar(
                 backgroundColor: _kChildColor.withOpacity(0.2),
-                child: const Icon(Icons.child_care_rounded, color: _kChildColor),
+                child:
+                    const Icon(Icons.child_care_rounded, color: _kChildColor),
               ),
               const SizedBox(width: ZapSpacing.md),
               Expanded(
@@ -619,7 +621,8 @@ class _DemoTab extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 48),
+              const Icon(Icons.emergency_rounded,
+                  color: ZapColors.danger, size: 48),
               const SizedBox(height: ZapSpacing.md),
               const Text(
                 'SOS ACTIVE',
@@ -744,7 +747,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -783,7 +786,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -879,7 +882,7 @@ class _PinDots extends StatelessWidget {
         return Container(
           width: 14,
           height: 14,
-          margin: const EdgeInsets.symmetric(horizontal: 8),
+          margin: const EdgeInsets.symmetric(horizontal: ZapSpacing.sm),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: active ? _kAccent : Colors.transparent,
@@ -1016,7 +1019,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1030,8 +1033,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

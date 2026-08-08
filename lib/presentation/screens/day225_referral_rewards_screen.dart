@@ -134,8 +134,8 @@ class Day225ReferralRewardsScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: ZapColors.safe.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(4),
@@ -224,8 +224,9 @@ class _RewardsTab extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ZapColors.safe.withOpacity(0.45), width: 2),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
+            border:
+                Border.all(color: ZapColors.safe.withOpacity(0.45), width: 2),
           ),
           child: const Column(
             children: [
@@ -251,7 +252,7 @@ class _RewardsTab extends StatelessWidget {
                 children: [
                   _ScorePill(label: 'Before', value: '$_kBaseScore'),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    padding: EdgeInsets.symmetric(horizontal: ZapSpacing.md),
                     child: Icon(Icons.arrow_forward_rounded,
                         color: ZapColors.textMuted, size: 18),
                   ),
@@ -354,7 +355,7 @@ class _LedgerTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Row(
@@ -364,7 +365,7 @@ class _LedgerTile extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             ),
             child: const Icon(Icons.stars_rounded, color: ZapColors.safe),
           ),
@@ -417,7 +418,8 @@ class _HistoryTab extends StatelessWidget {
         const Row(
           children: [
             Expanded(
-              child: _MiniStat(value: '3', label: 'Invited', color: ZapColors.info),
+              child: _MiniStat(
+                  value: '3', label: 'Invited', color: ZapColors.info),
             ),
             SizedBox(width: ZapSpacing.sm),
             Expanded(
@@ -454,7 +456,7 @@ class _HistoryTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: completed
                     ? ZapColors.safe.withOpacity(0.35)
@@ -525,7 +527,7 @@ class _HistoryTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgElevated,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -560,7 +562,7 @@ class _MiniStat extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Column(
@@ -615,7 +617,7 @@ class _LeaderboardTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -657,7 +659,7 @@ class _LeaderboardTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -697,7 +699,7 @@ class _LeaderboardTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -725,10 +727,9 @@ class _LeaderboardTile extends StatelessWidget {
         vertical: 12,
       ),
       decoration: BoxDecoration(
-        color: highlight
-            ? ZapColors.warning.withOpacity(0.08)
-            : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        color:
+            highlight ? ZapColors.warning.withOpacity(0.08) : ZapColors.bgCard,
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: highlight
               ? ZapColors.warning.withOpacity(0.45)
@@ -753,7 +754,8 @@ class _LeaderboardTile extends StatelessWidget {
             child: Text(
               row.name,
               style: TextStyle(
-                color: highlight ? ZapColors.textPrimary : ZapColors.textSecondary,
+                color:
+                    highlight ? ZapColors.textPrimary : ZapColors.textSecondary,
                 fontWeight: highlight ? FontWeight.w800 : FontWeight.w600,
               ),
             ),
@@ -796,8 +798,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color:
-                            selected ? ZapColors.safe : Colors.transparent,
+                        color: selected ? ZapColors.safe : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -809,8 +810,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),

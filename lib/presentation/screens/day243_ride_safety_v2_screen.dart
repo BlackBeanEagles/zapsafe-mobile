@@ -135,7 +135,8 @@ double _projectT(LatLng point, LatLng start, LatLng end) {
   if (dx == 0 && dy == 0) return 0;
   final px = point.longitude - start.longitude;
   final py = point.latitude - start.latitude;
-  return (px * dx + py * dy) / (dx * dx + dy * dy).clamp(0.000001, double.infinity);
+  return (px * dx + py * dy) /
+      (dx * dx + dy * dy).clamp(0.000001, double.infinity);
 }
 
 String _formatElapsed(DateTime? started) {
@@ -248,7 +249,8 @@ class _Day243RideSafetyV2ScreenState
     final progress = ref.read(_d243ProgressProvider);
     final onRoute = _lerpLatLng(_kRouteStart, dest.latLng, progress);
     // Offset ~612m north-east off planned route for QA.
-    final offRoute = LatLng(onRoute.latitude + 0.0055, onRoute.longitude + 0.002);
+    final offRoute =
+        LatLng(onRoute.latitude + 0.0055, onRoute.longitude + 0.002);
     final deviation = _deviationFromRoute(offRoute, _kRouteStart, dest.latLng);
 
     ref.read(_d243CurrentPositionProvider.notifier).state = offRoute;
@@ -284,7 +286,8 @@ class _Day243RideSafetyV2ScreenState
       HapticFeedback.vibrate();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Auto-SOS triggered — escalation policy engaged (mock).'),
+          content:
+              Text('Auto-SOS triggered — escalation policy engaged (mock).'),
           backgroundColor: ZapColors.danger,
         ),
       );
@@ -304,9 +307,8 @@ class _Day243RideSafetyV2ScreenState
     ref.read(_d243AutoSosAtProvider.notifier).state = null;
 
     if (!mounted) return;
-    final msg = arrived
-        ? 'Arrived at destination — ride ended safely.'
-        : 'Ride ended.';
+    final msg =
+        arrived ? 'Arrived at destination — ride ended safely.' : 'Ride ended.';
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     setState(() {});
   }
@@ -328,8 +330,8 @@ class _Day243RideSafetyV2ScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: status.color.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -568,7 +570,7 @@ class _SetupTab extends ConsumerWidget {
       filled: true,
       fillColor: ZapColors.bgCard,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         borderSide: const BorderSide(color: ZapColors.border),
       ),
     );
@@ -767,7 +769,8 @@ class _RideTab extends ConsumerWidget {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: ZapColors.warning,
                         side: const BorderSide(color: ZapColors.warning),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding:
+                            const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                       ),
                     ),
                   ),
@@ -906,7 +909,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -937,7 +940,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1128,17 +1131,15 @@ class _DestinationTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Material(
-        color: selected
-            ? _kRideAccent.withOpacity(0.12)
-            : ZapColors.bgPrimary,
-        borderRadius: BorderRadius.circular(8),
+        color: selected ? _kRideAccent.withOpacity(0.12) : ZapColors.bgPrimary,
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: InkWell(
           onTap: disabled ? null : onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: selected ? _kRideAccent : ZapColors.border,
               ),
@@ -1252,7 +1253,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1266,8 +1267,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kRideAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

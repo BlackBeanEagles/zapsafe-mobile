@@ -265,8 +265,8 @@ class Day291GlobalIndiaCompareScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -328,7 +328,7 @@ class _CompareTab extends ConsumerWidget {
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
                   color: ZapColors.bgCard,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(color: ZapColors.border),
                 ),
                 child: const Column(
@@ -360,7 +360,7 @@ class _CompareTab extends ConsumerWidget {
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
                   color: _kIndiaGreen.withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(color: _kIndiaGreen.withOpacity(0.35)),
                 ),
                 child: const Column(
@@ -403,9 +403,8 @@ class _CompareTab extends ConsumerWidget {
               (c) => FilterChip(
                 label: Text(c.label),
                 selected: cat == c,
-                onSelected: (_) => ref
-                    .read(_d291CategoryFilterProvider.notifier)
-                    .state = c,
+                onSelected: (_) =>
+                    ref.read(_d291CategoryFilterProvider.notifier).state = c,
               ),
             ),
           ],
@@ -441,9 +440,7 @@ class _CompareCard extends StatelessWidget {
         color: ZapColors.bgCard,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: row.differs
-              ? _kAccent.withOpacity(0.35)
-              : ZapColors.border,
+          color: row.differs ? _kAccent.withOpacity(0.35) : ZapColors.border,
         ),
       ),
       child: Column(
@@ -464,7 +461,8 @@ class _CompareCard extends StatelessWidget {
               if (row.differs) ...[
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -491,7 +489,8 @@ class _CompareCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: ZapSpacing.sm),
-          _ValueRow(label: 'Global', value: row.globalValue, color: ZapColors.info),
+          _ValueRow(
+              label: 'Global', value: row.globalValue, color: ZapColors.info),
           const SizedBox(height: ZapSpacing.xs),
           _ValueRow(label: 'India', value: row.indiaValue, color: _kIndiaGreen),
           const SizedBox(height: 6),
@@ -568,7 +567,7 @@ class _TableTab extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -716,8 +715,7 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Global vs India release',
-          subtitle:
-              'Side-by-side SKU differences before multi-region launch.',
+          subtitle: 'Side-by-side SKU differences before multi-region launch.',
         ),
         const _PolicyRow(
           icon: Icons.language_rounded,
@@ -754,7 +752,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -785,7 +783,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -919,7 +917,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -933,8 +931,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

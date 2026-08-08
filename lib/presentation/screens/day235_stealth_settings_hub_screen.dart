@@ -211,8 +211,7 @@ const _kDemoDecoyActive = StealthStackSnapshot(
 final _d235TabProvider = StateProvider<int>((ref) => 0);
 final _d235SnapshotProvider =
     StateProvider<StealthStackSnapshot>((ref) => _kDemoFullStealth);
-final _d235TestResultsProvider =
-    StateProvider<Map<String, bool>>((ref) => {});
+final _d235TestResultsProvider = StateProvider<Map<String, bool>>((ref) => {});
 final _d235ExitingProvider = StateProvider<bool>((ref) => false);
 
 const _kExitTargetSnapshot = StealthStackSnapshot(
@@ -243,8 +242,8 @@ class Day235StealthSettingsHubScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: level.color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -545,7 +544,7 @@ class _LayerCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: ok ? color.withOpacity(0.45) : ZapColors.border,
         ),
@@ -575,7 +574,9 @@ class _LayerCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Icon(
-          ok ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+          ok
+              ? Icons.check_circle_rounded
+              : Icons.radio_button_unchecked_rounded,
           color: ok ? ZapColors.safe : ZapColors.textMuted,
           size: 20,
         ),
@@ -603,7 +604,7 @@ class _QuickTestTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Row(
@@ -740,7 +741,7 @@ class _TestRow extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: passed ? ZapColors.safe.withOpacity(0.45) : ZapColors.border,
         ),
@@ -785,7 +786,8 @@ class _TestRow extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () => context.push(item.route),
-                  child: const Text('Open & test', style: TextStyle(fontSize: 11)),
+                  child:
+                      const Text('Open & test', style: TextStyle(fontSize: 11)),
                 ),
                 if (passed)
                   const Text(
@@ -966,7 +968,7 @@ class _EmergencyExitTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -986,7 +988,7 @@ class _EmergencyExitTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1017,7 +1019,7 @@ class _ExitStep extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Row(
@@ -1102,8 +1104,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

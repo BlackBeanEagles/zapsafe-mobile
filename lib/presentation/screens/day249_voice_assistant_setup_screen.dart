@@ -195,8 +195,8 @@ class Day249VoiceAssistantSetupScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (googleOk || alexaOk
                           ? ZapColors.safe
@@ -279,8 +279,7 @@ class _AssistantsTab extends ConsumerWidget {
           configured: googleOk,
           stepsDone: googleSteps.length,
           stepsTotal: _kGoogleSteps.length,
-          onOpenExternal: () =>
-              _openExternalUri(context, _kGoogleAssistantUri),
+          onOpenExternal: () => _openExternalUri(context, _kGoogleAssistantUri),
           openLabel: 'Open Google Assistant',
           steps: _kGoogleSteps,
           completedSteps: googleSteps,
@@ -297,8 +296,7 @@ class _AssistantsTab extends ConsumerWidget {
             }
           },
           onMarkConfigured: () {
-            ref.read(_d249GoogleConfiguredProvider.notifier).state =
-                !googleOk;
+            ref.read(_d249GoogleConfiguredProvider.notifier).state = !googleOk;
           },
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -428,7 +426,7 @@ class _AssistantCard extends StatelessWidget {
                 label: Text(openLabel),
                 style: FilledButton.styleFrom(
                   backgroundColor: color,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 ),
               ),
             ),
@@ -711,7 +709,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -742,7 +740,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -848,7 +846,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -862,8 +860,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kGoogleBlue : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),
