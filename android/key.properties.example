@@ -1,0 +1,35 @@
+# ZapSafe Android release signing — real setup steps.
+#
+# This is a TEMPLATE. Copy it to `android/key.properties` (no .example
+# suffix) and fill in your own REAL values. `key.properties` is already
+# gitignored (see android/.gitignore) — never commit your real one.
+#
+# ── Step 1: create a real release keystore (one-time, do this yourself) ──
+# From the `android/app` directory:
+#
+#   keytool -genkey -v -keystore zapsafe-release.jks -keyalg RSA \
+#     -keysize 2048 -validity 10000 -alias zapsafe
+#
+# This asks for a keystore password, a key password, and your real
+# identity details (name/org/etc. — these end up in the certificate, not
+# secret, but should be accurate). SAVE THE RESULTING .jks FILE AND BOTH
+# PASSWORDS SOMEWHERE SAFE (a password manager, not this repo) — if you
+# lose them, you can NEVER update this app on Play Store again under the
+# same listing; Google cannot recover or reset a lost signing key for you
+# (unless you're enrolled in Google Play App Signing, see note below).
+#
+# ── Step 2: fill in the real values below ──
+storePassword=REPLACE_WITH_YOUR_REAL_KEYSTORE_PASSWORD
+keyPassword=REPLACE_WITH_YOUR_REAL_KEY_PASSWORD
+keyAlias=zapsafe
+storeFile=zapsafe-release.jks
+
+# ── Recommended alternative: Google Play App Signing ──
+# Instead of managing your own keystore long-term, Google's Play App
+# Signing service lets Google hold the real release signing key and you
+# upload with a separate "upload key" instead — if the upload key is ever
+# lost/compromised, Google can help you rotate it, unlike a fully
+# self-managed keystore. This is Google's own current recommended default
+# for new apps. If you use this path, the keystore.properties setup above
+# is for your UPLOAD key, not the final release key — same file format,
+# different key. See: https://developer.android.com/studio/publish/app-signing

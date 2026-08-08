@@ -88,10 +88,15 @@ const _kBugs = [
     id: 'p0_debug_signing',
     priority: _Priority.p0,
     title: 'Release build signed with DEBUG keys',
-    detail: "android/app/build.gradle buildTypes.release still reads "
-        "'signingConfig signingConfigs.debug' with a literal "
-        "'TODO: Add your own signing config' comment. The shipped AAB/APK "
-        'would be signed with the debug keystore.',
+    detail: 'UPDATED: build.gradle now reads real signing credentials from '
+        'android/key.properties (gitignored, see key.properties.example for '
+        'the real setup steps) when present, falling back to debug-signing '
+        '+ a loud build-time warning otherwise. No real keystore/key.'
+        'properties exists in this environment (cannot be created here — '
+        'needs the actual release keystore owner) and this sandbox has no '
+        'working Android build toolchain to verify the Gradle change even '
+        'compiles. Stays OPEN until both a real keystore exists AND a real '
+        'build is verified.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),
@@ -151,9 +156,17 @@ const _kBugs = [
     id: 'p1_no_obfuscation',
     priority: _Priority.p1,
     title: 'ProGuard/R8 + obfuscation not configured',
-    detail: 'No proguard-rules.pro under android/app, build.gradle sets no '
-        'minifyEnabled, and no .github/workflows exists to run an '
-        '--obfuscate --split-debug-info CI release lane either.',
+    detail: 'UPDATED: android/app/proguard-rules.pro now exists with real, '
+        'dependency-scoped keep rules (tflite_flutter, google_sign_in, '
+        "Flutter's own required classes), and build.gradle now sets "
+        'minifyEnabled true + shrinkResources true for release. NOT '
+        'build-verified — no working Android toolchain in this sandbox '
+        '(confirmed: Gradle daemon crashes / JDK mismatches unrelated to '
+        'this change). R8 failures are a real, common release-only bug '
+        'class; a real device smoke test on an actual minified release '
+        'build is required before this can be marked resolved. No CI '
+        '--obfuscate --split-debug-info lane still genuinely does not '
+        'exist.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),

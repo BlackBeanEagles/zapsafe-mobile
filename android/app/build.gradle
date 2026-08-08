@@ -24,6 +24,33 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// ─── Real release signing config ───────────────────────────────────────────
+// Was: buildTypes.release always used signingConfigs.debug, with a literal
+// "TODO: Add your own signing config" comment — a real P0 Play Store
+// blocker (Play requires a real release-signed AAB; debug keys are also
+// widely known/insecure). This wires up the standard, documented Flutter
+// pattern (flutter.dev/docs/deployment/android#reference-the-keystore-
+// from-the-app): reads real signing credentials from
+// android/key.properties, a file that is (and already was, before this
+// change) gitignored — see android/.gitignore's existing "key.properties"
+// / "**/*.keystore" / "**/*.jks" entries. This repo/session cannot create
+// or hold real signing credentials; key.properties must be created for
+// real, locally, by whoever owns the actual release keystore. See
+// android/key.properties.example (added alongside this change) for the
+// exact real format expected.
+//
+// Until that file exists, `release` builds keep working exactly as before
+// (debug-signed, with a loud build-time warning) so local dev/testing is
+// never blocked — this only changes what happens once real keys exist.
+def keystorePropertiesFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
+def hasRealSigningConfig = keystorePropertiesFile.exists()
+if (hasRealSigningConfig) {
+    keystorePropertiesFile.withReader('UTF-8') { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
 android {
     namespace "com.zapsafe.zapsafe_mobile"
     compileSdk flutter.compileSdkVersion
@@ -47,19 +74,85 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        release {
+            if (hasRealSigningConfig) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.zapsafe.zapsafe_mobile"
         minSdkVersion 26
-        targetSdkVersion flutter.targetSdkVersion
+        // Explicitly pinned rather than `flutter.targetSdkVersion` — this
+        // installed Flutter 3.19.6's own flutter.groovy defaults that to
+        // 33 (Android 13), a full major version BEHIND compileSdk (34,
+        // Android 14), which Play Console's own submission checks flag as
+        // suspicious/stale and which also fails Play's minimum target-API
+        // requirement for new submissions/updates (Play requires targeting
+        // within ~1 year of the latest stable Android release; 33 does not
+        // qualify). Pinned to 34 to match compileSdk instead — verified
+        // safe: AndroidManifest.xml already declares the Android
+        // 14-required per-type foreground-service permissions
+        // (FOREGROUND_SERVICE_MICROPHONE/LOCATION/DATA_SYNC) and
+        // ZapSafeService already declares
+        // foregroundServiceType="microphone|location|dataSync", so the one
+        // real behavior change API 34 enforces for this app was already
+        // handled before this fix.
+        // IMPORTANT: re-verify this against Play Console's live current
+        // target-API requirement before actual submission — that
+        // requirement updates yearly and this fix reflects what's known
+        // and verifiable in this environment, not live Play policy.
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            if (hasRealSigningConfig) {
+                signingConfig signingConfigs.release
+            } else {
+                // No android/key.properties yet — fall back to debug
+                // signing so local `flutter run --release` / `flutter
+                // build --release` keep working during development. This
+                // is NOT safe to actually ship to Play — see the loud
+                // warning task below.
+                signingConfig signingConfigs.debug
+            }
+
+            // Day 336 P1 fix: real R8 minification + resource shrinking,
+            // was off entirely (fully unobfuscated release builds).
+            // See proguard-rules.pro for the real, dependency-scoped keep
+            // rules and its own header for the "not build-verified in
+            // this sandbox" caveat — a real device smoke test on a
+            // release build is required before shipping.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+if (!hasRealSigningConfig) {
+    // Loud, unmissable build-time warning rather than a silent fallback —
+    // matches this app's own established pattern (see Day 254's alerting
+    // doc: silent fallbacks that "just work" in dev are exactly what lets
+    // a real gap ship unnoticed).
+    gradle.projectsEvaluated {
+        tasks.matching { it.name.startsWith('assembleRelease') || it.name.startsWith('bundleRelease') }.configureEach {
+            doFirst {
+                logger.warn('\n' +
+                    '⚠️  ⚠️  ⚠️  WARNING: android/key.properties not found. ⚠️  ⚠️  ⚠️\n' +
+                    'This release build is signed with the DEBUG keystore, not a real\n' +
+                    'release key. It will install and run, but it is NOT valid for a\n' +
+                    'real Play Store submission and must never be distributed as-is.\n' +
+                    'See android/key.properties.example for the real setup steps.\n')
+            }
         }
     }
 }

@@ -226,22 +226,36 @@ const _kFindings = [
     id: 'release_signing',
     mstgCode: 'MSTG-CODE-2',
     title: 'Release build signing',
-    verdict: _Verdict.fail,
-    detail: 'buildTypes.release uses signingConfig signingConfigs.debug — '
-        'release APK/AAB is still signed with the debug keystore. Own '
-        'comment: "TODO: Add your own signing config for the release build."',
-    sourceFile: 'android/app/build.gradle',
+    verdict: _Verdict.mixed,
+    detail: 'PARTIALLY FIXED: buildTypes.release now reads real signing '
+        'credentials from android/key.properties (gitignored) when '
+        'present, via the standard documented Flutter pattern, falling '
+        'back to debug-signing + a loud build-time warning otherwise. No '
+        'real keystore exists in this environment — cannot be created '
+        'here, needs the actual release keystore owner (see '
+        'key.properties.example for the real steps) — and this sandbox '
+        'has no working Android build toolchain to verify the Gradle '
+        'change even compiles. Mixed, not PASS, until both exist.',
+    sourceFile: 'android/app/build.gradle, android/key.properties.example',
     day285Default: '(not covered by Day 285)',
   ),
   _Finding(
     id: 'obfuscation',
     mstgCode: 'MSTG-CODE-1',
     title: 'ProGuard/R8 + Dart obfuscation',
-    verdict: _Verdict.fail,
-    detail: 'No proguard-rules.pro, no minifyEnabled/isMinifyEnabled in '
-        'build.gradle, and no .github/workflows directory exists at all — '
-        'so no CI release lane can be running --obfuscate either.',
-    sourceFile: 'android/app/build.gradle',
+    verdict: _Verdict.mixed,
+    detail: 'PARTIALLY FIXED: android/app/proguard-rules.pro now exists '
+        'with real, dependency-scoped keep rules (checked against the '
+        "app's actual pubspec.yaml, not a generic template), and "
+        'build.gradle sets minifyEnabled true + shrinkResources true for '
+        'release. NOT build-verified — no working Android toolchain in '
+        'this sandbox (Gradle daemon crashes / JDK mismatches, unrelated '
+        'to this change, confirmed multiple times this session). R8 '
+        'failures are a real, common release-only bug class; a real '
+        'device smoke test on an actual minified build is required '
+        'before this is a real PASS. No .github/workflows CI release '
+        'lane still genuinely does not exist.',
+    sourceFile: 'android/app/build.gradle, android/app/proguard-rules.pro',
     day285Default: 'WARN',
   ),
 ];
