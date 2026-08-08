@@ -394,7 +394,7 @@ class _HealthScoreCard extends ConsumerWidget {
     final values  = ref.watch(_consentValuesProvider);
 
     // Calculate score
-    final legalDone = 2; // both docs accepted (mock)
+    const legalDone = 2; // both docs accepted (mock)
     final optionalEnabled = _kConsentItems
         .where((c) => !c.isRequired && (values[c.type] ?? false))
         .length;
@@ -402,13 +402,13 @@ class _HealthScoreCard extends ConsumerWidget {
 
     // Score breakdown
     final legalScore   = (legalDone / 2 * 100).round();
-    final safetyScore  = 100; // location SOS always on
+    const safetyScore  = 100; // location SOS always on
     final privacyScore = (optionalEnabled / optionalTotal * 100).round();
     final overallScore = ((legalScore + safetyScore + privacyScore) / 3).round();
 
     final dimensions = [
       _ScoreDimension('Legal docs accepted', legalScore, const Color(0xFF3B82F6), Icons.gavel_rounded),
-      _ScoreDimension('Safety consent', safetyScore, const Color(0xFFEF4444), Icons.emergency_rounded),
+      const _ScoreDimension('Safety consent', safetyScore, Color(0xFFEF4444), Icons.emergency_rounded),
       _ScoreDimension('Optional consents', privacyScore, const Color(0xFF8B5CF6), Icons.tune_rounded),
     ];
 
@@ -828,10 +828,10 @@ class _SectionACompleteCard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: ZapSpacing.lg),
-        Wrap(
+        const Wrap(
           spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _Chip('Privacy Policy ✅',     Color(0xFF3B82F6)),
             _Chip('Consent Tracking ✅',   Color(0xFF10B981)),
             _Chip('Terms of Service ✅',   Color(0xFF8B5CF6)),

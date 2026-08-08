@@ -545,15 +545,15 @@ class _StatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        _StatCard('105',  'Total\nCrashes',  const Color(0xFFEF4444), Icons.bug_report_rounded),
-        const SizedBox(width: ZapSpacing.sm),
-        _StatCard('4',    'Unique\nIssues',  const Color(0xFFF97316), Icons.category_rounded),
-        const SizedBox(width: ZapSpacing.sm),
-        _StatCard('0.35%','Crash\nRate',     const Color(0xFF10B981), Icons.percent_rounded),
-        const SizedBox(width: ZapSpacing.sm),
-        _StatCard('2',    'P0\nIssues',      const Color(0xFF8B5CF6), Icons.priority_high_rounded),
+        _StatCard('105',  'Total\nCrashes',  Color(0xFFEF4444), Icons.bug_report_rounded),
+        SizedBox(width: ZapSpacing.sm),
+        _StatCard('4',    'Unique\nIssues',  Color(0xFFF97316), Icons.category_rounded),
+        SizedBox(width: ZapSpacing.sm),
+        _StatCard('0.35%','Crash\nRate',     Color(0xFF10B981), Icons.percent_rounded),
+        SizedBox(width: ZapSpacing.sm),
+        _StatCard('2',    'P0\nIssues',      Color(0xFF8B5CF6), Icons.priority_high_rounded),
       ],
     );
   }
@@ -873,21 +873,21 @@ class _TestCrashCard extends ConsumerWidget {
               },
             )
           else if (state == _TestState.throwing)
-            _StatusChip(
+            const _StatusChip(
               icon: Icons.bolt_rounded,
-              color: const Color(0xFFEF4444),
+              color: Color(0xFFEF4444),
               label: 'Throwing exception…',
             )
           else if (state == _TestState.captured)
-            _StatusChip(
+            const _StatusChip(
               icon: Icons.cloud_upload_rounded,
-              color: const Color(0xFF8B5CF6),
+              color: Color(0xFF8B5CF6),
               label: 'Sentry capturing…',
             )
           else ...[
-            _StatusChip(
+            const _StatusChip(
               icon: Icons.check_circle_rounded,
-              color: const Color(0xFF10B981),
+              color: Color(0xFF10B981),
               label: 'Captured! Visible in Sentry dashboard.',
             ),
             const SizedBox(height: ZapSpacing.sm),

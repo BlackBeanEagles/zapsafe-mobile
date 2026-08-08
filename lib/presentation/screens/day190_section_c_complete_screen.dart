@@ -272,24 +272,24 @@ class _SignOffTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.6), width: 2),
       ),
-      child: Column(children: [
-        const Text('🛡️', style: TextStyle(fontSize: 52)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Section C: Security Hardening',
+      child: const Column(children: [
+        Text('🛡️', style: TextStyle(fontSize: 52)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Section C: Security Hardening',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 15,
                 fontWeight: FontWeight.w700, letterSpacing: 0.5),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 181 – 190  ·  COMPLETE ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 181 – 190  ·  COMPLETE ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.sm),
-        const Text('10 screens  ·  5 blocks  ·  All 🟢 FRONTEND-ONLY',
+        SizedBox(height: ZapSpacing.sm),
+        Text('10 screens  ·  5 blocks  ·  All 🟢 FRONTEND-ONLY',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('SHA-256 cert pinning ✅',    Color(0xFF10B981)),
           _Chip('Android NSC ✅',             Color(0xFF3DDC84)),
           _Chip('iOS ATS ✅',                 Color(0xFF9CA3AF)),
@@ -438,10 +438,10 @@ class _CertificateTab extends StatelessWidget {
               child: const Icon(Icons.bolt_rounded,
                   color: Color(0xFF10B981), size: 24)),
             const SizedBox(width: ZapSpacing.md),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('ZapSafe', style: TextStyle(color: Colors.white,
+            const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('ZapSafe', style: TextStyle(color: Colors.white,
                   fontSize: 18, fontWeight: FontWeight.w900)),
-              const Text('Security Hardening Certificate',
+              Text('Security Hardening Certificate',
                   style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                       fontWeight: FontWeight.w600)),
             ])),
@@ -494,13 +494,13 @@ class _CertificateTab extends StatelessWidget {
               ]));
           }),
           const SizedBox(height: ZapSpacing.md),
-          Row(children: [
-            Expanded(child: const Divider(color: Color(0xFF2A2A2A))),
+          const Row(children: [
+            Expanded(child: Divider(color: Color(0xFF2A2A2A))),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md),
-              child: const Text('TOTAL', style: TextStyle(
+              padding: EdgeInsets.symmetric(horizontal: ZapSpacing.md),
+              child: Text('TOTAL', style: TextStyle(
                   color: Color(0xFF6B7280), fontSize: 9, letterSpacing: 1))),
-            Expanded(child: const Divider(color: Color(0xFF2A2A2A))),
+            Expanded(child: Divider(color: Color(0xFF2A2A2A))),
           ]),
           const SizedBox(height: ZapSpacing.sm),
           const Center(child: Text('100 / 100  —  EXCELLENT 🛡️',
@@ -515,7 +515,7 @@ class _CertificateTab extends StatelessWidget {
               color: Color(0xFF6B7280), fontSize: 9,
               fontWeight: FontWeight.w700, letterSpacing: 1.5)),
           const SizedBox(height: ZapSpacing.sm),
-          Wrap(spacing: 6, runSpacing: 6, children: const [
+          const Wrap(spacing: 6, runSpacing: 6, children: [
             _CertBadge('OWASP Mobile Top 10', Color(0xFF10B981)),
             _CertBadge('DPDP Act 2023', Color(0xFF3B82F6)),
             _CertBadge('GDPR Art. 5, 17, 20', Color(0xFF3B82F6)),
@@ -532,14 +532,14 @@ class _CertificateTab extends StatelessWidget {
                 color: const Color(0xFF111111),
                 borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(color: const Color(0xFF2A2A2A))),
-            child: Row(children: [
-              const Text('Cert ID: ', style: TextStyle(
+            child: const Row(children: [
+              Text('Cert ID: ', style: TextStyle(
                   color: Color(0xFF6B7280), fontSize: 9)),
-              const Text('ZAPSAFE-SEC-C-20260601-100',
+              Text('ZAPSAFE-SEC-C-20260601-100',
                   style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 9,
                       fontFamily: 'monospace')),
-              const Spacer(),
-              const Icon(Icons.verified_rounded, color: Color(0xFF10B981), size: 14),
+              Spacer(),
+              Icon(Icons.verified_rounded, color: Color(0xFF10B981), size: 14),
             ])),
         ]),
       )),
@@ -618,19 +618,19 @@ class _SectionDTab extends ConsumerWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.5), width: 2),
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
             Icon(Icons.store_rounded, color: Color(0xFF3B82F6), size: 22),
             SizedBox(width: ZapSpacing.sm),
             Text('Section D: App Store Prep & Polish',
                 style: TextStyle(color: Color(0xFF3B82F6), fontSize: 14,
                     fontWeight: FontWeight.w800)),
           ]),
-          const SizedBox(height: 6),
-          const Text('Days 191-200  ·  All 🟢 FRONTEND-ONLY',
+          SizedBox(height: 6),
+          Text('Days 191-200  ·  All 🟢 FRONTEND-ONLY',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text(
+          SizedBox(height: ZapSpacing.md),
+          Text(
             'The final stretch. ZapSafe is security-hardened, DPDP/GDPR compliant, '
             'and feature-complete. Days 191-200 prepare it for store submission — '
             'screenshots, store listing copy, content ratings, '
@@ -730,23 +730,23 @@ class _SectionDTab extends ConsumerWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radius),
           border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.4)),
         ),
-        child: Column(children: [
-          const Text('🏆', style: TextStyle(fontSize: 44)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Day 200 — ZapSafe Ships',
+        child: const Column(children: [
+          Text('🏆', style: TextStyle(fontSize: 44)),
+          SizedBox(height: ZapSpacing.md),
+          Text('Day 200 — ZapSafe Ships',
               style: TextStyle(color: Colors.white, fontSize: 16,
                   fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          Text(
             'After Day 200, ZapSafe will be submitted to the '
             'Google Play Store and Apple App Store. '
             '200 days. 4 sections. 150+ screens. '
             'DPDP + GDPR compliant. Security score 100/100.',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
             textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.lg),
+          SizedBox(height: ZapSpacing.lg),
           Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-              alignment: WrapAlignment.center, children: const [
+              alignment: WrapAlignment.center, children: [
             _Chip('200 days 🗓️',       Color(0xFF3B82F6)),
             _Chip('4 sections ✅',       Color(0xFF10B981)),
             _Chip('150+ screens 📱',     Color(0xFF8B5CF6)),

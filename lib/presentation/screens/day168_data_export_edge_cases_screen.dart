@@ -571,7 +571,7 @@ class _RequestMock extends StatelessWidget {
             if (mode != _RlMode.available) const SizedBox(height: ZapSpacing.md),
 
             // Mock category chips (abbreviated)
-            Wrap(spacing: 6, runSpacing: 6, children: const [
+            const Wrap(spacing: 6, runSpacing: 6, children: [
               _MockChip('Profile ✓', Color(0xFF3B82F6)),
               _MockChip('Contacts ✓', Color(0xFF10B981)),
               _MockChip('SOS Events ✓', Color(0xFFEF4444)),
@@ -655,11 +655,11 @@ class _RequestMock extends StatelessWidget {
           ),
         ),
         const SizedBox(height: ZapSpacing.xs),
-        Row(children: [
-          const Text('Cooldown started: May 30, 2026',
+        const Row(children: [
+          Text('Cooldown started: May 30, 2026',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 9)),
-          const Spacer(),
-          const Text('Ends: Jun 29, 2026',
+          Spacer(),
+          Text('Ends: Jun 29, 2026',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 9)),
         ]),
       ]),
@@ -800,7 +800,7 @@ class _GdprTab extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 6),
-          Wrap(spacing: 6, runSpacing: 6, children: const [
+          const Wrap(spacing: 6, runSpacing: 6, children: [
             _LegalChip('GDPR Art.20(1) ✅', Color(0xFF3B82F6)),
             _LegalChip('GDPR Art.20(2) ✅', Color(0xFF8B5CF6)),
             _LegalChip('GDPR Art.20(3) ✅', Color(0xFF10B981)),
@@ -1308,29 +1308,29 @@ class _BlockCompleteCard extends StatelessWidget {
           border: Border.all(
               color: const Color(0xFF10B981).withOpacity(0.45), width: 2),
         ),
-        child: Column(children: [
-          const Text('📦', style: TextStyle(fontSize: 40)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Data Export Block Complete',
+        child: const Column(children: [
+          Text('📦', style: TextStyle(fontSize: 40)),
+          SizedBox(height: ZapSpacing.md),
+          Text('Data Export Block Complete',
               style: TextStyle(
                   color: Color(0xFF10B981),
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.xs),
-          const Text('DAYS 166 – 168 ✅',
+          SizedBox(height: ZapSpacing.xs),
+          Text('DAYS 166 – 168 ✅',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.w900),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.md),
+          SizedBox(height: ZapSpacing.md),
           Wrap(
             spacing: ZapSpacing.sm,
             runSpacing: ZapSpacing.sm,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               _LegalChip('Request Form ✅',       Color(0xFF8B5CF6)),
               _LegalChip('History + Re-download ✅',Color(0xFF3B82F6)),
               _LegalChip('API Contract ✅',        Color(0xFFF59E0B)),

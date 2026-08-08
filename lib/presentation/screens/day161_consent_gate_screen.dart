@@ -403,17 +403,17 @@ class _ConsentGateCard extends ConsumerWidget {
           border: Border.all(
               color: const Color(0xFF10B981).withOpacity(0.45), width: 2),
         ),
-        child: Column(children: [
-          const Icon(Icons.verified_rounded,
+        child: const Column(children: [
+          Icon(Icons.verified_rounded,
               color: Color(0xFF10B981), size: 48),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Consent recorded ✅',
+          SizedBox(height: ZapSpacing.md),
+          Text('Consent recorded ✅',
               style: TextStyle(
                   color: Colors.white, fontSize: 18,
                   fontWeight: FontWeight.w800),
               textAlign: TextAlign.center),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'Privacy Policy v$_kPrivacyVersion + Terms of Service v$_kTermsVersion\n'
             'accepted and stored in Hive.\n'
             'GoRouter now allows navigation to Dashboard.',

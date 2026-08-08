@@ -586,13 +586,13 @@ class _RequestTab extends ConsumerWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.3))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            const SizedBox(
+          const Row(children: [
+            SizedBox(
               width: 16, height: 16,
               child: CircularProgressIndicator(
                   color: Color(0xFF8B5CF6), strokeWidth: 2)),
-            const SizedBox(width: ZapSpacing.sm),
-            const Text('Processing your export…',
+            SizedBox(width: ZapSpacing.sm),
+            Text('Processing your export…',
                 style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
           ]),
           const SizedBox(height: ZapSpacing.sm),
@@ -1129,10 +1129,10 @@ class _ApiContractTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: const Color(0xFF2A2A2A))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          const Expanded(child: Text('long-press to copy',
+        const Row(children: [
+          Expanded(child: Text('long-press to copy',
               style: TextStyle(color: Color(0xFF4B5563), fontSize: 9))),
-          const Icon(Icons.copy_rounded, color: Color(0xFF4B5563), size: 12),
+          Icon(Icons.copy_rounded, color: Color(0xFF4B5563), size: 12),
         ]),
         const SizedBox(height: ZapSpacing.sm),
         Text(code, style: const TextStyle(

@@ -782,13 +782,13 @@ class _NotifyPanel extends StatelessWidget {
           borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(color: const Color(0xFF2A2A2A)),
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Subject: ZapSafe v1.0 is coming to the App Store! 🚀',
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Subject: ZapSafe v1.0 is coming to the App Store! 🚀',
               style: TextStyle(
                   color: Colors.white, fontSize: 12,
                   fontWeight: FontWeight.w700)),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'Hi beta testers,\n\n'
             'Because of your feedback, ZapSafe is now production-ready.\n'
             'We\'re submitting to the App Store & Google Play this week.\n\n'
@@ -856,10 +856,10 @@ class _FinalCard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: ZapSpacing.lg),
-        Wrap(
+        const Wrap(
           spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _Chip('API: AWS ap-south-1',   Color(0xFF3B82F6)),
             _Chip('APK: 26 MB',            Color(0xFF10B981)),
             _Chip('Cold start: 1.8s',      Color(0xFF10B981)),
@@ -902,29 +902,29 @@ class _RetroTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF10B981).withOpacity(0.4)),
           ),
-          child: Column(children: [
-            const Text('150-Day Build Summary',
+          child: const Column(children: [
+            Text('150-Day Build Summary',
                 style: TextStyle(
                     color: Colors.white, fontSize: 18,
                     fontWeight: FontWeight.w900),
                 textAlign: TextAlign.center),
-            const SizedBox(height: ZapSpacing.lg),
-            Row(children: const [
+            SizedBox(height: ZapSpacing.lg),
+            Row(children: [
               _StatPair('150', 'Days built',    Color(0xFF10B981)),
               _StatPair('140+', 'Screens built', Color(0xFF3B82F6)),
             ]),
-            const SizedBox(height: ZapSpacing.sm),
-            Row(children: const [
+            SizedBox(height: ZapSpacing.sm),
+            Row(children: [
               _StatPair('75+', 'API endpoints', Color(0xFF8B5CF6)),
               _StatPair('9',   'ML models',     Color(0xFFEF4444)),
             ]),
-            const SizedBox(height: ZapSpacing.sm),
-            Row(children: const [
+            SizedBox(height: ZapSpacing.sm),
+            Row(children: [
               _StatPair('847', 'Beta testers',  Color(0xFFF59E0B)),
               _StatPair('15',  'Languages',     Color(0xFF3B82F6)),
             ]),
-            const SizedBox(height: ZapSpacing.sm),
-            Row(children: const [
+            SizedBox(height: ZapSpacing.sm),
+            Row(children: [
               _StatPair('44',  'Safety features', Color(0xFFEF4444)),
               _StatPair('27',  'LP defenses',     Color(0xFF8B5CF6)),
             ]),

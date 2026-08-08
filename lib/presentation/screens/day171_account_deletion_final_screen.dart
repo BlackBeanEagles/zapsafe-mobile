@@ -1171,14 +1171,14 @@ class _PostDeletionTab extends ConsumerWidget {
             color: const Color(0xFF6B7280).withOpacity(0.07),
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF6B7280).withOpacity(0.35))),
-        child: Column(children: [
-          const Text('🗑️', style: TextStyle(fontSize: 36)),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text('Days 169-171 Complete',
+        child: const Column(children: [
+          Text('🗑️', style: TextStyle(fontSize: 36)),
+          SizedBox(height: ZapSpacing.sm),
+          Text('Days 169-171 Complete',
               style: TextStyle(color: Colors.white, fontSize: 14,
                   fontWeight: FontWeight.w800), textAlign: TextAlign.center),
-          const SizedBox(height: 6),
-          Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: const [
+          SizedBox(height: 6),
+          Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
             _Chip('Request flow ✅',    Color(0xFF8B5CF6)),
             _Chip('Grace period UI ✅', Color(0xFFF59E0B)),
             _Chip('Day-30 walkthrough ✅', Color(0xFFEF4444)),
@@ -1186,8 +1186,8 @@ class _PostDeletionTab extends ConsumerWidget {
             _Chip('Wiped state ✅',     Color(0xFF6B7280)),
             _Chip('5 API endpoints ✅', Color(0xFF3B82F6)),
           ]),
-          const SizedBox(height: ZapSpacing.md),
-          const Text('Day 172 → Edge cases: active SOS block, '
+          SizedBox(height: ZapSpacing.md),
+          Text('Day 172 → Edge cases: active SOS block, '
               'evidence hold, DPDP 30-day retention, linked devices.',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 11),
               textAlign: TextAlign.center),

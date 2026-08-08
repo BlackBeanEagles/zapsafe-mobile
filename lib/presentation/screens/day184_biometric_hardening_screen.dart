@@ -1072,19 +1072,19 @@ class _BlockCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.5), width: 2),
       ),
-      child: Column(children: [
-        const Text('🔐', style: TextStyle(fontSize: 44)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Biometric Lock Block',
+      child: const Column(children: [
+        Text('🔐', style: TextStyle(fontSize: 44)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Biometric Lock Block',
             style: TextStyle(color: Color(0xFF8B5CF6), fontSize: 14,
                 fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 183 – 184  ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 183 – 184  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('Auto-lock timer ✅',         Color(0xFF8B5CF6)),
           _Chip('local_auth wrapper ✅',       Color(0xFF3B82F6)),
           _Chip('AppLockProvider ✅',          Color(0xFF8B5CF6)),
@@ -1129,11 +1129,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
     // 4/10 progress bar
     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        const Text('Section C progress',
+      const Row(children: [
+        Text('Section C progress',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const Spacer(),
-        const Text('4 / 10 days  ·  2 / 5 blocks',
+        Spacer(),
+        Text('4 / 10 days  ·  2 / 5 blocks',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                 fontWeight: FontWeight.w700)),
       ]),

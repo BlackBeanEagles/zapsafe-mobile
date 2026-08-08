@@ -742,9 +742,9 @@ class _SkeletonDemo extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(
               horizontal: ZapSpacing.md, vertical: 12),
-          decoration: BoxDecoration(
-            color: const Color(0xFF111111),
-            borderRadius: const BorderRadius.vertical(
+          decoration: const BoxDecoration(
+            color: Color(0xFF111111),
+            borderRadius: BorderRadius.vertical(
                 top: Radius.circular(ZapSpacing.radius - 1)),
           ),
           child: Row(children: [
@@ -819,7 +819,7 @@ class _SkeletonDemo extends StatelessWidget {
               Column(children: [
                 Row(children: [
                   Text('Loading $route…',
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFF3B82F6),
                           fontSize: 11,
                           fontWeight: FontWeight.w600)),
@@ -844,10 +844,10 @@ class _SkeletonDemo extends StatelessWidget {
                           widthFactor: w,
                           child: Container(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [
-                                  const Color(0xFF3A3A3A),
-                                  const Color(0xFF2A2A2A),
+                                  Color(0xFF3A3A3A),
+                                  Color(0xFF2A2A2A),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(4),

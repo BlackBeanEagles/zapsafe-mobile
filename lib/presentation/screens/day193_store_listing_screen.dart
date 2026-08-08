@@ -574,10 +574,10 @@ class _AppleSearchPreview extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(ZapSpacing.radius),
                   topRight: Radius.circular(ZapSpacing.radius))),
-          child: Row(children: [
-            const Icon(Icons.apple_rounded, color: Color(0xFF9CA3AF), size: 13),
-            const SizedBox(width: 6),
-            const Text('App Store search result',
+          child: const Row(children: [
+            Icon(Icons.apple_rounded, color: Color(0xFF9CA3AF), size: 13),
+            SizedBox(width: 6),
+            Text('App Store search result',
                 style: TextStyle(color: Color(0xFF6B7280), fontSize: 10)),
           ])),
         // Search result
@@ -643,7 +643,7 @@ class _DescriptionTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final store = ref.watch(_storeTabProvider);
     final desc  = store == _Store.play ? _kPlayFullDesc : _kAppleFullDesc;
-    final max   = 4000;
+    const max   = 4000;
     final len   = desc.length;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

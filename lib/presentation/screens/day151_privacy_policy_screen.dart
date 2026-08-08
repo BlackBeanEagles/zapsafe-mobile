@@ -364,10 +364,10 @@ class _VersionHeader extends StatelessWidget {
         const Icon(Icons.privacy_tip_rounded,
             color: Color(0xFF3B82F6), size: 16),
         const SizedBox(width: ZapSpacing.sm),
-        Expanded(
+        const Expanded(
           child: Text(
             'Version $_kVersion  ·  Last updated: $_kLastUpdated',
-            style: const TextStyle(
+            style: TextStyle(
                 color: Color(0xFF6B7280), fontSize: 11),
           ),
         ),
@@ -454,10 +454,10 @@ class _IntroBlock extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.35)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(children: [
+          Row(children: [
             Icon(Icons.shield_rounded, color: Color(0xFF3B82F6), size: 20),
             SizedBox(width: ZapSpacing.sm),
             Text('ZapSafe Privacy Policy',
@@ -466,8 +466,8 @@ class _IntroBlock extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.w800)),
           ]),
-          const SizedBox(height: ZapSpacing.md),
-          const Text(
+          SizedBox(height: ZapSpacing.md),
+          Text(
             'ZapSafe is a personal safety app designed to protect people — especially '
             'women, night-shift workers, and domestic abuse survivors. '
             'Because we handle sensitive emergency data, we take privacy extremely seriously.\n\n'
@@ -477,12 +477,12 @@ class _IntroBlock extends StatelessWidget {
             style: TextStyle(
                 color: Color(0xFFD1D5DB), fontSize: 12, height: 1.7),
           ),
-          const SizedBox(height: ZapSpacing.md),
+          SizedBox(height: ZapSpacing.md),
           // Key promises chips
           Wrap(
             spacing: ZapSpacing.sm,
             runSpacing: ZapSpacing.sm,
-            children: const [
+            children: [
               _PromiseChip('No ads', Color(0xFF10B981)),
               _PromiseChip('No data selling', Color(0xFF10B981)),
               _PromiseChip('No raw audio to servers', Color(0xFF10B981)),
@@ -665,28 +665,28 @@ class _PolicyFooter extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: const Color(0xFF2A2A2A)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(children: [
+          Row(children: [
             Icon(Icons.mail_rounded, color: Color(0xFF06B6D4), size: 14),
             SizedBox(width: ZapSpacing.sm),
             Text('Privacy questions or data requests:',
                 style: TextStyle(color: Colors.white, fontSize: 12,
                     fontWeight: FontWeight.w600)),
           ]),
-          const SizedBox(height: ZapSpacing.xs),
+          SizedBox(height: ZapSpacing.xs),
           Text(_kContactEmail,
-              style: const TextStyle(
+              style: TextStyle(
                   color: Color(0xFF06B6D4),
                   fontSize: 12,
                   fontFamily: 'monospace')),
-          const SizedBox(height: ZapSpacing.md),
+          SizedBox(height: ZapSpacing.md),
           Text(
             'Privacy Policy v$_kVersion · Last updated $_kLastUpdated\n'
             'Governing law: India (DPDP Act 2023) + GDPR (international users)\n'
             'This policy is bundled in the app and works offline.',
-            style: const TextStyle(
+            style: TextStyle(
                 color: Color(0xFF4B5563), fontSize: 10, height: 1.5),
           ),
         ],

@@ -626,32 +626,32 @@ class _SosContextCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF2A2A2A)),
       ),
-      child: Column(
+      child: const Column(
         children: [
           _ContextRow(
             icon: Icons.bolt_rounded,
-            color: const Color(0xFFEF4444),
+            color: Color(0xFFEF4444),
             label: 'Trigger',
             value: 'Scream detected (94% confidence)',
           ),
-          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          Divider(height: 1, color: Color(0xFF2A2A2A)),
           _ContextRow(
             icon: Icons.access_time_rounded,
-            color: const Color(0xFF3B82F6),
+            color: Color(0xFF3B82F6),
             label: 'Time',
             value: '12:45 PM · 2s ago',
           ),
-          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          Divider(height: 1, color: Color(0xFF2A2A2A)),
           _ContextRow(
             icon: Icons.people_rounded,
-            color: const Color(0xFF10B981),
+            color: Color(0xFF10B981),
             label: 'Notified',
             value: '3 contacts alerted',
           ),
-          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          Divider(height: 1, color: Color(0xFF2A2A2A)),
           _ContextRow(
             icon: Icons.tag_rounded,
-            color: const Color(0xFF8B5CF6),
+            color: Color(0xFF8B5CF6),
             label: 'SOS ID',
             value: 'sos_mock_001',
           ),

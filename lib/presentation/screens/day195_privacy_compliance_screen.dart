@@ -700,8 +700,8 @@ class _IarcTab extends ConsumerWidget {
                               Text(q.answer, style: const TextStyle(
                                   color: Color(0xFFD1D5DB), fontSize: 11, height: 1.5)),
                               const SizedBox(height: ZapSpacing.sm),
-                              Row(children: [
-                                const Text('Rating impact: ', style: TextStyle(
+                              const Row(children: [
+                                Text('Rating impact: ', style: TextStyle(
                                     color: Color(0xFF6B7280), fontSize: 9,
                                     fontWeight: FontWeight.w700)),
                               ]),

@@ -349,14 +349,14 @@ class _SessionsTab extends ConsumerWidget {
               color: const Color(0xFFEF4444).withOpacity(0.08),
               borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.5))),
-          child: Row(children: [
-            const Icon(Icons.warning_rounded, color: Color(0xFFEF4444), size: 18),
-            const SizedBox(width: ZapSpacing.md),
+          child: const Row(children: [
+            Icon(Icons.warning_rounded, color: Color(0xFFEF4444), size: 18),
+            SizedBox(width: ZapSpacing.md),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('⚠️ Suspicious session detected',
+              Text('⚠️ Suspicious session detected',
                   style: TextStyle(color: Color(0xFFEF4444), fontSize: 12,
                       fontWeight: FontWeight.w700)),
-              const Text('iPad Air — unrecognised device with 3 failed vault PIN attempts.',
+              Text('iPad Air — unrecognised device with 3 failed vault PIN attempts.',
                   style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
             ])),
           ])),

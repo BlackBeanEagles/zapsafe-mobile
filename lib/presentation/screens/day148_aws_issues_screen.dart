@@ -775,10 +775,10 @@ class _IssuesTab extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: ZapSpacing.lg),
-          Wrap(
+          const Wrap(
             spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               _Chip('CORS fixed',        Color(0xFFEF4444)),
               _Chip('SSL cert issued',   Color(0xFFF97316)),
               _Chip('DB indexes added',  Color(0xFFF59E0B)),

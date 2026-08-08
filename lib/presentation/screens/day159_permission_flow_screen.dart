@@ -690,11 +690,11 @@ class _Step0Rationale extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(ZapSpacing.radius - 2)),
           ),
-          child: Row(children: [
-            const Icon(Icons.info_outline_rounded, size: 12,
+          child: const Row(children: [
+            Icon(Icons.info_outline_rounded, size: 12,
                 color: Color(0xFF9CA3AF)),
-            const SizedBox(width: 6),
-            const Text('STEP 1 OF 3  ·  Rationale card (our screen)',
+            SizedBox(width: 6),
+            Text('STEP 1 OF 3  ·  Rationale card (our screen)',
                 style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 9,
                     fontWeight: FontWeight.w600)),
           ]),

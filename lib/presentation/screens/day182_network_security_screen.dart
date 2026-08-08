@@ -451,15 +451,15 @@ class _AndroidNscTab extends ConsumerWidget {
             color: const Color(0xFF3DDC84).withOpacity(0.06),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF3DDC84).withOpacity(0.3))),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
             Icon(Icons.check_circle_rounded, color: Color(0xFF3DDC84), size: 14),
             SizedBox(width: ZapSpacing.sm),
             Text('CI verification', style: TextStyle(color: Color(0xFF3DDC84),
                 fontSize: 11, fontWeight: FontWeight.w700)),
           ]),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          Text(
             '• Android Lint rule MissingNetworkSecurityConfig: ERROR\n'
             '• If pin-set expiration < 60 days away: WARNING in lint output\n'
             '• build.gradle: add lint { abortOnError true } for CI hard-fail\n'
@@ -1017,10 +1017,10 @@ Widget _codeBlock(BuildContext context, String code, Color accentColor) =>
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
+          const Row(children: [
             Expanded(child: Text('long-press to copy',
-                style: const TextStyle(color: Color(0xFF4B5563), fontSize: 9))),
-            Icon(Icons.copy_rounded, color: const Color(0xFF4B5563), size: 12),
+                style: TextStyle(color: Color(0xFF4B5563), fontSize: 9))),
+            Icon(Icons.copy_rounded, color: Color(0xFF4B5563), size: 12),
           ]),
           const SizedBox(height: ZapSpacing.sm),
           Text(code, style: TextStyle(color: accentColor.withOpacity(0.9),

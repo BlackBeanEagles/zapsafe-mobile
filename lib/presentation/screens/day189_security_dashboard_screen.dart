@@ -483,11 +483,11 @@ class _ScoreRing extends StatelessWidget {
         width: 180, height: 180,
         child: Stack(alignment: Alignment.center, children: [
           // Background ring
-          SizedBox(width: 180, height: 180,
+          const SizedBox(width: 180, height: 180,
               child: CircularProgressIndicator(
                   value: 1.0, strokeWidth: 14,
                   valueColor: AlwaysStoppedAnimation(
-                      const Color(0xFF2A2A2A)))),
+                      Color(0xFF2A2A2A)))),
           // Score arc
           SizedBox(width: 180, height: 180,
               child: CircularProgressIndicator(

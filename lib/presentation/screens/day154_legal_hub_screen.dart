@@ -466,17 +466,17 @@ class _CertificateTab extends ConsumerWidget {
             // Certificate header
             Container(
               padding: const EdgeInsets.all(ZapSpacing.lg),
-              child: Column(children: [
-                const Icon(Icons.workspace_premium_rounded,
+              child: const Column(children: [
+                Icon(Icons.workspace_premium_rounded,
                     color: Color(0xFF10B981), size: 36),
-                const SizedBox(height: ZapSpacing.sm),
-                const Text('Policy Acceptance Certificate',
+                SizedBox(height: ZapSpacing.sm),
+                Text('Policy Acceptance Certificate',
                     style: TextStyle(
                         color: Colors.white, fontSize: 16,
                         fontWeight: FontWeight.w800),
                     textAlign: TextAlign.center),
-                const SizedBox(height: ZapSpacing.xs),
-                const Text('ZapSafe Legal Compliance Record',
+                SizedBox(height: ZapSpacing.xs),
+                Text('ZapSafe Legal Compliance Record',
                     style: TextStyle(
                         color: Color(0xFF9CA3AF), fontSize: 11),
                     textAlign: TextAlign.center),
@@ -633,9 +633,9 @@ class _HistoryTab extends StatelessWidget {
         // Privacy Policy history
         const _SectionLabel('PRIVACY POLICY  ·  CHANGE LOG'),
         const SizedBox(height: ZapSpacing.md),
-        _ChangeLog(
+        const _ChangeLog(
             docTitle: 'Privacy Policy',
-            color: const Color(0xFF3B82F6),
+            color: Color(0xFF3B82F6),
             icon: Icons.privacy_tip_rounded,
             entries: _kPrivacyHistory),
         const SizedBox(height: ZapSpacing.xl),
@@ -643,9 +643,9 @@ class _HistoryTab extends StatelessWidget {
         // Terms of Service history
         const _SectionLabel('TERMS OF SERVICE  ·  CHANGE LOG'),
         const SizedBox(height: ZapSpacing.md),
-        _ChangeLog(
+        const _ChangeLog(
             docTitle: 'Terms of Service',
-            color: const Color(0xFF8B5CF6),
+            color: Color(0xFF8B5CF6),
             icon: Icons.gavel_rounded,
             entries: _kTosHistory),
       ],
@@ -925,11 +925,11 @@ class _LinksTab extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: ZapSpacing.lg),
-            Wrap(
+            const Wrap(
               spacing: ZapSpacing.sm,
               runSpacing: ZapSpacing.sm,
               alignment: WrapAlignment.center,
-              children: const [
+              children: [
                 _Chip('Privacy Policy ✅',   Color(0xFF3B82F6)),
                 _Chip('Consent Service ✅',  Color(0xFF10B981)),
                 _Chip('Terms of Service ✅', Color(0xFF8B5CF6)),

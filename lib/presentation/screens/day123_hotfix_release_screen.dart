@@ -767,7 +767,7 @@ class _CrashMonitor extends ConsumerWidget {
           children: List.generate(24, (i) {
             final hasData = i < visibleHours;
             final count   = hasData ? _kHourlyCrashes[i] : 0;
-            final maxVal  = 3.0;
+            const maxVal  = 3.0;
             final h       = hasData ? (count / maxVal * 48).clamp(4.0, 48.0) : 4.0;
             final color   = count == 0
                 ? const Color(0xFF10B981)
@@ -803,16 +803,16 @@ class _CrashMonitor extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.sm),
         // X axis labels
-        Row(children: [
-          const Expanded(child: Text('0h',
+        const Row(children: [
+          Expanded(child: Text('0h',
               style: TextStyle(color: Color(0xFF4B5563), fontSize: 8))),
-          const Expanded(
+          Expanded(
               flex: 11,
               child: Center(
                 child: Text('→ Hours post-release',
                     style: TextStyle(color: Color(0xFF4B5563), fontSize: 8)),
               )),
-          const Expanded(child: Text('24h',
+          Expanded(child: Text('24h',
               style: TextStyle(color: Color(0xFF4B5563), fontSize: 8),
               textAlign: TextAlign.end)),
         ]),
@@ -1004,31 +1004,31 @@ class _CompletionCard extends StatelessWidget {
         border: Border.all(
             color: const Color(0xFF10B981).withOpacity(0.4)),
       ),
-      child: Column(children: [
-        const Icon(Icons.verified_rounded,
+      child: const Column(children: [
+        Icon(Icons.verified_rounded,
             color: Color(0xFF10B981), size: 48),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Days 122-123 Complete!',
+        SizedBox(height: ZapSpacing.md),
+        Text('Days 122-123 Complete!',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.w800),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.sm),
-        const Text(
+        SizedBox(height: ZapSpacing.sm),
+        Text(
           'v0.5.1 shipped and verified.\n'
           'Crash rate: 0.31% → 0.10% · All 3 P0/P1 issues resolved.',
           style: TextStyle(
               color: Color(0xFF9CA3AF), fontSize: 13, height: 1.6),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         // Summary chips
         Wrap(
           spacing: ZapSpacing.sm,
           runSpacing: ZapSpacing.sm,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _Chip('3 crashes fixed',       Color(0xFF10B981)),
             _Chip('102 users unblocked',   Color(0xFF3B82F6)),
             _Chip('0.10% crash rate',      Color(0xFFF59E0B)),

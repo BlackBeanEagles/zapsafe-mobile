@@ -1088,16 +1088,16 @@ class _TesterBreakdown extends StatelessWidget {
             );
           }),
           const Divider(height: ZapSpacing.lg, color: Color(0xFF2A2A2A)),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('TOTAL',
+              Text('TOTAL',
                   style: TextStyle(
                       color: Color(0xFF9CA3AF),
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1)),
-              const Text('1,000',
+              Text('1,000',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -1261,14 +1261,14 @@ class _PhaseSummary extends StatelessWidget {
             ),
           ),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
-          Padding(
-            padding: const EdgeInsets.all(ZapSpacing.md),
+          const Padding(
+            padding: EdgeInsets.all(ZapSpacing.md),
             child: Row(
               children: [
-                const Icon(Icons.arrow_forward_rounded,
+                Icon(Icons.arrow_forward_rounded,
                     color: Color(0xFF8B5CF6), size: 16),
-                const SizedBox(width: ZapSpacing.sm),
-                const Expanded(
+                SizedBox(width: ZapSpacing.sm),
+                Expanded(
                   child: Text(
                     'Next: Days 121-140 — Feedback Analysis & Iteration',
                     style: TextStyle(

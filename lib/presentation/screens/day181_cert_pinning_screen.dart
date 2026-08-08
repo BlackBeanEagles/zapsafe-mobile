@@ -789,29 +789,29 @@ class _ImplementationTab extends ConsumerWidget {
             color: const Color(0xFFEF4444).withOpacity(0.06),
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.3))),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
+        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
             Icon(Icons.security_rounded, color: Color(0xFFEF4444), size: 16),
             SizedBox(width: ZapSpacing.sm),
             Text('Without pinning', style: TextStyle(color: Color(0xFFEF4444),
                 fontSize: 12, fontWeight: FontWeight.w700)),
           ]),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             '1. Attacker installs rogue CA cert on device (e.g. Charles Proxy, mitmproxy)\n'
             '2. Device trusts the rogue cert — normal TLS succeeds\n'
             '3. Attacker intercepts SOS location, auth tokens, evidence uploads\n'
             '4. ZapSafe app has no way to detect the interception',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11, height: 1.7)),
-          const SizedBox(height: ZapSpacing.md),
-          const Row(children: [
+          SizedBox(height: ZapSpacing.md),
+          Row(children: [
             Icon(Icons.shield_rounded, color: Color(0xFF10B981), size: 16),
             SizedBox(width: ZapSpacing.sm),
             Text('With pinning (ZapSafe)', style: TextStyle(color: Color(0xFF10B981),
                 fontSize: 12, fontWeight: FontWeight.w700)),
           ]),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             '1. Attacker installs rogue CA cert — device trusts it\n'
             '2. TLS handshake begins, server (proxy) sends its cert\n'
             '3. Dio computes SHA-256 of rogue cert\'s public key\n'

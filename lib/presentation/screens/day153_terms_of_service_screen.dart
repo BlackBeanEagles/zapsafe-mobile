@@ -382,10 +382,10 @@ class _TosVersionHeader extends StatelessWidget {
         const Icon(Icons.gavel_rounded,
             color: Color(0xFF8B5CF6), size: 16),
         const SizedBox(width: ZapSpacing.sm),
-        Expanded(
+        const Expanded(
           child: Text(
             'Version $_kTosVersion  ·  Last updated: $_kTosLastUpdated',
-            style: const TextStyle(color: Color(0xFF6B7280), fontSize: 11),
+            style: TextStyle(color: Color(0xFF6B7280), fontSize: 11),
           ),
         ),
         Container(
@@ -476,10 +476,10 @@ class _TosIntroBlock extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.4)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(children: [
+          Row(children: [
             Icon(Icons.warning_rounded, color: Color(0xFFEF4444), size: 20),
             SizedBox(width: ZapSpacing.sm),
             Text('Important — Please Read',
@@ -488,8 +488,8 @@ class _TosIntroBlock extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w800)),
           ]),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'ZapSafe is a personal safety TOOL, not a guaranteed emergency service. '
             'ALWAYS call 112 (India), 999 (UK), 911 (US) or your local emergency '
             'number in any genuine emergency — do not rely solely on this app.',
@@ -497,28 +497,28 @@ class _TosIntroBlock extends StatelessWidget {
                 color: Colors.white, fontSize: 13,
                 fontWeight: FontWeight.w600, height: 1.6),
           ),
-          const SizedBox(height: ZapSpacing.lg),
-          const Divider(color: Color(0xFF2A2A2A)),
-          const SizedBox(height: ZapSpacing.md),
-          const Text(
+          SizedBox(height: ZapSpacing.lg),
+          Divider(color: Color(0xFF2A2A2A)),
+          SizedBox(height: ZapSpacing.md),
+          Text(
             'ZapSafe Terms of Service',
             style: TextStyle(
                 color: Colors.white, fontSize: 16,
                 fontWeight: FontWeight.w800),
           ),
-          const SizedBox(height: ZapSpacing.sm),
-          const Text(
+          SizedBox(height: ZapSpacing.sm),
+          Text(
             'These Terms govern your use of ZapSafe. By using the app, '
             'you agree to these terms. These Terms work together with our '
             'Privacy Policy — please read both.',
             style: TextStyle(
                 color: Color(0xFFD1D5DB), fontSize: 12, height: 1.6),
           ),
-          const SizedBox(height: ZapSpacing.md),
+          SizedBox(height: ZapSpacing.md),
           Wrap(
             spacing: ZapSpacing.sm,
             runSpacing: ZapSpacing.sm,
-            children: const [
+            children: [
               _TosChip('Read Section 3 First',   Color(0xFFEF4444)),
               _TosChip('Not liable for failures',Color(0xFFF97316)),
               _TosChip('Call 112 directly',      Color(0xFFEF4444)),
@@ -840,28 +840,28 @@ class _TosFooter extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: const Color(0xFF2A2A2A)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(children: [
+          Row(children: [
             Icon(Icons.mail_rounded, color: Color(0xFF06B6D4), size: 14),
             SizedBox(width: ZapSpacing.sm),
             Text('Legal questions or disputes:',
                 style: TextStyle(color: Colors.white, fontSize: 12,
                     fontWeight: FontWeight.w600)),
           ]),
-          const SizedBox(height: ZapSpacing.xs),
-          const Text('legal@zapsafe.app',
+          SizedBox(height: ZapSpacing.xs),
+          Text('legal@zapsafe.app',
               style: TextStyle(
                   color: Color(0xFF06B6D4),
                   fontSize: 12,
                   fontFamily: 'monospace')),
-          const SizedBox(height: ZapSpacing.md),
+          SizedBox(height: ZapSpacing.md),
           Text(
             'Terms of Service v$_kTosVersion · Last updated $_kTosLastUpdated\n'
             'Governing law: $_kGoverningLaw\n'
             'This document is bundled in the app and available offline.',
-            style: const TextStyle(
+            style: TextStyle(
                 color: Color(0xFF4B5563), fontSize: 10, height: 1.5),
           ),
         ],

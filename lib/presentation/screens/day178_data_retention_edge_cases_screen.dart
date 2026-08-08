@@ -40,8 +40,8 @@ class _EdgeCase {
 }
 
 // ── Mock UIs for simulated states ─────────────────────────────────────────────
-Widget _retroactiveMock() => _MockCard(
-  color: const Color(0xFFF59E0B),
+Widget _retroactiveMock() => const _MockCard(
+  color: Color(0xFFF59E0B),
   icon: Icons.fast_rewind_rounded,
   title: 'Retroactive deletion triggered',
   body: 'You changed Location & GPS from 30 days → 7 days.\n\n'
@@ -50,11 +50,11 @@ Widget _retroactiveMock() => _MockCard(
       'scheduler run (tonight 03:00 AM).\n\n'
       '"Next 7 Days" tab shows them as Day +0 deletions.',
   actionLabel: 'Undo change (restore to 30 days)',
-  actionColor: const Color(0xFFF59E0B),
+  actionColor: Color(0xFFF59E0B),
 );
 
-Widget _sosLinkedMock() => _MockCard(
-  color: const Color(0xFFEF4444),
+Widget _sosLinkedMock() => const _MockCard(
+  color: Color(0xFFEF4444),
   icon: Icons.warning_rounded,
   title: 'Active SOS — retention suspended',
   body: 'GPS batches from May 29 are linked to active SOS event '
@@ -63,11 +63,11 @@ Widget _sosLinkedMock() => _MockCard(
       'the SOS event is unresolved.\n\n'
       'Retention enforcement resumes when SOS is marked resolved.',
   actionLabel: 'View SOS event details',
-  actionColor: const Color(0xFFEF4444),
+  actionColor: Color(0xFFEF4444),
 );
 
-Widget _exportMock() => _MockCard(
-  color: const Color(0xFF8B5CF6),
+Widget _exportMock() => const _MockCard(
+  color: Color(0xFF8B5CF6),
   icon: Icons.download_rounded,
   title: 'Export in progress — deletion paused',
   body: 'A data export (exp_20260530_abc123) is currently being '
@@ -76,11 +76,11 @@ Widget _exportMock() => _MockCard(
       'This prevents you from receiving an incomplete export. '
       'Estimated completion: 2 minutes.',
   actionLabel: 'View export status',
-  actionColor: const Color(0xFF8B5CF6),
+  actionColor: Color(0xFF8B5CF6),
 );
 
-Widget _legalHoldMock() => _MockCard(
-  color: const Color(0xFF3B82F6),
+Widget _legalHoldMock() => const _MockCard(
+  color: Color(0xFF3B82F6),
   icon: Icons.gavel_rounded,
   title: 'Legal hold — overrides user settings',
   body: 'Evidence vault items for sos_20260401 are under a legal '
@@ -89,11 +89,11 @@ Widget _legalHoldMock() => _MockCard(
       'items will not be deleted regardless of expiry. '
       'Legal hold expires: December 1, 2026.',
   actionLabel: 'Contact privacy@zapsafe.app for questions',
-  actionColor: const Color(0xFF3B82F6),
+  actionColor: Color(0xFF3B82F6),
 );
 
-Widget _offlineMock() => _MockCard(
-  color: const Color(0xFF6B7280),
+Widget _offlineMock() => const _MockCard(
+  color: Color(0xFF6B7280),
   icon: Icons.wifi_off_rounded,
   title: 'Offline device — server-side deletion deferred',
   body: 'The server marked Location GPS batch (May 18) for deletion '
@@ -102,11 +102,11 @@ Widget _offlineMock() => _MockCard(
       'any overdue items. Local Hive records are also cleared. '
       'No data is orphaned.',
   actionLabel: 'Force sync now (mock)',
-  actionColor: const Color(0xFF6B7280),
+  actionColor: Color(0xFF6B7280),
 );
 
-Widget _cascadeMock() => _MockCard(
-  color: const Color(0xFF10B981),
+Widget _cascadeMock() => const _MockCard(
+  color: Color(0xFF10B981),
   icon: Icons.account_tree_rounded,
   title: 'Cross-category cascade resolution',
   body: 'SOS event sos_20250914 has reached its 1-year retention limit.\n\n'
@@ -117,7 +117,7 @@ Widget _cascadeMock() => _MockCard(
       'Cascade: SOS metadata deleted. Evidence vault continues '
       'independently on its own timer.',
   actionLabel: 'View cascade deletion rules',
-  actionColor: const Color(0xFF10B981),
+  actionColor: Color(0xFF10B981),
 );
 
 final _kEdgeCases = [
@@ -733,7 +733,7 @@ class _DpdpTab extends ConsumerWidget {
                 valueColor: AlwaysStoppedAnimation(Color(0xFF10B981)),
                 minHeight: 6)),
           const SizedBox(height: ZapSpacing.sm),
-          Wrap(spacing: 6, runSpacing: 6, children: const [
+          const Wrap(spacing: 6, runSpacing: 6, children: [
             _LChip('DPDP §8(1) ✅', Color(0xFF10B981)),
             _LChip('DPDP §8(3) ✅', Color(0xFF3B82F6)),
             _LChip('DPDP §8(4) ✅', Color(0xFF8B5CF6)),
@@ -872,20 +872,20 @@ class _BlockCompleteTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.5), width: 2),
       ),
-      child: Column(children: [
-        const Text('🗂️', style: TextStyle(fontSize: 44)),
-        const SizedBox(height: ZapSpacing.md),
-        const Text('Data Retention Settings Block',
+      child: const Column(children: [
+        Text('🗂️', style: TextStyle(fontSize: 44)),
+        SizedBox(height: ZapSpacing.md),
+        Text('Data Retention Settings Block',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 14,
                 fontWeight: FontWeight.w700, letterSpacing: 0.5),
             textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.xs),
-        const Text('DAYS 176 – 178  ✅',
+        SizedBox(height: ZapSpacing.xs),
+        Text('DAYS 176 – 178  ✅',
             style: TextStyle(color: Colors.white, fontSize: 22,
                 fontWeight: FontWeight.w900), textAlign: TextAlign.center),
-        const SizedBox(height: ZapSpacing.lg),
+        SizedBox(height: ZapSpacing.lg),
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm,
-            alignment: WrapAlignment.center, children: const [
+            alignment: WrapAlignment.center, children: [
           _Chip('7 category pickers ✅',        Color(0xFF3B82F6)),
           _Chip('Evidence vault timers ✅',      Color(0xFFF59E0B)),
           _Chip('GPS purge schedule ✅',         Color(0xFF10B981)),
@@ -925,11 +925,11 @@ class _BlockCompleteTab extends StatelessWidget {
 
     // 4/5 progress bar
     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        const Text('Section B progress',
+      const Row(children: [
+        Text('Section B progress',
             style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
-        const Spacer(),
-        const Text('4 / 5 blocks complete',
+        Spacer(),
+        Text('4 / 5 blocks complete',
             style: TextStyle(color: Color(0xFF10B981), fontSize: 11,
                 fontWeight: FontWeight.w700)),
       ]),

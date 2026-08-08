@@ -639,12 +639,12 @@ class _AppStoreTab extends StatelessWidget {
         ]),
         const SizedBox(height: ZapSpacing.sm),
         ...[
-          ('Build format', 'IPA (not AAB)', Color(0xFF9CA3AF)),
-          ('Upload tool', 'Transporter / Xcode / fastlane', Color(0xFF9CA3AF)),
-          ('Review time', '24-48h (vs 1-3 days Play)', Color(0xFF10B981)),
-          ('Demo account', 'Required in review notes', Color(0xFFEF4444)),
-          ('Export compliance', 'Asked during submission', Color(0xFFF59E0B)),
-          ('Screenshot sizes', '6.9" required (vs any size Play)', Color(0xFF9CA3AF)),
+          ('Build format', 'IPA (not AAB)', const Color(0xFF9CA3AF)),
+          ('Upload tool', 'Transporter / Xcode / fastlane', const Color(0xFF9CA3AF)),
+          ('Review time', '24-48h (vs 1-3 days Play)', const Color(0xFF10B981)),
+          ('Demo account', 'Required in review notes', const Color(0xFFEF4444)),
+          ('Export compliance', 'Asked during submission', const Color(0xFFF59E0B)),
+          ('Screenshot sizes', '6.9" required (vs any size Play)', const Color(0xFF9CA3AF)),
         ].map((t) {
           final (k, v, c) = t;
           return Padding(
