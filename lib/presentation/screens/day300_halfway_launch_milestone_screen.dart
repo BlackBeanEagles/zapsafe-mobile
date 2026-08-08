@@ -42,26 +42,126 @@ class _SectionEDay {
 }
 
 const _kSectionEDays = [
-  _SectionEDay(day: 281, title: 'Landing Preview', route: AppRoutes.landingPreview, icon: Icons.web_rounded, color: Color(0xFF3B82F6)),
-  _SectionEDay(day: 282, title: 'Press Kit', route: AppRoutes.pressKit, icon: Icons.newspaper_rounded, color: Color(0xFF3B82F6)),
-  _SectionEDay(day: 283, title: 'Demo Video Storyboard', route: AppRoutes.demoVideoStoryboard, icon: Icons.movie_rounded, color: Color(0xFF3B82F6)),
-  _SectionEDay(day: 284, title: 'Store Review Notes', route: AppRoutes.storeReviewNotes, icon: Icons.description_rounded, color: Color(0xFF0EA5E9)),
-  _SectionEDay(day: 285, title: 'Security Pre-Launch', route: AppRoutes.securityPrelaunchAudit, icon: Icons.shield_rounded, color: Color(0xFF10B981)),
-  _SectionEDay(day: 286, title: 'Legal Blockers', route: AppRoutes.legalBlockersTracker, icon: Icons.gavel_rounded, color: Color(0xFFEF4444)),
-  _SectionEDay(day: 287, title: 'Beta Feedback R3', route: AppRoutes.betaFeedbackRound3, icon: Icons.poll_rounded, color: Color(0xFF8B5CF6)),
-  _SectionEDay(day: 288, title: 'Crash-Free Tracker', route: AppRoutes.crashFreeTracker, icon: Icons.bug_report_rounded, color: Color(0xFF6C5CE7)),
-  _SectionEDay(day: 289, title: 'Full Regression', route: AppRoutes.fullRegressionRunner, icon: Icons.fact_check_rounded, color: Color(0xFF06B6D4)),
-  _SectionEDay(day: 290, title: 'Staged Rollout', route: AppRoutes.stagedRolloutSimulator, icon: Icons.rocket_launch_rounded, color: Color(0xFF34A853)),
-  _SectionEDay(day: 291, title: 'Global vs India', route: AppRoutes.globalIndiaCompare, icon: Icons.public_rounded, color: Color(0xFFFF9933)),
-  _SectionEDay(day: 292, title: 'Post-Launch Monitor', route: AppRoutes.postLaunchMonitoring, icon: Icons.monitor_heart_rounded, color: Color(0xFFDC2626)),
-  _SectionEDay(day: 293, title: 'Hotfix Playbook', route: AppRoutes.hotfixPlaybook, icon: Icons.medical_services_rounded, color: Color(0xFFEF4444)),
-  _SectionEDay(day: 294, title: 'Support Macros', route: AppRoutes.supportMacros, icon: Icons.support_agent_rounded, color: Color(0xFF0D9488)),
-  _SectionEDay(day: 295, title: 'Phase 2 Roadmap', route: AppRoutes.phase2Roadmap, icon: Icons.map_rounded, color: Color(0xFF7C3AED)),
-  _SectionEDay(day: 296, title: 'Platform Parity', route: AppRoutes.platformParityAudit, icon: Icons.devices_rounded, color: Color(0xFF6366F1)),
-  _SectionEDay(day: 297, title: 'Battery Soak Log', route: AppRoutes.batterySoakLog, icon: Icons.battery_charging_full_rounded, color: Color(0xFFF97316)),
-  _SectionEDay(day: 298, title: 'Go/No-Go Gate', route: AppRoutes.gonogoGate, icon: Icons.gpp_maybe_rounded, color: Color(0xFFDC2626)),
-  _SectionEDay(day: 299, title: 'Penultimate Summary', route: AppRoutes.penultimateSummary, icon: Icons.summarize_rounded, color: Color(0xFF0EA5E9)),
-  _SectionEDay(day: 300, title: 'Halfway Milestone', route: AppRoutes.day300Milestone, icon: Icons.celebration_rounded, color: Color(0xFFF59E0B)),
+  _SectionEDay(
+      day: 281,
+      title: 'Landing Preview',
+      route: AppRoutes.landingPreview,
+      icon: Icons.web_rounded,
+      color: Color(0xFF3B82F6)),
+  _SectionEDay(
+      day: 282,
+      title: 'Press Kit',
+      route: AppRoutes.pressKit,
+      icon: Icons.newspaper_rounded,
+      color: Color(0xFF3B82F6)),
+  _SectionEDay(
+      day: 283,
+      title: 'Demo Video Storyboard',
+      route: AppRoutes.demoVideoStoryboard,
+      icon: Icons.movie_rounded,
+      color: Color(0xFF3B82F6)),
+  _SectionEDay(
+      day: 284,
+      title: 'Store Review Notes',
+      route: AppRoutes.storeReviewNotes,
+      icon: Icons.description_rounded,
+      color: Color(0xFF0EA5E9)),
+  _SectionEDay(
+      day: 285,
+      title: 'Security Pre-Launch',
+      route: AppRoutes.securityPrelaunchAudit,
+      icon: Icons.shield_rounded,
+      color: Color(0xFF10B981)),
+  _SectionEDay(
+      day: 286,
+      title: 'Legal Blockers',
+      route: AppRoutes.legalBlockersTracker,
+      icon: Icons.gavel_rounded,
+      color: Color(0xFFEF4444)),
+  _SectionEDay(
+      day: 287,
+      title: 'Beta Feedback R3',
+      route: AppRoutes.betaFeedbackRound3,
+      icon: Icons.poll_rounded,
+      color: Color(0xFF8B5CF6)),
+  _SectionEDay(
+      day: 288,
+      title: 'Crash-Free Tracker',
+      route: AppRoutes.crashFreeTracker,
+      icon: Icons.bug_report_rounded,
+      color: Color(0xFF6C5CE7)),
+  _SectionEDay(
+      day: 289,
+      title: 'Full Regression',
+      route: AppRoutes.fullRegressionRunner,
+      icon: Icons.fact_check_rounded,
+      color: Color(0xFF06B6D4)),
+  _SectionEDay(
+      day: 290,
+      title: 'Staged Rollout',
+      route: AppRoutes.stagedRolloutSimulator,
+      icon: Icons.rocket_launch_rounded,
+      color: Color(0xFF34A853)),
+  _SectionEDay(
+      day: 291,
+      title: 'Global vs India',
+      route: AppRoutes.globalIndiaCompare,
+      icon: Icons.public_rounded,
+      color: Color(0xFFFF9933)),
+  _SectionEDay(
+      day: 292,
+      title: 'Post-Launch Monitor',
+      route: AppRoutes.postLaunchMonitoring,
+      icon: Icons.monitor_heart_rounded,
+      color: Color(0xFFDC2626)),
+  _SectionEDay(
+      day: 293,
+      title: 'Hotfix Playbook',
+      route: AppRoutes.hotfixPlaybook,
+      icon: Icons.medical_services_rounded,
+      color: Color(0xFFEF4444)),
+  _SectionEDay(
+      day: 294,
+      title: 'Support Macros',
+      route: AppRoutes.supportMacros,
+      icon: Icons.support_agent_rounded,
+      color: Color(0xFF0D9488)),
+  _SectionEDay(
+      day: 295,
+      title: 'Phase 2 Roadmap',
+      route: AppRoutes.phase2Roadmap,
+      icon: Icons.map_rounded,
+      color: Color(0xFF7C3AED)),
+  _SectionEDay(
+      day: 296,
+      title: 'Platform Parity',
+      route: AppRoutes.platformParityAudit,
+      icon: Icons.devices_rounded,
+      color: Color(0xFF6366F1)),
+  _SectionEDay(
+      day: 297,
+      title: 'Battery Soak Log',
+      route: AppRoutes.batterySoakLog,
+      icon: Icons.battery_charging_full_rounded,
+      color: Color(0xFFF97316)),
+  _SectionEDay(
+      day: 298,
+      title: 'Go/No-Go Gate',
+      route: AppRoutes.gonogoGate,
+      icon: Icons.gpp_maybe_rounded,
+      color: Color(0xFFDC2626)),
+  _SectionEDay(
+      day: 299,
+      title: 'Penultimate Summary',
+      route: AppRoutes.penultimateSummary,
+      icon: Icons.summarize_rounded,
+      color: Color(0xFF0EA5E9)),
+  _SectionEDay(
+      day: 300,
+      title: 'Halfway Milestone',
+      route: AppRoutes.day300Milestone,
+      icon: Icons.celebration_rounded,
+      color: Color(0xFFF59E0B)),
 ];
 
 const _kSections = [
@@ -178,8 +278,8 @@ class _Day300HalfwayLaunchMilestoneScreenState
             actions: [
               IconButton(
                 tooltip: 'Confetti',
-                onPressed: () => ref.read(_d300ConfettiProvider.notifier).state =
-                    !confetti,
+                onPressed: () =>
+                    ref.read(_d300ConfettiProvider.notifier).state = !confetti,
                 icon: Icon(
                   confetti
                       ? Icons.celebration_rounded
@@ -277,7 +377,7 @@ class _CelebrationTab extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: _kAccent.withOpacity(0.55), width: 2),
             boxShadow: [
               BoxShadow(
@@ -287,7 +387,7 @@ class _CelebrationTab extends ConsumerWidget {
               ),
             ],
           ),
-          child: Column(
+          child: const Column(
             children: [
               Stack(
                 alignment: Alignment.center,
@@ -299,18 +399,19 @@ class _CelebrationTab extends ConsumerWidget {
                       value: 300 / 365,
                       strokeWidth: 6,
                       backgroundColor: ZapColors.bgPrimary,
-                      valueColor: const AlwaysStoppedAnimation<Color>(_kAccent),
+                      valueColor: AlwaysStoppedAnimation<Color>(_kAccent),
                     ),
                   ),
-                  const Text('300', style: TextStyle(
-                    color: ZapColors.textPrimary,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                  )),
+                  Text('300',
+                      style: TextStyle(
+                        color: ZapColors.textPrimary,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                      )),
                 ],
               ),
-              const SizedBox(height: ZapSpacing.md),
-              const Text(
+              SizedBox(height: ZapSpacing.md),
+              Text(
                 'Day 300 · Halfway to Global Launch',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -320,8 +421,8 @@ class _CelebrationTab extends ConsumerWidget {
                   letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(height: ZapSpacing.sm),
-              const Text(
+              SizedBox(height: ZapSpacing.sm),
+              Text(
                 '300 days · 300 screens · Sections A-E complete.\n'
                 'Section E (Days 281-300) signed off · 82% to Day 365.',
                 textAlign: TextAlign.center,
@@ -350,7 +451,7 @@ class _CelebrationTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: s.$4.withOpacity(0.4)),
             ),
             child: Row(
@@ -390,7 +491,8 @@ class _CelebrationTab extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const Icon(Icons.check_circle_rounded, color: ZapColors.safe, size: 18),
+                const Icon(Icons.check_circle_rounded,
+                    color: ZapColors.safe, size: 18),
               ],
             ),
           ),
@@ -604,7 +706,7 @@ class _Phase2Tab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -641,14 +743,15 @@ class _Phase2Tab extends ConsumerWidget {
           onPressed: () => context.push(AppRoutes.phase2Roadmap),
           icon: const Icon(Icons.map_rounded, size: 18),
           label: const Text('Open Day 295 Phase 2 Roadmap'),
-          style: FilledButton.styleFrom(backgroundColor: const Color(0xFF7C3AED)),
+          style:
+              FilledButton.styleFrom(backgroundColor: const Color(0xFF7C3AED)),
         ),
         const SizedBox(height: ZapSpacing.lg),
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -672,7 +775,7 @@ class _Phase2Tab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -806,7 +909,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -820,8 +923,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: i == 2 ? 10 : 12,
                   ),
                 ),

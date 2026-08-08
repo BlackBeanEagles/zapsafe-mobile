@@ -43,13 +43,15 @@ class _CounselorMessage {
 const _kSeedMessages = [
   _CounselorMessage(
     id: 'sys1',
-    text: 'You are in the counselor queue. A trained responder will join shortly.',
+    text:
+        'You are in the counselor queue. A trained responder will join shortly.',
     isUser: false,
     time: '22:14',
   ),
   _CounselorMessage(
     id: 'u1',
-    text: 'I triggered SOS earlier but cancelled within 30 seconds. I still feel uneasy.',
+    text:
+        'I triggered SOS earlier but cancelled within 30 seconds. I still feel uneasy.',
     isUser: true,
     time: '22:15',
   ),
@@ -127,8 +129,8 @@ class Day278CounselorQueuePolishScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (state == _QueueState.connected
                           ? ZapColors.safe
@@ -186,7 +188,8 @@ class Day278CounselorQueuePolishScreen extends ConsumerWidget {
 class _ChatTab extends ConsumerWidget {
   const _ChatTab();
 
-  Future<void> _sendMessage(WidgetRef ref, BuildContext context, String text) async {
+  Future<void> _sendMessage(
+      WidgetRef ref, BuildContext context, String text) async {
     final trimmed = text.trim();
     if (trimmed.isEmpty) return;
     final msg = _CounselorMessage(
@@ -233,8 +236,7 @@ class _ChatTab extends ConsumerWidget {
           child: ListView.builder(
             padding: const EdgeInsets.all(ZapSpacing.lg),
             itemCount: messages.length,
-            itemBuilder: (context, i) =>
-                _MessageBubble(message: messages[i]),
+            itemBuilder: (context, i) => _MessageBubble(message: messages[i]),
           ),
         ),
         _ChatInputBar(
@@ -255,7 +257,8 @@ class _SosContextBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
+      padding:
+          const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
       decoration: BoxDecoration(
         color: ZapColors.danger.withOpacity(0.12),
         border: Border(
@@ -304,7 +307,8 @@ class _QueueStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
+      padding:
+          const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
       color: _kAccent.withOpacity(0.1),
       child: Row(
         children: [
@@ -333,7 +337,8 @@ class _QueueStrip extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(
+                horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
             decoration: BoxDecoration(
               color: _kAccent.withOpacity(0.15),
               borderRadius: BorderRadius.circular(6),
@@ -360,7 +365,8 @@ class _ConnectedBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
+      padding:
+          const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: 10),
       color: ZapColors.safe.withOpacity(0.1),
       child: const Row(
         children: [
@@ -390,12 +396,9 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final align = message.isUser ? Alignment.centerRight : Alignment.centerLeft;
-    final bg = message.isUser
-        ? _kAccent.withOpacity(0.2)
-        : ZapColors.bgCard;
-    final border = message.isUser
-        ? _kAccent.withOpacity(0.35)
-        : ZapColors.border;
+    final bg = message.isUser ? _kAccent.withOpacity(0.2) : ZapColors.bgCard;
+    final border =
+        message.isUser ? _kAccent.withOpacity(0.35) : ZapColors.border;
 
     return Align(
       alignment: align,
@@ -468,7 +471,8 @@ class _ChatInputBarState extends State<_ChatInputBar> {
           Expanded(
             child: TextField(
               controller: _controller,
-              style: const TextStyle(color: ZapColors.textPrimary, fontSize: 13),
+              style:
+                  const TextStyle(color: ZapColors.textPrimary, fontSize: 13),
               decoration: InputDecoration(
                 hintText: widget.hint,
                 hintStyle: const TextStyle(
@@ -551,9 +555,8 @@ class _QueueTab extends ConsumerWidget {
     final sosContext = ref.watch(_d278SosContextProvider);
     final advancing = ref.watch(_d278AdvancingProvider);
     final eta = state == _QueueState.connected ? 0 : _etaMinutes(position);
-    final progress = state == _QueueState.connected
-        ? 1.0
-        : (4 - position) / 4.0;
+    final progress =
+        state == _QueueState.connected ? 1.0 : (4 - position) / 4.0;
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -667,7 +670,8 @@ class _QueueTab extends ConsumerWidget {
           ),
           value: sosContext,
           activeColor: ZapColors.danger,
-          onChanged: (v) => ref.read(_d278SosContextProvider.notifier).state = v,
+          onChanged: (v) =>
+              ref.read(_d278SosContextProvider.notifier).state = v,
         ),
         const SizedBox(height: ZapSpacing.md),
         SizedBox(
@@ -709,7 +713,11 @@ class _QueueTab extends ConsumerWidget {
         ...[
           ('4', 'Joined queue', position < 4),
           ('3', 'Moved up', position <= 3 && state == _QueueState.waiting),
-          ('2', 'Almost your turn', position <= 2 && state == _QueueState.waiting),
+          (
+            '2',
+            'Almost your turn',
+            position <= 2 && state == _QueueState.waiting
+          ),
           ('1', 'Next in line', position <= 1 && state == _QueueState.waiting),
           ('✓', 'Counselor joined', state == _QueueState.connected),
         ].map(
@@ -726,9 +734,8 @@ class _QueueTab extends ConsumerWidget {
                 Text(
                   '${step.$1} · ${step.$2}',
                   style: TextStyle(
-                    color: step.$3
-                        ? ZapColors.textPrimary
-                        : ZapColors.textMuted,
+                    color:
+                        step.$3 ? ZapColors.textPrimary : ZapColors.textMuted,
                     fontSize: 12,
                     fontWeight: step.$3 ? FontWeight.w600 : FontWeight.w400,
                   ),
@@ -791,7 +798,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -822,7 +829,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -956,7 +963,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -970,8 +977,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

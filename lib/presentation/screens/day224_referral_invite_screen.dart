@@ -106,8 +106,8 @@ class Day224ReferralInviteScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: ZapColors.safe.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(4),
@@ -255,8 +255,9 @@ class _InviteTab extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ZapColors.safe.withOpacity(0.4), width: 2),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
+            border:
+                Border.all(color: ZapColors.safe.withOpacity(0.4), width: 2),
           ),
           child: const Column(
             children: [
@@ -299,7 +300,7 @@ class _InviteTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.lg),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Row(
@@ -350,7 +351,7 @@ class _InviteTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgElevated,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -422,12 +423,12 @@ class _ShareOption extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: color.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: color.withOpacity(0.35)),
           ),
           child: Row(
@@ -572,7 +573,7 @@ class _StatBox extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Column(
@@ -618,11 +619,10 @@ class _ReferralTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
-          color: isComplete
-              ? ZapColors.safe.withOpacity(0.35)
-              : ZapColors.border,
+          color:
+              isComplete ? ZapColors.safe.withOpacity(0.35) : ZapColors.border,
         ),
       ),
       child: Column(
@@ -664,8 +664,8 @@ class _ReferralTile extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(4),
@@ -767,7 +767,7 @@ class _ApiContractTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -800,7 +800,7 @@ class _EndpointCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -883,8 +883,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color:
-                            selected ? ZapColors.safe : Colors.transparent,
+                        color: selected ? ZapColors.safe : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -896,8 +895,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),

@@ -114,7 +114,8 @@ List<_QueueItem> _seedQueue() {
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d245TabProvider = StateProvider<int>((ref) => 0);
 final _d245AirplaneModeProvider = StateProvider<bool>((ref) => false);
-final _d245QueueProvider = StateProvider<List<_QueueItem>>((ref) => _seedQueue());
+final _d245QueueProvider =
+    StateProvider<List<_QueueItem>>((ref) => _seedQueue());
 final _d245SosOfflineTriggeredProvider = StateProvider<bool>((ref) => false);
 final _d245FlushingProvider = StateProvider<bool>((ref) => false);
 final _d245LastFlushAtProvider = StateProvider<DateTime?>((ref) => null);
@@ -281,8 +282,8 @@ class _Day245OfflineSosUxScreenState
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (airplane ? ZapColors.danger : ZapColors.safe)
                       .withOpacity(0.15),
@@ -445,7 +446,9 @@ class _SimulateTab extends ConsumerWidget {
               HapticFeedback.selectionClick();
             },
             secondary: Icon(
-              airplane ? Icons.flight_rounded : Icons.signal_cellular_alt_rounded,
+              airplane
+                  ? Icons.flight_rounded
+                  : Icons.signal_cellular_alt_rounded,
               color: airplane ? ZapColors.danger : ZapColors.safe,
             ),
             title: const Text(
@@ -721,7 +724,7 @@ class _QueueItemTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: item.status == _QueueStatus.uploading && flushing
               ? _kAccent
@@ -732,10 +735,10 @@ class _QueueItemTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(ZapSpacing.sm),
             decoration: BoxDecoration(
               color: item.typeColor.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             ),
             child: Icon(item.icon, color: item.typeColor, size: 20),
           ),
@@ -817,8 +820,7 @@ class _InfoTab extends ConsumerWidget {
       'last_flush_at': lastFlush?.toIso8601String(),
       'offline_status_route': AppRoutes.offlineStatus,
       'sos_active_route': AppRoutes.sosActive,
-      'copy':
-          'SOS still works offline — alerts send when signal returns',
+      'copy': 'SOS still works offline — alerts send when signal returns',
     };
 
     return ListView(
@@ -879,7 +881,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -910,7 +912,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1032,7 +1034,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1046,8 +1048,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

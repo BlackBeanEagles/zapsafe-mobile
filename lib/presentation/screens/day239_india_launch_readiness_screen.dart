@@ -236,8 +236,7 @@ const _kChecklist = [
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d239TabProvider = StateProvider<int>((ref) => 0);
 final _d239CheckedProvider = StateProvider<Set<String>>((ref) => {});
-final _d239CategoryProvider =
-    StateProvider<_ReadinessCategory?>((ref) => null);
+final _d239CategoryProvider = StateProvider<_ReadinessCategory?>((ref) => null);
 final _d239Msg91MockProvider = StateProvider<bool>((ref) => false);
 
 const _kTabs = ['Checklist', 'Gates', 'Sign-off'];
@@ -289,8 +288,8 @@ class Day239IndiaLaunchReadinessScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: allCritical
                       ? ZapColors.safe.withOpacity(0.15)
@@ -303,7 +302,9 @@ class Day239IndiaLaunchReadinessScreen extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  allCritical ? 'CRITICAL ✅' : '$criticalDone/$_criticalTotal CRIT',
+                  allCritical
+                      ? 'CRITICAL ✅'
+                      : '$criticalDone/$_criticalTotal CRIT',
                   style: TextStyle(
                     color: allCritical ? ZapColors.safe : ZapColors.warning,
                     fontSize: 9,
@@ -450,7 +451,7 @@ class _ProgressCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Row(
@@ -538,7 +539,7 @@ class _ChecklistRow extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: checked
               ? ZapColors.safe.withOpacity(0.45)
@@ -563,8 +564,7 @@ class _ChecklistRow extends StatelessWidget {
                       color: ZapColors.textPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
-                      decoration:
-                          checked ? TextDecoration.lineThrough : null,
+                      decoration: checked ? TextDecoration.lineThrough : null,
                     ),
                   ),
                 ),
@@ -688,8 +688,7 @@ class _GatesTab extends ConsumerWidget {
             style: TextStyle(color: ZapColors.textMuted, fontSize: 10),
           ),
           value: msg91Mock,
-          onChanged: (v) =>
-              ref.read(_d239Msg91MockProvider.notifier).state = v,
+          onChanged: (v) => ref.read(_d239Msg91MockProvider.notifier).state = v,
         ),
       ),
       _GateCard(
@@ -718,7 +717,7 @@ class _GatesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Text(
@@ -782,7 +781,7 @@ class _GateCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: passed ? ZapColors.safe.withOpacity(0.45) : ZapColors.border,
         ),
@@ -888,7 +887,9 @@ class _SignOffTab extends ConsumerWidget {
           child: Column(
             children: [
               Icon(
-                launchReady ? Icons.rocket_launch_rounded : Icons.hourglass_top_rounded,
+                launchReady
+                    ? Icons.rocket_launch_rounded
+                    : Icons.hourglass_top_rounded,
                 color: launchReady ? ZapColors.safe : ZapColors.warning,
                 size: 40,
               ),
@@ -946,7 +947,7 @@ class _SignOffTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Text(
@@ -985,7 +986,7 @@ class _SignOffTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1025,7 +1026,9 @@ class _SignOffRow extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            ok ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+            ok
+                ? Icons.check_circle_rounded
+                : Icons.radio_button_unchecked_rounded,
             color: ok ? ZapColors.safe : ZapColors.textMuted,
             size: 18,
           ),
@@ -1091,8 +1094,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

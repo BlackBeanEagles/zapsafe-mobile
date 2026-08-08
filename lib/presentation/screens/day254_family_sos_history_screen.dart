@@ -281,8 +281,7 @@ class _SosHistoryEvent {
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d254TabProvider = StateProvider<int>((ref) => 0);
-final _d254MemberIdProvider =
-    StateProvider<String>((ref) => 'fam_bro_004');
+final _d254MemberIdProvider = StateProvider<String>((ref) => 'fam_bro_004');
 final _d254FilterProvider =
     StateProvider<_HistoryFilter>((ref) => _HistoryFilter.all);
 final _d254ExpandedEventProvider = StateProvider<String?>((ref) => null);
@@ -296,9 +295,7 @@ _MemberSummary? _memberById(String id) {
 }
 
 List<_SosHistoryEvent> _eventsForMember(String memberId) {
-  return _kHistoryEvents
-      .where((e) => e.memberId == memberId)
-      .toList()
+  return _kHistoryEvents.where((e) => e.memberId == memberId).toList()
     ..sort((a, b) => a.sortKey.compareTo(b.sortKey));
 }
 
@@ -321,8 +318,7 @@ List<_SosHistoryEvent> _filteredEvents(
   };
 }
 
-int _eventCountForMember(String memberId) =>
-    _eventsForMember(memberId).length;
+int _eventCountForMember(String memberId) => _eventsForMember(memberId).length;
 
 Color _eventColor(_EventType type) {
   return switch (type) {
@@ -387,8 +383,8 @@ class Day254FamilySosHistoryScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -455,7 +451,8 @@ class _ActiveSosBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.emergency_rounded, color: ZapColors.danger, size: 18),
+          const Icon(Icons.emergency_rounded,
+              color: ZapColors.danger, size: 18),
           const SizedBox(width: ZapSpacing.sm),
           Expanded(
             child: Text(
@@ -582,23 +579,20 @@ class _TimelineTab extends ConsumerWidget {
             FilterChip(
               label: const Text('All'),
               selected: filter == _HistoryFilter.all,
-              onSelected: (_) => ref
-                  .read(_d254FilterProvider.notifier)
-                  .state = _HistoryFilter.all,
+              onSelected: (_) => ref.read(_d254FilterProvider.notifier).state =
+                  _HistoryFilter.all,
             ),
             FilterChip(
               label: const Text('SOS & alerts'),
               selected: filter == _HistoryFilter.sosOnly,
-              onSelected: (_) => ref
-                  .read(_d254FilterProvider.notifier)
-                  .state = _HistoryFilter.sosOnly,
+              onSelected: (_) => ref.read(_d254FilterProvider.notifier).state =
+                  _HistoryFilter.sosOnly,
             ),
             FilterChip(
               label: const Text('Drills only'),
               selected: filter == _HistoryFilter.drillsOnly,
-              onSelected: (_) => ref
-                  .read(_d254FilterProvider.notifier)
-                  .state = _HistoryFilter.drillsOnly,
+              onSelected: (_) => ref.read(_d254FilterProvider.notifier).state =
+                  _HistoryFilter.drillsOnly,
             ),
           ],
         ),
@@ -721,7 +715,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -760,7 +754,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -840,7 +834,8 @@ class _TimelineEventTile extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      margin:
+                          const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
                       color: ZapColors.border,
                     ),
                   ),
@@ -937,8 +932,9 @@ class _TimelineEventTile extends StatelessWidget {
                         _DetailRow(
                           label: 'Resolved',
                           value: event.resolved ? 'Yes' : 'No',
-                          valueColor:
-                              event.resolved ? ZapColors.safe : ZapColors.danger,
+                          valueColor: event.resolved
+                              ? ZapColors.safe
+                              : ZapColors.danger,
                         ),
                       ],
                     ],
@@ -1133,7 +1129,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1147,8 +1143,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

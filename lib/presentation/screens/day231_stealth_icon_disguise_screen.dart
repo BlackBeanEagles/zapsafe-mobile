@@ -104,7 +104,8 @@ const _kIosSnippet = '''// iOS — Info.plist CFBundleAlternateIcons
 final _d231TabProvider = StateProvider<int>((ref) => 0);
 final _d231SelectedProvider =
     StateProvider<IconDisguise>((ref) => _kRecommended);
-final _d231AppliedProvider = StateProvider<IconDisguise>((ref) => IconDisguise.zapsafe);
+final _d231AppliedProvider =
+    StateProvider<IconDisguise>((ref) => IconDisguise.zapsafe);
 final _d231ApplyingProvider = StateProvider<bool>((ref) => false);
 final _d231ExpandedPlatformProvider = StateProvider<String?>((ref) => null);
 
@@ -143,8 +144,8 @@ class Day231StealthIconDisguiseScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: disguised
                       ? ZapColors.safe.withOpacity(0.15)
@@ -224,9 +225,8 @@ class _DisguiseTab extends ConsumerWidget {
             ActionChip(
               avatar: const Icon(Icons.star_rounded, size: 16),
               label: const Text('Recommended: Calculator'),
-              onPressed: () =>
-                  ref.read(_d231SelectedProvider.notifier).state =
-                      _kRecommended,
+              onPressed: () => ref.read(_d231SelectedProvider.notifier).state =
+                  _kRecommended,
             ),
             ActionChip(
               label: const Text('Day 232 Calculator'),
@@ -257,9 +257,9 @@ class _DisguiseTab extends ConsumerWidget {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Icon(Icons.arrow_forward_rounded,
-                  color: ZapColors.textMuted),
+              padding: EdgeInsets.symmetric(horizontal: ZapSpacing.sm),
+              child:
+                  Icon(Icons.arrow_forward_rounded, color: ZapColors.textMuted),
             ),
             Expanded(
               child: _LauncherPreviewCard(
@@ -290,17 +290,14 @@ class _DisguiseTab extends ConsumerWidget {
           children: IconDisguise.values.map((d) {
             final sel = selected == d;
             return Material(
-              color: sel
-                  ? d.color.withOpacity(0.12)
-                  : ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              color: sel ? d.color.withOpacity(0.12) : ZapColors.bgCard,
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               child: InkWell(
-                onTap: () =>
-                    ref.read(_d231SelectedProvider.notifier).state = d,
-                borderRadius: BorderRadius.circular(8),
+                onTap: () => ref.read(_d231SelectedProvider.notifier).state = d,
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(
                       color: sel ? d.color : ZapColors.border,
                       width: sel ? 2 : 1,
@@ -325,8 +322,7 @@ class _DisguiseTab extends ConsumerWidget {
                           color: sel
                               ? ZapColors.textPrimary
                               : ZapColors.textSecondary,
-                          fontWeight:
-                              sel ? FontWeight.w800 : FontWeight.w600,
+                          fontWeight: sel ? FontWeight.w800 : FontWeight.w600,
                           fontSize: 11,
                         ),
                       ),
@@ -362,7 +358,7 @@ class _DisguiseTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: Row(
@@ -425,9 +421,8 @@ class _DisguiseTab extends ConsumerWidget {
             ),
             style: FilledButton.styleFrom(
               minimumSize: const Size(double.infinity, 75),
-              backgroundColor: selected.isStealth
-                  ? ZapColors.danger
-                  : ZapColors.info,
+              backgroundColor:
+                  selected.isStealth ? ZapColors.danger : ZapColors.info,
             ),
           ),
         ),
@@ -466,11 +461,10 @@ class _LauncherPreviewCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
-          color: highlighted
-              ? disguise.color.withOpacity(0.5)
-              : ZapColors.border,
+          color:
+              highlighted ? disguise.color.withOpacity(0.5) : ZapColors.border,
         ),
       ),
       child: Column(
@@ -531,8 +525,9 @@ class _PlatformNotesTab extends ConsumerWidget {
         _PlatformCard(
           id: 'android',
           expanded: expanded == 'android',
-          onToggle: () => ref.read(_d231ExpandedPlatformProvider.notifier).state =
-              expanded == 'android' ? null : 'android',
+          onToggle: () => ref
+              .read(_d231ExpandedPlatformProvider.notifier)
+              .state = expanded == 'android' ? null : 'android',
           icon: Icons.android_rounded,
           color: const Color(0xFF3DDC84),
           title: 'Android · activity-alias',
@@ -554,8 +549,9 @@ class _PlatformNotesTab extends ConsumerWidget {
         _PlatformCard(
           id: 'ios',
           expanded: expanded == 'ios',
-          onToggle: () => ref.read(_d231ExpandedPlatformProvider.notifier).state =
-              expanded == 'ios' ? null : 'ios',
+          onToggle: () => ref
+              .read(_d231ExpandedPlatformProvider.notifier)
+              .state = expanded == 'ios' ? null : 'ios',
           icon: Icons.apple_rounded,
           color: const Color(0xFF9CA3AF),
           title: 'iOS · alternate app icons',
@@ -569,8 +565,7 @@ class _PlatformNotesTab extends ConsumerWidget {
             'App Store review: disguise must not impersonate Apple apps',
             'SOS widgets / shortcuts keep real ZapSafe name internally',
           ],
-          limitation:
-              'iOS shows system alert first time icon changes. '
+          limitation: 'iOS shows system alert first time icon changes. '
               'Cannot use arbitrary icons at runtime — only pre-declared assets.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -578,7 +573,7 @@ class _PlatformNotesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: Text(
@@ -623,7 +618,7 @@ class _PlatformCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -771,7 +766,7 @@ class _SpecTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -799,7 +794,7 @@ class _SpecTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -835,7 +830,7 @@ class _SpecTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -921,8 +916,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

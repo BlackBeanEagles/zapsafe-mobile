@@ -110,8 +110,7 @@ final _d257PlatformProvider =
 final _d257SizeProvider =
     StateProvider<_WidgetSize>((ref) => _WidgetSize.small);
 final _d257ScoreProvider = StateProvider<int>((ref) => 78);
-final _d257AndroidStepsDoneProvider =
-    StateProvider<Set<int>>((ref) => {0});
+final _d257AndroidStepsDoneProvider = StateProvider<Set<int>>((ref) => {0});
 final _d257IosStepsDoneProvider = StateProvider<Set<int>>((ref) => {});
 final _d257TapCountProvider = StateProvider<int>((ref) => 0);
 
@@ -167,8 +166,8 @@ class Day257HomeWidgetScoreScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _scoreColor(score).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -276,8 +275,8 @@ class _PreviewTab extends ConsumerWidget {
             ChoiceChip(
               label: const Text('Small 2×2'),
               selected: size == _WidgetSize.small,
-              onSelected: (_) =>
-                  ref.read(_d257SizeProvider.notifier).state = _WidgetSize.small,
+              onSelected: (_) => ref.read(_d257SizeProvider.notifier).state =
+                  _WidgetSize.small,
             ),
             ChoiceChip(
               label: const Text('Medium 4×2'),
@@ -479,7 +478,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -509,8 +508,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.sync_rounded,
           title: 'Background refresh',
-          subtitle:
-              'Android WorkManager + iOS WidgetKit timeline reload score '
+          subtitle: 'Android WorkManager + iOS WidgetKit timeline reload score '
               'without opening app · stale badge if >24h.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -518,7 +516,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -565,7 +563,7 @@ class _PhoneMockFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 280,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(28),
@@ -585,9 +583,9 @@ class _PhoneMockFrame extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 360,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(ZapSpacing.lg),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ZapSpacing.radius),
               gradient: LinearGradient(
                 colors: isAndroid
                     ? [const Color(0xFF134E4A), const Color(0xFF042F2E)]
@@ -785,7 +783,7 @@ class _SetupStepTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: checked ? _kAccent.withOpacity(0.06) : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: checked ? _kAccent.withOpacity(0.35) : ZapColors.border,
         ),
@@ -878,7 +876,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -892,8 +890,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

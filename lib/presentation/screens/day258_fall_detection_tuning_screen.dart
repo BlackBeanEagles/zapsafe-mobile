@@ -79,8 +79,7 @@ class _FallTuning {
         },
         'battery_estimate_pct_per_hr': batteryPctPerHr,
         'pipeline': 'ImuService → FallDetector → TriggerOrchestrator (Day 39)',
-        'dcs_note':
-            'Fall events are IMU-only · DCS fusion (Day 32–33) handles '
+        'dcs_note': 'Fall events are IMU-only · DCS fusion (Day 32–33) handles '
             'audio/scene distress separately',
       };
 }
@@ -138,8 +137,8 @@ _FallTuning _tuningFromSlider(int sensitivity) {
 
 double _lerp(double a, double b, double t) => a + (b - a) * t;
 
-int _lerpInt(int a, int b, double t) => (_lerp(a.toDouble(), b.toDouble(), t))
-    .round();
+int _lerpInt(int a, int b, double t) =>
+    (_lerp(a.toDouble(), b.toDouble(), t)).round();
 
 class _StreamEvent {
   const _StreamEvent({
@@ -189,8 +188,8 @@ class Day258FallDetectionTuningScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (enabled ? _kAccent : ZapColors.textMuted)
                       .withOpacity(0.15),
@@ -333,8 +332,8 @@ class Day258FallDetectionTuningScreen extends ConsumerWidget {
       push(
         'FALL_DETECTED',
         'Peak ${peak.toStringAsFixed(1)} m/s² · thresholds '
-        '${tuning.freefallG.toStringAsFixed(2)}g / '
-        '${tuning.impactMs2.toStringAsFixed(0)} m/s²',
+            '${tuning.freefallG.toStringAsFixed(2)}g / '
+            '${tuning.impactMs2.toStringAsFixed(0)} m/s²',
         isFall: true,
       );
       ref.read(_d258TestCountProvider.notifier).state =
@@ -485,7 +484,7 @@ class _SensitivityTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
           ),
           child: Row(
@@ -513,12 +512,12 @@ class _SensitivityTab extends StatelessWidget {
                     Text(
                       enabled
                           ? 'Continuous IMU sampling at 50 Hz · estimated '
-                          '${tuning.batteryLabel} on mid-tier Android.\n'
-                          'Higher sensitivity polls motion features more '
-                          'aggressively and may increase false-positive '
-                          'wake-ups.'
+                              '${tuning.batteryLabel} on mid-tier Android.\n'
+                              'Higher sensitivity polls motion features more '
+                              'aggressively and may increase false-positive '
+                              'wake-ups.'
                           : 'Fall detector paused — IMU stream may still run '
-                          'for DCS motion slot (Day 32).',
+                              'for DCS motion slot (Day 32).',
                       style: const TextStyle(
                         color: ZapColors.textSecondary,
                         fontSize: 12,
@@ -592,7 +591,7 @@ class _ThresholdCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -696,7 +695,7 @@ class _TestTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -736,7 +735,8 @@ class _TestTab extends ConsumerWidget {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(Icons.play_arrow_rounded),
-          label: Text(testing ? 'Running mock fall…' : 'Test fall (mock stream)'),
+          label:
+              Text(testing ? 'Running mock fall…' : 'Test fall (mock stream)'),
           style: FilledButton.styleFrom(
             backgroundColor: _kAccent,
             minimumSize: const Size.fromHeight(48),
@@ -860,7 +860,8 @@ class _StateDot extends StatelessWidget {
           height: 14,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: active || passed ? color.withOpacity(0.2) : ZapColors.bgSurface,
+            color:
+                active || passed ? color.withOpacity(0.2) : ZapColors.bgSurface,
             border: Border.all(color: color, width: active ? 2 : 1),
           ),
           child: active
@@ -897,8 +898,7 @@ class _StreamRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final time =
-        '${event.at.hour.toString().padLeft(2, '0')}:'
+    final time = '${event.at.hour.toString().padLeft(2, '0')}:'
         '${event.at.minute.toString().padLeft(2, '0')}:'
         '${event.at.second.toString().padLeft(2, '0')}';
     return Container(
@@ -1006,7 +1006,7 @@ class _InfoTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -1037,7 +1037,7 @@ class _InfoTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1140,7 +1140,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1154,8 +1154,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

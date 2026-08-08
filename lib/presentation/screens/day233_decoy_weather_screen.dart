@@ -240,8 +240,8 @@ class _Day233DecoyWeatherScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.safe.withOpacity(0.25),
                     borderRadius: BorderRadius.circular(4),
@@ -312,8 +312,7 @@ class _WeatherTab extends StatelessWidget {
         children: [
           const Row(
             children: [
-              Icon(Icons.location_on_rounded,
-                  color: Colors.white70, size: 18),
+              Icon(Icons.location_on_rounded, color: Colors.white70, size: 18),
               SizedBox(width: ZapSpacing.xs),
               Text(
                 _kCity,
@@ -371,7 +370,7 @@ class _WeatherTab extends StatelessWidget {
                 final h = _kHourly[i];
                 return Container(
                   width: 56,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: ZapSpacing.sm),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(10),
@@ -574,10 +573,10 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: listening
-                          ? widget.onStopShake
-                          : widget.onStartShake,
-                      child: Text(listening ? 'Stop listener' : 'Start listener'),
+                      onPressed:
+                          listening ? widget.onStopShake : widget.onStartShake,
+                      child:
+                          Text(listening ? 'Stop listener' : 'Start listener'),
                     ),
                   ),
                   const SizedBox(width: ZapSpacing.sm),
@@ -624,11 +623,10 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
                     color: holding
                         ? const Color(0xFF8B5CF6).withOpacity(0.2)
                         : ZapColors.bgElevated,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(
-                      color: holding
-                          ? const Color(0xFF8B5CF6)
-                          : ZapColors.border,
+                      color:
+                          holding ? const Color(0xFF8B5CF6) : ZapColors.border,
                     ),
                   ),
                   child: Text(
@@ -651,7 +649,7 @@ class _UnlockTabState extends ConsumerState<_UnlockTab> {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Text(
@@ -710,7 +708,7 @@ class _UnlockCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -758,7 +756,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.danger.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.danger.withOpacity(0.4)),
           ),
           child: const Column(
@@ -797,7 +795,8 @@ class _SafetyTab extends StatelessWidget {
         const SizedBox(height: ZapSpacing.sm),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.calculate_rounded, color: ZapColors.textMuted),
+          leading:
+              const Icon(Icons.calculate_rounded, color: ZapColors.textMuted),
           title: const Text('Day 232 · Calculator',
               style: TextStyle(color: ZapColors.textPrimary, fontSize: 12)),
           subtitle: const Text('=== then 767',
@@ -818,7 +817,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -839,7 +838,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(

@@ -142,7 +142,8 @@ const _kWeekSpecs = [
     days: [
       _DaySpec('LATAM SMS gateway routing', Icons.sms_rounded),
       _DaySpec('Brazil Play billing tier', Icons.payments_rounded),
-      _DaySpec('MENA Arabic RTL store assets', Icons.format_textdirection_r_to_l_rounded),
+      _DaySpec('MENA Arabic RTL store assets',
+          Icons.format_textdirection_r_to_l_rounded),
       _DaySpec('Mexico emergency 911 deep link', Icons.link_rounded),
       _DaySpec('Global pricing PPP table v2', Icons.table_chart_rounded),
     ],
@@ -224,7 +225,8 @@ const _kWeekSpecs = [
     phase: _RoadmapPhase.platform,
     label: 'Battery & thermal soak',
     days: [
-      _DaySpec('8hr MONITORING mode soak log', Icons.battery_charging_full_rounded),
+      _DaySpec(
+          '8hr MONITORING mode soak log', Icons.battery_charging_full_rounded),
       _DaySpec('Thermal throttle SOS path test', Icons.thermostat_rounded),
       _DaySpec('Low-power SOS degradation mode', Icons.battery_alert_rounded),
       _DaySpec('OEM-specific battery whitelist', Icons.phone_android_rounded),
@@ -251,7 +253,8 @@ const _kWeekSpecs = [
       _DaySpec('SAML/OIDC employer SSO', Icons.key_rounded),
       _DaySpec('Night-shift roster bulk import', Icons.upload_file_rounded),
       _DaySpec('Seat utilization analytics v2', Icons.analytics_rounded),
-      _DaySpec('Employer SOS incident feed', Icons.notifications_active_rounded),
+      _DaySpec(
+          'Employer SOS incident feed', Icons.notifications_active_rounded),
       _DaySpec('B2B quote self-serve portal', Icons.request_quote_rounded),
     ],
   ),
@@ -272,10 +275,13 @@ const _kWeekSpecs = [
     phase: _RoadmapPhase.deferred,
     label: 'Wearables spike (optional)',
     days: [
-      _DaySpec('Apple Watch SOS feasibility', Icons.watch_rounded, deferred: true),
-      _DaySpec('Wear OS complication spike', Icons.watch_rounded, deferred: true),
+      _DaySpec('Apple Watch SOS feasibility', Icons.watch_rounded,
+          deferred: true),
+      _DaySpec('Wear OS complication spike', Icons.watch_rounded,
+          deferred: true),
       _DaySpec('BLE panic button R&D', Icons.bluetooth_rounded, deferred: true),
-      _DaySpec('Wearables privacy assessment', Icons.privacy_tip_rounded, deferred: true),
+      _DaySpec('Wearables privacy assessment', Icons.privacy_tip_rounded,
+          deferred: true),
       _DaySpec('Day 365 halfway milestone', Icons.flag_rounded),
     ],
   ),
@@ -365,8 +371,7 @@ String _buildRoadmapReport({
 final _d295TabProvider = StateProvider<int>((ref) => 0);
 final _d295PhaseFilterProvider = StateProvider<String>((ref) => 'all');
 final _d295HideDeferredProvider = StateProvider<bool>((ref) => false);
-final _d295ExpandedWeeksProvider =
-    StateProvider<Set<int>>((ref) => {1, 5, 13});
+final _d295ExpandedWeeksProvider = StateProvider<Set<int>>((ref) => {1, 5, 13});
 
 // ── Screen ────────────────────────────────────────────────────────────────────
 class Day295Phase2RoadmapScreen extends ConsumerWidget {
@@ -386,8 +391,8 @@ class Day295Phase2RoadmapScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -454,7 +459,8 @@ class _TimelineTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Days $_kStartDay–$_kEndDay timeline',
-          subtitle: '13 weeks · $_kVersionTarget · global launch → wearables spike',
+          subtitle:
+              '13 weeks · $_kVersionTarget · global launch → wearables spike',
         ),
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
@@ -618,9 +624,8 @@ class _TimelineTab extends ConsumerWidget {
                                 : ZapColors.textPrimary,
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            decoration: d.deferred
-                                ? TextDecoration.lineThrough
-                                : null,
+                            decoration:
+                                d.deferred ? TextDecoration.lineThrough : null,
                           ),
                         ),
                         trailing: d.deferred
@@ -789,7 +794,7 @@ class _ThemesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Column(
@@ -887,12 +892,14 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Phase 2 planning',
-          subtitle: 'Preview Days 301-365 after Section E completes at Day 300.',
+          subtitle:
+              'Preview Days 301-365 after Section E completes at Day 300.',
         ),
         const _PolicyRow(
           icon: Icons.public_rounded,
           title: 'Global launch (Days 301-320)',
-          subtitle: 'EU · LATAM · SEA store expansion · war room · Day 291 compare v2.',
+          subtitle:
+              'EU · LATAM · SEA store expansion · war room · Day 291 compare v2.',
         ),
         const _PolicyRow(
           icon: Icons.upgrade_rounded,
@@ -902,7 +909,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.devices_rounded,
           title: 'Platform hardening (Days 331-350)',
-          subtitle: 'Parity audit · battery soak · go/no-go gate · Days 296-298 previews.',
+          subtitle:
+              'Parity audit · battery soak · go/no-go gate · Days 296-298 previews.',
         ),
         const _PolicyRow(
           icon: Icons.watch_off_rounded,
@@ -924,7 +932,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -955,7 +963,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1124,7 +1132,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1138,8 +1146,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

@@ -174,8 +174,8 @@ class Day282PressKitScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -366,7 +366,7 @@ class _AssetGrid extends StatelessWidget {
             onTap: () => onToggle(asset.id),
             borderRadius: BorderRadius.circular(10),
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(ZapSpacing.sm),
               decoration: BoxDecoration(
                 color: isOn
                     ? asset.previewColor.withOpacity(0.12)
@@ -386,7 +386,8 @@ class _AssetGrid extends StatelessWidget {
                     height: crossAxisCount == 2 ? 48 : 36,
                     decoration: BoxDecoration(
                       color: asset.previewColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                     ),
                     child: Icon(
                       asset.icon,
@@ -401,9 +402,7 @@ class _AssetGrid extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: isOn
-                          ? ZapColors.textPrimary
-                          : ZapColors.textMuted,
+                      color: isOn ? ZapColors.textPrimary : ZapColors.textMuted,
                       fontSize: 9,
                       fontWeight: FontWeight.w700,
                     ),
@@ -484,7 +483,7 @@ class _DownloadTab extends ConsumerWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(ZapSpacing.md),
                     decoration: BoxDecoration(
                       color: _kAccent.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(10),
@@ -583,9 +582,9 @@ class _DownloadTab extends ConsumerWidget {
           children: [
             Expanded(
               child: OutlinedButton(
-                onPressed: () =>
-                    ref.read(_d282SelectedProvider.notifier).state =
-                        _kAssets.map((a) => a.id).toSet(),
+                onPressed: () => ref
+                    .read(_d282SelectedProvider.notifier)
+                    .state = _kAssets.map((a) => a.id).toSet(),
                 child: const Text('Select all'),
               ),
             ),
@@ -615,9 +614,7 @@ class _DownloadTab extends ConsumerWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : Icon(
-                    zipDone
-                        ? Icons.check_rounded
-                        : Icons.download_rounded,
+                    zipDone ? Icons.check_rounded : Icons.download_rounded,
                     size: 16,
                   ),
             label: Text(
@@ -674,15 +671,13 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.collections_rounded,
           title: 'Press kit asset gallery',
-          subtitle:
-              'Logos, app icon, store screenshots, and founder quote — '
+          subtitle: 'Logos, app icon, store screenshots, and founder quote — '
               'select assets and mock-download a ZIP for journalists.',
         ),
         const _PolicyRow(
           icon: Icons.folder_zip_rounded,
           title: 'ZIP bundle mock',
-          subtitle:
-              'Includes brand metadata files · wire to CDN or S3 when '
+          subtitle: 'Includes brand metadata files · wire to CDN or S3 when '
               'marketing assets are finalized.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -700,7 +695,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -731,7 +726,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -865,7 +860,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -879,8 +874,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

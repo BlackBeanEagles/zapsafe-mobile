@@ -249,13 +249,14 @@ class Day269CulturalAdaptationScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (saved ? ZapColors.safe : _kAccent).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
-                    color: (saved ? ZapColors.safe : _kAccent).withOpacity(0.45),
+                    color:
+                        (saved ? ZapColors.safe : _kAccent).withOpacity(0.45),
                   ),
                 ),
                 child: Text(
@@ -334,14 +335,10 @@ class _PresetsTab extends ConsumerWidget {
           return Container(
             margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
-              color: active
-                  ? _kAccent.withOpacity(0.08)
-                  : ZapColors.bgCard,
+              color: active ? _kAccent.withOpacity(0.08) : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: active
-                    ? _kAccent.withOpacity(0.45)
-                    : ZapColors.border,
+                color: active ? _kAccent.withOpacity(0.45) : ZapColors.border,
               ),
             ),
             child: ListTile(
@@ -420,7 +417,7 @@ class _LivePreviewCard extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: ZapColors.danger.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.danger.withOpacity(0.3)),
             ),
             child: Row(
@@ -544,7 +541,8 @@ class _CustomizeTab extends ConsumerWidget {
           ),
           subtitle: Text(
             settings.use24h ? 'Showing 24h format' : 'Showing 12h AM/PM',
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
           ),
           value: settings.use24h,
           activeColor: _kAccent,
@@ -618,7 +616,8 @@ class _CustomizeTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.sm),
         TextFormField(
-          key: ValueKey('label-${settings.presetId}-${settings.emergencyLabel}'),
+          key:
+              ValueKey('label-${settings.presetId}-${settings.emergencyLabel}'),
           initialValue: settings.emergencyLabel,
           decoration: const InputDecoration(
             labelText: 'Label shown in app',
@@ -695,7 +694,7 @@ class _InfoTab extends ConsumerWidget {
       ],
       'notes':
           'SOS screen dial shortcut uses emergency_number · calendar widgets '
-          'honour first_day_of_week · timestamps use use_24h_clock',
+              'honour first_day_of_week · timestamps use use_24h_clock',
     };
 
     return ListView(
@@ -730,7 +729,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -750,7 +749,8 @@ class _InfoTab extends ConsumerWidget {
               ClipboardData(text: _kJsonEncoder.convert(payload)),
             );
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Cultural preferences spec copied.')),
+              const SnackBar(
+                  content: Text('Cultural preferences spec copied.')),
             );
           },
           icon: const Icon(Icons.copy_rounded, size: 16),
@@ -761,7 +761,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -860,7 +860,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -874,8 +874,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

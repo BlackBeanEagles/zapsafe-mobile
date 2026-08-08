@@ -105,8 +105,7 @@ class _PostPolishMetric {
         : ((round3 - round2) / round2) * 100;
   }
 
-  bool get improved =>
-      lowerIsBetter ? round3 < round2 : round3 > round2;
+  bool get improved => lowerIsBetter ? round3 < round2 : round3 > round2;
 }
 
 const _kPostPolishMetrics = [
@@ -213,7 +212,8 @@ String _buildSurveyExport({
   buf.writeln();
   for (final q in _kPolishQuestions) {
     final a = _answerFromLabel(answers[q.id]);
-    buf.writeln('[${_answerLabel(a).toUpperCase()}] ${q.prompt} (${q.dayLink})');
+    buf.writeln(
+        '[${_answerLabel(a).toUpperCase()}] ${q.prompt} (${q.dayLink})');
   }
   buf.writeln();
   buf.writeln('── vs Round 2 (Day 136) ──');
@@ -254,8 +254,8 @@ class Day287BetaFeedbackRound3Screen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -312,7 +312,8 @@ class _SurveyTab extends ConsumerWidget {
     ref.read(_d287SendingProvider.notifier).state = false;
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Round 3 survey sent to beta cohort (mock).')),
+        const SnackBar(
+            content: Text('Round 3 survey sent to beta cohort (mock).')),
       );
     }
   }
@@ -442,7 +443,8 @@ class _SurveyTab extends ConsumerWidget {
                       label: const Text('Yes'),
                       selected: current == _SurveyAnswer.yes,
                       selectedColor: ZapColors.safe.withOpacity(0.25),
-                      onSelected: (_) => _setAnswer(ref, q.id, _SurveyAnswer.yes),
+                      onSelected: (_) =>
+                          _setAnswer(ref, q.id, _SurveyAnswer.yes),
                     ),
                     ChoiceChip(
                       label: const Text('Partial'),
@@ -455,7 +457,8 @@ class _SurveyTab extends ConsumerWidget {
                       label: const Text('No'),
                       selected: current == _SurveyAnswer.no,
                       selectedColor: ZapColors.danger.withOpacity(0.25),
-                      onSelected: (_) => _setAnswer(ref, q.id, _SurveyAnswer.no),
+                      onSelected: (_) =>
+                          _setAnswer(ref, q.id, _SurveyAnswer.no),
                     ),
                   ],
                 ),
@@ -614,7 +617,8 @@ class _MetricsTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.check_circle_rounded,
           title: 'SOS ring + offline UX',
-          subtitle: 'False triggers down 54% · long-press comprehension up in survey.',
+          subtitle:
+              'False triggers down 54% · long-press comprehension up in survey.',
         ),
         const _PolicyRow(
           icon: Icons.check_circle_rounded,
@@ -685,7 +689,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.poll_rounded,
           title: 'Survey extension',
-          subtitle: '8 new questions on SOS, journey, counselor, dashboard polish.',
+          subtitle:
+              '8 new questions on SOS, journey, counselor, dashboard polish.',
         ),
         const _PolicyRow(
           icon: Icons.analytics_rounded,
@@ -712,7 +717,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -743,7 +748,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -877,7 +882,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -891,8 +896,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

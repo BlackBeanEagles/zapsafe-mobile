@@ -280,8 +280,8 @@ class Day285SecurityPrelaunchAuditScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -347,7 +347,8 @@ class _ChecklistTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'OWASP MASVS L2 checklist',
-          subtitle: 'Tap status chip to cycle pass → warn → fail · link to Day screen',
+          subtitle:
+              'Tap status chip to cycle pass → warn → fail · link to Day screen',
         ),
         ..._kMasvsItems.expand((item) {
           final widgets = <Widget>[];
@@ -385,7 +386,8 @@ class _ChecklistTab extends ConsumerWidget {
                 children: [
                   InkWell(
                     onTap: () => _cycleStatus(ref, item.id),
-                    child: Icon(_statusIcon(st), color: _statusColor(st), size: 22),
+                    child: Icon(_statusIcon(st),
+                        color: _statusColor(st), size: 22),
                   ),
                   const SizedBox(width: ZapSpacing.sm),
                   Expanded(
@@ -434,7 +436,8 @@ class _ChecklistTab extends ConsumerWidget {
         OutlinedButton.icon(
           onPressed: () {
             ref.read(_d285StatusesProvider.notifier).state = {
-              for (final i in _kMasvsItems) i.id: _statusToString(i.defaultStatus),
+              for (final i in _kMasvsItems)
+                i.id: _statusToString(i.defaultStatus),
             };
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Checklist reset to defaults.')),
@@ -527,7 +530,7 @@ class _ProgressTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -571,14 +574,16 @@ class _StatRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: ZapColors.textMuted, fontSize: 12)),
+          Text(label,
+              style: const TextStyle(color: ZapColors.textMuted, fontSize: 12)),
           Text(
             value,
-            style: TextStyle(color: color, fontWeight: FontWeight.w900, fontSize: 14),
+            style: TextStyle(
+                color: color, fontWeight: FontWeight.w900, fontSize: 14),
           ),
         ],
       ),
@@ -633,7 +638,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -664,7 +669,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -798,7 +803,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -812,8 +817,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

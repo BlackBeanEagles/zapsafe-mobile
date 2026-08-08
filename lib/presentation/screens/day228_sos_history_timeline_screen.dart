@@ -259,8 +259,18 @@ List<int> _availableYears() {
 
 String _fmtDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   final h = dt.hour.toString().padLeft(2, '0');
   final m = dt.minute.toString().padLeft(2, '0');
@@ -286,15 +296,17 @@ class Day228SosHistoryTimelineScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: ZapColors.info.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: ZapColors.info.withOpacity(0.35)),
                 ),
                 child: Text(
-                  year == null ? '${entries.length} events' : '$year · ${entries.length}',
+                  year == null
+                      ? '${entries.length} events'
+                      : '$year · ${entries.length}',
                   style: const TextStyle(
                     color: ZapColors.info,
                     fontSize: 10,
@@ -388,16 +400,16 @@ class _TimelineTab extends ConsumerWidget {
               entry: entry,
               expanded: isExp,
               onToggle: () => ref.read(_d228ExpandedProvider.notifier).update(
-                    (s) {
-                      final next = {...s};
-                      if (next.contains(entry.id)) {
-                        next.remove(entry.id);
-                      } else {
-                        next.add(entry.id);
-                      }
-                      return next;
-                    },
-                  ),
+                (s) {
+                  final next = {...s};
+                  if (next.contains(entry.id)) {
+                    next.remove(entry.id);
+                  } else {
+                    next.add(entry.id);
+                  }
+                  return next;
+                },
+              ),
             );
           }),
       ],
@@ -422,7 +434,7 @@ class _TimelineCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: entry.outcome == SosOutcome.policeDispatched
               ? ZapColors.danger.withOpacity(0.4)
@@ -553,7 +565,8 @@ class _TimelineCard extends StatelessWidget {
                           child: OutlinedButton.icon(
                             onPressed: () =>
                                 context.push(AppRoutes.evidenceVault),
-                            icon: const Icon(Icons.folder_open_rounded, size: 16),
+                            icon:
+                                const Icon(Icons.folder_open_rounded, size: 16),
                             label: Text(
                               'Evidence (${entry.evidenceCount})',
                               style: const TextStyle(fontSize: 11),
@@ -568,7 +581,8 @@ class _TimelineCard extends StatelessWidget {
                           child: FilledButton.icon(
                             onPressed: () =>
                                 context.push(AppRoutes.policeWeblinkPreview),
-                            icon: const Icon(Icons.local_police_rounded, size: 16),
+                            icon: const Icon(Icons.local_police_rounded,
+                                size: 16),
                             label: const Text(
                               'Police view',
                               style: TextStyle(fontSize: 11),
@@ -651,7 +665,8 @@ class _MetaChip extends StatelessWidget {
           const SizedBox(width: 3),
           Text(
             label,
-            style: TextStyle(color: c, fontSize: 9, fontWeight: FontWeight.w700),
+            style:
+                TextStyle(color: c, fontSize: 9, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -857,11 +872,9 @@ class _YearFilterTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.md),
         ...SosOutcome.values.map((outcome) {
-          final pool = selected == null
-              ? _kMockHistory
-              : _filteredHistory(selected);
-          final count =
-              pool.where((e) => e.outcome == outcome).length;
+          final pool =
+              selected == null ? _kMockHistory : _filteredHistory(selected);
+          final count = pool.where((e) => e.outcome == outcome).length;
           if (count == 0) return const SizedBox.shrink();
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -955,7 +968,7 @@ class _ApiContractTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -993,7 +1006,7 @@ class _ApiContractTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1024,7 +1037,7 @@ class _EndpointCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1033,8 +1046,7 @@ class _EndpointCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                 decoration: BoxDecoration(
                   color: ZapColors.safe.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -1110,8 +1122,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

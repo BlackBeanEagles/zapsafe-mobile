@@ -41,8 +41,7 @@ const _kSeedNotifications = [
     id: 'important_contact',
     tier: DashboardNotificationTier.important,
     title: 'Tier 2 contact unverified',
-    message:
-        'Priya Sharma has not confirmed your emergency contact request.',
+    message: 'Priya Sharma has not confirmed your emergency contact request.',
     actionLabel: 'Verify now',
   ),
   DashboardNotificationData(
@@ -101,7 +100,8 @@ Map<String, dynamic> _dashboardPayload({
       ],
       'placeholder_route': AppRoutes.dashboard,
       'active_notifications': notificationCount,
-      'wire_note': 'Replace DashboardPlaceholderScreen when backend home API ships',
+      'wire_note':
+          'Replace DashboardPlaceholderScreen when backend home API ships',
     };
 
 // ── Providers ─────────────────────────────────────────────────────────────────
@@ -162,8 +162,8 @@ class Day279ProductionDashboardScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: simpleMode ? 'Exit simple mode' : 'Simple mode preview',
-            onPressed: () => ref.read(_d279SimpleModeProvider.notifier).state =
-                !simpleMode,
+            onPressed: () =>
+                ref.read(_d279SimpleModeProvider.notifier).state = !simpleMode,
             icon: Icon(
               simpleMode ? Icons.dashboard_rounded : Icons.view_compact_rounded,
               color: simpleMode ? _kAccent : ZapColors.textMuted,
@@ -173,8 +173,8 @@ class Day279ProductionDashboardScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -509,8 +509,7 @@ class _DeltaTab extends ConsumerWidget {
               label: Text(m.label),
               selected: selected,
               selectedColor: m.accent.withOpacity(0.2),
-              onSelected: (_) =>
-                  ref.read(_d279ModeProvider.notifier).state = m,
+              onSelected: (_) => ref.read(_d279ModeProvider.notifier).state = m,
             );
           }).toList(),
         ),
@@ -568,7 +567,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -588,7 +587,8 @@ class _InfoTab extends ConsumerWidget {
               ClipboardData(text: _kJsonEncoder.convert(payload)),
             );
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Production dashboard spec copied.')),
+              const SnackBar(
+                  content: Text('Production dashboard spec copied.')),
             );
           },
           icon: const Icon(Icons.copy_rounded, size: 16),
@@ -599,7 +599,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -737,7 +737,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -751,8 +751,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

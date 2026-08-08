@@ -304,8 +304,7 @@ _AuditStatus _nextAuditStatus(_AuditStatus current) => switch (current) {
       _AuditStatus.fail => _AuditStatus.unchecked,
     };
 
-bool _isGap(_ParityLevel level) =>
-    level != _ParityLevel.parity;
+bool _isGap(_ParityLevel level) => level != _ParityLevel.parity;
 
 Map<String, dynamic> _parityPayload(Map<String, String> audits) {
   final pass = audits.values.where((v) => v == 'pass').length;
@@ -337,7 +336,8 @@ String _buildParityReport(Map<String, String> audits) {
 }
 
 String _buildCsv(Map<String, String> audits) {
-  final buf = StringBuffer('feature,category,android,ios,level,audit,day_ref\n');
+  final buf =
+      StringBuffer('feature,category,android,ios,level,audit,day_ref\n');
   for (final row in _kParityRows) {
     final audit = _auditFromKey(audits[row.id]);
     buf.writeln(
@@ -355,8 +355,7 @@ final _d296CategoryFilterProvider = StateProvider<String>((ref) => 'all');
 final _d296GapsOnlyProvider = StateProvider<bool>((ref) => false);
 final _d296AuditProvider = StateProvider<Map<String, String>>((ref) {
   return {
-    for (final r in _kParityRows)
-      r.id: _auditKey(_defaultAudit(r.level)),
+    for (final r in _kParityRows) r.id: _auditKey(_defaultAudit(r.level)),
   };
 });
 
@@ -392,8 +391,8 @@ class Day296PlatformParityAuditScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -606,7 +605,8 @@ class _MatrixTab extends ConsumerWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.android_rounded, color: _kAndroid, size: 14),
+                      const Icon(Icons.android_rounded,
+                          color: _kAndroid, size: 14),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
@@ -672,8 +672,7 @@ class _GapsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final audits = ref.watch(_d296AuditProvider);
-    final gapRows =
-        _kParityRows.where((r) => _isGap(r.level)).toList();
+    final gapRows = _kParityRows.where((r) => _isGap(r.level)).toList();
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -695,7 +694,7 @@ class _GapsTab extends ConsumerWidget {
               padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: ZapColors.bgCard,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(
                   color: _levelColor(row.level).withOpacity(0.4),
                 ),
@@ -794,7 +793,8 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Platform parity audit',
-          subtitle: 'Pre-launch Android vs iOS checklist · Day 295 Phase 2 Week 8.',
+          subtitle:
+              'Pre-launch Android vs iOS checklist · Day 295 Phase 2 Week 8.',
         ),
         const _PolicyRow(
           icon: Icons.layers_rounded,
@@ -809,7 +809,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.widgets_rounded,
           title: 'Widgets',
-          subtitle: 'Glance vs WidgetKit · Live Activity iOS-only gap documented.',
+          subtitle:
+              'Glance vs WidgetKit · Live Activity iOS-only gap documented.',
         ),
         const _PolicyRow(
           icon: Icons.shortcut_rounded,
@@ -831,7 +832,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -862,7 +863,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1034,7 +1035,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1048,8 +1049,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

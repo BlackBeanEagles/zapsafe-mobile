@@ -57,8 +57,7 @@ class DecoyCalcState {
   }) {
     return DecoyCalcState(
       display: display ?? this.display,
-      accumulator:
-          clearAccumulator ? null : (accumulator ?? this.accumulator),
+      accumulator: clearAccumulator ? null : (accumulator ?? this.accumulator),
       pendingOp: clearPendingOp ? null : (pendingOp ?? this.pendingOp),
       freshEntry: freshEntry ?? this.freshEntry,
       eqStreak: eqStreak ?? this.eqStreak,
@@ -79,7 +78,10 @@ double? _parseDisplay(String s) {
 
 String _formatNum(double v) {
   if (v == v.roundToDouble()) return v.toInt().toString();
-  return v.toStringAsFixed(6).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
+  return v
+      .toStringAsFixed(6)
+      .replaceAll(RegExp(r'0+$'), '')
+      .replaceAll(RegExp(r'\.$'), '');
 }
 
 double? _applyOp(double a, double b, String op) {
@@ -201,7 +203,8 @@ DecoyCalcState _backspace(DecoyCalcState s) {
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d232TabProvider = StateProvider<int>((ref) => 0);
-final _d232CalcProvider = StateProvider<DecoyCalcState>((ref) => const DecoyCalcState());
+final _d232CalcProvider =
+    StateProvider<DecoyCalcState>((ref) => const DecoyCalcState());
 
 const _kTabs = ['Calculator', 'Secret Unlock', 'Safety'];
 
@@ -241,8 +244,8 @@ class Day232DecoyCalculatorScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.safe.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(4),
@@ -326,7 +329,7 @@ class _CalculatorTab extends ConsumerWidget {
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(ZapSpacing.sm),
             child: Column(
               children: [
                 _CalcRow(
@@ -406,7 +409,7 @@ class _CalcRow extends StatelessWidget {
           return Expanded(
             flex: flex,
             child: Padding(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(ZapSpacing.xs),
               child: _CalcButton(
                 label: k.label,
                 kind: k.kind,
@@ -603,8 +606,7 @@ class _SecretUnlockTab extends ConsumerWidget {
         _StepCard(
           step: '2',
           title: 'Enter 767 (SOS on keypad)',
-          body:
-              'While armed, type 7 → 6 → 7 on the number pad. '
+          body: 'While armed, type 7 → 6 → 7 on the number pad. '
               'Maps to S-O-S on classic phone keys.',
           done: calc.unlockCount > 0,
         ),
@@ -620,7 +622,7 @@ class _SecretUnlockTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -725,7 +727,7 @@ class _StepCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: done ? ZapColors.safe.withOpacity(0.4) : ZapColors.border,
         ),
@@ -790,7 +792,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.danger.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.danger.withOpacity(0.4)),
           ),
           child: const Column(
@@ -873,7 +875,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -916,7 +918,7 @@ class _SafetyTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(

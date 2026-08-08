@@ -89,8 +89,7 @@ final _d256PlatformProvider =
     StateProvider<_WidgetPlatform>((ref) => _WidgetPlatform.android);
 final _d256SizeProvider =
     StateProvider<_WidgetSize>((ref) => _WidgetSize.small);
-final _d256AndroidStepsDoneProvider =
-    StateProvider<Set<int>>((ref) => {0, 1});
+final _d256AndroidStepsDoneProvider = StateProvider<Set<int>>((ref) => {0, 1});
 final _d256IosStepsDoneProvider = StateProvider<Set<int>>((ref) => {});
 final _d256TapCountProvider = StateProvider<int>((ref) => 0);
 final _d256LastTriggerProvider = StateProvider<DateTime?>((ref) => null);
@@ -136,8 +135,8 @@ class Day256HomeWidgetSosScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -228,8 +227,8 @@ class _PreviewTab extends ConsumerWidget {
             ChoiceChip(
               label: const Text('Small 2×2'),
               selected: size == _WidgetSize.small,
-              onSelected: (_) =>
-                  ref.read(_d256SizeProvider.notifier).state = _WidgetSize.small,
+              onSelected: (_) => ref.read(_d256SizeProvider.notifier).state =
+                  _WidgetSize.small,
             ),
             ChoiceChip(
               label: const Text('Medium 4×2'),
@@ -369,7 +368,7 @@ class _SetupTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.35)),
             ),
             child: const Text(
@@ -449,7 +448,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -495,7 +494,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -546,7 +545,7 @@ class _PhoneMockFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 280,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(28),
@@ -573,9 +572,9 @@ class _PhoneMockFrame extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 360,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(ZapSpacing.lg),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ZapSpacing.radius),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -656,7 +655,9 @@ class _SosWidgetPreview extends StatelessWidget {
             ),
           ],
         ),
-        child: isSmall ? _SmallWidgetBody(onSosTap: onSosTap) : _MediumWidgetBody(onSosTap: onSosTap),
+        child: isSmall
+            ? _SmallWidgetBody(onSosTap: onSosTap)
+            : _MediumWidgetBody(onSosTap: onSosTap),
       ),
     );
   }
@@ -683,10 +684,10 @@ class _SmallWidgetBody extends StatelessWidget {
         const Spacer(),
         Material(
           color: _kAccent,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusPill),
           child: InkWell(
             onTap: onSosTap,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusPill),
             child: Container(
               width: 56,
               height: 56,
@@ -788,7 +789,7 @@ class _SetupStepTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: checked ? _kAccent.withOpacity(0.06) : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: checked ? _kAccent.withOpacity(0.35) : ZapColors.border,
         ),
@@ -884,7 +885,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -898,8 +899,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

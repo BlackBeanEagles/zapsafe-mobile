@@ -211,8 +211,10 @@ final _d250SearchProvider = StateProvider<String>((ref) => '');
 final _d250DestinationProvider =
     StateProvider<_GroupDestination?>((ref) => null);
 final _d250DurationMinutesProvider = StateProvider<int>((ref) => 60);
-final _d250SelectedMembersProvider =
-    StateProvider<Set<String>>((ref) => {'a1b2c3d4-e001-0001-0000-000000000001', 'a1b2c3d4-e002-0002-0000-000000000002'});
+final _d250SelectedMembersProvider = StateProvider<Set<String>>((ref) => {
+      'a1b2c3d4-e001-0001-0000-000000000001',
+      'a1b2c3d4-e002-0002-0000-000000000002'
+    });
 final _d250CreatingProvider = StateProvider<bool>((ref) => false);
 final _d250SessionResultProvider =
     StateProvider<_GroupSessionResult?>((ref) => null);
@@ -245,8 +247,7 @@ Future<_GroupSessionResult> _mockCreateGroupSession({
   required int etaMinutes,
 }) async {
   await Future<void>.delayed(const Duration(milliseconds: 1600));
-  final sessionId =
-      'gj_${DateTime.now().millisecondsSinceEpoch ~/ 1000}';
+  final sessionId = 'gj_${DateTime.now().millisecondsSinceEpoch ~/ 1000}';
   final links = memberIds.map((id) {
     final friend = _friendById(id);
     final token = id.replaceAll('-', '').substring(0, 8);
@@ -329,7 +330,8 @@ class _Day250GroupJourneyCreateScreenState
 
     if (members.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invite at least one friend (Members tab).')),
+        const SnackBar(
+            content: Text('Invite at least one friend (Members tab).')),
       );
       ref.read(_d250TabProvider.notifier).state = 1;
       return;
@@ -404,8 +406,8 @@ class _Day250GroupJourneyCreateScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -561,7 +563,8 @@ class _CreateTab extends ConsumerWidget {
                     filled: true,
                     fillColor: ZapColors.bgPrimary,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                       borderSide: const BorderSide(color: ZapColors.border),
                     ),
                   ),
@@ -623,22 +626,22 @@ class _CreateTab extends ConsumerWidget {
                 const SizedBox(height: ZapSpacing.lg),
                 InkWell(
                   onTap: onOpenMembers,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   child: Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(ZapSpacing.md),
                     decoration: BoxDecoration(
                       color: ZapColors.bgPrimary,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                       border: Border.all(color: ZapColors.border),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.group_rounded,
-                          color: members.isEmpty
-                              ? ZapColors.textMuted
-                              : _kAccent,
+                          color:
+                              members.isEmpty ? ZapColors.textMuted : _kAccent,
                         ),
                         const SizedBox(width: ZapSpacing.md),
                         Expanded(
@@ -734,7 +737,7 @@ class _MembersTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: _kAccent.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: _kAccent.withOpacity(0.35)),
             ),
             child: Column(
@@ -809,8 +812,8 @@ class _MembersTab extends ConsumerWidget {
               ),
             ),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
               decoration: BoxDecoration(
                 color: _kAccent.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(4),
@@ -900,7 +903,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -928,7 +931,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -964,7 +967,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1129,7 +1132,7 @@ class _FriendTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: selected ? _kAccent.withOpacity(0.08) : ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: selected ? _kAccent.withOpacity(0.4) : ZapColors.border,
         ),
@@ -1182,7 +1185,7 @@ class _InviteLinkTile extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1210,7 +1213,9 @@ class _InviteLinkTile extends StatelessWidget {
             onPressed: () {
               Clipboard.setData(ClipboardData(text: link.link));
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Invite link copied for ${link.memberName}.')),
+                SnackBar(
+                    content:
+                        Text('Invite link copied for ${link.memberName}.')),
               );
             },
             icon: const Icon(Icons.copy_rounded, size: 14),
@@ -1239,7 +1244,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1253,8 +1258,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

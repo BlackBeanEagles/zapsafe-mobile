@@ -230,8 +230,8 @@ class Day299PenultimateSummaryScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -329,7 +329,7 @@ class _SummaryTab extends ConsumerWidget {
               padding: const EdgeInsets.all(ZapSpacing.md),
               decoration: BoxDecoration(
                 color: ZapColors.bgCard,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 border: Border.all(color: sec.color.withOpacity(0.35)),
               ),
               child: Column(
@@ -394,9 +394,8 @@ class _SummaryTab extends ConsumerWidget {
         ),
         ..._kOpenBlockers.map((blocker) {
           final isResolved = resolved.contains(blocker.id);
-          final color = isResolved
-              ? ZapColors.safe
-              : _severityColor(blocker.severity);
+          final color =
+              isResolved ? ZapColors.safe : _severityColor(blocker.severity);
           return Padding(
             padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
             child: InkWell(
@@ -409,12 +408,12 @@ class _SummaryTab extends ConsumerWidget {
                 }
                 ref.read(_d299ResolvedProvider.notifier).state = next;
               },
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               child: Container(
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
                   color: ZapColors.bgCard,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(color: color.withOpacity(0.4)),
                 ),
                 child: Row(
@@ -543,9 +542,7 @@ class _StatsTab extends ConsumerWidget {
                       Text(
                         m.$2,
                         style: TextStyle(
-                          color: isCurrent
-                              ? _kAccent
-                              : ZapColors.textPrimary,
+                          color: isCurrent ? _kAccent : ZapColors.textPrimary,
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
                         ),
@@ -657,7 +654,8 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Penultimate summary',
-          subtitle: 'Day 299 of 300 · Section E Day 19/20 · stats since Day 200.',
+          subtitle:
+              'Day 299 of 300 · Section E Day 19/20 · stats since Day 200.',
         ),
         const _PolicyRow(
           icon: Icons.trending_up_rounded,
@@ -667,7 +665,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.auto_fix_high_rounded,
           title: '18 polish screens',
-          subtitle: 'Notification v3 · SOS timeline · counselor · production UI.',
+          subtitle:
+              'Notification v3 · SOS timeline · counselor · production UI.',
         ),
         const _PolicyRow(
           icon: Icons.gpp_maybe_rounded,
@@ -696,7 +695,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -727,7 +726,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -865,7 +864,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -879,8 +878,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

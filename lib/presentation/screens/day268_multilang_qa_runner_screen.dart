@@ -131,7 +131,8 @@ const _kCheckItems = [
   ('rtl_mirror', 'RTL mirrored correctly'),
 ];
 
-Map<String, String> _flattenJson(Map<String, dynamic> json, [String prefix = '']) {
+Map<String, String> _flattenJson(Map<String, dynamic> json,
+    [String prefix = '']) {
   final out = <String, String>{};
   json.forEach((key, value) {
     final path = prefix.isEmpty ? key : '$prefix.$key';
@@ -237,9 +238,8 @@ class _Day268MultilangQaRunnerScreenState
     final checklist = ref.watch(_d268ChecklistProvider);
     final stringsAsync = ref.watch(_d268StringsProvider);
 
-    final totalChecks = _kQaLocales.length *
-        _kSampleScreens.length *
-        _kCheckItems.length;
+    final totalChecks =
+        _kQaLocales.length * _kSampleScreens.length * _kCheckItems.length;
     final doneChecks = checklist.values.where((v) => v).length;
 
     return Scaffold(
@@ -251,8 +251,8 @@ class _Day268MultilangQaRunnerScreenState
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: (cycling ? _kAccent : ZapColors.textMuted)
                       .withOpacity(0.15),
@@ -355,7 +355,8 @@ class _RunnerTab extends ConsumerWidget {
           children: [
             FilledButton.icon(
               onPressed: () => onToggleCycle(!cycling),
-              icon: Icon(cycling ? Icons.pause_rounded : Icons.play_arrow_rounded),
+              icon: Icon(
+                  cycling ? Icons.pause_rounded : Icons.play_arrow_rounded),
               label: Text(cycling ? 'Pause cycle' : 'Start cycle'),
               style: FilledButton.styleFrom(backgroundColor: _kAccent),
             ),
@@ -385,8 +386,8 @@ class _RunnerTab extends ConsumerWidget {
           activeColor: _kAccent,
           onChanged: cycling
               ? null
-              : (v) =>
-                  ref.read(_d268CycleSecondsProvider.notifier).state = v.round(),
+              : (v) => ref.read(_d268CycleSecondsProvider.notifier).state =
+                  v.round(),
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
@@ -413,7 +414,8 @@ class _RunnerTab extends ConsumerWidget {
               selectedColor: _kAccent.withOpacity(0.2),
               onSelected: cycling
                   ? null
-                  : (_) => ref.read(_d268ScreenIndexProvider.notifier).state = i,
+                  : (_) =>
+                      ref.read(_d268ScreenIndexProvider.notifier).state = i,
             );
           }),
         ),
@@ -446,11 +448,13 @@ class _RunnerTab extends ConsumerWidget {
             ),
             if (locale.rtl)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: ZapColors.warning.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
+                  border:
+                      Border.all(color: ZapColors.warning.withOpacity(0.35)),
                 ),
                 child: const Text(
                   'RTL',
@@ -496,7 +500,8 @@ class _RunnerTab extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     val,
-                    textDirection: locale.rtl ? TextDirection.rtl : TextDirection.ltr,
+                    textDirection:
+                        locale.rtl ? TextDirection.rtl : TextDirection.ltr,
                     style: const TextStyle(
                       color: ZapColors.textPrimary,
                       fontSize: 12,
@@ -566,12 +571,14 @@ class _SamplePreview extends StatelessWidget {
               ),
               Text(
                 _lookupFlat(flat, 'home.status_safe') ?? '',
-                style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+                style: const TextStyle(
+                    color: ZapColors.textSecondary, fontSize: 12),
               ),
               const SizedBox(height: ZapSpacing.sm),
               FilledButton(
                 onPressed: () {},
-                style: FilledButton.styleFrom(backgroundColor: ZapColors.danger),
+                style:
+                    FilledButton.styleFrom(backgroundColor: ZapColors.danger),
                 child: Text(_lookupFlat(flat, 'sos.trigger') ?? 'SOS'),
               ),
             ] else if (screen.id == 'sos') ...[
@@ -579,7 +586,7 @@ class _SamplePreview extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: ZapColors.danger.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 ),
                 child: Text(
                   _lookupFlat(flat, 'sos.active') ?? '',
@@ -629,7 +636,8 @@ class _SamplePreview extends StatelessWidget {
               const SizedBox(height: ZapSpacing.sm),
               Text(
                 _lookupFlat(flat, 'premium.title') ?? '',
-                style: const TextStyle(color: ZapColors.textMuted, fontSize: 12),
+                style:
+                    const TextStyle(color: ZapColors.textMuted, fontSize: 12),
               ),
             ],
           ],
@@ -677,7 +685,8 @@ class _ChecklistTab extends ConsumerWidget {
         Text(
           '$done/$applicable screenshot checks · translator QA checklist',
           style: TextStyle(
-            color: done == applicable ? ZapColors.safe : ZapColors.textSecondary,
+            color:
+                done == applicable ? ZapColors.safe : ZapColors.textSecondary,
             fontSize: 11,
             fontWeight: FontWeight.w700,
           ),
@@ -715,7 +724,7 @@ class _ChecklistTab extends ConsumerWidget {
                 padding: const EdgeInsets.all(ZapSpacing.sm),
                 decoration: BoxDecoration(
                   color: ZapColors.bgCard,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(color: ZapColors.border),
                 ),
                 child: Column(
@@ -771,7 +780,8 @@ class _ChecklistTab extends ConsumerWidget {
                           } else {
                             next.remove(key);
                           }
-                          ref.read(_d268ChecklistProvider.notifier).state = next;
+                          ref.read(_d268ChecklistProvider.notifier).state =
+                              next;
                         },
                       );
                     }),
@@ -800,7 +810,8 @@ class _ChecklistTab extends ConsumerWidget {
                   }
                   ref.read(_d268ChecklistProvider.notifier).state = next;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('All checklist items marked.')),
+                    const SnackBar(
+                        content: Text('All checklist items marked.')),
                   );
                 },
           icon: const Icon(Icons.done_all_rounded),
@@ -814,7 +825,8 @@ class _ChecklistTab extends ConsumerWidget {
         OutlinedButton.icon(
           onPressed: () {
             final report = _buildChecklistReport(checklist);
-            Clipboard.setData(ClipboardData(text: _kJsonEncoder.convert(report)));
+            Clipboard.setData(
+                ClipboardData(text: _kJsonEncoder.convert(report)));
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('QA checklist report copied.')),
             );
@@ -918,7 +930,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -949,7 +961,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1052,7 +1064,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1066,8 +1078,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

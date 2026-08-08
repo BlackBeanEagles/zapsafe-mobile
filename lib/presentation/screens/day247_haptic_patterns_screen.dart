@@ -55,8 +55,10 @@ class _HapticPatternDef {
   final List<_HapticStep> steps;
   final String useCase;
 
-  List<_HapticKind> get pulseKinds =>
-      steps.where((s) => s.kind != _HapticKind.pause).map((s) => s.kind).toList();
+  List<_HapticKind> get pulseKinds => steps
+      .where((s) => s.kind != _HapticKind.pause)
+      .map((s) => s.kind)
+      .toList();
 }
 
 const _kPatternDefs = [
@@ -200,7 +202,8 @@ class _Day247HapticPatternsScreenState
     final enabled = ref.read(_d247EnabledPatternsProvider);
     if (!enabled.contains(patternId)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enable this pattern on the Patterns tab.')),
+        const SnackBar(
+            content: Text('Enable this pattern on the Patterns tab.')),
       );
       return;
     }
@@ -252,8 +255,8 @@ class _Day247HapticPatternsScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: _kAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
@@ -397,8 +400,9 @@ class _PatternsTab extends ConsumerWidget {
                           ),
                         ),
                         TextButton.icon(
-                          onPressed:
-                              (isEnabled && !playing) ? () => onPlay(p.id) : null,
+                          onPressed: (isEnabled && !playing)
+                              ? () => onPlay(p.id)
+                              : null,
                           icon: Icon(Icons.play_arrow_rounded, color: p.color),
                           label: Text(
                             'Preview',
@@ -461,21 +465,21 @@ class _TestTab extends ConsumerWidget {
               color: selected == p.id
                   ? p.color.withOpacity(0.12)
                   : ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               child: InkWell(
                 onTap: playing
                     ? null
-                    : () =>
-                        ref.read(_d247SelectedPatternProvider.notifier).state =
-                            p.id,
-                borderRadius: BorderRadius.circular(8),
+                    : () => ref
+                        .read(_d247SelectedPatternProvider.notifier)
+                        .state = p.id,
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 10,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                     border: Border.all(
                       color: selected == p.id ? p.color : ZapColors.border,
                     ),
@@ -567,8 +571,7 @@ class _TestTab extends ConsumerWidget {
                 label: const Text('Play pattern'),
                 style: FilledButton.styleFrom(
                   backgroundColor: pattern.color,
-                  disabledBackgroundColor:
-                      ZapColors.textMuted.withOpacity(0.2),
+                  disabledBackgroundColor: ZapColors.textMuted.withOpacity(0.2),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
@@ -597,7 +600,7 @@ class _TestTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -712,7 +715,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -743,7 +746,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -903,7 +906,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -917,8 +920,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

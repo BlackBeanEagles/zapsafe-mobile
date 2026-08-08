@@ -110,7 +110,9 @@ _CallerAvatar _avatarById(String id) {
 }
 
 String _displayCallerName(String name, String avatarId) {
-  if (avatarId == 'custom') return name.trim().isEmpty ? 'Unknown' : name.trim();
+  if (avatarId == 'custom') {
+    return name.trim().isEmpty ? 'Unknown' : name.trim();
+  }
   return _avatarById(avatarId).label == 'Custom'
       ? name
       : (name.trim().isEmpty ? _avatarById(avatarId).label : name.trim());
@@ -237,13 +239,12 @@ class _Day244FakeCallPolishScreenState
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: _kCallAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
-                    border:
-                        Border.all(color: _kCallAccent.withOpacity(0.45)),
+                    border: Border.all(color: _kCallAccent.withOpacity(0.45)),
                   ),
                   child: const Text(
                     'RINGING',
@@ -355,11 +356,12 @@ class _SettingsTab extends ConsumerWidget {
           decoration: InputDecoration(
             hintText: 'Name shown on incoming call',
             hintStyle: const TextStyle(color: ZapColors.textMuted),
-            prefixIcon: const Icon(Icons.badge_rounded, color: ZapColors.textMuted),
+            prefixIcon:
+                const Icon(Icons.badge_rounded, color: ZapColors.textMuted),
             filled: true,
             fillColor: ZapColors.bgCard,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -389,9 +391,7 @@ class _SettingsTab extends ConsumerWidget {
           children: _kPresetAvatars.map((a) {
             final selected = avatarId == a.id;
             return Material(
-              color: selected
-                  ? a.color.withOpacity(0.15)
-                  : ZapColors.bgCard,
+              color: selected ? a.color.withOpacity(0.15) : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 onTap: () {
@@ -409,7 +409,7 @@ class _SettingsTab extends ConsumerWidget {
                       width: selected ? 2 : 1,
                     ),
                   ),
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(ZapSpacing.sm),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -442,13 +442,14 @@ class _SettingsTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
           ),
           child: const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.visibility_off_rounded, color: ZapColors.warning, size: 18),
+              Icon(Icons.visibility_off_rounded,
+                  color: ZapColors.warning, size: 18),
               SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
@@ -565,8 +566,19 @@ class _SafetyTab extends ConsumerWidget {
       'call_phase': phase.name,
       'demo_triggers': triggers,
       'sos_text_on_call_screen': false,
-      'allowed_call_screen_words': ['caller name', 'mobile', 'decline', 'accept'],
-      'forbidden_call_screen_words': ['SOS', 'Emergency', 'ZapSafe', 'Help', 'Alert'],
+      'allowed_call_screen_words': [
+        'caller name',
+        'mobile',
+        'decline',
+        'accept'
+      ],
+      'forbidden_call_screen_words': [
+        'SOS',
+        'Emergency',
+        'ZapSafe',
+        'Help',
+        'Alert'
+      ],
       'sos_active_route': AppRoutes.sosActive,
       'overlay_type': 'full_screen_incoming_call',
       'ring_animation': 'pulse_rings_1800ms',
@@ -643,7 +655,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -674,7 +686,7 @@ class _SafetyTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -744,7 +756,7 @@ class _MockSosBackdrop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: _kSosBackdrop,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(ZapSpacing.xxl),
       child: Column(
         children: [
           Row(
@@ -943,7 +955,8 @@ class _IncomingCallOverlay extends ConsumerWidget {
                 )
               else
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: ZapSpacing.huge),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1077,7 +1090,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1091,8 +1104,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kCallAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

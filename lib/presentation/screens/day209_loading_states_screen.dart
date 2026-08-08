@@ -43,7 +43,7 @@ Widget _mockLoadedCard(String title, String subtitle, Color accent) {
     padding: const EdgeInsets.all(ZapSpacing.md),
     decoration: BoxDecoration(
       color: accent.withOpacity(0.1),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
       border: Border.all(color: accent.withOpacity(0.35)),
     ),
     child: Column(
@@ -352,7 +352,7 @@ class _SimulateTab extends ConsumerWidget {
             filled: true,
             fillColor: ZapColors.bgCard,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -428,7 +428,7 @@ class _SimulateTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Text(
@@ -480,7 +480,7 @@ class _AdoptionSpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -562,7 +562,7 @@ class _AdoptionSpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -600,7 +600,8 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected ? ZapColors.warning : Colors.transparent,
+                        color:
+                            selected ? ZapColors.warning : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -612,8 +613,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

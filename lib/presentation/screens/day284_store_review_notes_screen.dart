@@ -65,12 +65,14 @@ String _buildReviewNotes({
     buf.writeln('── SOS DEMO STEPS ──');
     buf.writeln('1. Sign in with the test account above.');
     buf.writeln('2. From Home, long-press the SOS ring button for 2 seconds.');
-    buf.writeln('3. ALERT_PENDING opens — enter cancel PIN $_kTestPin to dismiss.');
+    buf.writeln(
+        '3. ALERT_PENDING opens — enter cancel PIN $_kTestPin to dismiss.');
     buf.writeln(
       '4. To test live SOS: long-press again, then enter duress PIN $_kDuressPin '
       '(contacts alerted; UI stays discreet).',
     );
-    buf.writeln('5. Evidence vault (Day 82) stores encrypted audio + GPS trail.');
+    buf.writeln(
+        '5. Evidence vault (Day 82) stores encrypted audio + GPS trail.');
     buf.writeln();
     if (platform == _ReviewPlatform.apple) {
       buf.writeln(
@@ -128,7 +130,8 @@ Map<String, dynamic> _notesPayload({
         'cancel_pin': _kTestPin,
         'duress_pin': _kDuressPin,
       },
-      'wire_note': 'Mock generator · paste into App Store Connect / Play Console',
+      'wire_note':
+          'Mock generator · paste into App Store Connect / Play Console',
     };
 
 // ── Providers ─────────────────────────────────────────────────────────────────
@@ -157,8 +160,8 @@ class Day284StoreReviewNotesScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -250,9 +253,9 @@ class _NotesTab extends ConsumerWidget {
                 ),
                 value: includeTest,
                 activeColor: _kAccent,
-                onChanged: (v) =>
-                    ref.read(_d284IncludeTestAccountProvider.notifier).state =
-                        v,
+                onChanged: (v) => ref
+                    .read(_d284IncludeTestAccountProvider.notifier)
+                    .state = v,
               ),
               const Divider(height: 1, color: ZapColors.border),
               SwitchListTile(
@@ -318,7 +321,7 @@ class _NotesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -403,8 +406,7 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'App Store review notes',
-          subtitle:
-              'Paste into App Store Connect "Notes" or Play Console '
+          subtitle: 'Paste into App Store Connect "Notes" or Play Console '
               '"App access" section before submission.',
         ),
         const _PolicyRow(
@@ -416,8 +418,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.emergency_rounded,
           title: 'SOS demo path',
-          subtitle:
-              'Long-press ring (Day 203) → ALERT_PENDING (Day 71) → '
+          subtitle: 'Long-press ring (Day 203) → ALERT_PENDING (Day 71) → '
               'SOS_ACTIVE (Day 76) with encrypted evidence.',
         ),
         const _PolicyRow(
@@ -442,7 +443,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -473,7 +474,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -607,7 +608,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -621,8 +622,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

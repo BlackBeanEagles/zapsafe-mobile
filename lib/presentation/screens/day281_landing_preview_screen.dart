@@ -140,9 +140,8 @@ class Day281LandingPreviewScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Toggle dark landing preview',
-            onPressed: () =>
-                ref.read(_d281DarkPreviewProvider.notifier).state =
-                    !ref.watch(_d281DarkPreviewProvider),
+            onPressed: () => ref.read(_d281DarkPreviewProvider.notifier).state =
+                !ref.watch(_d281DarkPreviewProvider),
             icon: Icon(
               ref.watch(_d281DarkPreviewProvider)
                   ? Icons.light_mode_rounded
@@ -154,18 +153,14 @@ class Day281LandingPreviewScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
-                  color: (allMatch && auditDone
-                          ? ZapColors.safe
-                          : _kAccent)
+                  color: (allMatch && auditDone ? ZapColors.safe : _kAccent)
                       .withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
-                    color: (allMatch && auditDone
-                            ? ZapColors.safe
-                            : _kAccent)
+                    color: (allMatch && auditDone ? ZapColors.safe : _kAccent)
                         .withOpacity(0.45),
                   ),
                 ),
@@ -247,16 +242,19 @@ class _LandingTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
                 decoration: BoxDecoration(
-                  color: dark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                  color:
+                      dark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12),
                   ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.language_rounded, size: 14, color: _kAccent),
+                    const Icon(Icons.language_rounded,
+                        size: 14, color: _kAccent),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
@@ -280,7 +278,8 @@ class _LandingTab extends ConsumerWidget {
                 padding: const EdgeInsets.all(ZapSpacing.lg),
                 child: Column(
                   children: [
-                    const Icon(Icons.shield_rounded, size: 48, color: ZapColors.danger),
+                    const Icon(Icons.shield_rounded,
+                        size: 48, color: ZapColors.danger),
                     const SizedBox(height: ZapSpacing.md),
                     Text(
                       'ZapSafe',
@@ -332,8 +331,10 @@ class _LandingTab extends ConsumerWidget {
                                 ),
                               );
                             },
-                            icon: Icon(Icons.apple_rounded, size: 16, color: fg),
-                            label: Text('App Store', style: TextStyle(color: fg)),
+                            icon:
+                                Icon(Icons.apple_rounded, size: 16, color: fg),
+                            label:
+                                Text('App Store', style: TextStyle(color: fg)),
                           ),
                         ),
                       ],
@@ -341,7 +342,9 @@ class _LandingTab extends ConsumerWidget {
                   ],
                 ),
               ),
-              Divider(height: 1, color: dark ? const Color(0xFF334155) : ZapColors.border),
+              Divider(
+                  height: 1,
+                  color: dark ? const Color(0xFF334155) : ZapColors.border),
               Padding(
                 padding: const EdgeInsets.all(ZapSpacing.lg),
                 child: Column(
@@ -369,7 +372,8 @@ class _LandingTab extends ConsumerWidget {
                                   ),
                                   Text(
                                     f.$2,
-                                    style: TextStyle(color: muted, fontSize: 11),
+                                    style:
+                                        TextStyle(color: muted, fontSize: 11),
                                   ),
                                 ],
                               ),
@@ -398,8 +402,10 @@ class _LandingTab extends ConsumerWidget {
                       alignment: WrapAlignment.center,
                       spacing: 12,
                       children: [
-                        Text('Privacy', style: TextStyle(color: _kAccent, fontSize: 10)),
-                        Text('Terms', style: TextStyle(color: _kAccent, fontSize: 10)),
+                        Text('Privacy',
+                            style: TextStyle(color: _kAccent, fontSize: 10)),
+                        Text('Terms',
+                            style: TextStyle(color: _kAccent, fontSize: 10)),
                         Text(_kSupportEmail,
                             style: TextStyle(color: _kAccent, fontSize: 10)),
                       ],
@@ -452,7 +458,8 @@ class _LinksTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Store listing link audit',
-          subtitle: 'Compare landing page hrefs vs Play Console / App Store Connect',
+          subtitle:
+              'Compare landing page hrefs vs Play Console / App Store Connect',
         ),
         ..._kStoreLinks.map((link) {
           final ok = verified.contains(link.id);
@@ -460,14 +467,10 @@ class _LinksTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
-              color: ok
-                  ? ZapColors.safe.withOpacity(0.08)
-                  : ZapColors.bgCard,
+              color: ok ? ZapColors.safe.withOpacity(0.08) : ZapColors.bgCard,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: ok
-                    ? ZapColors.safe.withOpacity(0.4)
-                    : ZapColors.border,
+                color: ok ? ZapColors.safe.withOpacity(0.4) : ZapColors.border,
               ),
             ),
             child: Column(
@@ -553,7 +556,7 @@ class _LinksTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.35)),
             ),
             child: const Row(
@@ -606,8 +609,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.link_rounded,
           title: 'Link audit mock',
-          subtitle:
-              'Runs sequential href comparison · flags mismatches before '
+          subtitle: 'Runs sequential href comparison · flags mismatches before '
               'public launch · no network call in demo.',
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -625,7 +627,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -656,7 +658,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -790,7 +792,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -804,8 +806,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

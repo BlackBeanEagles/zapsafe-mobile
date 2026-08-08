@@ -149,7 +149,7 @@ class _LivePreviewTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -173,7 +173,7 @@ class _DashboardBodyPlaceholder extends StatelessWidget {
           height: 48,
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           alignment: Alignment.center,
@@ -214,7 +214,7 @@ class _ModeColorLegend extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -256,7 +256,9 @@ class _ModeColorLegend extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      mode.shouldPulse ? '${mode.description} · pulse' : mode.description,
+                      mode.shouldPulse
+                          ? '${mode.description} · pulse'
+                          : mode.description,
                       style: const TextStyle(
                         color: ZapColors.textSecondary,
                         fontSize: 11,
@@ -282,7 +284,7 @@ class _IntegrationNote extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgSurface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: const Column(
@@ -409,15 +411,13 @@ class _ModeControlsTab extends ConsumerWidget {
           title: 'Card expanded',
           subtitle: 'Simulate user tap-to-expand',
           value: expanded,
-          onChanged: (v) =>
-              ref.read(_d204ExpandedProvider.notifier).state = v,
+          onChanged: (v) => ref.read(_d204ExpandedProvider.notifier).state = v,
         ),
         _ControlToggle(
           title: 'GPS active',
           subtitle: 'Shows polling interval in expanded view',
           value: gpsActive,
-          onChanged: (v) =>
-              ref.read(_d204GpsActiveProvider.notifier).state = v,
+          onChanged: (v) => ref.read(_d204GpsActiveProvider.notifier).state = v,
         ),
         _ControlToggle(
           title: 'Reduce motion',
@@ -489,7 +489,7 @@ class _SliderCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -588,7 +588,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -669,8 +669,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

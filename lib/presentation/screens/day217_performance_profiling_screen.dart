@@ -149,8 +149,9 @@ class Day217PerformanceProfilingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d217TabProvider);
     final results = ref.watch(_d217ResultsProvider);
-    final passCount =
-        _kMetrics.where((m) => results.containsKey(m.id) && m.passes(results[m.id]!)).length;
+    final passCount = _kMetrics
+        .where((m) => results.containsKey(m.id) && m.passes(results[m.id]!))
+        .length;
 
     return Scaffold(
       backgroundColor: ZapColors.bgPrimary,
@@ -213,15 +214,13 @@ class _BenchmarkTab extends ConsumerWidget {
     }
 
     ref.read(_d217ResultsProvider.notifier).state = {
-      for (final m in _kMetrics)
-        m.id: m.afterValue + _jitter(m.id),
+      for (final m in _kMetrics) m.id: m.afterValue + _jitter(m.id),
     };
     ref.read(_d217BenchmarkStateProvider.notifier).state = _BenchmarkState.done;
 
     if (!context.mounted) return;
     final results = ref.read(_d217ResultsProvider);
-    final passed =
-        _kMetrics.where((m) => m.passes(results[m.id]!)).length;
+    final passed = _kMetrics.where((m) => m.passes(results[m.id]!)).length;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -308,14 +307,15 @@ class _BenchmarkTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _kBenchmarkStages[stage.clamp(0, _kBenchmarkStages.length - 1)],
+                  _kBenchmarkStages[
+                      stage.clamp(0, _kBenchmarkStages.length - 1)],
                   style: const TextStyle(
                     color: ZapColors.textPrimary,
                     fontWeight: FontWeight.w600,
@@ -335,7 +335,8 @@ class _BenchmarkTab extends ConsumerWidget {
                 const SizedBox(height: 6),
                 Text(
                   'Stage ${stage + 1}/${_kBenchmarkStages.length}',
-                  style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
+                  style:
+                      const TextStyle(color: ZapColors.textMuted, fontSize: 10),
                 ),
               ],
             ),
@@ -390,7 +391,7 @@ class _ResultCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: borderColor, width: fail || pass ? 2 : 1),
       ),
       child: Row(
@@ -401,7 +402,7 @@ class _ResultCard extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: metric.accent.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             ),
             child: Icon(metric.icon, color: metric.accent, size: 22),
           ),
@@ -482,7 +483,8 @@ class _MetricPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(4),
@@ -526,7 +528,7 @@ class _BeforeAfterTab extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -657,7 +659,8 @@ class _BeforeAfterTab extends ConsumerWidget {
                                 ? Icons.trending_down_rounded
                                 : Icons.trending_up_rounded,
                             size: 14,
-                            color: improved ? ZapColors.safe : ZapColors.warning,
+                            color:
+                                improved ? ZapColors.safe : ZapColors.warning,
                           ),
                           const SizedBox(width: ZapSpacing.xs),
                           Expanded(
@@ -755,7 +758,7 @@ class _SpecTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -813,7 +816,7 @@ class _SpecTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -863,8 +866,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

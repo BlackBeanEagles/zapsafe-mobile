@@ -22,7 +22,8 @@ import '../navigation/app_router.dart';
 final _d227TabProvider = StateProvider<int>((ref) => 0);
 final _d227ReadIdsProvider = StateProvider<Set<String>>((ref) => {});
 final _d227SelectedProvider = StateProvider<Set<String>>((ref) => {});
-final _d227ExpandedSosProvider = StateProvider<Set<String>>((ref) => {'__all__'});
+final _d227ExpandedSosProvider =
+    StateProvider<Set<String>>((ref) => {'__all__'});
 
 const _kTabs = ['Grouped', 'Batch Read', 'Export CSV'];
 
@@ -41,9 +42,7 @@ List<({String? sosId, String label, List<NotifEntry> items})> _groupBySos(
   }
 
   final groups = map.entries.map((e) {
-    final label = e.key == null
-        ? 'Other notifications'
-        : 'SOS ${e.key}';
+    final label = e.key == null ? 'Other notifications' : 'SOS ${e.key}';
     e.value.sort((a, b) => b.sentAt.compareTo(a.sentAt));
     return (sosId: e.key, label: label, items: e.value);
   }).toList();
@@ -104,8 +103,8 @@ class Day227NotificationHistoryV3Screen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: ZapSpacing.md),
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                   decoration: BoxDecoration(
                     color: ZapColors.warning.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(4),
@@ -195,7 +194,8 @@ class _GroupedTab extends ConsumerWidget {
               onPressed: () => context.push(AppRoutes.notificationHistoryV2),
             ),
             ActionChip(
-              label: Text('${groups.where((g) => g.sosId != null).length} SOS groups'),
+              label: Text(
+                  '${groups.where((g) => g.sosId != null).length} SOS groups'),
               onPressed: null,
             ),
           ],
@@ -203,16 +203,14 @@ class _GroupedTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.lg),
         ...groups.map((group) {
           final key = group.sosId ?? '__other__';
-          final isExp =
-              expanded.contains('__all__') || expanded.contains(key);
-          final unread =
-              _unreadCount(group.items, readIds);
+          final isExp = expanded.contains('__all__') || expanded.contains(key);
+          final unread = _unreadCount(group.items, readIds);
 
           return Container(
             margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: group.sosId != null
                     ? ZapColors.danger.withOpacity(0.35)
@@ -222,9 +220,8 @@ class _GroupedTab extends ConsumerWidget {
             child: Column(
               children: [
                 InkWell(
-                  onTap: () => ref
-                      .read(_d227ExpandedSosProvider.notifier)
-                      .update((s) {
+                  onTap: () =>
+                      ref.read(_d227ExpandedSosProvider.notifier).update((s) {
                     final next = {...s}..remove('__all__');
                     if (next.contains(key)) {
                       next.remove(key);
@@ -333,9 +330,7 @@ class _NotifRow extends StatelessWidget {
                 Text(
                   entry.title,
                   style: TextStyle(
-                    color: read
-                        ? ZapColors.textMuted
-                        : ZapColors.textPrimary,
+                    color: read ? ZapColors.textMuted : ZapColors.textPrimary,
                     fontWeight: read ? FontWeight.w500 : FontWeight.w700,
                     fontSize: 11,
                     decoration: read ? TextDecoration.lineThrough : null,
@@ -403,8 +398,7 @@ class _BatchReadTab extends ConsumerWidget {
     final entries = ref.watch(notifHistoryProvider);
     final readIds = ref.watch(_d227ReadIdsProvider);
     final selected = ref.watch(_d227SelectedProvider);
-    final unreadEntries =
-        entries.where((e) => !_isRead(e, readIds)).toList();
+    final unreadEntries = entries.where((e) => !_isRead(e, readIds)).toList();
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -554,7 +548,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -603,7 +597,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -641,9 +635,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected
-                            ? ZapColors.info
-                            : Colors.transparent,
+                        color: selected ? ZapColors.info : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -655,8 +647,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

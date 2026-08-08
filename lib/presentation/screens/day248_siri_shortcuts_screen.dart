@@ -137,8 +137,7 @@ final _d248PlatformOverrideProvider =
     StateProvider<_VoicePlatform?>((ref) => null);
 final _d248InstalledPhrasesProvider =
     StateProvider<Set<String>>((ref) => {'sos_primary'});
-final _d248CompletedStepsProvider =
-    StateProvider<Set<int>>((ref) => {0});
+final _d248CompletedStepsProvider = StateProvider<Set<int>>((ref) => {0});
 final _d248SelectedPhraseProvider =
     StateProvider<String>((ref) => 'sos_primary');
 
@@ -178,7 +177,8 @@ Future<void> _openShortcutsApp(BuildContext context) async {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Shortcuts deep link unavailable on this device (mock).'),
+          content:
+              Text('Shortcuts deep link unavailable on this device (mock).'),
         ),
       );
     }
@@ -205,8 +205,8 @@ class Day248SiriShortcutsScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -435,7 +435,8 @@ class _PhraseTile extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      tooltip: installed ? 'Mark not installed' : 'Mark installed',
+                      tooltip:
+                          installed ? 'Mark not installed' : 'Mark installed',
                       onPressed: onToggleInstalled,
                       icon: Icon(
                         installed
@@ -603,7 +604,7 @@ class _SetupTab extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 8),
             child: Material(
               color: done ? _kAccent.withOpacity(0.08) : ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               child: CheckboxListTile(
                 value: done,
                 onChanged: (v) {
@@ -661,7 +662,7 @@ class _PlatformPicker extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -783,7 +784,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -814,7 +815,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -924,7 +925,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -938,8 +939,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

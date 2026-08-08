@@ -469,7 +469,8 @@ const _kContracts = [
     usedBy: 'Day 179 · active sessions',
     status: ApiWireStatus.missing,
     category: ApiCategory.auth,
-    sampleJson: '{"sessions":[{"device":"Pixel 7","last_active":"2026-06-01"}]}',
+    sampleJson:
+        '{"sessions":[{"device":"Pixel 7","last_active":"2026-06-01"}]}',
   ),
   ApiContractRow(
     id: 'account_delete',
@@ -578,7 +579,8 @@ final _d219HealthLatencyProvider = StateProvider<int?>((ref) => null);
 
 const _kTabs = ['Matrix', 'JSON Sample', 'Export'];
 
-ApiWireStatus _statusFor(ApiContractRow row, Map<String, ApiWireStatus> overrides) {
+ApiWireStatus _statusFor(
+    ApiContractRow row, Map<String, ApiWireStatus> overrides) {
   return overrides[row.id] ?? row.status;
 }
 
@@ -677,7 +679,8 @@ Future<void> _pingHealth(WidgetRef ref) async {
     );
     final response = await dio.get<Map<String, dynamic>>('/api/v1/health/');
     sw.stop();
-    ref.read(_d219HealthLatencyProvider.notifier).state = sw.elapsedMilliseconds;
+    ref.read(_d219HealthLatencyProvider.notifier).state =
+        sw.elapsedMilliseconds;
 
     if (response.statusCode == 200) {
       ref.read(_d219HealthStateProvider.notifier).state = HealthPingState.ok;
@@ -696,7 +699,8 @@ Future<void> _pingHealth(WidgetRef ref) async {
   } catch (e) {
     sw.stop();
     ref.read(_d219HealthStateProvider.notifier).state = HealthPingState.error;
-    ref.read(_d219HealthLatencyProvider.notifier).state = sw.elapsedMilliseconds;
+    ref.read(_d219HealthLatencyProvider.notifier).state =
+        sw.elapsedMilliseconds;
     ref.read(_d219HealthBodyProvider.notifier).state = e.toString();
   }
 }
@@ -736,11 +740,12 @@ class _MatrixTab extends ConsumerWidget {
           decoration: InputDecoration(
             hintText: 'Search path, screen, method…',
             hintStyle: const TextStyle(color: ZapColors.textMuted),
-            prefixIcon: const Icon(Icons.search_rounded, color: ZapColors.textMuted),
+            prefixIcon:
+                const Icon(Icons.search_rounded, color: ZapColors.textMuted),
             filled: true,
             fillColor: ZapColors.bgElevated,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -767,7 +772,7 @@ class _MatrixTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -888,13 +893,13 @@ class _ContractRowTile extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: Container(
           margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(
               color: status == ApiWireStatus.missing
                   ? ZapColors.danger.withOpacity(0.4)
@@ -971,7 +976,8 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
       decoration: BoxDecoration(
         color: status.color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(4),
@@ -1033,7 +1039,7 @@ class _JsonSampleTab extends ConsumerWidget {
             filled: true,
             fillColor: ZapColors.bgElevated,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
           ),
@@ -1045,7 +1051,8 @@ class _JsonSampleTab extends ConsumerWidget {
                   value: r.id,
                   child: Text(
                     '${r.method} ${r.path}',
-                    style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
+                    style:
+                        const TextStyle(fontFamily: 'monospace', fontSize: 11),
                   ),
                 ),
               )
@@ -1084,7 +1091,7 @@ class _JsonSampleTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -1112,7 +1119,7 @@ class _JsonSampleTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.3)),
             ),
             child: SelectableText(
@@ -1165,8 +1172,7 @@ class _ExportTab extends ConsumerWidget {
   const _ExportTab();
 
   String _buildCsv(Map<String, ApiWireStatus> overrides) {
-    final buf = StringBuffer()
-      ..writeln('method,path,status,screen,category');
+    final buf = StringBuffer()..writeln('method,path,status,screen,category');
     for (final row in _kContracts) {
       final status = _statusFor(row, overrides);
       buf.writeln(
@@ -1222,7 +1228,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Text(
@@ -1279,7 +1285,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1317,7 +1323,8 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected ? ZapColors.warning : Colors.transparent,
+                        color:
+                            selected ? ZapColors.warning : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -1329,8 +1336,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

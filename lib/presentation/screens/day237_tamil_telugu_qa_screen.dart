@@ -362,9 +362,7 @@ List<_LayoutFlag> _layoutFlagsFor(
 List<_LayoutFlag> _allLayoutFlags({_DravidianLocale? locale}) {
   final flags = <_LayoutFlag>[];
   for (final entry in _kCriticalStrings) {
-    final locales = locale == null
-        ? _DravidianLocale.values
-        : [locale];
+    final locales = locale == null ? _DravidianLocale.values : [locale];
     for (final loc in locales) {
       flags.addAll(_layoutFlagsFor(entry, loc));
     }
@@ -372,15 +370,13 @@ List<_LayoutFlag> _allLayoutFlags({_DravidianLocale? locale}) {
   return flags;
 }
 
-bool _entryHasIssue(_DravidianStringEntry entry) =>
-    _DravidianLocale.values.any(
+bool _entryHasIssue(_DravidianStringEntry entry) => _DravidianLocale.values.any(
       (loc) => _layoutFlagsFor(entry, loc).isNotEmpty,
     );
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d237TabProvider = StateProvider<int>((ref) => 0);
-final _d237CategoryProvider =
-    StateProvider<_StringCategory?>((ref) => null);
+final _d237CategoryProvider = StateProvider<_StringCategory?>((ref) => null);
 final _d237LocaleFilterProvider =
     StateProvider<_DravidianLocale?>((ref) => null);
 final _d237ReviewedProvider = StateProvider<Set<String>>((ref) => {});
@@ -414,9 +410,11 @@ String _buildReport() {
         buf.writeln('[${e.category.label}] ${e.id} · ${loc.localeCode} · OK');
       } else {
         for (final f in locFlags) {
-          final kind =
-              f.kind == _LayoutIssueKind.singleLine ? 'BTN_OVERFLOW' : 'LINE_BREAK';
-          buf.writeln('[${e.category.label}] ${e.id} · ${loc.localeCode} · $kind');
+          final kind = f.kind == _LayoutIssueKind.singleLine
+              ? 'BTN_OVERFLOW'
+              : 'LINE_BREAK';
+          buf.writeln(
+              '[${e.category.label}] ${e.id} · ${loc.localeCode} · $kind');
         }
       }
       buf.writeln('  EN: ${e.english}');
@@ -449,8 +447,8 @@ class Day237TamilTeluguQaScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: flagCount == 0
                       ? ZapColors.safe.withOpacity(0.15)
@@ -747,7 +745,7 @@ class _LayoutTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -806,7 +804,7 @@ class _LayoutTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.warning.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
           ),
           child: const Text(
@@ -838,7 +836,7 @@ class _LayoutIssueCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: flag.locale.color.withOpacity(0.45)),
       ),
       child: Column(
@@ -847,8 +845,7 @@ class _LayoutIssueCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: flag.locale.color.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -874,8 +871,7 @@ class _LayoutIssueCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: ZapColors.warning.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -907,7 +903,7 @@ class _LayoutIssueCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               color: flag.locale.color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: flag.locale.color.withOpacity(0.4)),
             ),
             child: Text(
@@ -1067,7 +1063,7 @@ class _ReportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1097,7 +1093,7 @@ class _StatBox extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -1215,8 +1211,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

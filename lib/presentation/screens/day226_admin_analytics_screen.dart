@@ -88,8 +88,8 @@ class Day226AdminAnalyticsScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: unlocked
                       ? ZapColors.danger.withOpacity(0.15)
@@ -174,7 +174,7 @@ class _DashboardTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.xl),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -203,7 +203,8 @@ class _DashboardTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: ZapSpacing.lg),
                 FilledButton.icon(
-                  onPressed: () => ref.read(_d226TabProvider.notifier).state = 1,
+                  onPressed: () =>
+                      ref.read(_d226TabProvider.notifier).state = 1,
                   icon: const Icon(Icons.vpn_key_rounded, size: 18),
                   label: const Text('Go to Access Gate'),
                   style: FilledButton.styleFrom(
@@ -286,7 +287,7 @@ class _DashboardTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -399,7 +400,7 @@ class _MetricCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Column(
@@ -508,7 +509,7 @@ class _AccessGateTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.lg),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Column(
@@ -540,7 +541,7 @@ class _AccessGateTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgElevated,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -582,7 +583,8 @@ class _AccessGateTab extends ConsumerWidget {
                     padding: const EdgeInsets.all(ZapSpacing.md),
                     decoration: BoxDecoration(
                       color: ZapColors.danger.withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                       border: Border.all(
                         color: ZapColors.danger.withOpacity(0.35),
                       ),
@@ -634,7 +636,7 @@ class _AccessGateTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.35)),
             ),
             child: const Row(
@@ -679,7 +681,7 @@ class _ApiContractTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -731,7 +733,7 @@ class _ApiContractTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SelectableText(
@@ -773,7 +775,7 @@ class _ApiContractTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -811,8 +813,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color:
-                            selected ? ZapColors.danger : Colors.transparent,
+                        color: selected ? ZapColors.danger : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -824,8 +825,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),

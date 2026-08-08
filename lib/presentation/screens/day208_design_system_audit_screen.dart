@@ -61,7 +61,8 @@ const _kRules = [
     description:
         'Use ZapTypography.* with .copyWith(color:) — not raw fontSize in widgets.',
     wrongExample: "TextStyle(fontSize: 14, fontWeight: FontWeight.w600)",
-    rightExample: 'ZapTypography.bodyMedium.copyWith(color: ZapColors.textPrimary)',
+    rightExample:
+        'ZapTypography.bodyMedium.copyWith(color: ZapColors.textPrimary)',
     themeFile: 'lib/core/theme/typography.dart',
     icon: Icons.text_fields_rounded,
     accent: ZapColors.info,
@@ -70,8 +71,7 @@ const _kRules = [
   DesignAuditRule(
     id: 'spacing',
     title: '4px spacing grid',
-    description:
-        'Padding and gaps use ZapSpacing.* — multiples of 4px only.',
+    description: 'Padding and gaps use ZapSpacing.* — multiples of 4px only.',
     wrongExample: 'padding: EdgeInsets.all(13)',
     rightExample: 'padding: EdgeInsets.all(ZapSpacing.md)',
     themeFile: 'lib/core/theme/spacing.dart',
@@ -84,7 +84,8 @@ const _kRules = [
     description:
         'Every tappable control meets WCAG AAA 75×75dp minimum (safety app).',
     wrongExample: 'SizedBox(width: 48, height: 48)',
-    rightExample: 'minimumSize: Size(double.infinity, ZapSpacing.minTouchTarget)',
+    rightExample:
+        'minimumSize: Size(double.infinity, ZapSpacing.minTouchTarget)',
     themeFile: 'lib/core/theme/spacing.dart',
     icon: Icons.touch_app_rounded,
     accent: ZapColors.warning,
@@ -187,10 +188,8 @@ class Day208DesignSystemAuditScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d208TabProvider);
     final verdicts = ref.watch(_d208VerdictsProvider);
-    final passed =
-        verdicts.values.where((v) => v == AuditVerdict.pass).length;
-    final failed =
-        verdicts.values.where((v) => v == AuditVerdict.fail).length;
+    final passed = verdicts.values.where((v) => v == AuditVerdict.pass).length;
+    final failed = verdicts.values.where((v) => v == AuditVerdict.fail).length;
     final unchecked =
         verdicts.values.where((v) => v == AuditVerdict.unchecked).length;
 
@@ -418,7 +417,7 @@ class _ChecklistTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Column(
@@ -436,7 +435,8 @@ class _ChecklistTab extends ConsumerWidget {
                 SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Screen is design-system compliant for this audit pass.',
-                  style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+                  style:
+                      TextStyle(color: ZapColors.textSecondary, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -448,7 +448,7 @@ class _ChecklistTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -592,9 +592,11 @@ class _RuleCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _CodeSnippet(label: 'Wrong', code: rule.wrongExample, bad: true),
+                  _CodeSnippet(
+                      label: 'Wrong', code: rule.wrongExample, bad: true),
                   const SizedBox(height: ZapSpacing.sm),
-                  _CodeSnippet(label: 'Right', code: rule.rightExample, bad: false),
+                  _CodeSnippet(
+                      label: 'Right', code: rule.rightExample, bad: false),
                   const SizedBox(height: ZapSpacing.sm),
                   Text(
                     'Theme: ${rule.themeFile}',
@@ -674,15 +676,15 @@ class _VerdictButton extends StatelessWidget {
       selected: selected,
       child: Material(
         color: selected ? color.withOpacity(0.2) : ZapColors.bgElevated,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           child: Container(
             height: ZapSpacing.minTouchTarget,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: selected ? color : ZapColors.border,
                 width: selected ? 2 : 1,
@@ -732,7 +734,7 @@ class _CodeExamplesTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -893,7 +895,7 @@ class _ThemeFilesTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: accent.withOpacity(0.35)),
             ),
             child: Column(
@@ -956,7 +958,7 @@ class _ThemeFilesTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Text(
@@ -980,8 +982,7 @@ class _ThemeFilesTab extends StatelessWidget {
             onPressed: () {
               Clipboard.setData(
                 const ClipboardData(
-                  text:
-                      "import '../../core/theme/colors.dart';\n"
+                  text: "import '../../core/theme/colors.dart';\n"
                       "import '../../core/theme/spacing.dart';\n"
                       "import '../../core/theme/typography.dart';",
                 ),
@@ -1027,9 +1028,7 @@ class _TabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: selected
-                            ? ZapColors.info
-                            : Colors.transparent,
+                        color: selected ? ZapColors.info : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -1041,8 +1040,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

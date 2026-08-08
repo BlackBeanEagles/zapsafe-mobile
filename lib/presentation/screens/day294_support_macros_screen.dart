@@ -327,13 +327,12 @@ Map<String, dynamic> _macrosPayload({
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 final _d294TabProvider = StateProvider<int>((ref) => 0);
-final _d294CategoryFilterProvider =
-    StateProvider<String>((ref) => 'all');
+final _d294CategoryFilterProvider = StateProvider<String>((ref) => 'all');
 final _d294SelectedMacroProvider =
     StateProvider<String?>((ref) => _kMacros.first.id);
 final _d294CustomerNameProvider = StateProvider<String>((ref) => '');
-final _d294TicketIdProvider =
-    StateProvider<String>((ref) => 'ZS-${DateTime.now().millisecondsSinceEpoch % 100000}');
+final _d294TicketIdProvider = StateProvider<String>(
+    (ref) => 'ZS-${DateTime.now().millisecondsSinceEpoch % 100000}');
 final _d294SendingProvider = StateProvider<bool>((ref) => false);
 
 List<_SupportMacro> _filteredMacros(String filter) {
@@ -359,8 +358,8 @@ class Day294SupportMacrosScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -466,14 +465,10 @@ class _MacrosTab extends ConsumerWidget {
               child: Container(
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
-                  color: isSelected
-                      ? color.withOpacity(0.1)
-                      : ZapColors.bgCard,
+                  color: isSelected ? color.withOpacity(0.1) : ZapColors.bgCard,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: isSelected
-                        ? color
-                        : ZapColors.border,
+                    color: isSelected ? color : ZapColors.border,
                     width: isSelected ? 2 : 1,
                   ),
                 ),
@@ -571,7 +566,8 @@ class _ComposeTabState extends ConsumerState<_ComposeTab> {
   @override
   void initState() {
     super.initState();
-    _nameCtrl = TextEditingController(text: ref.read(_d294CustomerNameProvider));
+    _nameCtrl =
+        TextEditingController(text: ref.read(_d294CustomerNameProvider));
     _ticketCtrl = TextEditingController(text: ref.read(_d294TicketIdProvider));
   }
 
@@ -790,22 +786,26 @@ class _InfoTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Support macros',
-          subtitle: 'Post-launch canned replies · Day 292 war room SLA alignment.',
+          subtitle:
+              'Post-launch canned replies · Day 292 war room SLA alignment.',
         ),
         const _PolicyRow(
           icon: Icons.warning_amber_rounded,
           title: 'False positive (3 macros)',
-          subtitle: 'Accidental SOS · no alert sent · sensitivity tuning · Day 115/124.',
+          subtitle:
+              'Accidental SOS · no alert sent · sensitivity tuning · Day 115/124.',
         ),
         const _PolicyRow(
           icon: Icons.receipt_long_rounded,
           title: 'Billing (3 macros)',
-          subtitle: 'Play refund · restore purchase · charge dispute · Day 95/96.',
+          subtitle:
+              'Play refund · restore purchase · charge dispute · Day 95/96.',
         ),
         const _PolicyRow(
           icon: Icons.delete_forever_rounded,
           title: 'Deletion (3 macros)',
-          subtitle: 'GDPR ack · grace reminder · export before delete · Day 169-172.',
+          subtitle:
+              'GDPR ack · grace reminder · export before delete · Day 169-172.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         const Text(
@@ -822,7 +822,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -853,7 +853,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1025,7 +1025,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -1039,8 +1039,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

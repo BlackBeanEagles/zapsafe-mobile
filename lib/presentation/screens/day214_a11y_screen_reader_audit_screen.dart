@@ -130,7 +130,8 @@ const _kItems = [
         'Settings gear, close X, filter icons wrapped in Semantics or Tooltip.',
     screen: 'All screens with IconButton',
     talkBackExpected: '"Open settings" not "Button"',
-    voiceOverExpected: 'Descriptive accessibility label on every icon tap target',
+    voiceOverExpected:
+        'Descriptive accessibility label on every icon tap target',
   ),
   A11yCheckItem(
     id: 'foc_top_down',
@@ -206,8 +207,7 @@ const _kItems = [
     category: A11yCategory.liveRegion,
     title: 'Snackbars as live regions',
     wcag: '4.1.3 Status Messages',
-    description:
-        'Retry / offline queue messages announced when shown.',
+    description: 'Retry / offline queue messages announced when shown.',
     screen: 'Day 207 chat offline / Day 210 error retry',
     talkBackExpected: 'Toast text read once when displayed',
     voiceOverExpected: 'Announcement without requiring focus move',
@@ -217,8 +217,7 @@ const _kItems = [
     category: A11yCategory.liveRegion,
     title: 'SOS triggered assertive announce',
     wcag: '4.1.3 Status Messages',
-    description:
-        'Successful SOS trigger uses assertive/priority announcement.',
+    description: 'Successful SOS trigger uses assertive/priority announcement.',
     screen: 'SOS triggered state',
     talkBackExpected: '"Emergency SOS activated" interrupts politely',
     voiceOverExpected: 'Priority announcement on trigger complete',
@@ -322,18 +321,22 @@ class _TestScriptStep {
 const _kTestScript = [
   _TestScriptStep(
     step: 1,
-    action: 'Enable TalkBack (Android) or VoiceOver (iOS). Set speech rate to normal.',
+    action:
+        'Enable TalkBack (Android) or VoiceOver (iOS). Set speech rate to normal.',
     expected: 'Screen reader is active before opening ZapSafe.',
-    tip: 'Android: Volume Up + Down 3s. iOS: Settings → Accessibility → VoiceOver.',
+    tip:
+        'Android: Volume Up + Down 3s. iOS: Settings → Accessibility → VoiceOver.',
   ),
   _TestScriptStep(
     step: 2,
     action: 'Cold-launch ZapSafe. Wait on Dashboard until first focus lands.',
-    expected: 'Announces dashboard title or first focusable header — not silence.',
+    expected:
+        'Announces dashboard title or first focusable header — not silence.',
   ),
   _TestScriptStep(
     step: 3,
-    action: 'Swipe right through top region: mode card → notifications → score ring.',
+    action:
+        'Swipe right through top region: mode card → notifications → score ring.',
     expected: 'Each block has a unique, descriptive label in logical order.',
   ),
   _TestScriptStep(
@@ -345,31 +348,39 @@ const _kTestScript = [
   _TestScriptStep(
     step: 5,
     action: 'Double-tap and hold SOS. Count to 1, then release finger early.',
-    expected: 'Announces cancellation — "Cancelled" or equivalent status message.',
+    expected:
+        'Announces cancellation — "Cancelled" or equivalent status message.',
   ),
   _TestScriptStep(
     step: 6,
-    action: 'Find SOS again. Double-tap and hold for full 2 seconds without releasing.',
+    action:
+        'Find SOS again. Double-tap and hold for full 2 seconds without releasing.',
     expected: 'Trigger confirmation announced. Focus may move to alert UI.',
   ),
   _TestScriptStep(
     step: 7,
-    action: 'If countdown appears, listen for liveRegion ticks without swiping.',
+    action:
+        'If countdown appears, listen for liveRegion ticks without swiping.',
     expected: 'Seconds remaining update audibly — focus not stolen each tick.',
   ),
   _TestScriptStep(
     step: 8,
-    action: 'Dismiss or complete flow. Navigate back to Dashboard with system back.',
-    expected: 'Returns to dashboard; prior focus restored or logical first focus.',
+    action:
+        'Dismiss or complete flow. Navigate back to Dashboard with system back.',
+    expected:
+        'Returns to dashboard; prior focus restored or logical first focus.',
   ),
   _TestScriptStep(
     step: 9,
-    action: 'Open Settings via screen reader. Jump headings to "Accessibility".',
-    expected: 'Heading navigation finds accessibility section in ≤ 3 heading jumps.',
+    action:
+        'Open Settings via screen reader. Jump headings to "Accessibility".',
+    expected:
+        'Heading navigation finds accessibility section in ≤ 3 heading jumps.',
   ),
   _TestScriptStep(
     step: 10,
-    action: 'Mark checklist item "Eyes-closed script completable" Pass or Fail.',
+    action:
+        'Mark checklist item "Eyes-closed script completable" Pass or Fail.',
     expected: 'Record blockers in notes — route + missing label + step number.',
   ),
 ];
@@ -395,10 +406,8 @@ class Day214A11yScreenReaderAuditScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d214TabProvider);
     final verdicts = ref.watch(_d214VerdictsProvider);
-    final passed =
-        verdicts.values.where((v) => v == A11yVerdict.pass).length;
-    final failed =
-        verdicts.values.where((v) => v == A11yVerdict.fail).length;
+    final passed = verdicts.values.where((v) => v == A11yVerdict.pass).length;
+    final failed = verdicts.values.where((v) => v == A11yVerdict.fail).length;
 
     return Scaffold(
       backgroundColor: ZapColors.bgPrimary,
@@ -651,7 +660,7 @@ class _ChecklistTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Column(
@@ -669,7 +678,8 @@ class _ChecklistTab extends ConsumerWidget {
                 SizedBox(height: ZapSpacing.xs),
                 Text(
                   'Screen reader audit complete for this pass.',
-                  style: TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+                  style:
+                      TextStyle(color: ZapColors.textSecondary, fontSize: 12),
                 ),
               ],
             ),
@@ -720,7 +730,7 @@ class _CheckItemCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: verdict == A11yVerdict.fail
               ? ZapColors.danger.withOpacity(0.5)
@@ -735,7 +745,7 @@ class _CheckItemCard extends StatelessWidget {
             button: true,
             child: InkWell(
               onTap: onToggleExpand,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               child: Padding(
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 child: Row(
@@ -971,7 +981,8 @@ class _VerdictChip extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(6),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+              horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
           constraints: const BoxConstraints(minHeight: 75, minWidth: 75),
           decoration: BoxDecoration(
             color: selected ? color.withOpacity(0.2) : ZapColors.bgElevated,
@@ -1053,7 +1064,7 @@ class _NoteFieldState extends State<_NoteField> {
           filled: true,
           fillColor: ZapColors.bgElevated,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             borderSide: const BorderSide(color: ZapColors.border),
           ),
           contentPadding: const EdgeInsets.all(ZapSpacing.sm),
@@ -1078,7 +1089,7 @@ class _TestScriptTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.danger.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.danger.withOpacity(0.35)),
           ),
           child: const Column(
@@ -1147,7 +1158,7 @@ class _TestScriptTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -1187,16 +1198,16 @@ class _TestScriptTab extends ConsumerWidget {
                     ),
                     onTap: () {
                       ref.read(_d214ScriptExpandedProvider.notifier).update(
-                            (set) {
-                              final next = {...set};
-                              if (isOpen) {
-                                next.remove(step.step);
-                              } else {
-                                next.add(step.step);
-                              }
-                              return next;
-                            },
-                          );
+                        (set) {
+                          final next = {...set};
+                          if (isOpen) {
+                            next.remove(step.step);
+                          } else {
+                            next.add(step.step);
+                          }
+                          return next;
+                        },
+                      );
                     },
                   ),
                 ),
@@ -1261,7 +1272,7 @@ class _TestScriptTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Text(
@@ -1290,7 +1301,8 @@ class _ExportTab extends ConsumerWidget {
     final buf = StringBuffer()
       ..writeln('ZapSafe Screen Reader Audit — Day 214')
       ..writeln('WCAG 2.1 AA · TalkBack + VoiceOver')
-      ..writeln('Score: $passed/${_kItems.length} pass · $failed fail · $unchecked unchecked')
+      ..writeln(
+          'Score: $passed/${_kItems.length} pass · $failed fail · $unchecked unchecked')
       ..writeln('')
       ..writeln('── Checklist ──');
     for (final item in _kItems) {
@@ -1337,8 +1349,7 @@ class _ExportTab extends ConsumerWidget {
     final notes = ref.watch(_d214NotesProvider);
     final summary = _buildSummary(verdicts, notes);
     final csv = _buildCsv(verdicts, notes);
-    final passed =
-        verdicts.values.where((v) => v == A11yVerdict.pass).length;
+    final passed = verdicts.values.where((v) => v == A11yVerdict.pass).length;
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -1361,7 +1372,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -1434,7 +1445,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1484,8 +1495,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

@@ -181,8 +181,8 @@ class _LiveFlowTab extends ConsumerWidget {
       termsAccepted: ref.watch(_d205TermsProvider),
       tier1Added: _tier1Valid(ref),
       tier2Added: !tier2Skipped && _tier2Valid(ref),
-      medicalAdded:
-          !medicalSkipped && ref.watch(_d205BloodTypeProvider).trim().isNotEmpty,
+      medicalAdded: !medicalSkipped &&
+          ref.watch(_d205BloodTypeProvider).trim().isNotEmpty,
     );
   }
 
@@ -347,7 +347,7 @@ class _FlowDocHeader extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: const Column(
@@ -394,7 +394,11 @@ class _ProgressBar extends StatelessWidget {
             margin: EdgeInsets.only(right: i < _kSteps.length - 1 ? 4 : 0),
             height: 4,
             decoration: BoxDecoration(
-              color: color.withOpacity(done ? 1 : active ? 0.8 : 0.35),
+              color: color.withOpacity(done
+                  ? 1
+                  : active
+                      ? 0.8
+                      : 0.35),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -421,7 +425,7 @@ class _ScoreStrip extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: band.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: band.withOpacity(0.4)),
       ),
       child: Row(
@@ -472,7 +476,7 @@ class _StepCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: step.color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: step.color.withOpacity(0.35)),
       ),
       child: Row(
@@ -510,7 +514,8 @@ class _StepCard extends StatelessWidget {
           ),
           if (step.skippable)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
               decoration: BoxDecoration(
                 color: ZapColors.bgElevated,
                 borderRadius: BorderRadius.circular(4),
@@ -576,7 +581,7 @@ class _WelcomeStep extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const SingleChildScrollView(
@@ -716,8 +721,7 @@ class _MedicalStep extends ConsumerWidget {
           label: 'Allergies (optional)',
           hint: 'Penicillin, peanuts…',
           value: ref.watch(_d205AllergiesProvider),
-          onChanged: (v) =>
-              ref.read(_d205AllergiesProvider.notifier).state = v,
+          onChanged: (v) => ref.read(_d205AllergiesProvider.notifier).state = v,
           maxLines: 2,
         ),
         const SizedBox(height: ZapSpacing.md),
@@ -781,7 +785,7 @@ class _ReviewStep extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: isSkip
                     ? ZapColors.warning.withOpacity(0.5)
@@ -830,7 +834,7 @@ class _ReviewStep extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.warning.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
             ),
             child: Text(
@@ -863,7 +867,8 @@ class _CompletionView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check_circle_rounded, color: ZapColors.safe, size: 72),
+            const Icon(Icons.check_circle_rounded,
+                color: ZapColors.safe, size: 72),
             const SizedBox(height: ZapSpacing.lg),
             const Text(
               'Onboarding complete',
@@ -976,11 +981,11 @@ class _OnboardingFieldState extends State<_OnboardingField> {
             filled: true,
             fillColor: ZapColors.bgCard,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               borderSide: const BorderSide(color: ZapColors.border),
             ),
             contentPadding: const EdgeInsets.all(ZapSpacing.md),
@@ -1058,12 +1063,13 @@ class _SkippedBanner extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.lg),
       decoration: BoxDecoration(
         color: ZapColors.warning.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
       ),
       child: Column(
         children: [
-          const Icon(Icons.skip_next_rounded, color: ZapColors.warning, size: 32),
+          const Icon(Icons.skip_next_rounded,
+              color: ZapColors.warning, size: 32),
           const SizedBox(height: ZapSpacing.sm),
           Text(
             '$item skipped',
@@ -1075,7 +1081,8 @@ class _SkippedBanner extends StatelessWidget {
           const SizedBox(height: ZapSpacing.xs),
           Text(
             'Protection Score −$delta · add later from Settings',
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 12),
           ),
         ],
       ),
@@ -1111,7 +1118,8 @@ class _ScoreBreakdownTab extends ConsumerWidget {
       _ScoreRow('Welcome + terms', 15, terms),
       _ScoreRow('Tier 1 contact', 25, tier1, required: true),
       _ScoreRow('Tier 2 contact', _kTier2Delta, tier2, skipped: tier2Skipped),
-      _ScoreRow('Medical card', _kMedicalDelta, medical, skipped: medicalSkipped),
+      _ScoreRow('Medical card', _kMedicalDelta, medical,
+          skipped: medicalSkipped),
     ];
 
     return ListView(
@@ -1133,7 +1141,7 @@ class _ScoreBreakdownTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: const Column(
@@ -1168,7 +1176,8 @@ class _ScoreBreakdownTab extends ConsumerWidget {
             onPressed: () {
               Clipboard.setData(
                 const ClipboardData(
-                  text: 'score = 15 (terms) + 25 (tier1) + 10 (tier2) + 15 (medical)',
+                  text:
+                      'score = 15 (terms) + 25 (tier1) + 10 (tier2) + 15 (medical)',
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(
@@ -1221,11 +1230,10 @@ class _ScoreComponentCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
-          color: row.earned
-              ? ZapColors.safe.withOpacity(0.4)
-              : ZapColors.border,
+          color:
+              row.earned ? ZapColors.safe.withOpacity(0.4) : ZapColors.border,
         ),
       ),
       child: Row(
@@ -1312,7 +1320,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -1357,7 +1365,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1407,8 +1415,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

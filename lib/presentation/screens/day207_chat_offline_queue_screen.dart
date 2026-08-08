@@ -64,8 +64,7 @@ List<ChatQueueMessage> _seedMessages() {
     ),
     ChatQueueMessage(
       id: 'm3',
-      text:
-          'Of course. I can see your DCS threshold is 0.75. I\'ll walk you '
+      text: 'Of course. I can see your DCS threshold is 0.75. I\'ll walk you '
           'through tuning it to reduce false positives.',
       isUser: false,
       timestamp: now.subtract(const Duration(minutes: 10)),
@@ -139,7 +138,8 @@ class Day207ChatOfflineQueueScreen extends ConsumerWidget {
                               ? Icons.error_outline_rounded
                               : Icons.schedule_send_rounded,
                           size: 14,
-                          color: failed > 0 ? ZapColors.danger : ZapColors.warning,
+                          color:
+                              failed > 0 ? ZapColors.danger : ZapColors.warning,
                         ),
                         const SizedBox(width: ZapSpacing.xs),
                         Text(
@@ -324,9 +324,7 @@ class _MessageBubble extends StatelessWidget {
     final isUser = message.isUser;
     final align = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final bg = isUser ? ZapColors.safe.withOpacity(0.15) : ZapColors.bgCard;
-    final border = isUser
-        ? ZapColors.safe.withOpacity(0.35)
-        : ZapColors.border;
+    final border = isUser ? ZapColors.safe.withOpacity(0.35) : ZapColors.border;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: ZapSpacing.md),
@@ -543,11 +541,13 @@ class _ChatInputBarState extends State<_ChatInputBar> {
                       filled: true,
                       fillColor: ZapColors.bgElevated,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius:
+                            BorderRadius.circular(ZapSpacing.radiusLarge),
                         borderSide: const BorderSide(color: ZapColors.border),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius:
+                            BorderRadius.circular(ZapSpacing.radiusLarge),
                         borderSide: const BorderSide(color: ZapColors.border),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -768,7 +768,7 @@ class _NetworkCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: color.withOpacity(0.4)),
       ),
       child: Row(
@@ -826,7 +826,7 @@ class _QueueStatsCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: ZapColors.border),
       ),
       child: Column(
@@ -882,7 +882,8 @@ class _StatCell extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
           ),
         ],
       ),
@@ -924,7 +925,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -978,7 +979,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1028,8 +1029,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),

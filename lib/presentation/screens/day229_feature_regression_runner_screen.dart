@@ -490,8 +490,7 @@ const _kRows = [
 final _d229TabProvider = StateProvider<int>((ref) => 0);
 final _d229VerdictsProvider =
     StateProvider<Map<String, RegressionVerdict>>((ref) => {});
-final _d229FilterProvider =
-    StateProvider<RegressionCategory?>((ref) => null);
+final _d229FilterProvider = StateProvider<RegressionCategory?>((ref) => null);
 
 const _kTabs = ['Checklist', 'Progress', 'Export'];
 
@@ -518,7 +517,8 @@ String _buildReport(Map<String, RegressionVerdict> verdicts) {
   final s = _stats(verdicts);
   final buf = StringBuffer()
     ..writeln('ZapSafe Feature Regression Report — Day 229')
-    ..writeln('Total: $_kTotalRows ($_kFeatureCount features + $_kLpCount LP defenses)')
+    ..writeln(
+        'Total: $_kTotalRows ($_kFeatureCount features + $_kLpCount LP defenses)')
     ..writeln('Pass: ${s.pass} · Fail: ${s.fail} · Pending: ${s.pending}')
     ..writeln('Evaluated: ${s.evaluated}/${_kRows.length}')
     ..writeln();
@@ -596,8 +596,7 @@ class _ProgressRingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final passRate =
-        stats.evaluated == 0 ? 0.0 : stats.pass / stats.evaluated;
+    final passRate = stats.evaluated == 0 ? 0.0 : stats.pass / stats.evaluated;
     final coverage = stats.evaluated / _kRows.length;
 
     return Container(
@@ -848,9 +847,7 @@ class _ChecklistTab extends ConsumerWidget {
             return next;
           });
         },
-        onOpenRoute: row.route == null
-            ? null
-            : () => context.push(row.route!),
+        onOpenRoute: row.route == null ? null : () => context.push(row.route!),
       ));
     }
     return widgets;
@@ -881,7 +878,7 @@ class _RegressionRowCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(
           color: verdict == RegressionVerdict.fail
               ? ZapColors.danger.withOpacity(0.4)
@@ -1023,7 +1020,7 @@ class _ProgressTab extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Row(
@@ -1065,7 +1062,7 @@ class _ProgressTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -1162,7 +1159,7 @@ class _ExportTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -1218,7 +1215,7 @@ class _ExportTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -1268,8 +1265,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 10,
                     ),
                   ),

@@ -102,8 +102,8 @@ class Day274WeeklyDigestV2Screen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -204,20 +204,24 @@ class _DigestTab extends ConsumerWidget {
                   SizedBox(width: ZapSpacing.sm),
                   _MiniStat(label: 'Journeys', value: '3', color: _kAccent),
                   SizedBox(width: ZapSpacing.sm),
-                  _MiniStat(label: 'Drills', value: '2/3', color: ZapColors.warning),
+                  _MiniStat(
+                      label: 'Drills', value: '2/3', color: ZapColors.warning),
                 ],
               ),
             ],
           ),
         ),
         const SizedBox(height: ZapSpacing.lg),
-        const _SectionTitle(title: 'Daily activity', subtitle: 'Journeys + drills'),
+        const _SectionTitle(
+            title: 'Daily activity', subtitle: 'Journeys + drills'),
         const _DigestBarChart(values: _kDailyActivity),
         const SizedBox(height: ZapSpacing.lg),
-        const _SectionTitle(title: 'Score trend', subtitle: 'Protection score this week'),
+        const _SectionTitle(
+            title: 'Score trend', subtitle: 'Protection score this week'),
         const _DigestLineChart(values: _kDailyScores),
         const SizedBox(height: ZapSpacing.lg),
-        const _SectionTitle(title: 'Highlights', subtitle: 'Top moments from your week'),
+        const _SectionTitle(
+            title: 'Highlights', subtitle: 'Top moments from your week'),
         ..._kHighlights.map(
           (h) => Padding(
             padding: const EdgeInsets.only(bottom: 6),
@@ -298,7 +302,8 @@ class _DigestTab extends ConsumerWidget {
                     Expanded(
                       child: FilledButton(
                         onPressed: () {
-                          ref.read(_d274DrillDoneProvider.notifier).state = true;
+                          ref.read(_d274DrillDoneProvider.notifier).state =
+                              true;
                           ref.read(_d274DrillSnoozedProvider.notifier).state =
                               false;
                           HapticFeedback.mediumImpact();
@@ -319,11 +324,13 @@ class _DigestTab extends ConsumerWidget {
                       onPressed: drillSnoozed
                           ? null
                           : () {
-                              ref.read(_d274DrillSnoozedProvider.notifier).state =
-                                  true;
+                              ref
+                                  .read(_d274DrillSnoozedProvider.notifier)
+                                  .state = true;
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Drill reminder snoozed 24h (mock).'),
+                                  content: Text(
+                                      'Drill reminder snoozed 24h (mock).'),
                                 ),
                               );
                             },
@@ -355,10 +362,10 @@ class _MiniStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: ZapSpacing.sm),
         decoration: BoxDecoration(
           color: color.withOpacity(0.12),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
           border: Border.all(color: color.withOpacity(0.3)),
         ),
         child: Column(
@@ -405,7 +412,8 @@ class _SectionTitle extends StatelessWidget {
           ),
           Text(
             subtitle,
-            style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
+            style:
+                const TextStyle(color: ZapColors.textSecondary, fontSize: 11),
           ),
         ],
       ),
@@ -473,7 +481,8 @@ class _DigestBarChart extends StatelessWidget {
                 BarChartRodData(
                   toY: values[i],
                   width: 12,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(4)),
                   color: _kAccent.withOpacity(i == 5 ? 1 : 0.65),
                 ),
               ],
@@ -715,9 +724,7 @@ class _InfoTab extends ConsumerWidget {
       'journeys': 3,
       'drills_completed': drillDone ? 3 : 2,
       'drill_reminder_enabled': reminderOn,
-      'streaks': _kStreaks
-          .map((s) => {'id': s.id, 'weeks': s.weeks})
-          .toList(),
+      'streaks': _kStreaks.map((s) => {'id': s.id, 'weeks': s.weeks}).toList(),
       'enhancements_vs_v1': [
         'fl_chart daily activity + score trend',
         'streak cards with fire counter',
@@ -758,7 +765,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -789,7 +796,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -888,7 +895,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -902,8 +909,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

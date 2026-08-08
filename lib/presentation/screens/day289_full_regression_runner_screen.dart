@@ -73,13 +73,16 @@ String _buildCsv(Map<String, _RouteVerdict> verdicts) {
 String _buildReport(Map<String, _RouteVerdict> verdicts) {
   final pass = verdicts.values.where((v) => v == _RouteVerdict.pass).length;
   final fail = verdicts.values.where((v) => v == _RouteVerdict.fail).length;
-  final buf = StringBuffer('ZapSafe Full App Regression — $kRouteCount screens\n\n');
-  buf.writeln('Pass: $pass · Fail: $fail · Pending: ${kRouteCount - pass - fail}');
+  final buf =
+      StringBuffer('ZapSafe Full App Regression — $kRouteCount screens\n\n');
+  buf.writeln(
+      'Pass: $pass · Fail: $fail · Pending: ${kRouteCount - pass - fail}');
   buf.writeln();
   for (final row in kRouteRows) {
     final v = verdicts[row.id] ?? _RouteVerdict.pending;
     if (v == _RouteVerdict.pending) continue;
-    buf.writeln('[${v.label.toUpperCase()}] ${row.title} · ${row.dayRef} · ${row.route}');
+    buf.writeln(
+        '[${v.label.toUpperCase()}] ${row.title} · ${row.dayRef} · ${row.route}');
   }
   return buf.toString();
 }
@@ -149,8 +152,8 @@ class Day289FullRegressionRunnerScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -196,10 +199,8 @@ class _ProgressStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coverage =
-        stats.evaluated == 0 ? 0.0 : stats.evaluated / kRouteCount;
-    final passRate =
-        stats.evaluated == 0 ? 0.0 : stats.pass / stats.evaluated;
+    final coverage = stats.evaluated == 0 ? 0.0 : stats.evaluated / kRouteCount;
+    final passRate = stats.evaluated == 0 ? 0.0 : stats.pass / stats.evaluated;
 
     return Container(
       width: double.infinity,
@@ -294,12 +295,13 @@ class _RunnerTab extends ConsumerWidget {
             style: const TextStyle(color: ZapColors.textPrimary, fontSize: 13),
             decoration: InputDecoration(
               hintText: 'Search route, day, title…',
-              hintStyle: const TextStyle(color: ZapColors.textMuted, fontSize: 12),
+              hintStyle:
+                  const TextStyle(color: ZapColors.textMuted, fontSize: 12),
               prefixIcon: const Icon(Icons.search_rounded, size: 20),
               filled: true,
               fillColor: ZapColors.bgCard,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                 borderSide: const BorderSide(color: ZapColors.border),
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -328,9 +330,8 @@ class _RunnerTab extends ConsumerWidget {
                   child: FilterChip(
                     label: Text(s),
                     selected: section == s,
-                    onSelected: (_) => ref
-                        .read(_d289SectionFilterProvider.notifier)
-                        .state = s,
+                    onSelected: (_) =>
+                        ref.read(_d289SectionFilterProvider.notifier).state = s,
                   ),
                 ),
               ),
@@ -398,7 +399,7 @@ class _RouteCard extends StatelessWidget {
       padding: const EdgeInsets.all(ZapSpacing.md),
       decoration: BoxDecoration(
         color: ZapColors.bgCard,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
         border: Border.all(color: verdict.color.withOpacity(0.35)),
       ),
       child: Column(
@@ -532,7 +533,7 @@ class _ProgressTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Row(
@@ -568,15 +569,14 @@ class _ProgressTab extends ConsumerWidget {
                     _RouteVerdict.fail,
               )
               .length;
-          final pct =
-              sectionRows.isEmpty ? 0.0 : pass / sectionRows.length;
+          final pct = sectionRows.isEmpty ? 0.0 : pass / sectionRows.length;
 
           return Container(
             margin: const EdgeInsets.only(bottom: ZapSpacing.sm),
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Column(
@@ -660,7 +660,8 @@ class _ExportTab extends ConsumerWidget {
       children: [
         const _SectionTitle(
           title: 'Export regression CSV',
-          subtitle: '$kRouteCount rows · id, title, day, section, route, verdict',
+          subtitle:
+              '$kRouteCount rows · id, title, day, section, route, verdict',
         ),
         Text(
           '${stats.pass} pass · ${stats.fail} fail · ${stats.pending} pending',
@@ -672,7 +673,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -733,7 +734,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -751,7 +752,7 @@ class _ExportTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -840,7 +841,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -854,8 +855,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

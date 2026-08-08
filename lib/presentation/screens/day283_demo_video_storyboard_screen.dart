@@ -203,8 +203,8 @@ class Day283DemoVideoStoryboardScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -285,7 +285,7 @@ class _StoryboardTab extends ConsumerWidget {
                     ref.read(_d283SceneIndexProvider.notifier).state = i,
                 child: Container(
                   width: 72,
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(ZapSpacing.sm),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? s.color.withOpacity(0.15)
@@ -401,7 +401,9 @@ class _StoryboardTab extends ConsumerWidget {
                             : ZapColors.textMuted,
                       ),
                       label: Text(
-                        approved.contains(scene.id) ? 'Approved' : 'Approve scene',
+                        approved.contains(scene.id)
+                            ? 'Approved'
+                            : 'Approve scene',
                       ),
                     ),
                   ),
@@ -469,7 +471,6 @@ class _TimelineTab extends ConsumerStatefulWidget {
 }
 
 class _TimelineTabState extends ConsumerState<_TimelineTab> {
-
   Future<void> _playPreview(WidgetRef ref) async {
     if (ref.read(_d283PlayingProvider)) return;
     ref.read(_d283PlayingProvider.notifier).state = true;
@@ -553,7 +554,8 @@ class _TimelineTabState extends ConsumerState<_TimelineTab> {
                                 : Icons.play_arrow_rounded,
                             size: 18,
                           ),
-                          label: Text(playing ? 'Stop preview' : 'Play preview'),
+                          label:
+                              Text(playing ? 'Stop preview' : 'Play preview'),
                           style: FilledButton.styleFrom(
                             backgroundColor: _kAccent,
                             foregroundColor: Colors.white,
@@ -573,9 +575,8 @@ class _TimelineTabState extends ConsumerState<_TimelineTab> {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(ZapSpacing.md),
                 decoration: BoxDecoration(
-                  color: active
-                      ? scene.color.withOpacity(0.12)
-                      : ZapColors.bgCard,
+                  color:
+                      active ? scene.color.withOpacity(0.12) : ZapColors.bgCard,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: active
@@ -591,7 +592,8 @@ class _TimelineTabState extends ConsumerState<_TimelineTab> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: scene.color.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius:
+                            BorderRadius.circular(ZapSpacing.radiusSmall),
                       ),
                       child: Text(
                         '${scene.number}',
@@ -638,7 +640,8 @@ class _TimelineTabState extends ConsumerState<_TimelineTab> {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: _buildScript()));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Full storyboard script copied.')),
+                  const SnackBar(
+                      content: Text('Full storyboard script copied.')),
                 );
               },
               icon: const Icon(Icons.copy_rounded, size: 16),
@@ -672,8 +675,7 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.movie_creation_rounded,
           title: 'Demo video storyboard',
-          subtitle:
-              '6-scene 60s promo covering SOS long-press, journey mode, '
+          subtitle: '6-scene 60s promo covering SOS long-press, journey mode, '
               'evidence vault, and on-device privacy — production brief mock.',
         ),
         const _PolicyRow(
@@ -698,7 +700,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -729,7 +731,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -863,7 +865,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -877,8 +879,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

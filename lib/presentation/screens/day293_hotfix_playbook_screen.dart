@@ -116,7 +116,8 @@ const _kHotfixSteps = [
     number: 5,
     title: 'Build signed artefacts',
     subtitle: 'AAB + IPA · version bump',
-    detail: 'Increment patch version · CI release lane · code-sign both stores.',
+    detail:
+        'Increment patch version · CI release lane · code-sign both stores.',
     owner: 'Release Eng',
     sla: '< 1 h',
     dayLink: 'Day 123',
@@ -256,8 +257,8 @@ class Day293HotfixPlaybookScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: ZapSpacing.md),
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ZapSpacing.sm, vertical: ZapSpacing.xs),
                 decoration: BoxDecoration(
                   color: _kAccent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
@@ -414,7 +415,7 @@ class _FlowchartTab extends ConsumerWidget {
               ),
               if (i < _kHotfixSteps.length - 1)
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: ZapSpacing.xs),
                   child: Icon(
                     Icons.arrow_downward_rounded,
                     color: ZapColors.textMuted,
@@ -472,7 +473,8 @@ class _FlowchartTab extends ConsumerWidget {
                   const Spacer(),
                   TextButton(
                     onPressed: () => _markDone(ref, step.id),
-                    child: const Text('Mark done', style: TextStyle(fontSize: 11)),
+                    child:
+                        const Text('Mark done', style: TextStyle(fontSize: 11)),
                   ),
                 ],
               ),
@@ -519,7 +521,7 @@ class _RunbookTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.lg),
             decoration: BoxDecoration(
               color: ZapColors.safe.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
             child: const Row(
@@ -545,7 +547,7 @@ class _RunbookTab extends ConsumerWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: _statusColor(st).withOpacity(0.35)),
             ),
             child: Row(
@@ -589,7 +591,8 @@ class _RunbookTab extends ConsumerWidget {
         }),
         FilledButton.icon(
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: _buildPlaybookReport(statuses)));
+            Clipboard.setData(
+                ClipboardData(text: _buildPlaybookReport(statuses)));
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Hotfix runbook copied.')),
             );
@@ -642,7 +645,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.bug_report_rounded,
           title: 'Day 122 — Fix crashes',
-          subtitle: 'Triage top crashes · root cause · code diff · test matrix.',
+          subtitle:
+              'Triage top crashes · root cause · code diff · test matrix.',
         ),
         const _PolicyRow(
           icon: Icons.rocket_launch_rounded,
@@ -652,7 +656,8 @@ class _InfoTab extends ConsumerWidget {
         const _PolicyRow(
           icon: Icons.monitor_heart_rounded,
           title: 'Post-launch tie-in',
-          subtitle: 'War room (Day 292) triggers playbook · rollout resumes Day 290.',
+          subtitle:
+              'War room (Day 292) triggers playbook · rollout resumes Day 290.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         const Text(
@@ -669,7 +674,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgCard,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: SelectableText(
@@ -700,7 +705,7 @@ class _InfoTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -834,7 +839,7 @@ class _TabBar extends StatelessWidget {
             child: InkWell(
               onTap: () => onSelect(i),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -848,8 +853,7 @@ class _TabBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: selected ? _kAccent : ZapColors.textMuted,
-                    fontWeight:
-                        selected ? FontWeight.w800 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),

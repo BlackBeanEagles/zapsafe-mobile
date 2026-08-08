@@ -219,7 +219,7 @@ class _LivePreviewTab extends ConsumerWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.bgSurface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
           child: Column(
@@ -246,7 +246,8 @@ class _LivePreviewTab extends ConsumerWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: ZapSpacing.md),
                       child: Text(
                         'List row placeholder ${i + 1} (hidden when empty)',
                         style: const TextStyle(
@@ -304,7 +305,7 @@ class _GalleryTab extends ConsumerWidget {
             margin: const EdgeInsets.only(bottom: ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(
                 color: isSelected ? accent : ZapColors.border,
                 width: isSelected ? 2 : 1,
@@ -348,7 +349,8 @@ class _GalleryTab extends ConsumerWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: ZapColors.bgSurface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius:
+                          BorderRadius.circular(ZapSpacing.radiusSmall),
                       border: Border.all(color: ZapColors.border),
                     ),
                     child: ZapEmptyState.preset(
@@ -373,8 +375,7 @@ class _GalleryTab extends ConsumerWidget {
             onPressed: () {
               Clipboard.setData(
                 const ClipboardData(
-                  text:
-                      'if (items.isEmpty)\n'
+                  text: 'if (items.isEmpty)\n'
                       '  ZapEmptyState.preset(\n'
                       '    kind: ZapEmptyKind.contacts,\n'
                       '    onPrimaryAction: () => context.push(AppRoutes.addContact),\n'
@@ -418,11 +419,17 @@ class _SpecTab extends StatelessWidget {
     const adopt = [
       ('Day 83 Contacts v2', '_EmptyContacts → ZapEmptyState.contacts'),
       ('Day 82 Evidence Vault', 'empty vault → ZapEmptyState.vault'),
-      ('Day 88 Notification History', '_EmptyState → ZapEmptyState.notifications'),
+      (
+        'Day 88 Notification History',
+        '_EmptyState → ZapEmptyState.notifications'
+      ),
       ('Day 45 Onboarding Step 5', 'no contacts card → ZapEmptyState.journey'),
       ('Day 207 Live Chat', 'empty thread → ZapEmptyState.chat'),
       ('Day 206 Vault Search', 'zero matches → ZapEmptyInline + Clear filters'),
-      ('Day 95 Billing History', '_EmptyState → ZapEmptyState.preset or inline'),
+      (
+        'Day 95 Billing History',
+        '_EmptyState → ZapEmptyState.preset or inline'
+      ),
     ];
 
     return ListView(
@@ -450,7 +457,7 @@ class _SpecTab extends StatelessWidget {
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(
               color: ZapColors.bgCard,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
               border: Border.all(color: ZapColors.border),
             ),
             child: Row(
@@ -540,7 +547,7 @@ class _SpecTab extends StatelessWidget {
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(
             color: ZapColors.info.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.info.withOpacity(0.3)),
           ),
           child: const Text(
@@ -592,8 +599,7 @@ class _TabBar extends StatelessWidget {
                       color: selected
                           ? ZapColors.textPrimary
                           : ZapColors.textSecondary,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
                   ),
