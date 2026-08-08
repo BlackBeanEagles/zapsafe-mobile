@@ -729,7 +729,7 @@ class _BatteryTierTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rows = const [
+    const rows = [
       ('> 20 %', BatteryTier.normal, 'no throttling'),
       ('≤ 20 %', BatteryTier.powerSaver, 'camera off · GPS reduced'),
       ('≤ 15 %', BatteryTier.proactiveDrop, 'proactive drop one level'),

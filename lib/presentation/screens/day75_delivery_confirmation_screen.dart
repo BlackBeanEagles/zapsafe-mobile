@@ -10,6 +10,7 @@
 ///   • Acked badge: "Contact acknowledged ✓"
 ///   • Empty state: "No delivery data yet" for emulator testing
 ///   • Refresh button to re-fetch
+library;
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';

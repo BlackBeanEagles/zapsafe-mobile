@@ -193,7 +193,7 @@ class _Day48DeviceDiagnosticsScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── Phone capability ───────────────────────────────────────────
-            _SectionLabel('PHONE CAPABILITY'),
+            const _SectionLabel('PHONE CAPABILITY'),
             const SizedBox(height: ZapSpacing.sm),
             _CapabilityCard(
               tier: _tier,
@@ -204,13 +204,13 @@ class _Day48DeviceDiagnosticsScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Model bundle ───────────────────────────────────────────────
-            _SectionLabel('MODEL BUNDLE'),
+            const _SectionLabel('MODEL BUNDLE'),
             const SizedBox(height: ZapSpacing.sm),
             _BundleStatusCard(bundleAsync: bundleAsync),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── IMU ────────────────────────────────────────────────────────
-            _SectionLabel('IMU · ACCELEROMETER + GYROSCOPE'),
+            const _SectionLabel('IMU · ACCELEROMETER + GYROSCOPE'),
             const SizedBox(height: ZapSpacing.sm),
             _ImuCard(
               running: _imuRunning,
@@ -220,7 +220,7 @@ class _Day48DeviceDiagnosticsScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── GPS ────────────────────────────────────────────────────────
-            _SectionLabel('GPS'),
+            const _SectionLabel('GPS'),
             const SizedBox(height: ZapSpacing.sm),
             _GpsCard(
               running: _gpsRunning,
@@ -230,7 +230,7 @@ class _Day48DeviceDiagnosticsScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Permissions ────────────────────────────────────────────────
-            _SectionLabel('PERMISSIONS'),
+            const _SectionLabel('PERMISSIONS'),
             const SizedBox(height: ZapSpacing.sm),
             _PermissionsCard(
               perms: _perms,

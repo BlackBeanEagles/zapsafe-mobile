@@ -158,7 +158,7 @@ class _Day35Week7ReviewScreenState
               latencyMs: 1,
               timestampMs: 0,
             );
-            final neutral = const InferenceResult(
+            const neutral = InferenceResult(
               label: 'normal',
               score: 0.1,
               classScores: {'normal': 0.1},
@@ -197,21 +197,21 @@ class _Day35Week7ReviewScreenState
             'Single critical window bypasses the vote and fires immediately.',
         runner: () async {
           final watcher = DCSScoreWatcher();
-          final fusion = const InferenceResult(
+          const fusion = InferenceResult(
             label: 'scream',
             score: 0.90,
             classScores: {'scream': 0.90, 'normal': 0.10, 'shout': 0},
             latencyMs: 1,
             timestampMs: 0,
           );
-          final neutral = const InferenceResult(
+          const neutral = InferenceResult(
             label: 'normal',
             score: 0.1,
             classScores: {'normal': 0.1},
             latencyMs: 1,
             timestampMs: 0,
           );
-          final dcs = DCSScore(
+          const dcs = DCSScore(
             timestampMs: 0,
             audio: neutral,
             motion: neutral,
@@ -225,7 +225,7 @@ class _Day35Week7ReviewScreenState
           if (evt.consecutiveWindows != 0) {
             throw 'AUTO_SOS should not carry a vote count';
           }
-          return PhaseResult(
+          return const PhaseResult(
             key: 'watcher_autosos',
             name: 'Watcher fires AUTO_SOS on single ≥ 0.85',
             status: PhaseStatus.pass,
@@ -246,7 +246,7 @@ class _Day35Week7ReviewScreenState
           if (score.fusion.classScores.isEmpty) {
             throw 'isolated result has empty class scores';
           }
-          return PhaseResult(
+          return const PhaseResult(
             key: 'isolated_runner',
             name: 'IsolatedDcsRunner returns valid DCSScore',
             status: PhaseStatus.pass,

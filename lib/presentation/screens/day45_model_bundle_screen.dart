@@ -56,7 +56,7 @@ class Day45ModelBundleScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator(color: ZapColors.safe),
+              CircularProgressIndicator(color: ZapColors.safe),
               SizedBox(height: ZapSpacing.md),
               Text('Loading model bundle…',
                   style: TextStyle(color: ZapColors.textSecondary)),
@@ -165,7 +165,7 @@ class _BundleView extends StatelessWidget {
           const SizedBox(height: ZapSpacing.xl),
 
           // ── Per-model slots ─────────────────────────────────────────
-          _SectionLabel('MODEL SLOTS'),
+          const _SectionLabel('MODEL SLOTS'),
           const SizedBox(height: ZapSpacing.sm),
           ...bundle.slots.map((slot) => Padding(
                 padding:
@@ -175,7 +175,7 @@ class _BundleView extends StatelessWidget {
           const SizedBox(height: ZapSpacing.xl),
 
           // ── App size check ──────────────────────────────────────────
-          _SectionLabel('APP SIZE CHECK'),
+          const _SectionLabel('APP SIZE CHECK'),
           const SizedBox(height: ZapSpacing.sm),
           _AppSizeCard(modelBytes: bundle.totalModelBytes),
           const SizedBox(height: ZapSpacing.xl),

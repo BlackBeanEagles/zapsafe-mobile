@@ -326,7 +326,7 @@ class _ActionButtonsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: ZapSpacing.md),
-          _ActionRow(
+          const _ActionRow(
             id: PushService.actionResponding,
             label: "I'm Responding",
             description: 'Foreground action · routes to /sos-active',
@@ -334,7 +334,7 @@ class _ActionButtonsCard extends StatelessWidget {
             icon: Icons.flag_rounded,
           ),
           const SizedBox(height: ZapSpacing.sm),
-          _ActionRow(
+          const _ActionRow(
             id: PushService.actionCall112,
             label: 'Call 112',
             description: 'Destructive · routes to /sos-active (dialer hook on a future day)',

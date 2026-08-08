@@ -81,7 +81,7 @@ class Day47IntegrationTestsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: ZapSpacing.xl),
-            _SectionLabel('TEST GROUPS'),
+            const _SectionLabel('TEST GROUPS'),
             const SizedBox(height: ZapSpacing.sm),
             ..._testGroups.map((g) => Padding(
                   padding: const EdgeInsets.only(bottom: ZapSpacing.sm),

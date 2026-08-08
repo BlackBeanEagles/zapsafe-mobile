@@ -293,7 +293,7 @@ class _LatestFixCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (sample == null) {
-      return _EmptyCard(
+      return const _EmptyCard(
         message: 'No fix yet · press START or POLL ONCE.',
       );
     }
@@ -481,7 +481,7 @@ class _ModeButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final modes = const [
+    const modes = [
       (AppState.idle,         '5 min off',     ZapButtonIntent.neutral),
       (AppState.monitoring,   'MONITORING',    ZapButtonIntent.safe),
       (AppState.elevated,     'ELEVATED',      ZapButtonIntent.warning),

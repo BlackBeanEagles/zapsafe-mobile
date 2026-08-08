@@ -12,6 +12,7 @@
 ///   • Linked SOS event badge (if sos_event_id present)
 ///   • Empty state per filter tab
 ///   • Pull-to-refresh
+library;
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -307,9 +308,9 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
             overflow: TextOverflow.ellipsis,
           ),
           if (hasSosLink) ...[
-            const SizedBox(height: ZapSpacing.sm),
-            Row(
-              children: const [
+            const const const SizedBox(height: ZapSpacing.sm),
+            const Row(
+              children: [
                 Icon(Icons.link_rounded, color: Color(0xFF6366F1), size: 13),
                 SizedBox(width: ZapSpacing.xs),
                 Text(

@@ -54,7 +54,7 @@ class _Day25Week5ReviewScreenState
           if (!Platform.isAndroid) throw 'Not Android';
           final running = await bg.refresh();
           if (!running) throw 'Service is not running (Day 21 → START)';
-          return PhaseResult(
+          return const PhaseResult(
             key: 'fg_service',
             name: 'Foreground service alive',
             status: PhaseStatus.pass,
@@ -97,7 +97,7 @@ class _Day25Week5ReviewScreenState
           if (!Platform.isAndroid) throw 'Not Android';
           final enqueued = await wd.isEnqueued();
           if (!enqueued) throw 'Not enqueued';
-          return PhaseResult(
+          return const PhaseResult(
             key: 'watchdog_enqueued',
             name: 'WorkManager watchdog enqueued',
             status: PhaseStatus.pass,
@@ -133,7 +133,7 @@ class _Day25Week5ReviewScreenState
           final ok = await sensor.start();
           await sensor.stop();
           if (!ok) throw 'start() returned false';
-          return PhaseResult(
+          return const PhaseResult(
             key: 'sensor_channel',
             name: 'Sensor channel reachable',
             status: PhaseStatus.pass,
@@ -151,7 +151,7 @@ class _Day25Week5ReviewScreenState
           final ok = await audio.start();
           await audio.stop();
           if (!ok) throw 'start() returned false';
-          return PhaseResult(
+          return const PhaseResult(
             key: 'audio_channel',
             name: 'Audio channel reachable',
             status: PhaseStatus.pass,

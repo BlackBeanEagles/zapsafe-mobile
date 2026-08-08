@@ -207,7 +207,7 @@ class _Day50MotionValidationScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Live magnitudes + spark-line ───────────────────────────────
-            _SectionLabel('LIVE SENSOR MAGNITUDES'),
+            const _SectionLabel('LIVE SENSOR MAGNITUDES'),
             const SizedBox(height: ZapSpacing.sm),
             _LiveMagnitudeCard(
               accel: _liveAccel,
@@ -218,7 +218,7 @@ class _Day50MotionValidationScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Heuristic motion detector ──────────────────────────────────
-            _SectionLabel('HEURISTIC MOTION DETECTOR'),
+            const _SectionLabel('HEURISTIC MOTION DETECTOR'),
             const SizedBox(height: ZapSpacing.sm),
             _MotionDetectorCard(
               threatScore:   _threatScore,
@@ -231,13 +231,13 @@ class _Day50MotionValidationScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Motion features snapshot ───────────────────────────────────
-            _SectionLabel('MOTION FEATURES SNAPSHOT'),
+            const _SectionLabel('MOTION FEATURES SNAPSHOT'),
             const SizedBox(height: ZapSpacing.sm),
             _FeaturesCard(features: _latestFeatures, running: _running),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Fall detector state machine ────────────────────────────────
-            _SectionLabel('FALL DETECTOR STATE MACHINE'),
+            const _SectionLabel('FALL DETECTOR STATE MACHINE'),
             const SizedBox(height: ZapSpacing.sm),
             _FallDetectorCard(
               state:     _fallState,
@@ -277,7 +277,7 @@ class _LiveMagnitudeCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _BigStat(
-                  value: '${accel.toStringAsFixed(2)}',
+                  value: accel.toStringAsFixed(2),
                   unit: 'm/s²',
                   label: 'accel',
                   color: accel > 25 ? ZapColors.danger : ZapColors.safe,
@@ -285,7 +285,7 @@ class _LiveMagnitudeCard extends StatelessWidget {
               ),
               Expanded(
                 child: _BigStat(
-                  value: '${gyro.toStringAsFixed(3)}',
+                  value: gyro.toStringAsFixed(3),
                   unit: 'rad/s',
                   label: 'gyro',
                   color: gyro > 3.0 ? ZapColors.warning : ZapColors.safe,
@@ -453,7 +453,7 @@ class _MotionDetectorCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${latencyMs} ms  ·  triggers: $triggersTotal',
+                '$latencyMs ms  ·  triggers: $triggersTotal',
                 style: ZapTypography.labelSmall.copyWith(
                     color: ZapColors.textSecondary,
                     fontFamily: 'IBMPlexMono'),
@@ -489,10 +489,10 @@ class _FeaturesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _MonoRow('accelMean',  '${f.accelMean.toStringAsFixed(2)} m/s²'),
-          _MonoRow('accelVar',   '${f.accelVar.toStringAsFixed(3)}'),
+          _MonoRow('accelVar',   f.accelVar.toStringAsFixed(3)),
           _MonoRow('accelPeak',  '${f.accelPeak.toStringAsFixed(2)} m/s²'),
           _MonoRow('gyroMean',   '${f.gyroMean.toStringAsFixed(3)} rad/s'),
-          _MonoRow('gyroVar',    '${f.gyroVar.toStringAsFixed(4)}'),
+          _MonoRow('gyroVar',    f.gyroVar.toStringAsFixed(4)),
           _MonoRow('gyroPeak',   '${f.gyroPeak.toStringAsFixed(3)} rad/s'),
           _MonoRow('vector len', '${f.toFloat32Tensor().length}'),
         ],

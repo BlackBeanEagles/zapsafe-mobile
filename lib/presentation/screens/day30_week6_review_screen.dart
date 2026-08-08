@@ -84,7 +84,7 @@ class _Day30Week6ReviewScreenState
           if (!audio.featuresSupported) {
             throw 'Feature path not yet implemented on this platform';
           }
-          return PhaseResult(
+          return const PhaseResult(
             key: 'features_supported',
             name: 'Feature extraction reachable',
             status: PhaseStatus.pass,

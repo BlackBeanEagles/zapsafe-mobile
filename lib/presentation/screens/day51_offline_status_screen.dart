@@ -74,25 +74,25 @@ class Day51OfflineStatusScreen extends ConsumerWidget {
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Offline capability list ────────────────────────────────────
-            _SectionLabel('WORKS OFFLINE'),
+            const _SectionLabel('WORKS OFFLINE'),
             const SizedBox(height: ZapSpacing.sm),
             const _CapabilityTable(online: false),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Online-only features ───────────────────────────────────────
-            _SectionLabel('NEEDS INTERNET'),
+            const _SectionLabel('NEEDS INTERNET'),
             const SizedBox(height: ZapSpacing.sm),
             const _CapabilityTable(online: true),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Pending queue ──────────────────────────────────────────────
-            _SectionLabel('PENDING QUEUE'),
+            const _SectionLabel('PENDING QUEUE'),
             const SizedBox(height: ZapSpacing.sm),
             const _PendingQueueCard(),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Local storage indicator ────────────────────────────────────
-            _SectionLabel('LOCAL STORAGE'),
+            const _SectionLabel('LOCAL STORAGE'),
             const SizedBox(height: ZapSpacing.sm),
             const _LocalStorageCard(),
             const SizedBox(height: ZapSpacing.xxxl),
@@ -322,7 +322,7 @@ class _CapabilityTable extends StatelessWidget {
           return Column(
             children: [
               if (i > 0)
-                Divider(
+                const Divider(
                   color: ZapColors.divider,
                   height: 1,
                   thickness: 1,
@@ -383,7 +383,7 @@ class _PendingQueueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = _pendingSos + _pendingLocationPts + _pendingEvidenceItems;
+    const total = _pendingSos + _pendingLocationPts + _pendingEvidenceItems;
 
     return ZapCard(
       child: Column(
@@ -391,7 +391,7 @@ class _PendingQueueCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 total > 0
                     ? Icons.pending_actions_rounded
                     : Icons.check_circle_outline_rounded,
@@ -411,18 +411,18 @@ class _PendingQueueCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: ZapSpacing.sm),
-          _QueueRow(
+          const _QueueRow(
             icon: Icons.crisis_alert_rounded,
             label: 'SOS dispatches',
             count: _pendingSos,
             danger: true,
           ),
-          _QueueRow(
+          const _QueueRow(
             icon: Icons.location_on_rounded,
             label: 'Location points',
             count: _pendingLocationPts,
           ),
-          _QueueRow(
+          const _QueueRow(
             icon: Icons.video_file_rounded,
             label: 'Evidence items',
             count: _pendingEvidenceItems,

@@ -566,7 +566,7 @@ class _PhaseTile extends StatelessWidget {
 class _StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final stats = const [
+    const stats = [
       ('20 days', 'Month 2 build window · Days 21–40', Icons.calendar_month_rounded),
       ('318 tests', 'unit + widget · all green · 6 platform-skipped on host', Icons.science_rounded),
       ('20 LIVE screens', 'Days 21-39 each carry a debug surface', Icons.dashboard_rounded),
