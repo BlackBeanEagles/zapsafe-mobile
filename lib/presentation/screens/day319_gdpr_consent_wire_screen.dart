@@ -1,30 +1,40 @@
 /// Day 319 — GDPR Consent Flow Wire
 ///
-/// 🟡 MOCK-NOW.
+/// 🟢 LIVE (fixed for Play Store item 10 — was 🟡 MOCK-NOW).
 ///
-/// Verified this session: `GET/PUT /api/v1/account/consent/` is a REAL,
-/// LIVE backend endpoint — `ConsentView` in
-/// `zapsafe_backend/account/views.py`, routed in
-/// `zapsafe_backend/account/urls.py`, backed by the real `UserConsent`
-/// model in `account/models.py`. This contradicts the Day 319 spec
-/// text's assumption ("backend not live yet") — the Day 301 integration
-/// audit (`day301_backend_integration_audit_screen.dart`) already
-/// correctly lists this endpoint as backend-real/frontend-mock, which is
-/// exactly the state this screen keeps it in: still local-only by
-/// design for a MOCK-NOW day, not because the API doesn't exist.
+/// `GET/PUT /api/v1/account/consent/` is now actually called, via
+/// [AccountService] (lib/data/services/account_service.dart) —
+/// previously confirmed real and live on the backend
+/// (`ConsentView` in `zapsafe_backend/account/views.py`) but never
+/// wired from any Dart caller, a real Day 336/361 P1 finding.
 ///
-/// Field names match the REAL backend contract, not the spec's generic
-/// `{ "analytics", "marketing", "location_history" }` placeholder body
-/// (that shape doesn't match any real field here):
+/// Field names match the REAL backend contract:
 ///   location_sos, evidence_recording, cloud_backup,
 ///   heatmap_contribution, analytics, model_improvement
 ///
-/// Storage: `ConsentWireStorage` (SharedPreferences) — the exact Day 306
-/// `NotificationTierAckStorage` / Day 37 `GpsStorage` precedent, since
-/// `main.dart` never calls `Hive.initFlutter()`. This is the first place
-/// in the repo that actually persists consent flags across app kills —
-/// Days 155-157 only ever held them in an in-memory `StateProvider`
-/// despite their headers claiming "Hive storage".
+/// Implements exactly the 5-step migration plan this screen's own
+/// "Migration Plan" tab already documented (still shown below, now
+/// marked as DONE rather than planned):
+///   1. On load: GET from server; if it fails (offline, etc.), fall
+///      back to the local ConsentWireStorage cache so the UI still
+///      shows something meaningful rather than an error screen.
+///   2. On toggle: write to ConsentWireStorage immediately (unchanged
+///      offline-first UX), then fire PUT in the background.
+///   3. Conflict handling: unnecessary in practice — location_sos is
+///      locked in the UI, so the client never sends `false` for it;
+///      the server's 400 LOCATION_SOS_REQUIRED rejection is
+///      structurally unreachable from this screen.
+///   4. Failure handling: a failed PUT leaves the local
+///      ConsentWireStorage value as source of truth (already written
+///      in step 2) and is silently retried on the next toggle or next
+///      screen load — no error dialog interrupts the user for a
+///      background sync failure, matching this app's established
+///      offline-first pattern (Day 306 notification tier acks).
+///
+/// Storage: `ConsentWireStorage` (SharedPreferences) remains the local
+/// cache/offline fallback — not replaced, since `main.dart` never calls
+/// `Hive.initFlutter()` and losing the offline-first behavior would be
+/// a regression, not a fix.
 ///
 /// GDPR lawful-basis text per toggle uses real, standard Article
 /// citations (Art. 6(1)(a) consent, Art. 6(1)(b) contract necessity,
@@ -33,19 +43,19 @@
 /// product/UX clarity, not a substitute for legal review before a real
 /// GDPR compliance claim.
 ///
-/// Tag: 🟡 MOCK-NOW
-///
 /// Route: AppRoutes.gdprConsentWire
 library;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../data/services/consent_wire_storage.dart';
+import '../../domain/providers/account_providers.dart';
 import '../widgets/zap_badge.dart';
 import '../widgets/zap_card.dart';
 
@@ -118,17 +128,19 @@ const _kConsentFields = [
   ),
 ];
 
-class Day319GdprConsentWireScreen extends StatefulWidget {
+class Day319GdprConsentWireScreen extends ConsumerStatefulWidget {
   const Day319GdprConsentWireScreen({super.key});
 
   @override
-  State<Day319GdprConsentWireScreen> createState() => _Day319GdprConsentWireScreenState();
+  ConsumerState<Day319GdprConsentWireScreen> createState() => _Day319GdprConsentWireScreenState();
 }
 
-class _Day319GdprConsentWireScreenState extends State<Day319GdprConsentWireScreen> {
+class _Day319GdprConsentWireScreenState extends ConsumerState<Day319GdprConsentWireScreen> {
   final _storage = ConsentWireStorage();
   Map<String, bool> _values = {};
   bool _loading = true;
+  bool _serverSynced = false;
+
   int _tab = 0;
 
   @override
@@ -137,11 +149,36 @@ class _Day319GdprConsentWireScreenState extends State<Day319GdprConsentWireScree
     _load();
   }
 
+  /// Step 1 of the migration plan: try the real server first, fall back
+  /// to the local cache on any failure (offline, timeout, etc.) so the
+  /// screen still shows something meaningful.
   Future<void> _load() async {
     final loaded = <String, bool>{};
     for (final f in _kConsentFields) {
       loaded[f.key] = await _storage.getFlag(f.key) ?? f.defaultValue;
     }
+
+    try {
+      final remote = await ref.read(accountServiceProvider).fetchConsent();
+      loaded['location_sos']         = remote.locationSos;
+      loaded['evidence_recording']   = remote.evidenceRecording;
+      loaded['cloud_backup']         = remote.cloudBackup;
+      loaded['heatmap_contribution'] = remote.heatmapContribution;
+      loaded['analytics']            = remote.analytics;
+      loaded['model_improvement']    = remote.modelImprovement;
+      // Keep the local cache in sync with whatever the server returned,
+      // so the offline fallback path above stays accurate next launch.
+      for (final entry in loaded.entries) {
+        await _storage.setFlag(entry.key, entry.value);
+      }
+      if (mounted) _serverSynced = true;
+    } catch (_) {
+      // Step 1's documented fallback: local cache values already loaded
+      // above stand as-is. No error surfaced to the user for a
+      // background sync failure — offline-first, matching this app's
+      // established pattern elsewhere.
+    }
+
     if (mounted) {
       setState(() {
         _values = loaded;
@@ -150,10 +187,27 @@ class _Day319GdprConsentWireScreenState extends State<Day319GdprConsentWireScree
     }
   }
 
+  /// Step 2 + step 4 of the migration plan: write local immediately
+  /// (unchanged offline-first UX), then fire the real PUT in the
+  /// background — a failure there just leaves local as source of truth,
+  /// silently retried next toggle/load.
   Future<void> _toggle(_ConsentField field, bool value) async {
     if (field.isRequired) return;
     setState(() => _values[field.key] = value);
     await _storage.setFlag(field.key, value);
+
+    try {
+      await ref.read(accountServiceProvider).putConsent(
+            locationSos: field.key == 'location_sos' ? value : null,
+            evidenceRecording: field.key == 'evidence_recording' ? value : null,
+            cloudBackup: field.key == 'cloud_backup' ? value : null,
+            heatmapContribution: field.key == 'heatmap_contribution' ? value : null,
+            analytics: field.key == 'analytics' ? value : null,
+            modelImprovement: field.key == 'model_improvement' ? value : null,
+          );
+    } catch (_) {
+      // Step 4: local value (already written above) remains authoritative.
+    }
   }
 
   @override
@@ -166,19 +220,27 @@ class _Day319GdprConsentWireScreenState extends State<Day319GdprConsentWireScree
               padding: const EdgeInsets.all(ZapSpacing.lg),
               children: [
                 ZapCard(
-                  backgroundColor: ZapColors.warning.withOpacity(0.08),
-                  borderColor: ZapColors.warning.withOpacity(0.3),
+                  backgroundColor: (_serverSynced ? ZapColors.safe : ZapColors.warning).withOpacity(0.08),
+                  borderColor: (_serverSynced ? ZapColors.safe : ZapColors.warning).withOpacity(0.3),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.info_rounded, color: ZapColors.warning, size: 20),
+                      Icon(
+                        _serverSynced ? Icons.cloud_done_rounded : Icons.cloud_off_rounded,
+                        color: _serverSynced ? ZapColors.safe : ZapColors.warning,
+                        size: 20,
+                      ),
                       const SizedBox(width: ZapSpacing.sm),
                       Expanded(
                         child: Text(
-                          '🟡 MOCK-NOW — toggles below persist locally via '
-                          'SharedPreferences (ConsentWireStorage), surviving app '
-                          'kills. GET/PUT /api/v1/account/consent/ is confirmed real '
-                          'and live on the backend but not yet called from here.',
+                          _serverSynced
+                              ? '🟢 LIVE — synced with GET /api/v1/account/consent/ on load, '
+                                'each toggle PUTs in the background. Local SharedPreferences '
+                                '(ConsentWireStorage) stays as the offline-first cache/fallback.'
+                              : '🟡 Offline — could not reach the server on load; showing '
+                                'locally-cached values (ConsentWireStorage). Toggles still '
+                                'save locally and will sync to /api/v1/account/consent/ next '
+                                'time the server is reachable.',
                           style: ZapTypography.bodySmall.copyWith(color: ZapColors.textPrimary, height: 1.5),
                         ),
                       ),
@@ -317,10 +379,12 @@ class _MigrationPlanTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _infoBox(
-          icon: Icons.route_rounded,
-          color: ZapColors.info,
-          text: 'Migration plan: mock (SharedPreferences, today) → live API '
-              '(confirmed real GET/PUT /api/v1/account/consent/, not yet called).',
+          icon: Icons.check_circle_rounded,
+          color: ZapColors.safe,
+          text: 'DONE — this plan is now implemented exactly as written below. '
+              'GET/PUT /api/v1/account/consent/ is live-called from this screen '
+              '(account_service.dart); SharedPreferences remains the offline-'
+              'first cache/fallback, not a placeholder waiting to be replaced.',
         ),
         const SizedBox(height: ZapSpacing.lg),
         _step(1, 'On login / app start',

@@ -3,23 +3,64 @@
 /// First day of the Days 179-180 Active Sessions / Devices block —
 /// the final block of Section B (Data Rights, Days 166-180).
 ///
-/// Day 179: Full active-sessions list — 4 devices, geographic anomaly
-///           detection, remote sign-out, sign-out-all, login history.
+/// Day 179: Full active-sessions list — remote sign-out, sign-out-all.
 /// Day 180: Trusted devices, session deep-dive, Section B complete.
 ///
-/// 🟡 MOCK-NOW — backend at Day 78. No /account/sessions API yet.
-///    Day 174 Audit Log had a Sessions preview; this is the full screen.
-///    API contract documented in Tab 3.
+/// ── Tab 1 (Sessions) — 🟢 LIVE (fixed for Play Store item 10) ──────────────
+///   Was: 🟡 MOCK-NOW, seeded from a hardcoded `_kSessions` list of 4 fake
+///   devices — a real Day 336/361 P1 finding (`/api/v1/account/sessions/`
+///   confirmed real and live on the backend since Day 147, never called).
+///   Now fetches from the real endpoint via [AccountService]. The real
+///   backend response is a simpler shape than the old mock data assumed
+///   (`id, device_name, platform, ip_city, last_active, created_at,
+///   is_current` — no `os`/`app_version`/`country`/`suspicious` fields),
+///   so this screen honestly shows what the server actually returns
+///   rather than keeping fabricated extra detail. Revoke / revoke-all
+///   call the real `DELETE .../sessions/<id>/` and
+///   `POST .../sessions/revoke-all/` endpoints.
+///
+/// ── Tab 2 (Login History) — 🟡 still mock, disclosed honestly ──────────────
+///   No backend endpoint for login history exists anywhere in
+///   `zapsafe_backend` (confirmed: no `/login-history` route in any
+///   urls.py) — this tab stays exactly as before, clearly labeled mock,
+///   rather than silently pretending it's wired. Geographic anomaly
+///   detection here is a client-side UI demo only.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/account_service.dart' as account;
+import '../../domain/providers/account_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _d179TabProvider          = StateProvider<int>((ref) => 0);
-final _activeSessionsProvider   = StateProvider<List<_Session>>((ref) => _kSessions);
+
+/// Real, live session list — maps [account.UserSession] (the actual
+/// backend shape) onto this screen's own richer local [_Session] UI
+/// model, filling fields the real API doesn't return with honest
+/// placeholders rather than fabricated detail.
+final _activeSessionsProvider = FutureProvider<List<_Session>>((ref) async {
+  final sessions = await ref.watch(accountServiceProvider).fetchSessions();
+  return sessions
+      .map((s) => _Session(
+            id: s.id,
+            deviceName: s.deviceName,
+            deviceType: s.platform,
+            os: '—', // not returned by the real API
+            appVersion: '—', // not returned by the real API
+            city: s.ipCity ?? 'Unknown',
+            country: '', // real API returns city only (DPDP §11 — no precise geo)
+            startedAt: s.createdAt,
+            lastActiveAt: s.lastActive,
+            isCurrent: s.isCurrent,
+            // The real backend has no anomaly-detection flag today — never
+            // fabricate a "suspicious" verdict the server didn't make.
+          ))
+      .toList();
+});
+
 final _expandedSessionProvider  = StateProvider<String?>((ref) => null);
 final _signOutStateProvider     = StateProvider<Map<String, _SignOutState>>((ref) => {});
 final _signOutAllStateProvider  = StateProvider<_BulkState>((ref) => _BulkState.idle);
@@ -41,62 +82,26 @@ class _Session {
   final DateTime startedAt;
   final DateTime lastActiveAt;
   final bool     isCurrent;
-  final bool     suspicious;
-  final String?  suspiciousReason;
+  // The real backend has no anomaly-detection signal today (see file
+  // header) — always false/null, no longer settable via the
+  // constructor since nothing ever has real data to pass here. Kept as
+  // fields (not deleted) since the suspicious-banner UI below still
+  // reads them and should light up automatically if a future backend
+  // change adds this signal to SessionListView's response.
+  final bool     suspicious = false;
+  final String?  suspiciousReason = null;
   const _Session({
     required this.id, required this.deviceName, required this.deviceType,
     required this.os, required this.appVersion, required this.city,
     required this.country, required this.startedAt, required this.lastActiveAt,
-    this.isCurrent = false, this.suspicious = false, this.suspiciousReason,
+    this.isCurrent = false,
   });
 }
 
-final _kSessions = [
-  _Session(
-    id: 'sess_s24_current',
-    deviceName: 'Samsung Galaxy S24',
-    deviceType: 'Android',
-    os: 'Android 14 (API 34)',
-    appVersion: 'v1.0.0 (build 150)',
-    city: 'Mumbai', country: 'India',
-    startedAt: DateTime(2026, 5, 28, 10, 12),
-    lastActiveAt: DateTime(2026, 5, 30, 14, 30),
-    isCurrent: true,
-  ),
-  _Session(
-    id: 'sess_ipad_suspicious',
-    deviceName: 'iPad Air (5th gen)',
-    deviceType: 'iOS',
-    os: 'iPadOS 17.4',
-    appVersion: 'v1.0.0 (build 150)',
-    city: 'Pune', country: 'India',
-    startedAt: DateTime(2026, 5, 16, 8, 45),
-    lastActiveAt: DateTime(2026, 5, 25, 16, 30),
-    suspicious: true,
-    suspiciousReason: 'Device not previously associated with this account. '
-        '3 failed vault PIN attempts recorded from this device on May 25.',
-  ),
-  _Session(
-    id: 'sess_pixel_work',
-    deviceName: 'Pixel 7 (Work)',
-    deviceType: 'Android',
-    os: 'Android 14 (API 34)',
-    appVersion: 'v1.0.0 (build 148)',
-    city: 'Mumbai', country: 'India',
-    startedAt: DateTime(2026, 3, 15, 9, 0),
-    lastActiveAt: DateTime(2026, 5, 12, 18, 0),
-  ),
-  _Session(
-    id: 'sess_s24_old',
-    deviceName: 'Samsung Galaxy S24 (old session)',
-    deviceType: 'Android',
-    os: 'Android 14 (API 34)',
-    appVersion: 'v0.9.8 (build 135)',
-    city: 'Mumbai', country: 'India',
-    startedAt: DateTime(2026, 1, 15, 9, 0),
-    lastActiveAt: DateTime(2026, 3, 10, 12, 0),
-  ),
-];
+// Fake `_kSessions` seed list removed — Tab 1 now fetches real sessions via
+// `_activeSessionsProvider` (see above). Tab 2 (Login History) below still
+// has no real backend endpoint to wire (see file header), so its own
+// `_kLoginHistory` mock data stays, clearly labeled as such.
 
 // ── Login history ─────────────────────────────────────────────────────────────
 class _LoginEvent {
@@ -131,13 +136,16 @@ final _kLoginHistory = [
       city: 'Mumbai', method: 'OTP', success: true),
 ];
 
-// ── Mock service ───────────────────────────────────────────────────────────────
+// ── Real service wrapper ──────────────────────────────────────────────────────
+// Thin static wrapper taking `ref` explicitly — matches this file's
+// existing static-method call style at each call site below, which
+// already has a `ref` in scope.
 class _SessionService {
-  static Future<void> revokeSession(String sessionId) =>
-      Future.delayed(const Duration(milliseconds: 900));
+  static Future<void> revokeSession(WidgetRef ref, String sessionId) =>
+      ref.read(accountServiceProvider).revokeSession(sessionId);
 
-  static Future<void> revokeAllOtherSessions() =>
-      Future.delayed(const Duration(milliseconds: 1400));
+  static Future<void> revokeAllOtherSessions(WidgetRef ref) =>
+      ref.read(accountServiceProvider).revokeAllOtherSessions();
 }
 
 // ── Screen ─────────────────────────────────────────────────────────────────────
@@ -209,7 +217,7 @@ class _Hero extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
           _badge('⚡  DAY 179',             const Color(0xFF3B82F6)),
-          _badge('🟡 MOCK-NOW',             const Color(0xFFF59E0B)),
+          _badge('🟢 Sessions LIVE · Login History mock', const Color(0xFF10B981)),
           _badge('Section B  ·  Final block', const Color(0xFF8B5CF6)),
         ]),
         const SizedBox(height: ZapSpacing.md),
@@ -308,12 +316,37 @@ class _SessionsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessions     = ref.watch(_activeSessionsProvider);
+    final sessionsAsync = ref.watch(_activeSessionsProvider);
     final expanded     = ref.watch(_expandedSessionProvider);
     final signOutStates= ref.watch(_signOutStateProvider);
     final bulkState    = ref.watch(_signOutAllStateProvider);
     final bulkConfirm  = ref.watch(_signOutAllConfirmProvider);
 
+    return sessionsAsync.when(
+      loading: () => const Padding(
+        padding: EdgeInsets.symmetric(vertical: ZapSpacing.huge),
+        child: Center(child: CircularProgressIndicator(color: Color(0xFF3B82F6))),
+      ),
+      error: (err, _) => _errorBox(
+        'Could not load sessions',
+        'GET /api/v1/account/sessions/ failed — check your connection and pull '
+            'to refresh, or reopen this screen.',
+      ),
+      data: (sessions) => _buildLoaded(
+        context, ref, sessions, expanded, signOutStates, bulkState, bulkConfirm,
+      ),
+    );
+  }
+
+  Widget _buildLoaded(
+    BuildContext context,
+    WidgetRef ref,
+    List<_Session> sessions,
+    String? expanded,
+    Map<String, _SignOutState> signOutStates,
+    _BulkState bulkState,
+    bool bulkConfirm,
+  ) {
     final suspiciousCount = sessions.where((s) => s.suspicious && !_isRevoked(s.id, sessions)).length;
     final otherCount      = sessions.where((s) => !s.isCurrent).length;
     final revokedCount    = signOutStates.values.where((s) => s == _SignOutState.done).length;
@@ -336,7 +369,7 @@ class _SessionsTab extends ConsumerWidget {
           _stat('${sessions.length}', 'Total\nsessions',   const Color(0xFF3B82F6)),
           _stat('1',                  'Current\ndevice',   const Color(0xFF10B981)),
           _stat('$suspiciousCount',   'Suspicious',        const Color(0xFFEF4444)),
-          _stat('$revokedCount',      'Signed out\n(demo)',const Color(0xFF6B7280)),
+          _stat('$revokedCount',      'Signed out\nthis visit',const Color(0xFF6B7280)),
         ]),
       ),
 
@@ -463,7 +496,7 @@ class _SessionsTab extends ConsumerWidget {
           onTap: () => ref.read(_signOutAllConfirmProvider.notifier).state = true,
         )
       else if (bulkState == _BulkState.idle && bulkConfirm)
-        _BulkConfirmCard(ref: ref, otherCount: otherCount - revokedCount)
+        _BulkConfirmCard(ref: ref, otherCount: otherCount - revokedCount, sessions: sessions)
       else if (bulkState == _BulkState.signing)
         _statusCard(Icons.hourglass_top_rounded, const Color(0xFFEF4444),
             'Signing out all other sessions…',
@@ -597,7 +630,22 @@ class _SessionDetail extends StatelessWidget {
     map[id] = _SignOutState.signing;
     ref.read(_signOutStateProvider.notifier).state = map;
 
-    await _SessionService.revokeSession(id);
+    try {
+      await _SessionService.revokeSession(ref, id);
+    } catch (_) {
+      // Real DELETE failed (network/server) — roll the optimistic state
+      // back to idle so the user can retry, rather than showing "done"
+      // for a revoke that didn't actually happen server-side.
+      if (!context.mounted) return;
+      final rollback = Map<String, _SignOutState>.from(ref.read(_signOutStateProvider));
+      rollback[id] = _SignOutState.idle;
+      ref.read(_signOutStateProvider.notifier).state = rollback;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Could not revoke session — try again'),
+          backgroundColor: Color(0xFFEF4444),
+          duration: Duration(seconds: 2)));
+      return;
+    }
 
     if (!context.mounted) return;
     final map2 = Map<String, _SignOutState>.from(ref.read(_signOutStateProvider));
@@ -629,8 +677,8 @@ class _SessionDetail extends StatelessWidget {
 }
 
 class _BulkConfirmCard extends StatelessWidget {
-  final WidgetRef ref; final int otherCount;
-  const _BulkConfirmCard({required this.ref, required this.otherCount});
+  final WidgetRef ref; final int otherCount; final List<_Session> sessions;
+  const _BulkConfirmCard({required this.ref, required this.otherCount, required this.sessions});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -659,11 +707,17 @@ class _BulkConfirmCard extends StatelessWidget {
             onTap: () async {
               ref.read(_signOutAllStateProvider.notifier).state = _BulkState.signing;
               ref.read(_signOutAllConfirmProvider.notifier).state = false;
-              await _SessionService.revokeAllOtherSessions();
+              try {
+                await _SessionService.revokeAllOtherSessions(ref);
+              } catch (_) {
+                ref.read(_signOutAllStateProvider.notifier).state = _BulkState.idle;
+                return;
+              }
               ref.read(_signOutAllStateProvider.notifier).state = _BulkState.done;
-              // Mark all non-current as done
+              // Mark all non-current sessions (from the real fetched list,
+              // not a hardcoded fake one) as done.
               final map = <String, _SignOutState>{};
-              for (final s in _kSessions) {
+              for (final s in sessions) {
                 if (!s.isCurrent) map[s.id] = _SignOutState.done;
               }
               ref.read(_signOutStateProvider.notifier).state = map;
@@ -894,84 +948,70 @@ class _ApiContractTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
       crossAxisAlignment: CrossAxisAlignment.start, children: [
-    _infoBox(icon: Icons.code_rounded, color: const Color(0xFFF59E0B),
-        text: 'Backend at Day 78. No /account/sessions API exists yet. '
-            'Document here for zero-conflict implementation. '
-            'Day 174 Sessions tab uses the same contract.'),
+    _infoBox(icon: Icons.check_circle_rounded, color: const Color(0xFF10B981),
+        text: 'Endpoints 1-3 below are REAL and LIVE (zapsafe_backend/account/'
+            'views.py, wired via account_service.dart for Play Store item 10) — '
+            'this tab now documents the actual contract, not a pre-implementation '
+            'spec. Field names differ slightly from the original spec draft below '
+            '(e.g. real "id" not "session_id", real "platform"/"ip_city" not '
+            '"device_type"/"city"+"country") — the real shape won, as it should. '
+            'Endpoint 4 (Login History) has NO real backend anywhere in '
+            'zapsafe_backend — still a speculative draft, not implemented.'),
     const SizedBox(height: ZapSpacing.lg),
 
-    const _SectionLabel('ENDPOINT 1 — LIST ACTIVE SESSIONS'),
+    const _SectionLabel('ENDPOINT 1 — LIST ACTIVE SESSIONS  ·  REAL'),
     const SizedBox(height: ZapSpacing.md),
-    _code(context, '''// GET /api/v1/account/sessions
+    _code(context, '''// GET /api/v1/account/sessions/
 // Auth: Bearer JWT required
-// Returns all sessions with active (non-expired, non-revoked) JWTs
+// Returns all sessions with active (non-revoked) JWTs
 
-// RESPONSE 200 OK
+// RESPONSE 200 OK  (real shape — account/views.py SessionListView)
 {
+  "count": 2,
   "sessions": [
     {
-      "session_id": "sess_s24_current",
+      "id": "3f1a2b4c-...",
       "device_name": "Samsung Galaxy S24",
-      "device_type": "Android",          // "Android" | "iOS" | "Web"
-      "os": "Android 14 (API 34)",
-      "app_version": "v1.0.0 (build 150)",
-      "city": "Mumbai",
-      "country": "India",
-      // IP address NOT returned — DPDP §11 city-level only
-      "started_at": "2026-05-28T10:12:00Z",
-      "last_active_at": "2026-05-30T14:30:00Z",
-      "is_current": true,
-      "suspicious": false,
-      "suspicious_reason": null
+      "platform": "android",             // free-text, client-supplied at login
+      "ip_city": "Mumbai",
+      // no country field, no precise IP — DPDP §11 city-level only
+      "last_active": "2026-05-30T14:30:00Z",
+      "created_at": "2026-05-28T10:12:00Z",
+      "is_current": true
     }
-  ],
-  "suspicious_count": 1,
-  "total": 4
+  ]
 }'''),
 
     const SizedBox(height: ZapSpacing.lg),
-    const _SectionLabel('ENDPOINT 2 — REVOKE SINGLE SESSION'),
+    const _SectionLabel('ENDPOINT 2 — REVOKE SINGLE SESSION  ·  REAL'),
     const SizedBox(height: ZapSpacing.md),
-    _code(context, '''// DELETE /api/v1/account/sessions/{session_id}
+    _code(context, '''// DELETE /api/v1/account/sessions/{id}/
 // Auth: Bearer JWT required
 // Cannot revoke current session via this endpoint
 
-// RESPONSE 200 OK
-{
-  "session_id": "sess_ipad_suspicious",
-  "revoked": true,
-  "message": "Session revoked. Device will receive 401 on next API call."
-}
+// RESPONSE 204 No Content — revoked, no body
 
 // RESPONSE 400 — attempt to revoke current session
-{
-  "error": "cannot_revoke_current",
-  "message": "Sign out from the app Settings to end your current session."
-}
+{ "error": "...", "code": "CANNOT_REVOKE_CURRENT_SESSION" }
 
 // RESPONSE 404 — session already expired/revoked
-{
-  "error": "session_not_found"
-}'''),
+{ "error": "...", "code": "SESSION_NOT_FOUND" }'''),
 
     const SizedBox(height: ZapSpacing.lg),
-    const _SectionLabel('ENDPOINT 3 — REVOKE ALL OTHER SESSIONS'),
+    const _SectionLabel('ENDPOINT 3 — REVOKE ALL OTHER SESSIONS  ·  REAL'),
     const SizedBox(height: ZapSpacing.md),
-    _code(context, '''// DELETE /api/v1/account/sessions/all
+    _code(context, '''// POST /api/v1/account/sessions/revoke-all/
 // Auth: Bearer JWT required
 // Revokes all sessions EXCEPT the one making this request
 
 // RESPONSE 200 OK
-{
-  "revoked_count": 3,
-  "kept_session": "sess_s24_current",
-  "message": "3 sessions revoked. All other devices will see 401."
-}'''),
+{ "revoked_count": 3 }'''),
 
     const SizedBox(height: ZapSpacing.lg),
-    const _SectionLabel('ENDPOINT 4 — LOGIN HISTORY'),
+    const _SectionLabel('ENDPOINT 4 — LOGIN HISTORY  ·  NOT REAL, SPECULATIVE'),
     const SizedBox(height: ZapSpacing.md),
-    _code(context, '''// GET /api/v1/account/login-history
+    _code(context, '''// NOT IMPLEMENTED — no route anywhere in zapsafe_backend.
+// GET /api/v1/account/login-history  (planned shape, unbuilt)
 // Auth: Bearer JWT required
 // Returns recent authentication events
 
@@ -1076,6 +1116,19 @@ Widget _infoBox({required IconData icon, required Color color, required String t
         Expanded(child: Text(text, style: const TextStyle(
             color: Color(0xFFD1D5DB), fontSize: 12, height: 1.6))),
       ]));
+
+Widget _errorBox(String title, String body) => Padding(
+      padding: const EdgeInsets.symmetric(vertical: ZapSpacing.xl),
+      child: Column(children: [
+        const Icon(Icons.cloud_off_rounded, color: Color(0xFFEF4444), size: 32),
+        const SizedBox(height: ZapSpacing.md),
+        Text(title, style: const TextStyle(color: Color(0xFFEF4444), fontSize: 14,
+            fontWeight: FontWeight.w700), textAlign: TextAlign.center),
+        const SizedBox(height: ZapSpacing.sm),
+        Text(body, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11, height: 1.5),
+            textAlign: TextAlign.center),
+      ]),
+    );
 
 // fix missing fromLTRB
 extension _EdgeInsets on Padding {

@@ -139,6 +139,22 @@ class ApiConfig {
   static const privacy            = '/api/v1/privacy/';
   static const privacyDeletion    = '/api/v1/privacy/deletion-request/';
 
+  // Account — Day 147-158 backend, wired here for Play Store item 10
+  // (DPDP frontend wiring). Distinct from `privacy`/`privacyDeletion`
+  // above (older Day 70 surface) and from `dataExport`/`auditLog`
+  // below (older Day 68/69 surfaces) — see account_service.dart's own
+  // header for exactly which of each pair is the one actually called
+  // from the UI vs. left real-but-unwired per Day 337/383/384's own
+  // explicit recommendation not to duplicate DPDP rights that are
+  // already live via an older endpoint.
+  static const accountConsent          = '/api/v1/account/consent/';
+  static const accountSessions         = '/api/v1/account/sessions/';
+  static const accountSessionsRevokeAll = '/api/v1/account/sessions/revoke-all/';
+  static String accountSessionRevokeFor(String sessionId) =>
+      '/api/v1/account/sessions/$sessionId/';
+  static const accountRetention        = '/api/v1/account/retention/';
+  static const accountRetentionPurgeNow = '/api/v1/account/retention/purge-now/';
+
   // Analytics — Day 81-85 backend, wired Day 302 (authenticated GET; device-health also POST)
   static const analyticsSosSummary          = '/api/v1/analytics/sos-summary/';
   static const analyticsDetections          = '/api/v1/analytics/detections/';
