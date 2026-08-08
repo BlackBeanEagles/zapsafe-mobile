@@ -3530,11 +3530,11 @@ class _MilestoneProgressCard extends StatelessWidget {
           const SizedBox(height: ZapSpacing.sm),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
+            child: const LinearProgressIndicator(
               value: progress,
               minHeight: 8,
               backgroundColor: ZapColors.bgPrimary,
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
             ),
           ),
           const SizedBox(height: 6),

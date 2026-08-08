@@ -209,7 +209,7 @@ class _Day33DcsStreamScreenState
               const _SectionLabel('TRIGGER EVENT LOG'),
               const SizedBox(height: ZapSpacing.md),
               if (_events.isEmpty)
-                _EmptyCard(
+                const _EmptyCard(
                   message: 'No triggers yet. Inject 3+ HIGH scores in a row.',
                 )
               else
@@ -314,7 +314,7 @@ class _VoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final current = watcher.currentConsecutive;
-    final required = DCSScoreWatcher.requiredConsecutiveWindows;
+    const required = DCSScoreWatcher.requiredConsecutiveWindows;
     final last = watcher.lastFusedScream;
 
     return ZapCard(

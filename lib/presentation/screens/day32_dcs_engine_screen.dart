@@ -109,7 +109,7 @@ class _Day32DcsEngineScreenState extends ConsumerState<Day32DcsEngineScreen> {
               const _SectionLabel('LATEST DCS SCORE'),
               const SizedBox(height: ZapSpacing.md),
               if (_last == null)
-                _EmptyCard(message: 'Pick a scenario above to run one pass.')
+                const _EmptyCard(message: 'Pick a scenario above to run one pass.')
               else
                 _DcsScoreCard(score: _last!, scenario: _lastScenario ?? '—'),
 
@@ -637,28 +637,28 @@ AudioFeatures _screamAudio() => AudioFeatures(
     );
 
 final List<_Scenario> _scenarios = [
-  _Scenario(
+  const _Scenario(
     name: 'CALM · phone on desk',
     icon: Icons.bed_rounded,
     intent: ZapButtonIntent.safe,
     audio: _quietAudio,
     motion: MotionFeatures.atRest,
   ),
-  _Scenario(
+  const _Scenario(
     name: 'WALKING · normal commute',
     icon: Icons.directions_walk_rounded,
     intent: ZapButtonIntent.info,
     audio: _quietAudio,
     motion: MotionFeatures.walking,
   ),
-  _Scenario(
+  const _Scenario(
     name: 'SHOUT + walking',
     icon: Icons.campaign_rounded,
     intent: ZapButtonIntent.warning,
     audio: _shoutAudio,
     motion: MotionFeatures.walking,
   ),
-  _Scenario(
+  const _Scenario(
     name: 'SCREAM + impact',
     icon: Icons.warning_amber_rounded,
     intent: ZapButtonIntent.danger,

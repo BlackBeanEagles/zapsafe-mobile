@@ -369,7 +369,7 @@ class _PreviewCard extends StatelessWidget {
                 children: [
                   // Alert heading
                   Text(
-                    'Emergency Alert',
+                    'SOS Alert',
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: weight,

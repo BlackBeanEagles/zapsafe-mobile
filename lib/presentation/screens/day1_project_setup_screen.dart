@@ -51,35 +51,35 @@ class Day1ProjectSetupScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(ZapSpacing.lg),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(ZapSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _Hero(),
-            const SizedBox(height: ZapSpacing.xl),
-            const _SectionLabel('COMMAND RUN'),
-            const SizedBox(height: ZapSpacing.md),
-            const _CodeBlock(
+            _Hero(),
+            SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('COMMAND RUN'),
+            SizedBox(height: ZapSpacing.md),
+            _CodeBlock(
               code: 'flutter create zapsafe_mobile --org com.zapsafe\n'
                   'cd zapsafe_mobile\n'
                   'git init\n'
                   'git add .\n'
                   'git commit -m "chore: initial Flutter scaffold"',
             ),
-            const SizedBox(height: ZapSpacing.xl),
-            const _SectionLabel('FOLDER STRUCTURE'),
-            const SizedBox(height: ZapSpacing.md),
-            const _FolderTree(),
-            const SizedBox(height: ZapSpacing.xl),
-            const _SectionLabel('CORE PACKAGES — pubspec.yaml'),
-            const SizedBox(height: ZapSpacing.md),
-            const _PackageList(),
-            const SizedBox(height: ZapSpacing.xl),
-            const _SectionLabel('DAY 1 CHECKLIST'),
-            const SizedBox(height: ZapSpacing.md),
-            const _Checklist(),
-            const SizedBox(height: ZapSpacing.huge),
+            SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('FOLDER STRUCTURE'),
+            SizedBox(height: ZapSpacing.md),
+            _FolderTree(),
+            SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('CORE PACKAGES — pubspec.yaml'),
+            SizedBox(height: ZapSpacing.md),
+            _PackageList(),
+            SizedBox(height: ZapSpacing.xl),
+            _SectionLabel('DAY 1 CHECKLIST'),
+            SizedBox(height: ZapSpacing.md),
+            _Checklist(),
+            SizedBox(height: ZapSpacing.huge),
           ],
         ),
       ),
@@ -151,12 +151,12 @@ class _Hero extends StatelessWidget {
                 color: Color(0xFFB0B0C8), fontSize: 13, height: 1.6),
           ),
           const SizedBox(height: ZapSpacing.lg),
-          Row(
+          const Row(
             children: [
               _StatChip(label: 'Flutter', value: '3.19.6', color: ZapColors.info),
-              const SizedBox(width: ZapSpacing.sm),
+              SizedBox(width: ZapSpacing.sm),
               _StatChip(label: 'Dart', value: '3.3.4', color: ZapColors.warning),
-              const SizedBox(width: ZapSpacing.sm),
+              SizedBox(width: ZapSpacing.sm),
               _StatChip(label: 'Org', value: 'com.zapsafe', color: ZapColors.safe),
             ],
           ),
@@ -218,15 +218,15 @@ class _CodeBlock extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.terminal_rounded,
+                Icon(Icons.terminal_rounded,
                     color: ZapColors.textSecondary, size: 14),
-                const SizedBox(width: 6),
-                const Text('terminal',
+                SizedBox(width: 6),
+                Text('terminal',
                     style: TextStyle(color: ZapColors.textSecondary, fontSize: 11)),
-                const Spacer(),
-                const Icon(Icons.copy_rounded,
+                Spacer(),
+                Icon(Icons.copy_rounded,
                     color: ZapColors.textSecondary, size: 14),
               ],
             ),

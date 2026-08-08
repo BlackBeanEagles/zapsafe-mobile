@@ -63,7 +63,7 @@ class _Day49AudioPipelineScreenState
 
   void _start() {
     final featureStream = ref.read(audioChannelProvider).featureStream;
-    final detector = const HeuristicScreamDetector();
+    const detector = HeuristicScreamDetector();
 
     _svc = AudioFeatureService(
       interpreter:   detector,
@@ -186,25 +186,25 @@ class _Day49AudioPipelineScreenState
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Live inference result ──────────────────────────────────────
-            _SectionLabel('LIVE DETECTION'),
+            const _SectionLabel('LIVE DETECTION'),
             const SizedBox(height: ZapSpacing.sm),
             _LiveResultCard(result: _latestResult, running: _running),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Confidence history ─────────────────────────────────────────
-            _SectionLabel('CONFIDENCE HISTORY  (last $_historyLen frames)'),
+            const _SectionLabel('CONFIDENCE HISTORY  (last $_historyLen frames)'),
             const SizedBox(height: ZapSpacing.sm),
             _HistoryBarCard(history: _confidenceHistory),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Audio features ─────────────────────────────────────────────
-            _SectionLabel('AUDIO FEATURES'),
+            const _SectionLabel('AUDIO FEATURES'),
             const SizedBox(height: ZapSpacing.sm),
             _AudioFeaturesCard(features: _latestFeatures, running: _running),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Pipeline stats ─────────────────────────────────────────────
-            _SectionLabel('PIPELINE STATS'),
+            const _SectionLabel('PIPELINE STATS'),
             const SizedBox(height: ZapSpacing.sm),
             _StatsCard(
               framesIn:      _framesIn,
@@ -338,7 +338,7 @@ class _LiveResultCard extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: e.value.clamp(0.0, 1.0),
                           backgroundColor: ZapColors.bgSurface,
-                          valueColor: AlwaysStoppedAnimation<Color>(
+                          valueColor: const AlwaysStoppedAnimation<Color>(
                               ZapColors.textMuted),
                           minHeight: 4,
                           borderRadius: BorderRadius.circular(2),
@@ -476,7 +476,7 @@ class _StatsCard extends StatelessWidget {
           _MonoRow('triggers',     '$triggersFired'),
           _MonoRow('max score',
               '${(maxScore * 100).toStringAsFixed(1)}%'),
-          _MonoRow('avg latency',  '${avgLatencyMs} ms'),
+          _MonoRow('avg latency',  '$avgLatencyMs ms'),
           _MonoRow('status',
               running ? 'RUNNING' : 'STOPPED'),
         ],

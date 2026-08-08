@@ -70,13 +70,13 @@ class _Day46DetectionSettingsScreenState
           icon: const Icon(Icons.arrow_back_rounded, color: ZapColors.textPrimary),
           onPressed: () => context.go(AppRoutes.home),
         ),
-        title: Text('Detection Settings', style: ZapTypography.labelLarge),
-        actions: [
+        title: const Text('Detection Settings', style: ZapTypography.labelLarge),
+        actions: const [
           ZapBadge(
             label: 'DAY 46',
             intent: ZapBadgeIntent.info,
           ),
-          const SizedBox(width: ZapSpacing.sm),
+          SizedBox(width: ZapSpacing.sm),
         ],
       ),
       body: SafeArea(
@@ -89,7 +89,7 @@ class _Day46DetectionSettingsScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ── Master AI toggle ─────────────────────────────────────────
-              _SectionHeader('AI DETECTION'),
+              const _SectionHeader('AI DETECTION'),
               const SizedBox(height: ZapSpacing.sm),
               _MasterToggleCard(
                 enabled: settings.aiEnabled,
@@ -98,7 +98,7 @@ class _Day46DetectionSettingsScreenState
               const SizedBox(height: ZapSpacing.xl),
 
               // ── Per-model toggles ────────────────────────────────────────
-              _SectionHeader('DETECTION MODELS'),
+              const _SectionHeader('DETECTION MODELS'),
               const SizedBox(height: ZapSpacing.sm),
               _ModelToggleCard(
                 icon: Icons.record_voice_over_rounded,
@@ -138,7 +138,7 @@ class _Day46DetectionSettingsScreenState
               const SizedBox(height: ZapSpacing.xl),
 
               // ── Phone capability ─────────────────────────────────────────
-              _SectionHeader('PHONE CAPABILITY'),
+              const _SectionHeader('PHONE CAPABILITY'),
               const SizedBox(height: ZapSpacing.sm),
               _PhoneCapabilityCard(
                 tier:    _tier,
@@ -148,7 +148,7 @@ class _Day46DetectionSettingsScreenState
               const SizedBox(height: ZapSpacing.xl),
 
               // ── Heuristic fallback info ──────────────────────────────────
-              _SectionHeader('HEURISTIC FALLBACK'),
+              const _SectionHeader('HEURISTIC FALLBACK'),
               const SizedBox(height: ZapSpacing.sm),
               ZapCard(
                 child: Padding(

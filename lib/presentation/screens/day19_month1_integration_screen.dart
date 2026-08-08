@@ -65,7 +65,7 @@ class _Day19Month1IntegrationScreenState
           const phone = '+919876543210';
           final ok = RegExp(r'^\+\d{10,15}$').hasMatch(phone);
           if (!ok) throw 'Regex rejected $phone';
-          return PhaseResult(
+          return const PhaseResult(
             key: 'phone',
             name: 'Phone validation',
             status: PhaseStatus.pass,
@@ -182,7 +182,7 @@ class _Day19Month1IntegrationScreenState
           final token = pushService.cachedToken ?? await pushService.getToken();
           if (token == null) throw 'No token to register';
           await pushService.registerWithBackend(token: token);
-          return PhaseResult(
+          return const PhaseResult(
             key: 'fcm_register',
             name: 'FCM register with backend',
             status: PhaseStatus.pass,

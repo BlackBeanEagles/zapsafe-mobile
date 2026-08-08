@@ -417,7 +417,7 @@ class _ComparisonCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.android_rounded,
+                    const Icon(Icons.android_rounded,
                         color: ZapColors.safe, size: 16),
                     const SizedBox(width: ZapSpacing.xs),
                     Text(
@@ -436,7 +436,7 @@ class _ComparisonCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.apple_rounded,
+                    const Icon(Icons.apple_rounded,
                         color: ZapColors.info, size: 16),
                     const SizedBox(width: ZapSpacing.xs),
                     Text(

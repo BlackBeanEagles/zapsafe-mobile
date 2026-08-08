@@ -438,11 +438,11 @@ class _Field extends StatelessWidget {
         fillColor: ZapColors.bgSurface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: ZapColors.border),
+          borderSide: const BorderSide(color: ZapColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: ZapColors.border),
+          borderSide: const BorderSide(color: ZapColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

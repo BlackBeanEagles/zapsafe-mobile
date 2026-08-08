@@ -80,7 +80,7 @@ class Day44HeuristicEngineScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── Mode switcher ──────────────────────────────────────────
-            _SectionLabel('CAPABILITY TIER'),
+            const _SectionLabel('CAPABILITY TIER'),
             const SizedBox(height: ZapSpacing.sm),
             _TierSelector(
               selected: tier,

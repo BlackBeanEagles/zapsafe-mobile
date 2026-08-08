@@ -12,6 +12,7 @@
 ///   • SOS exception notice: SOS alerts always bypass DND (non-dismissible)
 ///   • Save button → PUT /api/v1/users/preferences/
 ///   • Emulator tile added to index screen
+library;
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -166,8 +167,8 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.4)),
                     ),
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 20),
                         SizedBox(width: 10),
                         Expanded(

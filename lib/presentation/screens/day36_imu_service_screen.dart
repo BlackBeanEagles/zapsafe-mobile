@@ -194,7 +194,7 @@ class _Day36ImuServiceScreenState
               const _SectionLabel('FALL LOG · NEWEST FIRST'),
               const SizedBox(height: ZapSpacing.md),
               if (_falls.isEmpty)
-                _EmptyCard(
+                const _EmptyCard(
                   message: 'No falls detected yet. Tap SIMULATE FALL '
                       'or drop the phone (carefully, on a soft surface).',
                 )
@@ -430,7 +430,7 @@ class _FeaturesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (features == null) {
-      return _EmptyCard(
+      return const _EmptyCard(
         message:
             'Waiting for first 450 ms window… (auto-emits once the buffer fills)',
       );
