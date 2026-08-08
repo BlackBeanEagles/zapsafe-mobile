@@ -110,7 +110,7 @@ for (final p in substratePaths) {
     howDetected: 'Attempt to write a temp file to /private/jailbreak_test.txt. '
         'If write succeeds → jailbreak confirmed. '
         'Delete the file immediately after.',
-    dartCode: '''// Swift via platform channel
+    dartCode: r'''// Swift via platform channel
 func sandboxTest() -> Bool {
   let path = "/private/jailbreak_test_\(UUID().uuidString).txt"
   do {

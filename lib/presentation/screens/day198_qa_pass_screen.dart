@@ -517,7 +517,11 @@ class _QaTab extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       final updated = Set<String>.from(checked);
-                      if (isDone) updated.remove(flow.id); else updated.add(flow.id);
+                      if (isDone) {
+                        updated.remove(flow.id);
+                      } else {
+                        updated.add(flow.id);
+                      }
                       ref.read(_flowCheckedProvider.notifier).state = updated;
                     },
                     child: AnimatedContainer(

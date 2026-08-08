@@ -337,7 +337,7 @@ class _DownloadTabState extends ConsumerState<_DownloadTab> {
           child: Column(children: [
             _kv('Export ID',  _kExportId),
             _kv('File',       'zapsafe_export_20260530.zip'),
-            _kv('Size',       '50.0 MB (${_kFileSize} bytes)'),
+            _kv('Size',       '50.0 MB ($_kFileSize bytes)'),
             _kv('Expires',    'June 29, 2026'),
             _kv('Checksum',   '${_kServerChecksum.substring(0, 16)}…'),
           ]),

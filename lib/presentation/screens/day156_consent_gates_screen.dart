@@ -759,7 +759,7 @@ class _GatesDemoTab extends ConsumerWidget {
         // Live ConsentGate demo
         const _SectionLabel('CONSENT GATE  ·  LIVE PREVIEW'),
         const SizedBox(height: ZapSpacing.md),
-        ConsentGate(
+        _ConsentGate(
           consentType: demoType,
           isGranted: isEnabled,
           feature: gatedFeature,
@@ -951,14 +951,14 @@ class _FeatureSelector extends StatelessWidget {
 
 // ── ConsentGate widget ─────────────────────────────────────────────────────────
 /// Reusable — wrap any feature content behind this.
-class ConsentGate extends StatelessWidget {
+class _ConsentGate extends StatelessWidget {
   final ConsentType  consentType;
   final bool         isGranted;
   final _Feature     feature;
   final VoidCallback onEnable;
   final Widget       child;
 
-  const ConsentGate({
+  const _ConsentGate({
     super.key,
     required this.consentType,
     required this.isGranted,

@@ -617,7 +617,7 @@ class _ForensicCard extends StatelessWidget {
         _mRow('Type',       _typeLabel[event.type]!),
         _mRow('Category',   _catLabel[event.cat]!),
         _mRow('Actor',      event.actor),
-        _mRow('Location',   '${event.location}'),
+        _mRow('Location',   event.location),
         _mRow('IP address', 'Redacted (DPDP §11 — city-level only)'),
       ]),
       const SizedBox(height: ZapSpacing.lg),
@@ -969,7 +969,7 @@ class _ExportTab extends ConsumerWidget {
         _statusCard(Icons.hourglass_top_rounded, const Color(0xFF10B981),
             'Generating export…',
             'POST /api/v1/data-access/audit-log/export → 202\n'
-            'Processing ${rangeCount} events…', loading: true)
+            'Processing $rangeCount events…', loading: true)
       else if (exportState == _ExportState.done)
         _ExportDoneCard(format: format, rangeCount: rangeCount, ref: ref)
       else

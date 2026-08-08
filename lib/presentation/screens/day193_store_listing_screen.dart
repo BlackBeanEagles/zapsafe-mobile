@@ -43,9 +43,9 @@ Set up Tier 1 (notify first), Tier 2 (backup), and Tier 3 (final fallback) '
 contacts. ZapSafe escalates automatically if nobody responds.
 
 ⏱ CHECK-IN TIMERS
-Dead-man\'s switch — if you don\'t check in, your contacts are notified. '
+Dead-man's switch — if you don't check in, your contacts are notified. '
 Perfect for solo hikes, late nights, or any situation where you need '
-someone to know you\'re safe.
+someone to know you're safe.
 
 🛡 PROTECTION SCORE
 See your safety score at a glance. ZapSafe monitors your setup — contacts '
@@ -86,7 +86,7 @@ SMART ESCALATION
 Tier 1 → 2 → 3 contact hierarchy. Auto-escalates if nobody responds.
 
 CHECK-IN TIMERS
-Dead-man\'s switch for solo travellers and night-shift workers.
+Dead-man's switch for solo travellers and night-shift workers.
 
 PROTECTION SCORE
 Live safety score — contacts, location, drills, permissions.

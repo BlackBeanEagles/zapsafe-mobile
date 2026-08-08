@@ -473,7 +473,7 @@ class _SessionsTab extends ConsumerWidget {
       else
         _statusCard(Icons.check_circle_rounded, const Color(0xFF10B981),
             'All other sessions signed out ✅',
-            '${otherCount} devices have been signed out. '
+            '$otherCount devices have been signed out. '
             'Their JWTs are now invalid.',
             loading: false),
     ]);

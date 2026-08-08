@@ -462,7 +462,7 @@ class _ProfileTab extends ConsumerWidget {
                   'Collecting startup frames…', loading: true)
             else ...[
               Row(children: [
-                _pBox('${_kTotalMs} ms', 'Total blocking', const Color(0xFFF97316)),
+                _pBox('$_kTotalMs ms', 'Total blocking', const Color(0xFFF97316)),
                 const SizedBox(width: ZapSpacing.sm),
                 _pBox('${_kPhases.where((p) => p.status == 'ok').length}/${_kPhases.length}',
                     'Phases OK', const Color(0xFF10B981)),

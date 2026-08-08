@@ -1140,7 +1140,7 @@ class _DemoTab extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: ZapSpacing.xs),
-                    Text('${stepData.duration}',
+                    Text(stepData.duration,
                         style: TextStyle(
                             color: isActive
                                 ? stepData.color

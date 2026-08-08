@@ -575,7 +575,7 @@ class _GdprTab extends ConsumerWidget {
               )
             else if (scanState == _ScanState.scanning)
               _statusChip(Icons.radar_rounded, const Color(0xFF3B82F6),
-                  'Scanning ${doneCount}/${_kGdprChecks.length} requirements…',
+                  'Scanning $doneCount/${_kGdprChecks.length} requirements…',
                   loading: true)
             else ...[
               Row(children: [

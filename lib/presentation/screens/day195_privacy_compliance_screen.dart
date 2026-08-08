@@ -826,7 +826,11 @@ class _ComplianceTab extends ConsumerWidget {
                 GestureDetector(
                   onTap: () {
                     final updated = Set<String>.from(checked);
-                    if (isD) updated.remove(item.id); else updated.add(item.id);
+                    if (isD) {
+                      updated.remove(item.id);
+                    } else {
+                      updated.add(item.id);
+                    }
                     ref.read(_checkedStoreProvider.notifier).state = updated;
                   },
                   child: Padding(

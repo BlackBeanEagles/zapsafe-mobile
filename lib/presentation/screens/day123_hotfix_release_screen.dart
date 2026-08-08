@@ -751,7 +751,7 @@ class _CrashMonitor extends ConsumerWidget {
       child: Column(children: [
         // Stats row
         Row(children: [
-          Expanded(child: _MetricBox('${total}', 'Total crashes', const Color(0xFFEF4444))),
+          Expanded(child: _MetricBox('$total', 'Total crashes', const Color(0xFFEF4444))),
           const SizedBox(width: ZapSpacing.sm),
           Expanded(child: _MetricBox(
               '${rate.toStringAsFixed(3)}%', 'Crash rate', const Color(0xFF10B981))),

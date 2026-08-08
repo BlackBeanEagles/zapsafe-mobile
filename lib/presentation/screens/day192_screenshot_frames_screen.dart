@@ -951,7 +951,11 @@ class _ExportChecklistTab extends ConsumerWidget {
                 GestureDetector(
                   onTap: () {
                     final updated = Set<String>.from(checked);
-                    if (isDone) updated.remove(item.id); else updated.add(item.id);
+                    if (isDone) {
+                      updated.remove(item.id);
+                    } else {
+                      updated.add(item.id);
+                    }
                     ref.read(_checkedItemsProvider.notifier).state = updated;
                   },
                   child: Padding(

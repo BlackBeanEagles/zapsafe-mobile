@@ -458,7 +458,9 @@ class _FeedbackTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double avgRating = 0;
-    for (final (stars, frac, _) in _kRatings) avgRating += stars * frac;
+    for (final (stars, frac, _) in _kRatings) {
+      avgRating += stars * frac;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

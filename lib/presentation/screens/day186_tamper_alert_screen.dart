@@ -594,7 +594,11 @@ class _ScoringTab extends ConsumerWidget {
         return GestureDetector(
           onTap: () {
             final updated = Set<String>.from(flagged);
-            if (isFlagged) updated.remove(c.id); else updated.add(c.id);
+            if (isFlagged) {
+              updated.remove(c.id);
+            } else {
+              updated.add(c.id);
+            }
             ref.read(_scoringCheckProvider.notifier).state = updated;
           },
           child: AnimatedContainer(
@@ -627,7 +631,11 @@ class _ScoringTab extends ConsumerWidget {
         return GestureDetector(
           onTap: () {
             final updated = Set<String>.from(flagged);
-            if (isFlagged) updated.remove(c.id); else updated.add(c.id);
+            if (isFlagged) {
+              updated.remove(c.id);
+            } else {
+              updated.add(c.id);
+            }
             ref.read(_scoringCheckProvider.notifier).state = updated;
           },
           child: AnimatedContainer(

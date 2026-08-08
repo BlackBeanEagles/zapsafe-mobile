@@ -1244,7 +1244,7 @@ class _RetentionChart extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: ZapSpacing.xs),
-                      Text('${day}',
+                      Text('$day',
                           style: TextStyle(
                               color: isSelected
                                   ? const Color(0xFF10B981)

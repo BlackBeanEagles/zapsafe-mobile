@@ -969,7 +969,7 @@ class _FpRateComparison extends StatelessWidget {
               const Icon(Icons.arrow_forward_rounded,
                   color: Color(0xFF4B5563), size: 20),
               const SizedBox(height: ZapSpacing.xs),
-              Text('${passCount}/${totalTests}\ntests pass',
+              Text('$passCount/$totalTests\ntests pass',
                   style: const TextStyle(
                       color: Color(0xFF6B7280),
                       fontSize: 9),

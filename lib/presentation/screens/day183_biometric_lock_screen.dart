@@ -163,7 +163,7 @@ class BiometricService {
         localizedReason: reason,
         options: const AuthenticationOptions(
           biometricOnly: false,   // allow device PIN as fallback
-          stickyAuth: true,       // don\'t cancel on app backgrounding
+          stickyAuth: true,       // don't cancel on app backgrounding
           sensitiveTransaction: true,  // extra security indicator (iOS)
           useErrorDialogs: true,
         ),
