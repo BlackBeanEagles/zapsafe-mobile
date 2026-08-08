@@ -154,6 +154,7 @@ class ApiConfig {
       '/api/v1/account/sessions/$sessionId/';
   static const accountRetention        = '/api/v1/account/retention/';
   static const accountRetentionPurgeNow = '/api/v1/account/retention/purge-now/';
+  static const accountAuditLog          = '/api/v1/account/audit-log/';
 
   // Analytics — Day 81-85 backend, wired Day 302 (authenticated GET; device-health also POST)
   static const analyticsSosSummary          = '/api/v1/analytics/sos-summary/';

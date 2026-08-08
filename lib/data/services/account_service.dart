@@ -133,6 +133,58 @@ class RetentionPreference {
       );
 }
 
+/// Mirrors AuditLogView's entry shape exactly — account/views.py. Real
+/// fields are much sparser than the account-scoped audit UI's own
+/// mock data assumed (no per-entry "actor"/"device"/"location"/
+/// "suspicious"/granular data-category — just a bucketed [type], a
+/// human-readable [description] the server already composed, a
+/// [timestamp], and a raw [metadata] map for whatever detail the
+/// server captured for that specific event type).
+class AccountAuditEntry {
+  const AccountAuditEntry({
+    required this.id,
+    required this.type,
+    required this.description,
+    required this.timestamp,
+    required this.metadata,
+  });
+
+  final String id;
+  /// One of the 5 bucketed values AuditLogView maps to ('login',
+  /// 'location_share', 'evidence_export', 'sos', 'consent_change') OR
+  /// a raw internal event_type string (e.g. 'session_revoked',
+  /// 'account_deletion_requested') for anything outside that bucket —
+  /// the real backend deliberately still surfaces those rather than
+  /// drop them, so this field is NOT a closed enum on the wire.
+  final String type;
+  final String description;
+  final DateTime timestamp;
+  final Map<String, dynamic> metadata;
+
+  factory AccountAuditEntry.fromJson(Map<String, dynamic> j) => AccountAuditEntry(
+        id:          j['id'] as String,
+        type:        j['type'] as String,
+        description: j['description'] as String,
+        timestamp:   DateTime.parse(j['timestamp'] as String).toLocal(),
+        metadata:    (j['metadata'] as Map?)?.cast<String, dynamic>() ?? const {},
+      );
+}
+
+/// One page of [AccountAuditEntry] results, mirroring AuditLogView's real
+/// page-based response shape ({entries, page, has_more} — not
+/// offset/limit like the older /api/v1/audit-log/).
+class AccountAuditLogPage {
+  const AccountAuditLogPage({
+    required this.entries,
+    required this.page,
+    required this.hasMore,
+  });
+
+  final List<AccountAuditEntry> entries;
+  final int page;
+  final bool hasMore;
+}
+
 // ─── Service ──────────────────────────────────────────────────────────────────
 
 class AccountService {
@@ -211,5 +263,26 @@ class AccountService {
     final r = await _client.dio
         .post<Map<String, dynamic>>(ApiConfig.accountRetentionPurgeNow);
     return r.data!['purged_count'] as int;
+  }
+
+  /// GET /api/v1/account/audit-log/?type=&page=
+  /// [type] filters by the bucketed value ('login', 'sos', etc.) or
+  /// 'all' (the server's own default). Page 1-indexed, matching the
+  /// real backend's own convention.
+  Future<AccountAuditLogPage> fetchAuditLog({String type = 'all', int page = 1}) async {
+    final r = await _client.dio.get<Map<String, dynamic>>(
+      ApiConfig.accountAuditLog,
+      queryParameters: {'type': type, 'page': page},
+    );
+    final data = r.data!;
+    final entries = (data['entries'] as List)
+        .cast<Map<String, dynamic>>()
+        .map(AccountAuditEntry.fromJson)
+        .toList();
+    return AccountAuditLogPage(
+      entries: entries,
+      page: data['page'] as int,
+      hasMore: data['has_more'] as bool,
+    );
   }
 }

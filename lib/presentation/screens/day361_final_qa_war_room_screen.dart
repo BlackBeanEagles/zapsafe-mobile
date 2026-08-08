@@ -219,18 +219,20 @@ const _kBugs = [
   _BugItem(
     id: 'p1_dpdp_backend_unwired',
     priority: _Priority.p1,
-    title: 'Consent sync + sessions + retention now wired; audit-log still not',
+    title: 'Consent sync + sessions + retention + audit-log now all wired',
     detail: 'Fixed: lib/data/services/account_service.dart + '
-        'account_providers.dart now call 3 of the 4 real /api/v1/account/* '
-        'DPDP routes — day319_gdpr_consent_wire_screen.dart (consent, real '
+        'account_providers.dart now call all 4 real /api/v1/account/* DPDP '
+        'routes — day319_gdpr_consent_wire_screen.dart (consent, real '
         'GET/PUT), day179_active_sessions_screen.dart Tab 1 (sessions, real '
         'GET/DELETE/revoke-all), day176_data_retention_settings_screen.dart '
         '(retention, real GET/PUT for the 2 of 7 categories the backend '
-        'actually has fields for — evidence + gps). Not build/device-'
-        'verified against a live backend in this sandbox. Still open: '
-        '/api/v1/account/audit-log/ remains unwired (the older, already-'
-        'wired /api/v1/audit-log/ serves the same practical need via Day '
-        '68/89 screens, so this is lower priority than it was).',
+        'actually has fields for — evidence + gps), '
+        'day173_data_access_audit_screen.dart (audit-log, real GET across '
+        'up to 3 pages, honestly mapping the sparser real shape — bucketed '
+        'type + server description + metadata, no per-entry category/'
+        'actor/device/city/suspicious — onto this screen\'s richer UI '
+        'model). Not build/device-verified against a live backend in this '
+        'sandbox.',
     source: 'Day 337 legal blockers live',
     sourceRoute: AppRoutes.legalBlockersLive,
   ),

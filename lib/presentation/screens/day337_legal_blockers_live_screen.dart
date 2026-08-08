@@ -35,19 +35,18 @@
 ///   sharing transparency has no backend equivalent at all, under any path.
 ///
 /// **The honest conclusion (updated for Play Store item 10):** export,
-/// erasure, consent sync, session management, and retention (2 of its 7
-/// UI categories — the 2 the backend actually has fields for) are now
-/// GREEN, real, end-to-end — export/erasure via the *older* Day 69/70
-/// endpoints, the other three via account_service.dart calling the
-/// newer Day 147 `/api/v1/account/*` surface directly. Audit-log
-/// remains YELLOW (real backend, no frontend caller — lower priority
-/// since the older `/api/v1/audit-log/` already serves the practical
-/// need). Third-party sharing transparency is genuinely unimplemented
-/// on either side (RED) — the one true remaining gap.
+/// erasure, consent sync, session management, retention (2 of its 7 UI
+/// categories — the 2 the backend actually has fields for), and now
+/// audit-log are all GREEN, real, end-to-end — export/erasure via the
+/// *older* Day 69/70 endpoints, the other four via account_service.dart
+/// calling the newer Day 147 `/api/v1/account/*` surface directly.
+/// Third-party sharing transparency is genuinely unimplemented on
+/// either side (RED) — the one true remaining gap, now the only
+/// non-green row.
 ///
-/// Tag: 🟡 MOCK-NOW → 5 of 6 non-third-party rows are now genuinely
-/// 🔵 LIVE after real wiring; audit-log and third-party stay honestly
-/// yellow/red, not upgraded without evidence.
+/// Tag: 🟡 MOCK-NOW → all 6 non-third-party rows are now genuinely
+/// 🔵 LIVE after real wiring; third-party stays honestly red, not
+/// upgraded without evidence.
 ///
 /// Route: [AppRoutes.legalBlockersLive] → `/day-337-legal-blockers-live`
 library;
@@ -165,14 +164,20 @@ const _kCategories = [
   _DpdpCategory(
     id: 'audit_log',
     requirement: 'Data-access transparency (who accessed my data)',
-    status: _Status.yellow,
-    evidence: 'Real AuditLogView at /api/v1/account/audit-log/ — distinct '
-        'from the OLDER, already-wired /api/v1/audit-log/ (Day 68, live '
-        'via audit_log_service.dart). The account-scoped one is still '
-        'real but unwired — lower priority than it was since the older '
-        'endpoint already serves the practical DPDP need.',
-    route: null,
-    routeLabel: '',
+    status: _Status.green,
+    evidence: 'Fixed: account_service.dart now calls the real GET '
+        '/api/v1/account/audit-log/ (AuditLogView) from '
+        'day173_data_access_audit_screen.dart, fetching up to 3 pages. '
+        'The real response is sparser than the old mock assumed (no '
+        'per-entry category/actor/device/city/suspicious — just a '
+        'bucketed type + server-composed description + a metadata map), '
+        'so the screen honestly maps type→category/actor rather than '
+        'fabricating detail the server never sends. Distinct from the '
+        'OLDER, already-wired /api/v1/audit-log/ (Day 68) — both are now '
+        'real end-to-end, just different contracts for different '
+        'screens. Not build/device-verified against a live backend.',
+    route: AppRoutes.dataAccessAudit,
+    routeLabel: 'Day 173 Data Access Audit (live)',
   ),
   _DpdpCategory(
     id: 'retention',

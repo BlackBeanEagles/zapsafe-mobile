@@ -1,13 +1,27 @@
 /// Day 173 — Data Access Audit Log: Timeline
 ///
 /// First day of the Days 173-175 Data Access Audit Log block.
-/// Day 173: Full audit timeline — 30 events, date-group, multi-filter.
+/// Day 173: Full audit timeline — date-group, multi-filter.
 /// Day 174: Per-event drill-down + IP handling + CSV/PDF export.
 /// Day 175: Third-party access log + revoke access + block sign-off.
 ///
-/// 🟡 MOCK-NOW — backend at Day 78. No audit-log API yet.
-///    Replace _kMockEvents with GET /api/v1/data-access/audit-log when ready.
-///    Full API contract in Tab 3.
+/// ── 🟢 LIVE (fixed for Play Store item 10) ──────────────────────────────────
+///   Was: 🟡 MOCK-NOW, a hardcoded `_kMockEvents` list of 30 fake events with
+///   a richer shape (7 data categories, 4 actors, device/location per
+///   event, suspicious flags) than the real backend actually provides.
+///   `GET /api/v1/account/audit-log/` (AuditLogView, real and tested since
+///   Day 156-157) is now called via account_service.dart. Its real
+///   response is sparser than the mock assumed — just a bucketed `type`,
+///   a server-composed `description`, a `timestamp`, and a raw
+///   `metadata` map, no per-entry actor/device/location/suspicious/
+///   granular-category. This screen now honestly reflects that: `actor`
+///   is always "You" (accurate — the endpoint is scoped to the caller's
+///   own log), `device`/`location` show "Not provided by this API" '
+///   rather than fabricated detail, `suspicious` is always false (no such
+///   real signal exists here), and `category` is a best-effort mapping
+///   from the real `type` (documented at [_categoryForType]) since the
+///   server doesn't return one directly. Falls back to a small offline
+///   sample (`_kFallbackEvents`) if the server is unreachable.
 ///
 /// Legal basis:
 ///   DPDP Act 2023 §11(1)(a) — right to know what data is processed.
@@ -18,6 +32,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/account_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider    = StateProvider<int>((ref) => 0);
@@ -51,8 +66,8 @@ class _AuditEvent {
   });
 }
 
-// ── 30 mock events spanning ~35 days ──────────────────────────────────────────
-final _kMockEvents = <_AuditEvent>[
+// ── Offline fallback — used only if the real GET fails ────────────────────────
+final _kFallbackEvents = <_AuditEvent>[
   _AuditEvent(id: 'ae001', ts: DateTime(2026, 5, 30, 14, 25),
       type: _EventType.export, cat: _DataCat.profile,
       actor: 'You', action: 'Requested full data export (ZIP)',
@@ -235,6 +250,68 @@ final _kMockEvents = <_AuditEvent>[
       device: 'Samsung Galaxy S24', location: 'Mumbai, India'),
 ];
 
+// ── Real type → local enum mapping ─────────────────────────────────────────────
+// AuditLogView returns 5 bucketed type strings, or a raw internal
+// event_type for anything outside that bucket (see account_service.dart's
+// AccountAuditEntry doc). Neither carries this screen's richer
+// _EventType/_DataCat split, so both are honest best-effort mappings, not
+// data the server actually sent.
+_EventType _eventTypeForRealType(String type) => switch (type) {
+      'login' => _EventType.login,
+      'evidence_export' => _EventType.export,
+      'export_requested' => _EventType.export,
+      'evidence_viewed' => _EventType.read,
+      'sos' => _EventType.write,
+      'consent_change' => _EventType.write,
+      'location_share' => _EventType.write,
+      'session_revoked' => _EventType.write,
+      'account_deletion_requested' => _EventType.write,
+      'account_deletion_cancelled' => _EventType.write,
+      'retention_purged' => _EventType.delete,
+      _ => _EventType.read,
+    };
+
+_DataCat _categoryForType(String type) => switch (type) {
+      'sos' => _DataCat.sos,
+      'evidence_export' || 'evidence_viewed' || 'retention_purged' => _DataCat.evidence,
+      'location_share' => _DataCat.location,
+      'consent_change' => _DataCat.settings,
+      _ => _DataCat.profile,
+    };
+
+/// Real events from GET /api/v1/account/audit-log/ (fetches up to 3 pages
+/// — up to 60 entries — to give a "recent history" comparable in size to
+/// the old mock's 30). Falls back to [_kFallbackEvents] on any failure
+/// (offline, unreachable, etc.) rather than showing an empty/error screen.
+final _auditEventsProvider = FutureProvider<List<_AuditEvent>>((ref) async {
+  final service = ref.watch(accountServiceProvider);
+  try {
+    final events = <_AuditEvent>[];
+    var page = 1;
+    while (page <= 3) {
+      final result = await service.fetchAuditLog(page: page);
+      events.addAll(result.entries.map((e) => _AuditEvent(
+            id: e.id,
+            ts: e.timestamp,
+            type: _eventTypeForRealType(e.type),
+            cat: _categoryForType(e.type),
+            actor: 'You', // real endpoint is scoped to the caller's own log
+            action: e.description,
+            detail: e.metadata.isEmpty
+                ? e.description
+                : '${e.description}\n\n${e.metadata}',
+            device: 'Not provided by this API',
+            location: 'Not provided by this API',
+          )));
+      if (!result.hasMore) break;
+      page++;
+    }
+    return events;
+  } catch (_) {
+    return _kFallbackEvents;
+  }
+});
+
 // ── Helper maps ────────────────────────────────────────────────────────────────
 const _typeLabel = {
   _EventType.read:   'Read',
@@ -300,6 +377,7 @@ class Day173DataAccessAuditScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_activeTabProvider);
+    final eventsAsync = ref.watch(_auditEventsProvider);
     return Scaffold(
       backgroundColor: const Color(0xFF0F0F0F),
       appBar: AppBar(
@@ -334,9 +412,28 @@ class Day173DataAccessAuditScreen extends ConsumerWidget {
             _TabBar(active: tab,
                 onSelect: (t) => ref.read(_activeTabProvider.notifier).state = t),
             const SizedBox(height: ZapSpacing.xl),
-            if (tab == 0) const _TimelineTab(),
-            if (tab == 1) const _SummaryTab(),
-            if (tab == 2) const _ApiContractTab(),
+            Builder(builder: (context) {
+              // The provider itself already catches fetch failures and
+              // returns _kFallbackEvents rather than throwing, so `error`
+              // below is a defensive fallback for the truly unexpected
+              // case, not the normal offline path.
+              final events = eventsAsync.when(
+                loading: () => null,
+                error: (_, __) => _kFallbackEvents,
+                data: (events) => events,
+              );
+              if (events == null) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: ZapSpacing.huge),
+                  child: Center(child: CircularProgressIndicator(color: Color(0xFF3B82F6))),
+                );
+              }
+              return switch (tab) {
+                0 => _TimelineTab(events: events),
+                1 => _SummaryTab(events: events),
+                _ => const _ApiContractTab(),
+              };
+            }),
             const SizedBox(height: ZapSpacing.huge),
           ],
         ),
@@ -364,7 +461,7 @@ class _Hero extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
           _badge('⚡  DAY 173',          const Color(0xFF3B82F6)),
-          _badge('🟡 MOCK-NOW',          const Color(0xFFF59E0B)),
+          _badge('🟢 LIVE',              const Color(0xFF10B981)),
           _badge('Data Rights  ·  Day 1/3', const Color(0xFF8B5CF6)),
         ]),
         const SizedBox(height: ZapSpacing.md),
@@ -375,15 +472,9 @@ class _Hero extends StatelessWidget {
         const Text(
           'DPDP §11(1)(a) + GDPR Art. 15(1)(c) — your right to know '
           'who accessed your data, what was accessed, and when. '
-          '30 events across 6 types, filterable by type, time, and category.',
+          'Real events from GET /api/v1/account/audit-log/, filterable by '
+          'type, time, and category.',
           style: TextStyle(color: Color(0xFFD1D5DB), fontSize: 12, height: 1.6)),
-        const SizedBox(height: ZapSpacing.md),
-        const Row(children: [
-          _HStat('30',   '30 events',      Color(0xFF3B82F6)),
-          _HStat('6',    '6 event types',  Color(0xFF10B981)),
-          _HStat('4',    '4 actors',       Color(0xFFF59E0B)),
-          _HStat('2',    '2 suspicious',   Color(0xFFEF4444)),
-        ]),
       ]),
     );
   }
@@ -395,19 +486,6 @@ class _Hero extends StatelessWidget {
             border: Border.all(color: color.withOpacity(0.4))),
         child: Text(label, style: TextStyle(color: color, fontSize: 11,
             fontWeight: FontWeight.w700, letterSpacing: 0.5)));
-}
-
-class _HStat extends StatelessWidget {
-  final String value, label; final Color color;
-  const _HStat(this.value, this.label, this.color);
-  @override
-  Widget build(BuildContext context) => Expanded(
-        child: Column(children: [
-          Text(value, style: TextStyle(color: color, fontSize: 13,
-              fontWeight: FontWeight.w800), textAlign: TextAlign.center),
-          Text(label, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 9),
-              textAlign: TextAlign.center),
-        ]));
 }
 
 class _SectionLabel extends StatelessWidget {
@@ -465,7 +543,8 @@ class _TabBar extends StatelessWidget {
 // TAB 1 — Timeline
 // ══════════════════════════════════════════════════════════════════════════════
 class _TimelineTab extends ConsumerWidget {
-  const _TimelineTab();
+  const _TimelineTab({required this.events});
+  final List<_AuditEvent> events;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -483,7 +562,7 @@ class _TimelineTab extends ConsumerWidget {
       _TimeRange.all    => DateTime(2000),
     };
 
-    final filtered = _kMockEvents.where((e) {
+    final filtered = events.where((e) {
       if (e.ts.isBefore(cutoff)) return false;
       if (typeFilter != null && e.type != typeFilter) return false;
       if (catFilter != null && e.cat != catFilter) return false;
@@ -898,25 +977,29 @@ class _FilterChip extends StatelessWidget {
 // TAB 2 — Summary Stats
 // ══════════════════════════════════════════════════════════════════════════════
 class _SummaryTab extends ConsumerWidget {
-  const _SummaryTab();
+  const _SummaryTab({required this.events});
+  final List<_AuditEvent> events;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Compute stats from full event list
+    // Compute stats from the real (or fallback) event list.
     final typeCounts  = <_EventType, int>{};
     final catCounts   = <_DataCat, int>{};
     final actorCounts = <String, int>{};
-    for (final e in _kMockEvents) {
+    for (final e in events) {
       typeCounts[e.type]  = (typeCounts[e.type]  ?? 0) + 1;
       catCounts[e.cat]    = (catCounts[e.cat]    ?? 0) + 1;
       actorCounts[e.actor]= (actorCounts[e.actor]?? 0) + 1;
     }
-    final suspiciousCount = _kMockEvents.where((e) => e.suspicious).length;
+    final suspiciousCount = events.where((e) => e.suspicious).length;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _infoBox(icon: Icons.bar_chart_rounded, color: const Color(0xFF10B981),
-          text: 'Aggregate view of all 30 access events. '
-              'See which data categories are accessed most and who is doing the accessing.'),
+          text: 'Aggregate view of ${events.length} access events (real, from '
+              'GET /api/v1/account/audit-log/, up to the last 3 pages). See '
+              'which event types and data categories are most common. '
+              '"By actor" always shows 100% "You" — the real endpoint is '
+              'scoped to your own account, it has no other-actor concept.'),
       const SizedBox(height: ZapSpacing.lg),
 
       // Top-line stats
@@ -927,11 +1010,11 @@ class _SummaryTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Row(children: [
-          _topStat('30',  'Total events',    const Color(0xFF3B82F6)),
+          _topStat('${events.length}',  'Total events',    const Color(0xFF3B82F6)),
           _topStat('$suspiciousCount', 'Suspicious', const Color(0xFFEF4444)),
-          _topStat('${_kMockEvents.where((e) => e.actor == "You").length}',
+          _topStat('${events.where((e) => e.actor == "You").length}',
               'By you',  const Color(0xFF10B981)),
-          _topStat('${_kMockEvents.where((e) => e.actor.startsWith("ZapSafe")).length}',
+          _topStat('${events.where((e) => e.actor.startsWith("ZapSafe")).length}',
               'Automated', const Color(0xFF8B5CF6)),
         ]),
       ),
@@ -942,7 +1025,7 @@ class _SummaryTab extends ConsumerWidget {
       const SizedBox(height: ZapSpacing.md),
       ...typeCounts.entries.map((e) {
         final color = _typeColor[e.key]!;
-        final frac  = e.value / _kMockEvents.length;
+        final frac  = e.value / events.length;
         return Padding(
           padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1004,7 +1087,7 @@ class _SummaryTab extends ConsumerWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(3),
                       child: LinearProgressIndicator(
-                          value: entry.value / _kMockEvents.length,
+                          value: entry.value / events.length,
                           backgroundColor: const Color(0xFF2A2A2A),
                           valueColor: AlwaysStoppedAnimation(color),
                           minHeight: 4)),
@@ -1085,50 +1168,52 @@ class _ApiContractTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _infoBox(icon: Icons.code_rounded, color: const Color(0xFFF59E0B),
-          text: 'Backend at Day 78. No audit-log endpoint exists yet. '
-              'Document here for zero-conflict implementation. '
-              'Replace _kMockEvents with the live API call when backend is ready.'),
+      _infoBox(icon: Icons.check_circle_rounded, color: const Color(0xFF10B981),
+          text: 'Endpoint 1 below is REAL and LIVE (zapsafe_backend/account/'
+              'views.py AuditLogView, wired via account_service.dart for '
+              'Play Store item 10) — but its real shape is sparser than the '
+              'speculative draft originally documented here: no per-entry '
+              'category/actor/device/city/suspicious fields, just a bucketed '
+              'type + server-composed description + a raw metadata map. This '
+              'screen maps type→category/actor honestly (see '
+              '_categoryForType in the .dart source) rather than pretending '
+              'the server sends that detail. Endpoint 2 (single event) has '
+              'NO real backend — still a speculative draft.'),
       const SizedBox(height: ZapSpacing.lg),
 
-      const _SectionLabel('ENDPOINT 1 — GET AUDIT LOG'),
+      const _SectionLabel('ENDPOINT 1 — GET AUDIT LOG  ·  REAL'),
       const SizedBox(height: ZapSpacing.md),
-      _code(context, '''// GET /api/v1/data-access/audit-log
+      _code(context, '''// GET /api/v1/account/audit-log/?type=all&page=1
 // Auth: Bearer JWT required
 // DPDP §11(1)(a) + GDPR Art. 15(1)(c) — right to know processing
+// Real shape (account/views.py AuditLogView) — page-based, not offset/limit
 
-// QUERY PARAMS
-// ?days=30            (7 | 30 | 90 | all)
-// ?type=read          (read|write|delete|export|login|failed)
-// ?category=evidence  (sos|contacts|evidence|location|profile|settings|analytics)
-// ?page=1&per_page=20
+// QUERY PARAMS (both optional, these are the real ones)
+// ?type=login   (login|location_share|evidence_export|sos|consent_change|all
+//                — anything outside this bucket comes through with its raw
+//                internal event_type instead, e.g. "session_revoked")
+// ?page=1
 
 // RESPONSE 200 OK
 {
-  "events": [
+  "entries": [
     {
-      "id": "ae001",
+      "id": "3f1a2b4c-...",
+      "type": "evidence_export",
+      "description": "Data export requested",   // server-composed, human-readable
       "timestamp": "2026-05-30T14:25:00Z",
-      "type": "export",              // read|write|delete|export|login|failed
-      "category": "profile",         // data category affected
-      "actor": "user",               // "user"|"system"|"trust_safety"|"unknown"
-      "action": "Requested full data export (ZIP)",
-      "detail": "All 8 data categories selected. Format: ZIP.",
-      "device_type": "Android",
-      "city": "Mumbai",              // city-level only — IP NOT returned (DPDP §11)
-      "suspicious": false
+      "metadata": {}                              // raw per-event-type detail
     }
   ],
-  "total": 30,
   "page": 1,
-  "per_page": 20,
-  "suspicious_count": 2
+  "has_more": false
 }'''),
 
       const SizedBox(height: ZapSpacing.lg),
-      const _SectionLabel('ENDPOINT 2 — GET SINGLE EVENT'),
+      const _SectionLabel('ENDPOINT 2 — GET SINGLE EVENT  ·  NOT REAL, SPECULATIVE'),
       const SizedBox(height: ZapSpacing.md),
-      _code(context, '''// GET /api/v1/data-access/audit-log/{event_id}
+      _code(context, '''// NOT IMPLEMENTED — no route anywhere in zapsafe_backend.
+// GET /api/v1/data-access/audit-log/{event_id}  (planned shape, unbuilt)
 // Auth: Bearer JWT required
 // Returns full detail for Day 174 drill-down screen
 
@@ -1151,7 +1236,7 @@ class _ApiContractTab extends StatelessWidget {
 }'''),
 
       const SizedBox(height: ZapSpacing.lg),
-      const _SectionLabel('ENDPOINT 3 — EXPORT AUDIT LOG'),
+      const _SectionLabel('ENDPOINT 3 — EXPORT AUDIT LOG  ·  NOT REAL, SPECULATIVE'),
       const SizedBox(height: ZapSpacing.md),
       _code(context, '''// POST /api/v1/data-access/audit-log/export
 // Auth: Bearer JWT required
