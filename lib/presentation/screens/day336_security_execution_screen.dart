@@ -145,10 +145,26 @@ const _kFindings = [
     id: 'cert_pinning',
     mstgCode: 'MSTG-NETWORK-1',
     title: 'TLS certificate / SPKI pinning',
-    verdict: _Verdict.fail,
-    detail: 'No badCertificateCallback, no HttpClientAdapter override, no '
-        'cert-pinning package in pubspec.yaml. Dio is built plain.',
-    sourceFile: 'lib/data/services/api_client.dart',
+    verdict: _Verdict.mixed,
+    detail: 'Fixed: cert_pinning.dart pins real, live-captured SHA-256(DER) '
+        'hashes for zapsafe.app\'s actual production cert chain (leaf + '
+        'Google Trust Services WE1 intermediate + GTS Root R4), wired '
+        'into both real Dio clients (api_client.dart, '
+        'compatibility_service.dart) via SecurityContext('
+        'withTrustedRoots: false) — the only way badCertificateCallback '
+        'actually fires for an already-CA-trusted cert; the demo '
+        'string\'s plain badCertificateCallback approach would not have '
+        'worked even if it had been real code. Pinning only applies to '
+        'the real production host in release builds; dev/staging is '
+        'unaffected. Not build/device-verified in this sandbox. Still '
+        'MIXED, not full PASS: pins are static/baked-in with a real, '
+        'disclosed operational risk (leaf cert rotates ~90 days; if the '
+        'CA chain changes before an app update ships refreshed pins, '
+        'ALL API traffic fails closed) — no server-driven pin-rotation '
+        'mechanism exists to mitigate that.',
+    sourceFile: 'lib/data/services/cert_pinning.dart · '
+        'lib/data/services/api_client.dart · '
+        'lib/data/services/compatibility_service.dart',
     day285Default: 'PASS',
   ),
   _Finding(

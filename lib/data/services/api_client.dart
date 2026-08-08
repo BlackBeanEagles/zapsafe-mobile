@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../core/constants/api_config.dart';
 import '../../core/utils/jwt_utils.dart';
 import '../models/auth_models.dart';
+import 'cert_pinning.dart';
 
 /// Returns the current access token, or null when logged out.
 typedef AccessTokenProvider = Future<String?> Function();
@@ -80,6 +82,15 @@ class ApiClient {
         // We translate to [ApiError] in the error interceptor instead.
         validateStatus: (status) => status != null && status > 0,
       ),
+    );
+
+    // Real TLS cert pinning for the production API host (fixes Day
+    // 336/361 P0 finding — see cert_pinning.dart for the full design
+    // note, including why a plain badCertificateCallback alone
+    // wouldn't have worked). No-op for dev/staging hosts and debug
+    // builds — identical behavior to before this change there.
+    dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () => CertPinning.buildPinnedHttpClient(ApiConfig.baseUrl),
     );
 
     // Day 305 — centralised Accept-Language on EVERY request (auth'd and

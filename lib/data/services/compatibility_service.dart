@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 
 import '../../core/constants/api_config.dart';
+import 'cert_pinning.dart';
 
 // ─── Data models ─────────────────────────────────────────────────────────────
 
@@ -132,7 +134,15 @@ class CompatibilityService {
       headers: const {'Accept': 'application/json'},
       validateStatus: (s) => s != null && s > 0,
     ),
-  );
+  ) {
+    // Real TLS cert pinning for the production API host — see
+    // cert_pinning.dart. This service builds its own separate Dio
+    // instance (no shared ApiClient), so it needs the same wiring
+    // independently to fix the same Day 336/361 P0 finding.
+    _dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () => CertPinning.buildPinnedHttpClient(ApiConfig.baseUrl),
+    );
+  }
 
   final Dio _dio;
 

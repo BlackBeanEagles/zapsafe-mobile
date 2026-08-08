@@ -103,10 +103,17 @@ const _kBugs = [
   _BugItem(
     id: 'p0_cert_pinning',
     priority: _Priority.p0,
-    title: 'No TLS certificate / SPKI pinning',
-    detail: 'lib/data/services/api_client.dart builds a plain Dio with no '
-        'badCertificateCallback, no HttpClientAdapter override, and no '
-        'cert-pinning package in pubspec.yaml. MITM is not blocked.',
+    title: 'TLS pinning now real; static pins are an operational risk',
+    detail: 'Fixed: cert_pinning.dart pins real, live-captured SHA-256(DER) '
+        'hashes for zapsafe.app\'s actual cert chain (leaf + intermediate '
+        '+ root), wired into both real Dio clients via '
+        'SecurityContext(withTrustedRoots: false) — required for '
+        'badCertificateCallback to fire at all on an already-trusted '
+        'cert. Not build/device-verified in this sandbox. Still open: '
+        'pins are static/baked into the binary — the leaf cert rotates '
+        '~90 days, so these need re-verifying before every release or a '
+        'future build could hard-fail all API traffic including SOS '
+        'dispatch.',
     source: 'Day 336 security execution',
     sourceRoute: AppRoutes.securityExecution,
   ),
