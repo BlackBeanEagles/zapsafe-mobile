@@ -272,7 +272,7 @@ class _VehicleCrashPreprocOnly {
   );
 
   Float32List melFeaturesFromPcm(Float64List pcm) {
-    final n = VehicleCrashDetector.kAudioSamples;
+    const n = VehicleCrashDetector.kAudioSamples;
     final clip = pcm.length == n
         ? pcm
         : (Float64List(n)

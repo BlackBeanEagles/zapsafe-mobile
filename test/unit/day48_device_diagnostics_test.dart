@@ -7,6 +7,8 @@
 ///   - MotionFeatures field values (what the IMU card displays)
 ///   - GpsSample field values (what the GPS card displays)
 ///   - PermissionOutcome equality (what the permissions card checks)
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:zapsafe_mobile/data/models/gps_sample.dart';
 import 'package:zapsafe_mobile/data/models/motion_features.dart';
@@ -118,7 +120,7 @@ void main() {
 
   // ── GpsSample (GPS card data source) ─────────────────────────────────────
   group('GpsSample for GPS card', () {
-    GpsSample _sample({double lat = 51.5, double lng = -0.1, double acc = 5.0}) =>
+    GpsSample sample({double lat = 51.5, double lng = -0.1, double acc = 5.0}) =>
         GpsSample(
           timestampMs: DateTime.now().millisecondsSinceEpoch,
           lat: lat,
@@ -128,18 +130,18 @@ void main() {
         );
 
     test('lat/lng are preserved', () {
-      final s = _sample(lat: 37.7749, lng: -122.4194);
+      final s = sample(lat: 37.7749, lng: -122.4194);
       expect(s.lat, closeTo(37.7749, 0.0001));
       expect(s.lng, closeTo(-122.4194, 0.0001));
     });
 
     test('accuracyM is preserved', () {
-      final s = _sample(acc: 8.5);
+      final s = sample(acc: 8.5);
       expect(s.accuracyM, equals(8.5));
     });
 
     test('timestampMs is positive', () {
-      expect(_sample().timestampMs, greaterThan(0));
+      expect(sample().timestampMs, greaterThan(0));
     });
   });
 

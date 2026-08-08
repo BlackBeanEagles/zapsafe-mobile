@@ -64,9 +64,9 @@ void main() {
     });
 
     test('toFloat32Tensor packs mfcc then zcr then centroid', () {
-      final f = AudioFeatures(
+      const f = AudioFeatures(
         timestampMs: 0,
-        mfcc: const [1.0, 2.0, 3.0],
+        mfcc: [1.0, 2.0, 3.0],
         zcr: 0.5,
         spectralCentroidHz: 1234.0,
       );

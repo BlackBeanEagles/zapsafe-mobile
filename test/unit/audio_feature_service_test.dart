@@ -382,7 +382,7 @@ void main() {
 
     test('severity tiers map correctly to score bands', () {
       InferenceResult r(double s) => InferenceResult(
-            label: 'x', score: s, classScores: {},
+            label: 'x', score: s, classScores: const {},
             latencyMs: 0, timestampMs: 0,
           );
       expect(r(0.1).severity, InferenceSeverity.none);

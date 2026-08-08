@@ -19,12 +19,12 @@ void main() {
       // Drill mode is supposed to reuse the SOS template byte-for-byte except
       // the title prefix and the data flag. Constructing one manually verifies
       // the contract from the caller's perspective.
-      final payload = PushPayload(
+      const payload = PushPayload(
         messageId: 'drill_123',
         category: PushCategory.sosAlert,
         title: '${PushService.drillTitlePrefix}SOS Triggered',
         body: '${PushService.drillTitlePrefix}Practice run.',
-        data: const {PushService.drillFlagKey: 'true'},
+        data: {PushService.drillFlagKey: 'true'},
       );
       expect(payload.category, PushCategory.sosAlert);
       expect(payload.title, startsWith('[DRILL] '));

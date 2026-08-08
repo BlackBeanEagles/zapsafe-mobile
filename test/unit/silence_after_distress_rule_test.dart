@@ -6,7 +6,7 @@ import 'package:zapsafe_mobile/ml/inference/silence_after_distress_rule.dart';
 
 void main() {
   group('SilenceAfterDistressRule', () {
-    final rule = SilenceAfterDistressRule();
+    const rule = SilenceAfterDistressRule();
     final now = DateTime(2026, 5, 24, 12, 0, 0);
 
     test('escalates on scream → silence + still 30s', () {

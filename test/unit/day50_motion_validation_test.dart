@@ -6,6 +6,8 @@
 ///   - FallEvent fields
 ///   - HeuristicMotionDetector end-to-end via MotionFeatures tensor
 ///   - Accel magnitude history window (spark-line logic)
+library;
+
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -159,22 +161,22 @@ void main() {
 
   // ── 4. FallEvent fields ───────────────────────────────────────────────
   group('FallEvent fields', () {
-    FallEvent _event() => FallEvent(
+    FallEvent event() => const FallEvent(
           timestampMs: 12345,
           peakAccelMagnitude: 32.5,
           freefallDurationMs: 90,
         );
 
     test('timestampMs preserved', () {
-      expect(_event().timestampMs, equals(12345));
+      expect(event().timestampMs, equals(12345));
     });
 
     test('peakAccelMagnitude preserved', () {
-      expect(_event().peakAccelMagnitude, closeTo(32.5, 0.001));
+      expect(event().peakAccelMagnitude, closeTo(32.5, 0.001));
     });
 
     test('freefallDurationMs preserved', () {
-      expect(_event().freefallDurationMs, equals(90));
+      expect(event().freefallDurationMs, equals(90));
     });
   });
 

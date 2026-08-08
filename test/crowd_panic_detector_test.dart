@@ -232,7 +232,7 @@ class _CrowdPanicPreprocOnly {
   ];
 
   Float32List melFeaturesFromPcm(Float64List pcm) {
-    final n = CrowdPanicDetector.kAudioSamples;
+    const n = CrowdPanicDetector.kAudioSamples;
     final clip = pcm.length == n
         ? pcm
         : (Float64List(n)

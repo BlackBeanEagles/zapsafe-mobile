@@ -6,6 +6,8 @@
 ///   DetectionSettings ↔ engine mode
 ///   ModelBundleResult consistency with current asset state
 ///   Cross-modality: all 3 detectors produce coherent InferenceResult shapes
+library;
+
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -26,7 +28,9 @@ Float32List _screamFeatures() {
   // High-energy scream: mfcc0=-5 (loud), ZCR=0.35, centroid=4000 Hz
   final f = Float32List(15);
   f[0]  = -5.0;   // mfcc0 — high energy
-  for (var i = 1; i < 13; i++) f[i] = 0.0;
+  for (var i = 1; i < 13; i++) {
+    f[i] = 0.0;
+  }
   f[13] = 0.35;   // ZCR — above 0.15 threshold
   f[14] = 4000.0; // spectral centroid — above 2000 Hz threshold
   return f;
@@ -249,7 +253,7 @@ void main() {
     });
 
     test('high tier + AI scream → scream uses AI, motion/scene stay heuristic', () {
-      final fakeAi = const FixedStubInterpreter(
+      const fakeAi = FixedStubInterpreter(
         modelLabel: 'scream-ai-v1',
         expectedInputSize: 15,
       );
@@ -263,11 +267,11 @@ void main() {
     });
 
     test('medium tier + all AI → uses all AI', () {
-      final screamAi = const FixedStubInterpreter(
+      const screamAi = FixedStubInterpreter(
           modelLabel: 'scream-ai', expectedInputSize: 15);
-      final motionAi = const FixedStubInterpreter(
+      const motionAi = FixedStubInterpreter(
           modelLabel: 'motion-ai', expectedInputSize: 6);
-      final sceneAi  = const FixedStubInterpreter(
+      const sceneAi  = FixedStubInterpreter(
           modelLabel: 'scene-ai',  expectedInputSize: 8);
       final engine = HeuristicDetectionEngine(
         tier: PhoneCapabilityTier.medium,
@@ -295,7 +299,7 @@ void main() {
   group('DetectionSettings controls engine mode', () {
     test('aiEnabled=true → engine uses AI when interpreters provided', () {
       const settings = DetectionSettings(aiEnabled: true);
-      final fakeAi = const FixedStubInterpreter(
+      const fakeAi = FixedStubInterpreter(
           modelLabel: 'real-scream', expectedInputSize: 15);
       final engine = HeuristicDetectionEngine(
         tier: PhoneCapabilityTier.high,
@@ -306,7 +310,7 @@ void main() {
 
     test('aiEnabled=false → engine receives null AI → heuristic fallback', () {
       const settings = DetectionSettings(aiEnabled: false);
-      final fakeAi = const FixedStubInterpreter(
+      const fakeAi = FixedStubInterpreter(
           modelLabel: 'real-scream', expectedInputSize: 15);
       final engine = HeuristicDetectionEngine(
         tier: PhoneCapabilityTier.high,
@@ -332,35 +336,35 @@ void main() {
 
   // ── 7. ModelBundleResult integrity (current asset state) ─────────────────
   group('ModelBundleResult integrity', () {
-    ModelBundleResult _makeBundle() {
+    ModelBundleResult makeBundle() {
       // Mirror current asset reality:
       //   scream → placeholder (658 B)
       //   motion → realLoadFailed (194 KB, pipeline mismatch)
       //   scene  → skippedImageModel (2.6 MB)
       final slots = [
-        ModelSlotResult(
+        const ModelSlotResult(
           key: 'scream',
           displayName: 'Scream Classifier v1',
           assetPath: 'assets/models/scream_classifier_v1.tflite',
           status: ModelLoadStatus.placeholder,
           sizeBytes: 658,
-          activeInterpreter: const HeuristicScreamDetector(),
+          activeInterpreter: HeuristicScreamDetector(),
         ),
-        ModelSlotResult(
+        const ModelSlotResult(
           key: 'motion',
           displayName: 'Motion Anomaly v1',
           assetPath: 'assets/models/motion_anomaly_v1.tflite',
           status: ModelLoadStatus.realLoadFailed,
           sizeBytes: 194848,
-          activeInterpreter: const HeuristicMotionDetector(),
+          activeInterpreter: HeuristicMotionDetector(),
         ),
-        ModelSlotResult(
+        const ModelSlotResult(
           key: 'scene',
           displayName: 'Scene Analyzer v1',
           assetPath: 'assets/models/scene_analyzer_v1.tflite',
           status: ModelLoadStatus.skippedImageModel,
           sizeBytes: 2674256,
-          activeInterpreter: const HeuristicSceneDetector(),
+          activeInterpreter: HeuristicSceneDetector(),
         ),
       ];
       final engine = HeuristicDetectionEngine(tier: PhoneCapabilityTier.low);
@@ -369,28 +373,28 @@ void main() {
     }
 
     test('current state: 0 AI slots, 3 heuristic slots', () {
-      final b = _makeBundle();
+      final b = makeBundle();
       expect(b.loadedAiCount, equals(0));
       expect(b.heuristicCount, equals(3));
     });
 
     test('total size is sum of all slot sizes', () {
-      final b = _makeBundle();
+      final b = makeBundle();
       expect(b.totalModelBytes, equals(658 + 194848 + 2674256));
     });
 
     test('totalSizeLabel contains MB', () {
-      expect(_makeBundle().totalSizeLabel, contains('MB'));
+      expect(makeBundle().totalSizeLabel, contains('MB'));
     });
 
     test('engine on bundle is not null and routes to heuristic', () {
-      final b = _makeBundle();
+      final b = makeBundle();
       expect(b.engine, isNotNull);
       expect(b.engine.scream.modelLabel, contains('heuristic'));
     });
 
     test('all active interpreters are heuristic implementations', () {
-      final b = _makeBundle();
+      final b = makeBundle();
       for (final slot in b.slots) {
         expect(slot.usesAi, isFalse);
         expect(slot.activeInterpreter.modelLabel, contains('heuristic'));
@@ -398,7 +402,7 @@ void main() {
     });
 
     test('end-to-end: run inference through each active slot interpreter', () async {
-      final b = _makeBundle();
+      final b = makeBundle();
       final screamSlot = b.slots.firstWhere((s) => s.key == 'scream');
       final motionSlot = b.slots.firstWhere((s) => s.key == 'motion');
       final sceneSlot  = b.slots.firstWhere((s) => s.key == 'scene');
@@ -421,7 +425,7 @@ void main() {
 
   // ── 8. InferenceResult severity ladder ───────────────────────────────────
   group('InferenceResult severity ladder', () {
-    InferenceResult _result(double score) => InferenceResult(
+    InferenceResult result(double score) => InferenceResult(
           label: 'scream',
           score: score,
           classScores: {'scream': score, 'normal': 1 - score},
@@ -430,27 +434,27 @@ void main() {
         );
 
     test('score=0.90 → high severity', () {
-      expect(_result(0.90).severity, InferenceSeverity.high);
+      expect(result(0.90).severity, InferenceSeverity.high);
     });
 
     test('score=0.75 → medium severity', () {
-      expect(_result(0.75).severity, InferenceSeverity.medium);
+      expect(result(0.75).severity, InferenceSeverity.medium);
     });
 
     test('score=0.50 → low severity', () {
-      expect(_result(0.50).severity, InferenceSeverity.low);
+      expect(result(0.50).severity, InferenceSeverity.low);
     });
 
     test('score=0.20 → none severity', () {
-      expect(_result(0.20).severity, InferenceSeverity.none);
+      expect(result(0.20).severity, InferenceSeverity.none);
     });
 
     test('score=0.70 → isConfident true (boundary)', () {
-      expect(_result(0.70).isConfident, isTrue);
+      expect(result(0.70).isConfident, isTrue);
     });
 
     test('score=0.69 → isConfident false (just below boundary)', () {
-      expect(_result(0.69).isConfident, isFalse);
+      expect(result(0.69).isConfident, isFalse);
     });
   });
 }

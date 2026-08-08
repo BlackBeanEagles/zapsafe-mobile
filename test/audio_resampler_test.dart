@@ -35,7 +35,7 @@ void main() {
   // must be filtered away, not folded down.
   Float64List source() {
     const sr = 44100;
-    final n = sr ~/ 2;
+    const n = sr ~/ 2;
     final x = Float64List(n);
     for (var i = 0; i < n; i++) {
       final t = i / sr;
@@ -99,7 +99,7 @@ void main() {
     // The decisive behavioural test, independent of the fixture.
     test('suppresses a 17kHz tone instead of folding it to 5kHz', () {
       const sr = 44100;
-      final n = sr ~/ 2;
+      const n = sr ~/ 2;
       final x = Float64List(n);
       for (var i = 0; i < n; i++) {
         x[i] = math.sin(2 * math.pi * 17000 * (i / sr));
@@ -120,7 +120,7 @@ void main() {
 
     test('passes a 440Hz tone through essentially untouched', () {
       const sr = 44100;
-      final n = sr ~/ 2;
+      const n = sr ~/ 2;
       final x = Float64List(n);
       for (var i = 0; i < n; i++) {
         x[i] = math.sin(2 * math.pi * 440 * (i / sr));

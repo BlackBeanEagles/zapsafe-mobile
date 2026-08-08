@@ -30,7 +30,9 @@ void main() {
     test('computes percentiles on a sorted distribution', () {
       // 10 samples: 1, 2, 3, …, 10
       final p = LatencyProfiler();
-      for (var i = 1; i <= 10; i++) p.record(i);
+      for (var i = 1; i <= 10; i++) {
+        p.record(i);
+      }
       final s = p.stats;
       expect(s.count, 10);
       expect(s.minMs, 1);

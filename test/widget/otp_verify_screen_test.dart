@@ -49,10 +49,10 @@ class _FakeAuthNotifier extends AuthNotifier {
   @override
   Future<bool> verifyOtp({required String phone, required String otp}) async {
     if (_willSucceed) {
-      state = AuthAuthenticated(AuthTokens(
+      state = const AuthAuthenticated(AuthTokens(
         access: 'fake.access.token',
         refresh: 'fake.refresh.token',
-        user: const User(id: 'u1', phone: '+919876543210', isOnboarded: false),
+        user: User(id: 'u1', phone: '+919876543210', isOnboarded: false),
       ));
       return true;
     }

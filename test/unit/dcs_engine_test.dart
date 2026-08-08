@@ -140,15 +140,15 @@ void main() {
         () async {
       final engine = await DCSInferenceEngine.create();
       // Calm baseline: very negative mfcc[0] (= very quiet), low ZCR, low centroid.
-      final calmAudio = AudioFeatures(
+      const calmAudio = AudioFeatures(
         timestampMs: 0,
-        mfcc: const [-60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        mfcc: [-60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         zcr: 0.02,
         spectralCentroidHz: 400,
       );
-      final screamAudio = AudioFeatures(
+      const screamAudio = AudioFeatures(
         timestampMs: 0,
-        mfcc: const [-5, 20, 12, -4, 6, 3, 2, 1, 1, 0, 0, 0, 0],
+        mfcc: [-5, 20, 12, -4, 6, 3, 2, 1, 1, 0, 0, 0, 0],
         zcr: 0.5,
         spectralCentroidHz: 6000,
       );
@@ -178,9 +178,9 @@ void main() {
       // triggerCandidate compares score against 0.7 for whatever class won.
       // A confident "normal" reading might cross 0.7, so we assert against
       // the scream class explicitly.
-      final calmAudio = AudioFeatures(
+      const calmAudio = AudioFeatures(
         timestampMs: 0,
-        mfcc: const [-60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        mfcc: [-60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         zcr: 0.02,
         spectralCentroidHz: 200,
       );

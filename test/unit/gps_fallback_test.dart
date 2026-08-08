@@ -86,7 +86,7 @@ void main() {
   });
 
   group('GpsFallbackCoordinator', () {
-    GpsSample _gps({double acc = 8}) => GpsSample(
+    GpsSample gpsSample({double acc = 8}) => GpsSample(
         timestampMs: DateTime.now().millisecondsSinceEpoch,
         lat: 12.97,
         lng: 77.59,
@@ -96,14 +96,14 @@ void main() {
       final gps  = GpsService();
       final cell = CellLocationService();
       final coord = GpsFallbackCoordinator(gps: gps, cell: cell);
-      expect(coord.evaluate(_gps(acc: 10)), isNull);
+      expect(coord.evaluate(gpsSample(acc: 10)), isNull);
     });
 
     test('evaluate() flags low-quality GPS', () {
       final gps  = GpsService();
       final cell = CellLocationService();
       final coord = GpsFallbackCoordinator(gps: gps, cell: cell);
-      final reason = coord.evaluate(_gps(acc: 240));
+      final reason = coord.evaluate(gpsSample(acc: 240));
       expect(reason, isNotNull);
       expect(reason, contains('240'));
     });
@@ -133,12 +133,12 @@ void main() {
       addTearDown(coord.dispose);
 
       // High-quality fix → no fallback.
-      gps.injectSample(_gps(acc: 9));
+      gps.injectSample(gpsSample(acc: 9));
       await Future<void>.delayed(Duration.zero);
       expect(coord.gpsLowQualityTriggers, 0);
 
       // Low-quality fix → trigger.
-      gps.injectSample(_gps(acc: 220));
+      gps.injectSample(gpsSample(acc: 220));
       await Future<void>.delayed(Duration.zero);
       // Give the async _requestFallback a chance to resolve.
       await Future<void>.delayed(const Duration(milliseconds: 20));
@@ -161,9 +161,9 @@ void main() {
       addTearDown(coord.dispose);
 
       // Low-quality, then high-quality.
-      gps.injectSample(_gps(acc: 220));
+      gps.injectSample(gpsSample(acc: 220));
       await Future<void>.delayed(Duration.zero);
-      gps.injectSample(_gps(acc: 12));
+      gps.injectSample(gpsSample(acc: 12));
       await Future<void>.delayed(Duration.zero);
 
       expect(coord.gpsRecoveries, 1);
@@ -183,11 +183,11 @@ void main() {
       addTearDown(coord.dispose);
 
       // Two bad fixes in quick succession; second one should be debounced.
-      gps.injectSample(_gps(acc: 220));
+      gps.injectSample(gpsSample(acc: 220));
       await Future<void>.delayed(const Duration(milliseconds: 20));
       // The cell service was stubbed once → only one emission.
       cell.stubNext(cell.syntheticEstimate(seed: 23));
-      gps.injectSample(_gps(acc: 220));
+      gps.injectSample(gpsSample(acc: 220));
       await Future<void>.delayed(const Duration(milliseconds: 20));
 
       expect(coord.gpsLowQualityTriggers, 2); // both eval'd

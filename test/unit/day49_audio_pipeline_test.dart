@@ -7,6 +7,8 @@
 ///   - HeuristicScreamDetector used as the pipeline interpreter
 ///   - InferenceResult confidence / severity thresholds
 ///   - Confidence history logic (rolling window behaviour)
+library;
+
 import 'dart:async';
 import 'dart:typed_data';
 
@@ -42,7 +44,9 @@ AudioFeatureService _serviceWith(List<AudioFeatures> frames,
     featureStream: ctrl.stream,
   );
   svc.start();
-  for (final f in frames) ctrl.add(f);
+  for (final f in frames) {
+    ctrl.add(f);
+  }
   ctrl.close();
   return svc;
 }
@@ -206,7 +210,7 @@ void main() {
 
   // ── 5. InferenceResult thresholds used by screen ──────────────────────
   group('InferenceResult thresholds', () {
-    InferenceResult _r(double score) => InferenceResult(
+    InferenceResult r(double score) => InferenceResult(
           label: 'scream',
           score: score,
           classScores: {'scream': score, 'normal': 1 - score},
@@ -215,27 +219,27 @@ void main() {
         );
 
     test('score 0.70 → isConfident=true, trigger fires', () {
-      expect(_r(0.70).isConfident, isTrue);
+      expect(r(0.70).isConfident, isTrue);
     });
 
     test('score 0.69 → isConfident=false, no trigger', () {
-      expect(_r(0.69).isConfident, isFalse);
+      expect(r(0.69).isConfident, isFalse);
     });
 
     test('severity high ≥ 0.85', () {
-      expect(_r(0.85).severity, InferenceSeverity.high);
+      expect(r(0.85).severity, InferenceSeverity.high);
     });
 
     test('severity medium 0.70–0.84', () {
-      expect(_r(0.72).severity, InferenceSeverity.medium);
+      expect(r(0.72).severity, InferenceSeverity.medium);
     });
 
     test('severity low 0.40–0.69', () {
-      expect(_r(0.50).severity, InferenceSeverity.low);
+      expect(r(0.50).severity, InferenceSeverity.low);
     });
 
     test('severity none < 0.40', () {
-      expect(_r(0.30).severity, InferenceSeverity.none);
+      expect(r(0.30).severity, InferenceSeverity.none);
     });
   });
 }

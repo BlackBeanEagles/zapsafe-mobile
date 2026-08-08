@@ -23,7 +23,7 @@ void main() {
 
   // ── ModelSlotResult ────────────────────────────────────────────────────────
   group('ModelSlotResult', () {
-    ModelSlotResult _slot(ModelLoadStatus status, Interpreter interp) =>
+    ModelSlotResult makeSlot(ModelLoadStatus status, Interpreter interp) =>
         ModelSlotResult(
           key: 'test',
           displayName: 'Test Model',
@@ -34,68 +34,68 @@ void main() {
         );
 
     test('realLoaded → usesAi true', () {
-      final slot = _slot(
+      final slot = makeSlot(
           ModelLoadStatus.realLoaded, const FixedStubInterpreter());
       expect(slot.usesAi, isTrue);
     });
 
     test('placeholder → usesAi false', () {
-      final slot = _slot(
+      final slot = makeSlot(
           ModelLoadStatus.placeholder, const HeuristicScreamDetector());
       expect(slot.usesAi, isFalse);
     });
 
     test('realLoadFailed → usesAi false', () {
-      final slot = _slot(
+      final slot = makeSlot(
           ModelLoadStatus.realLoadFailed, const HeuristicMotionDetector());
       expect(slot.usesAi, isFalse);
     });
 
     test('skippedImageModel → usesAi false', () {
-      final slot = _slot(
+      final slot = makeSlot(
           ModelLoadStatus.skippedImageModel, const HeuristicSceneDetector());
       expect(slot.usesAi, isFalse);
     });
 
     test('statusLabel contains expected text for each status', () {
       expect(
-        _slot(ModelLoadStatus.realLoaded, const FixedStubInterpreter()).statusLabel,
+        makeSlot(ModelLoadStatus.realLoaded, const FixedStubInterpreter()).statusLabel,
         contains('TFLite'),
       );
       expect(
-        _slot(ModelLoadStatus.placeholder, const HeuristicScreamDetector()).statusLabel,
+        makeSlot(ModelLoadStatus.placeholder, const HeuristicScreamDetector()).statusLabel,
         contains('Placeholder'),
       );
       expect(
-        _slot(ModelLoadStatus.realLoadFailed, const HeuristicMotionDetector()).statusLabel,
+        makeSlot(ModelLoadStatus.realLoadFailed, const HeuristicMotionDetector()).statusLabel,
         contains('heuristic'),
       );
       expect(
-        _slot(ModelLoadStatus.skippedImageModel, const HeuristicSceneDetector()).statusLabel,
+        makeSlot(ModelLoadStatus.skippedImageModel, const HeuristicSceneDetector()).statusLabel,
         contains('Image'),
       );
     });
 
     test('sizeMbLabel for large file contains MB', () {
-      final slot = ModelSlotResult(
+      const slot = ModelSlotResult(
         key: 'x',
         displayName: 'X',
         assetPath: 'x.tflite',
         status: ModelLoadStatus.realLoaded,
         sizeBytes: 2674256,
-        activeInterpreter: const FixedStubInterpreter(),
+        activeInterpreter: FixedStubInterpreter(),
       );
       expect(slot.sizeMbLabel, contains('MB'));
     });
 
     test('sizeMbLabel for small file contains placeholder', () {
-      final slot = ModelSlotResult(
+      const slot = ModelSlotResult(
         key: 'x',
         displayName: 'X',
         assetPath: 'x.tflite',
         status: ModelLoadStatus.placeholder,
         sizeBytes: 658,
-        activeInterpreter: const HeuristicScreamDetector(),
+        activeInterpreter: HeuristicScreamDetector(),
       );
       expect(slot.sizeMbLabel, contains('placeholder'));
     });
@@ -103,7 +103,7 @@ void main() {
 
   // ── ModelBundleResult ──────────────────────────────────────────────────────
   group('ModelBundleResult', () {
-    ModelBundleResult _bundle({
+    ModelBundleResult bundle({
       int aiCount = 0,
       int heuristicCount = 3,
     }) {
@@ -136,19 +136,19 @@ void main() {
     }
 
     test('loadedAiCount matches ai slots', () {
-      expect(_bundle(aiCount: 2, heuristicCount: 1).loadedAiCount, 2);
+      expect(bundle(aiCount: 2, heuristicCount: 1).loadedAiCount, 2);
     });
 
     test('heuristicCount matches heuristic slots', () {
-      expect(_bundle(aiCount: 1, heuristicCount: 2).heuristicCount, 2);
+      expect(bundle(aiCount: 1, heuristicCount: 2).heuristicCount, 2);
     });
 
     test('totalSizeLabel contains MB', () {
-      expect(_bundle().totalSizeLabel, contains('MB'));
+      expect(bundle().totalSizeLabel, contains('MB'));
     });
 
     test('engine is not null', () {
-      expect(_bundle().engine, isNotNull);
+      expect(bundle().engine, isNotNull);
     });
   });
 
@@ -174,7 +174,7 @@ void main() {
     });
 
     test('high tier with AI interpreters provided → uses AI labels', () {
-      final fakeAi = const FixedStubInterpreter(modelLabel: 'real-scream-v1');
+      const fakeAi = FixedStubInterpreter(modelLabel: 'real-scream-v1');
       final engine = HeuristicDetectionEngine(
         tier: PhoneCapabilityTier.high,
         aiScreamInterpreter: fakeAi,

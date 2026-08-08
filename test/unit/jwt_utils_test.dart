@@ -10,15 +10,15 @@ import 'package:zapsafe_mobile/core/utils/jwt_utils.dart';
 // is fine for tests.
 
 String _makeJwt({required int expEpochSeconds, Map<String, dynamic>? extra}) {
-  String _b64url(String json) {
+  String b64url(String json) {
     final bytes = utf8.encode(json);
     return base64Url.encode(bytes).replaceAll('=', ''); // strip padding
   }
 
-  final header = _b64url('{"alg":"HS256","typ":"JWT"}');
+  final header = b64url('{"alg":"HS256","typ":"JWT"}');
   final claims = <String, dynamic>{'exp': expEpochSeconds, 'user_id': 'u-test'};
   if (extra != null) claims.addAll(extra);
-  final payload = _b64url(jsonEncode(claims));
+  final payload = b64url(jsonEncode(claims));
   return '$header.$payload.fakesignature';
 }
 
