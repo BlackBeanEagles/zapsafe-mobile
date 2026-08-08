@@ -48,6 +48,8 @@ import '../../domain/providers/alert_threshold_providers.dart';
 import '../widgets/zap_badge.dart';
 import '../widgets/zap_button.dart';
 import '../widgets/zap_card.dart';
+import '../widgets/zap_error_state.dart';
+import '../widgets/zap_skeleton.dart';
 import '../widgets/zap_snackbar.dart';
 
 class Day329FalsePositiveTuningProductionScreen extends ConsumerStatefulWidget {
@@ -239,13 +241,13 @@ class _Day329FalsePositiveTuningProductionScreenState
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(ZapSpacing.lg),
-            child: Text('Failed to load: $e',
-                style: ZapTypography.bodyMedium.copyWith(color: ZapColors.danger)),
-          ),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(ZapSpacing.lg),
+          child: ZapSkeletonCard(height: 220),
+        ),
+        error: (e, _) => ZapErrorState.fromError(
+          error: e,
+          onRetry: () => ref.invalidate(alertThresholdListProvider('')),
         ),
       ),
     );

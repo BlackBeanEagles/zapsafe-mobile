@@ -43,7 +43,7 @@ import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const _kAccent = Color(0xFFE63946);
+const _kAccent = ZapColors.danger;
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 
 // Real, read from lib/core/config/api_config.dart this session.

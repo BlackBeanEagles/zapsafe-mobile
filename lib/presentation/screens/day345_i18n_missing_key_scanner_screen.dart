@@ -31,6 +31,8 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/utils/i18n_coverage.dart';
 import '../../domain/providers/i18n_providers.dart';
+import '../widgets/zap_error_state.dart';
+import '../widgets/zap_skeleton.dart';
 
 const _kAccent = Color(0xFFEC4899);
 
@@ -88,10 +90,13 @@ class Day345I18nMissingKeyScannerScreen extends ConsumerWidget {
         ],
       ),
       body: scanAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text('Scan failed: $e',
-              style: const TextStyle(color: ZapColors.danger)),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(ZapSpacing.lg),
+          child: ZapSkeletonList(count: 4),
+        ),
+        error: (e, _) => ZapErrorState.fromError(
+          error: e,
+          onRetry: () => ref.invalidate(_scanProvider),
         ),
         data: (result) => _Body(result: result),
       ),

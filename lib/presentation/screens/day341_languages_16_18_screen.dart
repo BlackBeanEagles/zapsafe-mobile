@@ -28,6 +28,8 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/utils/i18n_coverage.dart';
 import '../../domain/providers/i18n_providers.dart';
+import '../widgets/zap_error_state.dart';
+import '../widgets/zap_skeleton.dart';
 
 const _kAccent = Color(0xFF2563EB);
 
@@ -64,10 +66,13 @@ class Day341Languages16to18Screen extends ConsumerWidget {
         title: Text('day341_350.languages16_18_title'.tr()),
       ),
       body: coverageAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text('Failed to scan translations: $e',
-              style: const TextStyle(color: ZapColors.danger)),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(ZapSpacing.lg),
+          child: ZapSkeletonList(count: 4),
+        ),
+        error: (e, _) => ZapErrorState.fromError(
+          error: e,
+          onRetry: () => ref.invalidate(_batchCoverageProvider),
         ),
         data: (coverage) => _Body(coverage: coverage),
       ),
