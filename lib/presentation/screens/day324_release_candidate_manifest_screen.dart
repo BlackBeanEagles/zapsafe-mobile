@@ -118,7 +118,7 @@ class Day324ReleaseCandidateManifestScreen extends ConsumerWidget {
           Text('FEATURE FLAGS (app_flags.dart)',
               style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
-          ZapCard(
+          const ZapCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -233,7 +233,7 @@ class _MockQrBox extends StatelessWidget {
         builder: (context, constraints) {
           return CustomPaint(
             size: Size(constraints.maxWidth, constraints.maxWidth),
-            painter: _MockQrPainter(seed: Day324ReleaseCandidateManifestScreen._mockDownloadUrl),
+            painter: const _MockQrPainter(seed: Day324ReleaseCandidateManifestScreen._mockDownloadUrl),
           );
         },
       ),

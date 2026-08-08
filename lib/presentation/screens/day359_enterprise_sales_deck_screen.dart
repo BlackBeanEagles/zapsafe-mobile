@@ -52,10 +52,10 @@ class _State extends ConsumerState<Day359EnterpriseSalesDeckScreen> {
   late final PageController _pageController;
 
   late final List<_Slide> _slides = [
-    _Slide(kicker: 'THE PROBLEM', title: 'Workforce safety is reactive, not proactive', builder: _problemSlide),
-    _Slide(kicker: 'THE SOLUTION', title: 'ZapSafe: real-time protection at scale', builder: _solutionSlide),
-    _Slide(kicker: 'PRICING', title: 'Simple, transparent, per-seat', builder: _pricingSlide),
-    _Slide(kicker: 'GET STARTED', title: "Let's talk", builder: _contactSlide),
+    const _Slide(kicker: 'THE PROBLEM', title: 'Workforce safety is reactive, not proactive', builder: _problemSlide),
+    const _Slide(kicker: 'THE SOLUTION', title: 'ZapSafe: real-time protection at scale', builder: _solutionSlide),
+    const _Slide(kicker: 'PRICING', title: 'Simple, transparent, per-seat', builder: _pricingSlide),
+    const _Slide(kicker: 'GET STARTED', title: "Let's talk", builder: _contactSlide),
   ];
 
   @override
@@ -180,9 +180,9 @@ class _State extends ConsumerState<Day359EnterpriseSalesDeckScreen> {
 }
 
 Widget _problemSlide(BuildContext context) {
-  return Column(
+  return const Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: const [
+    children: [
       _BulletCard(
         icon: Icons.nightlight_round,
         title: 'Night-shift & field workers are invisible',
@@ -206,9 +206,9 @@ Widget _problemSlide(BuildContext context) {
 }
 
 Widget _solutionSlide(BuildContext context) {
-  return Column(
+  return const Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: const [
+    children: [
       _BulletCard(
         icon: Icons.emergency_rounded,
         title: 'One-tap SOS, every device',
@@ -255,10 +255,10 @@ Widget _pricingSlide(BuildContext context) {
         ),
       ),
       const SizedBox(height: ZapSpacing.lg),
-      Row(
+      const Row(
         children: [
           Expanded(child: _PriceCard(label: 'Consumer Premium', price: '₹99/mo', badge: 'LIVE')),
-          const SizedBox(width: ZapSpacing.sm),
+          SizedBox(width: ZapSpacing.sm),
           Expanded(child: _PriceCard(label: 'Consumer Premium+', price: '₹199/mo', badge: 'LIVE')),
         ],
       ),
@@ -339,7 +339,7 @@ Widget _contactSlide(BuildContext context) {
         );
       }),
       const SizedBox(height: ZapSpacing.sm),
-      _JumpLinksRow(),
+      const _JumpLinksRow(),
     ],
   );
 }

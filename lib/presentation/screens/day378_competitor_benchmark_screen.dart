@@ -213,8 +213,8 @@ class Day378CompetitorBenchmarkScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     _HeaderCell('Feature', width: 260),
                     _HeaderCell('Life360', width: 90),
                     _HeaderCell('Noonlight', width: 90),
@@ -238,7 +238,7 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(spacing: 12, runSpacing: 6, children: const [
+    return const Wrap(spacing: 12, runSpacing: 6, children: [
       _LegendChip(icon: Icons.check_circle_rounded, color: ZapColors.safe, label: 'Yes'),
       _LegendChip(icon: Icons.remove_circle_outline_rounded, color: ZapColors.textMuted, label: 'No'),
       _LegendChip(icon: Icons.adjust_rounded, color: ZapColors.warning, label: 'Partial'),

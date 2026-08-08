@@ -147,7 +147,7 @@ class Day352InsuranceApiWireScreen extends ConsumerWidget {
           ),
           const SizedBox(height: ZapSpacing.xl),
           Text('PROPOSED CONTRACT (NOT IMPLEMENTED)',
-              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           ZapCard(
             child: SelectableText(

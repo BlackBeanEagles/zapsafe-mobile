@@ -126,7 +126,7 @@ class Day368HotfixExecutorScreen extends ConsumerWidget {
           const SizedBox(height: ZapSpacing.xl),
           const Text('1. Version bump', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 13)),
           const SizedBox(height: 4),
-          Text('Current (real pubspec.yaml): $_kCurrentVersion', style: const TextStyle(color: ZapColors.textMuted, fontSize: 11, fontFamily: 'monospace')),
+          const Text('Current (real pubspec.yaml): $_kCurrentVersion', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, fontFamily: 'monospace')),
           const SizedBox(height: ZapSpacing.sm),
           Wrap(spacing: 8, children: _BumpType.values.map((t) => ChoiceChip(
                 label: Text(t.name),

@@ -197,19 +197,19 @@ class _BuildTab extends StatelessWidget {
             border: Border.all(color: _kAccent.withOpacity(0.55), width: 2),
             boxShadow: [BoxShadow(color: _kAccent.withOpacity(0.15), blurRadius: 28, offset: const Offset(0, 10))],
           ),
-          child: Column(
+          child: const Column(
             children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  const SizedBox(width: 88, height: 88, child: CircularProgressIndicator(value: 1.0, strokeWidth: 6, backgroundColor: ZapColors.bgPrimary, valueColor: AlwaysStoppedAnimation<Color>(_kAccent))),
-                  const Text('390', style: TextStyle(color: ZapColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w900)),
+                  SizedBox(width: 88, height: 88, child: CircularProgressIndicator(value: 1.0, strokeWidth: 6, backgroundColor: ZapColors.bgPrimary, valueColor: AlwaysStoppedAnimation<Color>(_kAccent))),
+                  Text('390', style: TextStyle(color: ZapColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w900)),
                 ],
               ),
-              const SizedBox(height: ZapSpacing.md),
-              const Text('Day 390 · Project Complete (Build)', textAlign: TextAlign.center, style: TextStyle(color: ZapColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: -0.3)),
-              const SizedBox(height: 8),
-              const Text(
+              SizedBox(height: ZapSpacing.md),
+              Text('Day 390 · Project Complete (Build)', textAlign: TextAlign.center, style: TextStyle(color: ZapColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: -0.3)),
+              SizedBox(height: 8),
+              Text(
                 'This IS real: 390 build-days, all real screens/routes/tests/translations.\n'
                 'This is NOT real: any public launch, or a claim the app is production-ready.',
                 textAlign: TextAlign.center,
@@ -306,11 +306,11 @@ class _LaunchReadinessTab extends ConsumerWidget {
                     Text(ready ? 'READY TO LAUNCH (per this session\'s checklist)' : 'NOT READY TO LAUNCH — $openP0 real P0 blocker(s) open',
                         style: TextStyle(color: ready ? ZapColors.safe : ZapColors.danger, fontWeight: FontWeight.w900, fontSize: 15)),
                     const SizedBox(height: 4),
-                    Text(
+                    const Text(
                       'This value is read LIVE from finalQaOpenP0CountProvider — the exact '
                       'same state Day 361\'s war room itself uses. It is not a hardcoded "5" '
                       'and cannot silently go stale.',
-                      style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11, height: 1.4),
+                      style: TextStyle(color: ZapColors.textSecondary, fontSize: 11, height: 1.4),
                     ),
                   ],
                 ),

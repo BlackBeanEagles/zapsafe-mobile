@@ -138,15 +138,15 @@ class _Day365PublicLaunchMilestoneScreenState extends ConsumerState<Day365Public
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: ZapSpacing.md, vertical: ZapSpacing.sm),
                 color: ZapColors.danger.withOpacity(0.16),
-                child: Row(
+                child: const Row(
                   children: [
-                    const Icon(Icons.visibility_rounded, color: ZapColors.danger, size: 18),
-                    const SizedBox(width: 8),
+                    Icon(Icons.visibility_rounded, color: ZapColors.danger, size: 18),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'PREVIEW ONLY — public launch has NOT occurred. See Day 336/344/347 '
                         'for real open blockers.',
-                        style: const TextStyle(color: ZapColors.danger, fontWeight: FontWeight.w800, fontSize: 11, height: 1.3),
+                        style: TextStyle(color: ZapColors.danger, fontWeight: FontWeight.w800, fontSize: 11, height: 1.3),
                       ),
                     ),
                   ],
@@ -187,7 +187,7 @@ class _LaunchTab extends StatelessWidget {
             border: Border.all(color: _kAccent.withOpacity(0.55), width: 2),
             boxShadow: [BoxShadow(color: _kAccent.withOpacity(0.15), blurRadius: 28, offset: const Offset(0, 10))],
           ),
-          child: Column(
+          child: const Column(
             children: [
               Stack(
                 alignment: Alignment.center,
@@ -195,15 +195,15 @@ class _LaunchTab extends StatelessWidget {
                   SizedBox(
                     width: 88,
                     height: 88,
-                    child: CircularProgressIndicator(value: 365 / 390, strokeWidth: 6, backgroundColor: ZapColors.bgPrimary, valueColor: const AlwaysStoppedAnimation<Color>(_kAccent)),
+                    child: CircularProgressIndicator(value: 365 / 390, strokeWidth: 6, backgroundColor: ZapColors.bgPrimary, valueColor: AlwaysStoppedAnimation<Color>(_kAccent)),
                   ),
-                  const Text('365', style: TextStyle(color: ZapColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w900)),
+                  Text('365', style: TextStyle(color: ZapColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w900)),
                 ],
               ),
-              const SizedBox(height: ZapSpacing.md),
-              const Text('Day 365 · Public Launch Milestone (Preview)', textAlign: TextAlign.center, style: TextStyle(color: ZapColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: -0.3)),
-              const SizedBox(height: 8),
-              const Text(
+              SizedBox(height: ZapSpacing.md),
+              Text('Day 365 · Public Launch Milestone (Preview)', textAlign: TextAlign.center, style: TextStyle(color: ZapColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: -0.3)),
+              SizedBox(height: 8),
+              Text(
                 'This IS real: 365 build-days, 25 languages, Section L complete.\n'
                 'This is NOT real: any public launch, live user, or store review.',
                 textAlign: TextAlign.center,
@@ -307,8 +307,8 @@ class _LiveStatsTab extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(ZapSpacing.md),
           decoration: BoxDecoration(color: ZapColors.bgCard, borderRadius: BorderRadius.circular(10), border: Border.all(color: ZapColors.border)),
-          child: Column(
-            children: const [
+          child: const Column(
+            children: [
               _HonestRow(label: 'Countries live', value: '0 — not yet launched'),
               _HonestRow(label: 'Real users', value: '0'),
               _HonestRow(label: 'Real app store reviews', value: '0'),

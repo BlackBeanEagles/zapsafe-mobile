@@ -102,7 +102,7 @@ class Day306NotificationTiersPolishScreen extends ConsumerWidget {
           const SizedBox(height: ZapSpacing.lg),
           Text('Active banners (${banners.length})',
               style: ZapTypography.labelLarge
-                  .copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+                  .copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           if (banners.isEmpty)
             ZapCard(

@@ -125,14 +125,14 @@ class Day372PerformanceScaleScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(color: ZapColors.warning.withOpacity(0.08), borderRadius: BorderRadius.circular(10), border: Border.all(color: ZapColors.warning.withOpacity(0.35))),
-            child: Row(
+            child: const Row(
               children: [
-                const Icon(Icons.groups_rounded, color: ZapColors.warning),
-                const SizedBox(width: 8),
+                Icon(Icons.groups_rounded, color: ZapColors.warning),
+                SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text('EXAMPLE — illustrative only, not real: 10,000 DAU', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 13)),
                       SizedBox(height: 2),
                       Text('Real DAU is currently 0 because there is no real launch. This card exists to show what a 10K-scale readiness target looks like.', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.4)),
@@ -184,7 +184,7 @@ class Day372PerformanceScaleScreen extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(ZapSpacing.md),
             decoration: BoxDecoration(color: ZapColors.bgCard, borderRadius: BorderRadius.circular(10), border: Border.all(color: ZapColors.safe.withOpacity(0.35))),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _MetricRow('Sustained throughput', '$_kDay257ReqPerSec req/s'),
@@ -193,8 +193,8 @@ class Day372PerformanceScaleScreen extends ConsumerWidget {
                 _MetricRow('Error rate @ 50 concurrent', '$_kDay257ErrorPct50Users%'),
                 _MetricRow('P95 @ 100 concurrent', '${_kDay257P95Ms100Users}ms (degraded, not broken)'),
                 _MetricRow('Error rate @ 100 concurrent', '$_kDay257ErrorPct100Users%'),
-                const Divider(color: ZapColors.border, height: 20),
-                const Text(
+                Divider(color: ZapColors.border, height: 20),
+                Text(
                   '"10,000 concurrent is not achievable on this hardware" — '
                   'quoted directly from the real doc. A Locust user is not a '
                   'real app user (real users idle between actions), so the '
@@ -215,8 +215,8 @@ class Day372PerformanceScaleScreen extends ConsumerWidget {
                   'Pasted error rate: ${errorRate.isEmpty ? "(not entered)" : "$errorRate%"}\n\n'
                   'Real Day 257 production data:\n'
                   '  Sustained throughput: $_kDay257ReqPerSec req/s\n'
-                  '  P95 @ 50 concurrent: ${_kDay257P95Ms50Users}ms, ${_kDay257ErrorPct50Users}% errors\n'
-                  '  P95 @ 100 concurrent: ${_kDay257P95Ms100Users}ms, ${_kDay257ErrorPct100Users}% errors (degraded, not broken)\n'
+                  '  P95 @ 50 concurrent: ${_kDay257P95Ms50Users}ms, $_kDay257ErrorPct50Users% errors\n'
+                  '  P95 @ 100 concurrent: ${_kDay257P95Ms100Users}ms, $_kDay257ErrorPct100Users% errors (degraded, not broken)\n'
                   '  10,000 concurrent: not achievable on current hardware\n';
               Clipboard.setData(ClipboardData(text: report));
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Report copied.')));

@@ -217,11 +217,11 @@ class _StepsTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: ZapColors.warning.withOpacity(0.3)),
           ),
-          child: Row(
+          child: const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.info_rounded, color: ZapColors.warning, size: 20),
-              const SizedBox(width: ZapSpacing.sm),
+              Icon(Icons.info_rounded, color: ZapColors.warning, size: 20),
+              SizedBox(width: ZapSpacing.sm),
               Expanded(
                 child: Text(
                   'There is no Google Play Developer API for submitting an app '

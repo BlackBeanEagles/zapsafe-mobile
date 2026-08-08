@@ -180,12 +180,12 @@ class Day358PremiumPolishScreen extends StatelessWidget {
           ),
           const SizedBox(height: ZapSpacing.xl),
           Text('SHARED BADGE — LIVE PREVIEW',
-              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
-          ZapCard(
+          const ZapCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
+              children: [
                 PremiumTierBadge(planLabel: 'FREE', isPremium: false),
                 PremiumTierBadge(planLabel: 'PREMIUM', isPremium: true),
                 PremiumTierBadge(planLabel: 'PREMIUM_PLUS', isPremium: true),
@@ -193,7 +193,7 @@ class Day358PremiumPolishScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: ZapSpacing.xl),
-          Text('AUDIT', style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+          Text('AUDIT', style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           for (final row in _kAuditRows)
             ZapCard(

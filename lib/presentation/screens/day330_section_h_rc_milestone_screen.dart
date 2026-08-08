@@ -195,7 +195,7 @@ class Day330SectionHRcMilestoneScreen extends StatelessWidget {
             children: [
               _StatTile(label: 'Documented exceptions', value: '$exceptions', color: ZapColors.warning),
               const SizedBox(width: ZapSpacing.sm),
-              _StatTile(label: 'Real gaps found + fixed', value: '$realGapsFixed', color: ZapColors.textSecondary),
+              const _StatTile(label: 'Real gaps found + fixed', value: '$realGapsFixed', color: ZapColors.textSecondary),
             ],
           ),
           const SizedBox(height: ZapSpacing.xl),

@@ -484,10 +484,10 @@ class _SubmissionsTab extends ConsumerWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: ZapColors.info.withOpacity(0.3)),
             ),
-            child: Text(
+            child: const Text(
               'vs Round 3 baseline (Day 287, context only): NPS $_kRound3Nps, '
               'false triggers/week $_kRound3FalseTriggerPct%.',
-              style: const TextStyle(color: ZapColors.textSecondary, fontSize: 11, height: 1.4),
+              style: TextStyle(color: ZapColors.textSecondary, fontSize: 11, height: 1.4),
             ),
           ),
           const SizedBox(height: ZapSpacing.md),

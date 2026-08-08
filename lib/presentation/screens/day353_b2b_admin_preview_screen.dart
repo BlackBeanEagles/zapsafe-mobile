@@ -207,7 +207,7 @@ class Day353B2bAdminPreviewScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: ZapSpacing.xl),
-          Text('ORG USERS', style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+          Text('ORG USERS', style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           for (final u in _kOrgUsers)
             ZapCard(
@@ -248,7 +248,7 @@ class Day353B2bAdminPreviewScreen extends ConsumerWidget {
             ),
           const SizedBox(height: ZapSpacing.xl),
           Text('PROPOSED CONTRACT (NOT IMPLEMENTED)',
-              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           ZapCard(
             child: SelectableText(

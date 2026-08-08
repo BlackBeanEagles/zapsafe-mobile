@@ -173,14 +173,14 @@ class Day327MemoryLeakTrackerScreen extends StatelessWidget {
           const SizedBox(height: ZapSpacing.sm),
           ZapCard(
             onTap: () => context.go(AppRoutes.home),
-            child: Row(
+            child: const Row(
               children: [
-                const Icon(Icons.memory_rounded, color: ZapColors.info, size: 18),
-                const SizedBox(width: ZapSpacing.sm),
-                const Expanded(
+                Icon(Icons.memory_rounded, color: ZapColors.info, size: 18),
+                SizedBox(width: ZapSpacing.sm),
+                Expanded(
                   child: Text('Back to Day 5 index (Day 131/132 tiles are there)'),
                 ),
-                const Icon(Icons.chevron_right_rounded, color: ZapColors.textMuted),
+                Icon(Icons.chevron_right_rounded, color: ZapColors.textMuted),
               ],
             ),
           ),

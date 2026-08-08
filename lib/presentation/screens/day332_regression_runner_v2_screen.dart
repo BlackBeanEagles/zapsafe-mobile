@@ -380,9 +380,9 @@ class _ResultsTab extends ConsumerWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: ZapColors.safe.withOpacity(0.4)),
             ),
-            child: Text(
+            child: const Text(
               'All $kRouteCount routes resolve — real GoRouter config match ✅',
-              style: const TextStyle(color: ZapColors.safe, fontWeight: FontWeight.w700),
+              style: TextStyle(color: ZapColors.safe, fontWeight: FontWeight.w700),
             ),
           )
         else if (stats.fail > 0)

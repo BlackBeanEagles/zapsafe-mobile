@@ -196,7 +196,7 @@ class Day351EnterpriseSsoPreviewScreen extends ConsumerWidget {
             _SsoFlowCard(state: flowState, provider: selectedProvider, onReset: () => _resetSsoFlow(ref)),
           const SizedBox(height: ZapSpacing.xl),
           Text('FUTURE API CONTRACT (NOT IMPLEMENTED)',
-              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.0)),
+              style: ZapTypography.labelLarge.copyWith(color: ZapColors.textSecondary, letterSpacing: 1.2)),
           const SizedBox(height: ZapSpacing.sm),
           ZapCard(
             child: SelectableText(
@@ -218,7 +218,7 @@ class Day351EnterpriseSsoPreviewScreen extends ConsumerWidget {
             icon: Icons.copy_rounded,
             fullWidth: true,
             onPressed: () {
-              Clipboard.setData(ClipboardData(
+              Clipboard.setData(const ClipboardData(
                 text: 'GET /api/v1/enterprise/sso/providers/\n'
                     'POST /api/v1/enterprise/sso/start/\n\n'
                     'Neither endpoint exists in zapsafe_backend yet — proposed '
