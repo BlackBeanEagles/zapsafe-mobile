@@ -239,10 +239,19 @@ const _kBugs = [
   _BugItem(
     id: 'p2_third_party_sharing',
     priority: _Priority.p2,
-    title: 'Third-party sharing transparency not implemented',
-    detail: 'No backend route or frontend screen exists for third-party '
-        'data-sharing disclosure under any path — genuinely unbuilt on '
-        'both sides, not just unwired.',
+    title: 'Third-party sharing transparency now built and wired',
+    detail: 'Fixed: was genuinely unbuilt on both sides (no backend route, '
+        'no real frontend data). New GET /api/v1/account/'
+        'third-party-access/ (ThirdPartyAccessView) returns real active '
+        'emergency contacts + 3 fixed platform disclosures (Trust & '
+        'Safety, Sentry, Google Play), Sentry reflecting the real current '
+        'consent.analytics flag. Verified with 7 real passing tests '
+        'against an actual Postgres+Redis. Wired into '
+        'day175_third_party_access_screen.dart, replacing all 5 '
+        'previously-hardcoded fake entries; revoke now navigates to the '
+        'real screen where that action lives (Contacts / GDPR Consent '
+        'Wire) and refetches on return. This was the last remaining item '
+        'from the 10-item Play Store blocker list.',
     source: 'Day 337 legal blockers live',
     sourceRoute: AppRoutes.legalBlockersLive,
   ),

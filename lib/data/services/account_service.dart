@@ -185,6 +185,50 @@ class AccountAuditLogPage {
   final bool hasMore;
 }
 
+/// Mirrors ThirdPartyAccessView's real party shape exactly —
+/// zapsafe_backend/account/views.py. DPDP §11(1)(b) / GDPR Art. 15(1)(c).
+class ThirdPartyEntry {
+  const ThirdPartyEntry({
+    required this.id,
+    required this.type,
+    required this.name,
+    required this.relationship,
+    required this.dataReceived,
+    required this.legalBasis,
+    required this.isAutomatic,
+    required this.canRevoke,
+    this.currentlyActive,
+  });
+
+  final String id;
+  /// 'emergency_contact' | 'processor' | 'internal'.
+  final String type;
+  final String name;
+  final String relationship;
+  final List<String> dataReceived;
+  final String legalBasis;
+  final bool isAutomatic;
+  final bool canRevoke;
+  /// Only present on the Sentry entry — null for every other party
+  /// (the real backend only sends this field for the one entry whose
+  /// state genuinely varies per-user: consent.analytics).
+  final bool? currentlyActive;
+
+  bool get isEmergencyContact => type == 'emergency_contact';
+
+  factory ThirdPartyEntry.fromJson(Map<String, dynamic> j) => ThirdPartyEntry(
+        id:              j['id'] as String,
+        type:            j['type'] as String,
+        name:            j['name'] as String,
+        relationship:    j['relationship'] as String,
+        dataReceived:    (j['data_received'] as List).cast<String>(),
+        legalBasis:      j['legal_basis'] as String,
+        isAutomatic:     j['is_automatic'] as bool,
+        canRevoke:       j['can_revoke'] as bool,
+        currentlyActive: j['currently_active'] as bool?,
+      );
+}
+
 // ─── Service ──────────────────────────────────────────────────────────────────
 
 class AccountService {
@@ -284,5 +328,16 @@ class AccountService {
       page: data['page'] as int,
       hasMore: data['has_more'] as bool,
     );
+  }
+
+  /// GET /api/v1/account/third-party-access/
+  /// DPDP §11(1)(b) / GDPR Art. 15(1)(c) — who has received this user's
+  /// personal data. Real emergency contacts + 3 fixed platform-level
+  /// disclosures (see ThirdPartyAccessView in the backend).
+  Future<List<ThirdPartyEntry>> fetchThirdPartyAccess() async {
+    final r = await _client.dio
+        .get<Map<String, dynamic>>(ApiConfig.accountThirdPartyAccess);
+    final list = (r.data!['parties'] as List).cast<Map<String, dynamic>>();
+    return list.map(ThirdPartyEntry.fromJson).toList();
   }
 }

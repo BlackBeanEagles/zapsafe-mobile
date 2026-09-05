@@ -27,3 +27,9 @@ final userSessionsProvider = FutureProvider<List<UserSession>>((ref) {
 final retentionPreferenceProvider = FutureProvider<RetentionPreference>((ref) {
   return ref.watch(accountServiceProvider).fetchRetention();
 });
+
+/// Who has received this user's personal data — real emergency contacts
+/// + 3 fixed platform-level disclosures (DPDP §11(1)(b)).
+final thirdPartyAccessProvider = FutureProvider<List<ThirdPartyEntry>>((ref) {
+  return ref.watch(accountServiceProvider).fetchThirdPartyAccess();
+});

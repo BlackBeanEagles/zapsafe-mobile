@@ -1,13 +1,39 @@
 /// Day 175 — Data Access Audit Log: Third-Party Access & Block Sign-Off
 ///
 /// Third and final day of the Days 173-175 Data Access Audit Log block.
-/// Day 173: Full timeline — 30 events, multi-filter, summary stats   ✅
+/// Day 173: Full timeline — real events, multi-filter, summary stats   ✅
 /// Day 174: Forensic drill-down + export + session detail             ✅
 /// Day 175: Third-party access log + revoke flow + DPDP §11 summary
 ///           + Days 173-175 block complete + Section B 3/5 progress.
 ///
-/// 🟡 MOCK-NOW — no third-party-access API yet.
-///    Backend contract documented in Tab 1.
+/// ── 🟢 LIVE (fixed for Play Store item 10b) ─────────────────────────────────
+///   Was: 🟡 MOCK-NOW, 5 entirely hardcoded fake entries (2 fabricated
+///   contact names "Rahul Sharma"/"Aarti Patel", 3 fixed platform
+///   disclosures) — confirmed via `grep -rniE "third.?party"` across every
+///   urls.py under zapsafe_backend/ that NO backend route existed for this
+///   anywhere, a real Day 336/361/337 finding (the only RED row left after
+///   this session's other DPDP wiring work).
+///
+///   New real backend: `GET /api/v1/account/third-party-access/`
+///   (ThirdPartyAccessView, zapsafe_backend/account/views.py) — returns
+///   the caller's REAL active emergency contacts (who genuinely receive
+///   real SOS data) plus 3 fixed platform-level disclosures, with
+///   Sentry's entry reflecting the caller's REAL current
+///   consent.analytics flag rather than a static claim.
+///
+///   Fields the mock invented that the real API does NOT provide —
+///   handled honestly, not faked: a specific accessed-when date/count
+///   per contact (real dispatch is event-driven, not pre-scheduled — see
+///   [_accessedWhenFor]), and a literal API-endpoint string per party
+///   (removed; was never meaningful to an end user anyway).
+///
+///   Revoke flow: the real backend has no revoke-in-place action for
+///   this endpoint. Revoking IS a real, already-existing action
+///   elsewhere in the app — removing an emergency contact (Day 83
+///   Contacts) or turning off crash-reporting consent (Day 319 GDPR
+///   Consent Wire) — so "Revoke access" now navigates there for real,
+///   then refetches this list on return, rather than a local
+///   no-op that only ever pretended to revoke anything.
 ///
 /// Legal basis:
 ///   DPDP Act 2023 §11(1)(b) — right to know third parties who
@@ -18,147 +44,46 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/account_service.dart' show ThirdPartyEntry;
+import '../../domain/providers/account_providers.dart';
+import '../navigation/app_router.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _d175TabProvider         = StateProvider<int>((ref) => 0);
 final _expandedPartyProvider   = StateProvider<int?>((ref) => null);
-final _revokeConfirmProvider   = StateProvider<int?>((ref) => null);
-final _revokedSetProvider      = StateProvider<Set<int>>((ref) => {});
 final _expandedDpdpProvider    = StateProvider<int?>((ref) => null);
 
-// ── Data ───────────────────────────────────────────────────────────────────────
-class _ThirdParty {
-  final String   name;
-  final String   relationship;    // 'Emergency Contact', 'ZapSafe Staff', etc.
-  final IconData icon;
-  final Color    color;
-  final String   dataAccessed;    // what data they received
-  final String   legalBasis;
-  final String   accessedWhen;
-  final int      accessCount;
-  final bool     canRevoke;
-  final String   revokeAction;    // what happens when revoked
-  final String   apiEndpoint;
-  final bool     isAutomatic;     // automated vs manual
-  const _ThirdParty({
-    required this.name, required this.relationship,
-    required this.icon, required this.color,
-    required this.dataAccessed, required this.legalBasis,
-    required this.accessedWhen, required this.accessCount,
-    required this.canRevoke, required this.revokeAction,
-    required this.apiEndpoint, this.isAutomatic = false,
-  });
-}
+// ── Real-entry display helpers ─────────────────────────────────────────────────
+// [ThirdPartyEntry] (account_service.dart) carries only what the real
+// backend actually sends. Icon/color and the "when" text below are
+// honest presentation choices layered on top — never fabricated
+// per-party facts like the old mock's specific dates/counts.
 
-const _kThirdParties = [
-  _ThirdParty(
-    name: 'Rahul Sharma',
-    relationship: 'Emergency Contact — Tier 1',
-    icon: Icons.person_rounded,
-    color: Color(0xFF10B981),
-    dataAccessed:
-        '• Your name (Priya Sharma)\n'
-        '• SOS trigger time and type\n'
-        '• GPS location (in SOS notification)\n'
-        '• "SOS active" status + Acknowledge link',
-    legalBasis: 'Vital interest + explicit consent during onboarding '
-        '(you added Rahul as Tier 1 contact knowing they would receive SOS data).',
-    accessedWhen: '2 SOS events — Sep 14, 2025 and May 29, 2026',
-    accessCount: 2,
-    canRevoke: true,
-    revokeAction: 'Remove Rahul Sharma from your emergency contacts. '
-        'They will receive a "removed" notification email. '
-        'Future SOS events will not notify them.',
-    apiEndpoint: 'No direct API — data sent via push notification + SMS at SOS time.',
-  ),
-  _ThirdParty(
-    name: 'Aarti Patel',
-    relationship: 'Emergency Contact — Tier 2',
-    icon: Icons.person_rounded,
-    color: Color(0xFF10B981),
-    dataAccessed:
-        '• Your name\n'
-        '• SOS trigger time\n'
-        '• "SOS active" status + Acknowledge link\n'
-        '• (No GPS — Tier 2 receives reduced data)',
-    legalBasis: 'Vital interest + explicit consent during onboarding.',
-    accessedWhen: '2 SOS events — Sep 14, 2025 and May 29, 2026',
-    accessCount: 2,
-    canRevoke: true,
-    revokeAction: 'Remove Aarti Patel from Tier 2. '
-        'Tier 3 contacts receive even less data if you wish to keep them '
-        'in your network with reduced access.',
-    apiEndpoint: 'No direct API — push notification at SOS time.',
-  ),
-  _ThirdParty(
-    name: 'ZapSafe Trust & Safety',
-    relationship: 'ZapSafe Internal — Manual Review',
-    icon: Icons.shield_rounded,
-    color: Color(0xFFF59E0B),
-    dataAccessed:
-        '• Account status (active/suspended)\n'
-        '• Login history (dates, cities, device types)\n'
-        '• Suspicious event flags (vault PIN failures)\n'
-        '• No SOS history, evidence, or contacts accessed',
-    legalBasis: 'Legitimate interest — account security. DPDP §4(2)(b): '
-        'processing necessary for prevention of fraud/crime.',
-    accessedWhen: '1 review — May 21, 2026 (after 3 vault PIN failures from iPad)',
-    accessCount: 1,
-    canRevoke: false,
-    revokeAction: 'Cannot revoke past reviews — required for account security. '
-        'Future reviews only occur after new suspicious events. '
-        'Contact privacy@zapsafe.app if you believe this was unjustified.',
-    apiEndpoint: 'Internal tools — not accessible via user API.',
-  ),
-  _ThirdParty(
-    name: 'Sentry (Functional Software Inc.)',
-    relationship: 'Third-Party SDK — Crash Reporting',
-    icon: Icons.bug_report_rounded,
-    color: Color(0xFF8B5CF6),
-    dataAccessed:
-        '• Crash stack traces (no PII)\n'
-        '• Device model and OS version\n'
-        '• App version and build number\n'
-        '• Error type and frequency\n'
-        '• No name, phone, location, or SOS data',
-    legalBasis: 'Consent — crash_reporting toggle. '
-        'Currently: ON (toggled on May 1, 2026). '
-        'Sentry is GDPR-compliant with a signed DPA. EU data residency.',
-    accessedWhen: 'Ongoing — 3 crash reports sent (May 18, 2026)',
-    accessCount: 3,
-    canRevoke: true,
-    revokeAction: 'Toggle off "Crash Reporting" in Settings → Analytics → '
-        'Crash Reporting. Sentry SDK will be stopped immediately '
-        'via Sentry.close(). No new data will be sent.',
-    apiEndpoint: 'https://sentry.io (SDK, not ZapSafe API)',
-    isAutomatic: true,
-  ),
-  _ThirdParty(
-    name: 'Google Play Console',
-    relationship: 'App Store — Android Distribution',
-    icon: Icons.android_rounded,
-    color: Color(0xFF3DDC84),
-    dataAccessed:
-        '• Anonymised crash rate (no personal linkage)\n'
-        '• Aggregate ANR (App Not Responding) rate\n'
-        '• Install/uninstall counts (not linked to you)\n'
-        '• Country-level usage statistics',
-    legalBasis: 'Legitimate interest — required to distribute the app '
-        'on the Play Store. All data is anonymised at Google\'s end; '
-        'ZapSafe cannot identify individual users from Play Console data.',
-    accessedWhen: 'Ongoing — linked to app installation',
-    accessCount: 0, // not event-based
-    canRevoke: true,
-    revokeAction: 'Uninstall ZapSafe from your Android device. '
-        'Google will stop receiving aggregated data for your device. '
-        'Note: aggregated data already collected cannot be deleted '
-        '(it is anonymous and not personal data under DPDP/GDPR).',
-    apiEndpoint: 'Google Play Developer API (read-only for ZapSafe)',
-    isAutomatic: true,
-  ),
-];
+(IconData, Color) _iconAndColorFor(ThirdPartyEntry p) => switch (p.id) {
+      'sentry' => (Icons.bug_report_rounded, const Color(0xFF8B5CF6)),
+      'google_play' => (Icons.android_rounded, const Color(0xFF3DDC84)),
+      'trust_and_safety' => (Icons.shield_rounded, const Color(0xFFF59E0B)),
+      _ => (Icons.person_rounded, const Color(0xFF10B981)), // emergency contacts
+    };
+
+/// The real backend doesn't send a per-party "last accessed" timestamp —
+/// SOS notification is event-driven (whenever you next trigger an SOS),
+/// not a scheduled thing with a history to report here. Honest,
+/// non-fabricated framing per party type instead of inventing dates.
+String _accessedWhenFor(ThirdPartyEntry p) {
+  if (p.isEmergencyContact) {
+    return 'Whenever you trigger an SOS — not a scheduled or past-dated event.';
+  }
+  if (p.id == 'sentry') {
+    return p.currentlyActive == true
+        ? 'Ongoing while crash reporting is ON.'
+        : 'Not currently — crash reporting is OFF.';
+  }
+  return 'Ongoing, tied to your app installation.';
+}
 
 class _DpdpPoint {
   final String article;
@@ -187,9 +112,10 @@ const _kDpdpPoints = [
     article: 'DPDP §11(1)(b)',
     requirement: 'Right to know the identities of all Data Fiduciaries and Processors '
         'who have received personal data',
-    howWeComply: 'Day 175 Third-Party Access log shows all 5 parties who received '
-        'data: 2 emergency contacts, Trust & Safety, Sentry, Google Play. '
-        'Each entry shows what data, when, and legal basis.',
+    howWeComply: 'Day 175 Third-Party Access log shows every real party who '
+        'received data: your actual emergency contacts, Trust & Safety, '
+        'Sentry, Google Play. Each entry shows what data, when, and legal '
+        'basis — live from GET /api/v1/account/third-party-access/.',
     screen: 'Day 175 — Third-Party Access tab',
     color: Color(0xFF3B82F6),
   ),
@@ -305,7 +231,7 @@ class _Hero extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Wrap(spacing: ZapSpacing.sm, runSpacing: ZapSpacing.sm, children: [
           _badge('⚡  DAY 175',             const Color(0xFF10B981)),
-          _badge('🟡 MOCK-NOW',             const Color(0xFFF59E0B)),
+          _badge('🟢 LIVE',                 const Color(0xFF10B981)),
           _badge('Audit Log  ·  Day 3/3',   const Color(0xFF8B5CF6)),
           _badge('Block 173-175 Final ✅',  const Color(0xFF10B981)),
         ]),
@@ -316,13 +242,11 @@ class _Hero extends StatelessWidget {
         const SizedBox(height: ZapSpacing.sm),
         const Text(
           'DPDP §11(1)(b) + GDPR Art. 15(1)(c) — who received your data. '
-          '5 third parties listed with revoke options. '
-          '6-point DPDP §11 compliance proof. Section B reaches 3/5.',
+          'Real emergency contacts + platform disclosures, with revoke '
+          'options. 6-point DPDP §11 compliance proof. Section B reaches 3/5.',
           style: TextStyle(color: Color(0xFFD1D5DB), fontSize: 12, height: 1.6)),
         const SizedBox(height: ZapSpacing.md),
         const Row(children: [
-          _HStat('5',    '5 third parties',  Color(0xFF3B82F6)),
-          _HStat('3',    'Revocable',        Color(0xFF10B981)),
           _HStat('6',    'DPDP §11 points', Color(0xFF8B5CF6)),
           _HStat('3/5',  'Section B done',  Color(0xFFF59E0B)),
         ]),
@@ -406,15 +330,38 @@ class _ThirdPartyTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expanded      = ref.watch(_expandedPartyProvider);
-    final revokeConfirm = ref.watch(_revokeConfirmProvider);
-    final revokedSet    = ref.watch(_revokedSetProvider);
+    final partiesAsync = ref.watch(thirdPartyAccessProvider);
+
+    return partiesAsync.when(
+      loading: () => const Padding(
+        padding: EdgeInsets.symmetric(vertical: ZapSpacing.huge),
+        child: Center(child: CircularProgressIndicator(color: Color(0xFF3B82F6))),
+      ),
+      error: (_, __) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _infoBox(icon: Icons.cloud_off_rounded, color: const Color(0xFFEF4444),
+            text: 'Could not load third-party access data — check your '
+                'connection and reopen this screen.'),
+      ]),
+      data: (parties) => _ThirdPartyList(parties: parties),
+    );
+  }
+}
+
+class _ThirdPartyList extends ConsumerWidget {
+  const _ThirdPartyList({required this.parties});
+  final List<ThirdPartyEntry> parties;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final expanded = ref.watch(_expandedPartyProvider);
+    final revocable = parties.where((p) => p.canRevoke).length;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _infoBox(icon: Icons.people_alt_rounded, color: const Color(0xFF3B82F6),
           text: 'DPDP §11(1)(b): you have the right to know who received '
               'your personal data. Every third party that touched your data '
-              'is listed below — tap to see what they received and why.'),
+              'is listed below — tap to see what they received and why. '
+              'Real data from GET /api/v1/account/third-party-access/.'),
       const SizedBox(height: ZapSpacing.lg),
 
       // Stats
@@ -425,47 +372,34 @@ class _ThirdPartyTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Row(children: [
-          _statBox('5', 'Total\nparties',   const Color(0xFF3B82F6)),
-          _statBox('3', 'Revocable',        const Color(0xFF10B981)),
-          _statBox('2', 'Non-revocable',    const Color(0xFF6B7280)),
-          _statBox('${revokedSet.length}', 'Revoked',  const Color(0xFFEF4444)),
+          _statBox('${parties.length}', 'Total\nparties',   const Color(0xFF3B82F6)),
+          _statBox('$revocable', 'Revocable',        const Color(0xFF10B981)),
+          _statBox('${parties.length - revocable}', 'Non-revocable',    const Color(0xFF6B7280)),
         ]),
       ),
       const SizedBox(height: ZapSpacing.lg),
 
-      const _SectionLabel('5 THIRD PARTIES  ·  TAP TO EXPAND'),
+      _SectionLabel('${parties.length} THIRD PARTIES  ·  TAP TO EXPAND'),
       const SizedBox(height: ZapSpacing.md),
 
-      ..._kThirdParties.asMap().entries.map((e) {
+      ...parties.asMap().entries.map((e) {
         final i     = e.key;
         final party = e.value;
         final isExp = expanded == i;
-        final isRevoked = revokedSet.contains(i);
-        final isConfirming = revokeConfirm == i;
+        final (icon, color) = _iconAndColorFor(party);
 
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           GestureDetector(
             onTap: () {
               ref.read(_expandedPartyProvider.notifier).state = isExp ? null : i;
-              if (revokeConfirm == i) {
-                ref.read(_revokeConfirmProvider.notifier).state = null;
-              }
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               decoration: BoxDecoration(
-                  color: isRevoked
-                      ? const Color(0xFF1A1A1A)
-                      : isExp
-                          ? party.color.withOpacity(0.07)
-                          : const Color(0xFF1A1A1A),
+                  color: isExp ? color.withOpacity(0.07) : const Color(0xFF1A1A1A),
                   borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
                   border: Border.all(
-                      color: isRevoked
-                          ? const Color(0xFF2A2A2A)
-                          : isExp
-                              ? party.color.withOpacity(0.4)
-                              : const Color(0xFF2A2A2A),
+                      color: isExp ? color.withOpacity(0.4) : const Color(0xFF2A2A2A),
                       width: isExp ? 2 : 1)),
               child: Column(children: [
                 Padding(
@@ -474,42 +408,33 @@ class _ThirdPartyTab extends ConsumerWidget {
                     Container(
                       width: 36, height: 36,
                       decoration: BoxDecoration(
-                          color: (isRevoked
-                              ? const Color(0xFF4B5563)
-                              : party.color).withOpacity(0.12),
+                          color: color.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(9)),
-                      child: Icon(party.icon,
-                          color: isRevoked ? const Color(0xFF4B5563) : party.color,
-                          size: 17)),
+                      child: Icon(icon, color: color, size: 17)),
                     const SizedBox(width: ZapSpacing.md),
                     Expanded(child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Row(children: [
-                        Expanded(child: Text(party.name, style: TextStyle(
-                            color: isRevoked
-                                ? const Color(0xFF4B5563) : Colors.white,
+                        Expanded(child: Text(party.name, style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 12, fontWeight: FontWeight.w700))),
-                        if (isRevoked)
-                          _smallChip('Revoked', const Color(0xFFEF4444))
-                        else if (party.isAutomatic)
+                        if (party.isAutomatic)
                           _smallChip('Automated', const Color(0xFF8B5CF6))
                         else
                           _smallChip('Manual', const Color(0xFF3B82F6)),
                       ]),
                       Text(party.relationship, style: const TextStyle(
                           color: Color(0xFF6B7280), fontSize: 10)),
-                      if (!isRevoked) ...[
-                        const SizedBox(height: 3),
-                        Row(children: [
-                          const Icon(Icons.access_time_rounded,
-                              color: Color(0xFF4B5563), size: 11),
-                          const SizedBox(width: ZapSpacing.xs),
-                          Expanded(child: Text(party.accessedWhen,
-                              style: const TextStyle(
-                                  color: Color(0xFF4B5563), fontSize: 9),
-                              maxLines: 1, overflow: TextOverflow.ellipsis)),
-                        ]),
-                      ],
+                      const SizedBox(height: 3),
+                      Row(children: [
+                        const Icon(Icons.access_time_rounded,
+                            color: Color(0xFF4B5563), size: 11),
+                        const SizedBox(width: ZapSpacing.xs),
+                        Expanded(child: Text(_accessedWhenFor(party),
+                            style: const TextStyle(
+                                color: Color(0xFF4B5563), fontSize: 9),
+                            maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      ]),
                     ])),
                     const SizedBox(width: ZapSpacing.sm),
                     Icon(isExp
@@ -525,11 +450,7 @@ class _ThirdPartyTab extends ConsumerWidget {
                       ? Padding(
                           padding: const EdgeInsets.fromLTRB(
                               ZapSpacing.md, 0, ZapSpacing.md, ZapSpacing.md),
-                          child: _PartyDetail(
-                              party: party, index: i,
-                              isRevoked: isRevoked,
-                              isConfirming: isConfirming,
-                              ref: ref))
+                          child: _PartyDetail(party: party, color: color))
                       : const SizedBox.shrink(),
                 ),
               ]),
@@ -556,129 +477,59 @@ class _ThirdPartyTab extends ConsumerWidget {
   ]));
 }
 
-class _PartyDetail extends StatelessWidget {
-  final _ThirdParty party;
-  final int index;
-  final bool isRevoked, isConfirming;
-  final WidgetRef ref;
-  const _PartyDetail({required this.party, required this.index,
-      required this.isRevoked, required this.isConfirming, required this.ref});
+class _PartyDetail extends ConsumerWidget {
+  final ThirdPartyEntry party;
+  final Color color;
+  const _PartyDetail({required this.party, required this.color});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataReceivedText = party.dataReceived.map((d) => '• $d').join('\n');
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      // Data accessed
-      _section('Data Received', party.dataAccessed,
-          Icons.data_object_rounded, party.color),
+      // Data received
+      _section('Data Received', dataReceivedText,
+          Icons.data_object_rounded, color),
       const SizedBox(height: ZapSpacing.sm),
       _section('Legal Basis', party.legalBasis,
           Icons.gavel_rounded, const Color(0xFF8B5CF6)),
       const SizedBox(height: ZapSpacing.sm),
-      _section('When', party.accessedWhen,
+      _section('When', _accessedWhenFor(party),
           Icons.access_time_rounded, const Color(0xFF3B82F6)),
-      const SizedBox(height: ZapSpacing.sm),
-      // API / endpoint
-      Container(
-        padding: const EdgeInsets.all(ZapSpacing.sm),
-        decoration: BoxDecoration(
-            color: const Color(0xFF111111),
-            borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-            border: Border.all(color: const Color(0xFF2A2A2A))),
-        child: Row(children: [
-          const Text('Endpoint: ', style: TextStyle(
-              color: Color(0xFF6B7280), fontSize: 9)),
-          Expanded(child: Text(party.apiEndpoint, style: const TextStyle(
-              color: Color(0xFF86EFAC), fontSize: 9,
-              fontFamily: 'monospace'))),
-        ])),
       const SizedBox(height: ZapSpacing.md),
 
-      // Revoke section
-      if (!isRevoked) ...[
-        _section('If You Revoke', party.revokeAction,
-            Icons.block_rounded,
-            party.canRevoke ? const Color(0xFFEF4444) : const Color(0xFF6B7280)),
-        const SizedBox(height: ZapSpacing.md),
-
-        if (party.canRevoke) ...[
-          if (!isConfirming)
-            _outlineBtn(
-              label: 'Revoke access  ✕',
-              color: const Color(0xFFEF4444),
-              onTap: () => ref.read(_revokeConfirmProvider.notifier).state = index,
-            )
-          else
-            Column(children: [
-              Container(
-                padding: const EdgeInsets.all(ZapSpacing.md),
-                decoration: BoxDecoration(
-                    color: const Color(0xFFEF4444).withOpacity(0.07),
-                    borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-                    border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.4))),
-                child: Column(children: [
-                  const Text('Confirm: revoke access?',
-                      style: TextStyle(color: Color(0xFFEF4444), fontSize: 12,
-                          fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 6),
-                  Text(party.revokeAction, style: const TextStyle(
-                      color: Color(0xFF9CA3AF), fontSize: 11, height: 1.5)),
-                ])),
-              const SizedBox(height: ZapSpacing.sm),
-              Row(children: [
-                Expanded(child: _outlineBtn(
-                    label: 'Cancel', color: const Color(0xFF6B7280),
-                    onTap: () =>
-                        ref.read(_revokeConfirmProvider.notifier).state = null)),
-                const SizedBox(width: ZapSpacing.sm),
-                Expanded(child: GestureDetector(
-                  onTap: () {
-                    final updated = {...ref.read(_revokedSetProvider)}..add(index);
-                    ref.read(_revokedSetProvider.notifier).state = updated;
-                    ref.read(_revokeConfirmProvider.notifier).state = null;
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Access revoked: ${party.name}'),
-                        backgroundColor: const Color(0xFF10B981)));
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 11),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFEF4444).withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-                        border: Border.all(
-                            color: const Color(0xFFEF4444).withOpacity(0.5))),
-                    child: const Center(child: Text('Confirm Revoke',
-                        style: TextStyle(color: Color(0xFFEF4444), fontSize: 12,
-                            fontWeight: FontWeight.w700)))))),
-              ]),
-            ]),
-        ] else
-          Container(
-            padding: const EdgeInsets.all(ZapSpacing.sm),
-            decoration: BoxDecoration(
-                color: const Color(0xFF6B7280).withOpacity(0.06),
-                borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-                border: Border.all(color: const Color(0xFF2A2A2A))),
-            child: const Row(children: [
-              Icon(Icons.lock_rounded, color: Color(0xFF4B5563), size: 13),
-              SizedBox(width: 6),
-              Expanded(child: Text('This access cannot be revoked (required for security).',
-                  style: TextStyle(color: Color(0xFF6B7280), fontSize: 10, height: 1.4))),
-            ])),
-      ] else ...[
+      // Revoke section — real navigation to where that action actually
+      // lives, not a local no-op. See file header for why there's no
+      // in-place revoke endpoint for this screen itself.
+      if (party.canRevoke) ...[
+        _outlineBtn(
+          label: party.isEmergencyContact
+              ? 'Manage in Contacts  →'
+              : 'Manage in Privacy Settings  →',
+          color: const Color(0xFFEF4444),
+          onTap: () async {
+            await context.push(party.isEmergencyContact
+                ? AppRoutes.contacts
+                : AppRoutes.gdprConsentWire);
+            // Refresh on return — if the user removed a contact or
+            // toggled analytics consent, this list should reflect it
+            // immediately rather than show stale data.
+            ref.invalidate(thirdPartyAccessProvider);
+          },
+        ),
+      ] else
         Container(
           padding: const EdgeInsets.all(ZapSpacing.sm),
           decoration: BoxDecoration(
-              color: const Color(0xFF10B981).withOpacity(0.06),
+              color: const Color(0xFF6B7280).withOpacity(0.06),
               borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
-              border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3))),
+              border: Border.all(color: const Color(0xFF2A2A2A))),
           child: const Row(children: [
-            Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 13),
+            Icon(Icons.lock_rounded, color: Color(0xFF4B5563), size: 13),
             SizedBox(width: 6),
-            Expanded(child: Text('Access revoked (mock). In production: '
-                'follow the action described above.',
-                style: TextStyle(color: Color(0xFF10B981), fontSize: 10, height: 1.4))),
+            Expanded(child: Text('This access cannot be revoked (required for security).',
+                style: TextStyle(color: Color(0xFF6B7280), fontSize: 10, height: 1.4))),
           ])),
-      ],
     ]);
   }
 
@@ -916,8 +767,8 @@ class _BlockCompleteTab extends StatelessWidget {
             _Chip('CSV/PDF export ✅',          Color(0xFF10B981)),
             _Chip('Session cards ✅',           Color(0xFF8B5CF6)),
             _Chip('Session revoke ✅',          Color(0xFFEF4444)),
-            _Chip('5 third parties ✅',         Color(0xFF3B82F6)),
-            _Chip('Revoke flow ✅',             Color(0xFFEF4444)),
+            _Chip('Real third parties ✅',      Color(0xFF3B82F6)),
+            _Chip('Real revoke flow ✅',        Color(0xFFEF4444)),
             _Chip('DPDP §11 6/6 ✅',           Color(0xFF8B5CF6)),
             _Chip('3 API endpoints ✅',         Color(0xFFF59E0B)),
           ]),

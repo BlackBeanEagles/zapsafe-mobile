@@ -27,26 +27,30 @@
 ///   `/api/v1/data-export/` and `/api/v1/privacy/` are `AuditStatus.live`.
 ///   This screen's category statuses below are pulled directly from that
 ///   audit rather than re-guessed.
-/// - No backend route exists anywhere for Day 286's assumed
-///   `/api/v1/data-retention/purge` or `/api/v1/third-party/access` paths —
-///   grepped every `urls.py` under `zapsafe_backend/`. Equivalent
-///   functionality for retention *does* exist, just at a different real
-///   path: `/api/v1/account/retention/` (+`purge-now/`). Third-party
-///   sharing transparency has no backend equivalent at all, under any path.
+/// - Day 286's assumed `/api/v1/data-retention/purge` and
+///   `/api/v1/third-party/access` paths were never real — grepped every
+///   `urls.py` under `zapsafe_backend/` at the time. Equivalent
+///   functionality for retention exists at a different real path:
+///   `/api/v1/account/retention/` (+`purge-now/`). Third-party sharing
+///   transparency had NO backend equivalent at all, under any path —
+///   until Play Store item 10b built a real one:
+///   `/api/v1/account/third-party-access/` (`ThirdPartyAccessView`,
+///   Day 160).
 ///
-/// **The honest conclusion (updated for Play Store item 10):** export,
-/// erasure, consent sync, session management, retention (2 of its 7 UI
-/// categories — the 2 the backend actually has fields for), and now
-/// audit-log are all GREEN, real, end-to-end — export/erasure via the
-/// *older* Day 69/70 endpoints, the other four via account_service.dart
-/// calling the newer Day 147 `/api/v1/account/*` surface directly.
-/// Third-party sharing transparency is genuinely unimplemented on
-/// either side (RED) — the one true remaining gap, now the only
-/// non-green row.
+/// **The honest conclusion (updated for Play Store item 10, all rows
+/// now green):** export, erasure, consent sync, session management,
+/// retention (2 of its 7 UI categories — the 2 the backend actually has
+/// fields for), audit-log, and now third-party sharing disclosure are
+/// ALL GREEN, real, end-to-end — export/erasure via the *older* Day
+/// 69/70 endpoints, the other five via account_service.dart calling the
+/// newer Day 147/160 `/api/v1/account/*` surface directly. Third-party
+/// sharing was the one category with zero backend anywhere — a real
+/// `ThirdPartyAccessView` was built for it (not just wired), verified
+/// with 7 real passing tests against an actual Postgres+Redis, not
+/// just statically reviewed.
 ///
-/// Tag: 🟡 MOCK-NOW → all 6 non-third-party rows are now genuinely
-/// 🔵 LIVE after real wiring; third-party stays honestly red, not
-/// upgraded without evidence.
+/// Tag: 🟡 MOCK-NOW → every row is now genuinely 🔵 LIVE after real
+/// wiring — nothing upgraded without evidence.
 ///
 /// Route: [AppRoutes.legalBlockersLive] → `/day-337-legal-blockers-live`
 library;
@@ -199,13 +203,28 @@ const _kCategories = [
   _DpdpCategory(
     id: 'third_party',
     requirement: 'Third-party data-sharing disclosure',
-    status: _Status.red,
-    evidence: 'No backend route exists for this anywhere — grepped every '
-        'urls.py under zapsafe_backend/. Day 286\'s assumed '
-        '/api/v1/third-party/access path was never real. Genuinely '
-        'unimplemented on both sides.',
-    route: null,
-    routeLabel: '',
+    status: _Status.green,
+    evidence: 'Fixed (Play Store item 10b): built for real on both sides — '
+        'this was the one category with no backend route at all before '
+        'this. New GET /api/v1/account/third-party-access/ '
+        '(ThirdPartyAccessView, zapsafe_backend/account/views.py) returns '
+        'the caller\'s REAL active emergency contacts plus 3 fixed '
+        'platform-level disclosures (Trust & Safety, Sentry, Google Play), '
+        'with Sentry\'s entry reflecting the caller\'s real current '
+        'consent.analytics flag. Backend verified with 7 real, passing '
+        'tests against an actual Postgres+Redis (this sandbox\'s default '
+        'docker-compose db/redis hostnames aren\'t resolvable outside '
+        'their own compose network, so an ephemeral Postgres+Redis was '
+        'run directly via `docker run` on alternate host ports instead — '
+        'all 7 tests pass for real, not just statically reviewed). Wired '
+        'into day175_third_party_access_screen.dart\'s Tab 1, replacing '
+        'all 5 previously-hardcoded fake entries. Revoke now navigates to '
+        'the real screen where that action actually lives (Day 83 '
+        'Contacts, or Day 319 GDPR Consent Wire for Sentry) and refetches '
+        'on return, rather than a local no-op that only ever pretended to '
+        'revoke anything.',
+    route: AppRoutes.thirdPartyAccess,
+    routeLabel: 'Day 175 Third-Party Access (live)',
   ),
 ];
 
