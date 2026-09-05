@@ -1,0 +1,86 @@
+{
+  "model": "m3_ucf_crime_retrain_v3",
+  "target_checkpoint": "day84_m3_lighting_augmented (NOT day103_m3_scene_adversarial)",
+  "iteration": 3,
+  "baseline_day289_accuracy": 0.5018,
+  "baseline_day291_accuracy": 0.4786,
+  "accuracy": 0.5944,
+  "safe_f1": 0.7172,
+  "neutral_f1": 0.337,
+  "risky_f1": 0.5257,
+  "risky_recall": 0.5027,
+  "confusion_matrix": [
+    [
+      1311,
+      144,
+      261
+    ],
+    [
+      249,
+      197,
+      201
+    ],
+    [
+      380,
+      181,
+      567
+    ]
+  ],
+  "phase1_best_val_accuracy": 0.5454,
+  "phase2_best_val_accuracy": 0.5553,
+  "fine_tune_kept": true,
+  "train_frames": 13480,
+  "val_frames": 3348,
+  "test_frames": 3491,
+  "class_counts_train": {
+    "1": 2940,
+    "2": 5040,
+    "0": 5500
+  },
+  "distinct_videos_used": {
+    "train_1": 245,
+    "val_1": 51,
+    "test_1": 54,
+    "train_2": 420,
+    "val_2": 86,
+    "test_2": 94,
+    "train_0": 459,
+    "val_0": 142,
+    "test_0": 143
+  },
+  "split_method": "video-level (no frame leakage across train/val/test)",
+  "danger_map": {
+    "NormalVideos": 0,
+    "Abuse": 2,
+    "Assault": 2,
+    "Fighting": 2,
+    "Robbery": 2,
+    "Shooting": 2,
+    "Burglary": 2,
+    "Arson": 2,
+    "Explosion": 2,
+    "Vandalism": 2,
+    "Arrest": 1,
+    "RoadAccidents": 1,
+    "Shoplifting": 1,
+    "Stealing": 1
+  },
+  "config": {
+    "img_h": 224,
+    "img_w": 224,
+    "batch_size": 32,
+    "head_epochs": 18,
+    "ft_epochs": 10,
+    "lr": 0.0001,
+    "fine_tune_lr": 3e-06,
+    "unfreeze_layers": 15,
+    "max_frames_per_video": 12,
+    "max_per_class": 5500,
+    "num_classes": 3,
+    "ckpt_dir": "/kaggle/working/day293_ckpt",
+    "model_dir": "/kaggle/working/day293_saved_model",
+    "output": "/kaggle/working/m3_ucf_crime_retrain_v3.tflite",
+    "report": "/kaggle/working/m3_ucf_crime_report_v3.json"
+  },
+  "train_sec": 292.6
+}

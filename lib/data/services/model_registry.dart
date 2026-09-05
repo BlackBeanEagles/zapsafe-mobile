@@ -71,9 +71,20 @@ const List<ModelDefinition> kZapsafeModels = [
     key: 'scene',
     displayName: 'Scene Analyzer (M3)',
     assetPath: 'assets/models/scene_analyzer_v1.tflite',
-    purpose: 'Camera frame → scene category for context awareness',
-    realModelEta: 'Month 4–5 · AWS SageMaker (Places365)',
-    realSizeMb: 3.1,
+    // Day 315: real m3_ucf_crime_retrain_v3, trained on odins0n/ucf-crime-
+    // dataset (real surveillance footage, Normal vs 13 crime categories) —
+    // replaces the old placeholder note referencing AWS SageMaker/Places365,
+    // which was never how this model was actually trained (real training
+    // was Kaggle, see assets/models/DAY289_M3_UCF_CRIME_PUSH.md and
+    // DAY293's iteration-3 result, the real best of 6 tried). Real 3-class
+    // test accuracy 0.5944 — better-labeled data than before, still
+    // mediocre, disclosed honestly rather than rounded up. Wired via
+    // SceneDetectorV2 (lib/data/services/scene_detector_v2.dart); no real
+    // camera-frame capture pipeline exists yet to feed it — see that
+    // file's class doc.
+    purpose: 'Camera frame [1,224,224,3] → SAFE/NEUTRAL/RISKY (softmax)',
+    realModelEta: 'Shipped Day 315 · UCF-Crime · test acc 0.5944',
+    realSizeMb: 1.34,
   ),
   ModelDefinition(
     key: 'fusion',

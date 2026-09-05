@@ -8,6 +8,7 @@ import 'heuristic_scream_detector.dart';
 import 'interpreter.dart';
 import 'motion_detector_v2.dart';
 import 'phone_capability_detector.dart';
+import 'scene_detector_v2.dart';
 import 'scream_detector_v2.dart';
 
 /// Day 45 — how each model slot resolved during bundle loading.
@@ -242,13 +243,37 @@ class ModelBundleService {
         activeInterpreter: const HeuristicSceneDetector(),
       );
     }
-    // MobileNetV2 image model — input shape [1, 224, 224, 3]. Incompatible
-    // with the Float32List feature pipeline. Skip TFLite load.
+    // Day 315: the shipped asset is now m3_ucf_crime_retrain_v3 — a real
+    // [1,224,224,3] float32 image model (MobileNetV3Small, UCF-Crime
+    // surveillance-footage training data), not the old generic Intel/
+    // Places365 scene model this slot used to unconditionally skip.
+    // SceneDetectorV2 loads it and shape-checks it the same way
+    // ScreamDetectorV2/MotionDetectorV2 already do for their slots.
+    //
+    // This DOES make the real model loadable and correctly callable
+    // given a real 224x224x3 frame. It does NOT add a camera-frame
+    // capture pipeline — none exists anywhere in this app today (no
+    // `camera` package dependency, no CameraController usage) — so
+    // nothing calls SceneDetectorV2.infer() with a real frame yet in
+    // production; the heuristic (8-float brightness/contrast proxy) is
+    // still what actually runs end-to-end until that capture pipeline is
+    // built. See scene_detector_v2.dart's class doc for the full detail.
+    final interp = await SceneDetectorV2.tryLoad(assetPath: _sceneAsset);
+    if (interp != null) {
+      return ModelSlotResult(
+        key: 'scene',
+        displayName: 'Scene Analyzer v3 (UCF-Crime)',
+        assetPath: _sceneAsset,
+        status: ModelLoadStatus.realLoaded,
+        sizeBytes: size,
+        activeInterpreter: interp,
+      );
+    }
     return ModelSlotResult(
       key: 'scene',
       displayName: 'Scene Analyzer v1',
       assetPath: _sceneAsset,
-      status: ModelLoadStatus.skippedImageModel,
+      status: ModelLoadStatus.realLoadFailed,
       sizeBytes: size,
       activeInterpreter: const HeuristicSceneDetector(),
     );
