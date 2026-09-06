@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/models/app_state.dart';
 import '../../data/models/dcs_score.dart';
 import '../../data/models/inference_result.dart';
 import '../../data/models/motion_features.dart';
@@ -11,10 +12,12 @@ import '../../data/services/interpreter.dart';
 import '../../data/services/model_bundle_service.dart';
 import '../../data/services/model_registry.dart';
 import '../../data/services/phone_capability_detector.dart';
+import '../../data/services/scene_capture_scheduler.dart';
 import '../../data/services/scream_detector_v2.dart';
 import '../../ml/inference/dcs_inference_engine.dart';
 import '../../ml/inference/dcs_score_watcher.dart';
 import '../../ml/inference/isolated_dcs_runner.dart';
+import 'app_state_provider.dart';
 import 'imu_providers.dart';
 import 'platform_channel_providers.dart';
 
@@ -76,6 +79,52 @@ final detectionEngineProvider =
   final result = await svc.load(tier: tier);
   ref.onDispose(result.engine.dispose);
   return result;
+});
+
+/// Day 316 — the real camera-capture-and-classify loop, built once the
+/// real detection engine (and whichever scene interpreter it resolved —
+/// real [SceneDetectorV2] or the heuristic fallback) is available.
+///
+/// Mirrors [audioChannelProvider]/[dcsEngineProvider]'s own "await the
+/// dependency, build the real service, register disposal" shape — no new
+/// provider idiom introduced for this.
+final sceneCaptureSchedulerProvider =
+    FutureProvider<SceneCaptureScheduler>((ref) async {
+  final bundle = await ref.watch(detectionEngineProvider.future);
+  final scheduler = SceneCaptureScheduler(interpreter: bundle.engine.scene);
+  ref.onDispose(scheduler.dispose);
+  return scheduler;
+});
+
+/// Day 316 — side-effect bridge, mirroring [appStateGpsBridgeProvider]
+/// (app_state_provider.dart) exactly: wires [appStateProvider] transitions
+/// to the scene scheduler's cadence, and starts the loop once the
+/// scheduler itself finishes loading (which may resolve after the first
+/// few AppState transitions, e.g. during cold start — this provider
+/// re-seeds the scheduler with whatever the current AppState is the
+/// moment it becomes available, rather than assuming it was `monitoring`
+/// the whole time). Kept alive by being read once at app start, same
+/// convention as the GPS bridge.
+final appStateSceneCaptureBridgeProvider = Provider<void>((ref) {
+  ref.listen<AsyncValue<SceneCaptureScheduler>>(
+    sceneCaptureSchedulerProvider,
+    (prev, next) {
+      final scheduler = next.valueOrNull;
+      if (scheduler == null || prev?.valueOrNull != null) return;
+      scheduler.setAppState(ref.read(appStateProvider));
+      scheduler.start();
+    },
+    fireImmediately: true,
+  );
+  ref.listen<AppState>(
+    appStateProvider,
+    (prev, next) {
+      if (prev == next) return;
+      ref.read(sceneCaptureSchedulerProvider).whenData(
+            (scheduler) => scheduler.setAppState(next),
+          );
+    },
+  );
 });
 
 /// Day 32 — composite DCS inference engine. Loads all 4 interpreters in

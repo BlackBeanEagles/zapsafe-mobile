@@ -45,16 +45,15 @@ import 'interpreter.dart';
 /// 'softmax')` is the model's real final layer, confirmed from the
 /// training script), class order `[safe, neutral, risky]`.
 ///
-/// ⚠️ **What this class does NOT close**: there is currently no real
-/// camera-frame capture pipeline anywhere in this Flutter app to feed
-/// it — no `camera` package dependency, no `CameraController` usage,
-/// confirmed by a real grep across `lib/`. [SceneFeatures] (the existing
-/// 8-float heuristic input) only has synthetic `.wellLit()`/`.dark()`
-/// presets, no real `fromCameraFrame()` constructor. This class makes the
-/// real model loadable and correctly callable given a real 224x224x3
-/// frame — building the actual camera-capture-and-preprocess pipeline
-/// that would produce one is a separate, larger, unstarted piece of work,
-/// not silently assumed done here.
+/// **Day 316 update**: the camera-capture gap this class's doc used to
+/// describe as unstarted is now closed — see
+/// `lib/data/services/camera_frame_service.dart` (real capture +
+/// preprocess) and `lib/data/services/scene_capture_scheduler.dart` (the
+/// real AppState-driven cadence loop that calls this class with real
+/// frames). [SceneFeatures] (the older 8-float heuristic input) is
+/// untouched and still synthetic-preset-only — it belongs to
+/// [HeuristicSceneDetector], a different code path entirely, not this
+/// class.
 class SceneDetectorV2 implements Interpreter {
   static const int kImgSize = 224;
   static const int kChannels = 3;

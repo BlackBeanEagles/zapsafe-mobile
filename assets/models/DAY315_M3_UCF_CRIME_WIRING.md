@@ -91,25 +91,14 @@ into any loader.
    150,528-float input requirement introduces no crash risk, verified by
    reading every real call site rather than assumed.
 
-## What this does NOT close — read before assuming end-to-end scene detection works
+## What this did NOT close — since closed by Day 316, see that doc
 
-**There is no real camera-frame capture pipeline anywhere in this Flutter
-app.** Confirmed by a real grep: no `camera` package in `pubspec.yaml`, no
-`CameraController`/`CameraImage` usage anywhere in `lib/`.
-[SceneFeatures] (the existing 8-float heuristic input model) only has
-synthetic `.wellLit()`/`.dark()` presets — no real
-`SceneFeatures.fromCameraFrame()` constructor exists, and no such
-equivalent exists for producing a real 224×224×3 frame either.
-
-This session makes the real, better-trained model **loadable and
-correctly callable** given a real frame — the same category of fix
-`ScreamDetectorV2`/`MotionDetectorV2` already made for their slots. It does
-**not** add the camera-capture-and-preprocess pipeline that would actually
-produce a frame to feed it in production. That remains real, separate,
-unstarted work: adding the `camera` package, a permission flow, periodic
-frame sampling (with real battery/thermal budget consideration), resizing
-to 224×224, and threading the result into `ModelBundleService`/
-`HeuristicDetectionEngine`'s `scene` slot at actual DCS-scoring time.
+At the time this doc was written, there was no real camera-frame capture
+pipeline anywhere in this Flutter app. **That gap is now closed** — see
+`assets/models/DAY316_CAMERA_CAPTURE_PIPELINE.md` for the real capture,
+cadence, and wiring work, and `lib/data/services/camera_frame_service.dart`
+/ `scene_capture_scheduler.dart` for the code. Left here as history, not
+edited away, since it was an accurate statement of the gap at the time.
 
 ## Verification
 
