@@ -9,7 +9,11 @@
 /// 🟢 FRONTEND-ONLY — pure celebration.
 ///
 /// 200 days. 4 sections. 150+ screens. DPDP Act 2023 + GDPR.
-/// Security score 100/100. ZapSafe is live on Play Store + App Store.
+/// Security score 100/100. Store-submission-ready — not yet actually
+/// submitted or live on either store (corrected here: this file
+/// previously claimed "ZapSafe is live on Play Store + App Store",
+/// which was never true — no Play Console listing has ever been
+/// created, per the app's own Day 337/361 self-audits).
 library;
 
 import 'package:flutter/material.dart';
@@ -81,7 +85,9 @@ const _kSections = [
     'Store listing copy with 8 ASO keywords + 4 A/B tests. '
     'Privacy Policy + IARC PEGI 12 + 13-item compliance checklist. '
     '38-item release checklist + 8 quality gates + 10 QA flows. '
-    'Final submission to Play Store + App Store.',
+    'Submission materials ready — screenshots, listing copy, privacy '
+    'policy, compliance checklist. Actual store submission has not '
+    'happened yet (no Play Console listing exists).',
     ['Day 191-192: Screenshots', 'Day 193-194: Store Listing',
      'Day 195-196: Privacy + Compliance', 'Day 197-198: Release Checklist',
      'Day 199-200: Submission + Finale'],
@@ -259,7 +265,8 @@ class _GrandHero extends StatelessWidget {
         const Text(
           'From Day 1 Flutter scaffold to a production-ready '
           'personal safety app — DPDP Act 2023 + GDPR compliant, '
-          'security score 100/100, shipped to Play Store + App Store.',
+          'security score 100/100, store-submission-ready (not yet '
+          'actually submitted to either store).',
           style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.6),
           textAlign: TextAlign.center),
         const SizedBox(height: ZapSpacing.xl),
