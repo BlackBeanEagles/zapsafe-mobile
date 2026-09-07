@@ -102,8 +102,24 @@ const List<ModelDefinition> kZapsafeModels = [
     realModelEta: 'Day 90 · Kaggle trained',
     realSizeMb: 0.024,
     // Phase A (Day 90): catalogue + asset only.
-    // Phase B (Day 100): inference wiring — see
-    // kaggle_notebooks/h_aggressive_speech_push/DAY90_KAGGLE_TRAIN.md
+    // Phase B (inference wiring) is STILL NOT DONE — no Dart code loads or
+    // runs this model. Day 318 verified the asset itself is genuinely good
+    // (AUC 0.844 on real RAVDESS, slightly better than its own report's
+    // 0.8021, and its int8 export is as accurate as the f32 twin), so the
+    // gap is wiring, not the model.
+    //
+    // Whoever does Phase B: the 38-dim input MUST be z-scored with
+    // assets/models/h_aggressive_speech_v1_norm.json (shipped Day 318).
+    // Feeding raw features drops this model to AUC 0.52 — chance — and the
+    // f32 twin collapses to a constant 1.0. That is a silent wrong-answer
+    // failure, not a crash.
+    //
+    // Real blocker: the native side (lib/native/audio_features.dart) emits
+    // only 15 per-frame scalars (13 MFCC + ZCR + spectral centroid). The
+    // day90 extractor needs f0 mean/std/jitter via pyin pitch tracking,
+    // RMS-derived shimmer + HNR, and spectral rolloff — none of which exist
+    // in Dart or in the native layer today. See
+    // assets/models/DAY318_H_AGGRESSIVE_VERIFIED.md.
   ),
 ];
 

@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import csv
 import glob
+import json
 import os
 import random
 import sys
@@ -150,6 +151,72 @@ def real_imu(timesteps, channels, n=24):
     return (np.clip(win, -8.0, 8.0) / 8.0).astype(np.float32)
 
 
+def real_prosodic_38(n=24):
+    """Real RAVDESS speech -> the day90 38-dim prosodic vector.
+
+    Mixes aggressive (angry/fearful/disgusted) and calm (neutral/calm/happy)
+    clips so a working detector has to separate them. Extractor mirrors
+    day90_h_aggressive_speech.py with the training-time augmentation removed.
+    """
+    try:
+        import librosa
+    except ImportError:
+        return None
+    root = os.path.join(DATASETS, "vocal_stress", "DS01_RAVDESS", "Ravdess",
+                        "audio_speech_actors_01-24")
+    if not os.path.isdir(root):
+        return None
+    pos_codes, neg_codes = {"05", "06", "07"}, {"01", "02", "03"}
+    pos, neg = [], []
+    for p in sorted(glob.glob(os.path.join(root, "**", "*.wav"), recursive=True)):
+        parts = os.path.basename(p).split(".")[0].split("-")
+        if len(parts) < 3:
+            continue
+        if parts[2] in pos_codes:
+            pos.append(p)
+        elif parts[2] in neg_codes:
+            neg.append(p)
+    half = n // 2
+    chosen = pos[:half] + neg[:n - half]
+    if not chosen:
+        return None
+
+    sr, need = 16000, int(16000 * 3.0)
+    out = []
+    for path in chosen:
+        try:
+            y, _ = librosa.load(path, sr=sr, mono=True)
+            y = np.pad(y, (0, need - len(y))) if len(y) < need else y[:need]
+            f = []
+            try:
+                f0, voiced, _ = librosa.pyin(y, fmin=50, fmax=500, sr=sr)
+                f0v = f0[voiced] if voiced.any() else np.array([0.0])
+                f0v = f0v[~np.isnan(f0v)]
+                if len(f0v) == 0:
+                    f0v = np.array([0.0])
+                f += [float(np.mean(f0v)), float(np.std(f0v))]
+                f0c = f0[~np.isnan(f0)]
+                f.append(float(np.mean(np.abs(np.diff(f0c)))) if len(f0c) > 1 else 0.0)
+            except Exception:
+                f += [0.0, 0.0, 0.0]
+            rms = librosa.feature.rms(y=y)[0]
+            f.append(float(np.mean(np.abs(np.diff(rms)))) if len(rms) > 1 else 0.0)
+            f.append(float(np.mean(rms) / (np.std(rms) + 1e-8)))
+            mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+            f += list(np.mean(mfcc, axis=1)) + list(np.std(mfcc, axis=1))
+            f.append(float(np.mean(rms)))
+            f.append(float(np.mean(librosa.feature.zero_crossing_rate(y)[0])))
+            f.append(float(np.mean(librosa.feature.spectral_centroid(y=y, sr=sr)[0])))
+            f.append(float(np.mean(librosa.feature.spectral_rolloff(y=y, sr=sr)[0])))
+            a = np.array(f[:38], dtype=np.float32)
+            if len(a) < 38:
+                a = np.pad(a, (0, 38 - len(a)))
+            out.append(np.nan_to_num(a, nan=0.0, posinf=0.0, neginf=0.0))
+        except Exception:
+            continue
+    return np.stack(out) if out else None
+
+
 def fixture_for(input_details):
     """Real inputs matching this model's contract, or None if we have none."""
     if len(input_details) != 1:
@@ -159,6 +226,8 @@ def fixture_for(input_details):
         return real_mel_images(int(shape[1]))
     if len(shape) == 3:
         return real_imu(int(shape[1]), int(shape[2]))
+    if len(shape) == 2 and int(shape[1]) == 38:
+        return real_prosodic_38()
     return None
 
 
@@ -168,6 +237,27 @@ def evaluate(path):
     X = fixture_for(ins)
     if X is None:
         return "UNVERIFIED", "no real-data fixture for this input shape", note
+
+    # Apply the model's own normalization if it ships one. This is not
+    # optional: h_aggressive_speech scores AUC 0.844 with its real
+    # mean/std and 0.52 (chance) on raw features, and its f32 twin
+    # collapses to a constant 1.0 when fed raw. A missing norm.json turns
+    # a good model into a dead-looking one.
+    stem = os.path.splitext(os.path.basename(path))[0]
+    npath = os.path.join(ASSETS, stem + "_norm.json")
+    if os.path.exists(npath):
+        try:
+            nd = json.load(open(npath))
+            mean = nd.get("mean", nd.get("feat_mean"))
+            std = nd.get("std", nd.get("feat_std"))
+            if mean is not None and std is not None:
+                mean = np.asarray(mean, dtype=np.float32)
+                std = np.asarray(std, dtype=np.float32)
+                if mean.shape[-1] == X.shape[-1]:
+                    X = ((X - mean) / std).astype(np.float32)
+                    note += " (norm.json applied)"
+        except Exception:
+            pass
 
     d = ins[0]
     vals = []
