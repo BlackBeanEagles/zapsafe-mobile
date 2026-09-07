@@ -57,15 +57,36 @@ class GunshotDetectorV2 implements Interpreter {
   /// int8 quantization (quantization happens inside [infer]).
   static const int kInputFloats = kImgSize * kImgSize * kChannels; // 49,152
 
-  /// The retrain report's operating point: recall 0.9958 at the model's
-  /// default sigmoid cut, precision 0.5065 (`mg_gunshot_retrain_report.json`,
-  /// `DAY261B_KAGGLE_RUNS.md`). Recall-heavy by design — a missed real
-  /// gunshot is worse than a false positive for a safety app.
-  static const double kDefaultThreshold = 0.5;
+  /// Operating point, measured on 598 real held-out UrbanSound8K clips
+  /// (149 real `gun_shot` vs 449 real urban negatives — a realistic ~1:3
+  /// imbalance, not an artificially balanced split) against the float16
+  /// export that actually ships. Full measured curve:
+  ///
+  /// | threshold | recall | precision |
+  /// |---|---|---|
+  /// | 0.50 | 1.000 | 0.265 |
+  /// | 0.70 | 0.960 | 0.603 |
+  /// | 0.78 | 0.940 | 0.693 |
+  /// | 0.90 | 0.747 | 0.700 |
+  ///
+  /// 0.70 keeps this recall-heavy — a missed real gunshot is worse than a
+  /// false positive for a safety app — while cutting the false-alert rate
+  /// from ~74% of alerts to ~40%. The old 0.5 default came from the
+  /// training report's own balanced test split, which overstated precision
+  /// (0.5065 there vs 0.265 measured here on realistic class balance).
+  ///
+  /// Raise toward 0.78 if alert fatigue matters more than the last 2% of
+  /// recall; do not lower below 0.7 without re-measuring, since precision
+  /// collapses quickly.
+  static const double kDefaultThreshold = 0.70;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;
   final double threshold;
+
+  /// True when the loaded asset is the legacy full-int8 export. The
+  /// float16-quantized export that ships today reads and writes float32.
+  final bool isInt8;
 
   final double _inScale;
   final int _inZeroPoint;
@@ -79,6 +100,7 @@ class GunshotDetectorV2 implements Interpreter {
     required tfl.Interpreter interpreter,
     required this.modelLabel,
     required this.threshold,
+    required this.isInt8,
     required double inScale,
     required int inZeroPoint,
     required double outScale,
@@ -130,10 +152,17 @@ class GunshotDetectorV2 implements Interpreter {
         throw StateError(
             'output shape ${outTensor.shape}, expected a single scalar');
       }
-      if (inTensor.type != tfl.TensorType.int8) {
+      // Day 317 — the shipped export is now float16-quantized, which TFLite
+      // presents as a float32 input/output tensor (the float16 weights are
+      // dequantized internally). The previous full-int8 export is still
+      // accepted so an older asset keeps working, but it is no longer what
+      // ships: its activation ranges were mis-calibrated and it scored a
+      // constant on real audio. See DAY317_EXPORT_PATH_FIX.md.
+      final isInt8 = inTensor.type == tfl.TensorType.int8;
+      if (!isInt8 && inTensor.type != tfl.TensorType.float32) {
         throw StateError(
-            'input dtype ${inTensor.type}, expected int8 (real exported '
-            'file is int8-quantized — see mg_gunshot_retrain_report.json)');
+            'input dtype ${inTensor.type}, expected float32 (float16-quantized '
+            'export) or int8 (legacy full-int8 export)');
       }
 
       final inParams = inTensor.params;
@@ -143,6 +172,7 @@ class GunshotDetectorV2 implements Interpreter {
         interpreter: interpreter,
         modelLabel: modelLabel,
         threshold: threshold,
+        isInt8: isInt8,
         inScale: inParams.scale,
         inZeroPoint: inParams.zeroPoint,
         outScale: outParams.scale,
@@ -260,16 +290,24 @@ class GunshotDetectorV2 implements Interpreter {
     }
     final t0 = DateTime.now();
 
-    final quantized = Int8List(kInputFloats);
-    for (var i = 0; i < kInputFloats; i++) {
-      quantized[i] = _quantize(features[i]);
+    final double gunshot;
+    if (isInt8) {
+      final quantized = Int8List(kInputFloats);
+      for (var i = 0; i < kInputFloats; i++) {
+        quantized[i] = _quantize(features[i]);
+      }
+      final input = quantized.reshape([1, kImgSize, kImgSize, kChannels]);
+      final output = [Int8List(1)];
+      _interpreter.run(input, output);
+      gunshot = _dequantize(output[0][0]).clamp(0.0, 1.0);
+    } else {
+      // float16 export: feed the [0, 1] mel image straight through, no
+      // quantization step at all.
+      final input = features.reshape([1, kImgSize, kImgSize, kChannels]);
+      final output = [Float32List(1)];
+      _interpreter.run(input, output);
+      gunshot = output[0][0].toDouble().clamp(0.0, 1.0);
     }
-
-    final input = quantized.reshape([1, kImgSize, kImgSize, kChannels]);
-    final output = [Int8List(1)];
-    _interpreter.run(input, output);
-
-    final gunshot = _dequantize(output[0][0]).clamp(0.0, 1.0);
     final classScores = <String, double>{
       'normal': 1.0 - gunshot,
       'gunshot': gunshot,

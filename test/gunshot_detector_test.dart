@@ -205,9 +205,17 @@ void main() {
     });
   });
 
-  group('int8 quantization against the real model scale/zero_point', () {
-    test('matches real values from mg_gunshot_retrain.tflite input tensor',
-        () {
+  // Day 317 — this golden now describes the LEGACY full-int8 export, not the
+  // float16 export that ships (see assets/models/DAY317_EXPORT_PATH_FIX.md).
+  // The int8 code path is still live in GunshotDetectorV2 for older assets, so
+  // this arithmetic check stays meaningful; it just no longer describes the
+  // shipped file. Model liveness itself cannot be tested here at all —
+  // `flutter test` has no native TFLite interpreter — which is exactly how a
+  // constant-output model shipped undetected. That gap is covered by
+  // tools/verify_shipped_models.py, which runs assets against real audio.
+  group('int8 quantization against the legacy int8 export scale/zero_point',
+      () {
+    test('matches real values from the legacy int8 input tensor', () {
       final f = File('test/fixtures/gunshot_quant_golden.json');
       final golden = jsonDecode(f.readAsStringSync()) as Map<String, dynamic>;
       final scale = (golden['scale'] as num).toDouble();
