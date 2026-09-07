@@ -15,6 +15,14 @@ WHAT THIS DOES, AND ITS LIMITS
 A model whose output never changes cannot detect anything. This feeds each
 model real recorded data and fails if the output is invariant.
 
+Liveness alone is NOT enough either, and that was also established the hard
+way: scream_classifier_v1 is perfectly "alive" -- its outputs span 0.000 to
+0.996 -- yet on real AudioSet screaming it fires on 5.6% of clips at its
+shipped 0.5 threshold (AUC 0.62 vs clean negatives) while its model card
+claims recall 0.9529. An alive-but-useless detector is more dangerous than a
+dead one because it looks like it works. So where a fixture carries real
+labels this also measures DISCRIMINATION and reports WEAK below AUC 0.70.
+
 Random noise is NOT good enough, and that was established the hard way:
   * m2_motion_b_retrain looks DEAD under random input but is genuinely ALIVE
     on real SisFall IMU windows (fall-vs-ADL AUC ~0.70).
@@ -30,6 +38,10 @@ Needs: tensorflow, numpy, librosa, and the local datasets under
 Exit 1 if any model is DEAD on real data, so this can gate CI.
 """
 from __future__ import annotations
+
+# Below this AUC on a labelled real fixture a model is reported WEAK:
+# alive, but not separating the classes it claims to detect.
+WEAK_AUC = 0.70
 
 import csv
 import glob
@@ -217,26 +229,113 @@ def real_prosodic_38(n=24):
     return np.stack(out) if out else None
 
 
+def real_scream_mel(n_pos=45, n_neg=90):
+    """Real scream audio -> (mel[128,131], label), the m1_train_v2 contract.
+
+    Positives are real AudioSet screaming/yell/shout clips. RAVDESS acted
+    emotion is deliberately EXCLUDED from the positive set: it is this
+    model's own training distribution and scores ~6x higher than real
+    screams (31% vs 5.6% fire rate), which inflates any number computed
+    from it into looking like the model card's 0.9529.
+    """
+    try:
+        import librosa
+    except ImportError:
+        return None
+    ad = os.path.join(DATASETS, "audio_events", "DS07_AudioSet")
+    wd = os.path.join(ad, "train_wav")
+    if not os.path.isdir(wd):
+        return None
+    POS = {"/m/03qc9zr", "/m/07sr1lc", "/t/dd00135", "/m/04gy_2"}
+    NEG = {"/m/09x0r", "/m/01j3sz", "/m/053hz1", "/m/028ght"}
+    present = {os.path.splitext(f)[0]: os.path.join(wd, f) for f in os.listdir(wd)}
+    pos, neg, seen = [], [], set()
+    for nm in ("train.csv", "balanced_train_segments.csv",
+               "unbalanced_train_segments.csv"):
+        fp = os.path.join(ad, nm)
+        if not os.path.exists(fp):
+            continue
+        for line in open(fp, encoding="utf-8", errors="replace"):
+            if line.startswith("#"):
+                continue
+            parts = line.split(",")
+            yt = parts[0].strip().strip('"')
+            if yt in seen or yt not in present:
+                continue
+            lab = {x.strip().strip('"') for x in ",".join(parts[3:]).split(",")}
+            if lab & POS:
+                pos.append(present[yt]); seen.add(yt)
+            elif lab & NEG:
+                neg.append(present[yt]); seen.add(yt)
+    esc = os.path.join(DATASETS, "audio_events", "DS21_ESC-50")
+    cpath = os.path.join(esc, "esc50.csv")
+    if os.path.exists(cpath):
+        idx = {os.path.basename(q): q for q in
+               glob.glob(os.path.join(esc, "**", "*.wav"), recursive=True)}
+        for r in csv.DictReader(open(cpath, newline="", encoding="utf-8")):
+            if r["category"] in {"car_horn", "engine", "siren", "rain", "wind"}:
+                q = idx.get(r["filename"])
+                if q:
+                    neg.append(q)
+    random.Random(42).shuffle(pos)
+    random.Random(42).shuffle(neg)
+    pos, neg = pos[:n_pos], neg[:n_neg]
+    if len(pos) < 8 or len(neg) < 8:
+        return None
+
+    sr, dur, need = 22050, 3, 22050 * 3
+    X, y = [], []
+    for path, lab in [(a, 1) for a in pos] + [(a, 0) for a in neg]:
+        try:
+            w, _ = librosa.load(path, sr=sr, duration=dur, mono=True)
+            w = np.pad(w, (0, need - len(w))) if len(w) < need else w[:need]
+            m = librosa.feature.melspectrogram(y=w, sr=sr, n_mels=128,
+                                               n_fft=2048, hop_length=512)
+            db = librosa.power_to_db(m, ref=np.max)
+            db = (db - db.min()) / (db.max() - db.min() + 1e-9)
+            if db.shape[1] < 131:
+                db = np.pad(db, ((0, 0), (0, 131 - db.shape[1])))
+            X.append(db[:, :131].astype(np.float32))
+            y.append(lab)
+        except Exception:
+            continue
+    if len(set(y)) < 2:
+        return None
+    return np.stack(X), np.asarray(y)
+
+
 def fixture_for(input_details):
     """Real inputs matching this model's contract, or None if we have none."""
     if len(input_details) != 1:
         return None                 # dual-input models need their own fixture
     shape = list(input_details[0]["shape"])
+    if len(shape) == 4 and shape[1] == 128 and shape[2] == 131:
+        # m1 scream family: labelled fixture, so this gets a real AUC.
+        got = real_scream_mel()
+        if got is None:
+            return None
+        Xs, ys = got
+        chan = int(shape[3])
+        return (np.stack([Xs] * chan, axis=-1) if chan > 1 else Xs[..., None]), ys
     if len(shape) == 4 and shape[1] == shape[2] and shape[3] == 3:
-        return real_mel_images(int(shape[1]))
+        X = real_mel_images(int(shape[1]))
+        return None if X is None else (X, None)
     if len(shape) == 3:
-        return real_imu(int(shape[1]), int(shape[2]))
+        X = real_imu(int(shape[1]), int(shape[2]))
+        return None if X is None else (X, None)
     if len(shape) == 2 and int(shape[1]) == 38:
-        return real_prosodic_38()
+        X = real_prosodic_38()
+        return None if X is None else (X, None)
     return None
 
 
 def evaluate(path):
     it, note = _load(path)
     ins, out = it.get_input_details(), it.get_output_details()[0]
-    X = fixture_for(ins)
-    if X is None:
+    got = fixture_for(ins)
+    if got is None:
         return "UNVERIFIED", "no real-data fixture for this input shape", note
+    X, labels = got
 
     # Apply the model's own normalization if it ships one. This is not
     # optional: h_aggressive_speech scores AUC 0.844 with its real
@@ -279,7 +378,24 @@ def evaluate(path):
     arr = np.asarray(vals, dtype=np.float64)
     detail = "n=%d range[%.4f, %.4f] std=%.2e" % (
         len(arr), arr.min(), arr.max(), arr.std())
-    return ("DEAD" if arr.std() < 1e-9 else "ok"), detail, note
+    if arr.std() < 1e-9:
+        return "DEAD", detail, note
+
+    # A live model can still be useless. Where the fixture carries real
+    # labels, measure whether it actually separates them.
+    if labels is not None and len(set(labels.tolist())) == 2:
+        try:
+            from sklearn.metrics import roc_auc_score
+            auc = float(roc_auc_score(labels, arr))
+        except Exception:
+            return "ok", detail, note
+        pos = arr[labels == 1]
+        rec50 = float((pos >= 0.5).mean())
+        detail = "n=%d AUC=%.3f rec@0.5=%.3f range[%.3f, %.3f]" % (
+            len(arr), auc, rec50, arr.min(), arr.max())
+        if auc < WEAK_AUC:
+            return "WEAK", detail, note
+    return "ok", detail, note
 
 
 def main():
@@ -290,7 +406,7 @@ def main():
     if not os.path.isdir(DATASETS):
         print("note: %s not found - most models will report UNVERIFIED\n" % DATASETS)
 
-    dead, unverified = [], []
+    dead, weak, unverified = [], [], []
     print("%-44s %9s  %-11s %s" % ("model", "size", "status", "detail"))
     print("-" * 104)
     for p in paths:
@@ -309,6 +425,8 @@ def main():
         print("%-44s %7.1fKB  %-11s %s%s" % (name, kb, status, detail, note))
         if status == "DEAD":
             dead.append(name)
+        elif status == "WEAK":
+            weak.append(name)
         elif status == "UNVERIFIED":
             unverified.append(name)
 
@@ -316,11 +434,22 @@ def main():
     if unverified:
         print("%d model(s) UNVERIFIED (no real fixture yet): %s"
               % (len(unverified), ", ".join(unverified)))
+    failed = False
     if dead:
         print("FAILED: constant output on real data: %s" % ", ".join(dead))
         print("A constant-output model cannot detect anything. Do not ship it.")
+        failed = True
+    if weak:
+        print("FAILED: below AUC %.2f on real labelled data: %s"
+              % (WEAK_AUC, ", ".join(weak)))
+        print("These load, run, and return confident-looking scores while "
+              "barely separating the classes they claim to detect. That is "
+              "more dangerous than a dead model, not less. Do not ship them "
+              "as working detectors.")
+        failed = True
+    if failed:
         return 1
-    print("No model was shown to be dead on real data.")
+    print("No model was dead or below the AUC floor on real data.")
     return 0
 
 

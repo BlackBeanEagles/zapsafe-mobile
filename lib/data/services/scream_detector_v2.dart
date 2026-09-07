@@ -49,8 +49,36 @@ class ScreamDetectorV2 implements Interpreter {
 
   static const int kInputFloats = kMelBands * kFrames; // 16,768
 
-  /// Above this sigmoid output the clip is reported as `scream`. The model
-  /// card's 0.9424 / 0.9529 precision / recall are quoted at 0.5.
+  /// Above this sigmoid output the clip is reported as `scream`.
+  ///
+  /// **Do not trust the model card's 0.9424 / 0.9529 precision / recall.**
+  /// Day 319 measured this exact shipped file against real audio and it does
+  /// not hold up. On real AudioSet screaming/yell/shout clips versus real
+  /// AudioSet speech/laughter/cheering and ESC-50 ambient negatives:
+  ///
+  ///   AUC 0.616, and at this 0.5 threshold it fires on 6.7% of real screams.
+  ///
+  /// Broken down by source, the reason is clear — it responds to acted studio
+  /// emotion, not to real screaming:
+  ///
+  /// | positive source              | fires at 0.5 |
+  /// |------------------------------|--------------|
+  /// | real AudioSet scream/yell    | 5.6%         |
+  /// | real AudioSet cry/whimper    | 7.8%         |
+  /// | RAVDESS fear/disgust/surprise| 31.1%        |
+  /// | RAVDESS neutral/happy (neg!) | 7.8%         |
+  ///
+  /// It separates real screams from ambient noise barely better than chance,
+  /// and fires on RAVDESS *neutral* speech as often as on real screams. The
+  /// card's numbers came from a held-out split of its own training
+  /// distribution, which is dominated by RAVDESS/CREMA-D acted speech — so
+  /// they measure in-domain memorisation, not real-world scream detection.
+  ///
+  /// Lowering the threshold does not rescue it: even at 0.02 only 13.3% of
+  /// real screams fire. This needs retraining on real screaming audio, not
+  /// recalibration. `tools/verify_shipped_models.py` now reports this model
+  /// as WEAK and fails, so it cannot quietly ship as a working detector.
+  /// See `assets/models/DAY319_SCREAM_REALITY_CHECK.md`.
   static const double kDefaultThreshold = 0.5;
 
   final tfl.Interpreter _interpreter;
