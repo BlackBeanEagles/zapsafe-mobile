@@ -60,6 +60,13 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.10
   flutter_local_notifications: ^16.3.2
+  # Used DIRECTLY by push_service.dart (tz.TZDateTime.from, tz_data), not
+  # just transitively. It was only reaching us via
+  # flutter_local_notifications' own dependency, so any version bump there
+  # that drops or moves timezone would break scheduled notifications --
+  # which is how SOS follow-up reminders are delivered. Pinned to the
+  # version already resolved in pubspec.lock so this adds no churn.
+  timezone: ^0.9.4
   # firebase_crashlytics: ^3.4.0  # Day 17+
 
   # Crash reporting — real SDK wired Day 257 (was a mock screen until then).
