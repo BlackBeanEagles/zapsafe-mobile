@@ -149,10 +149,10 @@ void _showUnlockSheet(BuildContext context, String method) {
           OutlinedButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
-              context.go(AppRoutes.home);
+              context.go(AppRoutes.appHome);
             },
             icon: const Icon(Icons.home_rounded, size: 18),
-            label: const Text('Exit decoy → ZapSafe nav'),
+            label: const Text('Exit decoy'),
           ),
         ],
       ),

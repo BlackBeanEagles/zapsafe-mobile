@@ -855,10 +855,10 @@ class _EmergencyExitTab extends ConsumerWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Stealth disabled · returning to ZapSafe home'),
+        content: Text('Stealth disabled · returning to ZapSafe'),
       ),
     );
-    context.go(AppRoutes.home);
+    context.go(AppRoutes.appHome);
   }
 
   @override

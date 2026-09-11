@@ -46,7 +46,14 @@ bool _isProtectedRoute(String location) {
   return false;
 }
 
-/// Production auth guard — dev Day 5 index stays open at `/`.
+/// Production auth guard.
+///
+/// Day 321: the Day 5 dev index at `/` used to be explicitly exempted here,
+/// so a logged-out user could open a 3,753-line screen linking to all 387
+/// build-log screens in a production build. It is now guarded like anything
+/// else. It needs its own line below rather than a `_protectedPrefixes`
+/// entry, because that list matches by prefix and `/` is a prefix of every
+/// route in the app.
 bool productionAuthRedirect({
   required bool isLoggedIn,
   required String location,
@@ -57,7 +64,9 @@ bool productionAuthRedirect({
     return false;
   }
   if (location == AppRoutes.onboarding) return false;
-  if (location == AppRoutes.home) return false;
+  // The Day 5 dev index. Guarded explicitly: see the doc comment above for
+  // why this cannot just be added to _protectedPrefixes.
+  if (location == AppRoutes.home) return true;
   return _isProtectedRoute(location);
 }
 

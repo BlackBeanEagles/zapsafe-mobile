@@ -405,6 +405,14 @@ class AppRoutes {
   AppRoutes._();
 
   static const home = '/';
+
+  /// Where a real user belongs when returning 'home'.
+  ///
+  /// [home] is the Day 5 developer navigation index: a 3,753-line
+  /// screen listing all 387 build-log screens. It is a build harness,
+  /// not a product surface. Anything a shipped user can tap must route
+  /// here instead, or they land in the dev index.
+  static const appHome = kProductionShell ? dashboard : home;
   static const onboarding = '/onboarding';
   static const dashboard = '/dashboard';
   static const sosActive = '/sos-active';
@@ -873,6 +881,12 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: AppRoutes.home,
+        // The Day 5 dev navigation index. In a production shell this is not
+        // a real destination: it lists every build-log screen and is not
+        // something a shipped user should ever see, so send them to the
+        // dashboard instead of rendering it.
+        redirect: (context, state) =>
+            kProductionShell ? AppRoutes.dashboard : null,
         builder: (context, state) => const Day5NavigationIndexScreen(),
       ),
       GoRoute(
