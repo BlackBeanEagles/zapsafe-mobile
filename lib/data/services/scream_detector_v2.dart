@@ -51,35 +51,55 @@ class ScreamDetectorV2 implements Interpreter {
 
   /// Above this sigmoid output the clip is reported as `scream`.
   ///
-  /// **Do not trust the model card's 0.9424 / 0.9529 precision / recall.**
-  /// Day 319 measured this exact shipped file against real audio and it does
-  /// not hold up. On real AudioSet screaming/yell/shout clips versus real
-  /// AudioSet speech/laughter/cheering and ESC-50 ambient negatives:
+  /// **0.30, not 0.5, and that is deliberate.** Measured on held-out real
+  /// AudioSet screams the model never trained on:
   ///
-  ///   AUC 0.616, and at this 0.5 threshold it fires on 6.7% of real screams.
+  /// | threshold | recall | precision |
+  /// |---|---|---|
+  /// | 0.50 | 0.455 | 0.682 |
+  /// | 0.40 | 0.485 | 0.593 |
+  /// | **0.30** | **0.667** | **0.524** |
+  /// | 0.20 | 0.758 | 0.463 |
+  /// | 0.10 | 0.818 | 0.397 |
   ///
-  /// Broken down by source, the reason is clear — it responds to acted studio
-  /// emotion, not to real screaming:
+  /// 0.30 is the recall-leaning point a safety app wants: missing a real
+  /// scream is worse than a false alert, up to the point where false alerts
+  /// train the user to ignore the app. Past 0.20 precision falls below half
+  /// and it starts crying wolf.
   ///
-  /// | positive source              | fires at 0.5 |
-  /// |------------------------------|--------------|
-  /// | real AudioSet scream/yell    | 5.6%         |
-  /// | real AudioSet cry/whimper    | 7.8%         |
-  /// | RAVDESS fear/disgust/surprise| 31.1%        |
-  /// | RAVDESS neutral/happy (neg!) | 7.8%         |
+  /// **Day 324 — this now loads `scream_classifier_v3.tflite`.** Real
+  /// held-out AUC across three versions, same protocol each time:
   ///
-  /// It separates real screams from ambient noise barely better than chance,
-  /// and fires on RAVDESS *neutral* speech as often as on real screams. The
-  /// card's numbers came from a held-out split of its own training
-  /// distribution, which is dominated by RAVDESS/CREMA-D acted speech — so
-  /// they measure in-domain memorisation, not real-world scream detection.
+  ///     v1 (shipped since Day 31)  0.616
+  ///     v2 (Day 322)               0.759
+  ///     v3 (this one)              0.823
   ///
-  /// Lowering the threshold does not rescue it: even at 0.02 only 13.3% of
-  /// real screams fire. This needs retraining on real screaming audio, not
-  /// recalibration. `tools/verify_shipped_models.py` now reports this model
-  /// as WEAK and fails, so it cannot quietly ship as a working detector.
-  /// See `assets/models/DAY319_SCREAM_REALITY_CHECK.md`.
-  static const double kDefaultThreshold = 0.5;
+  /// v1's model card claimed precision 0.9424 / recall 0.9529. Those were
+  /// in-domain memorisation on a held-out split of its own training
+  /// distribution, which was dominated by acted RAVDESS/CREMA-D **speech**.
+  /// On real AudioSet screaming it fired on 5.6% of clips, and on RAVDESS
+  /// *neutral* speech just as often — it had learned acted studio emotion,
+  /// not screaming. At this threshold v3 catches 0.667 where v1 caught
+  /// 0.067 at its own.
+  ///
+  /// What fixed it was the training distribution, twice over. A scream is
+  /// not speech, it is a non-speech vocalisation: v2 swapped in 1,991 real
+  /// ASVP-ESD non-speech distress vocalisations and demoted acted speech to
+  /// a negative. v3 then added 714 VocalAffectBench screams **and ~4,500
+  /// same-domain hard negatives** — laughter, cough, sneeze, sigh, sniff,
+  /// throat-clearing, yawn. That second half is what moved precision: a
+  /// cough and a scream are both sharp non-speech vocalisations, and
+  /// nothing before had ever taught the model the difference. At equal
+  /// recall (0.667) precision went 0.386 -> 0.524.
+  ///
+  /// **Still not a solved problem.** At 0.30 it misses one scream in three
+  /// and roughly half the alerts are false. It is a strictly better
+  /// replacement for something unshippable, not a detector to advertise.
+  /// The binding constraint is now measurement, not training: the held-out
+  /// set is 33 real screams, so each clip moves recall by 3% and 0.82
+  /// cannot be told apart from 0.78. More real scream audio is the next
+  /// thing this needs. See `assets/models/DAY324_SCREAM_V3.md`.
+  static const double kDefaultThreshold = 0.30;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;
@@ -116,7 +136,7 @@ class ScreamDetectorV2 implements Interpreter {
   /// either of those and feeding it a mel spectrogram would produce numbers
   /// rather than an error.
   static Future<ScreamDetectorV2?> tryLoad({
-    String assetPath = 'assets/models/scream_classifier_v1.tflite',
+    String assetPath = 'assets/models/scream_classifier_v3.tflite',
     String modelLabel = 'm1_scream_v2',
     double threshold = kDefaultThreshold,
   }) async {

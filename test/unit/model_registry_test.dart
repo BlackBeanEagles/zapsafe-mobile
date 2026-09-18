@@ -47,7 +47,7 @@ void main() {
       // name is deliberately NOT preserved: keeping it would have meant
       // shipping a filename that no longer describes the model behind it.
       const expected = {
-        'scream': 'assets/models/scream_classifier_v1.tflite',
+        'scream': 'assets/models/scream_classifier_v3.tflite',
         'motion': 'assets/models/motion_fall_v2.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
@@ -77,14 +77,22 @@ void main() {
       final statuses = await registry.loadAll();
       final byKey = {for (final s in statuses) s.definition.key: s};
 
-      // Day 257: scream is now the real m1_scream_v2 binary (2,811 KB),
-      // replacing the 658-byte text stub. If this ever reads as a
-      // placeholder again the real model has been reverted and the
-      // detector will be silently running on the heuristic fallback.
+      // Day 257 replaced a 658-byte text stub with a real binary, and this
+      // guards that. If scream ever reads as a placeholder again the real
+      // model has been reverted and the detector is silently running on the
+      // heuristic fallback.
+      //
+      // Day 324: the >1 MB floor this used to assert is gone. It was a
+      // proxy for "real binary, not a text stub", and it stopped being one:
+      // scream_classifier_v3 is 206 KB (float16, smaller architecture) and
+      // scores AUC 0.823 on real held-out screams, where the 2,811 KB v1 it
+      // replaced scored 0.616. Size never measured quality. isPlaceholder
+      // checks the thing actually worth checking, and
+      // tools/verify_shipped_models.py checks whether it detects anything.
       if ((byKey['scream']?.sizeBytes ?? 0) > 0) {
         expect(byKey['scream']?.isPlaceholder, isFalse,
-            reason: 'scream_classifier_v1 is the real m1_scream_v2 binary');
-        expect(byKey['scream']!.sizeBytes, greaterThan(1000000),
+            reason: 'scream_classifier_v3 is a real TFLite binary');
+        expect(byKey['scream']!.sizeBytes, greaterThan(10000),
             reason: 'the real m1_scream_v2 is ~2.75 MB');
       }
       // fusion (257 B) is still a text stub — m9 failed its gate and is

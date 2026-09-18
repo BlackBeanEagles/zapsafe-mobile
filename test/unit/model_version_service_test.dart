@@ -14,9 +14,9 @@ void main() {
       }
     });
 
-    test('scream classifier resolves to v1', () {
+    test('scream classifier resolves to v3', () {
       final scream = kZapsafeModels.firstWhere((m) => m.key == 'scream');
-      expect(localVersionFor(scream), 'v1');
+      expect(localVersionFor(scream), 'v3');
     });
   });
 
