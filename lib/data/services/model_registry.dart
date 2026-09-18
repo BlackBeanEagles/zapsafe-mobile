@@ -62,7 +62,7 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'motion',
     displayName: 'Motion Anomaly (M2)',
-    assetPath: 'assets/models/motion_anomaly_v1.tflite',
+    assetPath: 'assets/models/motion_fall_v2.tflite',
     purpose: 'IMU 6-DOF time-series → normal / unusual / fall',
     realModelEta: 'Month 3 · backend training (UCI-HAR + MobiAct)',
     realSizeMb: 1.8,

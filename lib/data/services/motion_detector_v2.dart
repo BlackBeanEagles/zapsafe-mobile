@@ -8,8 +8,8 @@ import 'interpreter.dart';
 
 /// Day 258 — m2_motion_v2, the IMU fall / anomaly model.
 ///
-/// Input `[1, 100, 6]` float32: 100 consecutive samples at 50 Hz (a 2-second
-/// window) of `[acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z]`.
+/// Input `[1, 100, 3]` float32: 100 consecutive samples at 50 Hz (a 2-second
+/// window) of `[acc_x, acc_y, acc_z]`.
 /// Output `[1, 1]` float32 sigmoid — P(fall / anomaly).
 ///
 /// **The trap here is normalisation.** `day83_m2_motion_v2.py` standardises
@@ -29,34 +29,56 @@ import 'interpreter.dart';
 /// from `models/components/m2_motion_v2_report.json`.
 ///
 /// Units are equally load-bearing: accelerometer in m/s^2 **including
-/// gravity** (Android `TYPE_ACCELEROMETER`, not `TYPE_LINEAR_ACCELERATION`)
-/// and gyroscope in rad/s. `kNormMean[1] == 7.61` is only consistent with
-/// gravity being present.
+/// gravity** (Android `TYPE_ACCELEROMETER`, not `TYPE_LINEAR_ACCELERATION`).
+/// `sensors_plus`'s `accelerometerEventStream()` already supplies exactly
+/// that; `userAccelerometerEventStream()` would not.
+///
+/// **Day 323 — this now loads `motion_fall_v2.tflite`, and the channel count
+/// dropped from 6 to 3.** The previous asset, `motion_anomaly_v1.tflite`,
+/// was verified DEAD: a constant 0.0 for every input on real SisFall IMU.
+///
+/// Retrained on UniMiB-SHAR, the one local dataset matching deployment
+/// reality: real smartphone accelerometer, 50 Hz, 11,771 windows with 4,192
+/// genuine falls across 8 fall types and 30 subjects. Units were verified by
+/// measurement rather than assumption — median window magnitude 9.41 m/s^2,
+/// so gravity is present (g-units would read ~1.0).
+///
+/// Held out 7 of the 30 subjects **entirely**, so no subject appears in both
+/// train and test and the model cannot be scoring on memorised gait:
+///
+///   held-out-subject AUC 0.9978 over 2,751 windows (1,045 real falls)
+///   at threshold 0.50 — recall 0.971, precision 0.983
+///
+/// **Why 3 channels and not 6:** UniMiB has no gyroscope. Zero-padding the
+/// gyro channels to preserve the old shape would have taught the model that
+/// `gyro == 0` is normal, and it would then misbehave the moment a real
+/// phone supplied real gyro — a silent wrong-input failure, which is the
+/// exact class of bug that made `scream_classifier_v1` claim 0.95 recall
+/// while firing on 5.6% of real screams. Three honest channels beat six
+/// dishonest ones.
+///
+/// Caveat worth carrying: UniMiB falls are lab-collected (deliberate falls
+/// onto mats). Real-world falls will differ, and this has not been tested on
+/// a physical device.
 class MotionDetectorV2 implements Interpreter {
   static const int kWindow = 100;
-  static const int kChannels = 6;
-  static const int kInputFloats = kWindow * kChannels; // 600
+  static const int kChannels = 3;
+  static const int kInputFloats = kWindow * kChannels; // 300
   static const int kRateHz = 50;
 
   /// Per-channel mean, from `m2_motion_v2_report.json`.
   static const List<double> kNormMean = [
-    2.341886043548584,
-    7.611628532409668,
-    1.3218400478363037,
-    0.07083810120820999,
-    0.07681768387556076,
-    0.06925486773252487,
+    0.15847542881965637,
+    -0.25485244393348694,
+    -0.18803349137306213,
   ];
 
   /// Per-channel standard deviation, from the same report. The training code's
   /// `+ 1e-8` is already included in these values — do not add it again.
   static const List<double> kNormStd = [
-    4.646388053894043,
-    10.239320755004883,
-    3.6366119384765625,
-    3.2436535358428955,
-    3.2441282272338867,
-    3.245084524154663,
+    5.146200656890869,
+    8.54922866821289,
+    4.773979187011719,
   ];
 
   /// The model's own report records `fall_recall: 1.0` at this cut-off.
@@ -81,8 +103,8 @@ class MotionDetectorV2 implements Interpreter {
   List<String> get classLabels => const ['normal', 'fall'];
 
   static Future<MotionDetectorV2?> tryLoad({
-    String assetPath = 'assets/models/motion_anomaly_v1.tflite',
-    String modelLabel = 'm2_motion_v2',
+    String assetPath = 'assets/models/motion_fall_v2.tflite',
+    String modelLabel = 'motion_fall_v2',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? interpreter;

@@ -102,7 +102,7 @@ class ModelBundleResult {
 ///     → Try `TfliteInterpreter.tryLoad(expectedInputSize: 15)`
 ///     → Day 45: placeholder (658 B) → resolves to heuristic
 ///
-///   motion_anomaly_v1 (561-float UCI HAR features)
+///   motion_fall_v2 (100x3 accelerometer window, 50 Hz, m/s^2 w/ gravity)
 ///     → Real 194 KB model present. Try `tryLoad(expectedInputSize: 561)`.
 ///     → Shape mismatch: mobile pipeline produces 6-DOF features (6 floats),
 ///       not 561 pre-extracted stats. Falls through to heuristic until a
@@ -118,7 +118,7 @@ class ModelBundleService {
   static const int _placeholderSizeThreshold = 2000; // bytes
 
   static const String _screamAsset = 'assets/models/scream_classifier_v1.tflite';
-  static const String _motionAsset = 'assets/models/motion_anomaly_v1.tflite';
+  static const String _motionAsset = 'assets/models/motion_fall_v2.tflite';
   static const String _sceneAsset  = 'assets/models/scene_analyzer_v1.tflite';
 
   /// Run the full bundle load. Pass a [PhoneCapabilityTier] so the engine

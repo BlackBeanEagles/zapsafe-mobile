@@ -40,9 +40,15 @@ void main() {
     test('asset paths match the timeline-specified filenames', () {
       // The Day 31 timeline entry pins these exact names — the backend
       // training pipeline writes into these paths in Month 3.
+      //
+      // Day 323: the motion slot moved off motion_anomaly_v1.tflite, which
+      // was verified DEAD (constant 0.0 on real IMU), onto motion_fall_v2 —
+      // retrained on UniMiB-SHAR, held-out-subject AUC 0.998. The Day 31
+      // name is deliberately NOT preserved: keeping it would have meant
+      // shipping a filename that no longer describes the model behind it.
       const expected = {
         'scream': 'assets/models/scream_classifier_v1.tflite',
-        'motion': 'assets/models/motion_anomaly_v1.tflite',
+        'motion': 'assets/models/motion_fall_v2.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
         'aggressive_speech':
@@ -88,11 +94,13 @@ void main() {
             reason: 'dcs_fusion_v1 is a 1 KB text placeholder');
       }
 
-      // motion (194 KB) and scene (2.6 MB) are real binary TFLite files —
-      // not placeholders, even though the mobile pipeline can't yet use them.
+      // motion (130 KB) and scene (2.6 MB) are real binary TFLite files.
+      // The motion one is now also wired and verified: MotionDetectorV2
+      // loads it and tools/verify_shipped_models.py scores it AUC 0.999 on
+      // real held-out-subject UniMiB windows.
       if ((byKey['motion']?.sizeBytes ?? 0) > 0) {
         expect(byKey['motion']?.isPlaceholder, isFalse,
-            reason: 'motion_anomaly_v1 is a real 194 KB TFLite binary');
+            reason: 'motion_fall_v2 is a real 130 KB TFLite binary');
       }
       if ((byKey['scene']?.sizeBytes ?? 0) > 0) {
         expect(byKey['scene']?.isPlaceholder, isFalse,

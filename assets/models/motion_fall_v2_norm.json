@@ -1,0 +1,21 @@
+{
+  "mean": [
+    0.15847542881965637,
+    -0.25485244393348694,
+    -0.18803349137306213
+  ],
+  "std": [
+    5.146200656890869,
+    8.54922866821289,
+    4.773979187011719
+  ],
+  "window": 100,
+  "channels": 3,
+  "rate_hz": 50,
+  "units": "m/s^2 including gravity (Android TYPE_ACCELEROMETER)",
+  "channel_order": [
+    "acc_x",
+    "acc_y",
+    "acc_z"
+  ]
+}

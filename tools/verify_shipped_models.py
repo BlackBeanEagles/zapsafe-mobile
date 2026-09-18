@@ -135,32 +135,53 @@ def real_mel_images(size, n=24):
     return np.stack(out) if out else None
 
 
-def real_imu(timesteps, channels, n=24):
-    """Real SisFall IMU windows, day261 normalization clip(+/-8)/8."""
-    sf = os.path.join(DATASETS, "motion", "DS13_SisFall", "Three Classes")
-    xp = os.path.join(sf, "x_test_3")
-    yp = os.path.join(sf, "y_test_3")
+def real_imu(timesteps, channels, n=160):
+    """Real UniMiB-SHAR windows -> (X, labels). Smartphone, 50 Hz, m/s^2.
+
+    NOT SisFall, and that swap is the point. The gate used to feed SisFall
+    "Three Classes", then declared motion_fall_v2 DEAD -- constant 1.0 -- for
+    a model that actually scores AUC 0.9978 on correctly-scaled data. SisFall
+    Three-Classes has a resting acceleration magnitude of **0.239**: not g
+    (1.0), not m/s^2 (9.8), not gravity-removed (0). It is pre-scaled by an
+    unrecoverable factor, so feeding it to a model trained on real m/s^2
+    pushes every sample far out of distribution and saturates the output.
+
+    That is the exact silent-wrong-units failure this gate exists to catch,
+    and the gate had it. UniMiB is verified by measurement instead of
+    assumption: median window magnitude 9.41 m/s^2, so gravity is present.
+
+    Returns labels too (1 = fall), so IMU models get a real AUC rather than
+    a liveness check.
+    """
+    try:
+        import scipy.io as sio
+    except ImportError:
+        return None
+    base = os.path.join(DATASETS, "motion", "DS_UniMiB", "UniMiB-SHAR", "data")
+    xp = os.path.join(base, "two_classes_data.mat")
+    yp = os.path.join(base, "two_classes_labels.mat")
     if not (os.path.exists(xp) and os.path.exists(yp)):
         return None
-    x = np.fromfile(xp, dtype=np.float32)
-    y = np.fromfile(yp, dtype=np.float32)
-    rows = y.size // 3
-    per = x.size // rows
-    if per % 6:
+
+    def _load(path):
+        d = sio.loadmat(path)
+        return d[[k for k in d if not k.startswith("__")][0]]
+
+    X, Y = _load(xp), _load(yp)
+    src_len = X.shape[1] // 3
+    if src_len < timesteps or channels > 3:
+        return None                      # 6-channel models: no honest fixture
+    w = X.reshape(X.shape[0], 3, src_len).transpose(0, 2, 1)
+    y = (Y[:, 0] == 2).astype(int)       # class 2 = fall
+    start = (src_len - timesteps) // 2   # impact is centred in UniMiB windows
+    w = w[:, start:start + timesteps, :channels].astype(np.float32)
+
+    pos = np.flatnonzero(y == 1)[: n // 2]
+    neg = np.flatnonzero(y == 0)[: n - n // 2]
+    pick = np.concatenate([pos, neg])
+    if len(pos) < 4 or len(neg) < 4:
         return None
-    arr = x.reshape(rows, per // 6, 6)
-    labels = y.reshape(rows, 3).argmax(1)
-    # Mix ADL and fall windows so a real detector has to respond differently.
-    pick = list(np.flatnonzero(labels == 0)[: n // 2]) + \
-        list(np.flatnonzero(labels > 0)[: n - n // 2])
-    if not pick:
-        return None
-    t = arr.shape[1]
-    start = max(0, (t - timesteps) // 2)   # centre crop: the impact is centred
-    win = arr[pick, start:start + timesteps, :channels]
-    if win.shape[1] < timesteps:
-        return None
-    return (np.clip(win, -8.0, 8.0) / 8.0).astype(np.float32)
+    return w[pick], y[pick]
 
 
 def real_prosodic_38(n=24):
@@ -321,8 +342,7 @@ def fixture_for(input_details):
         X = real_mel_images(int(shape[1]))
         return None if X is None else (X, None)
     if len(shape) == 3:
-        X = real_imu(int(shape[1]), int(shape[2]))
-        return None if X is None else (X, None)
+        return real_imu(int(shape[1]), int(shape[2]))
     if len(shape) == 2 and int(shape[1]) == 38:
         X = real_prosodic_38()
         return None if X is None else (X, None)

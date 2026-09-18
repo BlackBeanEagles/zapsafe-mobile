@@ -115,7 +115,7 @@ class DCSInferenceEngine {
       ScreamDetectorV2.tryLoad(assetPath: kZapsafeModels[0].assetPath),
       TfliteInterpreter.tryLoad(
         assetPath: kZapsafeModels[1].assetPath,
-        modelLabel: 'motion_anomaly_v1 · tflite',
+        modelLabel: 'motion_fall_v2 · tflite',
         expectedInputSize: 6,
         classLabels: const ['normal', 'unusual', 'fall'],
       ),
