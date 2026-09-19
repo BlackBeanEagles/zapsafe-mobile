@@ -54,6 +54,43 @@ final screamDetectorProvider = FutureProvider<ScreamDetectorV2?>((ref) async {
   return detector;
 });
 
+/// Day 328 — `s_crowd_panic`, `i_vehicle_crash` and
+/// `k_confinement_decorrelated` are switched off here.
+///
+/// All three were measured against the shipped assets on real local data and
+/// none can produce a usable detection on a phone. In short:
+///
+/// * `s_crowd_panic` separates its training classes by **data provenance**,
+///   not by panic. Its negatives were paired with digital silence and its
+///   "IMU" channel 0 is PAMAP2 chest *skin temperature* (`df.iloc[:, 20:26]`
+///   starts at the chest temp column), which is ~35 for negatives and ~0 for
+///   the synthetic positives. With the mel held byte-identical between
+///   classes it still scores AUC 1.0000. On realistic acc+gyro it pins to
+///   ~0.54, separates screaming from calm by 0.0048, and labels 97.5% of
+///   *calm* windows "panic".
+/// * `k_confinement_decorrelated` uses the same temperature-contaminated
+///   slice. On realistic input it outputs ~0.019 and never fires at any
+///   light value; `AUC(phone-real IMU vs training-slice IMU)` is **0.0063**
+///   — near-perfect separation, inverted.
+/// * `i_vehicle_crash` is well designed but its int8 output has collapsed to
+///   a single quantization step (separation 0.0039 against an output scale
+///   of 0.00390625), and it was trained on UCI-HAR in **g** while
+///   `vehicle_crash_pipeline.dart` feeds `sensors_plus` **m/s²** — 8x
+///   larger, saturating 16.7% of every window. In app units: AUC 0.5000.
+///
+/// Each costs a continuous mel + IMU inference and none can clear
+/// [InferenceResult.confidenceThreshold], so leaving them running spends
+/// battery to produce labels that are noise. Disabling is a pure win, and it
+/// removes the risk that a future threshold change turns that 97.5%-false
+/// `panic` label into submitted `crowd_panic` danger events.
+///
+/// The detectors, pipelines, tests and submission wiring are all left in
+/// place: flip this to `false` once a retrained asset lands. Full evidence
+/// and the retraining requirements are in
+/// `assets/models/DAY328_DUAL_INPUT_DEAD_ON_PHONE.md`; reproduce with
+/// `tools/day328_dual_input_probe/`.
+const bool kDualInputModelsDisabled = true;
+
 /// Live scream pipeline: native 22,050 Hz / 3 s PCM stream -> mel ->
 /// m1_scream_v2. Null while the detector is still loading or failed to load.
 final screamAudioPipelineProvider =
@@ -154,6 +191,9 @@ final crowdPanicDetectorProvider =
 /// missing side).
 final crowdPanicFusionPipelineProvider =
     Provider<CrowdPanicFusionPipeline?>((ref) {
+  // Day 328 — pins to ~0.54 and labels 97.5% of calm windows "panic". See [kDualInputModelsDisabled].
+  if (kDualInputModelsDisabled) return null;
+
   final detectorAsync = ref.watch(crowdPanicDetectorProvider);
   final detector = detectorAsync.valueOrNull;
   if (detector == null) return null;
@@ -183,6 +223,9 @@ final vehicleCrashDetectorProvider =
 /// `crowdPanicFusionPipelineProvider`'s.
 final vehicleCrashFusionPipelineProvider =
     Provider<VehicleCrashFusionPipeline?>((ref) {
+  // Day 328 — AUC 0.5000 in the m/s² units the pipeline actually feeds. See [kDualInputModelsDisabled].
+  if (kDualInputModelsDisabled) return null;
+
   final detectorAsync = ref.watch(vehicleCrashDetectorProvider);
   final detector = detectorAsync.valueOrNull;
   if (detector == null) return null;
@@ -216,6 +259,9 @@ final kConfinementDetectorProvider =
 /// know which is actually happening for a given running instance.
 final kConfinementFusionPipelineProvider =
     Provider<KConfinementFusionPipeline?>((ref) {
+  // Day 328 — outputs ~0.019 and never fires at any light value. See [kDualInputModelsDisabled].
+  if (kDualInputModelsDisabled) return null;
+
   final detectorAsync = ref.watch(kConfinementDetectorProvider);
   final detector = detectorAsync.valueOrNull;
   if (detector == null) return null;

@@ -1,0 +1,73 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:zapsafe_mobile/domain/providers/live_detection_providers.dart';
+
+/// Day 328 — the three dual-input fusion pipelines must stay off.
+///
+/// Each was measured against its shipped asset on real local data and none
+/// can produce a usable detection on a phone:
+///
+/// * `s_crowd_panic` separates its training classes by **data provenance**
+///   rather than by panic — its negatives were paired with digital silence,
+///   and PAMAP2 `df.iloc[:, 20:26]` puts chest *skin temperature* (~35) in
+///   "IMU" channel 0 against ~0 for the synthetic positives. It scores AUC
+///   1.0000 with the mel held byte-identical between classes, which is the
+///   proof. On realistic acc+gyro it pins to ~0.54 and labels 97.5% of
+///   *calm* windows "panic".
+/// * `k_confinement_decorrelated` uses the same contaminated slice and
+///   outputs ~0.019 on realistic input, never firing at any light value.
+/// * `i_vehicle_crash` has an int8 output collapsed to a single quantization
+///   step, and was trained in `g` while the pipeline feeds m/s².
+///
+/// See `assets/models/DAY328_DUAL_INPUT_DEAD_ON_PHONE.md`.
+///
+/// These tests read the providers rather than only asserting the flag,
+/// because the guard has to sit *before* the `ref.watch` calls to be worth
+/// anything — a pipeline that still resolved its detector and audio stream
+/// would keep paying the start-up cost this change exists to remove. That
+/// ordering is what makes the providers resolvable in a plain unit test with
+/// no platform channels at all, so the test failing to construct a container
+/// would itself be the signal.
+void main() {
+  group('Day 328 — dual-input pipelines are disabled', () {
+    late ProviderContainer container;
+
+    setUp(() => container = ProviderContainer());
+    tearDown(() => container.dispose());
+
+    test('the flag is on', () {
+      expect(kDualInputModelsDisabled, isTrue,
+          reason: 'flipping this back on requires a retrained asset — see '
+              'DAY328_DUAL_INPUT_DEAD_ON_PHONE.md for what "retrained" has '
+              'to mean here (the training data is what is broken, not the '
+              'weights)');
+    });
+
+    test('crowd panic pipeline resolves to null', () {
+      expect(container.read(crowdPanicFusionPipelineProvider), isNull);
+    });
+
+    test('vehicle crash pipeline resolves to null', () {
+      expect(container.read(vehicleCrashFusionPipelineProvider), isNull);
+    });
+
+    test('k_confinement pipeline resolves to null', () {
+      expect(container.read(kConfinementFusionPipelineProvider), isNull);
+    });
+
+    test('the guard precedes any ref.watch, so nothing is constructed', () {
+      // Reading all three in one container must not touch the audio channel
+      // or the detector futures. If the guard were placed after the watches,
+      // this would throw a MissingPluginException rather than return null,
+      // so a passing test here pins the *ordering* and not just the result.
+      expect(
+        [
+          container.read(crowdPanicFusionPipelineProvider),
+          container.read(vehicleCrashFusionPipelineProvider),
+          container.read(kConfinementFusionPipelineProvider),
+        ],
+        everyElement(isNull),
+      );
+    });
+  });
+}

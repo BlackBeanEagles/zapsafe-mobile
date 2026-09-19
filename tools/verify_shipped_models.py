@@ -438,6 +438,46 @@ def real_prosodic_28(n=240):
     return np.stack(X), np.asarray(y)
 
 
+# Day 328 - models measured non-functional on real phone input.
+#
+# These four used to report UNVERIFIED because this gate had no dual-input
+# fixture for them. Building one would have been actively harmful: a fixture
+# drawn from their training domain reports AUC 1.0000 / 0.9959 / 1.0000, so
+# it would have flipped UNVERIFIED to "ok" while every one of them remains
+# incapable of producing a usable detection on a phone.
+#
+# The defect is not in the weights, it is in the contract between the
+# training data and what the app feeds, which is why it is recorded as a
+# table rather than measured here. Full evidence, and the numbers below,
+# in assets/models/DAY328_DUAL_INPUT_DEAD_ON_PHONE.md; reproduce with
+# tools/day328_dual_input_probe/.
+KNOWN_BROKEN = {
+    "s_crowd_panic.tflite": (
+        "separates classes by data provenance, not panic: negatives paired "
+        "with digital silence, and PAMAP2 df.iloc[:,20:26] puts chest SKIN "
+        "TEMPERATURE (~35) in 'IMU' channel 0 vs ~0 for the synthetic "
+        "positives. AUC 1.0000 with the mel held byte-identical. On real "
+        "acc+gyro: pins ~0.54, scream-vs-calm separation 0.0048, labels "
+        "97.5% of CALM windows 'panic'"),
+    "k_confinement_decorrelated.tflite": (
+        "same temperature-contaminated PAMAP2 slice; kImuMean[0]=18.83 is "
+        "physically impossible for a carried phone. On real input outputs "
+        "~0.019 and never fires at any light value; AUC(phone-real IMU vs "
+        "training-slice IMU)=0.0063, i.e. near-perfect separation INVERTED"),
+    "i_vehicle_crash.tflite": (
+        "int8 output collapsed to one quantization step - separation 0.0039 "
+        "against output scale 0.00390625, so its AUC 1.0000 is a 1-LSB "
+        "ordering. Also trained on UCI-HAR in g while the pipeline feeds "
+        "sensors_plus m/s^2: 8x larger, saturates 16.7% of every window. "
+        "In app units AUC 0.5000"),
+    "m2_motion_b_retrain.tflite": (
+        "shares normalize_imu() = clip(w,-8,8)/8 with i_vehicle_crash "
+        "(documented in vehicle_crash_detector.dart as bit-for-bit "
+        "MotionDetectorB.normalise), so it inherits the same g-vs-m/s^2 "
+        "mismatch. No honest fixture exists and this is why"),
+}
+
+
 def fixture_for(input_details):
     """Real inputs matching this model's contract, or None if we have none."""
     if len(input_details) != 1:
@@ -583,7 +623,7 @@ def main():
     if not os.path.isdir(DATASETS):
         print("note: %s not found - most models will report UNVERIFIED\n" % DATASETS)
 
-    dead, weak, unverified = [], [], []
+    dead, weak, unverified, broken = [], [], [], []
     print("%-44s %9s  %-11s %s" % ("model", "size", "status", "detail"))
     print("-" * 104)
     for p in paths:
@@ -592,6 +632,11 @@ def main():
         if name in KNOWN_PLACEHOLDERS:
             print("%-44s %7.1fKB  PLACEHOLDER not a real model - see "
                   "DAY317_EXPORT_PATH_FIX.md" % (name, kb))
+            continue
+        if name in KNOWN_BROKEN:
+            print("%-44s %7.1fKB  %-11s %s" % (name, kb, "BROKEN",
+                                               KNOWN_BROKEN[name]))
+            broken.append(name)
             continue
         try:
             status, detail, note = evaluate(p)
@@ -630,6 +675,18 @@ def main():
         print("     assets/models/DAY326_DCS_FUSION_NEVER_FUSED.md")
 
     failed = False
+    if broken:
+        print("FAILED: measured non-functional on real phone input: %s"
+              % ", ".join(broken))
+        print("These are not merely unverified. Each was measured against "
+              "the shipped asset on real data and cannot produce a usable "
+              "detection on a phone - see the per-model detail above and "
+              "assets/models/DAY328_DUAL_INPUT_DEAD_ON_PHONE.md. Their live "
+              "pipelines are disabled via kDualInputModelsDisabled in "
+              "lib/domain/providers/live_detection_providers.dart. This gate "
+              "stays red until a retrained asset replaces them, so the "
+              "failure is the intended steady state, not a regression.")
+        failed = True
     if dead:
         print("FAILED: constant output on real data: %s" % ", ".join(dead))
         print("A constant-output model cannot detect anything. Do not ship it.")
