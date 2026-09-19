@@ -534,6 +534,47 @@ def evaluate(path):
     return "ok", detail, note
 
 
+# DCSInferenceEngine.create() declares an expectedInputSize per slot and
+# calls TfliteInterpreter.tryLoad with it. That helper returns **null** when
+# the model's real input size differs, and the engine then silently swaps in
+# a constant-valued stub (FixedStubInterpreter, score 0.15 for motion / 0.25
+# for scene). The fused DCS score drives SOS escalation via
+# onDCSThresholdExceeded(), so a stubbed slot means escalation stops
+# depending on that modality without anything failing.
+#
+# Keys are the slot name; values are (asset filename, declared input floats)
+# read from lib/ml/inference/dcs_inference_engine.dart.
+DCS_SLOTS = {
+    "motion": ("motion_fall_v2.tflite", 6),
+    "scene": ("scene_analyzer_v1.tflite", 8),
+    "fusion": ("dcs_fusion_v1.tflite", 3),
+}
+
+
+def check_dcs_slots():
+    """Compare declared vs actual input size for each DCS fusion slot."""
+    import numpy as np
+    rows = []
+    for slot, (fname, declared) in DCS_SLOTS.items():
+        path = os.path.join(ASSETS, fname)
+        if not os.path.exists(path):
+            rows.append((slot, fname, declared, None, "asset missing"))
+            continue
+        if fname in KNOWN_PLACEHOLDERS:
+            rows.append((slot, fname, declared, None, "placeholder, not a model"))
+            continue
+        try:
+            it = tf.lite.Interpreter(model_path=path)
+            it.allocate_tensors()
+            actual = int(np.prod(it.get_input_details()[0]["shape"]))
+            rows.append((slot, fname, declared, actual,
+                         "ok" if actual == declared else "STUBBED"))
+        except Exception as exc:
+            rows.append((slot, fname, declared, None,
+                         f"load fails: {type(exc).__name__}"))
+    return rows
+
+
 def main():
     paths = sorted(glob.glob(os.path.join(ASSETS, "*.tflite")))
     if not paths:
@@ -570,6 +611,24 @@ def main():
     if unverified:
         print("%d model(s) UNVERIFIED (no real fixture yet): %s"
               % (len(unverified), ", ".join(unverified)))
+    # --- DCS fusion slot wiring ---------------------------------------
+    print()
+    print("DCS fusion slots (declared input size vs the shipped model):")
+    stubbed = []
+    for slot, fname, declared, actual, verdict in check_dcs_slots():
+        got = "n/a" if actual is None else str(actual)
+        print("  %-8s %-30s declares %-5d model wants %-7s %s"
+              % (slot, fname, declared, got, verdict))
+        if verdict in ("STUBBED",) or verdict.startswith("load fails"):
+            if fname not in KNOWN_PLACEHOLDERS:
+                stubbed.append(slot)
+    if stubbed:
+        print("  -> %s silently fall(s) back to a CONSTANT-valued stub."
+              % ", ".join(stubbed))
+        print("     The fused DCS score drives SOS escalation, so escalation")
+        print("     stops depending on those modalities. See")
+        print("     assets/models/DAY326_DCS_FUSION_NEVER_FUSED.md")
+
     failed = False
     if dead:
         print("FAILED: constant output on real data: %s" % ", ".join(dead))
