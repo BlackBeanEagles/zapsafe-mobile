@@ -105,6 +105,113 @@ class VocalStressFeatures {
     return out;
   }
 
+  /// Day 332 — the five of the ten missing 38-vector features that need no
+  /// `pyin`.
+  ///
+  /// In the day95 38-feature vector these sit at `[5]` shimmer, `[6]` hnr,
+  /// `[33]` rms_mean, `[34]` rms_std, `[35]` rms_max. The other five
+  /// (`[0..4]`: voiced_frac, f0_mean, f0_std, f0_range, jitter) all come from
+  /// `librosa.pyin` and are deliberately **not** implemented — measured on
+  /// held-out speakers, these five are worth +0.052 AUC in English for the
+  /// arithmetic below, while pyin is worth a further +0.110 for a difference
+  /// function, cumulative mean normalisation, thresholding, parabolic
+  /// interpolation and a Viterbi pass. See
+  /// `assets/models/DAY332_M7_M3_PYIN.md`.
+  ///
+  /// [extract] is deliberately left at 28 so the shipped
+  /// `m5_vocal_stress_v2` keeps its exact input; compose these alongside it
+  /// when a 33-feature model ships.
+  ///
+  /// Order matches the 38-vector: `[shimmer, hnr, rms_mean, rms_std, rms_max]`.
+  Float64List extendedFeatures(Float64List pcm) {
+    final clip = _fit(pcm);
+    final rms = rmsFrames(clip);
+    final out = Float64List(5);
+    out[0] = _meanAbsDiff(rms);
+    out[1] = _harmonicsToNoise(clip);
+    var sum = 0.0, max = 0.0;
+    for (final v in rms) {
+      sum += v;
+      if (v > max) max = v;
+    }
+    final mean = rms.isEmpty ? 0.0 : sum / rms.length;
+    var sq = 0.0;
+    for (final v in rms) {
+      final d = v - mean;
+      sq += d * d;
+    }
+    out[2] = mean;
+    out[3] = rms.isEmpty ? 0.0 : math.sqrt(sq / rms.length);
+    out[4] = max;
+    return out;
+  }
+
+  /// `librosa.feature.rms(y, frame_length: kNFft, hop_length: kHopLength)`.
+  ///
+  /// librosa defaults to `center=True` with `'constant'` (zero) padding of
+  /// `frame_length ~/ 2` each side, which yields `1 + y.length ~/ hop`
+  /// frames — 188 for a 48,000-sample clip. Per frame the value is
+  /// `sqrt(mean(x^2))`, **not** `mean(abs(x))`.
+  ///
+  /// Verified against librosa 0.10.2 to 1.2e-8 on a real ESD clip before this
+  /// was ported; that residual is float32-vs-float64 accumulation, not a
+  /// difference in framing.
+  static Float64List rmsFrames(Float64List y) {
+    const half = kNFft ~/ 2;
+    final padded = Float64List(y.length + 2 * half);
+    padded.setRange(half, half + y.length, y);
+
+    final frames = 1 + (y.length ~/ kHopLength);
+    final out = Float64List(frames);
+    var n = 0;
+    for (var f = 0; f < frames; f++) {
+      final start = f * kHopLength;
+      if (start + kNFft > padded.length) break;
+      var sq = 0.0;
+      for (var i = 0; i < kNFft; i++) {
+        final v = padded[start + i];
+        sq += v * v;
+      }
+      out[n++] = math.sqrt(sq / kNFft);
+    }
+    return n == frames ? out : Float64List.sublistView(out, 0, n);
+  }
+
+  static double _meanAbsDiff(Float64List v) {
+    if (v.length < 2) return 0.0;
+    var sum = 0.0;
+    for (var i = 1; i < v.length; i++) {
+      sum += (v[i] - v[i - 1]).abs();
+    }
+    return sum / (v.length - 1);
+  }
+
+  /// `clip(max(ac[1:int(sr*0.02)]) / ac[0], 0, 1)` where `ac` is the
+  /// self-correlation kept from its centre.
+  ///
+  /// Two details that matter: this runs on the **unpadded** signal, unlike
+  /// [rmsFrames], and the lag window stops at `int(sr * 0.02)` = 320 samples
+  /// (20 ms, i.e. down to 50 Hz). Only lags `1..319` are searched, so lag 0 —
+  /// which is by definition the maximum — is excluded.
+  static double _harmonicsToNoise(Float64List y) {
+    final maxLag = (kSampleRate * 0.02).toInt();
+    final limit = maxLag < y.length ? maxLag : y.length;
+    var zero = 0.0;
+    for (final v in y) {
+      zero += v * v;
+    }
+    var best = 0.0;
+    for (var lag = 1; lag < limit; lag++) {
+      var acc = 0.0;
+      for (var i = 0; i + lag < y.length; i++) {
+        acc += y[i] * y[i + lag];
+      }
+      if (acc > best) best = acc;
+    }
+    final r = best / (zero + 1e-8);
+    return r < 0.0 ? 0.0 : (r > 1.0 ? 1.0 : r);
+  }
+
   static Float64List _fit(Float64List pcm) {
     if (pcm.length == kSamples) return pcm;
     final out = Float64List(kSamples);
