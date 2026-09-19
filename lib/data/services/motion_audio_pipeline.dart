@@ -37,6 +37,7 @@ class MotionAudioPipeline {
   int _inferences = 0;
   int _droppedBusy = 0;
   double _maxFallScore = 0;
+  InferenceResult? _latestResult;
 
   MotionAudioPipeline({
     required this.detector,
@@ -51,6 +52,12 @@ class MotionAudioPipeline {
   int get inferences => _inferences;
   int get droppedBusy => _droppedBusy;
   double get maxFallScore => _maxFallScore;
+
+  /// The most recent real inference, or null before the first full
+  /// window. Day 327: `DCSInferenceEngine` consumes this instead of
+  /// running its own motion inference, so the windowed model runs once
+  /// per window rather than twice.
+  InferenceResult? get latestResult => _latestResult;
 
   void start() {
     if (_accelSub != null) return;
@@ -96,6 +103,7 @@ class MotionAudioPipeline {
         timestampMs: DateTime.now().millisecondsSinceEpoch,
       );
       _inferences++;
+      _latestResult = result;
       final fall = result.classScores['fall'] ?? 0.0;
       if (fall > _maxFallScore) _maxFallScore = fall;
       if (!_results.isClosed) _results.add(result);

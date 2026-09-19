@@ -153,10 +153,33 @@ class DCSInferenceEngine {
   /// Runs one full DCS pass. The audio frame is required; motion + scene
   /// are optional — missing inputs fall back to "at rest" defaults so the
   /// fusion model still gets a 3-element vector.
+  /// Runs one full DCS pass.
+  ///
+  /// Day 327 — [motionResultOverride] exists because this engine's own
+  /// motion slot never worked. It declares `expectedInputSize: 6` and calls
+  /// `infer` with a 6-float [MotionFeatures] snapshot, but every real motion
+  /// model has been windowed: `motion_anomaly_v1` was `[1,100,6]` = 600
+  /// floats and `motion_fall_v2` is `[1,100,3]` = 300. `TfliteInterpreter
+  /// .tryLoad` returns null on that mismatch and the engine substitutes
+  /// [FixedStubInterpreter], whose `classScores` is `{label: score}` —
+  /// `{'normal': 0.15}`. [_dangerScore] then looks for `fall`/`unusual`,
+  /// finds neither, and returns **0**.
+  ///
+  /// So the fused score was `0.5 × scream + 0.3 × 0 + 0.2 × 0`, capped at
+  /// **0.50**, while [DCSScoreWatcher.alertThreshold] is **0.75**. The DCS
+  /// escalation path was mathematically unreachable — `onDCSThresholdExceeded`
+  /// could never fire. See `assets/models/DAY326_DCS_FUSION_NEVER_FUSED.md`.
+  ///
+  /// Passing the real result from [MotionAudioPipeline] — which already runs
+  /// the windowed model on the same sensor stream — fixes that without a
+  /// second inference. With motion contributing, the reachable maximum
+  /// becomes `0.5 + 0.3 = 0.80`, so the 0.75 alert threshold now requires
+  /// **two independent modalities to agree**, which is what a fusion is for.
   Future<DCSScore> infer({
     required AudioFeatures audio,
     MotionFeatures? motion,
     Float32List? sceneFeatures,
+    InferenceResult? motionResultOverride,
   }) async {
     _runs++;
     final timestampMs = audio.timestampMs;
@@ -169,13 +192,21 @@ class DCSInferenceEngine {
 
     // 2. Motion (synthesise "at rest" if absent so the fusion vector is
     //    always 3-wide)
-    final motionTensor =
-        (motion ?? MotionFeatures.atRest(timestampMs: timestampMs))
-            .toFloat32Tensor();
-    final motionResult = await this.motion.infer(
-          motionTensor,
-          timestampMs: timestampMs,
-        );
+    // Prefer a real windowed result when the caller has one. Only fall
+    // back to this engine's own 6-float slot when it does not, which keeps
+    // existing callers and the Month-2 integration runner working.
+    final InferenceResult motionResult;
+    if (motionResultOverride != null) {
+      motionResult = motionResultOverride;
+    } else {
+      final motionTensor =
+          (motion ?? MotionFeatures.atRest(timestampMs: timestampMs))
+              .toFloat32Tensor();
+      motionResult = await this.motion.infer(
+            motionTensor,
+            timestampMs: timestampMs,
+          );
+    }
 
     // 3. Scene (synthesise neutral default if absent)
     final sceneTensor = sceneFeatures ?? Float32List(8);

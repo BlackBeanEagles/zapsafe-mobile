@@ -12,6 +12,10 @@ import '../../data/services/interpreter.dart';
 import '../../data/services/model_bundle_service.dart';
 import '../../data/services/model_registry.dart';
 import '../../data/services/phone_capability_detector.dart';
+// Day 327: for motionAudioPipelineProvider, which owns the real windowed
+// motion inference. One-way import -- live_detection_providers does not
+// import this file, so there is no cycle.
+import 'live_detection_providers.dart';
 import '../../data/services/scene_capture_scheduler.dart';
 import '../../data/services/scream_detector_v2.dart';
 import '../../ml/inference/dcs_inference_engine.dart';
@@ -160,12 +164,20 @@ final dcsStreamProvider = StreamProvider<DCSScore>((ref) async* {
   // path unblocked even when sensors aren't subscribed yet.
   final imu = ref.watch(imuServiceProvider);
 
+  // Day 327 — the real windowed motion model, via the pipeline that already
+  // runs it. Without this the engine's own motion slot stubs out and
+  // contributes exactly 0 to the fusion, capping the fused score at 0.50
+  // against a 0.75 alert threshold. Null until the first full 100-sample
+  // window, in which case the engine falls back to its 6-float slot.
+  final motionPipeline = ref.watch(motionAudioPipelineProvider);
+
   final featureStream = ref.watch(audioChannelProvider).featureStream;
   await for (final audio in featureStream) {
     yield await engine.infer(
       audio: audio,
       motion: imu.latestFeatures ??
           MotionFeatures.atRest(timestampMs: audio.timestampMs),
+      motionResultOverride: motionPipeline?.latestResult,
     );
   }
 });
