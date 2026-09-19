@@ -50815,7 +50815,33 @@
    "hnr": 0.010818494111440462,
    "rms_mean": 0.09943278276539863,
    "rms_std": 0.0037811379430446298,
-   "rms_max": 0.10849368572235107
+   "rms_max": 0.10849368572235107,
+   "yin_voiced_frac": 0.0,
+   "yin_f0_mean": 0.0,
+   "yin_f0_std": 0.0,
+   "yin_f0_range": 0.0,
+   "yin_jitter": 0.0,
+   "yin_frames": 188,
+   "yin_f0_first8": [
+    738.1878733912991,
+    115.1613354122055,
+    469.2485053575109,
+    93.57133738008739,
+    115.86975883935769,
+    296.9497042600803,
+    144.42963560324887,
+    112.63931764253918
+   ],
+   "yin_voiced_first8": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
   },
   "voiced": {
    "samples": [
@@ -101591,9 +101617,36 @@
    "hnr": 0.974269089147977,
    "rms_mean": 0.2580060984225983,
    "rms_std": 0.007583544255013662,
-   "rms_max": 0.26738184690475464
+   "rms_max": 0.26738184690475464,
+   "yin_voiced_frac": 0.9946808218955994,
+   "yin_f0_mean": 180.04635620117188,
+   "yin_f0_std": 0.3135692775249481,
+   "yin_f0_range": 1.9770159721374512,
+   "yin_jitter": 1.1327208994771354e-05,
+   "yin_frames": 188,
+   "yin_f0_first8": [
+    246.8004474501191,
+    180.5278564868054,
+    180.52824371458667,
+    180.94129293231526,
+    179.8513035760478,
+    180.01940383885693,
+    179.7319539305332,
+    179.9689421605757
+   ],
+   "yin_voiced_first8": [
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
   }
  },
  "_day332_added": "shimmer/hnr/rms_mean/rms_std/rms_max, the five of the ten missing 38-vector features that need no pyin. librosa.feature.rms defaults center=True with constant(zero) padding of frame_length//2 each side, giving 1 + len(y)//hop = 188 frames for a 48000-sample clip. hnr is np.correlate(y,y,'full') kept from the centre, max(ac[1:320]) / ac[0] clipped to [0,1], where 320 = int(sr*0.02) -- computed on the UNPADDED signal, unlike rms.",
- "_day332_indices": "in the 38-vector these are [5] shimmer, [6] hnr, [33] rms_mean, [34] rms_std, [35] rms_max"
+ "_day332_indices": "in the 38-vector these are [5] shimmer, [6] hnr, [33] rms_mean, [34] rms_std, [35] rms_max",
+ "_day333_yin": "Plain YIN (Cheveigne & Kawahara 2002 steps 1-5), NO HMM -- the model is retrained on THIS tracker's output, so Dart must match work/yin_lite/yin_lite.py, not librosa.pyin. Params sr=16000 frame=512 hop=256 fmin=65.40639132514966 fmax=2093.004522404789 threshold=0.1. Frames are centre-padded with zeros like librosa. tau search range is floor(sr/fmax)=7 to ceil(sr/fmin)+1=246, capped at frame//2=256. Measured: yin_lite 38-feature AUC 0.8336 vs librosa.pyin 0.8445, so the HMM is worth 0.011."
 }
