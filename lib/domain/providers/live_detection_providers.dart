@@ -22,6 +22,7 @@ import '../../data/services/vehicle_crash_detector.dart';
 import '../../data/services/vehicle_crash_pipeline.dart';
 import 'detection_event_providers.dart';
 import 'platform_channel_providers.dart';
+import '../../data/services/violence_burst_detector.dart';
 
 /// Day 259 — wires the two models that passed real-data validation
 /// (m1_scream_v2, m2_motion_v2) all the way to the backend.
@@ -270,6 +271,28 @@ final kConfinementFusionPipelineProvider =
   pipeline.start();
   ref.onDispose(pipeline.dispose);
   return pipeline;
+});
+
+/// Day 334 — `m3_violence_temporal` + its MobileNetV3Small encoder.
+///
+/// Deliberately **only loads** the detector. There is no pipeline provider
+/// beside it, unlike scream/motion, because a burst is 16 sequential
+/// `takePicture()` calls plus 16 encoder passes — far too expensive to run
+/// on a timer. This is an on-demand check for when something else has
+/// already raised suspicion; the caller drives it with
+/// `CameraFrameService.captureBurst()` then
+/// [ViolenceBurstDetector.inferBurst].
+///
+/// Measured end-to-end on the shipped assets against real held-out val
+/// clips, with training-matched frame sampling: **AUC 0.9176**, separation
+/// +0.5293, and at the 0.5 midpoint 49/70 on Fight against 9/70 on
+/// NonFight. The head alone reproduces 0.9126 on the training-time cached
+/// features. See `assets/models/DAY334_M3_BURST_WIRING.md`.
+final violenceBurstDetectorProvider =
+    FutureProvider<ViolenceBurstDetector?>((ref) async {
+  final detector = await ViolenceBurstDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
 });
 
 /// Submits every confident [InferenceResult] from both live pipelines to

@@ -124,6 +124,46 @@ class CameraFrameService {
     }
   }
 
+  /// Day 334 — captures [count] frames back-to-back for
+  /// [ViolenceBurstDetector], which needs a **temporal** sequence rather
+  /// than a single frame.
+  ///
+  /// Returns null unless every frame was captured, because the temporal head
+  /// takes exactly 16 and a short burst has no meaningful padding: repeating
+  /// or zero-filling a frame would fabricate motion (or the absence of it)
+  /// that the model then reads as signal.
+  ///
+  /// [gapMs] spaces the captures. `m3_violence_temporal` was trained on 16
+  /// **evenly-spaced frames drawn across a whole clip**, and the source clips
+  /// are typically 2-5 s, so the default 150 ms gives ~2.4 s of coverage —
+  /// deliberately close to that, because the head's whole value is the motion
+  /// between frames. Bursting as fast as `takePicture()` allows would sample
+  /// a much shorter window than training and compress the very dynamics being
+  /// classified.
+  ///
+  /// Cost is real and worth stating plainly: 16 sequential `takePicture()`
+  /// calls plus 16 encoder passes. This is an on-demand check to run when
+  /// something else has already raised suspicion, not a polling loop.
+  Future<List<List<int>>?> captureBurst({
+    int count = 16,
+    Duration gap = const Duration(milliseconds: 150),
+  }) async {
+    if (!await ensureInitialized()) return null;
+    final frames = <List<int>>[];
+    for (var i = 0; i < count; i++) {
+      final f = await captureSceneRgb();
+      if (f == null) {
+        if (kDebugMode) {
+          debugPrint('[CameraFrameService] burst aborted at frame $i/$count');
+        }
+        return null;
+      }
+      frames.add(f);
+      if (i + 1 < count) await Future<void>.delayed(gap);
+    }
+    return frames;
+  }
+
   /// The real, pure-Dart preprocessing step: JPEG bytes → resized 224×224
   /// RGB → flat byte list, [SceneDetectorV2.kInputFloats] long.
   ///
