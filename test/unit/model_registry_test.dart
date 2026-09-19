@@ -5,10 +5,19 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('kZapsafeModels catalogue', () {
-    test('declares all five expected slots', () {
-      expect(kZapsafeModels.length, 5);
-      expect(kZapsafeModels.map((m) => m.key).toList(),
-          ['scream', 'motion', 'scene', 'fusion', 'aggressive_speech']);
+    test('declares the expected slots in order', () {
+      expect(kZapsafeModels.length, 6);
+      // Day 325 added 'vocal_stress' (M5). The plan's roster
+      // (zapsafeworking/ZAPSAFE_ML_TRAINING_STRATEGY.md) runs M1-M9, so this
+      // list grows as slots get real models -- it is not capped at five.
+      expect(kZapsafeModels.map((m) => m.key).toList(), [
+        'scream',
+        'motion',
+        'scene',
+        'fusion',
+        'vocal_stress',
+        'aggressive_speech',
+      ]);
     });
 
     test('every model has a unique key', () {
@@ -51,6 +60,7 @@ void main() {
         'motion': 'assets/models/motion_fall_v2.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
+        'vocal_stress': 'assets/models/m5_vocal_stress_v2.tflite',
         'aggressive_speech':
             'assets/models/h_aggressive_speech_v1.tflite',
       };

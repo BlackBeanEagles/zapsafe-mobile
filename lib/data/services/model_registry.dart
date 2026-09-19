@@ -95,6 +95,29 @@ const List<ModelDefinition> kZapsafeModels = [
     realSizeMb: 0.5,
   ),
   ModelDefinition(
+    key: 'vocal_stress',
+    displayName: 'Vocal Stress APAC (M5)',
+    assetPath: 'assets/models/m5_vocal_stress_v2.tflite',
+    purpose: '28-dim prosodic features -> stressed vs calm speech (Mandarin)',
+    realModelEta: 'Day 325 - trained locally on ESD Mandarin',
+    realSizeMb: 0.031,
+    // WIRED and verified. VocalStressDetector loads it; VocalStressFeatures
+    // builds the input with librosa-parity MFCC (test/vocal_stress_features_
+    // test.dart pins it to <1e-6 against real librosa).
+    //
+    // Held-out-SPEAKER AUC 0.7988 (3 of 10 Mandarin speakers held out
+    // entirely). The same data scores 0.9984 on a random split, so the
+    // speaker-wise number is the only honest one.
+    //
+    // Earlier M5s scored 0.5855 / 0.4862 / 0.4537 because they all trained
+    // on English and were scored on APAC. Prosodic stress does not transfer
+    // across languages. See vocal_stress_detector.dart.
+    //
+    // Threshold 0.20, not 0.5: precision is flat (~0.77) across the range
+    // while recall climbs, so there is no reason to sit high. At 0.53 recall
+    // this is a DCS fusion input, NOT an alert trigger.
+  ),
+  ModelDefinition(
     key: 'aggressive_speech',
     displayName: 'Aggressive Speech (H)',
     assetPath: 'assets/models/h_aggressive_speech_v1.tflite',

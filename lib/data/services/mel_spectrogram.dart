@@ -82,6 +82,26 @@ class MelSpectrogram {
   /// (normalize: true) path for `s_crowd_panic` would silently double-
   /// normalise and feed the model values it never saw in training.
   List<Float64List> compute(Float64List samples, {bool normalize = true}) {
+    final mel = melPower(samples);
+    return normalize ? _powerToDbNormalised(mel) : _powerToDb(mel);
+  }
+
+  /// The STFT power spectrogram, `[frames][bins]`, exposed for callers that
+  /// need the linear spectrum rather than the mel projection.
+  ///
+  /// `VocalStressFeatures` uses it for spectral centroid, which librosa
+  /// weights by the **magnitude** spectrum — so callers must take `sqrt` of
+  /// these values. Weighting by power instead biases the centroid upward on
+  /// every frame.
+  List<Float64List> stftPowerForCentroid(Float64List samples) =>
+      _stftPower(samples);
+
+  /// Mel **power** spectrogram, before any dB conversion. `[nMels][frames]`.
+  ///
+  /// Split out of [compute] so [mfcc] can reuse it: MFCC needs
+  /// `power_to_db(ref=1.0)` while [compute] applies `ref=np.max`, and those
+  /// are not interchangeable (see [mfcc]).
+  List<Float64List> melPower(Float64List samples) {
     final power = _stftPower(samples);          // [frames][bins]
     final frames = power.length;
 
@@ -100,8 +120,93 @@ class MelSpectrogram {
         row[t] = acc;
       }
     }
+    return mel;
+  }
 
-    return normalize ? _powerToDbNormalised(mel) : _powerToDb(mel);
+  /// `librosa.feature.mfcc` parity. Returns `[nMfcc][frames]`.
+  ///
+  /// Day 325 — added for `m5_vocal_stress_v2`, whose 28-dim input is
+  /// 13 MFCC means + 13 MFCC stds + ZCR + spectral centroid.
+  ///
+  /// **Why this cannot reuse [compute].** `librosa.feature.mfcc` is
+  /// `DCT-II(norm='ortho')` of `power_to_db(mel, ref=1.0)`, whereas [compute]
+  /// returns `power_to_db(mel, ref=np.max)`. Verified against real librosa
+  /// when `test/fixtures/m5_vocal_stress_golden.json` was generated:
+  ///
+  ///  * the DCT identity holds to **1e-9**, so this formulation is exact;
+  ///  * `ref=np.max` subtracts a per-clip constant, which shifts **mfcc[0]
+  ///    only** and leaves mfcc[1..12] bit-identical;
+  ///  * so `mfcc_std[0]` would survive the wrong ref but `mfcc_mean[0]`
+  ///    would be silently off by `10·log10(max)` — tens of dB.
+  ///
+  /// One wrong feature out of 28 does not throw, does not change the tensor
+  /// shape, and does not leave the valid range. It just makes the model
+  /// wrong. Hence the separate `ref=1.0` path.
+  List<Float64List> mfcc(Float64List samples, {int nMfcc = 13}) {
+    return _dct2Ortho(_powerToDbRef1(melPower(samples)), nMfcc);
+  }
+
+  /// `librosa.power_to_db(S, ref=1.0, amin=1e-10, top_db=80)`.
+  ///
+  /// Differs from [_powerToDb] only in the reference: absolute dB rather than
+  /// relative to the clip's peak. The `top_db` floor is still applied
+  /// relative to the *output* maximum, exactly as librosa does.
+  static List<Float64List> _powerToDbRef1(List<Float64List> mel) {
+    const amin = 1e-10, topDb = 80.0;
+    var maxDb = double.negativeInfinity;
+    final db = <Float64List>[];
+    for (final row in mel) {
+      final r = Float64List(row.length);
+      for (var i = 0; i < row.length; i++) {
+        r[i] = 10.0 * _log10(math.max(amin, row[i]));
+        if (r[i] > maxDb) maxDb = r[i];
+      }
+      db.add(r);
+    }
+    final floor = maxDb - topDb;
+    for (final row in db) {
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] < floor) row[i] = floor;
+      }
+    }
+    return db;
+  }
+
+  /// `scipy.fftpack.dct(x, axis=-2, type=2, norm='ortho')`, keeping the first
+  /// [nOut] coefficients — the transform librosa's MFCC uses.
+  ///
+  /// Runs down the mel axis for each frame independently. Orthonormal
+  /// scaling: `y[0] = Σx / √N`, `y[k>0] = Σ x[n]·cos(πk(2n+1)/2N) · √(2/N)`.
+  /// Getting that scaling wrong changes every coefficient by a constant
+  /// factor, which a shape check cannot catch.
+  static List<Float64List> _dct2Ortho(List<Float64List> db, int nOut) {
+    final n = db.length;                 // mel bands
+    final frames = n == 0 ? 0 : db[0].length;
+    final out = List<Float64List>.generate(nOut, (_) => Float64List(frames));
+    if (n == 0 || frames == 0) return out;
+
+    final scale0 = math.sqrt(1.0 / n);
+    final scaleK = math.sqrt(2.0 / n);
+    // cos table: [k][band]
+    final cos = List<Float64List>.generate(nOut, (k) {
+      final row = Float64List(n);
+      for (var i = 0; i < n; i++) {
+        row[i] = math.cos(math.pi * k * (2 * i + 1) / (2 * n));
+      }
+      return row;
+    });
+
+    for (var t = 0; t < frames; t++) {
+      for (var k = 0; k < nOut; k++) {
+        final ck = cos[k];
+        var acc = 0.0;
+        for (var i = 0; i < n; i++) {
+          acc += db[i][t] * ck[i];
+        }
+        out[k][t] = acc * (k == 0 ? scale0 : scaleK);
+      }
+    }
+    return out;
   }
 
   /// Pads or trims the mel to exactly [targetFrames] columns.
