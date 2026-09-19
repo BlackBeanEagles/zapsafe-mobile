@@ -120,7 +120,15 @@ Its training script is **structurally sound** and worth saying so:
 window — `neg = normalize_imu(w)`, `pos = inject_crash_spike(w)`. There is
 no provenance shortcut. Two other things kill it.
 
-**1. The int8 output has collapsed to one quantization step.**
+**1. The output has collapsed — and Day 330 corrects the cause below.**
+
+> **Correction (Day 330).** This section blamed int8 quantization. That was
+> wrong. The f32 twin was measured afterwards and is *also* flat: over 80
+> unrelated real audio clips its entire output range is **[0.4945, 0.5040]**,
+> and its audio branch scores **AUC 0.4738** — below chance. int8 faithfully
+> encodes a parent that had already collapsed, so re-exporting fixes nothing.
+> The model needs a retrain. See
+> `DAY330_VEHICLE_CRASH_COLLAPSED_AT_SOURCE.md`.
 
 | regime | AUC | pos mean | neg mean | separation |
 |---|---|---|---|---|

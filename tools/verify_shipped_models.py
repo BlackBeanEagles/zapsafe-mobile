@@ -43,6 +43,30 @@ from __future__ import annotations
 # alive, but not separating the classes it claims to detect.
 WEAK_AUC = 0.70
 
+# Day 330 - AUC alone CANNOT detect a collapsed model, and this gate proved it.
+#
+# roc_auc_score is rank-based, so it is completely scale-invariant: a model
+# that returns 0.4999 for every negative and 0.5001 for every positive scores
+# a perfect 1.0. i_vehicle_crash_f32 is exactly that model. Measured over 80
+# unrelated real audio clips and 60 real IMU windows its ENTIRE output range
+# is [0.4945, 0.5040] - 0.0095 wide, centred on 0.5, because its final
+# sigmoid sits at logit ~ 0 for every input. It still scores AUC 0.9236 on
+# the IMU axis, and Day 271 recorded that as "0.9622 fp32", a genuinely
+# strong result. It never was one.
+#
+# The old DEAD check (std < 1e-9) could not see this: that model's std is
+# ~2e-3, six orders of magnitude above the floor. So these two thresholds
+# exist to catch the shape AUC is blind to.
+#
+# A detector whose whole dynamic range is under 5% of the output scale cannot
+# be usefully thresholded - kDefaultThreshold 0.5 sits inside the noise - and
+# two class means closer than 0.05 cannot survive any real-world calibration
+# drift. Healthy shipped models are nowhere near these floors: gunshot spans
+# 0.479 (std 0.150), h_aggressive_speech 0.984 (std 0.399), motion_fall and
+# scream effectively the full [0, 1].
+COLLAPSE_SPAN = 0.05      # max(out) - min(out) below this = not thresholdable
+COLLAPSE_SEP = 0.05       # |mean(pos) - mean(neg)| below this = no effect size
+
 import csv
 import glob
 import io
@@ -465,16 +489,23 @@ KNOWN_BROKEN = {
         "~0.019 and never fires at any light value; AUC(phone-real IMU vs "
         "training-slice IMU)=0.0063, i.e. near-perfect separation INVERTED"),
     "i_vehicle_crash.tflite": (
-        "int8 output collapsed to one quantization step - separation 0.0039 "
-        "against output scale 0.00390625, so its AUC 1.0000 is a 1-LSB "
-        "ordering. Also trained on UCI-HAR in g while the pipeline feeds "
-        "sensors_plus m/s^2: 8x larger, saturates 16.7% of every window. "
-        "In app units AUC 0.5000"),
+        "COLLAPSED AT SOURCE, not by quantization (Day 328 blamed int8; that "
+        "was wrong). The f32 twin's entire output range over 80 real audio "
+        "clips is [0.4945, 0.5040] - 0.0095 wide - and its audio branch "
+        "scores AUC 0.4738, below chance. int8 faithfully encodes an already "
+        "flat parent, so re-exporting cannot fix it. Separately, trained on "
+        "UCI-HAR in g while the pipeline feeds sensors_plus m/s^2: 8x larger, "
+        "saturating 16.7% of every window, AUC 0.5000 in app units. Needs a "
+        "retrain, and no real crash IMU exists on any attached drive"),
     "m2_motion_b_retrain.tflite": (
-        "shares normalize_imu() = clip(w,-8,8)/8 with i_vehicle_crash "
-        "(documented in vehicle_crash_detector.dart as bit-for-bit "
-        "MotionDetectorB.normalise), so it inherits the same g-vs-m/s^2 "
-        "mismatch. No honest fixture exists and this is why"),
+        "BIT-EXACT DEAD: returns exactly 0.00000000 for every input. Probed "
+        "15 ways - real UCI-HAR windows swept across six orders of input "
+        "magnitude (x0.001 to x1000, covering g, m/s^2, SisFall ~0.24 and "
+        "UniMiB scales), plus all-zeros, all-ones, randn*5 and pure 9.81 "
+        "gravity: ONE distinct output. float32 tensors, so quantization is "
+        "not involved. The g-vs-m/s^2 mismatch it shares with "
+        "i_vehicle_crash via normalize_imu is real but irrelevant here - "
+        "this model does not respond to its input at all"),
 }
 
 
@@ -556,6 +587,10 @@ def evaluate(path):
         len(arr), arr.min(), arr.max(), arr.std())
     if arr.std() < 1e-9:
         return "DEAD", detail, note
+    span = float(arr.max() - arr.min())
+    if span < COLLAPSE_SPAN:
+        return ("COLLAPSED",
+                detail + " span=%.4f < %.2f" % (span, COLLAPSE_SPAN), note)
 
     # A live model can still be useless. Where the fixture carries real
     # labels, measure whether it actually separates them.
@@ -569,8 +604,19 @@ def evaluate(path):
         rec50 = float((pos >= 0.5).mean())
         detail = "n=%d AUC=%.3f rec@0.5=%.3f range[%.3f, %.3f]" % (
             len(arr), auc, rec50, arr.min(), arr.max())
+        pos = arr[labels == 1]
+        neg = arr[labels == 0]
+        sep = abs(float(pos.mean() - neg.mean())) if len(pos) and len(neg) else 0.0
+        detail += " sep=%.4f" % sep
         if auc < WEAK_AUC:
             return "WEAK", detail, note
+        # A high AUC with no effect size is the i_vehicle_crash failure: a
+        # consistent ordering of numbers that are all the same. Checked AFTER
+        # the AUC floor so the reported reason is the more specific one.
+        if sep < COLLAPSE_SEP:
+            return ("COLLAPSED",
+                    detail + " (AUC %.3f is an ordering of near-identical "
+                             "outputs)" % auc, note)
     return "ok", detail, note
 
 
@@ -624,6 +670,7 @@ def main():
         print("note: %s not found - most models will report UNVERIFIED\n" % DATASETS)
 
     dead, weak, unverified, broken = [], [], [], []
+    collapsed = []
     print("%-44s %9s  %-11s %s" % ("model", "size", "status", "detail"))
     print("-" * 104)
     for p in paths:
@@ -647,6 +694,8 @@ def main():
         print("%-44s %7.1fKB  %-11s %s%s" % (name, kb, status, detail, note))
         if status == "DEAD":
             dead.append(name)
+        elif status == "COLLAPSED":
+            collapsed.append(name)
         elif status == "WEAK":
             weak.append(name)
         elif status == "UNVERIFIED":
@@ -675,6 +724,15 @@ def main():
         print("     assets/models/DAY326_DCS_FUSION_NEVER_FUSED.md")
 
     failed = False
+    if collapsed:
+        print("FAILED: output collapsed - not thresholdable: %s"
+              % ", ".join(collapsed))
+        print("These return nearly the same number for every input. A high "
+              "AUC does not rescue that: roc_auc_score is rank-based and "
+              "scale-invariant, so a consistent ordering of near-identical "
+              "outputs scores well while no usable threshold exists. See "
+              "COLLAPSE_SPAN / COLLAPSE_SEP.")
+        failed = True
     if broken:
         print("FAILED: measured non-functional on real phone input: %s"
               % ", ".join(broken))
