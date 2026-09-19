@@ -45,6 +45,7 @@ WEAK_AUC = 0.70
 
 import csv
 import glob
+import io
 import json
 import os
 import random
@@ -325,6 +326,118 @@ def real_scream_mel(n_pos=45, n_neg=90):
     return np.stack(X), np.asarray(y)
 
 
+def real_prosodic_28(n=240):
+    """Real ESD Mandarin audio -> (28-dim prosodic vectors, labels).
+
+    For `m5_vocal_stress_v2`. Built from the SAME THREE HELD-OUT SPEAKERS the
+    model never trained on ('0001', '0006', '0007' -- the deterministic
+    seed-42 split in work/m5_28/train_m5_28.py). That is the whole point of
+    this fixture: the identical data scores **0.9984** when training speakers
+    leak into it and **0.7988** when they do not. A fixture drawn from
+    training speakers would report ~0.99 and be worse than no fixture,
+    because it would look like a pass.
+
+    28 features, in the order the model expects:
+        [ 0..12]  mfcc_mean[0..12]
+        [13..25]  mfcc_std[0..12]
+        [26]      zcr
+        [27]      spectral centroid Hz / (sr/2)    <- the /(sr/2) matters
+
+    librosa params: sr=16000, n_mfcc=13, n_fft=512, hop=256, 3.0 s clips.
+    No pyin needed -- the 10 pitch/RMS features the training script also
+    defines were measured to contribute nothing (0.7986 with them, 0.7988
+    without), so this is the full input, not a subset.
+
+    SAMPLING LIMITATION, stated rather than hidden: this takes the FIRST
+    `n/2` per class encountered while scanning shards, not a uniform sample
+    over all held-out clips. It therefore reads AUC 0.850 where the training
+    run's full 1,020-clip held-out evaluation reads **0.7988**. The
+    authoritative number is 0.7988; treat this as a regression guard -- "the
+    shipped artifact still separates real held-out-speaker audio" -- not as a
+    replacement for the training report. Making it uniform needs reservoir
+    sampling across all 7 shards (~3 GB of parquet reads), which is too slow
+    for a gate meant to run routinely.
+
+    ESD lives on an external drive rather than under DATASETS. If it is not
+    attached this returns None and the model honestly reports UNVERIFIED.
+    """
+    try:
+        import librosa
+        import pyarrow.parquet as pq
+        import soundfile as sf
+    except ImportError:
+        return None
+
+    esd = r"D:\zapsafe\ESD_Dataset"
+    shards = sorted(glob.glob(os.path.join(esd, "train-*.parquet")))
+    if not shards:
+        return None
+
+    HELD_OUT = {"0001", "0006", "0007"}
+    POS = {"angry", "anger", "sad", "sadness"}
+    NEG = {"neutral", "happy", "happiness"}
+    SR, NEED = 16000, 16000 * 3
+    per_class = max(8, n // 2)
+
+    raw, want = [], {0: 0, 1: 0}
+    for sh in shards:
+        if want[0] >= per_class and want[1] >= per_class:
+            break
+        try:
+            t = pq.read_table(sh, columns=["audio", "emotion", "language",
+                                           "speaker_id"])
+        except Exception:
+            return None
+        for a, e, lang, spk in zip(t.column("audio").to_pylist(),
+                                   t.column("emotion").to_pylist(),
+                                   t.column("language").to_pylist(),
+                                   t.column("speaker_id").to_pylist()):
+            if (lang or "").strip().lower() != "zh" or spk not in HELD_OUT:
+                continue
+            em = (e or "").strip().lower()
+            lab = 1 if em in POS else (0 if em in NEG else None)
+            if lab is None or want[lab] >= per_class:
+                continue
+            b = a.get("bytes") if isinstance(a, dict) else None
+            if b:
+                raw.append((b, lab))
+                want[lab] += 1
+    if want[0] < 8 or want[1] < 8:
+        return None
+
+    # Deterministic order for reproducible logs. NOTE this does not affect
+    # the metric -- AUC is order-independent, and the shuffle happens after
+    # collection, so it changes neither which clips were chosen nor the score.
+    random.Random(42).shuffle(raw)
+
+    X, y = [], []
+    for b, lab in raw:
+        try:
+            wav, sr = sf.read(io.BytesIO(b), dtype="float32")
+            if wav.ndim > 1:
+                wav = wav.mean(axis=1)
+            if sr != SR:
+                wav = librosa.resample(wav, orig_sr=sr, target_sr=SR)
+            if len(wav) < SR * 0.3:
+                continue
+            wav = (np.pad(wav, (0, NEED - len(wav)))
+                   if len(wav) < NEED else wav[:NEED])
+            m = librosa.feature.mfcc(y=wav, sr=SR, n_mfcc=13, n_fft=512,
+                                     hop_length=256)
+            zcr = float(librosa.feature.zero_crossing_rate(
+                wav, frame_length=512, hop_length=256)[0].mean())
+            cen = float(librosa.feature.spectral_centroid(
+                y=wav, sr=SR, n_fft=512, hop_length=256)[0].mean() / (SR / 2))
+            X.append(np.concatenate([m.mean(axis=1), m.std(axis=1),
+                                     [zcr, cen]]).astype(np.float32))
+            y.append(lab)
+        except Exception:
+            continue
+    if len(set(y)) < 2 or len(y) < 16:
+        return None
+    return np.stack(X), np.asarray(y)
+
+
 def fixture_for(input_details):
     """Real inputs matching this model's contract, or None if we have none."""
     if len(input_details) != 1:
@@ -346,6 +459,9 @@ def fixture_for(input_details):
     if len(shape) == 2 and int(shape[1]) == 38:
         X = real_prosodic_38()
         return None if X is None else (X, None)
+    if len(shape) == 2 and int(shape[1]) == 28:
+        # Labelled, so this yields a real AUC rather than a liveness check.
+        return real_prosodic_28()
     return None
 
 
