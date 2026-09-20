@@ -117,7 +117,35 @@ claimed for it.
 | `m5_vocal_stress_v2` | 0.7988 (gate 0.850) | **~0.63 ± 0.11** |
 
 **Every other single-split number in this project inherits the same
-caveat.** `motion_fall_v2` at 0.999 is held-out-*subject* and has a large
-separation (0.941), so it is unlikely to be split luck — but it has not been
-checked, and neither has anything else. That is now a known gap rather than
-an assumption.
+caveat**, so `motion_fall_v2` was checked the same way.
+
+## 5. Day 340 — motion_fall_v2 is NOT split luck
+
+Same method, six different held-out subject sets of 7 from 30:
+
+```
+  seed 42  [6, 8, 17, 23, 25, 26, 30]   0.9986   <- the split it shipped from
+  seed  2  [8, 13, 16, 17, 19, 25, 27]  0.9978
+  seed  4  [1, 2, 8, 9, 12, 26, 29]     0.9976
+  seed  5  [3, 8, 10, 12, 20, 24, 25]   0.9980
+  seed  3  [4, 13, 18, 21, 24, 27, 28]  0.9764
+  seed  1  [2, 4, 8, 16, 17, 22, 29]    0.9724
+  mean 0.9901   sd 0.0112   min 0.9724
+```
+
+The worst of six is **0.9724**, and the spread is **ten times tighter** than
+m5's (sd 0.0112 against 0.1100). The shipped split was the best, as it was
+for every model checked — but here that distinction is worth 0.008, not 0.16.
+
+So the flagship detector's number survives the scrutiny that broke m5's. The
+difference is not luck in the checking; it is that `motion_fall_v2` has a
+0.941 class separation against m5's 0.201. **A large separation is what makes
+a number robust to which subjects you hold out** — that is the property worth
+looking for, and the gate already prints it on every line.
+
+Reproduce with `tools/day340_motion_split_check.py`.
+
+What remains unchecked: `scream_classifier_v3`, `mg_gunshot_retrain`,
+`h_aggressive_speech_v1` and `m3_violence_temporal`. M3's separation is 0.506
+and scream's 0.373, so both sit closer to motion than to m5 on the property
+that matters.
