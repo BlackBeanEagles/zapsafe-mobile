@@ -16,8 +16,11 @@ import '../../data/services/scream_audio_pipeline.dart';
 import '../../data/services/scream_detector_v2.dart';
 import '../../data/services/vehicle_crash_detector.dart';
 import '../../data/services/vehicle_crash_pipeline.dart';
+import '../../data/services/camera_frame_service.dart';
+import '../../data/services/violence_burst_coordinator.dart';
 import '../../data/services/violence_burst_detector.dart';
 import '../../data/services/vocal_stress_detector.dart';
+import '../../data/services/vocal_stress_pipeline.dart';
 import 'detection_event_providers.dart';
 import 'platform_channel_providers.dart';
 
@@ -214,6 +217,48 @@ final kConfinementFusionPipelineProvider =
   pipeline.start();
   ref.onDispose(pipeline.dispose);
   return pipeline;
+});
+
+/// Day 341 — the stream that finally drives [VocalStressDetector].
+///
+/// Day 337 wired the detector to a provider; nothing fed it. This starts the
+/// pipeline on the same PCM stream scream and gunshot already use, so all
+/// three analyse the same windows.
+///
+/// Its results are deliberately **not** subscribed by
+/// [liveDetectionEventSubmitterProvider]. Vocal stress is a contributing
+/// signal (~0.80 AUC in English, ~0.63 in Mandarin — see
+/// `assets/models/DAY338_SPLIT_SENSITIVITY.md`), and submitting it as a
+/// standalone detection event would put a weak signal straight into the
+/// user's feed. Feeding a fusion is what it is for; `latestResult` is how a
+/// fusion reads it.
+final vocalStressPipelineProvider =
+    Provider<VocalStressPipeline?>((ref) {
+  final detector = ref.watch(vocalStressDetectorProvider).valueOrNull;
+  if (detector == null) return null;
+
+  final audio = ref.watch(audioChannelProvider);
+  final pipeline = VocalStressPipeline(
+    detector: detector,
+    windows: audio.pcmStream,
+  );
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
+/// Day 341 — the coordinator that decides when to spend a camera burst.
+///
+/// Null until [violenceBurstDetectorProvider] resolves, since a coordinator
+/// with nothing to infer with would count triggers it cannot act on.
+final violenceBurstCoordinatorProvider =
+    Provider<ViolenceBurstCoordinator?>((ref) {
+  final detector = ref.watch(violenceBurstDetectorProvider).valueOrNull;
+  if (detector == null) return null;
+  return ViolenceBurstCoordinator.from(
+    camera: CameraFrameService(),
+    detector: detector,
+  );
 });
 
 /// Day 337 — vocal stress, wired for the first time.

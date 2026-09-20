@@ -6,6 +6,7 @@ import 'package:image/image.dart' as img;
 import 'package:permission_handler/permission_handler.dart';
 
 import 'scene_detector_v2.dart';
+import 'violence_burst_coordinator.dart' show CameraBurstSource;
 
 /// Day 316 — the real camera-capture pipeline this app never had.
 ///
@@ -35,7 +36,7 @@ import 'scene_detector_v2.dart';
 ///      to a tensor and discarded — see [captureSceneRgb]) is a smaller,
 ///      more auditable surface than an open continuous video feed for a
 ///      background safety process.
-class CameraFrameService {
+class CameraFrameService implements CameraBurstSource {
   CameraController? _controller;
   bool _initializing = false;
 
@@ -144,6 +145,7 @@ class CameraFrameService {
   /// Cost is real and worth stating plainly: 16 sequential `takePicture()`
   /// calls plus 16 encoder passes. This is an on-demand check to run when
   /// something else has already raised suspicion, not a polling loop.
+  @override
   Future<List<List<int>>?> captureBurst({
     int count = 16,
     Duration gap = const Duration(milliseconds: 150),

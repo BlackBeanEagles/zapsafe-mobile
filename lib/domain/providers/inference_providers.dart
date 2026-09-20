@@ -24,6 +24,7 @@ import '../../ml/inference/isolated_dcs_runner.dart';
 import 'app_state_provider.dart';
 import 'imu_providers.dart';
 import 'platform_channel_providers.dart';
+import 'package:flutter/foundation.dart';
 
 /// Day 29 — the synchronous [Interpreter] in force right now.
 ///
@@ -171,14 +172,41 @@ final dcsStreamProvider = StreamProvider<DCSScore>((ref) async* {
   // window, in which case the engine falls back to its 6-float slot.
   final motionPipeline = ref.watch(motionAudioPipelineProvider);
 
+  // Day 341 — the camera-burst coordinator. It both CONSUMES this stream
+  // (to decide when a burst is justified) and FEEDS it (its last burst is
+  // the scene slot's input), so the loop is closed here rather than in two
+  // places that could disagree about the threshold.
+  final burst = ref.watch(violenceBurstCoordinatorProvider);
+
   final featureStream = ref.watch(audioChannelProvider).featureStream;
   await for (final audio in featureStream) {
-    yield await engine.infer(
+    final score = await engine.infer(
       audio: audio,
       motion: imu.latestFeatures ??
           MotionFeatures.atRest(timestampMs: audio.timestampMs),
       motionResultOverride: motionPipeline?.latestResult,
+      // The most recent burst, if any. The engine applies its own 30 s
+      // staleness bound, so an old one contributes exactly 0.
+      sceneResultOverride: burst?.latestResult,
     );
+    yield score;
+
+    // Deliberately NOT awaited. A burst is 16 takePicture() calls plus 16
+    // encoder passes -- roughly 3 s -- and awaiting it here would stall the
+    // audio pipeline for that whole time, delaying every subsequent window
+    // and the escalation decisions that depend on them. Fire it off and let
+    // the result land in `latestResult` for a LATER window to pick up, which
+    // is exactly why the scene slot reads a cached value rather than an
+    // inline one. Errors are swallowed inside observe(); the catch here is
+    // for the unawaited future itself so a failure cannot take down the
+    // stream.
+    unawaited(burst
+            ?.observe(score, alertThreshold: DCSScoreWatcher.alertThreshold)
+            .catchError((Object e) {
+          if (kDebugMode) debugPrint('[dcsStream] burst observe failed: $e');
+          return null;
+        }) ??
+        Future<void>.value());
   }
 });
 
