@@ -1,0 +1,55 @@
+{
+  "zalo_heldout_baseline": 0.6908,
+  "zalo_heldout_combined": 0.7048,
+  "leave_one_attack_out": [
+    {
+      "type": "Cutout_attacks",
+      "n": 15,
+      "zalo_only": 0.647,
+      "with_other_attacks": 0.6286,
+      "delta": -0.0185
+    },
+    {
+      "type": "Latex_mask",
+      "n": 10,
+      "zalo_only": 0.3563,
+      "with_other_attacks": 0.3812,
+      "delta": 0.025
+    },
+    {
+      "type": "Replay_display_attacks",
+      "n": 5,
+      "zalo_only": 0.8232,
+      "with_other_attacks": 0.8143,
+      "delta": -0.0089
+    },
+    {
+      "type": "Replay_mobile_attacks",
+      "n": 10,
+      "zalo_only": 0.9196,
+      "with_other_attacks": 0.983,
+      "delta": 0.0634
+    },
+    {
+      "type": "Silicone_mask",
+      "n": 11,
+      "zalo_only": 0.1761,
+      "with_other_attacks": 0.4261,
+      "delta": 0.25
+    },
+    {
+      "type": "Textile_3D_mask",
+      "n": 23,
+      "zalo_only": 0.5726,
+      "with_other_attacks": 0.6161,
+      "delta": 0.0435
+    },
+    {
+      "type": "Wrapped_3D_paper_mask",
+      "n": 10,
+      "zalo_only": 0.7384,
+      "with_other_attacks": 0.5598,
+      "delta": -0.1786
+    }
+  ]
+}
