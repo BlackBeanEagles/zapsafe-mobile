@@ -51,21 +51,37 @@ class ScreamDetectorV2 implements Interpreter {
 
   /// Above this sigmoid output the clip is reported as `scream`.
   ///
-  /// **0.30, not 0.5, and that is deliberate.** Measured on held-out real
-  /// AudioSet screams the model never trained on:
+  /// **0.20, not 0.5, and that is deliberate.**
   ///
-  /// | threshold | recall | precision |
-  /// |---|---|---|
-  /// | 0.50 | 0.455 | 0.682 |
-  /// | 0.40 | 0.485 | 0.593 |
-  /// | **0.30** | **0.667** | **0.524** |
-  /// | 0.20 | 0.758 | 0.463 |
-  /// | 0.10 | 0.818 | 0.397 |
+  /// Day 342 — re-measured on the shipped **v3** model over 135 held-out
+  /// real AudioSet clips (45 positives). The table this block used to carry
+  /// was **v2's curve**, left behind when Day 324 swapped the asset to v3,
+  /// so its conclusion ("past 0.20 precision falls below half") described a
+  /// model that is no longer here:
   ///
-  /// 0.30 is the recall-leaning point a safety app wants: missing a real
-  /// scream is worse than a false alert, up to the point where false alerts
-  /// train the user to ignore the app. Past 0.20 precision falls below half
-  /// and it starts crying wolf.
+  /// | t | recall | precision | alerts/135 |
+  /// |---|---|---|---|
+  /// | 0.40 | 0.556 | 0.735 | 34 |
+  /// | 0.30 | 0.689 | 0.660 | 47 |
+  /// | 0.25 | 0.733 | 0.623 | 53 |
+  /// | **0.20** | **0.778** | **0.614** | **57** |
+  /// | 0.15 | 0.800 | 0.554 | 65 |
+  ///
+  /// Moving 0.30 → 0.20 buys **+0.089 recall for −0.046 precision**, and
+  /// costs 10 more alerts per 135 windows. For a safety app that is the
+  /// right trade: a missed scream is the expensive error, and v3's precision
+  /// at 0.20 (0.614) is *better* than v2's was at 0.30 (0.524), so this is
+  /// less trigger-happy than what shipped for most of the project's life.
+  ///
+  /// 0.15 is deliberately not taken — it buys only +0.022 recall while
+  /// precision falls to 0.554, which is where false alerts start training
+  /// the user to ignore the app.
+  ///
+  /// This detector carries the **largest DCS fusion weight (0.5)**, so the
+  /// change propagates: an uncorroborated scream at 0.9 contributes 0.45,
+  /// which is exactly `ViolenceBurstCoordinator.kTriggerThreshold`. More
+  /// screams crossing threshold therefore means more camera bursts, bounded
+  /// by that class's 90 s cooldown.
   ///
   /// **Day 324 — this now loads `scream_classifier_v3.tflite`.** Real
   /// held-out AUC across three versions, same protocol each time:
@@ -99,7 +115,7 @@ class ScreamDetectorV2 implements Interpreter {
   /// set is 33 real screams, so each clip moves recall by 3% and 0.82
   /// cannot be told apart from 0.78. More real scream audio is the next
   /// thing this needs. See `assets/models/DAY324_SCREAM_V3.md`.
-  static const double kDefaultThreshold = 0.30;
+  static const double kDefaultThreshold = 0.20;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;
