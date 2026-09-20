@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'mel_spectrogram.dart';
+import 'yin_pitch.dart';
 
 /// Day 325 — the 28-dim prosodic vector `m5_vocal_stress_v2` takes.
 ///
@@ -57,6 +58,10 @@ class VocalStressFeatures {
 
   /// 13 means + 13 stds + zcr + centroid.
   static const int kFeatureDim = 2 * kNMfcc + 2; // 28
+
+  /// Full day95 vector: the 28 above plus 5 pitch and 5
+  /// amplitude/periodicity features. See [compose38].
+  static const int kFullFeatureDim = 38;
 
   VocalStressFeatures({MelSpectrogram? mel})
       : _mel = mel ??
@@ -210,6 +215,59 @@ class VocalStressFeatures {
     }
     final r = best / (zero + 1e-8);
     return r < 0.0 ? 0.0 : (r > 1.0 ? 1.0 : r);
+  }
+
+  /// The full **38-feature** day95 vector, assembled from the three sources
+  /// that can now compute every part of it on-device.
+  ///
+  /// **THE ORDER BELOW IS THE CONTRACT.** It is the day95 extractor's order,
+  /// which is what `m4_vocal_stress_en_38` was trained on. A permutation here
+  /// would be silent in the worst way — right length, plausible magnitudes,
+  /// wrong answer — so it is spelled out index by index rather than left to
+  /// concatenation order:
+  ///
+  /// | index | feature | source |
+  /// |---|---|---|
+  /// | `0..4` | voiced_frac, f0_mean, f0_std, f0_range, jitter | [YinPitch.pitchFeatures] |
+  /// | `5` | shimmer | [extendedFeatures] `[0]` |
+  /// | `6` | hnr | [extendedFeatures] `[1]` |
+  /// | `7..19` | mfcc_mean[0..12] | [extract] `[0..12]` |
+  /// | `20..32` | mfcc_std[0..12] | [extract] `[13..25]` |
+  /// | `33..35` | rms_mean, rms_std, rms_max | [extendedFeatures] `[2..4]` |
+  /// | `36` | zcr | [extract] `[26]` |
+  /// | `37` | spectral centroid / (sr/2) | [extract] `[27]` |
+  ///
+  /// Pitch comes from plain YIN, **not** `librosa.pyin` — the model is
+  /// trained on that tracker's output, and the HMM was measured to be worth
+  /// 0.011 AUC. See `assets/models/DAY333_YIN_WITHOUT_THE_HMM.md`.
+  ///
+  /// Held-out-speaker AUC for the model this feeds is **0.8321**, against
+  /// **0.6949** for the 28 features [extract] returns alone.
+  ///
+  /// The caller still has to apply `m4_vocal_stress_en_38_norm.json`
+  /// (`(x - mean) / std`, per feature) before inference — this returns raw
+  /// features, exactly like [extract].
+  Float64List compose38(Float64List pcm) {
+    final clip = _fit(pcm);
+    final base = extract(clip); // 28: mfcc means/stds, zcr, centroid
+    final ext = extendedFeatures(clip); // 5: shimmer, hnr, rms mean/std/max
+    final pitch = YinPitch.pitchFeatures(clip); // 5: voiced_frac, f0*, jitter
+
+    final out = Float64List(kFullFeatureDim);
+    for (var i = 0; i < 5; i++) {
+      out[i] = pitch[i];
+    }
+    out[5] = ext[0]; // shimmer
+    out[6] = ext[1]; // hnr
+    for (var i = 0; i < 2 * kNMfcc; i++) {
+      out[7 + i] = base[i]; // mfcc_mean[0..12] then mfcc_std[0..12]
+    }
+    out[33] = ext[2]; // rms_mean
+    out[34] = ext[3]; // rms_std
+    out[35] = ext[4]; // rms_max
+    out[36] = base[2 * kNMfcc]; // zcr
+    out[37] = base[2 * kNMfcc + 1]; // spectral centroid / nyquist
+    return out;
   }
 
   static Float64List _fit(Float64List pcm) {

@@ -549,8 +549,48 @@ def real_violence_sequences(n=400):
     return X.astype(np.float32), np.asarray(y)
 
 
-def fixture_for(input_details):
-    """Real inputs matching this model's contract, or None if we have none."""
+def real_prosodic_38_yin(n=400):
+    """Real ESD English -> (38-dim yin_lite vectors, labels), held-out speakers.
+
+    For `m4_vocal_stress_en_38`. **Not interchangeable with
+    `real_prosodic_38`**, even though both are [1,38]: that fixture computes
+    pitch with `librosa.pyin` while this model was trained on plain YIN
+    (`work/yin_lite/yin_lite.py`). Feeding it the librosa variant reports the
+    model DEAD at a constant 1.0 -- a domain mismatch dressed up as a dead
+    model, and the reason `fixture_for` routes this one by FILENAME rather
+    than by shape.
+
+    Rows come from `work/yin_lite/yin_lite_feats.npz`, restricted to the
+    three speakers the model never trained on ('0012', '0016', '0019' -- the
+    deterministic seed-42 split in work/m4_en_38/train_m4_en_38.py). Drawing
+    from training speakers would report ~0.99 and be worse than no fixture.
+    """
+    path = os.path.join(ROOT_WORK, "yin_lite", "yin_lite_feats.npz")
+    if not os.path.exists(path):
+        return None
+    try:
+        d = np.load(path, allow_pickle=True)
+        X, y, spk = d["X"], d["y"], d["spk"]
+    except Exception:
+        return None
+    held = {"0012", "0016", "0019"}
+    m = np.array([str(v) in held for v in spk])
+    X, y = X[m], y[m]
+    if len(X) == 0 or len(set(y.tolist())) < 2:
+        return None
+    if len(X) > n:
+        idx = np.random.RandomState(0).choice(len(X), n, replace=False)
+        X, y = X[idx], y[idx]
+    return X.astype(np.float32), np.asarray(y)
+
+
+def fixture_for(input_details, name=None):
+    """Real inputs matching this model's contract, or None if we have none.
+
+    `name` matters for [1,38]: two shipped models share that shape with
+    DIFFERENT feature definitions (librosa.pyin vs plain YIN pitch), so shape
+    alone cannot pick the right fixture.
+    """
     if len(input_details) != 1:
         return None                 # dual-input models need their own fixture
     shape = list(input_details[0]["shape"])
@@ -573,6 +613,11 @@ def fixture_for(input_details):
     if len(shape) == 3:
         return real_imu(int(shape[1]), int(shape[2]))
     if len(shape) == 2 and int(shape[1]) == 38:
+        if name and name.startswith("m4_vocal_stress_en_38"):
+            # Labelled, and computed with the SAME tracker the model trained
+            # on -- see real_prosodic_38_yin for why this cannot share the
+            # fixture below.
+            return real_prosodic_38_yin()
         X = real_prosodic_38()
         return None if X is None else (X, None)
     if len(shape) == 2 and int(shape[1]) == 28:
@@ -584,7 +629,7 @@ def fixture_for(input_details):
 def evaluate(path):
     it, note = _load(path)
     ins, out = it.get_input_details(), it.get_output_details()[0]
-    got = fixture_for(ins)
+    got = fixture_for(ins, name=os.path.basename(path))
     if got is None:
         return "UNVERIFIED", "no real-data fixture for this input shape", note
     X, labels = got
