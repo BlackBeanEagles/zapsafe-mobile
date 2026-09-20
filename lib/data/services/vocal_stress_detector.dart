@@ -68,15 +68,32 @@ import 'vocal_stress_features.dart';
 /// than one, and the right one has to be chosen at load time. Replacing one
 /// with the other would silently halve the app's coverage.
 enum VocalStressVariant {
-  /// `m5_vocal_stress_v2` — Mandarin, 28 features, held-out-speaker AUC
-  /// 0.7988 (0.850 on the gate's own fixture).
+  /// `m5_vocal_stress_v2` — Mandarin, 28 features.
+  ///
+  /// Reported at 0.7988 (0.850 on the gate's fixture), but Day 338 ran that
+  /// exact configuration across six held-out speaker triples: **mean 0.6314,
+  /// sd 0.1100, min 0.5060**. The reported split was the best of six, and on
+  /// `0005/0007/0010` the model is at chance. Expect **~0.63 on an unseen
+  /// Mandarin speaker**, not 0.80.
+  ///
+  /// Kept because it is still above chance on average and no better Mandarin
+  /// model exists — not because it is good. See
+  /// `assets/models/DAY338_SPLIT_SENSITIVITY.md`.
   mandarin28,
 
   /// `m4_vocal_stress_en_38` — English, the full 38-vector on plain-YIN
-  /// pitch, held-out-speaker AUC **0.8321** against 0.6949 for the same
-  /// English data through the 28-feature path. Needs [YinPitch] and
-  /// [VocalStressFeatures.extendedFeatures], which is why it could not ship
-  /// before Day 333.
+  /// pitch. Needs [YinPitch] and [VocalStressFeatures.extendedFeatures],
+  /// which is why it could not ship before Day 333.
+  ///
+  /// Reported at 0.8321 on one split; across six held-out triples it is
+  /// **mean 0.7990, sd 0.0761, min 0.6958** — its reported split was also
+  /// its best, but unlike the Mandarin model it never approaches chance.
+  /// Expect **~0.80 on an unseen English speaker**.
+  ///
+  /// The same data through the old 28-feature path averages **0.5925**, so
+  /// the extra ten features are worth **+0.207 averaged over splits** —
+  /// better evidence than the +0.137 single-split figure that justified
+  /// building them.
   english38,
 }
 
