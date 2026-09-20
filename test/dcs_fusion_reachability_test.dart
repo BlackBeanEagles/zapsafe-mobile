@@ -85,7 +85,7 @@ void main() {
               'saturating must not be enough');
     });
 
-    test('the reachable margin is only 0.05, and that is worth knowing', () {
+    test('the pre-Day-335 margin was only 0.05, which is why scene mattered', () {
       // Wrote this test expecting 0.9/0.9 to clear the threshold. It does
       // not: 0.5·0.9 + 0.3·0.9 = 0.72 < 0.75. The arithmetic is much tighter
       // than "reachable" suggests, so pin the real requirement rather than a
@@ -99,22 +99,63 @@ void main() {
       // both: at scream 1.00 motion must exceed 0.833, at scream 0.95 it
       // must exceed 0.917, and below scream 0.90 it is impossible at any
       // motion value. Ceiling 0.80 against threshold 0.75 leaves 0.05.
-      const ceiling = audioWeight + motionWeight;
-      expect(ceiling - DCSScoreWatcher.alertThreshold, closeTo(0.05, 1e-9),
+      const audioMotionCeiling = audioWeight + motionWeight;
+      expect(audioMotionCeiling - DCSScoreWatcher.alertThreshold,
+          closeTo(0.05, 1e-9),
           reason: 'this narrow margin is the strongest argument for '
               'revisiting the weights and wiring scene — see '
               'DAY326_DCS_FUSION_NEVER_FUSED.md. The fix makes escalation '
               'possible, not comfortable.');
     });
 
-    test('auto-SOS stays out of reach until scene is also wired', () {
-      const ceiling = audioWeight + motionWeight; // scene still contributes 0
-      expect(ceiling, lessThan(DCSScoreWatcher.autoSosThreshold),
-          reason: 'stated, not hidden: the 0.85 single-window override cannot '
-              'fire on audio+motion alone. Scene is deliberately left at 0 '
-              'because the shipped scene_analyzer_v1 is near-chance (0.594) '
-              'and a noisy input is worse than an absent one. Wiring the '
-              'Day 326 temporal M3 (AUC 0.912) is what should raise this.');
+    test('Day 335 — auto-SOS is now reachable, because scene is wired', () {
+      // This test previously asserted the OPPOSITE: that the 0.85
+      // single-window override could not fire, because the scene slot
+      // contributed a constant 0. `m3_violence_temporal` now feeds it
+      // (AUC 0.9176 end-to-end on real clips), so the ceiling moves from
+      // 0.80 to 1.00 and auto-SOS becomes reachable for the first time.
+      //
+      // This is a real change to escalation behaviour, which is why the
+      // arithmetic is pinned rather than left implicit.
+      const ceiling = audioWeight + motionWeight + sceneWeight;
+      expect(ceiling, closeTo(1.0, 1e-9));
+      expect(ceiling, greaterThan(DCSScoreWatcher.autoSosThreshold),
+          reason: 'with scene contributing, 0.85 can be reached');
+    });
+
+    test('auto-SOS still needs near-saturation on all three', () {
+      // Reachable is not the same as easy. At 0.85, with all three equal,
+      // each modality must exceed 0.85 — a scream, corroborating motion AND
+      // a violent scene, all at once.
+      const allHigh = (audioWeight + motionWeight + sceneWeight) * 0.85;
+      expect(allHigh, closeTo(0.85, 1e-9));
+
+      // Two modalities saturated and the third silent still cannot do it,
+      // which is the property worth having: audio 1.0 + motion 1.0 + scene
+      // 0.0 = 0.80 < 0.85.
+      const twoSaturated = audioWeight * 1.0 + motionWeight * 1.0;
+      expect(twoSaturated, lessThan(DCSScoreWatcher.autoSosThreshold),
+          reason: 'auto-SOS must require all three, not two');
+    });
+
+    test('a false-positive burst cannot escalate on its own', () {
+      // M3 fires on 13% of NonFight clips at its 0.5 midpoint, so false
+      // positives are expected. The fusion reads the raw 'violence'
+      // probability, not the thresholded label, and scene carries only 0.2.
+      // A confident-but-wrong burst at 0.9 contributes 0.18 — real, but far
+      // short of the 0.75 alert threshold by itself.
+      const falseBurst = sceneWeight * 0.9;
+      expect(falseBurst, closeTo(0.18, 1e-9));
+      expect(falseBurst, lessThan(DCSScoreWatcher.alertThreshold),
+          reason: 'a wrong burst alone must never alert');
+
+      // It can still tip a borderline case: scream 0.9 + motion 0.9 was
+      // 0.72 and below alert; adding a spurious 0.9 scene takes it to 0.90.
+      // That is the cost of wiring the slot, and it is the reason the
+      // staleness bound exists.
+      const borderline = audioWeight * 0.9 + motionWeight * 0.9;
+      expect(borderline, closeTo(0.72, 1e-9));
+      expect(borderline + falseBurst, greaterThan(DCSScoreWatcher.alertThreshold));
     });
   });
 

@@ -253,11 +253,16 @@ abstract final class month2PhaseRunners {
 
   static PhaseResult dcsWatcher() {
     final watcher = DCSScoreWatcher();
-    DCSScore mk(double scream) {
+    // Day 335 — this probe built `classScores: {'scream': ...}`, which the
+    // real fusion never emits. `DCSInferenceEngine.create()` gives that slot
+    // `classLabels: ['safe', 'danger']`. So this "integration" check was
+    // feeding the watcher a shape only it produced, and reported PASS while
+    // the production escalation path could not fire at all.
+    DCSScore mk(double danger) {
       final fusion = InferenceResult(
-        label: scream >= 0.5 ? 'scream' : 'normal',
-        score: scream,
-        classScores: {'scream': scream, 'normal': 1 - scream},
+        label: danger >= 0.5 ? 'danger' : 'safe',
+        score: danger >= 0.5 ? danger : 1 - danger,
+        classScores: {'safe': 1 - danger, 'danger': danger},
         latencyMs: 1,
         timestampMs: 0,
       );

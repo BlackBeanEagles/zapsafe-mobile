@@ -4,14 +4,27 @@ import 'package:zapsafe_mobile/data/models/inference_result.dart';
 import 'package:zapsafe_mobile/data/models/trigger_event.dart';
 import 'package:zapsafe_mobile/ml/inference/dcs_score_watcher.dart';
 
-/// Builds a synthetic DCSScore whose fusion.classScores['scream'] equals
-/// [screamProb]. The other slot values don't matter — the watcher only
-/// reads the scream class probability.
+/// Builds a synthetic DCSScore whose fusion danger probability equals
+/// [screamProb]. The other slot values don't matter — the watcher only reads
+/// the fused danger probability.
+///
+/// Day 335 — this helper used to emit `classScores: {'scream': ..., 'normal':
+/// ..., 'shout': 0}`, which **the real fusion never produces**.
+/// `DCSInferenceEngine.create()` builds that slot with
+/// `classLabels: ['safe', 'danger']`, so `LinearStubInterpreter` emits exactly
+/// those two keys. The watcher read `['scream']`, got null, coerced it to 0,
+/// and could never fire — while these tests passed, because they hand-built
+/// the shape the watcher happened to be looking for.
+///
+/// A fixture that invents its own contract will agree with any implementation
+/// that shares the invention. The keys below now match what
+/// `LinearStubInterpreter` actually emits, so these tests exercise the real
+/// escalation path.
 DCSScore _scoreWith({required double screamProb, int ts = 0}) {
   final fusion = InferenceResult(
-    label: 'scream',
-    score: screamProb,
-    classScores: {'scream': screamProb, 'normal': 1 - screamProb, 'shout': 0},
+    label: screamProb >= 0.5 ? 'danger' : 'safe',
+    score: screamProb >= 0.5 ? screamProb : 1 - screamProb,
+    classScores: {'safe': 1 - screamProb, 'danger': screamProb},
     latencyMs: 1,
     timestampMs: ts,
   );

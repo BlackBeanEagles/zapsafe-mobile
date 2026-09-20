@@ -59,10 +59,29 @@ class DCSScoreWatcher {
   ///   • Alert vote fires → counter resets to 0 (so re-firing requires
   ///     three fresh consecutive windows).
   TriggerEvent? observe(DCSScore score) {
-    final scream = score.fusion.classScores['scream'] ?? 0;
-    _lastFusedScream = scream;
+    // Day 335 — this read `classScores['scream']`, a key the fusion has
+    // never produced.
+    //
+    // `DCSInferenceEngine.create()` builds the fusion slot with
+    // `classLabels: ['safe', 'danger']`, for both the stub and the real-model
+    // branch, so `LinearStubInterpreter` emits exactly those two keys.
+    // `['scream']` therefore resolved to null and was coerced to 0 on every
+    // single window, which meant neither [autoSosThreshold] nor
+    // [alertThreshold] could ever be crossed no matter what the sensors saw.
+    //
+    // This is the *second* independent break in the same escalation path.
+    // Day 326/327 found the fused score capped at 0.50 against a 0.75
+    // threshold because motion and scene stubbed out, and fixed the wiring so
+    // the score could actually rise. The thing reading that score was still
+    // looking at the wrong key, so escalation stayed dead — and nothing threw,
+    // because `?? 0` is a perfectly well-formed default.
+    //
+    // `day335_dcs_scene_slot_test.dart` pins that a maximal-danger window
+    // leaves `classScores['scream']` null while `['danger']` exceeds 0.49.
+    final danger = score.fusion.classScores['danger'] ?? 0;
+    _lastFusedScream = danger;
 
-    if (scream >= autoSosThreshold) {
+    if (danger >= autoSosThreshold) {
       _consecutive = 0;
       return TriggerEvent(
         kind: TriggerKind.autoSos,
@@ -73,7 +92,7 @@ class DCSScoreWatcher {
       );
     }
 
-    if (scream >= alertThreshold) {
+    if (danger >= alertThreshold) {
       _consecutive++;
       if (_consecutive >= requiredConsecutiveWindows) {
         final event = TriggerEvent(

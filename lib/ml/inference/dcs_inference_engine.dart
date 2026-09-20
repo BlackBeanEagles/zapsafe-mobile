@@ -150,6 +150,25 @@ class DCSInferenceEngine {
     );
   }
 
+  /// Day 335 — how old an M3 burst may be and still count toward the fused
+  /// score.
+  ///
+  /// The scene slot is unlike the other two. Audio and motion produce a
+  /// result every window; an M3 burst is 16 `takePicture()` calls plus 16
+  /// encoder passes, so it runs rarely and on demand. Without a bound, one
+  /// violence reading would keep inflating the DCS score for as long as the
+  /// app stayed up, and a stale burst is exactly the kind of evidence that
+  /// should not be escalating on.
+  ///
+  /// 30 s is chosen to outlive the burst itself (~2.4 s of capture plus
+  /// inference) by enough to cover the audio windows immediately around it,
+  /// without letting a reading persist into an unrelated situation.
+  ///
+  /// Enforced **here** rather than at the call site on purpose: a caller
+  /// forgetting the check would silently reintroduce the problem, and this
+  /// engine drives SOS escalation.
+  static const int kSceneMaxAgeMs = 30000;
+
   /// Runs one full DCS pass. The audio frame is required; motion + scene
   /// are optional — missing inputs fall back to "at rest" defaults so the
   /// fusion model still gets a 3-element vector.
@@ -180,6 +199,7 @@ class DCSInferenceEngine {
     MotionFeatures? motion,
     Float32List? sceneFeatures,
     InferenceResult? motionResultOverride,
+    InferenceResult? sceneResultOverride,
   }) async {
     _runs++;
     final timestampMs = audio.timestampMs;
@@ -208,12 +228,33 @@ class DCSInferenceEngine {
           );
     }
 
-    // 3. Scene (synthesise neutral default if absent)
-    final sceneTensor = sceneFeatures ?? Float32List(8);
-    final sceneResult = await scene.infer(
-          sceneTensor,
-          timestampMs: timestampMs,
-        );
+    // 3. Scene — Day 335 wires `m3_violence_temporal` in here.
+    //
+    // Prefer a real burst result when the caller has a FRESH one. The
+    // engine's own scene slot declares `expectedInputSize: 8` while
+    // `scene_analyzer_v1` wants 150,528, so it has always stubbed out and
+    // contributed exactly 0; M3 is the first thing this slot has ever
+    // actually carried.
+    //
+    // A burst older than [kSceneMaxAgeMs] is discarded rather than used,
+    // and the stub's 0 stands in — see that constant for why.
+    final InferenceResult sceneResult;
+    if (sceneResultOverride != null &&
+        (timestampMs - sceneResultOverride.timestampMs).abs() <=
+            kSceneMaxAgeMs) {
+      sceneResult = sceneResultOverride;
+    } else {
+      if (sceneResultOverride != null && kDebugMode) {
+        debugPrint('[DCSInferenceEngine] scene burst discarded: '
+            '${(timestampMs - sceneResultOverride.timestampMs).abs()}ms old '
+            '> ${kSceneMaxAgeMs}ms');
+      }
+      final sceneTensor = sceneFeatures ?? Float32List(8);
+      sceneResult = await scene.infer(
+        sceneTensor,
+        timestampMs: timestampMs,
+      );
+    }
 
     // 4. Fusion takes per-modality DANGER probabilities (not top-class
     //    confidences). `audioResult.score` for a confident-normal reading
@@ -224,7 +265,14 @@ class DCSInferenceEngine {
     final fusionInput = Float32List(3)
       ..[0] = _dangerScore(audioResult, danger: const ['scream', 'shout'])
       ..[1] = _dangerScore(motionResult, danger: const ['fall', 'unusual'])
-      ..[2] = _dangerScore(sceneResult, danger: const ['outdoor']);
+      // Day 335: 'violence' replaces 'outdoor'. `scene_analyzer_v1`'s
+      // labels are indoor/outdoor/transit, none of which is a danger class
+      // — being outdoors is not evidence of danger, and treating it as such
+      // would have let a confident 'outdoor' reading push the fused score
+      // up for no reason. That slot stubbed to 0 in practice, so nothing
+      // regresses by dropping it; M3's 'violence' is the first real danger
+      // probability this input has ever carried.
+      ..[2] = _dangerScore(sceneResult, danger: const ['violence']);
     final fusionResult = await fusion.infer(
       fusionInput,
       timestampMs: timestampMs,
