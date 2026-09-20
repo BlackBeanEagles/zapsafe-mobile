@@ -6,7 +6,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import '../models/inference_result.dart';
 import 'k_confinement_detector.dart';
 import 'light_sensor_channel.dart';
-import 'motion_detector_b.dart';
+import 'motion_window_buffer_b.dart';
 
 /// Day 273 — drives [KConfinementDetector] from the accelerometer/gyroscope
 /// stream, following `MotionWindowBufferB`'s windowing pattern already used

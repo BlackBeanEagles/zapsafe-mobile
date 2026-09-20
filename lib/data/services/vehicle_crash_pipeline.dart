@@ -5,7 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../native/pcm_window.dart';
 import '../models/inference_result.dart';
-import 'motion_detector_b.dart';
+import 'motion_window_buffer_b.dart';
 import 'vehicle_crash_detector.dart';
 
 /// Day 271 — joins the native rolling-PCM audio stream *and* the

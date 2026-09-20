@@ -86,10 +86,25 @@ except ImportError:
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 ASSETS = os.path.join(REPO, "assets", "models")
+ROOT_WORK = os.path.join(os.path.dirname(ASSETS), "..", "..", "..", "work")
+ROOT_WORK = os.path.abspath(ROOT_WORK)
 DATASETS = os.path.abspath(os.path.join(REPO, "..", "..", "ml_datasets"))
 
 # Not real models. Documented rather than silently skipped.
 KNOWN_PLACEHOLDERS = {"dcs_fusion_v1.tflite"}
+
+# Day 336 - models that are feature extractors, not detectors.
+#
+# The gate's whole method is "feed real data, check the output separates the
+# classes". That is meaningless for an encoder: mobilenetv3small's output is
+# a 576-dim embedding, not a probability, so an AUC or an output-span check
+# says nothing about whether it works. Evaluating it as a detector made it
+# report DEAD, which is wrong rather than merely unhelpful.
+#
+# It is verified instead by PAIR parity against its Keras source and by the
+# end-to-end chain it feeds - see tools/day334_m3_burst/probe_end_to_end.py
+# and assets/models/DAY334_M3_BURST_WIRING.md.
+FEATURE_EXTRACTORS = {"mobilenetv3small_encoder_float16.tflite"}
 
 random.seed(42)
 
@@ -464,6 +479,12 @@ def real_prosodic_28(n=240):
 
 # Day 328 - models measured non-functional on real phone input.
 #
+# Day 336: s_crowd_panic and m2_motion_b_retrain were DELETED rather than
+# left here. The first was a strictly worse duplicate of scream_classifier_v3
+# (0.6062 against 0.8230 on the AudioSet classes it targets); the second
+# returned exactly 0.0 for every input and is superseded by motion_fall_v2 at
+# 0.999. Deleting beats an entry in a table nobody can act on.
+#
 # These four used to report UNVERIFIED because this gate had no dual-input
 # fixture for them. Building one would have been actively harmful: a fixture
 # drawn from their training domain reports AUC 1.0000 / 0.9959 / 1.0000, so
@@ -476,13 +497,6 @@ def real_prosodic_28(n=240):
 # in assets/models/DAY328_DUAL_INPUT_DEAD_ON_PHONE.md; reproduce with
 # tools/day328_dual_input_probe/.
 KNOWN_BROKEN = {
-    "s_crowd_panic.tflite": (
-        "separates classes by data provenance, not panic: negatives paired "
-        "with digital silence, and PAMAP2 df.iloc[:,20:26] puts chest SKIN "
-        "TEMPERATURE (~35) in 'IMU' channel 0 vs ~0 for the synthetic "
-        "positives. AUC 1.0000 with the mel held byte-identical. On real "
-        "acc+gyro: pins ~0.54, scream-vs-calm separation 0.0048, labels "
-        "97.5% of CALM windows 'panic'"),
     "k_confinement_decorrelated.tflite": (
         "same temperature-contaminated PAMAP2 slice; kImuMean[0]=18.83 is "
         "physically impossible for a carried phone. On real input outputs "
@@ -497,16 +511,42 @@ KNOWN_BROKEN = {
         "UCI-HAR in g while the pipeline feeds sensors_plus m/s^2: 8x larger, "
         "saturating 16.7% of every window, AUC 0.5000 in app units. Needs a "
         "retrain, and no real crash IMU exists on any attached drive"),
-    "m2_motion_b_retrain.tflite": (
-        "BIT-EXACT DEAD: returns exactly 0.00000000 for every input. Probed "
-        "15 ways - real UCI-HAR windows swept across six orders of input "
-        "magnitude (x0.001 to x1000, covering g, m/s^2, SisFall ~0.24 and "
-        "UniMiB scales), plus all-zeros, all-ones, randn*5 and pure 9.81 "
-        "gravity: ONE distinct output. float32 tensors, so quantization is "
-        "not involved. The g-vs-m/s^2 mismatch it shares with "
-        "i_vehicle_crash via normalize_imu is real but irrelevant here - "
-        "this model does not respond to its input at all"),
 }
+
+
+def real_violence_sequences(n=400):
+    """Real held-out violence clips -> ([N,16,576] embedding sequences, labels).
+
+    For `m3_violence_temporal`. Loads the TRAINING-TIME cached features from
+    `work/m3_violence/feat_val.npz` -- real MobileNetV3Small embeddings of
+    real val clips from the dataset's own val/ split, which no clip in
+    training appeared in.
+
+    Using the cache rather than decoding video here is deliberate: the gate
+    should not need OpenCV and 20 minutes to run, and these are the exact
+    features the model was evaluated against, so a regression in the shipped
+    .tflite shows up immediately. What this does NOT cover is the encoder and
+    the frame sampling in front of it -- that whole chain is checked by
+    tools/day334_m3_burst/probe_end_to_end.py, which scores AUC 0.9176 on raw
+    video against the 0.9126 this fixture gives on cached features.
+
+    Returns None if the cache is absent, so the model honestly reports
+    UNVERIFIED rather than the gate inventing data.
+    """
+    path = os.path.join(ROOT_WORK, "m3_violence", "feat_val.npz")
+    if not os.path.exists(path):
+        return None
+    try:
+        d = np.load(path)
+        X, y = d["X"], d["y"]
+    except Exception:
+        return None
+    if X.ndim != 3 or X.shape[1:] != (16, 576) or len(set(y.tolist())) < 2:
+        return None
+    if len(X) > n:
+        idx = np.random.RandomState(0).choice(len(X), n, replace=False)
+        X, y = X[idx], y[idx]
+    return X.astype(np.float32), np.asarray(y)
 
 
 def fixture_for(input_details):
@@ -525,6 +565,11 @@ def fixture_for(input_details):
     if len(shape) == 4 and shape[1] == shape[2] and shape[3] == 3:
         X = real_mel_images(int(shape[1]))
         return None if X is None else (X, None)
+    # Must precede the generic [1, T, C] IMU branch below: [1,16,576] is an
+    # embedding sequence, not a sensor window, and the IMU fixture would
+    # swallow it and return None (UniMiB has 3 channels, not 576).
+    if len(shape) == 3 and int(shape[1]) == 16 and int(shape[2]) == 576:
+        return real_violence_sequences()
     if len(shape) == 3:
         return real_imu(int(shape[1]), int(shape[2]))
     if len(shape) == 2 and int(shape[1]) == 38:
@@ -679,6 +724,14 @@ def main():
         if name in KNOWN_PLACEHOLDERS:
             print("%-44s %7.1fKB  PLACEHOLDER not a real model - see "
                   "DAY317_EXPORT_PATH_FIX.md" % (name, kb))
+            continue
+        if name in FEATURE_EXTRACTORS:
+            print("%-44s %7.1fKB  %-11s %s" % (
+                name, kb, "ENCODER",
+                "feature extractor, not a detector - an AUC on a 576-dim "
+                "embedding is meaningless. Verified by parity against its "
+                "Keras source (corr 0.999984) and end-to-end via "
+                "tools/day334_m3_burst/"))
             continue
         if name in KNOWN_BROKEN:
             print("%-44s %7.1fKB  %-11s %s" % (name, kb, "BROKEN",

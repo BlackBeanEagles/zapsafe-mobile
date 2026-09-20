@@ -2,18 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:zapsafe_mobile/domain/providers/live_detection_providers.dart';
 
-/// Day 328 — the three dual-input fusion pipelines must stay off.
+/// Day 328 — the remaining dual-input fusion pipelines must stay off.
 ///
 /// Each was measured against its shipped asset on real local data and none
 /// can produce a usable detection on a phone:
 ///
-/// * `s_crowd_panic` separates its training classes by **data provenance**
-///   rather than by panic — its negatives were paired with digital silence,
-///   and PAMAP2 `df.iloc[:, 20:26]` puts chest *skin temperature* (~35) in
-///   "IMU" channel 0 against ~0 for the synthetic positives. It scores AUC
-///   1.0000 with the mel held byte-identical between classes, which is the
-///   proof. On realistic acc+gyro it pins to ~0.54 and labels 97.5% of
-///   *calm* windows "panic".
+/// `s_crowd_panic` was in this set too and has since been **deleted**
+/// outright (Day 336) — the shipped `scream_classifier_v3` scores 0.8230 on
+/// the AudioSet classes it targets against its own 0.6062, so it was a
+/// strictly worse duplicate of a detector the app already runs.
 /// * `k_confinement_decorrelated` uses the same contaminated slice and
 ///   outputs ~0.019 on realistic input, never firing at any light value.
 /// * `i_vehicle_crash` has an int8 output collapsed to a single quantization
@@ -43,10 +40,6 @@ void main() {
               'weights)');
     });
 
-    test('crowd panic pipeline resolves to null', () {
-      expect(container.read(crowdPanicFusionPipelineProvider), isNull);
-    });
-
     test('vehicle crash pipeline resolves to null', () {
       expect(container.read(vehicleCrashFusionPipelineProvider), isNull);
     });
@@ -56,13 +49,12 @@ void main() {
     });
 
     test('the guard precedes any ref.watch, so nothing is constructed', () {
-      // Reading all three in one container must not touch the audio channel
+      // Reading both in one container must not touch the audio channel
       // or the detector futures. If the guard were placed after the watches,
       // this would throw a MissingPluginException rather than return null,
       // so a passing test here pins the *ordering* and not just the result.
       expect(
         [
-          container.read(crowdPanicFusionPipelineProvider),
           container.read(vehicleCrashFusionPipelineProvider),
           container.read(kConfinementFusionPipelineProvider),
         ],
