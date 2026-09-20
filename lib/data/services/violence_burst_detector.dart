@@ -60,11 +60,34 @@ class ViolenceBurstDetector {
   /// Bytes in one frame: `224 * 224 * 3` = 150,528.
   static const int kFrameBytes = kImgSize * kImgSize * kChannels;
 
-  /// Sigmoid midpoint. **Not** a field-calibrated threshold — the model's own
-  /// operating curve puts `t=0.5` at recall 0.743 / precision 0.865 and
-  /// `t=0.8` at recall 0.538 / precision 0.930 on the dataset's own held-out
-  /// split. Tuning this against real device footage is outstanding.
-  static const double kDefaultThreshold = 0.5;
+  /// Day 337 — calibrated on the full 670-clip held-out val set, raised from
+  /// the 0.5 sigmoid midpoint.
+  ///
+  /// | t | recall | precision | false-positive rate |
+  /// |---|---|---|---|
+  /// | 0.90 | 0.373 | 0.956 | 0.019 |
+  /// | **0.80** | **0.538** | **0.935** | **0.040** |
+  /// | 0.70 | 0.613 | 0.910 | 0.065 |
+  /// | 0.50 | 0.743 | 0.862 | 0.127 |
+  ///
+  /// 0.5 fired on **12.7%** of non-violent clips. At 0.80 that is **4.0%** —
+  /// a third as many — for recall 0.743 -> 0.538.
+  ///
+  /// Precision is the right thing to buy here, for two reasons. This is a
+  /// **corroborating** signal: a burst is only captured once something else
+  /// has already raised suspicion, so a miss costs a confirmation the app
+  /// was not relying on, while a false positive puts a "violence" event in
+  /// the user's feed and the backend. And escalation now actually fires
+  /// (Day 335), so a wrong label is no longer harmless.
+  ///
+  /// Note this threshold does **not** gate the DCS contribution — the fusion
+  /// reads the raw `violence` probability, deliberately, so a borderline
+  /// burst contributes proportionally rather than all-or-nothing. What this
+  /// controls is the reported label, and therefore what gets submitted.
+  ///
+  /// Still not calibrated on real *device* footage; these are held-out
+  /// dataset clips.
+  static const double kDefaultThreshold = 0.80;
 
   final tfl.Interpreter _encoder;
   final tfl.Interpreter _temporal;

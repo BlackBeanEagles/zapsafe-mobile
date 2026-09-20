@@ -107,12 +107,17 @@ void main() {
       );
     });
 
-    test('threshold is the sigmoid midpoint and documented as uncalibrated',
+    test('threshold is calibrated for precision, not the sigmoid midpoint',
         () {
-      // The model's own operating curve: t=0.5 -> recall 0.743 / precision
-      // 0.865, t=0.8 -> recall 0.538 / precision 0.930, on the dataset's own
-      // held-out split. No device footage has been used to tune this.
-      expect(ViolenceBurstDetector.kDefaultThreshold, 0.5);
+      // Day 337 — measured on all 670 held-out val clips:
+      //   0.50 -> recall 0.743, precision 0.862, FP-rate 0.127
+      //   0.80 -> recall 0.538, precision 0.935, FP-rate 0.040
+      // A third the false-positive rate. This is a corroborating signal that
+      // only runs after something else raised suspicion, and escalation now
+      // actually fires, so a wrong label costs more than a missed one.
+      expect(ViolenceBurstDetector.kDefaultThreshold, 0.80);
+      expect(ViolenceBurstDetector.kDefaultThreshold, greaterThan(0.5),
+          reason: 'the midpoint fired on 12.7% of non-violent clips');
     });
   });
 

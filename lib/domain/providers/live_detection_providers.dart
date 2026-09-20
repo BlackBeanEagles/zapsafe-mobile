@@ -16,9 +16,10 @@ import '../../data/services/scream_audio_pipeline.dart';
 import '../../data/services/scream_detector_v2.dart';
 import '../../data/services/vehicle_crash_detector.dart';
 import '../../data/services/vehicle_crash_pipeline.dart';
+import '../../data/services/violence_burst_detector.dart';
+import '../../data/services/vocal_stress_detector.dart';
 import 'detection_event_providers.dart';
 import 'platform_channel_providers.dart';
-import '../../data/services/violence_burst_detector.dart';
 
 /// Day 259 — wires the two models that passed real-data validation
 /// (m1_scream_v2, m2_motion_v2) all the way to the backend.
@@ -213,6 +214,36 @@ final kConfinementFusionPipelineProvider =
   pipeline.start();
   ref.onDispose(pipeline.dispose);
   return pipeline;
+});
+
+/// Day 337 — vocal stress, wired for the first time.
+///
+/// `VocalStressDetector` has existed and been gate-verified since Day 325,
+/// but **nothing ever constructed it** — `model_registry.dart` loaded the
+/// asset at startup and its comment claimed "WIRED", while no provider,
+/// pipeline or caller in `lib/` instantiated the class. This provider is
+/// what actually makes it run.
+///
+/// The variant is chosen by device locale, not swapped. Prosodic stress does
+/// not transfer across languages — English->Mandarin measures **0.4537** —
+/// so shipping only one model would halve the app's coverage rather than
+/// upgrade it:
+///
+/// * `zh*` -> `m5_vocal_stress_v2`, Mandarin, 28 features, 0.7988
+/// * everything else -> `m4_vocal_stress_en_38`, English, 38 features,
+///   **0.8321** (against 0.6949 for the same English audio through the
+///   28-feature path)
+///
+/// English is the fallback for an unknown locale because it is both the
+/// stronger model and the more likely match.
+final vocalStressDetectorProvider =
+    FutureProvider<VocalStressDetector?>((ref) async {
+  final variant = VocalStressDetector.variantForLocale(
+    PlatformDispatcher.instance.locale.languageCode,
+  );
+  final detector = await VocalStressDetector.tryLoadVariant(variant);
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
 });
 
 /// Day 334 — `m3_violence_temporal` + its MobileNetV3Small encoder.

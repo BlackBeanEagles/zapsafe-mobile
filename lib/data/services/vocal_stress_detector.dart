@@ -61,6 +61,25 @@ import 'vocal_stress_features.dart';
 /// throw and does not change the shape — Day 318 measured
 /// `h_aggressive_speech` dropping from AUC 0.844 to 0.52 that way, and its
 /// f32 twin collapsing to a constant 1.0.
+/// Which trained vocal-stress model to load.
+///
+/// Day 337 — prosodic stress does **not** transfer across languages
+/// (English->Mandarin measured at 0.4537), so there are two models rather
+/// than one, and the right one has to be chosen at load time. Replacing one
+/// with the other would silently halve the app's coverage.
+enum VocalStressVariant {
+  /// `m5_vocal_stress_v2` — Mandarin, 28 features, held-out-speaker AUC
+  /// 0.7988 (0.850 on the gate's own fixture).
+  mandarin28,
+
+  /// `m4_vocal_stress_en_38` — English, the full 38-vector on plain-YIN
+  /// pitch, held-out-speaker AUC **0.8321** against 0.6949 for the same
+  /// English data through the 28-feature path. Needs [YinPitch] and
+  /// [VocalStressFeatures.extendedFeatures], which is why it could not ship
+  /// before Day 333.
+  english38,
+}
+
 class VocalStressDetector implements Interpreter {
   static const String kAsset = 'assets/models/m5_vocal_stress_v2.tflite';
   static const String kNormAsset =
@@ -68,6 +87,18 @@ class VocalStressDetector implements Interpreter {
 
   /// See the class doc — precision is flat, so take the recall.
   static const double kDefaultThreshold = 0.20;
+
+  /// `m4_vocal_stress_en_38` — English, 38 features.
+  static const String kAssetEn38 =
+      'assets/models/m4_vocal_stress_en_38.tflite';
+  static const String kNormAssetEn38 =
+      'assets/models/m4_vocal_stress_en_38_norm.json';
+
+  /// From the model's own held-out curve: t=0.5 gives recall 0.867 at
+  /// precision 0.677, t=0.8 gives 0.690 at 0.793. 0.50 is taken because this
+  /// is a *contributing* signal rather than a trigger, and the Mandarin
+  /// variant is likewise set for recall.
+  static const double kDefaultThresholdEn38 = 0.50;
 
   VocalStressDetector._({
     required tfl.Interpreter interpreter,
@@ -103,6 +134,43 @@ class VocalStressDetector implements Interpreter {
   /// is worse than no model, because it still returns confident-looking
   /// numbers. If the norm asset is missing or the wrong length this fails
   /// rather than falling back to raw features.
+  /// Picks the variant for a language tag such as `en`, `en_US`, `zh`,
+  /// `zh-Hans`. Anything that is not clearly Chinese gets the English model,
+  /// because it is both the stronger one (0.8321 vs 0.7988) and the safer
+  /// default for an unknown locale.
+  static VocalStressVariant variantForLocale(String? languageCode) {
+    final lc = (languageCode ?? '').toLowerCase();
+    if (lc.startsWith('zh') || lc.startsWith('cmn') || lc.startsWith('yue')) {
+      return VocalStressVariant.mandarin28;
+    }
+    return VocalStressVariant.english38;
+  }
+
+  /// Loads the model matching [variant], with its own norm file.
+  ///
+  /// The two variants have **different input contracts** — 28 features
+  /// against 38 — so the asset and the norm must move together, and
+  /// [inferPcm] dispatches on [featureDim] rather than assuming one.
+  static Future<VocalStressDetector?> tryLoadVariant(
+    VocalStressVariant variant, {
+    double? threshold,
+  }) {
+    switch (variant) {
+      case VocalStressVariant.mandarin28:
+        return tryLoad(
+          assetPath: kAsset,
+          normPath: kNormAsset,
+          threshold: threshold ?? kDefaultThreshold,
+        );
+      case VocalStressVariant.english38:
+        return tryLoad(
+          assetPath: kAssetEn38,
+          normPath: kNormAssetEn38,
+          threshold: threshold ?? kDefaultThresholdEn38,
+        );
+    }
+  }
+
   static Future<VocalStressDetector?> tryLoad({
     String assetPath = kAsset,
     String normPath = kNormAsset,
@@ -117,17 +185,25 @@ class VocalStressDetector implements Interpreter {
       final std = (norm['std'] as List).cast<num>().map((e) => e.toDouble());
       final m = Float64List.fromList(mean.toList());
       final s = Float64List.fromList(std.toList());
-      if (m.length != VocalStressFeatures.kFeatureDim ||
-          s.length != VocalStressFeatures.kFeatureDim) {
+      // Day 337 — accept either width, but require the norm file to declare
+      // one of them and to agree with the model's own input tensor below.
+      // The pair is what matters: a 38-feature model with 28 constants would
+      // standardise the wrong columns and produce confident nonsense.
+      const dims = [
+        VocalStressFeatures.kFeatureDim,
+        VocalStressFeatures.kFullFeatureDim,
+      ];
+      if (m.length != s.length || !dims.contains(m.length)) {
         throw StateError('norm.json has ${m.length}/${s.length} constants, '
-            'expected ${VocalStressFeatures.kFeatureDim}');
+            'expected a matching pair of $dims');
       }
 
       interpreter = await tfl.Interpreter.fromAsset(assetPath);
       final inShape = interpreter.getInputTensor(0).shape;
-      const wantIn = [1, VocalStressFeatures.kFeatureDim];
+      final wantIn = [1, m.length];
       if (!listEquals(inShape, wantIn)) {
-        throw StateError('input shape $inShape, expected $wantIn');
+        throw StateError('input shape $inShape, expected $wantIn — the model '
+            'and its norm.json disagree about the feature width');
       }
       if (interpreter.getOutputTensor(0).shape.fold<int>(1, (a, b) => a * b) !=
           1) {
@@ -159,8 +235,14 @@ class VocalStressDetector implements Interpreter {
     Float64List pcm, {
     required int timestampMs,
   }) {
-    final raw = _features.extract(pcm);
-    final z = Float32List(VocalStressFeatures.kFeatureDim);
+    // Day 337 — dispatch on the loaded model's own input width rather than
+    // assuming 28. The English model takes the full 38-vector, and feeding
+    // it the 28-feature subset would be the silent-wrong-answer failure this
+    // codebase keeps hitting.
+    final raw = _mean.length == VocalStressFeatures.kFullFeatureDim
+        ? _features.compose38(pcm)
+        : _features.extract(pcm);
+    final z = Float32List(_mean.length);
     for (var i = 0; i < z.length; i++) {
       z[i] = ((raw[i] - _mean[i]) / _std[i]).toDouble();
     }
@@ -172,11 +254,13 @@ class VocalStressDetector implements Interpreter {
     Float32List features, {
     required int timestampMs,
   }) async {
-    if (features.length != VocalStressFeatures.kFeatureDim) {
+    if (features.length != _mean.length) {
       throw ArgumentError(
-        'VocalStressDetector expects ${VocalStressFeatures.kFeatureDim} '
-        'standardised floats, got ${features.length}. Use inferPcm() if you '
-        'are holding raw audio.',
+        'VocalStressDetector expects ${_mean.length} standardised floats '
+        '(this instance loaded the '
+        '${_mean.length == VocalStressFeatures.kFullFeatureDim ? "38-feature "
+            "English" : "28-feature Mandarin"} model), got '
+        '${features.length}. Use inferPcm() if you are holding raw audio.',
       );
     }
     final t0 = DateTime.now();

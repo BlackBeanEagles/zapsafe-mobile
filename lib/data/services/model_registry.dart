@@ -101,9 +101,15 @@ const List<ModelDefinition> kZapsafeModels = [
     purpose: '28-dim prosodic features -> stressed vs calm speech (Mandarin)',
     realModelEta: 'Day 325 - trained locally on ESD Mandarin',
     realSizeMb: 0.031,
-    // WIRED and verified. VocalStressDetector loads it; VocalStressFeatures
-    // builds the input with librosa-parity MFCC (test/vocal_stress_features_
-    // test.dart pins it to <1e-6 against real librosa).
+    // Day 337 CORRECTION: this said "WIRED and verified". It was not wired.
+    // VocalStressDetector existed and was gate-verified, but nothing
+    // constructed it — no provider, no pipeline, no caller anywhere in lib/.
+    // The asset was loaded by this registry at startup and then never used.
+    // vocalStressDetectorProvider now instantiates it.
+    //
+    // Verified: VocalStressFeatures builds the input with librosa-parity
+    // MFCC (test/vocal_stress_features_test.dart pins it to <1e-6 against
+    // real librosa).
     //
     // Held-out-SPEAKER AUC 0.7988 (3 of 10 Mandarin speakers held out
     // entirely). The same data scores 0.9984 on a random split, so the
