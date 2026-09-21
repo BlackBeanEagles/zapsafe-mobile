@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/models/inference_result.dart';
 import '../../data/services/detection_event_service.dart';
+import '../../data/services/glass_break_detector.dart';
+import '../../data/services/glass_break_pipeline.dart';
 import '../../data/services/gunshot_audio_pipeline.dart';
 import '../../data/services/gunshot_detector.dart';
 import '../../data/services/k_confinement_detector.dart';
@@ -147,6 +149,34 @@ final gunshotAudioPipelineProvider =
 
   final audio = ref.watch(audioChannelProvider);
   final pipeline = GunshotAudioPipeline(
+    detector: detector,
+    windows: audio.pcmStream,
+  );
+  pipeline.start();
+  ref.onDispose(pipeline.dispose);
+  return pipeline;
+});
+
+/// Day 346 — `m_glass_breaking_v3`, shipped after being measured at AUC
+/// 0.7819 on 265 real FSD50K positives (its recorded 1.0 came from 13 and
+/// did not survive). Its curve is the best in this project: recall 0.826 at
+/// precision 0.830. See assets/models/DAY346B_GUNSHOT_GLASS_CROSS_CORPUS.md.
+final glassBreakDetectorProvider =
+    FutureProvider<GlassBreakDetector?>((ref) async {
+  final detector = await GlassBreakDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
+/// Live glass-break pipeline: native 16,000 Hz PCM stream -> 2 s mel image
+/// -> m_glass_breaking_v3. Null while the detector is loading or failed to
+/// load, so a device without the asset simply never fires glass detections.
+final glassBreakPipelineProvider = Provider<GlassBreakPipeline?>((ref) {
+  final detector = ref.watch(glassBreakDetectorProvider).valueOrNull;
+  if (detector == null) return null;
+
+  final audio = ref.watch(audioChannelProvider);
+  final pipeline = GlassBreakPipeline(
     detector: detector,
     windows: audio.pcmStream,
   );
