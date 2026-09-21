@@ -37,7 +37,8 @@ for nm in ("train.csv","balanced_train_segments.csv","unbalanced_train_segments.
         elif labs & CALM and len(buckets["calm"])<60: buckets["calm"].append(p)
 print({k:len(v) for k,v in buckets.items()})
 
-it=tf.lite.Interpreter(model_path=os.path.join(REPO,"assets","models","scream_classifier_v3.tflite"))
+# Day 346: v3 left assets/ when v5 shipped; byte-identical copy in work/.
+it=tf.lite.Interpreter(model_path=r"C:\Users\hridy\Desktop\zapsafe\work\scream_v3\m1_scream_v3_float16.tflite")
 it.allocate_tensors(); i0=it.get_input_details()[0]; o0=it.get_output_details()[0]
 def score(p):
     y,sr=librosa.load(p,sr=None,mono=True)

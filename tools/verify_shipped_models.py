@@ -175,6 +175,109 @@ def real_mel_images(size, n=24):
     return np.stack(out) if out else None
 
 
+def real_mel_images_fsd50k(size, name=None):
+    """LABELLED mel images from FSD50K eval -> (X[n,size,size,3], labels).
+
+    This is what lets gunshot report an AUC instead of a range. Through Day
+    345 the GATE's fixture was 24 UNLABELLED UrbanSound8K clips, so the gate
+    itself could confirm the output moved and nothing more.
+
+    That was a gap in the gate, not in the model's evidence -- a correction
+    to an earlier reading of this. `mg_gunshot_retrain` records a
+    training-time held-out AUC of 0.9225 (DAY262C) and a labelled 598-clip
+    UrbanSound8K measurement behind its 0.70 threshold (recall 0.960,
+    precision 0.603). What it had never had is a CROSS-CORPUS number.
+
+    Day 346 supplies one: **AUC 0.8071**, 95% CI [0.7544, 0.8605] on FSD50K
+    against hard negatives. 0.92 -> 0.81 across a corpus boundary is the
+    motion_fall_v2 pattern (0.99 -> 0.95), not the m3_violence one
+    (0.91 -> 0.48). It generalises.
+
+    Note `rec@0.5` is meaningless for gunshot: its outputs occupy
+    [0.472, 0.984], so 0.5 fires on everything. The app ships 0.70.
+
+    Routing is BY FILENAME, not by shape. Gunshot (128) and glass (96) share
+    the [1,S,S,3] contract but need opposite label sets, and picking the
+    wrong one would produce a confident, meaningless number -- the same trap
+    that made two models share the [1,38] shape with different features.
+
+    The negatives are the hard ones on purpose. Explosion (158 clips) is a
+    gunshot NEGATIVE: it is the single worst confusion for this detector,
+    and one that cannot separate the two fires on fireworks. Likewise
+    Chink_and_clink against glass. Against easy negatives both models look
+    fine, which is the trap this fixture exists to avoid.
+
+    Preprocessing matches real_mel_images() exactly, including np.resize.
+
+    Returns None when the extraction is absent or the model is not one of
+    these two, so the caller falls back rather than inventing data.
+    """
+    try:
+        import librosa
+    except ImportError:
+        return None
+    key = (name or "").lower()
+    if "gunshot" in key:
+        POS = {"Gunshot_and_gunfire"}
+        NEG = {"Explosion", "Fireworks", "Boom", "Burst_or_pop", "Crack",
+               "Crackle", "Slam", "Knock", "Thump_and_thud", "Hammer",
+               "Door", "Tap", "Crushing", "Drum", "Bass_drum"}
+    elif "glass" in key:
+        POS = {"Glass"}
+        NEG = {"Chink_and_clink", "Dishes_and_pots_and_pans", "Ceramic",
+               "Cutlery_and_silverware", "Coin_(dropping)", "Bell",
+               "Church_bell", "Crack", "Crackle", "Tap", "Knock", "Slam",
+               "Crushing", "Crumpling_and_crinkling"}
+    else:
+        return None
+
+    base = os.path.join(ROOT_WORK, "fsd50k_eval")
+    man_p = os.path.join(base, "manifest.json")
+    audio = os.path.join(base, "audio")
+    if not (os.path.exists(man_p) and os.path.isdir(audio)):
+        return None
+    try:
+        man = json.load(open(man_p))
+    except Exception:
+        return None
+
+    dur = 3.0 if size == 128 else 2.0
+    out, labels = [], []
+    for m in man:
+        labs = set(m.get("labels", []))
+        if labs & POS:
+            lab = 1
+        elif labs & NEG:
+            lab = 0
+        else:
+            continue
+        p = os.path.join(audio, m["fname"])
+        if not os.path.exists(p):
+            continue
+        try:
+            y, _ = librosa.load(p, sr=16000, mono=True)
+            if len(y) < 3200:
+                continue
+            need = int(dur * 16000)
+            y = np.pad(y, (0, need - len(y))) if len(y) < need else y[:need]
+            mel = librosa.feature.melspectrogram(
+                y=y, sr=16000, n_mels=size, hop_length=512, n_fft=2048,
+                fmax=8000)
+            db = librosa.power_to_db(mel, ref=np.max)
+            rng = float(db.max() - db.min())
+            if rng < 1e-8:
+                continue
+            nz = (db - db.min()) / (rng + 1e-8)
+            img = np.resize(nz, (size, size))
+            out.append(np.stack([img] * 3, axis=-1).astype(np.float32))
+            labels.append(lab)
+        except Exception:
+            continue
+    if sum(labels) < 20 or len(labels) - sum(labels) < 20:
+        return None
+    return np.stack(out), np.asarray(labels)
+
+
 def real_imu(timesteps, channels, n=160):
     """Real UniMiB-SHAR windows -> (X, labels). Smartphone, 50 Hz, m/s^2.
 
@@ -712,6 +815,13 @@ def fixture_for(input_details, name=None):
         chan = int(shape[3])
         return (np.stack([Xs] * chan, axis=-1) if chan > 1 else Xs[..., None]), ys
     if len(shape) == 4 and shape[1] == shape[2] and shape[3] == 3:
+        # Mel-image models (gunshot 128, glass 96). Prefer the LABELLED
+        # FSD50K fixture so these report a real AUC: until Day 346 the gate's
+        # own fixture here was 24 UNLABELLED UrbanSound8K clips, on which it
+        # could say "the output moves" but never "the output is right".
+        got = real_mel_images_fsd50k(int(shape[1]), name)
+        if got is not None:
+            return got
         X = real_mel_images(int(shape[1]))
         return None if X is None else (X, None)
     # Must precede the generic [1, T, C] IMU branch below: [1,16,576] is an

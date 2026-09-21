@@ -27,7 +27,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 AUDIO = os.path.join(HERE, "audio")
 REPO = (r"C:\Users\hridy\Desktop\zapsafe\letsstartbuilding"
         r"\zapsafe_mobile_main_reconcile")
-V3 = os.path.join(REPO, "assets", "models", "scream_classifier_v3.tflite")
+# Day 346: v3 was removed from assets/ when v5 shipped -- it was dead
+# weight in the bundle. The byte-identical training copy is kept so this
+# comparison stays reproducible.
+V3 = r"C:\Users\hridy\Desktop\zapsafe\work\scream_v3\m1_scream_v3_float16.tflite"
 V4 = r"C:\Users\hridy\Desktop\zapsafe\work\scream_v4\m1_scream_v3_float16.tflite"
 
 SR, DURATION, N_MELS, N_FFT, HOP, FRAMES = 22050, 3, 128, 2048, 512, 131

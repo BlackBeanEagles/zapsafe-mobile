@@ -8,9 +8,13 @@ import 'package:zapsafe_mobile/domain/providers/live_detection_providers.dart';
 /// can produce a usable detection on a phone:
 ///
 /// `s_crowd_panic` was in this set too and has since been **deleted**
-/// outright (Day 336) — the shipped `scream_classifier_v3` scores 0.8230 on
-/// the AudioSet classes it targets against its own 0.6062, so it was a
-/// strictly worse duplicate of a detector the app already runs.
+/// outright (Day 336) — the shipped scream detector scores 0.8230 on the
+/// AudioSet classes it targets against its own 0.6062, so it was a strictly
+/// worse duplicate of a detector the app already runs. (Both figures come
+/// from the 45-positive AudioSet fixture Day 345 retired; on the 287-positive
+/// FSD50K set the shipped model is 0.8284. The comparison still holds — it
+/// was a large gap, not a marginal one — but neither number is the honest
+/// one, and the scream slot is `scream_classifier_v5` as of Day 346.)
 /// * `k_confinement_decorrelated` uses the same contaminated slice and
 ///   outputs ~0.019 on realistic input, never firing at any light value.
 /// * `i_vehicle_crash` has an int8 output collapsed to a single quantization
