@@ -98,7 +98,7 @@ class ModelBundleResult {
 ///
 /// Loading strategy per slot:
 ///
-///   scream_classifier_v3 (128x131 mel, 22050 Hz, 3 s)
+///   scream_classifier_v5 (128x131 mel, 22050 Hz, 3 s)
 ///     → Try `TfliteInterpreter.tryLoad(expectedInputSize: 15)`
 ///     → Day 45: placeholder (658 B) → resolves to heuristic
 ///
@@ -117,7 +117,7 @@ class ModelBundleResult {
 class ModelBundleService {
   static const int _placeholderSizeThreshold = 2000; // bytes
 
-  static const String _screamAsset = 'assets/models/scream_classifier_v3.tflite';
+  static const String _screamAsset = 'assets/models/scream_classifier_v5.tflite';
   static const String _motionAsset = 'assets/models/motion_fall_v2.tflite';
   static const String _sceneAsset  = 'assets/models/scene_analyzer_v1.tflite';
 

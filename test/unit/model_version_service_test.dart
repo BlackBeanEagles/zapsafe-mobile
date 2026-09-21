@@ -14,9 +14,13 @@ void main() {
       }
     });
 
-    test('scream classifier resolves to v3', () {
+    test('scream classifier resolves to v5', () {
+      // Day 346: v3 -> v5. This assertion is the point of the test -- the
+      // asset filename carries the version the backend compares against, so
+      // swapping the model without updating it here would silently tell the
+      // update service the phone still holds v3.
       final scream = kZapsafeModels.firstWhere((m) => m.key == 'scream');
-      expect(localVersionFor(scream), 'v3');
+      expect(localVersionFor(scream), 'v5');
     });
   });
 

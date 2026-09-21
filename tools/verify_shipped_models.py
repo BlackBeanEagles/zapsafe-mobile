@@ -290,8 +290,97 @@ def real_prosodic_38(n=24):
     return np.stack(out) if out else None
 
 
+def _scream_mel_from_wav(path, librosa):
+    """One clip -> mel[128,131], the m1_train_v2 contract. None if unusable."""
+    y, sr = librosa.load(path, sr=22050, mono=True)
+    if len(y) < 22050 * 0.2:
+        return None
+    need = 22050 * 3
+    y = np.pad(y, (0, need - len(y))) if len(y) < need else y[:need]
+    mel = librosa.feature.melspectrogram(y=y, sr=22050, n_mels=128,
+                                         n_fft=2048, hop_length=512)
+    db = librosa.power_to_db(mel, ref=np.max)
+    rng = float(db.max() - db.min())
+    if rng < 1e-6:
+        return None
+    db = (db - db.min()) / (rng + 1e-9)
+    if db.shape[1] < 131:
+        db = np.pad(db, ((0, 0), (0, 131 - db.shape[1])))
+    return db[:, :131].astype(np.float32)
+
+
+def real_scream_fsd50k(n_pos=287, n_neg=1477):
+    """FSD50K eval clips -> (mel[128,131], label). PREFERRED over AudioSet.
+
+    Day 345 retired the 135-clip AudioSet fixture below. With 45 positives
+    its confidence interval was ~+-0.05 -- wide enough that `scream v4`
+    came back "indistinguishable" when it was in fact significantly worse,
+    and wide enough that v3's recorded 0.839 survived for 20 days before
+    being measured at **0.7675** here.
+
+    This fixture is 287 positives against 1,477 negatives that are speech,
+    chatter, laughter and singing -- the sounds a scream detector actually
+    false-fires on. CI is ~+-0.018. It is adversarial on purpose, so the
+    precision it reports is a worst case, not a field estimate.
+
+    Returns None if the extraction is absent, so the gate falls back to the
+    AudioSet fixture rather than inventing data. Build it with
+    work/fsd50k_eval/extract_by_scan.py.
+    """
+    try:
+        import librosa
+    except ImportError:
+        return None
+    base = os.path.join(ROOT_WORK, "fsd50k_eval")
+    man_p = os.path.join(base, "manifest.json")
+    audio = os.path.join(base, "audio")
+    if not (os.path.exists(man_p) and os.path.isdir(audio)):
+        return None
+    POS = {"Screaming", "Shout", "Yell"}
+    NEG = {"Speech", "Chatter", "Laughter", "Singing", "Cough", "Sneeze",
+           "Conversation", "Male_speech_and_man_speaking",
+           "Female_speech_and_woman_speaking"}
+    try:
+        man = json.load(open(man_p))
+    except Exception:
+        return None
+    rows = []
+    for m in man:
+        labs = set(m.get("labels", []))
+        if labs & POS:
+            rows.append((m["fname"], 1))
+        elif labs & NEG:
+            rows.append((m["fname"], 0))
+    out, labels, npos, nneg = [], [], 0, 0
+    for fname, lab in rows:
+        if lab == 1 and npos >= n_pos:
+            continue
+        if lab == 0 and nneg >= n_neg:
+            continue
+        p = os.path.join(audio, fname)
+        if not os.path.exists(p):
+            continue
+        try:
+            mel = _scream_mel_from_wav(p, librosa)
+        except Exception:
+            continue
+        if mel is None:
+            continue
+        out.append(mel)
+        labels.append(lab)
+        npos += lab
+        nneg += 1 - lab
+    if npos < 20 or nneg < 20:
+        return None
+    return np.stack(out), np.asarray(labels)
+
+
 def real_scream_mel(n_pos=45, n_neg=90):
     """Real scream audio -> (mel[128,131], label), the m1_train_v2 contract.
+
+    FALLBACK ONLY -- prefer real_scream_fsd50k(). Day 345 showed this
+    fixture's 45 positives give a ~+-0.05 confidence interval, which is what
+    let v3's 0.839 stand for 20 days against a real value of 0.7675.
 
     Positives are real AudioSet screaming/yell/shout clips. RAVDESS acted
     emotion is deliberately EXCLUDED from the positive set: it is this
@@ -530,6 +619,23 @@ def real_violence_sequences(n=400):
     tools/day334_m3_burst/probe_end_to_end.py, which scores AUC 0.9176 on raw
     video against the 0.9126 this fixture gives on cached features.
 
+    READ THE SCOPE LIMIT BEFORE QUOTING THE NUMBER THIS PRODUCES
+    ------------------------------------------------------------
+    The ~0.91 here is a REGRESSION check, not evidence the detector works.
+    Both it and the end-to-end probe use RWF -- the corpus M3 trained on.
+
+    Day 346 scored the shipped model on 2,700 clips of an independent
+    violence corpus (Dataverse, Blurred variant) and got **AUC 0.4821, 95%
+    CI [0.4598, 0.5041] -- chance**, with violence and non-violence score
+    distributions that are identical (0.2650 vs 0.2798). It is not collapsed
+    (span 0.9951) and not label-flipped (1-AUC = 0.5179); it is confidently
+    wrong. The failure is symmetric: a Dataverse-trained model scores 0.4636
+    back on RWF.
+
+    So a healthy reading here means "the shipped .tflite still matches the
+    weights we accepted", and nothing more. See
+    assets/models/DAY346_M3_DOES_NOT_TRANSFER.md.
+
     Returns None if the cache is absent, so the model honestly reports
     UNVERIFIED rather than the gate inventing data.
     """
@@ -596,7 +702,10 @@ def fixture_for(input_details, name=None):
     shape = list(input_details[0]["shape"])
     if len(shape) == 4 and shape[1] == 128 and shape[2] == 131:
         # m1 scream family: labelled fixture, so this gets a real AUC.
-        got = real_scream_mel()
+        # FSD50K first (287 positives, CI ~+-0.018); the 45-positive
+        # AudioSet fixture is only a fallback when that extraction is
+        # absent, because its CI is wide enough to hide a real regression.
+        got = real_scream_fsd50k() or real_scream_mel()
         if got is None:
             return None
         Xs, ys = got

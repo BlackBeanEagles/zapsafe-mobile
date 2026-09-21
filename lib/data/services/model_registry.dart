@@ -52,11 +52,11 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'scream',
     displayName: 'Scream Classifier (M1)',
-    assetPath: 'assets/models/scream_classifier_v3.tflite',
+    assetPath: 'assets/models/scream_classifier_v5.tflite',
     // Day 257: shipped as m1_scream_v2 — a 128x131 librosa mel spectrogram
     // in, one sigmoid out. The old 13-MFCC description was the placeholder's.
     purpose: '128x131 mel spectrogram → P(scream), single sigmoid',
-    realModelEta: 'Shipped Day 257 · AUC 0.9101',
+    realModelEta: 'Shipped Day 346 · AUC 0.8284 (FSD50K eval, 287 pos)',
     realSizeMb: 2.75,
   ),
   ModelDefinition(

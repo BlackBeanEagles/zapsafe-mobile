@@ -56,7 +56,7 @@ void main() {
       // name is deliberately NOT preserved: keeping it would have meant
       // shipping a filename that no longer describes the model behind it.
       const expected = {
-        'scream': 'assets/models/scream_classifier_v3.tflite',
+        'scream': 'assets/models/scream_classifier_v5.tflite',
         'motion': 'assets/models/motion_fall_v2.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
@@ -94,16 +94,17 @@ void main() {
       //
       // Day 324: the >1 MB floor this used to assert is gone. It was a
       // proxy for "real binary, not a text stub", and it stopped being one:
-      // scream_classifier_v3 is 206 KB (float16, smaller architecture) and
-      // scores AUC 0.823 on real held-out screams, where the 2,811 KB v1 it
-      // replaced scored 0.616. Size never measured quality. isPlaceholder
+      // scream_classifier_v5 is 206 KB (float16, smaller architecture) and
+      // scores AUC 0.8284 on the 287-positive FSD50K eval set, where the
+      // 2,811 KB v1 it replaced scored 0.616 on a far weaker fixture.
+      // Size never measured quality. isPlaceholder
       // checks the thing actually worth checking, and
       // tools/verify_shipped_models.py checks whether it detects anything.
       if ((byKey['scream']?.sizeBytes ?? 0) > 0) {
         expect(byKey['scream']?.isPlaceholder, isFalse,
-            reason: 'scream_classifier_v3 is a real TFLite binary');
+            reason: 'scream_classifier_v5 is a real TFLite binary');
         expect(byKey['scream']!.sizeBytes, greaterThan(10000),
-            reason: 'the real m1_scream_v2 is ~2.75 MB');
+            reason: 'the real scream model is ~206 KB float16');
       }
       // fusion (257 B) is still a text stub — m9 failed its gate and is
       // deliberately not shipped. See PREPROCESSING_SPEC.md.

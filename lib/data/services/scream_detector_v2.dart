@@ -53,29 +53,32 @@ class ScreamDetectorV2 implements Interpreter {
   ///
   /// **0.20, not 0.5, and that is deliberate.**
   ///
-  /// Day 342 — re-measured on the shipped **v3** model over 135 held-out
-  /// real AudioSet clips (45 positives). The table this block used to carry
-  /// was **v2's curve**, left behind when Day 324 swapped the asset to v3,
-  /// so its conclusion ("past 0.20 precision falls below half") described a
-  /// model that is no longer here:
+  /// Day 346 — re-measured on the shipped **v5** model over the FSD50K eval
+  /// set: 1,764 clips, **287 real positives**. The table this block used to
+  /// carry (recall 0.778, precision 0.614) came from a 135-clip AudioSet
+  /// fixture with only 45 positives, which Day 345 retired — on real data
+  /// v3 never achieved those numbers:
   ///
-  /// | t | recall | precision | alerts/135 |
-  /// |---|---|---|---|
-  /// | 0.40 | 0.556 | 0.735 | 34 |
-  /// | 0.30 | 0.689 | 0.660 | 47 |
-  /// | 0.25 | 0.733 | 0.623 | 53 |
-  /// | **0.20** | **0.778** | **0.614** | **57** |
-  /// | 0.15 | 0.800 | 0.554 | 65 |
+  /// | t | v5 recall | v5 precision |
+  /// |---|---|---|
+  /// | 0.40 | 0.784 | 0.356 |
+  /// | 0.30 | 0.822 | 0.324 |
+  /// | 0.25 | 0.836 | 0.302 |
+  /// | **0.20** | **0.843** | **0.282** |
+  /// | 0.15 | 0.857 | 0.268 |
   ///
-  /// Moving 0.30 → 0.20 buys **+0.089 recall for −0.046 precision**, and
-  /// costs 10 more alerts per 135 windows. For a safety app that is the
-  /// right trade: a missed scream is the expensive error, and v3's precision
-  /// at 0.20 (0.614) is *better* than v2's was at 0.30 (0.524), so this is
-  /// less trigger-happy than what shipped for most of the project's life.
+  /// v3 at this same threshold, measured the same way, was **recall 0.711,
+  /// precision 0.304**. So v5 at 0.20 buys **+0.132 recall for −0.022
+  /// precision** — a missed scream is the expensive error for a safety app.
   ///
-  /// 0.15 is deliberately not taken — it buys only +0.022 recall while
-  /// precision falls to 0.554, which is where false alerts start training
-  /// the user to ignore the app.
+  /// 0.30 was the alternative and would have *dominated* v3 on both axes
+  /// (0.822 / 0.324). It was not taken: the extra 0.021 recall is worth more
+  /// here than the 0.042 precision.
+  ///
+  /// These precisions look low against the old table because the eval set is
+  /// adversarial by design — 287 positives against 1,477 negatives that are
+  /// speech, chatter, laughter and singing. It is a worst-case number, not a
+  /// field estimate, and it is not comparable to the 0.614 above.
   ///
   /// This detector carries the **largest DCS fusion weight (0.5)**, so the
   /// change propagates: an uncorroborated scream at 0.9 contributes 0.45,
@@ -83,12 +86,25 @@ class ScreamDetectorV2 implements Interpreter {
   /// screams crossing threshold therefore means more camera bursts, bounded
   /// by that class's 90 s cooldown.
   ///
-  /// **Day 324 — this now loads `scream_classifier_v3.tflite`.** Real
-  /// held-out AUC across three versions, same protocol each time:
+  /// **Day 346 — this now loads `scream_classifier_v5.tflite`.**
   ///
-  ///     v1 (shipped since Day 31)  0.616
-  ///     v2 (Day 322)               0.759
-  ///     v3 (this one)              0.823
+  /// AUC across versions. The first three rows are the OLD 135-clip AudioSet
+  /// fixture (45 positives, CI ~±0.05); the last two are the FSD50K eval set
+  /// (287 positives, CI ~±0.018). **The two columns are not comparable** —
+  /// that is the whole point of Day 345:
+  ///
+  ///     v1 (Day 31)   0.616   |
+  ///     v2 (Day 322)  0.759   |  135-clip AudioSet fixture
+  ///     v3 (Day 324)  0.823   |
+  ///     ----------------------+------------------------------
+  ///     v3 re-measured        |  0.7675   FSD50K eval
+  ///     v5 (this one)         |  0.8284   FSD50K eval
+  ///
+  /// v3's "0.823" and its real 0.7675 are the same model measured two ways.
+  /// v5 gained +0.0609, 95% CI [+0.0394, +0.0816], from two changes: crying
+  /// dropped from the positive set (it is not scored as a scream), and
+  /// Cheering/Crowd/Applause added as hard negatives. See
+  /// assets/models/DAY346_SCREAM_V5_DEFINITION_AND_DATA.md.
   ///
   /// v1's model card claimed precision 0.9424 / recall 0.9529. Those were
   /// in-domain memorisation on a held-out split of its own training
@@ -108,13 +124,20 @@ class ScreamDetectorV2 implements Interpreter {
   /// nothing before had ever taught the model the difference. At equal
   /// recall (0.667) precision went 0.386 -> 0.524.
   ///
-  /// **Still not a solved problem.** At 0.30 it misses one scream in three
-  /// and roughly half the alerts are false. It is a strictly better
-  /// replacement for something unshippable, not a detector to advertise.
-  /// The binding constraint is now measurement, not training: the held-out
-  /// set is 33 real screams, so each clip moves recall by 3% and 0.82
-  /// cannot be told apart from 0.78. More real scream audio is the next
-  /// thing this needs. See `assets/models/DAY324_SCREAM_V3.md`.
+  /// **Still not a solved problem.** v5 catches 0.843 of real screams and
+  /// roughly seven alerts in ten are false on an adversarial eval set. It is
+  /// a materially better detector than v3, not one to advertise.
+  ///
+  /// The binding constraint has changed. Through v3 it was *measurement* —
+  /// 33 real held-out screams, so 0.82 could not be told from 0.78. Day 345
+  /// fixed that with 287 positives (CI ~±0.018), which is what made v5's
+  /// +0.0609 provable rather than plausible.
+  ///
+  /// What binds now is **precision against crowd noise**. The gain here came
+  /// from adding Cheering/Crowd/Applause as negatives, and that is also where
+  /// the remaining false alerts concentrate. See
+  /// `assets/models/DAY346_SCREAM_V5_DEFINITION_AND_DATA.md` and
+  /// `DAY324_SCREAM_V3.md` for the earlier history.
   static const double kDefaultThreshold = 0.20;
 
   final tfl.Interpreter _interpreter;
@@ -152,7 +175,7 @@ class ScreamDetectorV2 implements Interpreter {
   /// either of those and feeding it a mel spectrogram would produce numbers
   /// rather than an error.
   static Future<ScreamDetectorV2?> tryLoad({
-    String assetPath = 'assets/models/scream_classifier_v3.tflite',
+    String assetPath = 'assets/models/scream_classifier_v5.tflite',
     String modelLabel = 'm1_scream_v2',
     double threshold = kDefaultThreshold,
   }) async {
