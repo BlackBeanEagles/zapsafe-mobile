@@ -945,6 +945,29 @@ DCS_SLOTS = {
     "fusion": ("dcs_fusion_v1.tflite", 3),
 }
 
+# Day 347 - slots whose shape mismatch is ROUTED AROUND in the live path.
+#
+# This block exists because the output above misled a reader into reporting
+# the motion slot as a live defect that "neutralises the best detector". It
+# is not. Day 327 added `motionResultOverride` and Day 335 added
+# `sceneResultOverride`: the engine's own 6-float / 8-float slots are legacy
+# fallbacks, and lib/domain/providers/inference_providers.dart passes the
+# real windowed result past them on every pass.
+#
+# So a shape mismatch here means "the legacy fallback cannot load", which is
+# expected and already handled -- NOT "this modality contributes nothing".
+# The thing that would actually break the live path is the override arriving
+# null, which no static check can see; it is a runtime condition (before the
+# first 100-sample window, or a pipeline that failed to load).
+#
+# Values: (override parameter, the provider line that supplies it).
+LIVE_OVERRIDES = {
+    "motion": ("motionResultOverride",
+               "inference_providers.dart -> motionPipeline?.latestResult"),
+    "scene": ("sceneResultOverride",
+              "inference_providers.dart -> burst?.latestResult (30 s bound)"),
+}
+
 
 def check_dcs_slots():
     """Compare declared vs actual input size for each DCS fusion slot."""
@@ -959,11 +982,20 @@ def check_dcs_slots():
             rows.append((slot, fname, declared, None, "placeholder, not a model"))
             continue
         try:
-            it = tf.lite.Interpreter(model_path=path)
-            it.allocate_tensors()
+            # Use _load(), not a bare Interpreter: scene_analyzer_v1 cannot
+            # prepare under desktop XNNPACK, and calling it directly made
+            # this check print "load fails" for a model the main table above
+            # reports as ok. Two lines of the same report disagreeing about
+            # the same file is worse than either verdict alone.
+            it, _ = _load(path)
             actual = int(np.prod(it.get_input_details()[0]["shape"]))
-            rows.append((slot, fname, declared, actual,
-                         "ok" if actual == declared else "STUBBED"))
+            if actual == declared:
+                verdict = "ok"
+            elif slot in LIVE_OVERRIDES:
+                verdict = "legacy-slot (live path overrides)"
+            else:
+                verdict = "STUBBED"
+            rows.append((slot, fname, declared, actual, verdict))
         except Exception as exc:
             rows.append((slot, fname, declared, None,
                          f"load fails: {type(exc).__name__}"))
@@ -1033,11 +1065,18 @@ def main():
         if verdict in ("STUBBED",) or verdict.startswith("load fails"):
             if fname not in KNOWN_PLACEHOLDERS:
                 stubbed.append(slot)
+    for slot, (param, src) in sorted(LIVE_OVERRIDES.items()):
+        print("  -> %-8s legacy slot is bypassed at runtime via %s"
+              % (slot, param))
+        print("     %s" % src)
+    print("     A mismatch above is therefore EXPECTED and handled. What it")
+    print("     does NOT prove is that the override is non-null at runtime,")
+    print("     which no static check can see -- see DAY347 notes.")
     if stubbed:
-        print("  -> %s silently fall(s) back to a CONSTANT-valued stub."
-              % ", ".join(stubbed))
+        print("  -> %s has no override and silently falls back to a "
+              "CONSTANT-valued stub." % ", ".join(stubbed))
         print("     The fused DCS score drives SOS escalation, so escalation")
-        print("     stops depending on those modalities. See")
+        print("     stops depending on that modality. See")
         print("     assets/models/DAY326_DCS_FUSION_NEVER_FUSED.md")
 
     failed = False
