@@ -132,10 +132,36 @@ const List<ModelDefinition> kZapsafeModels = [
     realSizeMb: 0.024,
     // Phase A (Day 90): catalogue + asset only.
     // Phase B (inference wiring) is STILL NOT DONE — no Dart code loads or
-    // runs this model. Day 318 verified the asset itself is genuinely good
-    // (AUC 0.844 on real RAVDESS, slightly better than its own report's
-    // 0.8021, and its int8 export is as accurate as the f32 twin), so the
-    // gap is wiring, not the model.
+    // runs this model.
+    //
+    // ** DO NOT START PHASE B ON THE 0.844. READ THIS FIRST. **
+    //
+    // Day 318 verified the asset scores AUC 0.844 on real RAVDESS and that
+    // its int8 export is as accurate as the f32 twin. Both still hold, and
+    // Day 318's conclusion — "the gap is wiring, not the model" — was the
+    // reasonable read at the time. Day 347 measured it on a SECOND corpus
+    // and that conclusion did not survive:
+    //
+    //     RAVDESS (acted, studio booth)   AUC 0.8442
+    //     MELD (natural TV dialogue)      AUC 0.4780   -> CHANCE
+    //                                     CI [0.4516, 0.5037]
+    //
+    // Precision equals the base rate (0.227) at every threshold. The
+    // control rules out "MELD is just hard": classifiers trained on the
+    // SAME 38 features reach 0.683 on MELD, so the features carry signal
+    // there and this model specifically fails to transfer.
+    //
+    // All 160 of the RAVDESS clips are 24 actors in a booth reading two
+    // fixed sentences — the same distribution that had
+    // `scream_classifier_v1` claiming 0.9529 while, in its own words,
+    // having "learned acted studio emotion, not screaming".
+    //
+    // Phase B is expensive: the native layer emits 15 per-frame scalars and
+    // the day90 extractor needs pyin f0 mean/std/jitter, RMS shimmer + HNR
+    // and spectral rolloff, none of which exist in Dart today. Spending
+    // that on a detector that reads natural speech at chance is the point
+    // of this warning. A retrain on natural speech comes first, aimed at
+    // ~0.68, not 0.84. See assets/models/DAY347_H_AGGRESSIVE_CROSS_CORPUS.md.
     //
     // Whoever does Phase B: the 38-dim input MUST be z-scored with
     // assets/models/h_aggressive_speech_v1_norm.json (shipped Day 318).
