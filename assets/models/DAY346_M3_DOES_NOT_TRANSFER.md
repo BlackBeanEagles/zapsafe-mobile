@@ -1,5 +1,27 @@
 # Day 346 — `m3_violence_temporal` is at chance on an independent corpus
 
+> ## ⚠️ SUPERSEDED BY DAY 348 — THE HEADLINE BELOW IS WRONG
+>
+> Day 348 scored the same shipped model on a **third** violence corpus
+> (A-Dataset-for-Automatic-Violence-Detection, 230 violent / 120
+> non-violent) and got **AUC 0.9749**, 95% CI [0.9602, 0.9863] — *better*
+> than its own RWF val split.
+>
+> So M3 does **not** fail to generalise. It generalises well to ordinary
+> video and collapses specifically on **face-anonymised** video, which is
+> what the Dataverse corpus is. The measurements in this file are all
+> reproducible and correct; the **conclusion drawn from them was not**,
+> because it assumed Dataverse was a representative second corpus when it is
+> the outlier.
+>
+> The "provenance control AUC 1.0000" below is likewise explained rather
+> than damning: blurred and unblurred video are trivially distinguishable,
+> so a corpus-ID classifier reaching 1.0 is expected and is not evidence of
+> a subtle shortcut.
+>
+> The filename is kept so existing links still resolve.
+> See `DAY348_M3_GENERALISES_ANONYMISATION_BREAKS_IT.md`.
+
 Day 344 listed M3 as "0.9176; more training data now identified" and the
 plan was to combine that data and retrain. The combining was done. The
 result is not an improvement, it is a **correction to what 0.9124 means**.

@@ -158,10 +158,26 @@ const List<ModelDefinition> kZapsafeModels = [
     //
     // Phase B is expensive: the native layer emits 15 per-frame scalars and
     // the day90 extractor needs pyin f0 mean/std/jitter, RMS shimmer + HNR
-    // and spectral rolloff, none of which exist in Dart today. Spending
-    // that on a detector that reads natural speech at chance is the point
-    // of this warning. A retrain on natural speech comes first, aimed at
-    // ~0.68, not 0.84. See assets/models/DAY347_H_AGGRESSIVE_CROSS_CORPUS.md.
+    // and spectral rolloff, none of which exist in Dart today.
+    //
+    // ** THE RETRAIN IS DONE — WIRE THE v2b ASSET, NOT THIS ONE. **
+    //
+    // Day 348 retrained across five corpora (MELD natural dialogue +
+    // CREMA-D + TESS + RAVDESS + SAVEE, 17,548 clips, speaker-disjoint
+    // split):
+    //
+    //     v1   acted 0.8442   natural 0.4780  <- chance
+    //     v2b  acted 0.8096   natural 0.6661  <- CI [0.6427, 0.6896]
+    //     (a model fitted to natural speech tops out at 0.6832)
+    //
+    // The asset is work/h_aggressive_v2/h_aggressive_v2_noesd_float16.tflite
+    // with h_aggressive_v2_noesd_norm.json. It is NOT copied into assets/
+    // yet, because shipping an asset nothing loads is the dead weight
+    // scream_classifier_v3 was removed for on Day 346B. Copy it in as part
+    // of Phase B, not before.
+    //
+    // See assets/models/DAY348_H_AGGRESSIVE_V2_MULTICORPUS.md and
+    // DAY347_H_AGGRESSIVE_CROSS_CORPUS.md.
     //
     // Whoever does Phase B: the 38-dim input MUST be z-scored with
     // assets/models/h_aggressive_speech_v1_norm.json (shipped Day 318).

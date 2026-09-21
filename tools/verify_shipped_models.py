@@ -722,22 +722,30 @@ def real_violence_sequences(n=400):
     tools/day334_m3_burst/probe_end_to_end.py, which scores AUC 0.9176 on raw
     video against the 0.9126 this fixture gives on cached features.
 
-    READ THE SCOPE LIMIT BEFORE QUOTING THE NUMBER THIS PRODUCES
-    ------------------------------------------------------------
-    The ~0.91 here is a REGRESSION check, not evidence the detector works.
-    Both it and the end-to-end probe use RWF -- the corpus M3 trained on.
+    SCOPE OF THE NUMBER THIS PRODUCES
+    ---------------------------------
+    The ~0.91 here is a REGRESSION check against the weights we accepted.
+    Both it and the end-to-end probe use RWF -- the corpus M3 trained on --
+    so on its own it says nothing about generalisation.
 
-    Day 346 scored the shipped model on 2,700 clips of an independent
-    violence corpus (Dataverse, Blurred variant) and got **AUC 0.4821, 95%
-    CI [0.4598, 0.5041] -- chance**, with violence and non-violence score
-    distributions that are identical (0.2650 vs 0.2798). It is not collapsed
-    (span 0.9951) and not label-flipped (1-AUC = 0.5179); it is confidently
-    wrong. The failure is symmetric: a Dataverse-trained model scores 0.4636
-    back on RWF.
+    It is backed by a cross-corpus number, though. Day 348 scored the
+    shipped model on an independent, unprocessed violence corpus
+    (A-Dataset-for-Automatic-Violence-Detection, 230 violent / 120
+    non-violent) and got **AUC 0.9749, CI [0.9602, 0.9863]** -- higher than
+    its own val split -- with every violent action class outranking every
+    non-violent one, `choke`/`stab` (low motion) at the top and
+    `jump`/`highfive` (high motion) at the bottom. It is not a motion
+    detector.
 
-    So a healthy reading here means "the shipped .tflite still matches the
-    weights we accepted", and nothing more. See
-    assets/models/DAY346_M3_DOES_NOT_TRANSFER.md.
+    The one measured failure is narrow and worth knowing: on
+    **face-anonymised** video (Dataverse, blurred/masked) it scores 0.4821,
+    chance, with identical class distributions. Day 346 read that as a
+    general failure to transfer; the third corpus showed Dataverse is the
+    outlier. Nothing in the pipeline anonymises frames before inference, so
+    this is not the shipping condition.
+
+    See assets/models/DAY348_M3_GENERALISES_ANONYMISATION_BREAKS_IT.md
+    (and DAY346_M3_DOES_NOT_TRANSFER.md, whose conclusion it supersedes).
 
     Returns None if the cache is absent, so the model honestly reports
     UNVERIFIED rather than the gate inventing data.
