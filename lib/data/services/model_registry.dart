@@ -196,6 +196,21 @@ const List<ModelDefinition> kZapsafeModels = [
     // scream_classifier_v3 was removed for on Day 346B. Copy it in as part
     // of Phase B, not before.
     //
+    // Day 351 -- THE CHEAP ROUTE WAS TRIED AND DOES NOT WORK.
+    // Dart already computes a 38-dim prosodic vector (yin_pitch.dart +
+    // VocalStressFeatures.compose38(), plain YIN at frame 512 / hop 256)
+    // for m4/m5, so v2b was retrained in THAT space to avoid building a
+    // second native pipeline. It lost too much:
+    //
+    //     v2b  librosa.pyin 2048/512   acted 0.8096   natural 0.6661
+    //     v3   yin_lite      512/256   acted 0.7063   natural 0.5918
+    //
+    // So Phase B genuinely needs the librosa-equivalent path in Dart:
+    // pyin f0 mean/std/jitter, RMS shimmer + HNR and spectral rolloff at
+    // frame 2048 / hop 512. Caveat: v3 changed the pitch tracker AND the
+    // frame size together, so it does not isolate which mattered.
+    // See assets/models/DAY351_H_AGGRESSIVE_PHASE_B_STILL_NEEDS_NATIVE.md.
+    //
     // See assets/models/DAY348_H_AGGRESSIVE_V2_MULTICORPUS.md and
     // DAY347_H_AGGRESSIVE_CROSS_CORPUS.md.
     //
