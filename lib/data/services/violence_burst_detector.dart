@@ -21,7 +21,7 @@ import '../models/inference_result.dart';
 /// This is why the model sat trained-but-unwired: `assets/models/` shipped no
 /// encoder, so the head had nothing to consume. Both are float16 —
 /// `mobilenetv3small_encoder_float16.tflite` (1.85 MB) and
-/// `m3_violence_temporal_float16.tflite` (685 KB).
+/// `m3_violence_temporal_v1.tflite` (685 KB).
 ///
 /// ## The input-scaling hazard, which is the reason this class exists at all
 ///
@@ -109,7 +109,7 @@ class ViolenceBurstDetector {
   /// one that reports itself unavailable.
   static Future<ViolenceBurstDetector?> tryLoad({
     String encoderAsset = 'assets/models/mobilenetv3small_encoder_float16.tflite',
-    String temporalAsset = 'assets/models/m3_violence_temporal_float16.tflite',
+    String temporalAsset = 'assets/models/m3_violence_temporal_v1.tflite',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? encoder;

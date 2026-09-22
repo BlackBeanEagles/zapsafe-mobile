@@ -73,6 +73,7 @@ import io
 import json
 import os
 import random
+import re
 import sys
 
 import numpy as np
@@ -838,6 +839,104 @@ def real_prosodic_38_yin_zh(n=400):
     return X.astype(np.float32), np.asarray(y)
 
 
+### Day 351 - TRAINING DATA PROVENANCE AND LICENCE.
+#
+# This gate has always answered "does the model work". It has never answered
+# "are we allowed to ship it", and Day 350 found out why that matters: the
+# ESD corpus under both vocal-stress models declares cc-by-nc-4.0 on its
+# HuggingFace card, while its official NUS/SUTD page states no licence at
+# all, only a citation request. An absent grant is not a permissive one.
+#
+# That was archaeology. This table makes it an audit: every shipped asset
+# names what it was trained on and the terms as recorded, and the gate
+# prints a licence section on every run.
+#
+# "research" means released for research use with no commercial grant.
+# "NC" means an explicit Non-Commercial licence. Neither is a legal opinion
+# -- they are what the dataset cards and release pages say. See
+# assets/models/DAY350_TRAINING_DATA_LICENCES.md.
+TRAINING_DATA = {
+    "scream_classifier_v5.tflite": [
+        ("VocalAffectBench", "MIT"),
+        ("FSD50K", "per-clip CC (CC0/BY/BY-NC mix)"),
+        ("AudioSet", "labels CC-BY; audio YouTube-sourced"),
+        ("ASVP-ESD", "research"),
+        ("ESC-50", "CC BY-NC 3.0"),
+    ],
+    "mg_gunshot_retrain.tflite": [
+        ("UrbanSound8K", "CC BY-NC 3.0"),
+        ("AudioSet", "labels CC-BY; audio YouTube-sourced"),
+    ],
+    "m_glass_breaking_v3.tflite": [
+        ("Freesound-derived event set", "per-clip CC"),
+        ("UrbanSound8K", "CC BY-NC 3.0"),
+    ],
+    "motion_fall_v2.tflite": [("UniMiB-SHAR", "research")],
+    "m3_violence_temporal_v1.tflite": [("RWF-2000", "research")],
+    "m4_vocal_stress_v2_38.tflite": [
+        ("ESD English", "NC - card cc-by-nc-4.0; official page no licence"),
+        ("MELD", "research; audio from copyrighted broadcast"),
+    ],
+    "m5_vocal_stress_v2_38.tflite": [
+        ("ESD Mandarin", "NC - card cc-by-nc-4.0; official page no licence"),
+        ("EmotionTalk", "UNKNOWN - no card or licence file on disk"),
+    ],
+    "h_aggressive_speech_v1.tflite": [("RAVDESS", "CC BY-NC-SA 4.0")],
+    "i_vehicle_crash.tflite": [("UCI-HAR", "research")],
+    "k_confinement_decorrelated.tflite": [("PAMAP2", "research")],
+    "mobilenetv3small_encoder_float16.tflite": [("ImageNet", "research")],
+    "dcs_fusion_v1.tflite": [("n/a - text placeholder, not a model", "n/a")],
+}
+
+
+def licence_report():
+    """Print training-data terms for every shipped asset.
+
+    An asset with NO entry is the loud case: unrecorded provenance is
+    exactly how the ESD exposure went unnoticed for 25 days.
+    """
+    print("")
+    print("Training-data licences (NOT a legal opinion - see "
+          "DAY350_TRAINING_DATA_LICENCES.md):")
+    nc, unknown, unrecorded = [], [], []
+    for a in sorted(f for f in os.listdir(ASSETS) if f.endswith(".tflite")):
+        rows = TRAINING_DATA.get(a)
+        if rows is None:
+            unrecorded.append(a)
+            print("  %-42s ** NO PROVENANCE RECORDED **" % a)
+            continue
+        flags = set()
+        for _, lic in rows:
+            low = lic.lower()
+            # Match 'nc' as a TOKEN. The first version of this tested
+            # `startswith("nc ") or "-nc-" in low`, which missed
+            # "CC BY-NC 3.0" entirely -- so UrbanSound8K (under gunshot AND
+            # glass) and ESC-50 (under scream v5) were silently unflagged,
+            # and scream v5 got described as the cleanest model when it is
+            # not. A licence check that under-reports is worse than none.
+            if re.search(r"(?<![a-z])nc(?![a-z])", low) or \
+                    "non-commercial" in low:
+                flags.add("NC")
+            if "unknown" in low:
+                flags.add("UNKNOWN")
+        tag = ("   <- " + "/".join(sorted(flags))) if flags else ""
+        print("  %-42s %s%s" % (a, ", ".join(c for c, _ in rows), tag))
+        for corpus, lic in rows:
+            print("  %-42s    %s: %s" % ("", corpus, lic))
+        if "NC" in flags:
+            nc.append(a)
+        if "UNKNOWN" in flags:
+            unknown.append(a)
+    if nc:
+        print("  -> Non-Commercial training data: %s" % ", ".join(nc))
+    if unknown:
+        print("  -> UNKNOWN terms: %s" % ", ".join(unknown))
+    if unrecorded:
+        print("  -> NO PROVENANCE RECORDED: %s" % ", ".join(unrecorded))
+    print("  This gate does not fail on licence; it makes the question "
+          "visible on every run.")
+
+
 def fixture_for(input_details, name=None):
     """Real inputs matching this model's contract, or None if we have none.
 
@@ -999,7 +1098,7 @@ def evaluate(path):
 # read from lib/ml/inference/dcs_inference_engine.dart.
 DCS_SLOTS = {
     "motion": ("motion_fall_v2.tflite", 6),
-    "scene": ("scene_analyzer_v1.tflite", 8),
+    "scene": ("m3_violence_temporal_v1.tflite", 8),
     "fusion": ("dcs_fusion_v1.tflite", 3),
 }
 
@@ -1112,6 +1211,9 @@ def main():
     if unverified:
         print("%d model(s) UNVERIFIED (no real fixture yet): %s"
               % (len(unverified), ", ".join(unverified)))
+    # --- training-data provenance -------------------------------------
+    licence_report()
+
     # --- DCS fusion slot wiring ---------------------------------------
     print()
     print("DCS fusion slots (declared input size vs the shipped model):")

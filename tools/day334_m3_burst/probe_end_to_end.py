@@ -22,7 +22,7 @@ VIO = r"D:\zapsafe\violene"
 FRAMES, SIZE = 16, 224
 
 enc = tf.lite.Interpreter(model_path=os.path.join(A, "mobilenetv3small_encoder_float16.tflite"))
-tem = tf.lite.Interpreter(model_path=os.path.join(A, "m3_violence_temporal_float16.tflite"))
+tem = tf.lite.Interpreter(model_path=os.path.join(A, "m3_violence_temporal_v1.tflite"))
 enc.allocate_tensors(); tem.allocate_tensors()
 ei, eo = enc.get_input_details()[0], enc.get_output_details()[0]
 ti, to = tem.get_input_details()[0], tem.get_output_details()[0]

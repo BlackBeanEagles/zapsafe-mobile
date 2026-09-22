@@ -70,7 +70,7 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'scene',
     displayName: 'Scene Analyzer (M3)',
-    assetPath: 'assets/models/scene_analyzer_v1.tflite',
+    assetPath: 'assets/models/m3_violence_temporal_v1.tflite',
     // Day 315: real m3_ucf_crime_retrain_v3, trained on odins0n/ucf-crime-
     // dataset (real surveillance footage, Normal vs 13 crime categories) —
     // replaces the old placeholder note referencing AWS SageMaker/Places365,
@@ -82,9 +82,19 @@ const List<ModelDefinition> kZapsafeModels = [
     // SceneDetectorV2 (lib/data/services/scene_detector_v2.dart); no real
     // camera-frame capture pipeline exists yet to feed it — see that
     // file's class doc.
-    purpose: 'Camera frame [1,224,224,3] → SAFE/NEUTRAL/RISKY (softmax)',
-    realModelEta: 'Shipped Day 315 · UCF-Crime · test acc 0.5944',
-    realSizeMb: 1.34,
+    // Day 351: scene_analyzer_v1.tflite is DELETED. Day 335 replaced it
+    // in the DCS scene slot with m3_violence_temporal via
+    // sceneResultOverride, because its labels (indoor/outdoor/transit)
+    // contain NO danger class -- being outdoors is not evidence of
+    // danger -- and it scored 0.594 on 3 classes. SceneDetectorV2 was
+    // never constructed anywhere in lib/; only its constants were used.
+    // So the asset was 1.4 MB shipped to every user for nothing, the
+    // same dead weight scream_classifier_v3 was removed for on Day 346B.
+    // This entry now names what actually serves the slot.
+    purpose: 'Camera burst [1,16,576] → P(violence); serves the DCS '
+        'scene slot via sceneResultOverride',
+    realModelEta: 'Day 335 · m3_violence_temporal · cross-corpus 0.9749',
+    realSizeMb: 0.67,
   ),
   ModelDefinition(
     key: 'fusion',

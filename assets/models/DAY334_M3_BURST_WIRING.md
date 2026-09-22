@@ -10,7 +10,7 @@ no encoder. The head had nothing to consume.
 | asset | size | shape |
 |---|---|---|
 | `mobilenetv3small_encoder_float16.tflite` | 1.85 MB | `[1,224,224,3] -> [1,576]` |
-| `m3_violence_temporal_float16.tflite` | 685 KB | `[1,16,576] -> [1,1]` |
+| `m3_violence_temporal_v1.tflite` | 685 KB | `[1,16,576] -> [1,1]` |
 
 `ViolenceBurstDetector` loads both **as a pair** and verifies all four tensor
 shapes, returning null and closing whichever interpreter did open if anything

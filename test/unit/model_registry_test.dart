@@ -58,7 +58,15 @@ void main() {
       const expected = {
         'scream': 'assets/models/scream_classifier_v5.tflite',
         'motion': 'assets/models/motion_fall_v2.tflite',
-        'scene':  'assets/models/scene_analyzer_v1.tflite',
+        // Day 351: scene_analyzer_v1.tflite is DELETED. Day 335 moved
+        // the DCS scene slot to m3_violence_temporal via
+        // sceneResultOverride -- scene_analyzer's labels
+        // (indoor/outdoor/transit) contain no danger class, and
+        // SceneDetectorV2 was never constructed in lib/, so 1.4 MB
+        // shipped to every user for nothing. The _v1 suffix is required:
+        // localVersionFor() parses _vN from the filename and returned
+        // 'unknown' without it.
+        'scene':  'assets/models/m3_violence_temporal_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
         // Day 350: _38, because the 28-feature variant measured 0.4865 --
         // chance -- on natural Mandarin. The suffix is load-bearing: the
@@ -117,7 +125,7 @@ void main() {
             reason: 'dcs_fusion_v1 is a 1 KB text placeholder');
       }
 
-      // motion (130 KB) and scene (2.6 MB) are real binary TFLite files.
+      // motion (130 KB) and scene (670 KB) are real binary TFLite files.
       // The motion one is now also wired and verified: MotionDetectorV2
       // loads it and tools/verify_shipped_models.py scores it AUC 0.999 on
       // real held-out-subject UniMiB windows.
@@ -127,7 +135,7 @@ void main() {
       }
       if ((byKey['scene']?.sizeBytes ?? 0) > 0) {
         expect(byKey['scene']?.isPlaceholder, isFalse,
-            reason: 'scene_analyzer_v1 is a real 2.6 MB MobileNetV2 binary');
+            reason: 'm3_violence_temporal_v1 is a real 670 KB binary');
       }
     });
   });
