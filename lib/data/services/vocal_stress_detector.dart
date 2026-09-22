@@ -97,6 +97,34 @@ enum VocalStressVariant {
   english38,
 }
 
+/// **DAY 349 — BOTH VARIANTS ARE AT CHANCE ON NATURAL SPEECH. READ FIRST.**
+///
+/// Neither model was changed, but what their recorded numbers mean did:
+///
+///     m4 (English)  held-out ESD speakers 0.8321 -> MELD        0.4813
+///     m5 (Mandarin) held-out ESD speakers 0.7988 -> EmotionTalk 0.4865
+///
+/// CI [0.4572, 0.5043] and [0.4674, 0.5041]. Neither is collapsed (span
+/// 1.0000) nor label-flipped (1-AUC 0.519 / 0.514) -- they emit confident,
+/// full-range scores carrying no information about the label.
+///
+/// **Held-out speaker is not held-out corpus.** m5's own report records the
+/// gap it did catch (0.9984 seen speakers vs 0.7988 held-out) and that
+/// control, run properly, predicted nothing. Both models sit at 0.48 the
+/// moment the recording situation changes: ESD is ten speakers reading a
+/// fixed script in a studio with emotion produced on cue.
+///
+/// `h_aggressive_speech` failed identically (0.8442 -> 0.4780) and Day 348
+/// showed the fix -- adding natural speech to training moved it to 0.6661
+/// against a 0.6832 ceiling. The corpora for doing the same here are on
+/// disk: MELD's train split for m4, EmotionTalk's 16,353 majority-labelled
+/// clips for m5. Expect ~0.65-0.68 after a retrain, not 0.83.
+///
+/// This is not currently a live defect: `vocalStressPipelineProvider` has no
+/// consumers in lib/ and the DCS engine does not read vocal stress, so
+/// Riverpod never instantiates it. It becomes one the moment it is wired.
+///
+/// See assets/models/DAY349_PROSODIC_MODELS_FAIL_NATURAL_SPEECH.md.
 class VocalStressDetector implements Interpreter {
   static const String kAsset = 'assets/models/m5_vocal_stress_v2.tflite';
   static const String kNormAsset =
