@@ -305,7 +305,7 @@ final violenceBurstCoordinatorProvider =
 /// upgrade it:
 ///
 /// * `zh*` -> `m5_vocal_stress_v2`, Mandarin, 28 features, 0.7988
-/// * everything else -> `m4_vocal_stress_en_38`, English, 38 features,
+/// * everything else -> `m4_vocal_stress_v2_38`, English, 38 features,
 ///   **0.8321** (against 0.6949 for the same English audio through the
 ///   28-feature path)
 ///

@@ -48,16 +48,33 @@ import 'vocal_stress_features.dart';
 /// reason to sit high. This model is deliberately *not* wired into the alert
 /// path: at 0.53 recall it is a DCS fusion input, not a trigger.
 ///
-/// ## Input: 28 features, not 38
+/// ## Input: 38 features as of Day 350 — the 28-feature rationale is dead
 ///
-/// The training script defines 38, but 10 need `librosa.pyin`, an RMS series,
-/// or autocorrelation — none of which exist in Dart. Their value was measured
-/// before deciding: all-38 scores 0.7986, these 28 score 0.7988, and the 10
-/// alone score 0.5620. They carry nothing, so no pyin implementation was
-/// written. See [VocalStressFeatures].
+/// The original reasoning was: the training script defines 38, but 10 need
+/// `librosa.pyin`, an RMS series or autocorrelation, none of which existed
+/// in Dart; and on ESD alone the 10 carried nothing (all-38 0.7986 vs
+/// these-28 0.7988, the 10 alone 0.5620). Both halves have since stopped
+/// being true.
+///
+/// **Dart can compute all 38 now.** `yin_pitch.dart` (plain YIN, no HMM)
+/// and `VocalStressFeatures.compose38()` were written for the English
+/// variant and `kFullFeatureDim` is 38. Nothing needed to be added.
+///
+/// **And the 10 dropped features turn out to be load-bearing — off ESD.**
+/// Day 350 trained Mandarin on ESD + EmotionTalk natural speech both ways:
+///
+///     28 features   acted 0.6294   natural 0.7716   <- fails the 0.70 floor
+///     38 features   acted 0.7873   natural 0.7810   <- holds both
+///
+/// The 28-feature model cannot do acted and natural at once; the 38-feature
+/// one can. Measuring the 10 features *within ESD only* is what made them
+/// look worthless -- pitch, shimmer and HNR barely vary across ten actors
+/// reading one script, and carry real information the moment the recording
+/// situation changes. See [VocalStressFeatures] and
+/// `assets/models/DAY350_VOCAL_STRESS_V2.md`.
 ///
 /// Features are standardised by the constants in
-/// `assets/models/m5_vocal_stress_v2_norm.json`. Feeding raw values does not
+/// `assets/models/m5_vocal_stress_v2_38_norm.json`. Feeding raw values does not
 /// throw and does not change the shape — Day 318 measured
 /// `h_aggressive_speech` dropping from AUC 0.844 to 0.52 that way, and its
 /// f32 twin collapsing to a constant 1.0.
@@ -68,17 +85,23 @@ import 'vocal_stress_features.dart';
 /// than one, and the right one has to be chosen at load time. Replacing one
 /// with the other would silently halve the app's coverage.
 enum VocalStressVariant {
-  /// `m5_vocal_stress_v2` — Mandarin, 28 features.
+  /// Mandarin — **38 features as of Day 350**, not 28.
   ///
-  /// Reported at 0.7988 (0.850 on the gate's fixture), but Day 338 ran that
-  /// exact configuration across six held-out speaker triples: **mean 0.6314,
-  /// sd 0.1100, min 0.5060**. The reported split was the best of six, and on
-  /// `0005/0007/0010` the model is at chance. Expect **~0.63 on an unseen
-  /// Mandarin speaker**, not 0.80.
+  /// The name is kept so existing call sites still compile; the asset it
+  /// loads is `m5_vocal_stress_v2_38.tflite`, trained on ESD Mandarin +
+  /// EmotionTalk natural speech and scoring **acted 0.7873 / natural
+  /// 0.7810**.
   ///
-  /// Kept because it is still above chance on average and no better Mandarin
-  /// model exists — not because it is good. See
-  /// `assets/models/DAY338_SPLIT_SENSITIVITY.md`.
+  /// History worth keeping, because it is why the old number should not be
+  /// quoted: the 28-feature model reported 0.7988, but Day 338 ran that
+  /// configuration across six held-out speaker triples and got **mean
+  /// 0.6314, sd 0.1100, min 0.5060** — the reported split was the best of
+  /// six and on `0005/0007/0010` it was at chance. Day 349 then measured it
+  /// at **0.4865 on natural Mandarin**. Both findings point the same way and
+  /// the 38-feature retrain addresses both.
+  ///
+  /// See `assets/models/DAY350_VOCAL_STRESS_V2.md` and
+  /// `DAY338_SPLIT_SENSITIVITY.md`.
   mandarin28,
 
   /// `m4_vocal_stress_en_38` — English, the full 38-vector on plain-YIN
@@ -97,47 +120,59 @@ enum VocalStressVariant {
   english38,
 }
 
-/// **DAY 349 — BOTH VARIANTS ARE AT CHANCE ON NATURAL SPEECH. READ FIRST.**
+/// **DAY 350 — both variants retrained on natural speech. Numbers below.**
 ///
-/// Neither model was changed, but what their recorded numbers mean did:
+/// Day 349 measured the shipped pair at chance the moment the recording
+/// situation changed (m4 0.8321 acted -> 0.4813 on MELD; m5 0.7988 ->
+/// 0.4865 on EmotionTalk). Held-out *speaker* never caught it — m5's own
+/// 0.9984-seen vs 0.7988-held-out gap is a properly run control that
+/// predicted nothing. **Corpus was the confound, not speaker.**
 ///
-///     m4 (English)  held-out ESD speakers 0.8321 -> MELD        0.4813
-///     m5 (Mandarin) held-out ESD speakers 0.7988 -> EmotionTalk 0.4865
+/// Day 350 retrained both on acted + natural, with corpus-balanced sample
+/// weights so neither half dominates the loss:
 ///
-/// CI [0.4572, 0.5043] and [0.4674, 0.5041]. Neither is collapsed (span
-/// 1.0000) nor label-flipped (1-AUC 0.519 / 0.514) -- they emit confident,
-/// full-range scores carrying no information about the label.
+///     m4  v1  acted 0.8321   natural 0.4813
+///         v2  acted 0.7738   natural 0.6235   (v1's identical MELD rows)
+///     m5  v1  acted 0.7988   natural 0.4865
+///         v2  acted 0.7873   natural 0.7810
 ///
-/// **Held-out speaker is not held-out corpus.** m5's own report records the
-/// gap it did catch (0.9984 seen speakers vs 0.7988 held-out) and that
-/// control, run properly, predicted nothing. Both models sit at 0.48 the
-/// moment the recording situation changes: ESD is ten speakers reading a
-/// fixed script in a studio with emotion produced on cue.
+/// Both now clear the pre-set bars (natural >= 0.60 with a CI excluding
+/// 0.50, acted >= 0.70). m4 trades 0.058 of acted for +0.142 natural; m5
+/// gives up almost nothing.
 ///
-/// `h_aggressive_speech` failed identically (0.8442 -> 0.4780) and Day 348
-/// showed the fix -- adding natural speech to training moved it to 0.6661
-/// against a 0.6832 ceiling. The corpora for doing the same here are on
-/// disk: MELD's train split for m4, EmotionTalk's 16,353 majority-labelled
-/// clips for m5. Expect ~0.65-0.68 after a retrain, not 0.83.
+/// Two things worth knowing before trusting these:
+/// * m5's natural number rests on **4 held-out speakers** of 15 in
+///   EmotionTalk, so it is a narrower estimate than m4's, which holds out
+///   256 of 1,023 MELD dialogues.
+/// * run-to-run variance is about +-0.02 on these small heads; the figures
+///   above are the ones belonging to the exported artifacts.
 ///
-/// This is not currently a live defect: `vocalStressPipelineProvider` has no
-/// consumers in lib/ and the DCS engine does not read vocal stress, so
-/// Riverpod never instantiates it. It becomes one the moment it is wired.
+/// Still not a live path: `vocalStressPipelineProvider` has no consumers in
+/// lib/ and the DCS engine does not read vocal stress, so Riverpod never
+/// instantiates it.
 ///
-/// See assets/models/DAY349_PROSODIC_MODELS_FAIL_NATURAL_SPEECH.md.
+/// See assets/models/DAY350_VOCAL_STRESS_V2.md and
+/// DAY349_PROSODIC_MODELS_FAIL_NATURAL_SPEECH.md.
 class VocalStressDetector implements Interpreter {
-  static const String kAsset = 'assets/models/m5_vocal_stress_v2.tflite';
+  /// Day 350 — the Mandarin slot is now the 38-feature model trained on
+  /// ESD + EmotionTalk natural speech (acted 0.7873 / natural 0.7810).
+  /// The 28-feature v2 it replaces was 0.7988 acted / **0.4865 natural**,
+  /// i.e. chance the moment the recording situation changed.
+  static const String kAsset = 'assets/models/m5_vocal_stress_v2_38.tflite';
   static const String kNormAsset =
-      'assets/models/m5_vocal_stress_v2_norm.json';
+      'assets/models/m5_vocal_stress_v2_38_norm.json';
 
   /// See the class doc — precision is flat, so take the recall.
   static const double kDefaultThreshold = 0.20;
 
   /// `m4_vocal_stress_en_38` — English, 38 features.
+  /// Day 350 — retrained on ESD + MELD natural speech. v1 was 0.8321
+  /// acted / 0.4813 natural; this is 0.7738 acted / 0.6235 natural on
+  /// v1's identical MELD rows.
   static const String kAssetEn38 =
-      'assets/models/m4_vocal_stress_en_38.tflite';
+      'assets/models/m4_vocal_stress_v2_38.tflite';
   static const String kNormAssetEn38 =
-      'assets/models/m4_vocal_stress_en_38_norm.json';
+      'assets/models/m4_vocal_stress_v2_38_norm.json';
 
   /// From the model's own held-out curve: t=0.5 gives recall 0.867 at
   /// precision 0.677, t=0.8 gives 0.690 at 0.793. 0.50 is taken because this

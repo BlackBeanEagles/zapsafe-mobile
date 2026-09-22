@@ -60,7 +60,11 @@ void main() {
         'motion': 'assets/models/motion_fall_v2.tflite',
         'scene':  'assets/models/scene_analyzer_v1.tflite',
         'fusion': 'assets/models/dcs_fusion_v1.tflite',
-        'vocal_stress': 'assets/models/m5_vocal_stress_v2.tflite',
+        // Day 350: _38, because the 28-feature variant measured 0.4865 --
+        // chance -- on natural Mandarin. The suffix is load-bearing: the
+        // gate routes [1,38] models by filename and three of them now share
+        // that shape with two different feature definitions.
+        'vocal_stress': 'assets/models/m5_vocal_stress_v2_38.tflite',
         'aggressive_speech':
             'assets/models/h_aggressive_speech_v1.tflite',
       };

@@ -97,10 +97,20 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'vocal_stress',
     displayName: 'Vocal Stress APAC (M5)',
-    assetPath: 'assets/models/m5_vocal_stress_v2.tflite',
-    purpose: '28-dim prosodic features -> stressed vs calm speech (Mandarin)',
-    realModelEta: 'Day 325 - trained locally on ESD Mandarin',
-    realSizeMb: 0.031,
+    assetPath: 'assets/models/m5_vocal_stress_v2_38.tflite',
+    purpose: '38-dim prosodic features -> stressed vs calm speech (Mandarin)',
+    realModelEta: 'Day 350 - ESD Mandarin + EmotionTalk natural speech',
+    realSizeMb: 0.029,
+    // Day 350: the 28-feature v2 was replaced. It reported held-out-
+    // SPEAKER AUC 0.7988 and measured 0.4865 -- chance -- on natural
+    // Mandarin (EmotionTalk), because held-out speaker is not held-out
+    // corpus. Retrained on acted + natural with the FULL 38-dim vector:
+    // acted 0.7873 / natural 0.7810. The 28-feature restriction existed
+    // because Dart could not compute pitch/shimmer/HNR; yin_pitch.dart and
+    // VocalStressFeatures.compose38() removed that limit, and the dropped
+    // features turn out to be load-bearing OFF ESD -- the 28-feature
+    // retrain cannot hold acted and natural at once (0.6294 / 0.7716).
+    // See assets/models/DAY350_VOCAL_STRESS_V2.md.
     // Day 337 CORRECTION: this said "WIRED and verified". It was not wired.
     // VocalStressDetector existed and was gate-verified, but nothing
     // constructed it — no provider, no pipeline, no caller anywhere in lib/.

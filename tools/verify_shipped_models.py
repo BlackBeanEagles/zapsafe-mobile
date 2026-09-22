@@ -801,6 +801,43 @@ def real_prosodic_38_yin(n=400):
     return X.astype(np.float32), np.asarray(y)
 
 
+def real_prosodic_38_yin_zh(n=400):
+    """ESD **MANDARIN** -> 38-dim yin_lite vectors, held-out speakers.
+
+    For `m5_vocal_stress_v2_38`. The English fixture above is NOT a valid
+    substitute: Day 343 measured English->Mandarin prosodic transfer at
+    0.4537, so scoring a Mandarin model on English audio measures language
+    transfer rather than the model. The first Day 350 gate run did exactly
+    that and reported 0.709, a number that means nothing about m5.
+
+    Rows come from `work/m5_mandarin/features.npz` (the same 38-dim
+    yin_lite-compatible vector), restricted to the three speakers the model
+    never trained on -- the first three by sort order, matching the
+    deterministic seed-42 split in work/m4_m5_v2/train_v2.py.
+
+    This is an in-corpus ESD number. The cross-corpus one (EmotionTalk
+    natural Mandarin, 0.7810) is in DAY350_VOCAL_STRESS_V2.md and cannot be
+    reproduced here without the 14,000-clip feature cache.
+    """
+    path = os.path.join(ROOT_WORK, "m5_mandarin", "features.npz")
+    if not os.path.exists(path):
+        return None
+    try:
+        d = np.load(path, allow_pickle=True)
+        X, y, spk = d["X"], d["y"], d["spk"]
+    except Exception:
+        return None
+    held = set(sorted({str(v) for v in spk})[:3])
+    m = np.array([str(v) in held for v in spk])
+    X, y = X[m], y[m]
+    if len(X) == 0 or len(set(y.tolist())) < 2:
+        return None
+    if len(X) > n:
+        idx = np.random.RandomState(0).choice(len(X), n, replace=False)
+        X, y = X[idx], y[idx]
+    return X.astype(np.float32), np.asarray(y)
+
+
 def fixture_for(input_details, name=None):
     """Real inputs matching this model's contract, or None if we have none.
 
@@ -840,10 +877,23 @@ def fixture_for(input_details, name=None):
     if len(shape) == 3:
         return real_imu(int(shape[1]), int(shape[2]))
     if len(shape) == 2 and int(shape[1]) == 38:
-        if name and name.startswith("m4_vocal_stress_en_38"):
-            # Labelled, and computed with the SAME tracker the model trained
-            # on -- see real_prosodic_38_yin for why this cannot share the
-            # fixture below.
+        # THREE shipped models now share [1,38] with TWO different feature
+        # definitions, so this must route by filename and the list must be
+        # kept current. Getting it wrong is not a soft failure: feeding a
+        # yin_lite model the librosa.pyin fixture reports it DEAD at a
+        # constant 1.0.
+        #
+        #   yin_lite (plain YIN, frame 512 / hop 256):
+        #     m4_vocal_stress_en_38   (Day 333, superseded)
+        #     m4_vocal_stress_v2_38   (Day 350, ships)
+        #     m5_vocal_stress_v2_38   (Day 350, ships -- Mandarin)
+        #   librosa.pyin (frame 2048 / hop 512):
+        #     h_aggressive_speech_v1
+        if name and name.startswith("m5_vocal_stress"):
+            # MANDARIN model -> Mandarin fixture. Using the English one
+            # measures language transfer (0.4537, Day 343), not the model.
+            return real_prosodic_38_yin_zh()
+        if name and name.startswith("m4_vocal_stress"):
             return real_prosodic_38_yin()
         X = real_prosodic_38()
         return None if X is None else (X, None)
