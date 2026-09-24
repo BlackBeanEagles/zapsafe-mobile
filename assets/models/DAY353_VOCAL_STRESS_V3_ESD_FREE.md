@@ -107,13 +107,30 @@ The NC exposure is gone from both models. What replaces it is not clean:
 
 - **m4** now rests solely on **MELD** — no stated licence, audio cut from
   copyrighted broadcast.
-- **m5** now rests solely on **EmotionTalk** — no card or licence file on
-  disk at all. The gate flags it `UNKNOWN`.
+- **m5** now rests solely on **EmotionTalk** — **CC BY-NC-SA 4.0**.
 
-A known Non-Commercial term was traded for a completely unstated one. For
-m5 that is arguably *worse* exposure, not better, and it is the open item
-here. What Day 353 settled is that keeping ESD cannot be justified on
-capability grounds, because there are none.
+> **Corrected later the same day.** This section first said EmotionTalk had
+> "no card or licence file on disk at all" and that a known NC term had been
+> traded for an unstated one. Wrong. The licence badge is in the dataset's
+> own source repo (`EmotionTalk-main.zip` → `README.md`); the extracted
+> `D:\zapsafe\EmotionTalk` folder holds only `Audio.tar` and `.cache`,
+> which is why the first pass found nothing — the licence was one directory
+> away, in the code repo rather than the data drop.
+>
+> So ESD was not traded for an unknown. **It was traded for another
+> Non-Commercial corpus**, and m5 is still NC. That is a smaller mistake
+> than the one I described, but in the less favourable direction: the
+> licence problem was not made murkier, it simply was not solved.
+>
+> Also worth correcting: EmotionTalk is "19 actors in dyadic conversation".
+> Calling it *natural speech* throughout this document is too strong — it is
+> **conversational** rather than read-aloud, which is a real difference from
+> ESD and is what the measurements reflect, but the speakers are performing.
+> The direction-inversion result stands, because it was measured rather than
+> assumed; the label on the corpus does not.
+
+What Day 353 settled is only that keeping ESD cannot be justified on
+capability grounds, because there are none. The NC exposure is unchanged.
 
 Also removed: the 8 real ESD-derived feature rows committed in
 `test/fixtures/m4_en_38_golden.json`. No test read them —
@@ -128,7 +145,7 @@ the gate reads ESD from `D:\` at runtime and commits nothing.
 | m4 | `m4_vocal_stress_v3_38.tflite`, 28.8 KB, **ESD-free**, natural 0.6475 / independent 0.6410 |
 | m5 | `m5_vocal_stress_v3_38.tflite`, 28.8 KB, **ESD-free**, natural 0.7884 |
 | gate | m5 ok; **m4 WEAK at 0.648 and deliberately left red** |
-| licence | NC removed; MELD unstated, EmotionTalk UNKNOWN — open |
+| licence | **still NC** — EmotionTalk is CC BY-NC-SA 4.0; MELD unstated. Open. |
 
 859 tests pass.
 

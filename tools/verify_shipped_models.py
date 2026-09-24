@@ -824,8 +824,8 @@ def _natural_eval(tag, n=None):
     export step so there is one definition of "held out" rather than two
     that can drift.
     """
-    path = os.path.join(ROOT_WORK, "m4_m5_v5_noesd",
-                        "eval_%s_natural.npz" % tag)
+    sub = ("h_aggressive_v4" if tag == "h_aggressive" else "m4_m5_v5_noesd")
+    path = os.path.join(ROOT_WORK, sub, "eval_%s_natural.npz" % tag)
     if not os.path.exists(path):
         return None
     try:
@@ -917,7 +917,14 @@ TRAINING_DATA = {
         ("MELD", "research; audio from copyrighted broadcast"),
     ],
     "m5_vocal_stress_v3_38.tflite": [
-        ("EmotionTalk", "UNKNOWN - no card or licence file on disk"),
+        # Day 353 second pass: NOT unknown. The dataset's own source repo
+        # (EmotionTalk-main.zip -> README.md) carries a CC BY-NC-SA 4.0
+        # badge. The extracted D:\zapsafe\EmotionTalk folder holds only
+        # Audio.tar and .cache, which is why the first pass read UNKNOWN --
+        # the licence was one directory away, in the code repo rather than
+        # the data drop. So dropping ESD did NOT trade a known NC term for
+        # an unstated one; it traded NC for NC.
+        ("EmotionTalk", "NC - CC BY-NC-SA 4.0 (source repo README badge)"),
     ],
     "h_aggressive_v4_38.tflite": [
         ("CREMA-D", "Open Database License"),
@@ -1035,6 +1042,17 @@ def fixture_for(input_details, name=None):
         #   plain YIN (frame 2048 / hop 512):
         #     h_aggressive_v4_38   -> no fixture exists, reports UNVERIFIED
         if name and name.startswith("h_aggressive_v4"):
+            # Day 353: a fixture in v4's OWN space now exists -- MELD
+            # test+dev featurised by featurise_yin2048.py, the same
+            # extractor that trained it, and a split it never trains on.
+            # Expect ~0.64, which is the natural-speech number from
+            # DAY352_H_AGGRESSIVE_V4_WIRED.md rather than a fresh claim.
+            #
+            # This is the third distinct [1,38] feature definition in this
+            # gate, which is why routing is by filename and never by shape.
+            fx = _natural_eval("h_aggressive")
+            if fx is not None:
+                return fx
             # Day 352: v4 is plain YIN at frame 2048 / hop 512. Neither
             # existing fixture matches it -- real_prosodic_38_yin is
             # yin_lite at 512/256 and real_prosodic_38 is librosa.pyin at
