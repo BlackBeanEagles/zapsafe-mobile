@@ -107,7 +107,7 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'vocal_stress',
     displayName: 'Vocal Stress APAC (M5)',
-    assetPath: 'assets/models/m5_vocal_stress_v2_38.tflite',
+    assetPath: 'assets/models/m5_vocal_stress_v3_38.tflite',
     purpose: '38-dim prosodic features -> stressed vs calm speech (Mandarin)',
     realModelEta: 'Day 350 - ESD Mandarin + EmotionTalk natural speech',
     realSizeMb: 0.029,

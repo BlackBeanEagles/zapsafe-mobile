@@ -79,7 +79,7 @@ class VocalStressFeatures {
   /// Raw mono PCM at [kSampleRate] -> the model's 28 floats.
   ///
   /// Returns physical (un-standardised) values. The caller applies the
-  /// mean/std from `assets/models/m5_vocal_stress_v2_38_norm.json`; skipping
+  /// mean/std from `assets/models/m5_vocal_stress_v3_38_norm.json`; skipping
   /// that step does not throw and does not change the shape, it just makes
   /// the model wrong.
   Float64List extract(Float64List pcm) {
@@ -244,7 +244,7 @@ class VocalStressFeatures {
   /// Held-out-speaker AUC for the model this feeds is **0.8321**, against
   /// **0.6949** for the 28 features [extract] returns alone.
   ///
-  /// The caller still has to apply `m4_vocal_stress_v2_38_norm.json`
+  /// The caller still has to apply `m4_vocal_stress_v3_38_norm.json`
   /// (`(x - mean) / std`, per feature) before inference — this returns raw
   /// features, exactly like [extract].
   Float64List compose38(Float64List pcm) {

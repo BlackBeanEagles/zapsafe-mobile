@@ -802,10 +802,47 @@ def real_prosodic_38_yin(n=400):
     return X.astype(np.float32), np.asarray(y)
 
 
+def _natural_eval(tag, n=None):
+    """Held-out NATURAL-speech rows for the ESD-free vocal-stress models.
+
+    Day 353 stopped scoring m4/m5 on ESD, and the reason is not the licence
+    -- it is that the acted corpus disagrees with natural speech about what
+    stress looks like. `work/m4_m5_v4_signflip/diagnose.py` measured the
+    per-feature direction agreement at r = -0.07 (English, CI spanning
+    zero) and r = -0.56 (Mandarin, CI [-0.76, -0.29]). On Mandarin the
+    eight features ESD leans on hardest every one point the other way on
+    spontaneous speech.
+
+    So an ESD score for these models is not a weak measurement, it is a
+    measurement of the wrong thing, and it would read BELOW CHANCE for a
+    model that is working correctly (m4 0.4069, m5 0.4913). Left routed to
+    ESD, this gate would have reported both models broken on the day they
+    got better.
+
+    Rows are the exact held-out speakers from
+    `work/m4_m5_v5_noesd/train_final.py`, written out by that directory's
+    export step so there is one definition of "held out" rather than two
+    that can drift.
+    """
+    path = os.path.join(ROOT_WORK, "m4_m5_v5_noesd",
+                        "eval_%s_natural.npz" % tag)
+    if not os.path.exists(path):
+        return None
+    try:
+        d = np.load(path, allow_pickle=True)
+        X, y = d["X"], np.asarray(d["y"])
+    except Exception:
+        return None
+    if n and len(X) > n:
+        idx = np.random.RandomState(0).choice(len(X), n, replace=False)
+        X, y = X[idx], y[idx]
+    return X.astype(np.float32), y
+
+
 def real_prosodic_38_yin_zh(n=400):
     """ESD **MANDARIN** -> 38-dim yin_lite vectors, held-out speakers.
 
-    For `m5_vocal_stress_v2_38`. The English fixture above is NOT a valid
+    For `m5_vocal_stress_v3_38`. The English fixture above is NOT a valid
     substitute: Day 343 measured English->Mandarin prosodic transfer at
     0.4537, so scoring a Mandarin model on English audio measures language
     transfer rather than the model. The first Day 350 gate run did exactly
@@ -873,12 +910,13 @@ TRAINING_DATA = {
     ],
     "motion_fall_v2.tflite": [("UniMiB-SHAR", "research")],
     "m3_violence_temporal_v1.tflite": [("RWF-2000", "research")],
-    "m4_vocal_stress_v2_38.tflite": [
-        ("ESD English", "NC - card cc-by-nc-4.0; official page no licence"),
+    # Day 353 dropped ESD from both. Not a licence-driven capability
+    # sacrifice: the paired A/B put the natural-domain cost at -0.0044
+    # (m5) and -0.0054 (m4), neither CI excluding zero in ESD's favour.
+    "m4_vocal_stress_v3_38.tflite": [
         ("MELD", "research; audio from copyrighted broadcast"),
     ],
-    "m5_vocal_stress_v2_38.tflite": [
-        ("ESD Mandarin", "NC - card cc-by-nc-4.0; official page no licence"),
+    "m5_vocal_stress_v3_38.tflite": [
         ("EmotionTalk", "UNKNOWN - no card or licence file on disk"),
     ],
     "h_aggressive_v4_38.tflite": [
@@ -990,8 +1028,8 @@ def fixture_for(input_details, name=None):
         #
         #   yin_lite (plain YIN, frame 512 / hop 256):
         #     m4_vocal_stress_en_38   (Day 333, superseded)
-        #     m4_vocal_stress_v2_38   (Day 350, ships)
-        #     m5_vocal_stress_v2_38   (Day 350, ships -- Mandarin)
+        #     m4_vocal_stress_v3_38   (Day 350, ships)
+        #     m5_vocal_stress_v3_38   (Day 350, ships -- Mandarin)
         #   librosa.pyin (frame 2048 / hop 512):
         #     (none shipped -- h_aggressive_speech_v1 deleted Day 352)
         #   plain YIN (frame 2048 / hop 512):
@@ -1012,7 +1050,14 @@ def fixture_for(input_details, name=None):
         if name and name.startswith("m5_vocal_stress"):
             # MANDARIN model -> Mandarin fixture. Using the English one
             # measures language transfer (0.4537, Day 343), not the model.
-            return real_prosodic_38_yin_zh()
+            # Day 353: and it must be NATURAL Mandarin, not ESD -- see
+            # _natural_eval. Expect ~0.79.
+            return _natural_eval("m5") or real_prosodic_38_yin_zh()
+        if name and name.startswith("m4_vocal_stress"):
+            # Day 353: natural English (MELD held-out speakers), not ESD.
+            # Expect ~0.65. The ESD fixture is kept as the fallback only
+            # for the superseded Day 333 asset.
+            return _natural_eval("m4") or real_prosodic_38_yin()
         if name and name.startswith("m4_vocal_stress"):
             return real_prosodic_38_yin()
         X = real_prosodic_38()

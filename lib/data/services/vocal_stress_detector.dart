@@ -74,7 +74,7 @@ import 'vocal_stress_features.dart';
 /// `assets/models/DAY350_VOCAL_STRESS_V2.md`.
 ///
 /// Features are standardised by the constants in
-/// `assets/models/m5_vocal_stress_v2_38_norm.json`. Feeding raw values does not
+/// `assets/models/m5_vocal_stress_v3_38_norm.json`. Feeding raw values does not
 /// throw and does not change the shape — Day 318 measured
 /// `h_aggressive_speech` dropping from AUC 0.844 to 0.52 that way, and its
 /// f32 twin collapsing to a constant 1.0.
@@ -88,9 +88,16 @@ enum VocalStressVariant {
   /// Mandarin — **38 features as of Day 350**, not 28.
   ///
   /// The name is kept so existing call sites still compile; the asset it
-  /// loads is `m5_vocal_stress_v2_38.tflite`, trained on ESD Mandarin +
-  /// EmotionTalk natural speech and scoring **acted 0.7873 / natural
-  /// 0.7810**.
+  /// loads is `m5_vocal_stress_v3_38.tflite`, trained on **EmotionTalk
+  /// natural speech alone** and scoring **natural 0.7884**, CI
+  /// [0.7724, 0.8042].
+  ///
+  /// Day 353 removed ESD. It was not a trade: the paired A/B measured the
+  /// natural-domain difference at **-0.0044, CI [-0.0138, +0.0053]** -- ESD
+  /// bought nothing in the domain a phone hears. Its acted number fell to
+  /// 0.4913 and that is not a regression, it is the measurement of a corpus
+  /// this model no longer serves. See
+  /// `assets/models/DAY353_VOCAL_STRESS_V3_ESD_FREE.md`.
   ///
   /// History worth keeping, because it is why the old number should not be
   /// quoted: the 28-feature model reported 0.7988, but Day 338 ran that
@@ -155,24 +162,33 @@ enum VocalStressVariant {
 /// DAY349_PROSODIC_MODELS_FAIL_NATURAL_SPEECH.md.
 class VocalStressDetector implements Interpreter {
   /// Day 350 — the Mandarin slot is now the 38-feature model trained on
-  /// ESD + EmotionTalk natural speech (acted 0.7873 / natural 0.7810).
-  /// The 28-feature v2 it replaces was 0.7988 acted / **0.4865 natural**,
+  /// EmotionTalk natural speech alone -- natural **0.7884**, CI
+  /// [0.7724, 0.8042]. The v2 this replaces was ESD-trained and read
+  /// 0.7810 natural; the 28-feature v1 before it was **0.4865 natural**,
   /// i.e. chance the moment the recording situation changed.
-  static const String kAsset = 'assets/models/m5_vocal_stress_v2_38.tflite';
+  static const String kAsset = 'assets/models/m5_vocal_stress_v3_38.tflite';
   static const String kNormAsset =
-      'assets/models/m5_vocal_stress_v2_38_norm.json';
+      'assets/models/m5_vocal_stress_v3_38_norm.json';
 
   /// See the class doc — precision is flat, so take the recall.
   static const double kDefaultThreshold = 0.20;
 
   /// `m4_vocal_stress_en_38` — English, 38 features.
-  /// Day 350 — retrained on ESD + MELD natural speech. v1 was 0.8321
-  /// acted / 0.4813 natural; this is 0.7738 acted / 0.6235 natural on
-  /// v1's identical MELD rows.
+  ///
+  /// Day 353 — **ESD-free**, trained on MELD natural speech alone.
+  /// 0.6475 on held-out speakers, CI [0.6176, 0.6764], and **0.6410 on
+  /// MELD test+dev**, CI [0.6182, 0.6634] -- an independent set it never
+  /// trains on. That last figure is *better* than the ESD-trained v2's
+  /// 0.6235 on the same rows, which is the whole argument for the change.
+  ///
+  /// Its acted score is 0.4069. Below chance is not a bug: ESD and MELD
+  /// disagree about which direction of each feature means "stressed"
+  /// (r = -0.07 on English, -0.56 on Mandarin), so a model taught by
+  /// spontaneous speech ranks performances backwards.
   static const String kAssetEn38 =
-      'assets/models/m4_vocal_stress_v2_38.tflite';
+      'assets/models/m4_vocal_stress_v3_38.tflite';
   static const String kNormAssetEn38 =
-      'assets/models/m4_vocal_stress_v2_38_norm.json';
+      'assets/models/m4_vocal_stress_v3_38_norm.json';
 
   /// From the model's own held-out curve: t=0.5 gives recall 0.867 at
   /// precision 0.677, t=0.8 gives 0.690 at 0.793. 0.50 is taken because this

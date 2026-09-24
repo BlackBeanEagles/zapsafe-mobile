@@ -72,7 +72,7 @@ void main() {
         // chance -- on natural Mandarin. The suffix is load-bearing: the
         // gate routes [1,38] models by filename and three of them now share
         // that shape with two different feature definitions.
-        'vocal_stress': 'assets/models/m5_vocal_stress_v2_38.tflite',
+        'vocal_stress': 'assets/models/m5_vocal_stress_v3_38.tflite',
         // Day 352: Phase B wired, v1 -> v4. v1's 0.8442 was RAVDESS-only
         // and measured 0.4780 (chance) on natural speech; v4 reads
         // 0.6415 there. The _38 suffix matters -- the gate routes [1,38]
