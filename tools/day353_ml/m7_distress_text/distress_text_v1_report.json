@@ -1,0 +1,60 @@
+{
+  "model": "distress_text_v1",
+  "NOT_m7": "does NOT satisfy m7_nlp_context_enhanced, which needs a MULTILINGUAL VICTIM-PERSPECTIVE distress corpus. This is English clinical-state text. No multilingual distress corpus exists on any attached drive including the ~955GB.",
+  "heldout_auc": 0.9628,
+  "word_count_baseline_auc": 0.901,
+  "beats_shortcut_by": 0.0618,
+  "separation": 0.721,
+  "span": 1.0,
+  "operating_curve": [
+    {
+      "t": 0.8,
+      "recall": 0.876,
+      "precision": 0.95
+    },
+    {
+      "t": 0.7,
+      "recall": 0.918,
+      "precision": 0.935
+    },
+    {
+      "t": 0.6,
+      "recall": 0.946,
+      "precision": 0.925
+    },
+    {
+      "t": 0.5,
+      "recall": 0.962,
+      "precision": 0.914
+    },
+    {
+      "t": 0.4,
+      "recall": 0.972,
+      "precision": 0.9
+    },
+    {
+      "t": 0.3,
+      "recall": 0.98,
+      "precision": 0.883
+    },
+    {
+      "t": 0.2,
+      "recall": 0.988,
+      "precision": 0.86
+    }
+  ],
+  "fraction_over_0.5_by_label": {
+    "anxiety": 0.939,
+    "depression": 0.967,
+    "normal": 0.156,
+    "suicidal": 0.967
+  },
+  "rows": 49368,
+  "test_n": 9873,
+  "split": "random over deduped rows; NO speaker/session grouping exists in this data to hold out - recorded as a limitation",
+  "vocab_size": 19998,
+  "maxlen": 120,
+  "float16_kb": 2513.2,
+  "length_controlled_auc": 0.937,
+  "length_controlled_note": "Pooled word-count-only AUC is 0.9010, which looks damning, but that is driven by between-bin base rates (median 12 words for Normal vs 88 for distress). WITHIN length quintiles the model holds AUC 0.9503/0.9560/0.9448/0.9195/0.9128 while length-only collapses to 0.6086/0.6279/0.6163/0.5895/0.5568. n-weighted within-bin model AUC = 0.9370, so the confound is worth 0.026, not 0.90. The lexical signal is real."
+}

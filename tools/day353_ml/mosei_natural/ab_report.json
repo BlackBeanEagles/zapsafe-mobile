@@ -1,0 +1,22 @@
+{
+  "h_aggressive_y": {
+    "without": 0.6521,
+    "with": 0.6429,
+    "paired_delta": -0.0092,
+    "paired_ci95": [
+      -0.0314,
+      0.013
+    ],
+    "adopt": false
+  },
+  "m4_y": {
+    "without": 0.656,
+    "with": 0.6438,
+    "paired_delta": -0.0122,
+    "paired_ci95": [
+      -0.0287,
+      0.0045
+    ],
+    "adopt": false
+  }
+}

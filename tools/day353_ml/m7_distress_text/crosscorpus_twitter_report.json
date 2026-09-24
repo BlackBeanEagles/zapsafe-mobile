@@ -1,0 +1,15 @@
+{
+  "auc": 0.5268,
+  "ci95": [
+    0.5187,
+    0.5352
+  ],
+  "length_baseline": 0.5194,
+  "in_corpus": 0.9628,
+  "n": 19775,
+  "pos": 9878,
+  "exact_overlap_with_training": 2,
+  "oov_rate": 0.1483,
+  "verdict": "DOES NOT TRANSFER - a corpus artefact; the shelving decision becomes permanent rather than pending",
+  "construct_caveat": "clinical status labels vs stress labels -- overlapping, not identical"
+}
