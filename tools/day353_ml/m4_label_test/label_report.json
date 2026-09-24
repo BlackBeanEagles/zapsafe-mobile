@@ -1,0 +1,42 @@
+{
+  "anger+sad": {
+    "auc_own_testset": 0.6623,
+    "ci95": [
+      0.6411,
+      0.6849
+    ],
+    "n": 3047,
+    "pos": 797
+  },
+  "anger-only": {
+    "auc_own_testset": 0.6989,
+    "ci95": [
+      0.6713,
+      0.7243
+    ],
+    "n": 2732,
+    "pos": 482
+  },
+  "sad-only": {
+    "auc_own_testset": 0.6586,
+    "ci95": [
+      0.626,
+      0.6894
+    ],
+    "n": 2565,
+    "pos": 315
+  },
+  "test1_anger_rows": {
+    "anger_only": 0.6989,
+    "pooled": 0.7001,
+    "paired_delta": -0.0013,
+    "paired_ci95": [
+      -0.0184,
+      0.0157
+    ],
+    "pooling_costs_anger_detection": false,
+    "n": 2732,
+    "pos": 482
+  },
+  "_note": "Whether m4 SHOULD narrow to anger is a product decision, not a measurement. Narrowing drops any ability to notice a distressed or tearful user."
+}
