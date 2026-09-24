@@ -1,0 +1,52 @@
+{
+  "rule": "drop ESD unless the paired natural delta CI excludes 0 in WITH's favour; acted does not gate (see diagnose.py)",
+  "m4": {
+    "arms": {
+      "WITH": {
+        "natural_heldout": 0.6457,
+        "acted_heldout": 0.7797,
+        "n_train": 8480,
+        "natural_independent": 0.6348
+      },
+      "WITHOUT": {
+        "natural_heldout": 0.6512,
+        "acted_heldout": 0.3055,
+        "n_train": 6100,
+        "natural_independent": 0.651
+      }
+    },
+    "paired_natural_delta": -0.0054,
+    "paired_natural_ci95": [
+      -0.0257,
+      0.0155
+    ],
+    "paired_independent_delta": -0.0163,
+    "paired_independent_ci95": [
+      -0.0329,
+      0.0008
+    ],
+    "esd_helps_natural": false,
+    "decision": "DROP ESD -- no measurable natural-domain benefit"
+  },
+  "m5": {
+    "arms": {
+      "WITH": {
+        "natural_heldout": 0.7729,
+        "acted_heldout": 0.6826,
+        "n_train": 12492
+      },
+      "WITHOUT": {
+        "natural_heldout": 0.7773,
+        "acted_heldout": 0.5313,
+        "n_train": 10112
+      }
+    },
+    "paired_natural_delta": -0.0043,
+    "paired_natural_ci95": [
+      -0.0139,
+      0.005
+    ],
+    "esd_helps_natural": false,
+    "decision": "DROP ESD -- no measurable natural-domain benefit"
+  }
+}

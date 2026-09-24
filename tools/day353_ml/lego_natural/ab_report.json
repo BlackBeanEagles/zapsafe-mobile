@@ -1,0 +1,42 @@
+{
+  "h_aggressive_y": {
+    "without": 0.621,
+    "with": 0.6618,
+    "paired_delta": 0.041,
+    "paired_ci95": [
+      0.0181,
+      0.0648
+    ],
+    "adopt": true
+  },
+  "m4_y": {
+    "without": 0.6522,
+    "with": 0.6508,
+    "paired_delta": -0.0013,
+    "paired_ci95": [
+      -0.0138,
+      0.0111
+    ],
+    "adopt": false
+  },
+  "h_aggressive_y_strict": {
+    "without": 0.6443,
+    "with": 0.6383,
+    "paired_delta": -0.0061,
+    "paired_ci95": [
+      -0.0273,
+      0.015
+    ],
+    "adopt": false
+  },
+  "m4_y_strict": {
+    "without": 0.6582,
+    "with": 0.6563,
+    "paired_delta": -0.0019,
+    "paired_ci95": [
+      -0.0157,
+      0.0117
+    ],
+    "adopt": false
+  }
+}

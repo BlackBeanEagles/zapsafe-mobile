@@ -1,0 +1,31 @@
+{
+  "m4": {
+    "natural_heldout": 0.6475,
+    "natural_ci95": [
+      0.6176,
+      0.6764
+    ],
+    "n_train": 6100,
+    "dim": 38,
+    "natural_independent": 0.641,
+    "natural_independent_ci95": [
+      0.6182,
+      0.6634
+    ],
+    "acted_eval_only": 0.4069,
+    "clears_natural_bar": true,
+    "float16_kb": 28.8
+  },
+  "m5": {
+    "natural_heldout": 0.7884,
+    "natural_ci95": [
+      0.7724,
+      0.8042
+    ],
+    "n_train": 10112,
+    "dim": 38,
+    "acted_eval_only": 0.4913,
+    "clears_natural_bar": true,
+    "float16_kb": 28.8
+  }
+}

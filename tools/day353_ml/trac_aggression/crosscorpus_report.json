@@ -1,0 +1,14 @@
+{
+  "auc": 0.7081,
+  "ci95": [
+    0.7028,
+    0.7134
+  ],
+  "length_baseline": 0.5223,
+  "in_corpus": 0.8312,
+  "n": 58477,
+  "pos": 10551,
+  "oov_rate": 0.2149,
+  "verdict": "PARTIAL - constructs overlap but the model is corpus-bound; do not quote 0.8312 as general aggression detection",
+  "construct_caveat": "hate speech labels vs aggression labels -- related, not identical"
+}

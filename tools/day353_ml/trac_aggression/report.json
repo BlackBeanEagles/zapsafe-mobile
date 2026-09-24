@@ -1,0 +1,49 @@
+{
+  "auc": 0.8312,
+  "ci95": [
+    0.8196,
+    0.8423
+  ],
+  "shortcut_baseline_auc": 0.6177,
+  "beats_shortcut_by": 0.2134,
+  "per_language": {
+    "english": 0.783,
+    "hindi": 0.831
+  },
+  "operating_curve": [
+    {
+      "t": 0.7,
+      "recall": 0.478,
+      "precision": 0.926
+    },
+    {
+      "t": 0.6,
+      "recall": 0.675,
+      "precision": 0.896
+    },
+    {
+      "t": 0.5,
+      "recall": 0.819,
+      "precision": 0.855
+    },
+    {
+      "t": 0.4,
+      "recall": 0.886,
+      "precision": 0.832
+    },
+    {
+      "t": 0.3,
+      "recall": 0.935,
+      "precision": 0.806
+    }
+  ],
+  "train_n": 24000,
+  "dev_n": 6002,
+  "vocab_size": 19998,
+  "maxlen": 60,
+  "licence": "Apache-2.0",
+  "NOT_m7": "aggressor-perspective aggression, NOT victim-perspective distress. M7 remains blocked.",
+  "limitation": "no author id in the corpus, so no author-level grouping is possible; rows are independent comments",
+  "SHIP": true,
+  "float16_kb": 2723.1
+}
