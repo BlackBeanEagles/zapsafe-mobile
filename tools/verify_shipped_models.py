@@ -881,7 +881,13 @@ TRAINING_DATA = {
         ("ESD Mandarin", "NC - card cc-by-nc-4.0; official page no licence"),
         ("EmotionTalk", "UNKNOWN - no card or licence file on disk"),
     ],
-    "h_aggressive_speech_v1.tflite": [("RAVDESS", "CC BY-NC-SA 4.0")],
+    "h_aggressive_v4_38.tflite": [
+        ("CREMA-D", "Open Database License"),
+        ("TESS", "CC BY-NC 4.0"),
+        ("RAVDESS", "CC BY-NC-SA 4.0"),
+        ("SAVEE", "research"),
+        ("MELD", "research; audio from copyrighted broadcast"),
+    ],
     "i_vehicle_crash.tflite": [("UCI-HAR", "research")],
     "k_confinement_decorrelated.tflite": [("PAMAP2", "research")],
     "mobilenetv3small_encoder_float16.tflite": [("ImageNet", "research")],
@@ -987,7 +993,22 @@ def fixture_for(input_details, name=None):
         #     m4_vocal_stress_v2_38   (Day 350, ships)
         #     m5_vocal_stress_v2_38   (Day 350, ships -- Mandarin)
         #   librosa.pyin (frame 2048 / hop 512):
-        #     h_aggressive_speech_v1
+        #     (none shipped -- h_aggressive_speech_v1 deleted Day 352)
+        #   plain YIN (frame 2048 / hop 512):
+        #     h_aggressive_v4_38   -> no fixture exists, reports UNVERIFIED
+        if name and name.startswith("h_aggressive_v4"):
+            # Day 352: v4 is plain YIN at frame 2048 / hop 512. Neither
+            # existing fixture matches it -- real_prosodic_38_yin is
+            # yin_lite at 512/256 and real_prosodic_38 is librosa.pyin at
+            # 2048/512. Handing it either would report a confident wrong
+            # number, which is precisely how m4 once read DEAD at a constant
+            # 1.0. Returning None makes it report UNVERIFIED honestly.
+            #
+            # Its real numbers are in DAY352_H_AGGRESSIVE_V4_WIRED.md
+            # (natural 0.6415, CI [0.6171, 0.6656]) and the Dart feature
+            # path is pinned by test/day352_aggressive_speech_features_test
+            # .dart against the extractor that trained it.
+            return None
         if name and name.startswith("m5_vocal_stress"):
             # MANDARIN model -> Mandarin fixture. Using the English one
             # measures language transfer (0.4537, Day 343), not the model.

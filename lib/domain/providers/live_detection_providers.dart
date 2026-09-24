@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/models/inference_result.dart';
 import '../../data/services/detection_event_service.dart';
+import '../../data/services/aggressive_speech_detector.dart';
 import '../../data/services/glass_break_detector.dart';
 import '../../data/services/glass_break_pipeline.dart';
 import '../../data/services/gunshot_audio_pipeline.dart';
@@ -161,6 +162,24 @@ final gunshotAudioPipelineProvider =
 /// 0.7819 on 265 real FSD50K positives (its recorded 1.0 came from 13 and
 /// did not survive). Its curve is the best in this project: recall 0.826 at
 /// precision 0.830. See assets/models/DAY346B_GUNSHOT_GLASS_CROSS_CORPUS.md.
+/// Day 352 — `h_aggressive_v4_38`, Phase B finally done.
+///
+/// v1 sat catalogued-but-unwired since Day 90 on the strength of AUC 0.8442,
+/// which Day 347 showed was RAVDESS-only: on natural speech it reads
+/// **0.4780 — chance**. v4 is retrained across five corpora and analysed at
+/// the 2048/512 window Dart can now produce, scoring **0.6415 on natural
+/// speech** (CI [0.6171, 0.6656]).
+///
+/// Wiring was blocked on a feature pipeline nobody had built. It turned out
+/// to need a window parameter rather than a pyin port — see
+/// [AggressiveSpeechFeatures] and DAY352_H_AGGRESSIVE_V4_WIRED.md.
+final aggressiveSpeechDetectorProvider =
+    FutureProvider<AggressiveSpeechDetector?>((ref) async {
+  final detector = await AggressiveSpeechDetector.tryLoad();
+  if (detector != null) ref.onDispose(detector.dispose);
+  return detector;
+});
+
 final glassBreakDetectorProvider =
     FutureProvider<GlassBreakDetector?>((ref) async {
   final detector = await GlassBreakDetector.tryLoad();

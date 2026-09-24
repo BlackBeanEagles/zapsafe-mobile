@@ -54,16 +54,33 @@ class YinPitch {
   /// YIN's absolute threshold on the normalised difference.
   static const double kThreshold = 0.1;
 
+  /// Day 352 — [kFrameLength]/[kHopLength] are the DEFAULTS, not the only
+  /// values. `track` and `pitchFeatures` take optional overrides because two
+  /// shipped models need different analysis windows and mutating the
+  /// constants would silently corrupt one of them:
+  ///
+  ///     m4 / m5                512 / 256   (trained on yin_lite at 512/256)
+  ///     h_aggressive_v4_38    2048 / 512   (librosa's default framing)
+  ///
+  /// Feeding m5 a 2048-frame vector produces the right shape and plausible
+  /// values and a wrong answer — the failure mode this project keeps
+  /// hitting. The defaults therefore preserve m4/m5 byte-for-byte and
+  /// h_aggressive passes its own.
+  ///
+  /// A larger frame is also numerically safer here: tauMax is 246 samples
+  /// (from [kFMin]) and must fit in half a frame. At 512 that clears 256 by
+  /// ten samples; at 2048 it is comfortable.
   static int get _tauMin {
     final t = (kSampleRate / kFMax).floor();
     return t < 1 ? 1 : t;
   }
 
-  static int get _tauMax {
+  static int _tauMaxFor(int frameLength) {
     final t = (kSampleRate / kFMin).ceil() + 1;
-    const half = kFrameLength ~/ 2;
+    final half = frameLength ~/ 2;
     return t < half ? t : half;
   }
+
 
   /// Per-frame f0 in Hz, with [double.nan] where no pitch was accepted, and
   /// a parallel voiced flag.
@@ -71,25 +88,30 @@ class YinPitch {
   /// Framing matches librosa's `center=true`, `pad_mode='constant'`: the
   /// signal is zero-padded by `frameLength ~/ 2` each side, giving
   /// `1 + samples ~/ hop` frames.
-  static ({Float64List f0, List<bool> voiced}) track(Float64List y) {
-    const half = kFrameLength ~/ 2;
+  static ({Float64List f0, List<bool> voiced}) track(
+    Float64List y, {
+    int frameLength = kFrameLength,
+    int hopLength = kHopLength,
+  }) {
+    final half = frameLength ~/ 2;
     final padded = Float64List(y.length + 2 * half);
     padded.setRange(half, half + y.length, y);
 
     final tauMin = _tauMin;
-    final tauMax = _tauMax;
-    final nFrames = 1 + (y.length ~/ kHopLength);
+    final tauMax = _tauMaxFor(frameLength);
+    final nFrames = 1 + (y.length ~/ hopLength);
     final f0 = Float64List(nFrames);
     final voiced = List<bool>.filled(nFrames, false);
-    final frame = Float64List(kFrameLength);
+    final frame = Float64List(frameLength);
 
     for (var i = 0; i < nFrames; i++) {
       f0[i] = double.nan;
-      final start = i * kHopLength;
-      if (start + kFrameLength > padded.length) continue;
-      frame.setRange(0, kFrameLength, padded, start);
+      final start = i * hopLength;
+      if (start + frameLength > padded.length) continue;
+      frame.setRange(0, frameLength, padded, start);
 
-      final dp = _cumulativeMeanNormalisedDifference(frame, tauMax);
+      final dp =
+          _cumulativeMeanNormalisedDifference(frame, tauMax, frameLength);
 
       // Step 4: first local minimum below the absolute threshold; if none
       // clears it, fall back to the global minimum of the search range and
@@ -148,8 +170,9 @@ class YinPitch {
   static Float64List _cumulativeMeanNormalisedDifference(
     Float64List frame,
     int tauMax,
+    int frameLength,
   ) {
-    const w = kFrameLength ~/ 2;
+    final w = frameLength ~/ 2;
     final d = Float64List(tauMax);
     for (var tau = 1; tau < tauMax; tau++) {
       var sum = 0.0;
@@ -177,8 +200,12 @@ class YinPitch {
   /// (`1/f0`), not of frequencies — a distinction worth ~4 orders of
   /// magnitude in the value. Everything zeroes when fewer than two voiced
   /// frames survive, matching the extractor.
-  static Float64List pitchFeatures(Float64List y) {
-    final t = track(y);
+  static Float64List pitchFeatures(
+    Float64List y, {
+    int frameLength = kFrameLength,
+    int hopLength = kHopLength,
+  }) {
+    final t = track(y, frameLength: frameLength, hopLength: hopLength);
     final out = Float64List(5);
     if (t.voiced.isEmpty) return out;
 

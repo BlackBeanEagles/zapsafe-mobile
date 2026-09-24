@@ -146,79 +146,45 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'aggressive_speech',
     displayName: 'Aggressive Speech (H)',
-    assetPath: 'assets/models/h_aggressive_speech_v1.tflite',
-    purpose: '38-dim prosodic features → aggressive vs calm speech',
-    realModelEta: 'Day 90 · Kaggle trained',
-    realSizeMb: 0.024,
-    // Phase A (Day 90): catalogue + asset only.
-    // Phase B (inference wiring) is STILL NOT DONE — no Dart code loads or
-    // runs this model.
+    assetPath: 'assets/models/h_aggressive_v4_38.tflite',
+    purpose: '38-dim prosodic features (2048/512 window) → '
+        'aggressive vs calm speech',
+    realModelEta: 'Day 352 · 5 corpora · natural speech 0.6415',
+    realSizeMb: 0.012,
+    // Day 352 -- PHASE B IS DONE. This slot is wired:
+    // AggressiveSpeechDetector + aggressiveSpeechDetectorProvider.
     //
-    // ** DO NOT START PHASE B ON THE 0.844. READ THIS FIRST. **
+    // History, because the number on record was misleading for 5 days:
+    //   v1  RAVDESS only   acted 0.8442  natural 0.4780  <- CHANCE
+    //   v4  5 corpora      acted 0.7611  natural 0.6415  CI [0.6171,0.6656]
     //
-    // Day 318 verified the asset scores AUC 0.844 on real RAVDESS and that
-    // its int8 export is as accurate as the f32 twin. Both still hold, and
-    // Day 318's conclusion — "the gap is wiring, not the model" — was the
-    // reasonable read at the time. Day 347 measured it on a SECOND corpus
-    // and that conclusion did not survive:
+    // Day 318 read v1's 0.8442 as "the gap is wiring, not the model". Day
+    // 347 measured it on natural speech and found precision equal to the
+    // base rate at every threshold -- it had learned acted studio emotion,
+    // the same failure scream_classifier_v1 documents about itself.
     //
-    //     RAVDESS (acted, studio booth)   AUC 0.8442
-    //     MELD (natural TV dialogue)      AUC 0.4780   -> CHANCE
-    //                                     CI [0.4516, 0.5037]
+    // Wiring was estimated at days of native work because v2b needs
+    // librosa.pyin at frame 2048/hop 512 and Dart only had plain YIN at
+    // 512/256. Day 351 retrained at 512/256 and lost 0.10, concluding the
+    // port was unavoidable -- too strong, because that run changed the
+    // pitch ALGORITHM and the WINDOW together. Day 352 moved only the
+    // window and recovered ~2/3 of the gap, so Phase B became a window
+    // parameter in yin_pitch.dart plus AggressiveSpeechFeatures. The
+    // residual 0.025 is the pyin HMM, independently measured at 0.011 on
+    // m4, and is not worth a Viterbi port.
     //
-    // Precision equals the base rate (0.227) at every threshold. The
-    // control rules out "MELD is just hard": classifiers trained on the
-    // SAME 38 features reach 0.683 on MELD, so the features carry signal
-    // there and this model specifically fails to transfer.
+    // CAVEAT: run-to-run variance on this head is ~0.02, the same order as
+    // the acted bar it sits against (0.7611 one run, 0.7464 another, bar
+    // 0.75). Do not treat the acted figure as precise.
     //
-    // All 160 of the RAVDESS clips are 24 actors in a booth reading two
-    // fixed sentences — the same distribution that had
-    // `scream_classifier_v1` claiming 0.9529 while, in its own words,
-    // having "learned acted studio emotion, not screaming".
+    // The 38-dim input MUST be z-scored with h_aggressive_v4_38_norm.json,
+    // which AggressiveSpeechDetector.tryLoad() loads itself and fails
+    // without -- Day 318 measured this family at 0.52 (chance) on raw
+    // features, with its f32 twin collapsing to a constant 1.0.
     //
-    // Phase B is expensive: the native layer emits 15 per-frame scalars and
-    // the day90 extractor needs pyin f0 mean/std/jitter, RMS shimmer + HNR
-    // and spectral rolloff, none of which exist in Dart today.
-    //
-    // ** THE RETRAIN IS DONE — WIRE THE v2b ASSET, NOT THIS ONE. **
-    //
-    // Day 348 retrained across five corpora (MELD natural dialogue +
-    // CREMA-D + TESS + RAVDESS + SAVEE, 17,548 clips, speaker-disjoint
-    // split):
-    //
-    //     v1   acted 0.8442   natural 0.4780  <- chance
-    //     v2b  acted 0.8096   natural 0.6661  <- CI [0.6427, 0.6896]
-    //     (a model fitted to natural speech tops out at 0.6832)
-    //
-    // The asset is work/h_aggressive_v2/h_aggressive_v2_noesd_float16.tflite
-    // with h_aggressive_v2_noesd_norm.json. It is NOT copied into assets/
-    // yet, because shipping an asset nothing loads is the dead weight
-    // scream_classifier_v3 was removed for on Day 346B. Copy it in as part
-    // of Phase B, not before.
-    //
-    // Day 351 -- THE CHEAP ROUTE WAS TRIED AND DOES NOT WORK.
-    // Dart already computes a 38-dim prosodic vector (yin_pitch.dart +
-    // VocalStressFeatures.compose38(), plain YIN at frame 512 / hop 256)
-    // for m4/m5, so v2b was retrained in THAT space to avoid building a
-    // second native pipeline. It lost too much:
-    //
-    //     v2b  librosa.pyin 2048/512   acted 0.8096   natural 0.6661
-    //     v3   yin_lite      512/256   acted 0.7063   natural 0.5918
-    //
-    // So Phase B genuinely needs the librosa-equivalent path in Dart:
-    // pyin f0 mean/std/jitter, RMS shimmer + HNR and spectral rolloff at
-    // frame 2048 / hop 512. Caveat: v3 changed the pitch tracker AND the
-    // frame size together, so it does not isolate which mattered.
-    // See assets/models/DAY351_H_AGGRESSIVE_PHASE_B_STILL_NEEDS_NATIVE.md.
-    //
-    // See assets/models/DAY348_H_AGGRESSIVE_V2_MULTICORPUS.md and
-    // DAY347_H_AGGRESSIVE_CROSS_CORPUS.md.
-    //
-    // Whoever does Phase B: the 38-dim input MUST be z-scored with
-    // assets/models/h_aggressive_speech_v1_norm.json (shipped Day 318).
-    // Feeding raw features drops this model to AUC 0.52 — chance — and the
-    // f32 twin collapses to a constant 1.0. That is a silent wrong-answer
-    // failure, not a crash.
+    // NOTE the features are NOT m4/m5's despite both being [1,38]:
+    // AggressiveSpeechFeatures analyses at 2048/512, VocalStressFeatures at
+    // 512/256. See assets/models/DAY352_H_AGGRESSIVE_V4_WIRED.md.
     //
     // Real blocker: the native side (lib/native/audio_features.dart) emits
     // only 15 per-frame scalars (13 MFCC + ZCR + spectral centroid). The
