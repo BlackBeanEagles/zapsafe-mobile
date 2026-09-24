@@ -405,6 +405,10 @@ const kRouteRows = [
   RouteRow(id: 'r388', title: 'v92 Roadmap Lock', dayRef: 'Day 388', section: 'Section O', route: AppRoutes.v92RoadmapLock),
   RouteRow(id: 'r389', title: 'penultimate Summary', dayRef: 'Day 389', section: 'Section O', route: AppRoutes.day389PenultimateSummary),
   RouteRow(id: 'r390', title: 'project Complete', dayRef: 'Day 390', section: 'Section O', route: AppRoutes.projectCompleteMilestone),
+  RouteRow(id: 'r391', title: 'message Safety Check', dayRef: 'Day 391', section: 'Section O', route: AppRoutes.messageSafetyCheck),
 ];
 
-const kRouteCount = 390;
+// Day 391 added the Message Safety Check route. This count is asserted
+// against the real GoRouter config by day332_route_resolution_test, so
+// it must be bumped with the row above rather than left to drift.
+const kRouteCount = 391;

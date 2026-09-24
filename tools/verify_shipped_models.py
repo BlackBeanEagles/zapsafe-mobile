@@ -802,6 +802,33 @@ def real_prosodic_38_yin(n=400):
     return X.astype(np.float32), np.asarray(y)
 
 
+def real_trac_tokens(n=3000):
+    """Held-out TRAC-1 dev rows as [N, 60] int32 token ids.
+
+    Apache-2.0, so unlike every other corpus in this gate these rows carry
+    no licence problem.
+
+    This is the IN-CORPUS number and will read ~0.83. The honest figure for
+    this model is the CROSS-CORPUS one, 0.7081 on 58,477 Indo-HateSpeech
+    rows -- see work/trac_aggression/crosscorpus_indo.py and
+    DAY353B_FIXTURE_LEGO_REJECTED_TRAC_CROSSCORPUS.md. The gate scores
+    in-corpus because that is the split with a matching label definition;
+    it is not the number to quote.
+    """
+    path = os.path.join(ROOT_WORK, "trac_aggression", "eval_trac_dev.npz")
+    if not os.path.exists(path):
+        return None
+    try:
+        d = np.load(path, allow_pickle=True)
+        X, y = d["X"].astype(np.int32), np.asarray(d["y"])
+    except Exception:
+        return None
+    if n and len(X) > n:
+        idx = np.random.RandomState(0).choice(len(X), n, replace=False)
+        X, y = X[idx], y[idx]
+    return X, y
+
+
 def _natural_eval(tag, n=None):
     """Held-out NATURAL-speech rows for the ESD-free vocal-stress models.
 
@@ -926,6 +953,8 @@ TRAINING_DATA = {
         # an unstated one; it traded NC for NC.
         ("EmotionTalk", "NC - CC BY-NC-SA 4.0 (source repo README badge)"),
     ],
+    # The only Apache-2.0 entry in this table.
+    "trac_aggression_v1.tflite": [("TRAC-1 (COLING 2018)", "Apache-2.0")],
     "h_aggressive_v4_38.tflite": [
         ("CREMA-D", "Open Database License"),
         ("TESS", "CC BY-NC 4.0"),
@@ -998,6 +1027,11 @@ def fixture_for(input_details, name=None):
     if len(input_details) != 1:
         return None                 # dual-input models need their own fixture
     shape = list(input_details[0]["shape"])
+    if len(shape) == 2 and shape[1] == 60 and             input_details[0]["dtype"] == np.int32:
+        # Day 391: the only TEXT model in the gate. Token ids, not floats --
+        # standardising these would be meaningless and normalising them
+        # catastrophic, so it returns early before any float path.
+        return real_trac_tokens()
     if len(shape) == 4 and shape[1] == 128 and shape[2] == 131:
         # m1 scream family: labelled fixture, so this gets a real AUC.
         # FSD50K first (287 positives, CI ~+-0.018); the 45-positive

@@ -3371,6 +3371,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-390-project-complete · 🟢 FINAL day of the 390-day build plan — reuses Day 365\'s exact preview-banner+confetti pattern, celebrates the real 390-day BUILD milestone while a REAL COMPUTED "Launch readiness" tab watches finalQaOpenP0CountProvider (added to Day 361\'s own file) so the open-P0 count can never drift stale — build-complete (100%) and launch-ready are kept deliberately separate everywhere on this screen',
               dayBuilt: 'DAY 390 ✅ 🏁',
             ),
+            const _NavTile(
+              icon: Icons.mark_email_unread_rounded,
+              accent: Color(0xFF6D28D9),
+              title: 'Day 391 · Message Safety Check (REAL model)',
+              route: AppRoutes.messageSafetyCheck,
+              hint: '/day-391-message-safety-check · 🟢 REAL — a real .tflite runs on-device here, nothing mocked · trac_aggression_v1 (TRAC-1, Apache-2.0, the ONLY permissively-licensed corpus in the project) reads a message SOMEONE ELSE sent and asks whether it is hostile, English + Hindi · cross-corpus AUC 0.7081 on 58,477 unseen Indo-HateSpeech rows, which is the figure the screen quotes rather than its flattering in-corpus 0.8312 · user-initiated only, no network call, nothing retained, never triggers SOS · this is the consented surface DAY347_DISTRESS_TEXT_DECISION.md required before any text model could ship, and distress_text_v1 still does NOT ship because it infers the USER\'s own clinical state',
+              dayBuilt: 'DAY 391 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────
