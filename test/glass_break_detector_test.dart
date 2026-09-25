@@ -8,7 +8,7 @@ import 'package:zapsafe_mobile/data/services/glass_break_detector.dart';
 import 'package:zapsafe_mobile/data/services/gunshot_detector.dart';
 import 'package:zapsafe_mobile/data/services/mel_spectrogram.dart';
 
-/// Day 346 — parity tests for `m_glass_breaking_v3` preprocessing.
+/// Day 346 — parity tests for `m_glass_breaking_v4` preprocessing.
 ///
 /// This model ships because it was measured (AUC 0.7819 on 265 real FSD50K
 /// positives, vs a recorded 1.0 from 13 that did not survive). None of that

@@ -931,9 +931,14 @@ TRAINING_DATA = {
         ("UrbanSound8K", "CC BY-NC 3.0"),
         ("AudioSet", "labels CC-BY; audio YouTube-sourced"),
     ],
-    "m_glass_breaking_v3.tflite": [
-        ("Freesound-derived event set", "per-clip CC"),
-        ("UrbanSound8K", "CC BY-NC 3.0"),
+    # Day 359: retrained on CC0/CC-BY FSD50K ONLY -- UrbanSound8K and the
+    # Freesound-derived set are both gone, so this is the SECOND model in the
+    # project with no NC training data (after trac_aggression's Apache-2.0).
+    # CC BY obliges the app to credit FSD50K contributors somewhere a user can
+    # reach; that is a real product task and cheaper than NC, which forbids
+    # commercial use outright.
+    "m_glass_breaking_v4.tflite": [
+        ("FSD50K (CC0 + CC BY subset only)", "CC0 / CC BY 4.0"),
     ],
     "motion_fall_v2.tflite": [("UniMiB-SHAR", "research")],
     "m3_violence_temporal_v1.tflite": [("RWF-2000", "research")],

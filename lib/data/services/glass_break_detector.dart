@@ -6,7 +6,7 @@ import 'gunshot_detector.dart' show GunshotDetectorV2;
 import 'interpreter.dart';
 import 'mel_spectrogram.dart';
 
-/// Day 346 — `m_glass_breaking_v3`, the first detector in this project
+/// Day 346 — `m_glass_breaking_v4`, the first detector in this project
 /// shipped *because* it was measured rather than in spite of it.
 ///
 /// WHY THIS SHIPS
@@ -46,7 +46,7 @@ import 'mel_spectrogram.dart';
 /// HOP, FMAX, IMG = 16000, 2.0, 96, 2048, 512, 8000, 96`), not inferred
 /// from the tensor shape:
 ///
-/// | | mg_gunshot_retrain | m_glass_breaking_v3 |
+/// | | mg_gunshot_retrain | m_glass_breaking_v4 |
 /// |---|---|---|
 /// | Sample rate | 16,000 Hz | 16,000 Hz |
 /// | Window | 3 s (48,000) | **2 s (32,000)** |
@@ -100,7 +100,7 @@ class GlassBreakDetector implements Interpreter {
   /// should not be moved below 0.22 without re-measuring.
   ///
   /// Do not read this against the recorded `chosen_threshold: 0.8754` in
-  /// `m_glass_breaking_v3_report.json`. That was picked on 13 positives,
+  /// `m_glass_breaking_v4_report.json`. That was picked on 13 positives,
   /// where it looked like a free 0.77 recall; on 265 positives the measured
   /// curve is already down to recall 0.283 by t=0.795, so at 0.8754 it is
   /// lower still. It is the clearest example in this project of a threshold
@@ -142,8 +142,8 @@ class GlassBreakDetector implements Interpreter {
   /// told apart from gunshot's `[1,128,128,3]`, and loading the wrong asset
   /// here would otherwise be silent.
   static Future<GlassBreakDetector?> tryLoad({
-    String assetPath = 'assets/models/m_glass_breaking_v3.tflite',
-    String modelLabel = 'm_glass_breaking_v3',
+    String assetPath = 'assets/models/m_glass_breaking_v4.tflite',
+    String modelLabel = 'm_glass_breaking_v4',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? interpreter;

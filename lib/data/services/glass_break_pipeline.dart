@@ -6,7 +6,7 @@ import '../../native/pcm_window.dart';
 import '../models/inference_result.dart';
 import 'glass_break_detector.dart';
 
-/// Day 346 — joins the native rolling-PCM stream to `m_glass_breaking_v3`.
+/// Day 346 — joins the native rolling-PCM stream to `m_glass_breaking_v4`.
 ///
 /// Mirrors `GunshotAudioPipeline` exactly in shape, including the silence
 /// gate, the single-flight `_busy` guard and the drop counters. The two

@@ -158,7 +158,7 @@ final gunshotAudioPipelineProvider =
   return pipeline;
 });
 
-/// Day 346 — `m_glass_breaking_v3`, shipped after being measured at AUC
+/// Day 346 — `m_glass_breaking_v4`, shipped after being measured at AUC
 /// 0.7819 on 265 real FSD50K positives (its recorded 1.0 came from 13 and
 /// did not survive). Its curve is the best in this project: recall 0.826 at
 /// precision 0.830. See assets/models/DAY346B_GUNSHOT_GLASS_CROSS_CORPUS.md.
@@ -188,7 +188,7 @@ final glassBreakDetectorProvider =
 });
 
 /// Live glass-break pipeline: native 16,000 Hz PCM stream -> 2 s mel image
-/// -> m_glass_breaking_v3. Null while the detector is loading or failed to
+/// -> m_glass_breaking_v4. Null while the detector is loading or failed to
 /// load, so a device without the asset simply never fires glass detections.
 final glassBreakPipelineProvider = Provider<GlassBreakPipeline?>((ref) {
   final detector = ref.watch(glassBreakDetectorProvider).valueOrNull;

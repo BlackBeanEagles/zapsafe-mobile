@@ -1,0 +1,52 @@
+{
+  "scream_dev": {
+    "pos_total": 254,
+    "pos_permissive": 218,
+    "neg_total": 2895,
+    "neg_permissive": 2300,
+    "usable": true
+  },
+  "glass_dev": {
+    "pos_total": 974,
+    "pos_permissive": 872,
+    "neg_total": 2714,
+    "neg_permissive": 2352,
+    "usable": true
+  },
+  "gunshot_dev": {
+    "pos_total": 348,
+    "pos_permissive": 320,
+    "neg_total": 3084,
+    "neg_permissive": 2663,
+    "usable": true
+  },
+  "dev_mix": {
+    "CC0": 14959,
+    "CC BY": 20017
+  },
+  "scream_eval": {
+    "pos_total": 123,
+    "pos_permissive": 108,
+    "neg_total": 1142,
+    "neg_permissive": 923,
+    "usable": false
+  },
+  "glass_eval": {
+    "pos_total": 267,
+    "pos_permissive": 212,
+    "neg_total": 1320,
+    "neg_permissive": 1116,
+    "usable": true
+  },
+  "gunshot_eval": {
+    "pos_total": 134,
+    "pos_permissive": 109,
+    "neg_total": 1336,
+    "neg_permissive": 1146,
+    "usable": false
+  },
+  "eval_mix": {
+    "CC0": 4914,
+    "CC BY": 3489
+  }
+}

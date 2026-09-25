@@ -1,0 +1,136 @@
+{
+  "permissive_auc": 0.8655,
+  "shipped_auc": 0.6838,
+  "curve": [
+    {
+      "t": 0.2,
+      "recall": 0.918,
+      "precision": 0.219,
+      "fires_pct": 50.4
+    },
+    {
+      "t": 0.3,
+      "recall": 0.873,
+      "precision": 0.257,
+      "fires_pct": 40.8
+    },
+    {
+      "t": 0.4,
+      "recall": 0.831,
+      "precision": 0.296,
+      "fires_pct": 33.6
+    },
+    {
+      "t": 0.5,
+      "recall": 0.79,
+      "precision": 0.339,
+      "fires_pct": 28.0
+    },
+    {
+      "t": 0.6,
+      "recall": 0.757,
+      "precision": 0.38,
+      "fires_pct": 23.9
+    },
+    {
+      "t": 0.7,
+      "recall": 0.727,
+      "precision": 0.425,
+      "fires_pct": 20.5
+    },
+    {
+      "t": 0.8,
+      "recall": 0.64,
+      "precision": 0.467,
+      "fires_pct": 16.4
+    },
+    {
+      "t": 0.8754,
+      "recall": 0.581,
+      "precision": 0.522,
+      "fires_pct": 13.3
+    },
+    {
+      "t": 0.9,
+      "recall": 0.558,
+      "precision": 0.564,
+      "fires_pct": 11.9
+    }
+  ],
+  "shipped_at_0.8754": {
+    "recall": 0.135,
+    "precision": 0.409
+  },
+  "recommended": {
+    "t": 0.9,
+    "recall": 0.558,
+    "precision": 0.564,
+    "fires_pct": 11.9
+  },
+  "at_shipped_022": {
+    "shipped": {
+      "recall": 0.813,
+      "precision": 0.154
+    },
+    "permissive": {
+      "recall": 0.91,
+      "precision": 0.226
+    }
+  },
+  "fine_sweep": [
+    {
+      "t": 0.1,
+      "recall": 0.955,
+      "precision": 0.176,
+      "fires_pct": 64.9
+    },
+    {
+      "t": 0.15,
+      "recall": 0.94,
+      "precision": 0.201,
+      "fires_pct": 56.0
+    },
+    {
+      "t": 0.2,
+      "recall": 0.918,
+      "precision": 0.219,
+      "fires_pct": 50.4
+    },
+    {
+      "t": 0.22,
+      "recall": 0.91,
+      "precision": 0.226,
+      "fires_pct": 48.3
+    },
+    {
+      "t": 0.25,
+      "recall": 0.891,
+      "precision": 0.237,
+      "fires_pct": 45.1
+    },
+    {
+      "t": 0.35,
+      "recall": 0.846,
+      "precision": 0.277,
+      "fires_pct": 36.7
+    },
+    {
+      "t": 0.45,
+      "recall": 0.813,
+      "precision": 0.318,
+      "fires_pct": 30.6
+    },
+    {
+      "t": 0.55,
+      "recall": 0.772,
+      "precision": 0.356,
+      "fires_pct": 26.0
+    },
+    {
+      "t": 0.65,
+      "recall": 0.742,
+      "precision": 0.401,
+      "fires_pct": 22.2
+    }
+  ]
+}

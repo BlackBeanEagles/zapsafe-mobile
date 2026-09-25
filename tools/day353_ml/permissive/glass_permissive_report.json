@@ -1,0 +1,20 @@
+{
+  "shipped_nc_auc": 0.6838,
+  "permissive_seeds": [
+    0.8682,
+    0.8563,
+    0.8655
+  ],
+  "permissive_mean": 0.8633,
+  "permissive_min": 0.8563,
+  "train_pos": 872,
+  "train_neg": 2352,
+  "shipped_train_pos": 92,
+  "eval_n": 2226,
+  "eval_pos": 267,
+  "ships": true,
+  "licence": "CC0 + CC BY only (attribution required)",
+  "exported_seed": 123,
+  "exported_auc": 0.8655,
+  "float16_kb": 59.6
+}
