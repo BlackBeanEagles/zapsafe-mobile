@@ -1,0 +1,21 @@
+{
+  "deltas": [
+    0.0101,
+    0.0147,
+    -0.001,
+    0.0083,
+    -0.0001,
+    -0.0085,
+    0.0232,
+    -0.0065
+  ],
+  "mean": 0.005,
+  "positive_seeds": 4,
+  "n_seeds": 8,
+  "screening_delta": 0.0142,
+  "screening_ci95": [
+    -0.0047,
+    0.0334
+  ],
+  "verdict": "WEAK - plausible but not stable; let the 4-tar A/B decide"
+}

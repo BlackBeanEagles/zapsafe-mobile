@@ -1,0 +1,28 @@
+{
+  "h_aggressive_2048_y": {
+    "dir_corr": 0.1861,
+    "dir_corr_ci95": [
+      -0.0914,
+      0.4408
+    ],
+    "agree": 21,
+    "n_feat": 38,
+    "corpus_id_auc": 0.9978,
+    "linear_nv_to_meld": 0.5627,
+    "linear_meld_to_nv": 0.5205,
+    "verdict": "UNRELATED - pooling unlikely to help, A/B decides"
+  },
+  "m4_512_y": {
+    "dir_corr": -0.4402,
+    "dir_corr_ci95": [
+      -0.6589,
+      -0.1688
+    ],
+    "agree": 12,
+    "n_feat": 38,
+    "corpus_id_auc": 0.9968,
+    "linear_nv_to_meld": 0.5312,
+    "linear_meld_to_nv": 0.4907,
+    "verdict": "OPPOSED - do not pool"
+  }
+}
