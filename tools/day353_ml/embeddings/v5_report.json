@@ -1,0 +1,24 @@
+{
+  "seeds": [
+    0.6702,
+    0.6708,
+    0.6707,
+    0.6735,
+    0.6761
+  ],
+  "mean": 0.6723,
+  "median": 0.6708,
+  "min": 0.6702,
+  "max": 0.6761,
+  "v4_gate": 0.641,
+  "gain_mean": 0.0313,
+  "gain_worst": 0.0292,
+  "ships": true,
+  "exported_seed": 7,
+  "exported_auc": 0.6708,
+  "exported_ci95": [
+    0.6483,
+    0.695
+  ],
+  "float16_kb": 11.9
+}

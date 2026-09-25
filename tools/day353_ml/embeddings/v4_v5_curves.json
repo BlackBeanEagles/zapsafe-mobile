@@ -1,0 +1,60 @@
+{
+  "v4_auc": 0.6415,
+  "v5_auc": 0.6708,
+  "matched_recall": [
+    {
+      "recall": 0.8,
+      "v4_prec": 0.266,
+      "v4_thr": 0.42,
+      "v5_prec": 0.28,
+      "v5_thr": 0.23,
+      "delta": 0.015
+    },
+    {
+      "recall": 0.7,
+      "v4_prec": 0.296,
+      "v4_thr": 0.482,
+      "v5_prec": 0.316,
+      "v5_thr": 0.276,
+      "delta": 0.02
+    },
+    {
+      "recall": 0.664,
+      "v4_prec": 0.302,
+      "v4_thr": 0.499,
+      "v5_prec": 0.32,
+      "v5_thr": 0.287,
+      "delta": 0.018
+    },
+    {
+      "recall": 0.6,
+      "v4_prec": 0.318,
+      "v4_thr": 0.526,
+      "v5_prec": 0.323,
+      "v5_thr": 0.304,
+      "delta": 0.004
+    },
+    {
+      "recall": 0.5,
+      "v4_prec": 0.334,
+      "v4_thr": 0.561,
+      "v5_prec": 0.368,
+      "v5_thr": 0.355,
+      "delta": 0.035
+    },
+    {
+      "recall": 0.4,
+      "v4_prec": 0.364,
+      "v4_thr": 0.61,
+      "v5_prec": 0.421,
+      "v5_thr": 0.417,
+      "delta": 0.057
+    }
+  ],
+  "v5_better_at": 6,
+  "of": 6,
+  "v4_shipped_thr_045": {
+    "recall": 0.758,
+    "precision": 0.28
+  }
+}

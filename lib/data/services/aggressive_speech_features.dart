@@ -6,7 +6,7 @@ import 'mel_spectrogram.dart';
 import 'vocal_stress_features.dart';
 import 'yin_pitch.dart';
 
-/// Day 352 — the 38-dim prosodic vector `h_aggressive_v4_38` was trained on.
+/// Day 352 — the 38-dim prosodic vector `h_aggressive_v5_38` was trained on.
 ///
 /// ## Why this is a separate class from [VocalStressFeatures]
 ///
@@ -90,7 +90,7 @@ class AggressiveSpeechFeatures {
 
   /// Raw mono PCM at [kSampleRate] -> the model's 38 floats, physical
   /// (un-standardised) values. The caller applies
-  /// `assets/models/h_aggressive_v4_38_norm.json`; skipping that does not
+  /// `assets/models/h_aggressive_v5_38_norm.json`; skipping that does not
   /// throw and does not change the shape, it just makes the model wrong —
   /// Day 318 measured exactly that at 0.844 -> 0.52.
   Float64List compose38(Float64List pcm) {

@@ -8,7 +8,7 @@ import '../models/inference_result.dart';
 import 'aggressive_speech_features.dart';
 import 'interpreter.dart';
 
-/// Day 352 — `h_aggressive_v4_38`, finally wired. Phase B, five days late
+/// Day 352 — `h_aggressive_v5_38`, finally wired. Phase B, five days late
 /// and one wrong estimate later.
 ///
 /// ## History, because the numbers on record are misleading
@@ -31,11 +31,28 @@ import 'interpreter.dart';
 ///     v1   librosa.pyin 2048/512, RAVDESS only   acted 0.8442  natural 0.4780
 ///     v2b  librosa.pyin 2048/512, 5 corpora      acted 0.8096  natural 0.6661
 ///     v3   plain YIN     512/256, 5 corpora      acted 0.7063  natural 0.5918
-///     v4   plain YIN    2048/512, 5 corpora      acted 0.7464  natural 0.6423
+///     v4   plain YIN    2048/512, 5 corpora      acted 0.7464  natural 0.6415
+///     v5   same data, same features, new RECIPE   natural 0.6708
 ///
-/// **v4** — trained on CREMA-D + TESS + RAVDESS + SAVEE + MELD (17,548
-/// clips, speaker-disjoint, corpus-balanced weights). Natural-speech AUC
-/// 0.6423, 95% CI [0.6189, 0.6661], against v1's chance-level 0.4780.
+/// **v5** — identical corpora (CREMA-D + TESS + RAVDESS + SAVEE + MELD,
+/// 17,548 clips) and identical 38-dim features. Only the training recipe
+/// changed, and the gain came from an unexpected place:
+///
+///     v4 head     + corpus_weights   0.6513      + class_weight   0.6649
+///     regularised + corpus_weights   0.6339      + class_weight   0.6736
+///
+/// The WEIGHTING dominated, not the architecture. `corpus_weights` scaled
+/// every corpus to equal influence, which pushed SAVEE's 360 rows and
+/// RAVDESS's 1,056 to the same weight as MELD's 7,961 — and three of the
+/// four upweighted corpora are ACTED studio recordings, while the
+/// deployment domain is conversational. There is also an interaction:
+/// regularisation HURTS under corpus_weights and helps under class_weight,
+/// which is why a first attempt that changed only the head came out flat at
+/// 0.6410, identical to v4.
+///
+/// Measured through the shipped .tflite by the gate: **0.671 vs v4's
+/// 0.641**. Five seeds spanned 0.6702-0.6761 and the MEDIAN seed was
+/// exported, not the best. See DAY358_H_AGGRESSIVE_V5_RECIPE_FIX.md.
 ///
 /// v2b is 0.024 better on natural speech and is **not** what ships, because
 /// it needs `librosa.pyin`'s HMM/Viterbi in Dart. Day 351 concluded that
@@ -46,10 +63,12 @@ import 'interpreter.dart';
 ///
 /// ## The threshold
 ///
-/// **0.45**, from v4's held-out curve. This is a DCS fusion contributor, not
-/// an alert trigger, so recall is preferred over precision — but not to the
-/// point of firing constantly. Do not read the old 0.844-era thresholds
-/// against it; they were set on a model that reads natural speech at chance.
+/// **0.23** as of v5 — see [kDefaultThreshold] for why the number moved and
+/// what the curve looks like. This is a DCS fusion contributor, not an alert
+/// trigger, so recall is preferred over precision. Do not read the old
+/// 0.844-era thresholds against it; they were set on a model that reads
+/// natural speech at chance, and do not read v4's 0.45 against it either —
+/// v5's sigmoid is compressed and the same number means something else.
 ///
 /// ## Features are NOT interchangeable with m4/m5
 ///
@@ -60,12 +79,35 @@ import 'interpreter.dart';
 /// differ in more than 20 of 38 slots, and pins the Dart path against the
 /// Python extractor that trained v4.
 class AggressiveSpeechDetector implements Interpreter {
-  static const String kAsset = 'assets/models/h_aggressive_v4_38.tflite';
+  static const String kAsset = 'assets/models/h_aggressive_v5_38.tflite';
   static const String kNormAsset =
-      'assets/models/h_aggressive_v4_38_norm.json';
+      'assets/models/h_aggressive_v5_38_norm.json';
 
   /// See the class doc. Fusion contributor, not a trigger.
-  static const double kDefaultThreshold = 0.45;
+  /// **0.23**, not 0.45 — the number changed with v5 and had to.
+  ///
+  /// v5 adds L2 1e-3 and dropout 0.5, which compresses the sigmoid toward
+  /// zero. The same numeric threshold therefore means something different:
+  /// at 0.45 v5 fires on 15.7% of clips where v4 fired on far more, and at
+  /// 0.5 its recall collapses to **0.057** against v4's 0.664. Carrying the
+  /// old constant across would have shipped a better-scoring model that
+  /// almost never fires — a silent regression an AUC alone cannot show.
+  ///
+  /// 0.23 reproduces v4's operating point exactly:
+  ///
+  ///     v4 @ 0.45   recall 0.758   precision 0.280
+  ///     v5 @ 0.23   recall 0.758   precision 0.280
+  ///
+  /// So the upgrade is behaviour-neutral at the operating point while the
+  /// ranking improves (AUC 0.671 vs 0.641), which is what benefits any
+  /// fusion consuming the raw score rather than the boolean.
+  ///
+  /// v5 has better precision at every matched recall level measured
+  /// (+0.004 to +0.057), so raising this deliberately trades recall for
+  /// precision — 0.30 gives recall 0.619 / precision 0.324, and 0.355 gives
+  /// 0.50 / 0.368. That is a product decision, not a default.
+  /// Full curve: assets/models/DAY358_H_AGGRESSIVE_V5_RECIPE_FIX.md
+  static const double kDefaultThreshold = 0.23;
 
   static const int kInputFloats = AggressiveSpeechFeatures.kFeatureDim;
 
@@ -107,7 +149,7 @@ class AggressiveSpeechDetector implements Interpreter {
   static Future<AggressiveSpeechDetector?> tryLoad({
     String assetPath = kAsset,
     String normPath = kNormAsset,
-    String modelLabel = 'h_aggressive_v4_38',
+    String modelLabel = 'h_aggressive_v5_38',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? interpreter;

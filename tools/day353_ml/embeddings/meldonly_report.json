@@ -1,0 +1,37 @@
+{
+  "meld_only": {
+    "MELD eval": {
+      "mean": 0.6869,
+      "min": 0.6761,
+      "max": 0.6936
+    },
+    "EQ4You": {
+      "mean": 0.5038,
+      "min": 0.5018,
+      "max": 0.5059
+    },
+    "NaturalVoices": {
+      "mean": 0.5088,
+      "min": 0.4962,
+      "max": 0.5162
+    }
+  },
+  "five_corpora": {
+    "MELD eval": {
+      "mean": 0.6709,
+      "min": 0.6652,
+      "max": 0.6765
+    },
+    "EQ4You": {
+      "mean": 0.4972,
+      "min": 0.496,
+      "max": 0.4979
+    },
+    "NaturalVoices": {
+      "mean": 0.5622,
+      "min": 0.5431,
+      "max": 0.5694
+    }
+  },
+  "verdict": "MIXED - 1 of 2 cross-corpus evals favour MELD-only; not decisive"
+}

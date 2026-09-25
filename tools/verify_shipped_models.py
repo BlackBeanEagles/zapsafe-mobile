@@ -955,7 +955,7 @@ TRAINING_DATA = {
     ],
     # The only Apache-2.0 entry in this table.
     "trac_aggression_v1.tflite": [("TRAC-1 (COLING 2018)", "Apache-2.0")],
-    "h_aggressive_v4_38.tflite": [
+    "h_aggressive_v5_38.tflite": [
         ("CREMA-D", "Open Database License"),
         ("TESS", "CC BY-NC 4.0"),
         ("RAVDESS", "CC BY-NC-SA 4.0"),
@@ -1074,8 +1074,12 @@ def fixture_for(input_details, name=None):
         #   librosa.pyin (frame 2048 / hop 512):
         #     (none shipped -- h_aggressive_speech_v1 deleted Day 352)
         #   plain YIN (frame 2048 / hop 512):
-        #     h_aggressive_v4_38   -> no fixture exists, reports UNVERIFIED
-        if name and name.startswith("h_aggressive_v4"):
+        #     h_aggressive_v5_38   -> MELD test+dev fixture (Day 353)
+        # Day 358: matches v4 OR v5 -- same feature space, only the training
+        # recipe changed (class_weight in place of corpus_weights, plus a
+        # regularised head). A prefix pinned to one version would silently
+        # stop routing on the next rename and fall through to UNVERIFIED.
+        if name and name.startswith("h_aggressive_v"):
             # Day 353: a fixture in v4's OWN space now exists -- MELD
             # test+dev featurised by featurise_yin2048.py, the same
             # extractor that trained it, and a split it never trains on.

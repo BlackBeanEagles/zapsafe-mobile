@@ -1,0 +1,69 @@
+{
+  "baseline_38dim": 0.641,
+  "layers": [
+    {
+      "layer": 0,
+      "linear": 0.6748,
+      "mlp": 0.6629,
+      "ci95": [
+        0.6379,
+        0.6856
+      ],
+      "delta_vs_38dim": 0.0219,
+      "n_train": 7961,
+      "n_eval": 2911
+    },
+    {
+      "layer": 4,
+      "linear": 0.6907,
+      "mlp": 0.6981,
+      "ci95": [
+        0.6766,
+        0.7208
+      ],
+      "delta_vs_38dim": 0.0571,
+      "n_train": 7961,
+      "n_eval": 2911
+    },
+    {
+      "layer": 6,
+      "linear": 0.6613,
+      "mlp": 0.6849,
+      "ci95": [
+        0.6619,
+        0.7096
+      ],
+      "delta_vs_38dim": 0.0439,
+      "n_train": 7961,
+      "n_eval": 2911
+    },
+    {
+      "layer": 8,
+      "linear": 0.6765,
+      "mlp": 0.6956,
+      "ci95": [
+        0.6722,
+        0.7172
+      ],
+      "delta_vs_38dim": 0.0546,
+      "n_train": 7961,
+      "n_eval": 2911
+    },
+    {
+      "layer": 12,
+      "linear": 0.6921,
+      "mlp": 0.7054,
+      "ci95": [
+        0.6835,
+        0.7275
+      ],
+      "delta_vs_38dim": 0.0644,
+      "n_train": 7961,
+      "n_eval": 2911
+    }
+  ],
+  "best_layer": 12,
+  "best_auc": 0.7054,
+  "shuffled_control": 0.4888,
+  "verdict": "MODEST GAIN - real but weigh against a ~377 MB encoder and a new Dart audio path"
+}

@@ -77,7 +77,7 @@ void main() {
         // and measured 0.4780 (chance) on natural speech; v4 reads
         // 0.6415 there. The _38 suffix matters -- the gate routes [1,38]
         // models by filename across two feature definitions.
-        'aggressive_speech': 'assets/models/h_aggressive_v4_38.tflite',
+        'aggressive_speech': 'assets/models/h_aggressive_v5_38.tflite',
       };
       for (final m in kZapsafeModels) {
         expect(m.assetPath, expected[m.key],

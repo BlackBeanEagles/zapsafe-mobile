@@ -1,0 +1,22 @@
+{
+  "v4 head + corpus_weights": {
+    "mean": 0.6513,
+    "min": 0.6425,
+    "max": 0.663
+  },
+  "v4 head + class_weight": {
+    "mean": 0.6649,
+    "min": 0.6602,
+    "max": 0.6704
+  },
+  "regularised + corpus_weights": {
+    "mean": 0.6339,
+    "min": 0.6258,
+    "max": 0.641
+  },
+  "regularised + class_weight": {
+    "mean": 0.6736,
+    "min": 0.6689,
+    "max": 0.682
+  }
+}
