@@ -1,0 +1,110 @@
+{
+  "folds": [
+    {
+      "user": "4E98F91F",
+      "n": 751,
+      "pos_rate": 0.065,
+      "auc": 0.5776,
+      "light_only": 0.4294,
+      "imu_gain": 0.1482
+    },
+    {
+      "user": "59EEFAE0",
+      "n": 3370,
+      "pos_rate": 0.256,
+      "auc": 0.916,
+      "light_only": 0.6809,
+      "imu_gain": 0.2351
+    },
+    {
+      "user": "806289BC",
+      "n": 3624,
+      "pos_rate": 0.211,
+      "auc": 0.5733,
+      "light_only": 0.5274,
+      "imu_gain": 0.0458
+    },
+    {
+      "user": "86A4F379",
+      "n": 625,
+      "pos_rate": 0.446,
+      "auc": 0.5415,
+      "light_only": 0.4163,
+      "imu_gain": 0.1252
+    },
+    {
+      "user": "B7F9D634",
+      "n": 3092,
+      "pos_rate": 0.164,
+      "auc": 0.8968,
+      "light_only": 0.8425,
+      "imu_gain": 0.0544
+    }
+  ],
+  "median_auc": 0.5776,
+  "mean_auc": 0.701,
+  "min_auc": 0.5415,
+  "max_auc": 0.916,
+  "median_light_only": 0.5274,
+  "median_imu_gain": 0.1252,
+  "below_070": 3,
+  "n_folds": 5,
+  "skipped": [
+    [
+      "0BFC35E2",
+      52,
+      1
+    ],
+    [
+      "1155FF54",
+      304,
+      1
+    ],
+    [
+      "1DBB0F6F",
+      646,
+      1
+    ],
+    [
+      "27E04243",
+      89,
+      1
+    ],
+    [
+      "33A85C34",
+      1427,
+      1
+    ],
+    [
+      "665514DE",
+      985,
+      1
+    ],
+    [
+      "74B86067",
+      502,
+      1
+    ],
+    [
+      "96A358A0",
+      201,
+      1
+    ],
+    [
+      "99B204C0",
+      41,
+      1
+    ],
+    [
+      "A5A30F76",
+      313,
+      1
+    ],
+    [
+      "A7599A50",
+      1032,
+      1
+    ]
+  ],
+  "verdict": "UNSTABLE ACROSS PEOPLE - a single-split number would have hidden this"
+}

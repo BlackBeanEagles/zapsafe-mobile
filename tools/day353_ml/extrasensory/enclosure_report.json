@@ -1,0 +1,16 @@
+{
+  "auc": 0.753,
+  "ci95": [
+    0.7314,
+    0.7738
+  ],
+  "light_only_auc": 0.5351,
+  "imu_gain_over_light": 0.2179,
+  "n_test": 2139,
+  "n_train": 14915,
+  "held_out_users": 4,
+  "total_users": 16,
+  "pos_rate": 0.4723,
+  "ships": true,
+  "float16_kb": 37.2
+}
