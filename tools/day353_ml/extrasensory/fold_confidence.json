@@ -1,0 +1,216 @@
+{
+  "folds": [
+    {
+      "user": "2C32C23E",
+      "n": 4062,
+      "pos": 659,
+      "auc": 0.7459,
+      "ci95": [
+        0.7234,
+        0.7672
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "3600D531",
+      "n": 2982,
+      "pos": 739,
+      "auc": 0.8717,
+      "ci95": [
+        0.8572,
+        0.8844
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "4E98F91F",
+      "n": 1367,
+      "pos": 65,
+      "auc": 0.4282,
+      "ci95": [
+        0.3624,
+        0.4985
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "4FC32141",
+      "n": 2042,
+      "pos": 454,
+      "auc": 0.9464,
+      "ci95": [
+        0.9351,
+        0.9571
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "5119D0F8",
+      "n": 4000,
+      "pos": 684,
+      "auc": 0.6999,
+      "ci95": [
+        0.6773,
+        0.7224
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "59EEFAE0",
+      "n": 5785,
+      "pos": 1131,
+      "auc": 0.9316,
+      "ci95": [
+        0.9232,
+        0.9393
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "61976C24",
+      "n": 5505,
+      "pos": 753,
+      "auc": 0.8182,
+      "ci95": [
+        0.8012,
+        0.8352
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "7CE37510",
+      "n": 8616,
+      "pos": 1818,
+      "auc": 0.9613,
+      "ci95": [
+        0.9567,
+        0.9657
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "8023FE1A",
+      "n": 537,
+      "pos": 287,
+      "auc": 0.9617,
+      "ci95": [
+        0.9466,
+        0.9755
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "806289BC",
+      "n": 6447,
+      "pos": 1053,
+      "auc": 0.6849,
+      "ci95": [
+        0.6687,
+        0.7016
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "86A4F379",
+      "n": 983,
+      "pos": 368,
+      "auc": 0.6189,
+      "ci95": [
+        0.5841,
+        0.655
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "9759096F",
+      "n": 5639,
+      "pos": 1608,
+      "auc": 0.9357,
+      "ci95": [
+        0.9283,
+        0.9432
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "9DC38D04",
+      "n": 6159,
+      "pos": 2443,
+      "auc": 0.8052,
+      "ci95": [
+        0.793,
+        0.8162
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "B7F9D634",
+      "n": 6497,
+      "pos": 737,
+      "auc": 0.9203,
+      "ci95": [
+        0.9095,
+        0.9306
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "B9724848",
+      "n": 2140,
+      "pos": 1585,
+      "auc": 0.597,
+      "ci95": [
+        0.5677,
+        0.6264
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "C48CE857",
+      "n": 2717,
+      "pos": 168,
+      "auc": 0.8442,
+      "ci95": [
+        0.8137,
+        0.8731
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "CF722AA9",
+      "n": 3053,
+      "pos": 426,
+      "auc": 0.8708,
+      "ci95": [
+        0.8518,
+        0.8909
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "D7D20E2E",
+      "n": 2596,
+      "pos": 207,
+      "auc": 0.991,
+      "ci95": [
+        0.987,
+        0.9942
+      ],
+      "covers_chance": false
+    },
+    {
+      "user": "ECECC2AB",
+      "n": 1125,
+      "pos": 323,
+      "auc": 0.7887,
+      "ci95": [
+        0.7551,
+        0.8245
+      ],
+      "covers_chance": false
+    }
+  ],
+  "below_065": 3,
+  "genuinely_failing": 3,
+  "note": "diagnostic only; the pre-registered ship rule already failed and is not revised here"
+}

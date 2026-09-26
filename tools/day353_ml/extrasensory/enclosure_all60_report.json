@@ -1,0 +1,148 @@
+{
+  "participants_total": 47,
+  "participants_both_classes": 19,
+  "rows": 72252,
+  "positives": 15508,
+  "identity_auc": 0.6857,
+  "folds": [
+    {
+      "user": "2C32C23E",
+      "n": 4062,
+      "pos_rate": 0.162,
+      "auc": 0.7459,
+      "linear": 0.6566
+    },
+    {
+      "user": "3600D531",
+      "n": 2982,
+      "pos_rate": 0.248,
+      "auc": 0.8717,
+      "linear": 0.8348
+    },
+    {
+      "user": "4E98F91F",
+      "n": 1367,
+      "pos_rate": 0.048,
+      "auc": 0.4282,
+      "linear": 0.3465
+    },
+    {
+      "user": "4FC32141",
+      "n": 2042,
+      "pos_rate": 0.222,
+      "auc": 0.9464,
+      "linear": 0.9316
+    },
+    {
+      "user": "5119D0F8",
+      "n": 4000,
+      "pos_rate": 0.171,
+      "auc": 0.6999,
+      "linear": 0.7998
+    },
+    {
+      "user": "59EEFAE0",
+      "n": 5785,
+      "pos_rate": 0.196,
+      "auc": 0.9316,
+      "linear": 0.8371
+    },
+    {
+      "user": "61976C24",
+      "n": 5505,
+      "pos_rate": 0.137,
+      "auc": 0.8182,
+      "linear": 0.7341
+    },
+    {
+      "user": "7CE37510",
+      "n": 8616,
+      "pos_rate": 0.211,
+      "auc": 0.9613,
+      "linear": 0.9159
+    },
+    {
+      "user": "8023FE1A",
+      "n": 537,
+      "pos_rate": 0.534,
+      "auc": 0.9617,
+      "linear": 0.8487
+    },
+    {
+      "user": "806289BC",
+      "n": 6447,
+      "pos_rate": 0.163,
+      "auc": 0.6849,
+      "linear": 0.7549
+    },
+    {
+      "user": "86A4F379",
+      "n": 983,
+      "pos_rate": 0.374,
+      "auc": 0.6189,
+      "linear": 0.5374
+    },
+    {
+      "user": "9759096F",
+      "n": 5639,
+      "pos_rate": 0.285,
+      "auc": 0.9357,
+      "linear": 0.8831
+    },
+    {
+      "user": "9DC38D04",
+      "n": 6159,
+      "pos_rate": 0.397,
+      "auc": 0.8052,
+      "linear": 0.7464
+    },
+    {
+      "user": "B7F9D634",
+      "n": 6497,
+      "pos_rate": 0.113,
+      "auc": 0.9203,
+      "linear": 0.8737
+    },
+    {
+      "user": "B9724848",
+      "n": 2140,
+      "pos_rate": 0.741,
+      "auc": 0.597,
+      "linear": 0.6202
+    },
+    {
+      "user": "C48CE857",
+      "n": 2717,
+      "pos_rate": 0.062,
+      "auc": 0.8442,
+      "linear": 0.7433
+    },
+    {
+      "user": "CF722AA9",
+      "n": 3053,
+      "pos_rate": 0.14,
+      "auc": 0.8708,
+      "linear": 0.7251
+    },
+    {
+      "user": "D7D20E2E",
+      "n": 2596,
+      "pos_rate": 0.08,
+      "auc": 0.991,
+      "linear": 0.9666
+    },
+    {
+      "user": "ECECC2AB",
+      "n": 1125,
+      "pos_rate": 0.287,
+      "auc": 0.7887,
+      "linear": 0.7528
+    }
+  ],
+  "median": 0.8442,
+  "mean": 0.8117,
+  "min": 0.4282,
+  "n_below_065": 3,
+  "ships": false,
+  "note": "feature-vector input, NOT the shipped slot's raw IMU [128,6]+light[32,1]; a pass proves the concept on 60 participants, not a drop-in asset"
+}
