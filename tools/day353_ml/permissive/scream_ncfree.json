@@ -1,0 +1,15 @@
+{
+  "A: with ESC-50": {
+    "mean": 0.7823,
+    "min": 0.7788,
+    "n": 14749
+  },
+  "B: NC-free": {
+    "mean": 0.7628,
+    "min": 0.7587,
+    "n": 14389
+  },
+  "delta": -0.0195,
+  "holds": false,
+  "note": "FSD50K's ~15% CC BY-NC slice is still inside fsd_dev_neg/pos and needs a re-extraction to remove; not addressed here"
+}
