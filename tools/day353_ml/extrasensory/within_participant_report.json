@@ -1,0 +1,51 @@
+{
+  "participants": [
+    "4E98F91F-4654-42EF-B908-A3389443F2E7",
+    "59EEFAE0-DEB0-4FFF-9250-54D2A03D0CF2",
+    "806289BC-AD52-4CC1-806C-0CDB14D65EB6",
+    "86A4F379-B305-473D-9D83-FC7D800180EF",
+    "B7F9D634-263E-4A97-87F9-6FFB4DDCB36C"
+  ],
+  "identity_auc": 0.6087,
+  "folds": [
+    {
+      "user": "4E98F91F",
+      "n": 751,
+      "pos_rate": 0.065,
+      "auc": 0.6503,
+      "light_only": 0.4294
+    },
+    {
+      "user": "59EEFAE0",
+      "n": 3370,
+      "pos_rate": 0.256,
+      "auc": 0.9323,
+      "light_only": 0.6809
+    },
+    {
+      "user": "806289BC",
+      "n": 3624,
+      "pos_rate": 0.211,
+      "auc": 0.7741,
+      "light_only": 0.5274
+    },
+    {
+      "user": "86A4F379",
+      "n": 625,
+      "pos_rate": 0.446,
+      "auc": 0.5723,
+      "light_only": 0.4163
+    },
+    {
+      "user": "B7F9D634",
+      "n": 3092,
+      "pos_rate": 0.164,
+      "auc": 0.8817,
+      "light_only": 0.1575
+    }
+  ],
+  "median": 0.7741,
+  "min": 0.5723,
+  "median_light_only": 0.4294,
+  "ships": false
+}

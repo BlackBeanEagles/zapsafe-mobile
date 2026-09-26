@@ -162,7 +162,7 @@ final gunshotAudioPipelineProvider =
 /// 0.7819 on 265 real FSD50K positives (its recorded 1.0 came from 13 and
 /// did not survive). Its curve is the best in this project: recall 0.826 at
 /// precision 0.830. See assets/models/DAY346B_GUNSHOT_GLASS_CROSS_CORPUS.md.
-/// Day 352 — `h_aggressive_v5_38`, Phase B finally done.
+/// Day 352 — `h_aggressive_v6_38`, Phase B finally done.
 ///
 /// v1 sat catalogued-but-unwired since Day 90 on the strength of AUC 0.8442,
 /// which Day 347 showed was RAVDESS-only: on natural speech it reads

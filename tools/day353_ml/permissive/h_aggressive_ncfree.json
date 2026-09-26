@@ -1,0 +1,32 @@
+{
+  "all_five": {
+    "MELD eval": {
+      "mean": 0.6706,
+      "min": 0.6644
+    },
+    "EQ4You": {
+      "mean": 0.4971,
+      "min": 0.496
+    },
+    "NaturalVoices": {
+      "mean": 0.5629,
+      "min": 0.5523
+    }
+  },
+  "nc_free": {
+    "MELD eval": {
+      "mean": 0.6803,
+      "min": 0.6722
+    },
+    "EQ4You": {
+      "mean": 0.4968,
+      "min": 0.4949
+    },
+    "NaturalVoices": {
+      "mean": 0.5666,
+      "min": 0.559
+    }
+  },
+  "holds": true,
+  "current_gate": 0.671
+}

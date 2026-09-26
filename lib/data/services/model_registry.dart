@@ -146,7 +146,7 @@ const List<ModelDefinition> kZapsafeModels = [
   ModelDefinition(
     key: 'aggressive_speech',
     displayName: 'Aggressive Speech (H)',
-    assetPath: 'assets/models/h_aggressive_v5_38.tflite',
+    assetPath: 'assets/models/h_aggressive_v6_38.tflite',
     purpose: '38-dim prosodic features (2048/512 window) → '
         'aggressive vs calm speech',
     realModelEta: 'Day 352 · 5 corpora · natural speech 0.6415',
@@ -177,7 +177,7 @@ const List<ModelDefinition> kZapsafeModels = [
     // the acted bar it sits against (0.7611 one run, 0.7464 another, bar
     // 0.75). Do not treat the acted figure as precise.
     //
-    // The 38-dim input MUST be z-scored with h_aggressive_v5_38_norm.json,
+    // The 38-dim input MUST be z-scored with h_aggressive_v6_38_norm.json,
     // which AggressiveSpeechDetector.tryLoad() loads itself and fails
     // without -- Day 318 measured this family at 0.52 (chance) on raw
     // features, with its f32 twin collapsing to a constant 1.0.

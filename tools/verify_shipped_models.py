@@ -962,10 +962,13 @@ TRAINING_DATA = {
     ],
     # The only Apache-2.0 entry in this table.
     "trac_aggression_v1.tflite": [("TRAC-1 (COLING 2018)", "Apache-2.0")],
-    "h_aggressive_v5_38.tflite": [
+    # Day 360: TESS and RAVDESS dropped -- they were h_aggressive's ONLY
+    # hard-NC corpora, together 3,056 of 17,548 rows. Removing them measured
+    # +0.0097 on MELD eval and -0.0003 / +0.0037 on the two cross-corpus
+    # sets, so the licence flag cleared at no cost. Consistent with every
+    # other acted-corpus finding this week: they were very slightly harmful.
+    "h_aggressive_v6_38.tflite": [
         ("CREMA-D", "Open Database License"),
-        ("TESS", "CC BY-NC 4.0"),
-        ("RAVDESS", "CC BY-NC-SA 4.0"),
         ("SAVEE", "research"),
         ("MELD", "research; audio from copyrighted broadcast"),
     ],
@@ -1081,7 +1084,7 @@ def fixture_for(input_details, name=None):
         #   librosa.pyin (frame 2048 / hop 512):
         #     (none shipped -- h_aggressive_speech_v1 deleted Day 352)
         #   plain YIN (frame 2048 / hop 512):
-        #     h_aggressive_v5_38   -> MELD test+dev fixture (Day 353)
+        #     h_aggressive_v6_38   -> MELD test+dev fixture (Day 353)
         # Day 358: matches v4 OR v5 -- same feature space, only the training
         # recipe changed (class_weight in place of corpus_weights, plus a
         # regularised head). A prefix pinned to one version would silently

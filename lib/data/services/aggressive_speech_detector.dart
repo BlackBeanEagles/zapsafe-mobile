@@ -8,7 +8,7 @@ import '../models/inference_result.dart';
 import 'aggressive_speech_features.dart';
 import 'interpreter.dart';
 
-/// Day 352 — `h_aggressive_v5_38`, finally wired. Phase B, five days late
+/// Day 352 — `h_aggressive_v6_38`, finally wired. Phase B, five days late
 /// and one wrong estimate later.
 ///
 /// ## History, because the numbers on record are misleading
@@ -79,11 +79,24 @@ import 'interpreter.dart';
 /// differ in more than 20 of 38 slots, and pins the Dart path against the
 /// Python extractor that trained v4.
 class AggressiveSpeechDetector implements Interpreter {
-  static const String kAsset = 'assets/models/h_aggressive_v5_38.tflite';
+  static const String kAsset = 'assets/models/h_aggressive_v6_38.tflite';
   static const String kNormAsset =
-      'assets/models/h_aggressive_v5_38_norm.json';
+      'assets/models/h_aggressive_v6_38_norm.json';
 
   /// See the class doc. Fusion contributor, not a trigger.
+  /// **0.23**, unchanged from v5 — and v6 is strictly better at it.
+  ///
+  ///     v5 @0.23   recall 0.758   precision 0.280
+  ///     v6 @0.23   recall 0.785   precision 0.296
+  ///
+  /// v6 drops TESS and RAVDESS, which changes the training distribution and
+  /// therefore the sigmoid, so the constant was re-measured rather than
+  /// carried across. It came out dominant on both axes, so it stays.
+  ///
+  /// The original note on why 0.45 became 0.23 follows, because the reason
+  /// still matters: a compressed sigmoid makes a stale threshold silently
+  /// fatal.
+  ///
   /// **0.23**, not 0.45 — the number changed with v5 and had to.
   ///
   /// v5 adds L2 1e-3 and dropout 0.5, which compresses the sigmoid toward
@@ -149,7 +162,7 @@ class AggressiveSpeechDetector implements Interpreter {
   static Future<AggressiveSpeechDetector?> tryLoad({
     String assetPath = kAsset,
     String normPath = kNormAsset,
-    String modelLabel = 'h_aggressive_v5_38',
+    String modelLabel = 'h_aggressive_v6_38',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? interpreter;

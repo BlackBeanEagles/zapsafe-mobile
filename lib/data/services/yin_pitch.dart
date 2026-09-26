@@ -60,7 +60,7 @@ class YinPitch {
   /// constants would silently corrupt one of them:
   ///
   ///     m4 / m5                512 / 256   (trained on yin_lite at 512/256)
-  ///     h_aggressive_v5_38    2048 / 512   (librosa's default framing)
+  ///     h_aggressive_v6_38    2048 / 512   (librosa's default framing)
   ///
   /// Feeding m5 a 2048-frame vector produces the right shape and plausible
   /// values and a wrong answer — the failure mode this project keeps
