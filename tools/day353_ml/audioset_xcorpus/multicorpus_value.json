@@ -1,0 +1,26 @@
+{
+  "glass": {
+    "base": 0.6693,
+    "mix": 0.7229,
+    "delta": 0.0535,
+    "ci95": [
+      0.0148,
+      0.0945
+    ],
+    "p_mix_not_better": 0.003,
+    "audioset_positives": 59,
+    "fsd_train_rows": 3224
+  },
+  "gun": {
+    "base": 0.6696,
+    "mix": 0.7751,
+    "delta": 0.1051,
+    "ci95": [
+      0.0487,
+      0.1656
+    ],
+    "p_mix_not_better": 0.0,
+    "audioset_positives": 77,
+    "fsd_train_rows": 1280
+  }
+}
