@@ -28,6 +28,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/spacing.dart';
 import 'day151_privacy_policy_screen.dart';
 import 'day153_terms_of_service_screen.dart';
+import 'day392_model_attributions_screen.dart';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 const _kPrivacyVersion = '2.0';
@@ -795,6 +796,58 @@ class _LinksTab extends StatelessWidget {
           text: 'External links and contact addresses for legal, support, '
               'and privacy enquiries. All policies are also bundled in-app '
               'and accessible offline.',
+        ),
+        const SizedBox(height: ZapSpacing.lg),
+
+        // Day 392 - a REAL in-app push, not a snackbar like the external
+        // links below. Glass and gunshot were retrained on FSD50K's
+        // CC0/CC-BY subset on Day 359, which cleared their non-commercial
+        // flag but attached a CC BY attribution CONDITION. A credit the user
+        // cannot reach does not satisfy it, so this entry is the compliance
+        // surface, not a nicety.
+        GestureDetector(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => const Day392ModelAttributionsScreen(),
+          )),
+          child: Container(
+            padding: const EdgeInsets.all(ZapSpacing.md),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(ZapSpacing.radius),
+              border: Border.all(color: const Color(0xFF0EA5E9)),
+            ),
+            child: Row(children: [
+              Container(
+                width: 36, height: 36,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0EA5E9).withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(Icons.workspace_premium_rounded,
+                    color: Color(0xFF0EA5E9), size: 18),
+              ),
+              const SizedBox(width: ZapSpacing.md),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Model & Dataset Attributions',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14)),
+                    SizedBox(height: 2),
+                    Text('Open-data credits required by the licences we '
+                        'train on',
+                        style: TextStyle(
+                            color: Color(0xFF9CA3AF), fontSize: 12)),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded,
+                  color: Color(0xFF6B7280), size: 20),
+            ]),
+          ),
         ),
         const SizedBox(height: ZapSpacing.lg),
 

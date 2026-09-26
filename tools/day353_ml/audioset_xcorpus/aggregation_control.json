@@ -1,0 +1,66 @@
+{
+  "glass": {
+    "threshold": 0.22,
+    "aggregations": {
+      "single": {
+        "auc": 0.6126,
+        "recall": 0.492,
+        "precision": 0.054,
+        "fpr": 0.333,
+        "pos_median": 0.194,
+        "neg_median": 0.126
+      },
+      "mean": {
+        "auc": 0.6539,
+        "recall": 0.61,
+        "precision": 0.058,
+        "fpr": 0.383,
+        "pos_median": 0.265,
+        "neg_median": 0.154
+      },
+      "max (SHIPPED path)": {
+        "auc": 0.6877,
+        "recall": 0.847,
+        "precision": 0.054,
+        "fpr": 0.566,
+        "pos_median": 0.521,
+        "neg_median": 0.276
+      }
+    },
+    "median_separation": 0.2444,
+    "best_threshold": 0.37,
+    "best_youden_j": 0.2927
+  },
+  "gun": {
+    "threshold": 0.7,
+    "aggregations": {
+      "single": {
+        "auc": 0.6049,
+        "recall": 0.078,
+        "precision": 0.182,
+        "fpr": 0.018,
+        "pos_median": 0.281,
+        "neg_median": 0.227
+      },
+      "mean": {
+        "auc": 0.6444,
+        "recall": 0.039,
+        "precision": 0.6,
+        "fpr": 0.001,
+        "pos_median": 0.303,
+        "neg_median": 0.238
+      },
+      "max (SHIPPED path)": {
+        "auc": 0.7006,
+        "recall": 0.208,
+        "precision": 0.167,
+        "fpr": 0.053,
+        "pos_median": 0.457,
+        "neg_median": 0.285
+      }
+    },
+    "median_separation": 0.172,
+    "best_threshold": 0.45,
+    "best_youden_j": 0.3865
+  }
+}

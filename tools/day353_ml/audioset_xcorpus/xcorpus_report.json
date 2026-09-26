@@ -1,0 +1,62 @@
+{
+  "glass": {
+    "m_glass_breaking_v3 (retired)": {
+      "mels": 96,
+      "fsd50k_eval": 0.684,
+      "audioset_maxwin": 0.6796,
+      "audioset_first3s": 0.6387,
+      "ci95": [
+        0.6018,
+        0.7541
+      ]
+    },
+    "m_glass_breaking_v4 (SHIPPED)": {
+      "mels": 96,
+      "fsd50k_eval": 0.866,
+      "audioset_maxwin": 0.6877,
+      "audioset_first3s": 0.6126,
+      "ci95": [
+        0.6239,
+        0.7484
+      ]
+    },
+    "paired_delta": {
+      "mean": 0.0074,
+      "ci95": [
+        -0.0689,
+        0.0868
+      ],
+      "p_new_not_better": 0.4365
+    }
+  },
+  "gun": {
+    "mg_gunshot_retrain (retired)": {
+      "mels": 128,
+      "fsd50k_eval": 0.729,
+      "audioset_maxwin": 0.6492,
+      "audioset_first3s": 0.5722,
+      "ci95": [
+        0.5927,
+        0.7076
+      ]
+    },
+    "mg_gunshot_v2 (SHIPPED)": {
+      "mels": 128,
+      "fsd50k_eval": 0.846,
+      "audioset_maxwin": 0.7006,
+      "audioset_first3s": 0.6049,
+      "ci95": [
+        0.6292,
+        0.7653
+      ]
+    },
+    "paired_delta": {
+      "mean": 0.05,
+      "ci95": [
+        -0.0367,
+        0.1319
+      ],
+      "p_new_not_better": 0.1275
+    }
+  }
+}

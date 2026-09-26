@@ -99,6 +99,42 @@ class GunshotDetectorV2 implements Interpreter {
   /// v2 also carries no Non-Commercial training data: CC0/CC-BY FSD50K only,
   /// where v1 used UrbanSound8K (CC BY-NC 3.0) and AudioSet.
   /// See DAY359B_PERMISSIVE_GUNSHOT_AND_SCREAM.md.
+  ///
+  /// ## Day 361 — every number above is from ONE corpus, and 0.70 is wrong
+  ///
+  /// All of it — v1's 0.729, v2's 0.846, this threshold — was measured on
+  /// FSD50K, train and eval being disjoint splits of the *same* corpus.
+  /// Measured on AudioSet, which this model has never seen (1,598 clips,
+  /// 77 real gunshot positives):
+  ///
+  ///     mg_gunshot_retrain (v1)   FSD50K 0.729   AudioSet 0.649
+  ///     mg_gunshot_v2             FSD50K 0.846   AudioSet 0.701
+  ///
+  /// The v1→v2 gain partially transfers (+0.117 in-domain → +0.050 out),
+  /// CI [-0.037, +0.132], P(v2 ≤ v1) = 0.128. So v2 really is the better
+  /// model, but **0.846 does not describe behaviour outside FSD50K.**
+  ///
+  /// **At 0.70, on AudioSet, recall is 0.208 — it catches one real gunshot
+  /// in five.** That is the `scream_classifier` failure repeating: a card
+  /// that reads well in-domain and a detector that rarely fires on real
+  /// events. Sweeping the same grid on BOTH corpora and scoring by the
+  /// WORSE of the two Youden J values (fixed before looking, so a strong
+  /// in-domain number cannot hide an out-of-domain failure):
+  ///
+  ///     t       FSD50K J    AudioSet J    FSD recall   AudioSet recall
+  ///     0.70     +0.558      +0.155         0.612          0.208
+  ///     0.45     +0.597      +0.387         0.709          0.532
+  ///
+  /// **0.45 is better on both corpora and would more than double real-world
+  /// recall.** It is not free: FSD50K precision falls 0.421 → 0.288 and the
+  /// firing rate roughly doubles (FPR 0.054 → 0.112). For a DCS fusion
+  /// contributor that is very likely the right trade — this class doc
+  /// already argues a signal carrying little information is the failure
+  /// mode to avoid — but it changes alerting behaviour, so it is left as a
+  /// recorded recommendation rather than applied silently.
+  ///
+  /// Full curves and caveats (59/77 positives, wide CIs, AudioSet is weakly
+  /// labelled YouTube audio): DAY361_CROSS_CORPUS_GLASS_AND_GUNSHOT.md
   static const double kDefaultThreshold = 0.70;
 
   final tfl.Interpreter _interpreter;

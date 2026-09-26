@@ -105,6 +105,44 @@ class GlassBreakDetector implements Interpreter {
   /// curve is already down to recall 0.283 by t=0.795, so at 0.8754 it is
   /// lower still. It is the clearest example in this project of a threshold
   /// chosen on an eval set too small to choose it.
+  ///
+  /// ## Day 361 — v4's headline gain does NOT survive a corpus change
+  ///
+  /// Day 359 reported 0.684 → 0.866 and shipped v4 on it. Both numbers came
+  /// from FSD50K, train and eval being disjoint splits of the *same* corpus.
+  /// Measured on AudioSet, which neither model has ever seen (1,598 clips,
+  /// 59 glass positives, at this model's real 2.0 s / 96-mel preprocessing):
+  ///
+  ///     m_glass_breaking_v3 (retired)   FSD50K 0.684   AudioSet 0.680
+  ///     m_glass_breaking_v4 (this one)  FSD50K 0.866   AudioSet 0.688
+  ///
+  /// **+0.182 in-domain became +0.007 out of it** — paired-bootstrap CI
+  /// [-0.069, +0.087], P(v4 ≤ v3) = 0.436. Look at v3: 0.684 in, 0.680 out.
+  /// v3 generalised honestly; v4 bought 0.18 in-domain and nothing outside.
+  /// That is the signature of fitting the corpus, not the construct, and it
+  /// is the same finding that rejected six speech corpora this week.
+  ///
+  /// v4 still ships — it is not *worse*, it is 3.5x smaller, and it carries
+  /// no Non-Commercial training data. But **0.866 does not describe
+  /// real-world behaviour and should not be quoted as if it does.**
+  ///
+  /// **At 0.22, on AudioSet, this fires on 56.6% of non-events.** The
+  /// bimodal score distribution that made 0.22 "almost free" on FSD50K does
+  /// not hold outside it. Sweeping both corpora, scored by the WORSE of the
+  /// two Youden J values:
+  ///
+  ///     t       FSD50K J    AudioSet J    FSD FPR    AudioSet FPR
+  ///     0.22     +0.470      +0.249       0.447        0.598
+  ///     0.30     +0.528      +0.273       0.345        0.472
+  ///
+  /// 0.30 is better on both. It costs recall (FSD 0.918 → 0.873, AudioSet
+  /// 0.847 → 0.746), which for a safety detector is a product decision, so
+  /// it is recorded rather than applied.
+  ///
+  /// The 2.0 s window above is load-bearing in this measurement: a first
+  /// pass fed this model 3.0 s and produced a confident wrong result
+  /// (FPR 0.975) that was nearly written up — exactly what this class doc
+  /// warns about. See DAY361_CROSS_CORPUS_GLASS_AND_GUNSHOT.md.
   static const double kDefaultThreshold = 0.22;
 
   final tfl.Interpreter _interpreter;

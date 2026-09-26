@@ -3379,6 +3379,14 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               hint: '/day-391-message-safety-check · 🟢 REAL — a real .tflite runs on-device here, nothing mocked · trac_aggression_v1 (TRAC-1, Apache-2.0, the ONLY permissively-licensed corpus in the project) reads a message SOMEONE ELSE sent and asks whether it is hostile, English + Hindi · cross-corpus AUC 0.7081 on 58,477 unseen Indo-HateSpeech rows, which is the figure the screen quotes rather than its flattering in-corpus 0.8312 · user-initiated only, no network call, nothing retained, never triggers SOS · this is the consented surface DAY347_DISTRESS_TEXT_DECISION.md required before any text model could ship, and distress_text_v1 still does NOT ship because it infers the USER\'s own clinical state',
               dayBuilt: 'DAY 391 ✅',
             ),
+            const _NavTile(
+              icon: Icons.workspace_premium_rounded,
+              accent: Color(0xFF0EA5E9),
+              title: 'Day 392 · Model & Dataset Attributions',
+              route: AppRoutes.modelAttributions,
+              hint: '/day-392-model-attributions · 🟢 the CC BY credit Day 359 incurred and never paid · retraining glass + gunshot on FSD50K\'s CC0/CC-BY subset cleared their non-commercial flag, but CC BY permits commercial use only ON CONDITION of attribution, and an attribution no user can reach does not discharge it · lists every shipped model with its real training corpora and licence terms, NC models included and marked (2 left, down from 5) rather than hidden · the Dart table is PINNED to TRAINING_DATA in verify_shipped_models.py by day392_model_attributions_test.dart, so a retrain that changes provenance fails CI instead of silently shipping a stale credit',
+              dayBuilt: 'DAY 392 ✅',
+            ),
             const SizedBox(height: ZapSpacing.huge),
 
             // ─── Progress Summary ─────────────────────────────────────

@@ -392,7 +392,8 @@ import '../screens/day387_year_in_review_v2_screen.dart';           // Day 387
 import '../screens/day388_v92_roadmap_lock_screen.dart';            // Day 388
 import '../screens/day389_penultimate_summary_screen.dart';         // Day 389
 import '../screens/day390_project_complete_milestone_screen.dart';  // Day 390
-import '../screens/day391_message_safety_check_screen.dart';       // Day 391
+import '../screens/day391_message_safety_check_screen.dart';
+import '../screens/day392_model_attributions_screen.dart';       // Day 391
 
 /// Provider that holds whether the user has finished onboarding.
 ///
@@ -844,6 +845,7 @@ class AppRoutes {
   static const day389PenultimateSummary  = '/day-389-penultimate-summary';                  // Day 389
   static const projectCompleteMilestone  = '/day-390-project-complete';                     // Day 390
   static const messageSafetyCheck        = '/day-391-message-safety-check';                 // Day 391
+  static const modelAttributions         = '/day-392-model-attributions';                   // Day 392
 }
 
 /// Builds the [GoRouter] used by `MaterialApp.router`.
@@ -2465,6 +2467,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.messageSafetyCheck,
         builder: (context, state) =>
             const Day391MessageSafetyCheckScreen(),                         // Day 391
+      ),
+      GoRoute(
+        path: AppRoutes.modelAttributions,
+        builder: (context, state) =>
+            const Day392ModelAttributionsScreen(),                          // Day 392
       ),
       GoRoute(
         // Real Day 82 evidence vault (extended with Day 309's real filters),
