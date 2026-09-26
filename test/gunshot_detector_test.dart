@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:zapsafe_mobile/data/services/gunshot_detector.dart';
 import 'package:zapsafe_mobile/data/services/mel_spectrogram.dart';
 
-/// Day 262 — parity tests for the `mg_gunshot_retrain` preprocessing
+/// Day 262 — parity tests for the `mg_gunshot_v2` preprocessing
 /// pipeline, which is structurally different from m1_scream_v2's (see
 /// `gunshot_detector.dart`'s class doc for the full diff table).
 ///
@@ -21,7 +21,7 @@ import 'package:zapsafe_mobile/data/services/mel_spectrogram.dart';
 ///     **not** an image resize — see below.
 ///  3. int8 quantization against the real model's actual scale/zero_point
 ///     (`test/fixtures/gunshot_quant_golden.json`, read from the live
-///     `mg_gunshot_retrain.tflite` file via
+///     `mg_gunshot_v2.tflite` file via
 ///     `interpreter.get_input_details()`, not assumed).
 void main() {
   Float64List toneSignal({int sr = 16000, int seconds = 3}) {

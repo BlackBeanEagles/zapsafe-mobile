@@ -7,7 +7,7 @@ import '../models/inference_result.dart';
 import 'interpreter.dart';
 import 'mel_spectrogram.dart';
 
-/// Day 262 — `mg_gunshot_retrain.tflite`, wired to a librosa-parity mel
+/// Day 262 — `mg_gunshot_v2.tflite`, wired to a librosa-parity mel
 /// pipeline that is structurally different from m1_scream_v2's.
 ///
 /// This is a *new* detection family, not a variant of the scream model.
@@ -16,7 +16,7 @@ import 'mel_spectrogram.dart';
 /// `day261_mg_gunshot_retrain.py::audio_to_melspec`), not assumed from the
 /// docs:
 ///
-/// | | m1_scream_v2 | mg_gunshot_retrain |
+/// | | m1_scream_v2 | mg_gunshot_v2 |
 /// |---|---|---|
 /// | Sample rate | 22,050 Hz | **16,000 Hz** |
 /// | Window | 3 s (66,150 samples) | 3 s (**48,000** samples) |
@@ -75,9 +75,30 @@ class GunshotDetectorV2 implements Interpreter {
   /// training report's own balanced test split, which overstated precision
   /// (0.5065 there vs 0.265 measured here on realistic class balance).
   ///
-  /// Raise toward 0.78 if alert fatigue matters more than the last 2% of
-  /// recall; do not lower below 0.7 without re-measuring, since precision
-  /// collapses quickly.
+  /// ## Day 359 — v2 keeps 0.70, but the behaviour behind it changed a lot
+  ///
+  /// The numbers above describe `mg_gunshot_retrain`, which is gone. On the
+  /// full FSD50K eval fixture (2,226 clips, 134 positives) that model was
+  /// barely a detector:
+  ///
+  ///     at 0.70   recall   precision   fires
+  ///     v1 (NC)   0.896    0.078       69.4%
+  ///     v2        0.612    0.421        8.8%
+  ///
+  /// v1 fired on **69% of all audio** at 7.8% precision — 92% of its alerts
+  /// were false, and a signal that is on two-thirds of the time carries
+  /// almost no information into DCS fusion. v2 trades recall for a detector
+  /// that is usable: 5.4x the precision and an eighth of the firing rate.
+  ///
+  /// **This is a real behaviour change, not just a swap.** Recall drops
+  /// 0.896 -> 0.612. If catching every gunshot matters more than alert
+  /// fatigue, t=0.13 reproduces v1's recall (0.903) at slightly better
+  /// precision (0.091) — but that restores the constant-firing behaviour.
+  /// The full curve is in work/permissive/gunshot_calibration.json.
+  ///
+  /// v2 also carries no Non-Commercial training data: CC0/CC-BY FSD50K only,
+  /// where v1 used UrbanSound8K (CC BY-NC 3.0) and AudioSet.
+  /// See DAY359B_PERMISSIVE_GUNSHOT_AND_SCREAM.md.
   static const double kDefaultThreshold = 0.70;
 
   final tfl.Interpreter _interpreter;
@@ -134,8 +155,8 @@ class GunshotDetectorV2 implements Interpreter {
   /// interpreter rather than hardcoding them — the exported int8 file is
   /// the source of truth, not this doc comment.
   static Future<GunshotDetectorV2?> tryLoad({
-    String assetPath = 'assets/models/mg_gunshot_retrain.tflite',
-    String modelLabel = 'mg_gunshot_retrain',
+    String assetPath = 'assets/models/mg_gunshot_v2.tflite',
+    String modelLabel = 'mg_gunshot_v2',
     double threshold = kDefaultThreshold,
   }) async {
     tfl.Interpreter? interpreter;

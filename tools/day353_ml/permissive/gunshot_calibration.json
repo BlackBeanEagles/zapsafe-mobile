@@ -1,0 +1,19 @@
+{
+  "at_070": {
+    "shipped NC": {
+      "recall": 0.896,
+      "precision": 0.078,
+      "fires_pct": 69.4
+    },
+    "permissive": {
+      "recall": 0.612,
+      "precision": 0.421,
+      "fires_pct": 8.8
+    }
+  },
+  "match_point": [
+    0.13,
+    0.9029850746268657,
+    0.09056886227544911
+  ]
+}

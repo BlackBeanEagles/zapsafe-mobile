@@ -3,7 +3,7 @@
 
 WHY THIS EXISTS
 ---------------
-On Day 317 the shipped mg_gunshot_retrain.tflite was found to emit a CONSTANT
+On Day 317 the shipped mg_gunshot_v2.tflite was found to emit a CONSTANT
 0.3633 for every input -- real gunshots and real urban negatives alike --
 while flutter analyze and all 775 flutter test cases passed. They passed
 because flutter test has no native TFLite interpreter, so nothing in the Dart
@@ -184,7 +184,7 @@ def real_mel_images_fsd50k(size, name=None):
     itself could confirm the output moved and nothing more.
 
     That was a gap in the gate, not in the model's evidence -- a correction
-    to an earlier reading of this. `mg_gunshot_retrain` records a
+    to an earlier reading of this. `mg_gunshot_v2` records a
     training-time held-out AUC of 0.9225 (DAY262C) and a labelled 598-clip
     UrbanSound8K measurement behind its 0.70 threshold (recall 0.960,
     precision 0.603). What it had never had is a CROSS-CORPUS number.
@@ -927,9 +927,11 @@ TRAINING_DATA = {
         ("ASVP-ESD", "research"),
         ("ESC-50", "CC BY-NC 3.0"),
     ],
-    "mg_gunshot_retrain.tflite": [
-        ("UrbanSound8K", "CC BY-NC 3.0"),
-        ("AudioSet", "labels CC-BY; audio YouTube-sourced"),
+    # Day 359: retrained on CC0/CC-BY FSD50K only. UrbanSound8K (CC BY-NC)
+    # and AudioSet (YouTube-sourced audio) are both gone. Third model in the
+    # project with no NC training data.
+    "mg_gunshot_v2.tflite": [
+        ("FSD50K (CC0 + CC BY subset only)", "CC0 / CC BY 4.0"),
     ],
     # Day 359: retrained on CC0/CC-BY FSD50K ONLY -- UrbanSound8K and the
     # Freesound-derived set are both gone, so this is the SECOND model in the

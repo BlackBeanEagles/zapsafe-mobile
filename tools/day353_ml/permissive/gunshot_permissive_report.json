@@ -1,0 +1,53 @@
+{
+  "shipped_nc_auc": 0.7294,
+  "permissive_seeds": [
+    0.8384,
+    0.8515,
+    0.8489
+  ],
+  "permissive_mean": 0.8463,
+  "permissive_min": 0.8384,
+  "train_pos": 320,
+  "train_neg": 960,
+  "eval_n": 2226,
+  "eval_pos": 134,
+  "ships": true,
+  "shipped_at_0.5": {
+    "recall": 1.0,
+    "precision": 0.06
+  },
+  "curve": [
+    {
+      "t": 0.2,
+      "recall": 0.873,
+      "precision": 0.115
+    },
+    {
+      "t": 0.3,
+      "recall": 0.799,
+      "precision": 0.183
+    },
+    {
+      "t": 0.4,
+      "recall": 0.731,
+      "precision": 0.255
+    },
+    {
+      "t": 0.5,
+      "recall": 0.709,
+      "precision": 0.323
+    },
+    {
+      "t": 0.6,
+      "recall": 0.664,
+      "precision": 0.371
+    },
+    {
+      "t": 0.7,
+      "recall": 0.612,
+      "precision": 0.421
+    }
+  ],
+  "float16_kb": 59.7,
+  "exported_seed": 123
+}

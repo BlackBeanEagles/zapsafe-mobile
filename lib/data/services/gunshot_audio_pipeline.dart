@@ -6,7 +6,7 @@ import '../../native/pcm_window.dart';
 import '../models/inference_result.dart';
 import 'gunshot_detector.dart';
 
-/// Day 262 — joins the native rolling-PCM stream to `mg_gunshot_retrain`.
+/// Day 262 — joins the native rolling-PCM stream to `mg_gunshot_v2`.
 ///
 /// Mirrors `ScreamAudioPipeline`'s shape exactly (same native window
 /// source), but resamples to [GunshotDetectorV2.kSampleRate] (16 kHz, not

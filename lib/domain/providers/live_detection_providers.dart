@@ -42,7 +42,7 @@ import 'platform_channel_providers.dart';
 /// enum already has `scream` and `motion`, so no backend schema change was
 /// needed for either model wired today.
 ///
-/// Day 262 — added `mg_gunshot_retrain` (AUC 0.8913 on real AudioSet/
+/// Day 262 — added `mg_gunshot_v2` (AUC 0.8913 on real AudioSet/
 /// UrbanSound8K/FSD50K gunshot data, up from fp32 AUC 0.538 near-chance)
 /// and `m2_motion_b_retrain` (test AUC 0.9808 on held-out real SisFall
 /// falls, up from bit-exact 0.0). Both required a real backend schema
@@ -140,7 +140,7 @@ final gunshotDetectorProvider = FutureProvider<GunshotDetectorV2?>((ref) async {
 });
 
 /// Live gunshot pipeline: native 16,000 Hz / 3 s PCM stream -> mel image ->
-/// mg_gunshot_retrain. Null while the detector is still loading or failed
+/// mg_gunshot_v2. Null while the detector is still loading or failed
 /// to load.
 final gunshotAudioPipelineProvider =
     Provider<GunshotAudioPipeline?>((ref) {

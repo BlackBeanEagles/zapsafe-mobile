@@ -1,0 +1,9 @@
+{
+  "best_auc": 0.6549,
+  "best_epoch": 2,
+  "frozen": 0.7054,
+  "dim38": 0.6875,
+  "gain_vs_frozen": -0.0505,
+  "gain_vs_38dim": -0.0326,
+  "verdict": "CLOSED - fine-tuning adds little over probing; the representation is not the lever and item 7 is settled"
+}

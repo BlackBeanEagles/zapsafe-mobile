@@ -46,7 +46,7 @@ import 'mel_spectrogram.dart';
 /// HOP, FMAX, IMG = 16000, 2.0, 96, 2048, 512, 8000, 96`), not inferred
 /// from the tensor shape:
 ///
-/// | | mg_gunshot_retrain | m_glass_breaking_v4 |
+/// | | mg_gunshot_v2 | m_glass_breaking_v4 |
 /// |---|---|---|
 /// | Sample rate | 16,000 Hz | 16,000 Hz |
 /// | Window | 3 s (48,000) | **2 s (32,000)** |
