@@ -125,17 +125,40 @@ class GunshotDetectorV2 implements Interpreter {
   ///     0.70     +0.558      +0.155         0.612          0.208
   ///     0.45     +0.597      +0.387         0.709          0.532
   ///
-  /// **0.45 is better on both corpora and would more than double real-world
+  /// **0.45 is better on both corpora and more than doubles real-world
   /// recall.** It is not free: FSD50K precision falls 0.421 → 0.288 and the
-  /// firing rate roughly doubles (FPR 0.054 → 0.112). For a DCS fusion
-  /// contributor that is very likely the right trade — this class doc
-  /// already argues a signal carrying little information is the failure
-  /// mode to avoid — but it changes alerting behaviour, so it is left as a
-  /// recorded recommendation rather than applied silently.
+  /// firing rate roughly doubles (FPR 0.054 → 0.112).
+  ///
+  /// ## Day 361C — 0.45 APPLIED
+  ///
+  /// Approved after review of the evidence above. The trade is right for
+  /// what this detector actually is: a **DCS fusion contributor**, not an
+  /// alert trigger. The paragraph above about v1 argues exactly this — a
+  /// signal that carries little information is the failure mode to avoid —
+  /// and at 0.70 the signal was "no" 80% of the time a gun was fired.
+  ///
+  /// What changed, concretely:
+  ///
+  ///     t=0.70 -> 0.45      FSD50K            AudioSet
+  ///     recall           0.612 -> 0.709    0.208 -> 0.532
+  ///     precision        0.421 -> 0.288    0.167 -> 0.156
+  ///     fires on         5.4%  -> 11.2%    5.3%  -> 14.6%
+  ///     Youden J        +0.558 -> +0.597  +0.155 -> +0.387
+  ///
+  /// **This roughly doubles the false-positive rate.** That is acceptable
+  /// for a fusion input weighted alongside other signals and would NOT be
+  /// acceptable if this fired an SOS on its own. If this detector is ever
+  /// promoted to a direct trigger, re-derive the threshold for that use —
+  /// do not inherit 0.45.
+  ///
+  /// Chosen by sweeping one grid on BOTH corpora and taking the best
+  /// **worst-case** Youden J, a rule fixed before looking at results so a
+  /// strong in-domain number could not hide an out-of-domain failure. That
+  /// is the method 0.70 lacked: it was optimal on FSD50K alone.
   ///
   /// Full curves and caveats (59/77 positives, wide CIs, AudioSet is weakly
   /// labelled YouTube audio): DAY361_CROSS_CORPUS_GLASS_AND_GUNSHOT.md
-  static const double kDefaultThreshold = 0.70;
+  static const double kDefaultThreshold = 0.45;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;

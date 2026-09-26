@@ -76,11 +76,34 @@ void main() {
       expect(golden['flat_len'], GlassBreakDetector.kInputFloats);
     });
 
-    test('threshold is the measured 0.22, not the report\'s 0.8754', () {
-      // 0.8754 was chosen on 13 positives. On 265 the curve is already down
-      // to recall 0.283 by t=0.795. Shipping it would have been a detector
-      // that fires on fewer than a third of real breaking glass.
-      expect(GlassBreakDetector.kDefaultThreshold, 0.22);
+    test('threshold is the cross-corpus 0.30, not 0.22 and not 0.8754', () {
+      // Three values have been proposed for this constant, and the two
+      // rejected ones failed in OPPOSITE directions:
+      //
+      //   0.8754  chosen on 13 positives. On 265 the curve is already down
+      //           to recall 0.283 by t=0.795 — fires on fewer than a third
+      //           of real breaking glass.
+      //   0.22    chosen on FSD50K alone, where the score distribution is
+      //           bimodal and the extra recall looked nearly free. That
+      //           bimodality does not hold off-corpus: on AudioSet it fires
+      //           on 60% of ALL audio, which is a constant, not a detector.
+      //   0.30    best WORST-CASE Youden J across FSD50K and AudioSet, by a
+      //           rule fixed before the results were seen. Better than 0.22
+      //           on both corpora (J +0.528 vs +0.470, +0.273 vs +0.249).
+      //
+      // See DAY361_CROSS_CORPUS_GLASS_AND_GUNSHOT.md.
+      expect(GlassBreakDetector.kDefaultThreshold, 0.30);
+    });
+
+    test('glass and gunshot thresholds are not interchangeable', () {
+      // Both are mel-image detectors sharing np.resize wrap semantics, and
+      // both had their thresholds re-derived on Day 361 from the same sweep
+      // — which makes swapping them a live copy-paste risk. They are not
+      // the same number and the models take different input sizes (glass
+      // 96/2.0 s, gunshot 128/3.0 s).
+      expect(GlassBreakDetector.kDefaultThreshold,
+          isNot(GunshotDetectorV2.kDefaultThreshold));
+      expect(GunshotDetectorV2.kDefaultThreshold, 0.45);
     });
   });
 

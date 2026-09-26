@@ -135,15 +135,37 @@ class GlassBreakDetector implements Interpreter {
   ///     0.22     +0.470      +0.249       0.447        0.598
   ///     0.30     +0.528      +0.273       0.345        0.472
   ///
-  /// 0.30 is better on both. It costs recall (FSD 0.918 → 0.873, AudioSet
-  /// 0.847 → 0.746), which for a safety detector is a product decision, so
-  /// it is recorded rather than applied.
+  /// ## Day 361C — 0.30 APPLIED
+  ///
+  /// Approved after review. 0.30 is better on both corpora:
+  ///
+  ///     t=0.22 -> 0.30      FSD50K            AudioSet
+  ///     recall           0.918 -> 0.873    0.847 -> 0.746
+  ///     precision        0.219 -> 0.257    0.051 -> 0.057
+  ///     fires on        44.7%  -> 34.5%   59.8%  -> 47.2%
+  ///     Youden J        +0.470 -> +0.528  +0.249 -> +0.273
+  ///
+  /// **This deliberately gives up recall on a safety detector**, which is
+  /// normally the wrong direction — and the note above about 0.8754 exists
+  /// precisely because under-firing is how this model failed before. The
+  /// reason it is right here: at 0.22 the detector fired on **60% of all
+  /// real-world audio**, which is not a detector, it is a constant. A
+  /// signal that is on most of the time contributes nothing to fusion no
+  /// matter how high its recall.
+  ///
+  /// The argument for 0.22 was that the score distribution is strongly
+  /// bimodal, making the extra recall nearly free. **That bimodality is an
+  /// FSD50K property and does not hold off-corpus** — which is the same
+  /// thing the AUC collapse above says, in threshold form.
+  ///
+  /// Chosen by sweeping one grid on BOTH corpora and taking the best
+  /// **worst-case** Youden J, a rule fixed before looking at results.
   ///
   /// The 2.0 s window above is load-bearing in this measurement: a first
   /// pass fed this model 3.0 s and produced a confident wrong result
   /// (FPR 0.975) that was nearly written up — exactly what this class doc
   /// warns about. See DAY361_CROSS_CORPUS_GLASS_AND_GUNSHOT.md.
-  static const double kDefaultThreshold = 0.22;
+  static const double kDefaultThreshold = 0.30;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;
