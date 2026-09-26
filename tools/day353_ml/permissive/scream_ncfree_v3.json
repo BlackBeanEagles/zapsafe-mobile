@@ -1,0 +1,13 @@
+{
+  "shipped_auc_same_fixture": 0.8284,
+  "ncfree_mean": 0.8192,
+  "ncfree_min": 0.8171,
+  "ncfree_max": 0.822,
+  "delta_mean": -0.0091,
+  "epochs": 30,
+  "batch": 32,
+  "n_train": 14709,
+  "n_pos": 2904,
+  "ship_rule": "worst seed >= shipped on the same fixture",
+  "ships": false
+}

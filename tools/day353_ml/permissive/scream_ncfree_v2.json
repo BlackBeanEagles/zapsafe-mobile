@@ -1,0 +1,17 @@
+{
+  "arm_A_mean": 0.7823,
+  "arm_B_mean": 0.7628,
+  "arm_C_mean": 0.79,
+  "arm_C_min": 0.7835,
+  "arm_C_max": 0.7954,
+  "delta_vs_A": 0.0077,
+  "n_train": 14709,
+  "n_pos": 2904,
+  "fresh_negatives": 2500,
+  "perm_pos": 218,
+  "perm_neg": 2300,
+  "ship_rule": ">= A - 0.005",
+  "holds": true,
+  "note": "arm C removes BOTH NC exposures: ESC-50 (CC BY-NC 3.0) and FSD50K's ~15% per-clip CC BY-NC slice, by re-extracting from the CC0/CC-BY lists instead of reusing the v5 cache, which has no filenames. DEMAND was rejected: CC BY-SA, and ShareAlike on a trained model is unsettled.",
+  "float16_kb": 59.9
+}
