@@ -1,0 +1,341 @@
+{
+  "rwf": {
+    "n": 400,
+    "pos": 215,
+    "auc": 0.9085,
+    "ci95": [
+      0.8784,
+      0.9361
+    ]
+  },
+  "xd": {
+    "n": 400,
+    "pos": 200,
+    "auc": 0.7247,
+    "ci95": [
+      0.6735,
+      0.7755
+    ]
+  },
+  "drop": 0.1838,
+  "intervals_overlap": false,
+  "shipped_threshold": 0.8,
+  "best_worst_case": {
+    "t": 0.25,
+    "rwf": {
+      "recall": 0.921,
+      "precision": 0.805,
+      "fpr": 0.259,
+      "J": 0.661
+    },
+    "xd": {
+      "recall": 0.73,
+      "precision": 0.719,
+      "fpr": 0.285,
+      "J": 0.445
+    }
+  },
+  "shipped_row": {
+    "t": 0.8,
+    "rwf": {
+      "recall": 0.507,
+      "precision": 0.924,
+      "fpr": 0.049,
+      "J": 0.458
+    },
+    "xd": {
+      "recall": 0.06,
+      "precision": 0.6,
+      "fpr": 0.04,
+      "J": 0.02
+    }
+  },
+  "grid": [
+    {
+      "t": 0.05,
+      "rwf": {
+        "recall": 0.991,
+        "precision": 0.625,
+        "fpr": 0.692,
+        "J": 0.299
+      },
+      "xd": {
+        "recall": 0.965,
+        "precision": 0.542,
+        "fpr": 0.815,
+        "J": 0.15
+      }
+    },
+    {
+      "t": 0.1,
+      "rwf": {
+        "recall": 0.986,
+        "precision": 0.695,
+        "fpr": 0.503,
+        "J": 0.483
+      },
+      "xd": {
+        "recall": 0.91,
+        "precision": 0.597,
+        "fpr": 0.615,
+        "J": 0.295
+      }
+    },
+    {
+      "t": 0.15,
+      "rwf": {
+        "recall": 0.972,
+        "precision": 0.755,
+        "fpr": 0.368,
+        "J": 0.605
+      },
+      "xd": {
+        "recall": 0.84,
+        "precision": 0.622,
+        "fpr": 0.51,
+        "J": 0.33
+      }
+    },
+    {
+      "t": 0.2,
+      "rwf": {
+        "recall": 0.953,
+        "precision": 0.774,
+        "fpr": 0.324,
+        "J": 0.629
+      },
+      "xd": {
+        "recall": 0.795,
+        "precision": 0.668,
+        "fpr": 0.395,
+        "J": 0.4
+      }
+    },
+    {
+      "t": 0.25,
+      "rwf": {
+        "recall": 0.921,
+        "precision": 0.805,
+        "fpr": 0.259,
+        "J": 0.661
+      },
+      "xd": {
+        "recall": 0.73,
+        "precision": 0.719,
+        "fpr": 0.285,
+        "J": 0.445
+      }
+    },
+    {
+      "t": 0.3,
+      "rwf": {
+        "recall": 0.902,
+        "precision": 0.822,
+        "fpr": 0.227,
+        "J": 0.675
+      },
+      "xd": {
+        "recall": 0.605,
+        "precision": 0.716,
+        "fpr": 0.24,
+        "J": 0.365
+      }
+    },
+    {
+      "t": 0.35,
+      "rwf": {
+        "recall": 0.851,
+        "precision": 0.843,
+        "fpr": 0.184,
+        "J": 0.667
+      },
+      "xd": {
+        "recall": 0.455,
+        "precision": 0.684,
+        "fpr": 0.21,
+        "J": 0.245
+      }
+    },
+    {
+      "t": 0.4,
+      "rwf": {
+        "recall": 0.823,
+        "precision": 0.843,
+        "fpr": 0.178,
+        "J": 0.645
+      },
+      "xd": {
+        "recall": 0.36,
+        "precision": 0.661,
+        "fpr": 0.185,
+        "J": 0.175
+      }
+    },
+    {
+      "t": 0.45,
+      "rwf": {
+        "recall": 0.781,
+        "precision": 0.87,
+        "fpr": 0.135,
+        "J": 0.646
+      },
+      "xd": {
+        "recall": 0.255,
+        "precision": 0.637,
+        "fpr": 0.145,
+        "J": 0.11
+      }
+    },
+    {
+      "t": 0.5,
+      "rwf": {
+        "recall": 0.735,
+        "precision": 0.873,
+        "fpr": 0.124,
+        "J": 0.611
+      },
+      "xd": {
+        "recall": 0.215,
+        "precision": 0.632,
+        "fpr": 0.125,
+        "J": 0.09
+      }
+    },
+    {
+      "t": 0.55,
+      "rwf": {
+        "recall": 0.688,
+        "precision": 0.881,
+        "fpr": 0.108,
+        "J": 0.58
+      },
+      "xd": {
+        "recall": 0.17,
+        "precision": 0.607,
+        "fpr": 0.11,
+        "J": 0.06
+      }
+    },
+    {
+      "t": 0.6,
+      "rwf": {
+        "recall": 0.656,
+        "precision": 0.887,
+        "fpr": 0.097,
+        "J": 0.559
+      },
+      "xd": {
+        "recall": 0.13,
+        "precision": 0.565,
+        "fpr": 0.1,
+        "J": 0.03
+      }
+    },
+    {
+      "t": 0.65,
+      "rwf": {
+        "recall": 0.628,
+        "precision": 0.9,
+        "fpr": 0.081,
+        "J": 0.547
+      },
+      "xd": {
+        "recall": 0.11,
+        "precision": 0.595,
+        "fpr": 0.075,
+        "J": 0.035
+      }
+    },
+    {
+      "t": 0.7,
+      "rwf": {
+        "recall": 0.586,
+        "precision": 0.9,
+        "fpr": 0.076,
+        "J": 0.51
+      },
+      "xd": {
+        "recall": 0.11,
+        "precision": 0.667,
+        "fpr": 0.055,
+        "J": 0.055
+      }
+    },
+    {
+      "t": 0.75,
+      "rwf": {
+        "recall": 0.553,
+        "precision": 0.915,
+        "fpr": 0.059,
+        "J": 0.494
+      },
+      "xd": {
+        "recall": 0.085,
+        "precision": 0.607,
+        "fpr": 0.055,
+        "J": 0.03
+      }
+    },
+    {
+      "t": 0.8,
+      "rwf": {
+        "recall": 0.507,
+        "precision": 0.924,
+        "fpr": 0.049,
+        "J": 0.458
+      },
+      "xd": {
+        "recall": 0.06,
+        "precision": 0.6,
+        "fpr": 0.04,
+        "J": 0.02
+      }
+    },
+    {
+      "t": 0.85,
+      "rwf": {
+        "recall": 0.465,
+        "precision": 0.926,
+        "fpr": 0.043,
+        "J": 0.422
+      },
+      "xd": {
+        "recall": 0.03,
+        "precision": 0.5,
+        "fpr": 0.03,
+        "J": 0.0
+      }
+    },
+    {
+      "t": 0.9,
+      "rwf": {
+        "recall": 0.358,
+        "precision": 0.928,
+        "fpr": 0.032,
+        "J": 0.326
+      },
+      "xd": {
+        "recall": 0.025,
+        "precision": 0.5,
+        "fpr": 0.025,
+        "J": 0.0
+      }
+    },
+    {
+      "t": 0.95,
+      "rwf": {
+        "recall": 0.26,
+        "precision": 0.966,
+        "fpr": 0.011,
+        "J": 0.25
+      },
+      "xd": {
+        "recall": 0.015,
+        "precision": 0.6,
+        "fpr": 0.01,
+        "J": 0.005
+      }
+    }
+  ],
+  "note": "RWF is the corpus m3 trained on; the gate scores it there. Both corpora carry violence labels, so the construct matches and only the domain differs. Nothing retrained."
+}

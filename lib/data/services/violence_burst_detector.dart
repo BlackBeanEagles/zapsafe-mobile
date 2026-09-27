@@ -87,7 +87,51 @@ class ViolenceBurstDetector {
   ///
   /// Still not calibrated on real *device* footage; these are held-out
   /// dataset clips.
-  static const double kDefaultThreshold = 0.80;
+  ///
+  /// ## Day 364B — 0.80 → 0.25. Every number above is from ONE corpus.
+  ///
+  /// The table above is RWF-2000, which is what this model trained on.
+  /// Measured on XD-Violence, which it has never seen (400 clips, 200
+  /// violent), the model itself drops hard and the operating point
+  /// collapses:
+  ///
+  ///     AUC   RWF-2000   0.9085  [0.878, 0.936]
+  ///           XD-Violence 0.7247 [0.674, 0.775]     intervals do NOT overlap
+  ///
+  ///     at t=0.80    RWF recall 0.507  J +0.458
+  ///                  XD  recall **0.060**  J +0.020
+  ///
+  /// **At the shipped threshold this detector labels 6% of real off-corpus
+  /// violence.** That is the `scream_classifier` pattern again — a card that
+  /// reads well in-domain and a detector that almost never fires in the
+  /// world.
+  ///
+  /// Sweeping one grid on BOTH corpora and taking the best **worst-case**
+  /// Youden J (the rule fixed before looking, same as Day 361C for glass and
+  /// gunshot):
+  ///
+  ///     t       RWF J    XD J    RWF recall   XD recall
+  ///     0.80   +0.458   +0.020     0.507        0.060
+  ///     0.25   +0.661   +0.445     0.921        0.730
+  ///
+  /// **0.25 is better on both corpora, by a lot** — and it is better on
+  /// RWF than the value that was chosen *on* RWF, because 0.80 was picked to
+  /// buy precision rather than to maximise separation.
+  ///
+  /// The cost is real: RWF false-positive rate 0.049 → 0.259 and precision
+  /// 0.924 → 0.805. On XD-Violence precision actually *improves*
+  /// (0.600 → 0.719). The precision argument above still holds in spirit,
+  /// but it was made against an in-corpus curve where 0.80 looked nearly
+  /// free; off-corpus it costs 92% of recall.
+  ///
+  /// **This does not change SOS escalation.** As the note above says, the
+  /// fusion reads the raw `violence` probability from `classScores`, which
+  /// is populated unconditionally — so the DCS fused score is byte-identical
+  /// either side of this change. What moves is the reported label and what
+  /// is submitted as evidence.
+  ///
+  /// See DAY364B_M3_OFF_CORPUS.md.
+  static const double kDefaultThreshold = 0.25;
 
   final tfl.Interpreter _encoder;
   final tfl.Interpreter _temporal;

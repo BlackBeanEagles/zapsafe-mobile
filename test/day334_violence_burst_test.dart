@@ -107,17 +107,28 @@ void main() {
       );
     });
 
-    test('threshold is calibrated for precision, not the sigmoid midpoint',
+    test('threshold is the cross-corpus 0.25, not the in-corpus 0.80',
         () {
-      // Day 337 — measured on all 670 held-out val clips:
+      // Day 337 chose 0.80 on 670 held-out RWF clips, to buy precision:
       //   0.50 -> recall 0.743, precision 0.862, FP-rate 0.127
       //   0.80 -> recall 0.538, precision 0.935, FP-rate 0.040
-      // A third the false-positive rate. This is a corroborating signal that
-      // only runs after something else raised suspicion, and escalation now
-      // actually fires, so a wrong label costs more than a missed one.
-      expect(ViolenceBurstDetector.kDefaultThreshold, 0.80);
-      expect(ViolenceBurstDetector.kDefaultThreshold, greaterThan(0.5),
-          reason: 'the midpoint fired on 12.7% of non-violent clips');
+      //
+      // Day 364B: every one of those numbers is from RWF-2000, the corpus
+      // this model TRAINED on. On XD-Violence, never seen, the model drops
+      // 0.9085 -> 0.7247 (CIs do not overlap) and 0.80 labels just **6%** of
+      // real violence (recall 0.060, Youden J +0.020).
+      //
+      // Swept on BOTH corpora, scored by the WORSE of the two J values:
+      //   t=0.80   RWF J +0.458   XD J +0.020
+      //   t=0.25   RWF J +0.661   XD J +0.445
+      // 0.25 wins on both — including on RWF, beating the value that was
+      // picked on RWF, because 0.80 optimised precision rather than
+      // separation.
+      //
+      // This does NOT change SOS escalation: the fusion reads the raw
+      // `violence` probability from classScores, which is populated
+      // unconditionally. See DAY364B_M3_OFF_CORPUS.md.
+      expect(ViolenceBurstDetector.kDefaultThreshold, 0.25);
     });
   });
 
