@@ -1,0 +1,23 @@
+{
+  "n_windows": 9706,
+  "n_videos": 100,
+  "per_window": {
+    "p10": 0.0157,
+    "p25": 0.0518,
+    "p50": 0.1991,
+    "p75": 0.4999,
+    "p90": 0.7631,
+    "p99": 0.9758
+  },
+  "per_window_mean": 0.3009,
+  "max_over_video_median": 0.8799,
+  "frac_above": {
+    "0.3": 0.4027,
+    "0.5": 0.2501,
+    "0.7": 0.1323,
+    "0.9": 0.0401
+  },
+  "dcs_contribution_per_window": 0.0995,
+  "fall_plus_ambient_per_window": 0.3995,
+  "corrects": "DAY363D reported max-over-video (median 0.898) and compared it to a single-window AudioSet figure. The DCS engine scores one window at a time, so the per-window distribution is the correct ambient baseline."
+}

@@ -1,5 +1,21 @@
 # Day 363D — M9 finally has real multimodal data. Fusion doesn't help, and something worse turned up.
 
+> **CORRECTED BY DAY 364. Sections 2 and 3 of this note are WRONG.**
+>
+> The "scream is saturated, median 0.898 on non-violent audio" finding is an
+> artifact: that number is a **max over ~50 windows of a whole video**, compared
+> against a **single-window** figure. Measured per window — which is what the
+> DCS engine actually scores — the ambient median is **0.199**, the detector is
+> not saturated, and **ambient audio alone never crosses the threshold** in any
+> window triplet of any video. The claim that "a fall alone escalates 48.5% of
+> the time" is **retracted**.
+>
+> Section 1 (fusion does not beat its best single input; the shipped weights are
+> worse than scene alone) **stands** — it is a rank comparison on identical rows
+> and does not depend on the windowing.
+>
+> See `DAY364_CORRECTION_SCREAM_IS_NOT_SATURATED.md`.
+
 The 800-video XD-Violence test split downloaded and 400 videos ran through
 the **real shipped detectors** — audio through `scream_classifier_v5`,
 frames through `mobilenetv3small_encoder` → `m3_violence_temporal_v1`.
