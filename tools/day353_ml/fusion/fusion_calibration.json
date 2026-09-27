@@ -1,0 +1,43 @@
+{
+  "scream": {
+    "a": 3.7674,
+    "b": -1.9535,
+    "auc": 0.86,
+    "llr_span_nats": 3.6581,
+    "pos": 123,
+    "n": 1023,
+    "score_p5": 0.0019,
+    "score_p95": 0.9729
+  },
+  "glass": {
+    "a": 1.7036,
+    "b": -0.7368,
+    "auc": 0.6877,
+    "llr_span_nats": 1.5283,
+    "pos": 59,
+    "n": 1598,
+    "score_p5": 0.033,
+    "score_p95": 0.9301
+  },
+  "gun": {
+    "a": 2.8456,
+    "b": -1.076,
+    "auc": 0.7006,
+    "llr_span_nats": 1.7373,
+    "pos": 77,
+    "n": 1598,
+    "score_p5": 0.1212,
+    "score_p95": 0.7317
+  },
+  "implied_weights_audio_only": {
+    "scream": 0.5283,
+    "glass": 0.2207,
+    "gun": 0.2509
+  },
+  "shipped_weights": {
+    "scream": 0.5,
+    "motion": 0.3,
+    "scene": 0.2
+  },
+  "note": "LLR span = how many nats of evidence the detector's score range actually carries. Calibration is monotone so single-detector AUC is unchanged; the point is to make the three scores ADDABLE. The fused model is NOT validated end-to-end -- that needs co-occurring multimodal incident data, which is what M9 lacks."
+}

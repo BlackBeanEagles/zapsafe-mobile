@@ -1,0 +1,33 @@
+{
+  "scream": {
+    "auc": 0.86,
+    "llr_span_nats": 3.6581,
+    "source": "part 1, AudioSet"
+  },
+  "motion": {
+    "a": 5.1279,
+    "b": -2.3189,
+    "auc": 0.9986,
+    "llr_span_nats": 5.1266,
+    "pos": 80,
+    "n": 160
+  },
+  "scene": {
+    "a": 4.7161,
+    "b": -2.0735,
+    "auc": 0.9085,
+    "llr_span_nats": 4.5692,
+    "pos": 215,
+    "n": 400
+  },
+  "shipped_weights": {
+    "scream": 0.5,
+    "motion": 0.3,
+    "scene": 0.2
+  },
+  "implied_weights": {
+    "scream": 0.2739,
+    "motion": 0.3839,
+    "scene": 0.3422
+  }
+}
