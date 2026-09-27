@@ -1,0 +1,19 @@
+{
+  "n": 400,
+  "positives": 200,
+  "scream_alone": 0.6408,
+  "scene_alone": 0.7247,
+  "shipped_linear": 0.6951,
+  "calibrated_llr": 0.7247,
+  "learned_oof": 0.7224,
+  "best_single": 0.7247,
+  "gain_vs_best_single": -0.0025,
+  "ci95": [
+    -0.0298,
+    0.0235
+  ],
+  "p_fusion_not_better": 0.577,
+  "fusion_helps": false,
+  "motion_input": "ABSENT - XD-Violence has no IMU",
+  "caveat": "XD-Violence 'violent' (movie/web fights, riots, explosions) is not this app's 'SOS-worthy'. These AUCs measure transfer to a related construct in a different domain."
+}
