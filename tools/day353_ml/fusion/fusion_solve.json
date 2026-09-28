@@ -1,0 +1,12 @@
+{
+  "best": null,
+  "n_feasible": 0,
+  "top": [],
+  "constraints": {
+    "A": "==0",
+    "B": "<=0.02",
+    "singles": "< T",
+    "scream+motion": ">= T"
+  },
+  "caveat": "C/D use XD-Violence violent clips as the incident proxy; movie violence is not this app's SOS case. Only co-occurring multimodal data available."
+}
