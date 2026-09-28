@@ -80,10 +80,10 @@ It pairs with the Django/DRF backend at
 `C:\Users\hridy\Desktop\zapsafe\letsstartbuilding\zapsafe_mobile`
 
 ### Timelines being followed
-- **Frontend timeline:** `C:\Users\hridy\Desktop\zapsafeworking\ZAPSAFE_FRONTEND_TIMELINE.md`
-- **Master timeline:** `C:\Users\hridy\Desktop\zapsafeworking\ZAPSAFE_MASTER_TIMELINE.md`
+- **Frontend timeline:** `zapsafe_backend/docs/planning/spec/ZAPSAFE_FRONTEND_TIMELINE.md`
+- **Master timeline:** `zapsafe_backend/docs/planning/spec/ZAPSAFE_MASTER_TIMELINE.md`
 - **Days completed:** 1–40 (Month 1 + Month 2 BOTH SHIPPED = 40/390)
-- **Day 41 = NEXT** — Month 3 begins. Onboarding wrapper (5-step flow: choose UI mode → home pin on OSM map → first contact → medical card → done · Protection Score starts at 40). Also kicks off **ML training subscription window** — full strategy in `C:\Users\hridy\Desktop\zapsafeworking\ZAPSAFE_ML_TRAINING_STRATEGY.md`.
+- **Day 41 = NEXT** — Month 3 begins. Onboarding wrapper (5-step flow: choose UI mode → home pin on OSM map → first contact → medical card → done · Protection Score starts at 40). Also kicks off **ML training subscription window** — full strategy in `zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY.md`.
 - **🟡 Paid subs · DAY 41 (TOMORROW)**: **HuggingFace Pro $9/mo** kicks in. See the ML training strategy doc above for the rationale.
 
 ### Stack & key packages
@@ -559,7 +559,7 @@ the top of the Day 5 navigation index per the Day 35+ regression rule.
 
 🔴 **BLOCKING** (cost): **HuggingFace Pro · $9/mo** kicks in tomorrow per
 the optimized solo-founder cost roadmap. Full ML training strategy lives
-at `C:\Users\hridy\Desktop\zapsafeworking\ZAPSAFE_ML_TRAINING_STRATEGY.md`
+at `zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY.md`
 — read it before sign-up.
 
 🟡 OPTIONAL: `flutter_map ^6.0.0` is already in pubspec (added Day 1)

@@ -8,7 +8,7 @@ void main() {
     test('declares the expected slots in order', () {
       expect(kZapsafeModels.length, 6);
       // Day 325 added 'vocal_stress' (M5). The plan's roster
-      // (zapsafeworking/ZAPSAFE_ML_TRAINING_STRATEGY.md) runs M1-M9, so this
+      // (zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY.md) runs M1-M9, so this
       // list grows as slots get real models -- it is not capped at five.
       expect(kZapsafeModels.map((m) => m.key).toList(), [
         'scream',

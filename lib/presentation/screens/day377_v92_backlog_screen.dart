@@ -13,7 +13,7 @@
 ///   Trusted Circle, Ride Safety, Fake Call, Offline SOS), "Deferred to
 ///   a hypothetical v9.2+." That prior decision is reused verbatim here,
 ///   not re-decided.
-/// - **Federated learning**: `zapsafeworking/ZAPSAFE_ML_TRAINING_STRATEGY
+/// - **Federated learning**: `zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY
 ///   .md` already plans this for real — "M6 Personal Baseline (0.9 MB)
 ///   — On-device (federated learning)... post-launch, Month 10+" and
 ///   `ZAPSAFE_TRAINING_AND_COSTS.md` costs it at "\$200-500" via AWS
@@ -100,7 +100,7 @@ Map<String, dynamic> _payload() => {
       ],
       'wire_note': 'Real roadmap/backlog screen. Wearables + federated learning '
           'grounded in this project\'s own real prior decisions (found by '
-          'checking Scope Pivots history and zapsafeworking/ docs directly). '
+          'checking Scope Pivots history and the planning docs directly). '
           'Counselor chat honestly labeled a new proposal.',
     };
 

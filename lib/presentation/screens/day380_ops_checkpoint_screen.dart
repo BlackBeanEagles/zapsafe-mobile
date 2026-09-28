@@ -103,7 +103,7 @@ const _kOpsCheckpointRows = [
     day: 'Day 376',
     title: 'Month 10 Ops Milestone',
     kind: _Kind.statusDoc,
-    note: 'Real ops-status screen. "Month 10" convention traced to zapsafeworking/'
+    note: 'Real ops-status screen. "Month 10" convention traced to zapsafe_backend/docs/planning/spec/'
         'ZAPSAFE_MASTER_TIMELINE.md\'s real usage (post-launch scale era) since day5\'s own Month-N '
         'numbering stopped incrementing at Month 11/Day 201 — documented honestly rather than '
         'inventing a new scheme.',

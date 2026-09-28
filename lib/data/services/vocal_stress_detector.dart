@@ -23,7 +23,7 @@ import 'vocal_stress_features.dart';
 /// against an APAC task. **Prosodic stress does not transfer across
 /// languages** — the Day 324 run proved it directly by producing an
 /// excellent English model (val AUC 0.9807) that scored *below chance* on
-/// held-out Mandarin. `zapsafeworking/ZAPSAFE_ML_TRAINING_STRATEGY.md`
+/// held-out Mandarin. `zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY.md`
 /// already separates M4 (Vocal Stress EN) from M5 (Vocal Stress APAC); the
 /// fix was to stop expecting one model to cover both, not to add more data.
 /// Day 275 had already falsified "more data".

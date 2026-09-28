@@ -14,7 +14,7 @@
 /// so there is no "Month 19" to linearly extend that scheme to Day 376.
 ///
 /// The real source that actually uses "Month 10" consistently is
-/// `zapsafeworking/ZAPSAFE_MASTER_TIMELINE.md` and
+/// `zapsafe_backend/docs/planning/spec/ZAPSAFE_MASTER_TIMELINE.md` and
 /// `ZAPSAFE_ML_TRAINING_STRATEGY.md` — both read directly this session —
 /// where "Month 10" names the **post-launch scale-up era**: federated
 /// learning ("M6 Personal Baseline... post-launch, Month 10+"),
@@ -97,7 +97,7 @@ const _kOpsItems = [
 ];
 
 Map<String, dynamic> _payload() => {
-      'month10_source_convention': 'zapsafeworking/ZAPSAFE_MASTER_TIMELINE.md + '
+      'month10_source_convention': 'zapsafe_backend/docs/planning/spec/ZAPSAFE_MASTER_TIMELINE.md + '
           'ZAPSAFE_ML_TRAINING_STRATEGY.md — post-launch scale-up era, not a literal '
           'continuation of day5_navigation_index_screen.dart\'s Month-N-per-20-days scheme '
           '(which plateaued at Month 11 / Day 201 before switching to Section-letters)',
@@ -133,7 +133,7 @@ class Day376Month10OpsScreen extends ConsumerWidget {
                   child: Text(
                     '"Month 10" is not a literal continuation of day5\'s Month-'
                     'numbering (which plateaued at Month 11 / Day 201). It is '
-                    'the real term zapsafeworking\'s own master timeline uses '
+                    'the real term the project\'s own master timeline uses '
                     'for the post-launch scale-up era — federated learning, '
                     'multi-region infra, police coordination — which is '
                     'exactly what Section N is about.',
@@ -154,8 +154,8 @@ class Day376Month10OpsScreen extends ConsumerWidget {
                 Text('Checked directly', style: TextStyle(color: ZapColors.textPrimary, fontWeight: FontWeight.w800, fontSize: 13)),
                 SizedBox(height: 6),
                 Text('• zapsafe_backend/TIMELINE_FROM_DAY71.md: 0 mentions of "Month 10" or Days 257-286 (confirmed stale).', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.5)),
-                Text('• zapsafeworking/ZAPSAFE_MASTER_TIMELINE.md: "Django monolith first, microservices later (Month 10)"; "Infrastructure scale: End Month 10 → Multi-region, 100K users".', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.5)),
-                Text('• zapsafeworking/ZAPSAFE_ML_TRAINING_STRATEGY.md: federated learning "post-launch, Month 10+".', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.5)),
+                Text('• zapsafe_backend/docs/planning/spec/ZAPSAFE_MASTER_TIMELINE.md: "Django monolith first, microservices later (Month 10)"; "Infrastructure scale: End Month 10 → Multi-region, 100K users".', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.5)),
+                Text('• zapsafe_backend/docs/planning/spec/ZAPSAFE_ML_TRAINING_STRATEGY.md: federated learning "post-launch, Month 10+".', style: TextStyle(color: ZapColors.textMuted, fontSize: 11, height: 1.5)),
               ],
             ),
           ),
