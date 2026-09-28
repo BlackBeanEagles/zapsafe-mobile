@@ -36,7 +36,11 @@
     "active": "SOS กำลังทำงาน",
     "sent": "ส่งการแจ้งเตือนถึง {count} รายชื่อติดต่อแล้ว",
     "escalating": "กำลังยกระดับ…",
-    "false_alarm": "นี่เป็นการแจ้งเตือนเท็จหรือไม่"
+    "false_alarm": "นี่เป็นการแจ้งเตือนเท็จหรือไม่",
+    "hold_to_activate": "กดค้างเพื่อเปิด SOS เหลืออีก {seconds} วินาที",
+    "seconds_remaining": "เหลืออีก {seconds} วินาที",
+    "cancelled_announcement": "ยกเลิกแล้ว",
+    "activated_announcement": "เปิด SOS แล้ว"
   },
   "home": {
     "title": "ZapSafe",

@@ -36,7 +36,11 @@
     "active": "SOS فعال",
     "sent": "هشدار به {count} مخاطب ارسال شد",
     "escalating": "در حال تشدید…",
-    "false_alarm": "آیا این هشدار کاذب بود؟"
+    "false_alarm": "آیا این هشدار کاذب بود؟",
+    "hold_to_activate": "برای فعال‌سازی SOS نگه دارید، {seconds} ثانیه باقی مانده",
+    "seconds_remaining": "{seconds} ثانیه باقی مانده",
+    "cancelled_announcement": "لغو شد",
+    "activated_announcement": "SOS فعال شد"
   },
   "home": {
     "title": "ZapSafe",

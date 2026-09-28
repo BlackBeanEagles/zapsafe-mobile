@@ -36,7 +36,11 @@
     "active": "SOS INAENDESHWA",
     "sent": "Tahadhari imetumwa kwa mawasiliano {count}",
     "escalating": "Inazidishwa…",
-    "false_alarm": "Je, hii ilikuwa tahadhari ya uongo?"
+    "false_alarm": "Je, hii ilikuwa tahadhari ya uongo?",
+    "hold_to_activate": "Bonyeza na ushikilie kuwasha SOS, sekunde {seconds} zimesalia",
+    "seconds_remaining": "Sekunde {seconds} zimesalia",
+    "cancelled_announcement": "Imeghairiwa",
+    "activated_announcement": "SOS imewashwa"
   },
   "home": {
     "title": "ZapSafe",

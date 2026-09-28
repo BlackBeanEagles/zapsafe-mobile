@@ -36,7 +36,11 @@
     "active": "SOS ACTIEF",
     "sent": "Melding verzonden naar {count} contacten",
     "escalating": "Escaleren…",
-    "false_alarm": "Was dit een vals alarm?"
+    "false_alarm": "Was dit een vals alarm?",
+    "hold_to_activate": "Houd ingedrukt om SOS te activeren, {seconds} seconden resterend",
+    "seconds_remaining": "{seconds} seconden resterend",
+    "cancelled_announcement": "Geannuleerd",
+    "activated_announcement": "SOS geactiveerd"
   },
   "home": {
     "title": "ZapSafe",

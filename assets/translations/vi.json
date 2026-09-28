@@ -36,7 +36,11 @@
     "active": "SOS ĐANG HOẠT ĐỘNG",
     "sent": "Đã gửi cảnh báo tới {count} liên hệ",
     "escalating": "Đang leo thang…",
-    "false_alarm": "Đây có phải là báo động giả không?"
+    "false_alarm": "Đây có phải là báo động giả không?",
+    "hold_to_activate": "Giữ để kích hoạt SOS, còn {seconds} giây",
+    "seconds_remaining": "Còn {seconds} giây",
+    "cancelled_announcement": "Đã hủy",
+    "activated_announcement": "Đã kích hoạt SOS"
   },
   "home": {
     "title": "ZapSafe",

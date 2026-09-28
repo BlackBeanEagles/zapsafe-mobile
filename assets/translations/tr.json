@@ -36,7 +36,11 @@
     "active": "SOS AKTİF",
     "sent": "Uyarı {count} kişiye gönderildi",
     "escalating": "Yükseltiliyor…",
-    "false_alarm": "Bu yanlış alarm mıydı?"
+    "false_alarm": "Bu yanlış alarm mıydı?",
+    "hold_to_activate": "SOS'u etkinleştirmek için basılı tutun, {seconds} saniye kaldı",
+    "seconds_remaining": "{seconds} saniye kaldı",
+    "cancelled_announcement": "İptal edildi",
+    "activated_announcement": "SOS etkinleştirildi"
   },
   "home": {
     "title": "ZapSafe",

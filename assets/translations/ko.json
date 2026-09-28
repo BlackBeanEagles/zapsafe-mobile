@@ -36,7 +36,11 @@
     "active": "SOS 작동 중",
     "sent": "{count}명의 연락처에 알림 전송됨",
     "escalating": "단계 상승 중…",
-    "false_alarm": "오작동이었나요?"
+    "false_alarm": "오작동이었나요?",
+    "hold_to_activate": "SOS를 활성화하려면 길게 누르세요. {seconds}초 남음",
+    "seconds_remaining": "{seconds}초 남음",
+    "cancelled_announcement": "취소됨",
+    "activated_announcement": "SOS 활성화됨"
   },
   "home": {
     "title": "ZapSafe",

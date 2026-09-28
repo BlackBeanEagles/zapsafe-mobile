@@ -36,7 +36,11 @@
     "active": "SOS AKTIF",
     "sent": "Alert dikirim ke {count} kontak",
     "escalating": "Meningkatkan eskalasi…",
-    "false_alarm": "Apakah ini alarm palsu?"
+    "false_alarm": "Apakah ini alarm palsu?",
+    "hold_to_activate": "Tahan untuk mengaktifkan SOS, {seconds} detik tersisa",
+    "seconds_remaining": "{seconds} detik tersisa",
+    "cancelled_announcement": "Dibatalkan",
+    "activated_announcement": "SOS diaktifkan"
   },
   "home": {
     "title": "ZapSafe",
