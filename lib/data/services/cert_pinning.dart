@@ -75,13 +75,69 @@ class CertPinning {
   /// contributor.
   static const _pinnedHost = 'zapsafe.app';
 
-  /// SHA-256(DER) of each cert in the real zapsafe.app chain, captured
-  /// 2026-08-08. See class doc for the re-verification requirement.
+  /// Date the pins below were captured from the live host. Paired with
+  /// [pinnedLeafNotAfter] by `test/cert_pinning_staleness_test.dart`, which
+  /// FAILS the build before the cert rotates rather than after.
+  static final DateTime pinsCapturedOn = DateTime.utc(2026, 9, 28);
+
+  /// `notAfter` of the pinned leaf. The staleness test fails once the build
+  /// date is within [pinRefreshLeadDays] of this.
+  static final DateTime pinnedLeafNotAfter = DateTime.utc(2026, 12, 11);
+
+  /// How long before leaf expiry the staleness test starts failing.
+  ///
+  /// 21 days, because Google Trust Services renews ~30 days early: the
+  /// 2026-08-08 pins were killed by a rotation on **2026-09-12**, more than
+  /// a month before that leaf's own 2026-10-13 expiry. Keying the alarm to
+  /// expiry alone would therefore have fired far too late.
+  static const int pinRefreshLeadDays = 21;
+
+  /// SHA-256(DER) of the zapsafe.app leaf, re-captured **2026-09-28**.
+  ///
+  /// ## Day 366 — the previous pin set was DEAD, and the app was failing closed
+  ///
+  /// The 2026-08-08 pins were verified against the live host on 2026-09-28
+  /// and **none of the three matched**. The leaf had rotated on 2026-09-12
+  /// (valid 2026-09-12 → 2026-12-11). Because [buildPinnedHttpClient] uses
+  /// `SecurityContext(withTrustedRoots: false)`, the pin callback is the
+  /// ONLY gate — so every release-build HTTPS call to zapsafe.app, SOS
+  /// dispatch included, would have failed. The class doc above predicted
+  /// exactly this and asked for a pre-release re-verification that did not
+  /// happen; the staleness test now does it automatically.
+  ///
+  /// ## Only the LEAF is pinned now, because only the leaf is ever checked
+  ///
+  /// The old list carried intermediate and root pins and the doc above
+  /// describes accepting "any ONE match (leaf OR intermediate OR root)" as
+  /// resilience against rotation. **That cannot work with this API.**
+  /// `HttpClient.badCertificateCallback` receives the PEER (leaf)
+  /// certificate only — the intermediate and root are never passed to it,
+  /// so those two pins could never match anything and contributed no
+  /// resilience whatsoever. Keeping them implied a safety margin that did
+  /// not exist, which is worse than having none.
+  ///
+  /// The live intermediate is recorded below for operators, not as a pin:
+  ///   CN=WE1, O=Google Trust Services  —  expires 2029-02-20
+  ///   SHA-256(DER) oof/q3Ysxpom1IIDft9wH2U86JkCXGKn5cuIu5tBnLs=
+  /// (Note it does not match the old "intermediate" pin either, so that
+  /// entry was wrong independently of the leaf rotation.)
+  ///
+  /// ## This is now a ~quarterly maintenance obligation
+  ///
+  /// A 90-day leaf renewed 30 days early means this pin dies roughly every
+  /// two months. Pinning the leaf with `withTrustedRoots: false` buys real
+  /// MITM resistance and costs a release-blocking chore; for a safety app
+  /// the failure mode is "no SOS at all", so if that chore is ever missed
+  /// the right answer is to drop pinning, not to ship a stale pin.
   static const List<String> _pinsBase64 = [
-    'hloBp5WZcuI5zdMRTr4MgamT7/6e5WUPWhyHrN4z3ZY=', // leaf: CN=zapsafe.app (expires 2026-10-13)
-    'kIdp6NNEd8wsugYyyIYFsi1ylMCED3hZbSR8ZFsa/A4=', // intermediate: Google Trust Services WE1
-    'mEflZT5enoR1FuXLgYYGqnVEoZvmf9c2bVBpiOjYQ0c=', // root: Google Trust Services GTS Root R4
+    'AB8vhGEpDK4VExFtzJK+wHJFG/5mIKxHb24ixyrVpHM=', // leaf: CN=zapsafe.app (2026-09-12 → 2026-12-11)
   ];
+
+  /// Number of pins actually enforced. Exposed for
+  /// 47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=, which asserts this stays at 1:
+  /// badCertificateCallback only ever receives the leaf, so additional
+  /// entries cannot match and would imply a safety margin that is not real.
+  static int get pinCount => _pinsBase64.length;
 
   static bool _matchesPin(X509Certificate cert) {
     final hash = base64.encode(sha256.convert(cert.der).bytes);
