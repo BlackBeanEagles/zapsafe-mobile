@@ -4,35 +4,248 @@
   "common": {
     "save": "保存",
     "cancel": "キャンセル",
+    "ok": "OK",
     "back": "戻る",
-    "done": "完了"
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "loading": "読み込み中…",
+    "success": "成功",
+    "confirm": "確認",
+    "delete": "削除",
+    "edit": "編集",
+    "done": "完了",
+    "yes": "はい",
+    "no": "いいえ",
+    "close": "閉じる"
   },
   "sos": {
     "trigger": "SOSを発動",
     "countdown": "SOSまで{seconds}秒",
-    "active": "SOS作動中",
     "cancel": "SOSをキャンセル",
-    "sent": "{count}件の連絡先にアラートを送信しました"
+    "active": "SOS作動中",
+    "sent": "{count}件の連絡先にアラートを送信しました",
+    "escalating": "エスカレーション中…",
+    "false_alarm": "誤報でしたか？",
+    "hold_to_activate": "長押しでSOSを起動、残り{seconds}秒",
+    "seconds_remaining": "残り{seconds}秒",
+    "cancelled_announcement": "キャンセルしました",
+    "activated_announcement": "SOSを起動しました"
   },
   "home": {
+    "title": "ZapSafe",
     "status_safe": "あなたは安全です",
+    "monitoring": "監視中",
     "hold_for_sos": "長押しでSOS"
   },
   "settings": {
     "title": "設定",
-    "language": "言語"
+    "language": "言語",
+    "accessibility": "アクセシビリティ",
+    "notifications": "通知",
+    "privacy": "プライバシーとデータ",
+    "subscription": "サブスクリプション",
+    "profile": "プロフィール",
+    "help": "ヘルプとサポート",
+    "about": "ZapSafeについて"
   },
   "language": {
+    "title": "言語",
     "select": "言語を選択",
-    "rtl_note": "この言語は左から右に読みます"
+    "rtl_note": "この言語は左から右に読みます",
+    "changed": "言語を変更しました"
   },
   "contacts": {
-    "title": "緊急連絡先"
+    "title": "緊急連絡先",
+    "add": "連絡先を追加",
+    "tier_1": "第1優先 — 主要",
+    "tier_2": "第2優先 — 補助",
+    "empty": "連絡先がまだ登録されていません"
   },
   "auth": {
-    "verify": "確認"
+    "phone_title": "電話番号を入力",
+    "phone_hint": "+91 98765 43210",
+    "send_otp": "ワンタイムパスワードを送信",
+    "otp_title": "ワンタイムパスワードの確認",
+    "otp_hint": "6桁のコード",
+    "resend": "{seconds}秒後に再送信",
+    "verify": "確認",
+    "pin_title": "PINを設定",
+    "pin_confirm": "PINを確認"
   },
   "premium": {
-    "title": "プレミアムにアップグレード"
+    "title": "プレミアムにアップグレード",
+    "free": "無料",
+    "premium": "プレミアム",
+    "upgrade": "アップグレード",
+    "current_plan": "現在のプラン",
+    "cancel_sub": "サブスクリプションを解約"
+  },
+  "accessibility": {
+    "title": "アクセシビリティ",
+    "font_size": "文字サイズ",
+    "bold_text": "太字",
+    "high_contrast": "ハイコントラスト",
+    "reduce_motion": "視差効果を減らす"
+  },
+  "help": {
+    "title": "ヘルプとサポート",
+    "faq": "よくある質問",
+    "contact": "お問い合わせ",
+    "send": "メッセージを送信",
+    "response": "4時間以内に返信します"
+  },
+  "privacy": {
+    "title": "プライバシーとデータ",
+    "delete_account": "アカウントを削除",
+    "export_data": "データをエクスポート",
+    "encryption": "AES-256で暗号化"
+  },
+  "onboarding": {
+    "step1_title": "ZapSafeへようこそ",
+    "step1_desc": "あなたの個人安全パートナー — いつでも見守り、いつでも準備完了",
+    "step2_title": "緊急連絡先",
+    "step2_desc": "あなたを気にかけてくれる人を追加 — 家族、友人、同僚",
+    "step3_title": "位置情報と音声",
+    "step3_desc": "リアルタイムの脅威検知には位置情報とマイクが必要です",
+    "step4_title": "アラートをカスタマイズ",
+    "step4_desc": "生活スタイルに合った感度を設定しましょう",
+    "step5_title": "準備完了！",
+    "step5_desc": "ZapSafeが有効になり、あなたを守る準備ができました。安全にお過ごしください。",
+    "next": "次へ",
+    "skip": "スキップ",
+    "get_started": "はじめる",
+    "page_of": "{total}件中{current}件目"
+  },
+  "permissions": {
+    "title": "アプリの権限",
+    "subtitle": "あなたを守るためにZapSafeにはこれらが必要です",
+    "location": "位置情報へのアクセス",
+    "location_desc": "SOS通報のたびに正確な座標が送信されます",
+    "microphone": "マイク",
+    "microphone_desc": "悲鳴、ガラスの破砕音、大きな衝撃音を検知します",
+    "notification": "通知",
+    "notification_desc": "緊急連絡先へ即座にSOS通報を送信します",
+    "contacts": "連絡先",
+    "contacts_desc": "既存の連絡先リストから人を選べるようにします",
+    "allow": "許可",
+    "deny": "後で",
+    "required": "必須",
+    "optional": "任意",
+    "all_set": "すべての権限が許可されました",
+    "missing": "{count}件の権限が必要です"
+  },
+  "push": {
+    "sos_title": "SOS通報",
+    "sos_body": "{name}さんが緊急事態を発信しました — タップして位置を表示",
+    "check_in_title": "チェックインの通知",
+    "check_in_body": "タップして無事を知らせてください",
+    "drill_title": "安全訓練",
+    "drill_body": "予定された訓練が始まります — タップして参加",
+    "contact_added": "{name}さんを緊急連絡先に追加しました",
+    "battery_low": "バッテリー残量が少なく、SOSを送信できない場合があります"
+  },
+  "detection": {
+    "title": "脅威検知",
+    "active": "検知中",
+    "inactive": "検知を一時停止",
+    "sensitivity": "感度",
+    "sensitivity_low": "低",
+    "sensitivity_medium": "中",
+    "sensitivity_high": "高",
+    "glass_break": "ガラスの破砕音を検知",
+    "distress_sound": "悲鳴を検知",
+    "loud_impact": "大きな衝撃音を検知",
+    "confidence": "信頼度",
+    "false_positive": "誤検知として報告"
+  },
+  "audio": {
+    "title": "音声モニター",
+    "listening": "聞き取り中…",
+    "paused": "一時停止",
+    "noise_floor": "暗騒音レベル",
+    "peak_level": "ピークレベル",
+    "features": "音声特徴量",
+    "sample_rate": "サンプリング周波数",
+    "buffer_size": "バッファサイズ"
+  },
+  "drills": {
+    "title": "安全訓練",
+    "schedule": "訓練を予定する",
+    "run_now": "今すぐ訓練を実行",
+    "complete": "訓練完了",
+    "duration": "{minutes}分の訓練",
+    "passed": "合格",
+    "failed": "不合格",
+    "next_drill": "次の訓練",
+    "last_drill": "前回の訓練"
+  },
+  "zones": {
+    "title": "セーフゾーン",
+    "add": "ゾーンを追加",
+    "radius": "半径",
+    "exit_alert": "退出時に通知",
+    "enter_alert": "進入時に通知",
+    "active": "有効",
+    "home": "自宅",
+    "work": "職場",
+    "school": "学校",
+    "nearby": "近くのゾーン"
+  },
+  "checkin": {
+    "title": "チェックイン",
+    "scheduled": "予定されたチェックイン",
+    "confirm_safe": "無事であることを確認",
+    "missed": "チェックイン未実施",
+    "overdue": "{minutes}分の遅れ",
+    "streak": "{count}日連続",
+    "last_check": "最終確認 {time}"
+  },
+  "incidents": {
+    "title": "インシデント",
+    "new_incident": "新しいインシデント",
+    "high": "重大度：高",
+    "medium": "重大度：中",
+    "low": "重大度：低",
+    "resolved": "解決済み",
+    "open": "未解決",
+    "location": "場所",
+    "timestamp": "時刻"
+  },
+  "alerts": {
+    "title": "アラート",
+    "pending": "アラート保留中",
+    "confirmed": "確認済み",
+    "escalating": "エスカレーション中…",
+    "resolved": "解決済み",
+    "false_alarm": "誤報",
+    "timeline": "アラートの履歴",
+    "view_location": "位置を表示",
+    "mute": "アラートをミュート",
+    "lifecycle_triggered": "SOSを発信しました",
+    "lifecycle_sending": "連絡先へ送信中…",
+    "lifecycle_escalating": "レベル2へエスカレーション中…",
+    "lifecycle_resolved": "アラートを解決しました ✓"
+  },
+  "vault": {
+    "title": "証拠保管庫",
+    "add": "証拠を追加",
+    "photo": "写真",
+    "audio": "録音",
+    "video": "動画",
+    "locked": "保管庫はロック中",
+    "export": "証拠をエクスポート",
+    "encrypted": "AES-256で暗号化",
+    "items": "{count}件"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "name": "名前",
+    "phone": "電話番号",
+    "email": "メールアドレス",
+    "join_date": "登録日",
+    "edit": "プロフィールを編集",
+    "verify": "認証する",
+    "verified": "認証済み",
+    "avatar": "プロフィール写真"
   }
 }
