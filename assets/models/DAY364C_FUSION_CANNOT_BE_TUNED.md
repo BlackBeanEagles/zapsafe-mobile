@@ -1,5 +1,15 @@
 # Day 364C — the fusion weights cannot be fixed by choosing better weights
 
+> **Scenario B is reinterpreted by DAY365.** `motion_fall_v2` was measured
+> off-corpus and holds (AUC 0.9905 vs 0.999 on its own corpus, per-window
+> false-positive rate on ordinary activities **0.07%**). Scenario B —
+> "ambient audio + a *sustained* fall" — is therefore a **conditional**, not
+> a measured false-alarm frequency: when motion sustains high, a fall almost
+> certainly happened, so those escalations are largely correct. The
+> comparisons here are matched-rate and unaffected, but read B as "how often
+> this config escalates when motion asserts", not "how often it is wrong".
+> See `DAY365_MOTION_FALL_SURVIVES_OFF_CORPUS.md`.
+
 Day 363B measured the DCS fusion weights as inverted against reliability
 (shipped 0.5/0.3/0.2, reliability-implied 0.274/0.384/0.342) and stopped
 short of changing them, because a naive swap re-breaks Day 326. The open

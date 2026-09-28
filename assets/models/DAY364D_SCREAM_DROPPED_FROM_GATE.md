@@ -1,5 +1,15 @@
 # Day 364D — scream dropped from the DCS gate. Two inputs, and it costs nothing.
 
+> **Scenario B is reinterpreted by DAY365.** `motion_fall_v2` was measured
+> off-corpus and holds (AUC 0.9905 vs 0.999 on its own corpus, per-window
+> false-positive rate on ordinary activities **0.07%**). Scenario B —
+> "ambient audio + a *sustained* fall" — is therefore a **conditional**, not
+> a measured false-alarm frequency: when motion sustains high, a fall almost
+> certainly happened, so those escalations are largely correct. The
+> comparisons here are matched-rate and unaffected, but read B as "how often
+> this config escalates when motion asserts", not "how often it is wrong".
+> See `DAY365_MOTION_FALL_SURVIVES_OFF_CORPUS.md`.
+
 Day 364C searched every weighting of the three-input fusion and found no
 configuration that keeps the gate usable while scream is in it. The binding
 constraint was the detector, not the weights: `scream_classifier_v5`
