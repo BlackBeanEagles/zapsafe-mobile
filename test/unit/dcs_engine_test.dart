@@ -136,7 +136,7 @@ void main() {
       await engine.dispose();
     });
 
-    test('scream + impact has a higher scream-class probability than calm',
+    test('scream no longer moves the FUSED score — Day 364D dropped it',
         () async {
       final engine = await DCSInferenceEngine.create();
       // Calm baseline: very negative mfcc[0] (= very quiet), low ZCR, low centroid.
@@ -160,12 +160,29 @@ void main() {
         audio: screamAudio,
         motion: MotionFeatures.impact(timestampMs: 0),
       );
-      // Compare 'danger'-class probabilities — the semantically right metric.
-      // `fusion.score` is the *top class* probability (which favors confident
-      // 'safe' outcomes); we care about the danger probability explicitly.
+      // This test previously asserted the OPPOSITE — that a scream raises
+      // the fused danger score. Day 364D removed scream from the gate
+      // (weight 0), so in this all-stub world, where motion and scene both
+      // contribute 0, a scream and silence are now IDENTICAL to the fusion.
+      //
+      // That is the intended behaviour, not a regression.
+      // `scream_classifier_v5` separates ambient media audio from violent
+      // audio at window-level AUC 0.606, so letting it vote meant firing on
+      // television plus a fall. Day 364C searched every weighting and found
+      // none that kept the gate usable while scream was in it.
       final calmDanger   = calm.fusion.classScores['danger']  ?? 0;
       final dangerDanger = danger.fusion.classScores['danger'] ?? 0;
-      expect(dangerDanger, greaterThan(calmDanger));
+      expect(dangerDanger, calmDanger,
+          reason: 'scream must contribute exactly nothing to the gate');
+
+      // The detector itself still RUNS and still reports — it is removed
+      // from escalation, not from the app. The audio slot must still
+      // distinguish the two inputs.
+      final calmScream   = calm.audio.classScores['scream'] ?? 0;
+      final screamScream = danger.audio.classScores['scream'] ?? 0;
+      expect(screamScream, greaterThan(calmScream),
+          reason: 'the scream detector is still live and still reporting; '
+              'only its vote on the gate was removed');
       await engine.dispose();
     });
   });

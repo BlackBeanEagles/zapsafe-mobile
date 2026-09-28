@@ -19,20 +19,43 @@ import 'violence_burst_detector.dart';
 ///
 /// ## The trigger
 ///
-/// A burst fires when the fused DCS danger score sits in
-/// `[kTriggerThreshold, alertThreshold)` — **suspicious, but not yet
-/// alerting**. That band is exactly where more evidence changes the outcome:
+/// A burst fires when the **raw scream probability** is high while the app
+/// is **not yet escalating**. That is exactly where more evidence changes
+/// the outcome:
 ///
 /// * below it, nothing has happened and a capture is unjustified;
-/// * above it the app is already escalating, and a burst that takes 3 s to
-///   answer arrives too late to matter.
+/// * if the app is already escalating, a burst that takes 3 s to answer
+///   arrives too late to matter.
 ///
-/// 0.45 is chosen because a confident scream alone produces `0.5 × 0.9 =
-/// 0.45` — so a scream with no corroboration is precisely the situation that
-/// should go looking for some. The burst's `violence` probability then feeds
-/// back through [DCSInferenceEngine]'s scene slot (weight 0.2), which can
-/// carry a genuine threat over the 0.75 alert line or leave a false alarm
-/// below it.
+/// ## Day 364D — this now reads the SCREAM score, not the fused score
+///
+/// It previously triggered on the fused DCS danger score, and 0.45 was
+/// derived from `audioWeight 0.5 × a confident scream 0.9`. Day 364D
+/// dropped scream from the fusion (weight 0), so a scream now moves the
+/// fused score **not at all** — the old trigger would have meant the camera
+/// never investigates a scream.
+///
+/// That would also have been a new reachability trap of exactly the Day 326
+/// shape: the gate now needs `motion + scene`, scene comes from a burst, and
+/// bursts came from audio. Audio evidence still has to be able to start an
+/// investigation even though it no longer votes on escalation.
+///
+/// **This is the right use of a weak signal.** A burst costs battery, not a
+/// false alarm to the user, so a detector too unreliable to escalate on can
+/// still be good enough to say "point the camera". The burst's `violence`
+/// probability then feeds [DCSInferenceEngine]'s scene slot (weight 0.48),
+/// where the far stronger m3 detector decides.
+///
+/// 0.90 is chosen from the measured per-window distribution on real media
+/// audio:
+///
+///     t       ambient windows   violent windows   ratio
+///     0.80        8.1%              21.7%         2.68x
+///     0.90        3.2%              12.5%         3.97x
+///     0.95        1.2%               8.1%         6.88x
+///
+/// 0.80 would fire roughly every 18 s of ordinary television. 0.95 buys a
+/// better ratio but catches too little. See DAY364D_SCREAM_DROPPED_FROM_GATE.md.
 ///
 /// ## What bounds it
 ///
@@ -48,11 +71,11 @@ import 'violence_burst_detector.dart';
 ///   `kSceneMaxAgeMs` (30 s), so a stale burst cannot keep inflating the
 ///   score even if this class hands one over.
 class ViolenceBurstCoordinator {
-  /// Fused danger at or above which a burst is worth capturing.
+  /// **Raw scream probability** at or above which a burst is worth
+  /// capturing. Not a fused score — see the class doc.
   ///
-  /// Deliberately below `DCSScoreWatcher.alertThreshold` (0.75): the point is
-  /// to gather evidence *before* the decision, not after it.
-  static const double kTriggerThreshold = 0.45;
+  /// The point is to gather evidence *before* the decision, not after it.
+  static const double kTriggerThreshold = 0.90;
 
   /// Minimum gap between bursts.
   static const int kCooldownMs = 90000;
@@ -118,9 +141,13 @@ class ViolenceBurstCoordinator {
   ///
   /// Split out from [observe] so the decision can be tested without a
   /// camera, and so the reason a burst did *not* fire stays inspectable.
-  bool shouldTrigger(double danger, {required double alertThreshold}) {
-    if (danger < kTriggerThreshold) return false;
-    if (danger >= alertThreshold) return false;
+  /// [screamProb] is the RAW scream probability, not the fused score.
+  /// [fusedDanger] suppresses the burst when the app is already escalating;
+  /// it defaults to 0 so a caller that only has an audio score still works.
+  bool shouldTrigger(double screamProb,
+      {required double alertThreshold, double fusedDanger = 0.0}) {
+    if (screamProb < kTriggerThreshold) return false;
+    if (fusedDanger >= alertThreshold) return false;
     if (_inFlight) return false;
     return _now() - _lastBurstAtMs >= kCooldownMs;
   }
@@ -133,16 +160,23 @@ class ViolenceBurstCoordinator {
     DCSScore score, {
     required double alertThreshold,
   }) async {
+    // Day 364D: trigger on the RAW scream probability. The fused score no
+    // longer carries any audio contribution, so reading it here would mean
+    // the camera never investigates a scream. See the class doc.
+    final screamProb = score.audio.classScores['scream'] ?? 0.0;
     final danger = score.fusion.classScores['danger'] ?? 0.0;
 
-    if (danger >= kTriggerThreshold && danger < alertThreshold) {
+    if (screamProb >= kTriggerThreshold && danger < alertThreshold) {
       if (_inFlight) {
         _suppressedInFlight++;
       } else if (_now() - _lastBurstAtMs < kCooldownMs) {
         _suppressedCooldown++;
       }
     }
-    if (!shouldTrigger(danger, alertThreshold: alertThreshold)) return null;
+    if (!shouldTrigger(screamProb,
+        alertThreshold: alertThreshold, fusedDanger: danger)) {
+      return null;
+    }
 
     _inFlight = true;
     _lastBurstAtMs = _now();

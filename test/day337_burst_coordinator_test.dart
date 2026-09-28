@@ -29,58 +29,70 @@ void main() {
   group('the trigger band', () {
     test('nothing below the threshold', () {
       expect(coord.shouldTrigger(0.0, alertThreshold: alert), isFalse);
-      expect(coord.shouldTrigger(0.44, alertThreshold: alert), isFalse,
+      expect(coord.shouldTrigger(0.89, alertThreshold: alert), isFalse,
           reason: 'quiet enough that a capture is unjustified');
     });
 
-    test('fires inside [0.45, alertThreshold)', () {
-      expect(coord.shouldTrigger(0.45, alertThreshold: alert), isTrue);
-      expect(coord.shouldTrigger(0.60, alertThreshold: alert), isTrue);
-      expect(coord.shouldTrigger(0.749, alertThreshold: alert), isTrue);
+    test('fires at or above 0.90 raw scream', () {
+      expect(coord.shouldTrigger(0.90, alertThreshold: alert), isTrue);
+      expect(coord.shouldTrigger(0.97, alertThreshold: alert), isTrue);
     });
 
-    test('NOT above the alert threshold — a burst would arrive too late', () {
-      // Above 0.75 the app is already escalating. A capture that takes ~3 s
-      // to answer cannot inform that decision, so spending the camera and
-      // the battery on it is pure cost.
-      expect(coord.shouldTrigger(0.75, alertThreshold: alert), isFalse);
-      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isFalse);
+    test('suppressed when the app is ALREADY escalating', () {
+      // A capture takes ~3 s to answer, so once the fused score has crossed
+      // the alert line the burst arrives too late to inform the decision.
+      // Note this now compares the FUSED score, passed separately — the
+      // trigger value is the scream probability and the two are no longer
+      // the same quantity.
+      expect(
+          coord.shouldTrigger(0.95,
+              alertThreshold: alert, fusedDanger: alert + 0.01),
+          isFalse);
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert, fusedDanger: 0.0),
+          isTrue);
     });
 
-    test('0.45 is where an uncorroborated scream lands', () {
-      // audioWeight 0.5 x a confident scream 0.9 = 0.45, with motion and
-      // scene silent. That is precisely the case that should go looking for
-      // more evidence, which is why the threshold sits there and not higher.
-      const screamAlone = 0.5 * 0.9;
-      expect(screamAlone, closeTo(ViolenceBurstCoordinator.kTriggerThreshold,
-          1e-9));
-      expect(coord.shouldTrigger(screamAlone, alertThreshold: alert), isTrue);
+    test('0.90 is measured, not derived from the old fusion arithmetic', () {
+      // It used to be 0.45 = audioWeight 0.5 x a confident scream 0.9.
+      // Day 364D set audioWeight to 0, so that derivation is gone and a
+      // scream no longer moves the fused score at all. 0.90 comes from the
+      // measured per-window distribution on real media audio: it fires on
+      // 3.2% of ambient windows against 12.5% of violent ones (3.97x),
+      // where 0.80 would fire roughly every 18 s of ordinary television.
+      expect(ViolenceBurstCoordinator.kTriggerThreshold, 0.90);
     });
 
-    test('the band sits strictly below the alert threshold', () {
-      expect(ViolenceBurstCoordinator.kTriggerThreshold, lessThan(alert));
+    test('a scream can still start an investigation after losing its vote',
+        () {
+      // The reachability point. The gate is now motion+scene; scene comes
+      // from a burst; bursts came from audio. If audio could no longer
+      // trigger a burst, scene would never populate and the gate would be
+      // unreachable -- the Day 326 failure in a new shape.
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isTrue,
+          reason: 'a weak detector can still be good enough to point the '
+              'camera; a burst costs battery, not a false alarm');
     });
   });
 
   group('cooldown', () {
     test('a second burst is suppressed until the cooldown elapses', () async {
-      expect(coord.shouldTrigger(0.6, alertThreshold: alert), isTrue);
-      await coord.observe(_score(0.6), alertThreshold: alert);
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isTrue);
+      await coord.observe(_score(0.95), alertThreshold: alert);
       expect(coord.triggered, 1);
 
       // Immediately after, and just before the cooldown expires.
-      expect(coord.shouldTrigger(0.6, alertThreshold: alert), isFalse);
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isFalse);
       clock += ViolenceBurstCoordinator.kCooldownMs - 1;
-      expect(coord.shouldTrigger(0.6, alertThreshold: alert), isFalse);
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isFalse);
 
       clock += 1;
-      expect(coord.shouldTrigger(0.6, alertThreshold: alert), isTrue);
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isTrue);
     });
 
     test('suppressed triggers are counted, not silently dropped', () async {
-      await coord.observe(_score(0.6), alertThreshold: alert);
-      await coord.observe(_score(0.6), alertThreshold: alert);
-      await coord.observe(_score(0.6), alertThreshold: alert);
+      await coord.observe(_score(0.95), alertThreshold: alert);
+      await coord.observe(_score(0.95), alertThreshold: alert);
+      await coord.observe(_score(0.95), alertThreshold: alert);
       expect(coord.triggered, 1);
       expect(coord.suppressedByCooldown, 2,
           reason: 'a sustained above-threshold stretch must not burst '
@@ -101,37 +113,48 @@ void main() {
     });
 
     test('reset clears the cached burst and the cooldown', () async {
-      await coord.observe(_score(0.6), alertThreshold: alert);
+      await coord.observe(_score(0.95), alertThreshold: alert);
       coord.reset();
       expect(coord.latestResult, isNull);
-      expect(coord.shouldTrigger(0.6, alertThreshold: alert), isTrue,
+      expect(coord.shouldTrigger(0.95, alertThreshold: alert), isTrue,
           reason: 'reset ends the session, so the cooldown goes with it');
     });
 
-    test('it reads the danger key, matching the Day 335 fusion fix', () async {
-      // The fusion emits {'safe', 'danger'}. Reading 'scream' here would
-      // reproduce exactly the bug Day 335 found in DCSScoreWatcher, where a
-      // nonexistent key coerced to 0 and nothing ever fired.
-      await coord.observe(_score(0.6), alertThreshold: alert);
+    test('it reads the scream key from AUDIO — Day 364D moved the trigger',
+        () async {
+      // Until Day 364D this read `classScores['danger']` from the FUSION.
+      // That was correct while scream carried weight 0.5 in the fusion; with
+      // scream dropped to 0 the fused score no longer moves for audio at
+      // all, so reading it there would mean the camera never investigates a
+      // scream. The key-coercion hazard Day 335 found is unchanged: a
+      // missing key silently reads 0 and nothing ever fires.
+      await coord.observe(_score(0.95), alertThreshold: alert);
       expect(coord.triggered, 1);
 
+      // An audio slot with no 'scream' key must NOT trigger — this is the
+      // Day 335 bug shape, asserted against the new source of truth.
       final wrongKey = ViolenceBurstCoordinator(
         captureBurst: _noCamera, inferBurst: _neverCalled, now: () => clock);
       await wrongKey.observe(
-        _scoreWithKeys({'safe': 0.4, 'scream': 0.6}),
+        _scoreWithKeys({'safe': 0.05, 'danger': 0.95}),
         alertThreshold: alert,
       );
       expect(wrongKey.triggered, 0,
-          reason: 'no danger key means no danger — this asserts the '
-              'coordinator is reading the key the fusion actually emits');
+          reason: 'a high FUSED danger with no scream must not start a '
+              'burst: the fused score is not the trigger any more, and by '
+              'then the app is escalating anyway');
     });
   });
 }
 
-DCSScore _score(double danger) =>
-    _scoreWithKeys({'safe': 1 - danger, 'danger': danger});
+/// Day 364D: the burst now triggers on the RAW SCREAM probability, so the
+/// driving value goes in the AUDIO slot. The fusion slot is left calm —
+/// scream contributes 0 to it now, which is the whole point.
+DCSScore _score(double screamProb) =>
+    _scoreWithKeys({'safe': 1.0, 'danger': 0.0}, screamProb: screamProb);
 
-DCSScore _scoreWithKeys(Map<String, double> classScores) {
+DCSScore _scoreWithKeys(Map<String, double> classScores,
+    {double screamProb = 0.0}) {
   final fusion = InferenceResult(
     label: 'danger',
     score: classScores.values.reduce((a, b) => a > b ? a : b),
@@ -146,9 +169,16 @@ DCSScore _scoreWithKeys(Map<String, double> classScores) {
     latencyMs: 1,
     timestampMs: 0,
   );
+  final audio = InferenceResult(
+    label: screamProb >= 0.5 ? 'scream' : 'calm',
+    score: screamProb,
+    classScores: {'scream': screamProb, 'calm': 1 - screamProb},
+    latencyMs: 1,
+    timestampMs: 0,
+  );
   return DCSScore(
     timestampMs: 0,
-    audio: neutral,
+    audio: audio,
     motion: neutral,
     scene: neutral,
     fusion: fusion,

@@ -28,12 +28,47 @@ import '../../data/models/trigger_event.dart';
 /// Auto-SOS firings ALSO reset the counter so a subsequent alert vote
 /// starts fresh.
 class DCSScoreWatcher {
-  /// Fusion-scream probability for a single window to count toward
-  /// the alert vote.
-  static const double alertThreshold = 0.75;
+  /// Fused danger score for a single window to count toward the alert vote.
+  ///
+  /// **0.66 as of Day 364D, down from 0.75, because the scale changed.**
+  /// The fusion no longer consumes the scream input — see
+  /// [DCSInferenceEngine] — so the reachable maximum is now
+  /// `0.52·motion + 0.48·scene = 1.0` and the numbers are not comparable to
+  /// the old three-input scale.
+  ///
+  /// Chosen jointly with the weights against measured scenarios rather than
+  /// picked: on 60 ambient and 60 violent XD-Violence videos, per window,
+  /// under [requiredConsecutiveWindows]:
+  ///
+  ///     ambient audio, no motion      0.000   (must not alert)
+  ///     ambient audio + sustained fall 0.267  (was 0.283)
+  ///     violent audio + sustained fall 0.617  (was 0.600)
+  ///
+  /// Better on both axes than the three-input configuration it replaces,
+  /// with a **0.14 margin** between the largest single weight (0.52) and
+  /// this threshold, so no single modality can alert alone.
+  /// See DAY364D_SCREAM_DROPPED_FROM_GATE.md.
+  static const double alertThreshold = 0.66;
 
-  /// Single-window threshold that bypasses the vote entirely.
-  static const double autoSosThreshold = 0.85;
+  /// Single-window score that bypasses the vote entirely.
+  ///
+  /// **0.90, and it went UP while [alertThreshold] went down.** That is not
+  /// an inconsistency: with scream gone the fused score concentrates into
+  /// two inputs, so 0.90 now means "motion and scene both near-maximal"
+  /// rather than the looser combination 0.85 bought on the old scale.
+  ///
+  /// This skips the three-window vote and fires SOS automatically, so it
+  /// was chosen for the false-bypass rate rather than for recall:
+  ///
+  ///     t      ambient+fall bypasses    violent+fall bypasses
+  ///     0.85      10.0%                    20.0%
+  ///     0.90       3.3%                     6.7%
+  ///     0.95       1.7%                     1.7%   <- no discrimination left
+  ///
+  /// **The discrimination here is only ~2:1 at best**, which is weak for a
+  /// control that skips confirmation. 0.90 is the least bad point on that
+  /// curve, not a good one; raising it further buys nothing.
+  static const double autoSosThreshold = 0.90;
 
   /// Windows-in-a-row required to fire ALERT_PENDING.
   static const int requiredConsecutiveWindows = 3;

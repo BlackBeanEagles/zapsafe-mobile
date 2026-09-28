@@ -102,9 +102,39 @@ class DCSInferenceEngine {
       label: 'indoor',
       score: 0.25,
     );
+    // Day 364D — scream is DROPPED from the gate: weight 0.
+    //
+    // The three-input weights [0.5, 0.3, 0.2] were written on Day 31 and
+    // never derived from anything. Day 364C searched for a better set and
+    // found the search EMPTY: no weighting satisfies a low false-alert rate,
+    // useful detection, and the Day 326 reachability property together.
+    // The binding constraint was not the weights — `scream_classifier_v5`
+    // separates ambient media audio from violent audio at window-level AUC
+    // **0.606**, so any linear rule that lets audio+motion fire also fires
+    // on television+fall.
+    //
+    // Measured on 60 ambient and 60 violent XD-Violence videos, per window,
+    // under DCSScoreWatcher.requiredConsecutiveWindows:
+    //
+    //     config                          ambient+fall   violent+fall
+    //     0.5/0.3/0.2 @0.75 (three-input)     0.283          0.600
+    //     0.0/0.52/0.48 @0.66 (this)          0.267          0.617
+    //
+    // **Dropping scream costs nothing** — it is marginally better on both
+    // axes. Scream was contributing noise to the gate, not evidence.
+    //
+    // This does NOT remove scream from the app. `ScreamDetectorV2` still
+    // runs, still reports, and its score is still surfaced; it no longer
+    // votes on escalation. The app is correspondingly **deaf to audio-only
+    // incidents** at the gate, which is the accepted cost of this change:
+    // an incident with no fall and no camera burst will not escalate on
+    // audio alone. That was already nearly true — audio alone could never
+    // reach 0.75 on the old weights either (ceiling 0.5).
+    //
+    // See DAY364D_SCREAM_DROPPED_FROM_GATE.md.
     final fusionStub = LinearStubInterpreter(
       modelLabel: 'stub-fusion',
-      weights: const [0.5, 0.3, 0.2],
+      weights: const [0.0, 0.52, 0.48],
       classLabels: const ['safe', 'danger'],
     );
 

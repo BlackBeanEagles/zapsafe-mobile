@@ -18,15 +18,32 @@ import 'package:zapsafe_mobile/ml/inference/dcs_score_watcher.dart';
 /// documented SOS trigger — could never fire. Nothing threw, every test
 /// passed, and in debug the console printed the reason on every window.
 ///
+/// ## Day 364D — the fusion was re-specified, so this file was rewritten
+///
+/// Scream is **dropped from the gate** (weight 0) and the weights and
+/// threshold were derived together against measured scenarios rather than
+/// guessed. The historical arithmetic below is kept, pinned against
+/// **explicit historical constants** rather than the live ones, because it
+/// documents two real bugs and would otherwise silently stop meaning
+/// anything. The live configuration gets its own group.
+///
 /// These tests assert the arithmetic rather than the plumbing, because the
 /// plumbing needs a native TFLite interpreter that `flutter test` does not
 /// have. They fail if anyone reintroduces a fusion whose ceiling sits under
 /// the threshold that consumes it.
 void main() {
-  // The fusion stub's weights, from DCSInferenceEngine.create().
-  const audioWeight = 0.5;
-  const motionWeight = 0.3;
-  const sceneWeight = 0.2;
+  // ── The LIVE fusion stub weights, from DCSInferenceEngine.create().
+  const audioWeight = 0.0; // scream: dropped from the gate on Day 364D
+  const motionWeight = 0.52;
+  const sceneWeight = 0.48;
+
+  // ── Historical constants. These are NOT the live weights. They exist so
+  // the Day 326 and Day 335 findings keep their arithmetic.
+  const oldAudioWeight = 0.5;
+  const oldMotionWeight = 0.3;
+  const oldSceneWeight = 0.2;
+  const oldAlertThreshold = 0.75;
+  const oldAutoSosThreshold = 0.85;
 
   /// What a [FixedStubInterpreter] contributes through `_dangerScore`:
   /// nothing, because its only class key is its own label.
@@ -48,133 +65,139 @@ void main() {
     return best;
   }
 
-  group('a stubbed slot contributes nothing, not its score', () {
+  group('the Day 326 bug, pinned against historical constants', () {
     test('FixedStubInterpreter exposes only its own label as a class', () {
-      // This is the mechanism. The stub scores 0.15 but publishes it under
-      // 'normal', so a danger-class lookup finds nothing.
       expect(stubDangerContribution('normal', const ['fall', 'unusual']), 0.0,
-          reason: 'motion stub must be understood to contribute 0, not 0.15');
-      expect(stubDangerContribution('indoor', const ['outdoor']), 0.0,
-          reason: 'scene stub likewise');
+          reason: 'this is the whole mechanism: the danger keys are absent');
+      expect(stubDangerContribution('indoor', const ['outdoor']), 0.0);
     });
-  });
 
-  group('the alert threshold has to be reachable', () {
-    test('audio alone cannot reach it — this was the live bug', () {
-      const audioOnlyCeiling = audioWeight * 1.0;
+    test('audio alone could not reach it — this was the live bug', () {
+      const audioOnlyCeiling = oldAudioWeight * 1.0;
       expect(audioOnlyCeiling, 0.5);
-      expect(audioOnlyCeiling, lessThan(DCSScoreWatcher.alertThreshold),
-          reason: 'documents WHY the fix was needed: with motion and scene '
-              'stubbed the ceiling was 0.50 against a 0.75 threshold, so DCS '
-              'escalation was mathematically unreachable');
+      expect(audioOnlyCeiling, lessThan(oldAlertThreshold),
+          reason: 'with motion and scene stubbed the ceiling was 0.50 '
+              'against a 0.75 threshold, so DCS escalation was '
+              'mathematically unreachable');
     });
 
-    test('audio + real motion clears it, so the fix is sufficient', () {
-      const ceiling = audioWeight * 1.0 + motionWeight * 1.0;
+    test('audio + real motion cleared it, so the Day 327 fix sufficed', () {
+      const ceiling = oldAudioWeight * 1.0 + oldMotionWeight * 1.0;
       expect(ceiling, closeTo(0.8, 1e-9));
-      expect(ceiling, greaterThan(DCSScoreWatcher.alertThreshold),
-          reason: 'wiring the real windowed motion result makes the 0.75 '
-              'alert threshold reachable');
+      expect(ceiling, greaterThan(oldAlertThreshold));
     });
 
-    test('it takes two modalities agreeing, not one spiking', () {
-      // A perfect scream with no motion corroboration stays below alert.
-      const screamOnly = audioWeight * 1.0 + motionWeight * 0.0;
-      expect(screamOnly, lessThan(DCSScoreWatcher.alertThreshold),
-          reason: 'a fusion should require corroboration; one modality '
-              'saturating must not be enough');
-    });
-
-    test('the pre-Day-335 margin was only 0.05, which is why scene mattered', () {
-      // Wrote this test expecting 0.9/0.9 to clear the threshold. It does
-      // not: 0.5·0.9 + 0.3·0.9 = 0.72 < 0.75. The arithmetic is much tighter
-      // than "reachable" suggests, so pin the real requirement rather than a
-      // comfortable-sounding one.
-      const bothHigh = audioWeight * 0.9 + motionWeight * 0.9;
+    test('the pre-Day-335 margin was only 0.05, which is why scene mattered',
+        () {
+      // 0.5·0.9 + 0.3·0.9 = 0.72 < 0.75. The arithmetic was much tighter
+      // than "reachable" suggests.
+      const bothHigh = oldAudioWeight * 0.9 + oldMotionWeight * 0.9;
       expect(bothHigh, closeTo(0.72, 1e-9));
-      expect(bothHigh, lessThan(DCSScoreWatcher.alertThreshold),
-          reason: 'two modalities at 0.9 still do NOT escalate');
-
-      // With scene contributing 0, clearing 0.75 needs near-saturation on
-      // both: at scream 1.00 motion must exceed 0.833, at scream 0.95 it
-      // must exceed 0.917, and below scream 0.90 it is impossible at any
-      // motion value. Ceiling 0.80 against threshold 0.75 leaves 0.05.
-      const audioMotionCeiling = audioWeight + motionWeight;
-      expect(audioMotionCeiling - DCSScoreWatcher.alertThreshold,
-          closeTo(0.05, 1e-9),
-          reason: 'this narrow margin is the strongest argument for '
-              'revisiting the weights and wiring scene — see '
-              'DAY326_DCS_FUSION_NEVER_FUSED.md. The fix makes escalation '
-              'possible, not comfortable.');
+      expect(bothHigh, lessThan(oldAlertThreshold),
+          reason: 'two modalities at 0.9 still did NOT escalate');
+      expect((oldAudioWeight + oldMotionWeight) - oldAlertThreshold,
+          closeTo(0.05, 1e-9));
     });
 
-    test('Day 335 — auto-SOS is now reachable, because scene is wired', () {
-      // This test previously asserted the OPPOSITE: that the 0.85
-      // single-window override could not fire, because the scene slot
-      // contributed a constant 0. `m3_violence_temporal` now feeds it
-      // (AUC 0.9176 end-to-end on real clips), so the ceiling moves from
-      // 0.80 to 1.00 and auto-SOS becomes reachable for the first time.
-      //
-      // This is a real change to escalation behaviour, which is why the
-      // arithmetic is pinned rather than left implicit.
-      const ceiling = audioWeight + motionWeight + sceneWeight;
+    test('Day 335 — wiring scene made auto-SOS reachable at all', () {
+      const ceiling = oldAudioWeight + oldMotionWeight + oldSceneWeight;
       expect(ceiling, closeTo(1.0, 1e-9));
-      expect(ceiling, greaterThan(DCSScoreWatcher.autoSosThreshold),
-          reason: 'with scene contributing, 0.85 can be reached');
-    });
-
-    test('auto-SOS still needs near-saturation on all three', () {
-      // Reachable is not the same as easy. At 0.85, with all three equal,
-      // each modality must exceed 0.85 — a scream, corroborating motion AND
-      // a violent scene, all at once.
-      const allHigh = (audioWeight + motionWeight + sceneWeight) * 0.85;
-      expect(allHigh, closeTo(0.85, 1e-9));
-
-      // Two modalities saturated and the third silent still cannot do it,
-      // which is the property worth having: audio 1.0 + motion 1.0 + scene
-      // 0.0 = 0.80 < 0.85.
-      const twoSaturated = audioWeight * 1.0 + motionWeight * 1.0;
-      expect(twoSaturated, lessThan(DCSScoreWatcher.autoSosThreshold),
-          reason: 'auto-SOS must require all three, not two');
-    });
-
-    test('a false-positive burst cannot escalate on its own', () {
-      // M3 fires on 13% of NonFight clips at its 0.5 midpoint, so false
-      // positives are expected. The fusion reads the raw 'violence'
-      // probability, not the thresholded label, and scene carries only 0.2.
-      // A confident-but-wrong burst at 0.9 contributes 0.18 — real, but far
-      // short of the 0.75 alert threshold by itself.
-      const falseBurst = sceneWeight * 0.9;
-      expect(falseBurst, closeTo(0.18, 1e-9));
-      expect(falseBurst, lessThan(DCSScoreWatcher.alertThreshold),
-          reason: 'a wrong burst alone must never alert');
-
-      // It can still tip a borderline case: scream 0.9 + motion 0.9 was
-      // 0.72 and below alert; adding a spurious 0.9 scene takes it to 0.90.
-      // That is the cost of wiring the slot, and it is the reason the
-      // staleness bound exists.
-      const borderline = audioWeight * 0.9 + motionWeight * 0.9;
-      expect(borderline, closeTo(0.72, 1e-9));
-      expect(borderline + falseBurst, greaterThan(DCSScoreWatcher.alertThreshold));
+      expect(ceiling, greaterThan(oldAutoSosThreshold));
+      // Two saturated and the third silent still could not: 0.80 < 0.85.
+      expect(oldAudioWeight + oldMotionWeight,
+          lessThan(oldAutoSosThreshold));
     });
   });
 
-  group('weights are documented as guessed, not measured', () {
-    test('they still sum to 1.0', () {
+  group('the LIVE fusion: scream dropped, two inputs', () {
+    test('the weights are what DCSInferenceEngine ships', () {
+      expect(audioWeight, 0.0, reason: 'scream no longer votes on the gate');
+      expect(motionWeight, 0.52);
+      expect(sceneWeight, 0.48);
       expect(audioWeight + motionWeight + sceneWeight, closeTo(1.0, 1e-9));
     });
 
-    test('the ordering is inverted relative to measured reliability', () {
-      // motion AUC 0.999 > scream 0.839 > scene 0.594 (held-out, real data),
-      // yet motion carries less weight than scream. Left as-is here because
-      // reweighting shifts escalation thresholds — a product decision, not a
-      // wiring fix. Pinned so the discrepancy is not forgotten.
-      const measuredMotionAuc = 0.999;
-      const measuredScreamAuc = 0.839;
-      expect(measuredMotionAuc, greaterThan(measuredScreamAuc));
-      expect(motionWeight, lessThan(audioWeight),
-          reason: 'the more reliable modality currently carries less weight; '
-              'see DAY326_DCS_FUSION_NEVER_FUSED.md');
+    test('a saturated scream now contributes exactly nothing', () {
+      // The point of Day 364D. scream_classifier_v5 separates ambient media
+      // audio from violent audio at window-level AUC 0.606, so any linear
+      // rule that let audio+motion fire also fired on television+fall.
+      const screamSaturated = audioWeight * 1.0;
+      expect(screamSaturated, 0.0);
+      expect(screamSaturated, lessThan(DCSScoreWatcher.alertThreshold));
+    });
+
+    test('NO single modality can reach the alert threshold', () {
+      for (final w in const [audioWeight, motionWeight, sceneWeight]) {
+        expect(w * 1.0, lessThan(DCSScoreWatcher.alertThreshold),
+            reason: 'one modality saturating must never be enough');
+      }
+      // The margin is deliberate, not incidental: 0.66 - 0.52 = 0.14.
+      expect(DCSScoreWatcher.alertThreshold - motionWeight,
+          closeTo(0.14, 1e-9),
+          reason: 'chosen with >=0.05 margin so the gate is not on a '
+              'knife edge; the search also offered 0.58/@0.59 with a 0.01 '
+              'margin and it was rejected for that reason');
+    });
+
+    test('motion + scene together CAN reach it — reachability preserved', () {
+      const ceiling = motionWeight + sceneWeight;
+      expect(ceiling, closeTo(1.0, 1e-9));
+      expect(ceiling, greaterThan(DCSScoreWatcher.alertThreshold),
+          reason: 'this is the Day 326 property carried forward: the gate '
+              'must be reachable by two agreeing modalities');
+    });
+
+    test('auto-SOS needs both inputs near-maximal', () {
+      // 0.90 went UP while alertThreshold went down, because with scream
+      // gone the fused score concentrates into two inputs.
+      expect(DCSScoreWatcher.autoSosThreshold, 0.90);
+      // Motion saturated and scene silent cannot bypass the vote.
+      expect(motionWeight * 1.0, lessThan(DCSScoreWatcher.autoSosThreshold));
+      // Nor can scene alone.
+      expect(sceneWeight * 1.0, lessThan(DCSScoreWatcher.autoSosThreshold));
+      // It needs scene above ~0.79 with motion saturated.
+      const needed = (0.90 - motionWeight) / sceneWeight;
+      expect(needed, greaterThan(0.75));
+      expect(needed, lessThan(0.80));
+    });
+
+    test('auto-SOS sits above the alert threshold', () {
+      expect(DCSScoreWatcher.autoSosThreshold,
+          greaterThan(DCSScoreWatcher.alertThreshold),
+          reason: 'the bypass must be strictly harder than the vote');
+    });
+
+    test('a false-positive burst cannot escalate on its own', () {
+      // m3_violence reads 0.725 off-corpus, so false positives are expected.
+      // The fusion reads the raw 'violence' probability, not the label.
+      const falseBurst = sceneWeight * 0.9;
+      expect(falseBurst, closeTo(0.432, 1e-9));
+      expect(falseBurst, lessThan(DCSScoreWatcher.alertThreshold),
+          reason: 'a wrong burst alone must never alert');
+      // But a wrong burst plus a fall does clear it — 0.52 + 0.432 = 0.952.
+      // That is the measured B = 0.267 false-alert rate, accepted knowingly.
+      expect(motionWeight * 1.0 + falseBurst,
+          greaterThan(DCSScoreWatcher.alertThreshold));
+    });
+  });
+
+  group('the weights are now measured, not guessed', () {
+    test('the reliability inversion was FIXED by removing scream, not by '
+        'reweighting it', () {
+      // Day 363B measured evidence weight per input (LLR span, nats):
+      //   motion 5.127 > scene 4.569 > scream 3.658
+      // Day 364C then showed that simply reordering the weights to match
+      // DOUBLES the false-alert rate (0.283 -> 0.650), because it raises
+      // motion's share of a lowered threshold. The fix was to drop the
+      // weakest input, not to re-rank all three.
+      const motionLlr = 5.127;
+      const sceneLlr = 4.569;
+      const screamLlr = 3.658;
+      expect(motionLlr, greaterThan(sceneLlr));
+      expect(sceneLlr, greaterThan(screamLlr));
+      // The live ordering now matches reliability for the inputs that remain.
+      expect(motionWeight, greaterThan(sceneWeight));
+      expect(sceneWeight, greaterThan(audioWeight));
     });
   });
 }

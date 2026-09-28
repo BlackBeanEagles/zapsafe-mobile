@@ -45,10 +45,20 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('thresholds', () {
-    test('alert threshold is 0.75, auto-sos is 0.85, vote requires 3', () {
-      expect(DCSScoreWatcher.alertThreshold, 0.75);
-      expect(DCSScoreWatcher.autoSosThreshold, 0.85);
+    test('alert threshold is 0.66, auto-sos is 0.90, vote requires 3', () {
+      // Day 364D re-specified both. The fusion dropped its scream input, so
+      // the reachable maximum is now 0.52*motion + 0.48*scene = 1.0 and
+      // these numbers are NOT comparable to the old three-input scale.
+      // alertThreshold went DOWN (0.75 -> 0.66) and autoSos went UP
+      // (0.85 -> 0.90): with scream gone the score concentrates into two
+      // inputs, so 0.90 now means "both near-maximal".
+      // See DAY364D_SCREAM_DROPPED_FROM_GATE.md.
+      expect(DCSScoreWatcher.alertThreshold, 0.66);
+      expect(DCSScoreWatcher.autoSosThreshold, 0.90);
       expect(DCSScoreWatcher.requiredConsecutiveWindows, 3);
+      expect(DCSScoreWatcher.autoSosThreshold,
+          greaterThan(DCSScoreWatcher.alertThreshold),
+          reason: 'the bypass must stay strictly harder than the vote');
     });
   });
 
@@ -114,9 +124,9 @@ void main() {
   });
 
   group('auto-SOS bypass', () {
-    test('a single 0.85 window fires AUTO_SOS immediately', () {
+    test('a single window above 0.90 fires AUTO_SOS immediately', () {
       final w = DCSScoreWatcher();
-      final out = w.observe(_scoreWith(screamProb: 0.86, ts: 99));
+      final out = w.observe(_scoreWith(screamProb: 0.91, ts: 99));
       expect(out, isNotNull);
       expect(out!.kind, TriggerKind.autoSos);
       expect(out.consecutiveWindows, 0,
@@ -127,16 +137,16 @@ void main() {
 
     test('AUTO_SOS clears the alert-vote counter', () {
       final w = DCSScoreWatcher();
-      w.observe(_scoreWith(screamProb: 0.8));
-      w.observe(_scoreWith(screamProb: 0.8));
+      w.observe(_scoreWith(screamProb: 0.7));
+      w.observe(_scoreWith(screamProb: 0.7));
       expect(w.currentConsecutive, 2);
-      w.observe(_scoreWith(screamProb: 0.9)); // AUTO_SOS
+      w.observe(_scoreWith(screamProb: 0.95)); // AUTO_SOS
       expect(w.currentConsecutive, 0);
     });
 
-    test('exactly at 0.85 fires AUTO_SOS (inclusive)', () {
+    test('exactly at 0.90 fires AUTO_SOS (inclusive)', () {
       final w = DCSScoreWatcher();
-      final out = w.observe(_scoreWith(screamProb: 0.85));
+      final out = w.observe(_scoreWith(screamProb: 0.90));
       expect(out, isNotNull);
       expect(out!.kind, TriggerKind.autoSos);
     });
