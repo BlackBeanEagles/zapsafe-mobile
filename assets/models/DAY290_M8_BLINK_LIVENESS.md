@@ -1,5 +1,28 @@
 # Day 290 — m8_blink_liveness retrain on real, permissively-licensed video
 
+> **Superseded — read this first (added 2026-09-29).** Section 5's "real
+> next step is a better landmark extractor" was done on **Day 292** and it
+> worked: MediaPipe's 478-point FaceLandmarker replaced the Haar cascade and
+> moved AUC **0.583 → 0.719**, the largest single gain this model has had.
+> Day 302 added augmentation + attention for **AUC 0.7518 / F1 0.718** —
+> still the current best. The bar is F1 ≥ 0.85, so it remains unmet.
+>
+> **M8 is now closed, and not on extractor or architecture grounds.** Day
+> 294 (14 queries, 20+ licence-checked candidates) and Day 306 found no new
+> usable corpus, and `DAY360B_M7_M8_M9_CRASH_SEARCHED_PROPERLY.md`
+> established why from the literature: **no public face anti-spoofing
+> dataset permits commercial use.** Free releases are NC teasers because
+> face data sells; the commercial options are vendor-sold (Axon Labs,
+> Unidata). The blocker is acquisition cost, not code.
+>
+> Progression: `DAY292_M8_ITERATION2.md` → `DAY294_M8_ITERATION3.md` →
+> `DAY302_M8_ITERATION4.md` → `DAY306_M8_RECENT_DATASETS.md` →
+> `DAY360B_M7_M8_M9_CRASH_SEARCHED_PROPERLY.md`.
+>
+> Still true below, and still why a good model could not ship anyway: there
+> is no face-landmark capture pipeline in the app. `camera` is a real
+> dependency now, but `google_mlkit_face_detection` is still commented out.
+
 Follow-up to `DAY288_KAGGLE_SEARCH_BLOCKED4.md`, which found a real,
 downloadable, continuous-face-video liveness/anti-spoofing corpus on Kaggle
 (TrainingDataPro's family) but flagged it as CC BY-NC-ND (non-commercial,
@@ -157,7 +180,10 @@ licensing block.**
 - Extraction pipeline: **built and verified** against real video, with a
   real (if coarse) blink-sensitive signal confirmed via spot-check.
 - Model quality: **not acceptance-grade.** AUC 0.58 vs. the 0.85 F1 bar.
-  The real next step is a better on-device-feasible landmark extractor
+  ~~The real next step is a better on-device-feasible landmark extractor~~
+  **— done on Day 292; it worked, and it is no longer the blocker. See the
+  banner at the top.** The original reasoning, kept as written: a better
+  extractor
   than MediaPipe-on-this-Kaggle-image (e.g. pin a different MediaPipe
   build, try `dlib`'s 68-point predictor, or run extraction in a subprocess
   so a native crash only kills that one video instead of the whole kernel)
