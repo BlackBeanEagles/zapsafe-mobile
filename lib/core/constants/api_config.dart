@@ -203,6 +203,16 @@ class ApiConfig {
   /// GET /api/v1/police/dispatch/<uuid:sos_id>/
   static String policeDispatchFor(String sosId) => '/api/v1/police/dispatch/$sosId/';
 
+  // Police connection — Day 366 first Flutter wire. Distinct from
+  // policeDispatchFor above: that is one dispatched SOS, these are the
+  // account's standing relationship with a department. Both sit behind the
+  // server-side `police` feature flag.
+  static const policeConnection = '/api/v1/police/connection/';
+  static const policeConnectionRequest = '/api/v1/police/connection/request/';
+
+  // Admin analytics summary — Day 366 (staff only, IsAdminUser).
+  static const adminAnalyticsSummary = '/api/v1/admin/analytics/summary/';
+
   // Group journey sessions — Day 221-223 backend, wired Day 357 (authenticated)
   static const journeyGroupCreate = '/api/v1/journey/group/create/';
   static const journeyGroupJoin = '/api/v1/journey/group/join/';

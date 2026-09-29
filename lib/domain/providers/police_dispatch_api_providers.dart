@@ -12,6 +12,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/services/police_dispatch_api_service.dart';
+import '../../data/services/police_connection_api_service.dart';
 import 'auth_providers.dart';
 
 final policeDispatchApiServiceProvider = Provider<PoliceDispatchApiService>((ref) {
@@ -25,4 +26,18 @@ final policeDispatchApiServiceProvider = Provider<PoliceDispatchApiService>((ref
 final policeDispatchStatusProvider =
     FutureProvider.family<PoliceDispatchStatus, String>((ref, sosId) {
   return ref.watch(policeDispatchApiServiceProvider).fetchDispatchStatus(sosId);
+});
+
+/// Day 366 — the account's police-connection status.
+///
+/// No mock fallback: `connected: false` because the feature flag is off and
+/// `connected: false` because a request is still pending are different
+/// answers, and a seeded stand-in would erase that distinction.
+final policeConnectionApiServiceProvider =
+    Provider<PoliceConnectionApiService>((ref) {
+  return PoliceConnectionApiService(ref.watch(apiClientProvider));
+});
+
+final policeConnectionProvider = FutureProvider<PoliceConnection>((ref) {
+  return ref.watch(policeConnectionApiServiceProvider).fetchConnection();
 });

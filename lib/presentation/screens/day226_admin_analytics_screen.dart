@@ -13,6 +13,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/colors.dart';
+// Aliased: this screen already has its own AdminAnalyticsSummary with a
+// different shape (dau / sos24h / crashFreePct / referralsToday /
+// policeConnections), none of which the server reports under those names.
+import '../../data/services/analytics_api_service.dart' as api;
+import '../../domain/providers/analytics_api_providers.dart';
 import '../../core/theme/spacing.dart';
 
 // ── Mock analytics ────────────────────────────────────────────────────────────
@@ -228,6 +233,10 @@ class _DashboardTab extends ConsumerWidget {
             'Last refresh $lastRefresh IST',
             style: const TextStyle(color: ZapColors.textMuted, fontSize: 10),
           ),
+        const SizedBox(height: ZapSpacing.lg),
+        // Real numbers first; the grid below is sample data whose labels do
+        // not map onto what this endpoint reports.
+        const _RealAdminSummary(),
         const SizedBox(height: ZapSpacing.lg),
         GridView.count(
           crossAxisCount: 2,
@@ -834,6 +843,111 @@ class _TabBar extends StatelessWidget {
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+
+// ── Day 366 — the server's real admin numbers ─────────────────────────────────
+
+/// GET /api/v1/admin/analytics/summary/ (staff only).
+///
+/// Shown alongside the sample tiles rather than replacing them, because the two
+/// do not line up. The server reports total users, DAU, an all-time SOS count,
+/// false positives and rate, monthly revenue, paid subscriptions and crashes.
+/// It does NOT report a crash-free percentage, referrals today, or police
+/// connections, and its sos_count is not the "last 24h" the sample tile claims.
+/// Mapping one onto the other would put real-looking numbers under the wrong
+/// labels.
+class _RealAdminSummary extends ConsumerWidget {
+  const _RealAdminSummary();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(adminAnalyticsSummaryProvider);
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: ZapColors.bgCard,
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: ZapColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('REAL  ·  GET /api/v1/admin/analytics/summary/',
+              style: TextStyle(
+                  color: ZapColors.info,
+                  fontSize: 11,
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          async.when(
+            loading: () => const Text('Loading…',
+                style: TextStyle(
+                    color: ZapColors.textSecondary, fontSize: 12)),
+            error: (e, _) => Text(
+              e is api.AdminAnalyticsForbiddenException
+                  // An authorisation answer, not an outage. Retrying will not
+                  // help, so it does not read as a failure.
+                  ? 'Staff only — this account cannot read admin analytics.'
+                  : "Couldn't load admin analytics: $e",
+              style: TextStyle(
+                color: e is api.AdminAnalyticsForbiddenException
+                    ? ZapColors.textSecondary
+                    : ZapColors.danger,
+                fontSize: 12,
+              ),
+            ),
+            data: (d) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'users ${d.totalUsers} · DAU ${d.dailyActiveUsers} · '
+                  'SOS ${d.sosCount} (all time, not 24h)',
+                  style: const TextStyle(
+                      color: ZapColors.textPrimary,
+                      fontSize: 12,
+                      fontFamily: 'monospace'),
+                ),
+                Text(
+                  'false positives ${d.falsePositives} · rate '
+                  // null means no terminal events yet — not a zero rate.
+                  '${d.falsePositiveRate == null ? "n/a" : "${(d.falsePositiveRate! * 100).toStringAsFixed(1)}%"}',
+                  style: const TextStyle(
+                      color: ZapColors.textSecondary,
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+                Text(
+                  'paid subs ${d.activePaidSubscriptions} · '
+                  'revenue ₹${d.revenueMonthlyInr}/mo',
+                  style: const TextStyle(
+                      color: ZapColors.textSecondary,
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+                Text(
+                  // The server says where its crash number came from; a figure
+                  // from a fallback source should not read as Sentry-accurate.
+                  'crashes ${d.crashCount}'
+                  '${d.crashCountSource.isEmpty ? "" : " (source: ${d.crashCountSource})"}',
+                  style: const TextStyle(
+                      color: ZapColors.textSecondary,
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Not reported by this endpoint: crash-free %, referrals '
+                  'today, police connections — the tiles below are samples.',
+                  style: TextStyle(color: ZapColors.warning, fontSize: 11),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

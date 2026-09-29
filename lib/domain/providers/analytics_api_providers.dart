@@ -147,3 +147,15 @@ final contactResponseRateRawProvider = FutureProvider<ContactResponseRate>((ref)
 final deviceHealthRawProvider = FutureProvider<DeviceHealthReport>((ref) {
   return ref.watch(analyticsApiServiceProvider).fetchDeviceHealth();
 });
+
+
+/// Day 366 — admin analytics summary (staff only).
+///
+/// No mock fallback, unlike the beta-scoped providers above: this is the
+/// screen an operator would read real numbers off, and a seeded stand-in there
+/// would be worse than an error. A 403 surfaces as
+/// AdminAnalyticsForbiddenException so the UI can say "staff only".
+final adminAnalyticsSummaryProvider =
+    FutureProvider<AdminAnalyticsSummary>((ref) {
+  return ref.watch(analyticsApiServiceProvider).fetchAdminSummary();
+});

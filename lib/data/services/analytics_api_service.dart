@@ -12,6 +12,8 @@
 /// — see DAY301_305_INTEGRATION_WIRING.md for the full note).
 library;
 
+import 'package:dio/dio.dart';
+
 import '../../core/constants/api_config.dart';
 import 'api_client.dart';
 
@@ -209,6 +211,69 @@ Map<String, int> _intMap(dynamic raw) {
 
 // ─── Service ────────────────────────────────────────────────────────────────
 
+
+/// Day 366 — GET /api/v1/admin/analytics/summary/ (staff only).
+///
+/// `IsAdminUser` server-side, so a normal account gets 403. That is an
+/// authorisation answer, not an outage, and is modelled separately from a
+/// failure so the screen can say "staff only" instead of "try again".
+class AdminAnalyticsSummary {
+  const AdminAnalyticsSummary({
+    required this.totalUsers,
+    required this.dailyActiveUsers,
+    required this.sosCount,
+    required this.falsePositives,
+    required this.activePaidSubscriptions,
+    required this.crashCount,
+    this.falsePositiveRate,
+    this.revenueMonthlyInr = 0,
+    this.crashCountSource = '',
+    this.topCrashes = const [],
+  });
+
+  factory AdminAnalyticsSummary.fromJson(Map<String, dynamic> j) =>
+      AdminAnalyticsSummary(
+        totalUsers: (j['total_users'] as num?)?.toInt() ?? 0,
+        dailyActiveUsers: (j['daily_active_users'] as num?)?.toInt() ?? 0,
+        sosCount: (j['sos_count'] as num?)?.toInt() ?? 0,
+        falsePositives: (j['false_positives'] as num?)?.toInt() ?? 0,
+        activePaidSubscriptions:
+            (j['active_paid_subscriptions'] as num?)?.toInt() ?? 0,
+        crashCount: (j['crash_count'] as num?)?.toInt() ?? 0,
+        // null is meaningful: no terminal events yet, so no rate exists.
+        // Defaulting it to 0.0 would read as "no false positives".
+        falsePositiveRate: (j['false_positive_rate'] as num?)?.toDouble(),
+        revenueMonthlyInr: (j['revenue_monthly_inr'] as num?)?.toInt() ?? 0,
+        // The server says where its crash number came from — worth keeping, so
+        // a figure sourced from a fallback is not read as Sentry-accurate.
+        crashCountSource: (j['crash_count_source'] ?? '').toString(),
+        topCrashes: ((j['top_crashes'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList(growable: false),
+      );
+
+  final int totalUsers;
+  final int dailyActiveUsers;
+  final int sosCount;
+  final int falsePositives;
+  final int activePaidSubscriptions;
+  final int crashCount;
+
+  /// null when the backend has no terminal events to compute a rate from.
+  final double? falsePositiveRate;
+
+  final int revenueMonthlyInr;
+  final String crashCountSource;
+  final List<String> topCrashes;
+}
+
+/// The signed-in account is not staff. Distinct from a transport failure.
+class AdminAnalyticsForbiddenException implements Exception {
+  const AdminAnalyticsForbiddenException();
+  @override
+  String toString() => 'Admin analytics is staff-only.';
+}
+
 class AnalyticsApiService {
   const AnalyticsApiService(this._client);
   final ApiClient _client;
@@ -259,5 +324,19 @@ class AnalyticsApiService {
       if (osVersion != null) 'os_version': osVersion,
       if (deviceModel != null) 'device_model': deviceModel,
     });
+  }
+
+  /// GET /api/v1/admin/analytics/summary/ — staff only.
+  Future<AdminAnalyticsSummary> fetchAdminSummary() async {
+    try {
+      final res = await _client.dio
+          .get<Map<String, dynamic>>(ApiConfig.adminAnalyticsSummary);
+      return AdminAnalyticsSummary.fromJson(res.data ?? const {});
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+        throw const AdminAnalyticsForbiddenException();
+      }
+      rethrow;
+    }
   }
 }

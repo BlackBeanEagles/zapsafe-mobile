@@ -17,6 +17,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/police_connection_api_service.dart';
+import '../../domain/providers/police_dispatch_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -89,6 +91,11 @@ final _d221ConnectionStateProvider = StateProvider<PoliceConnectionState>(
 final _d221ConnectionInfoProvider =
     StateProvider<PoliceConnectionInfo?>((ref) => null);
 final _d221SubmittingProvider = StateProvider<bool>((ref) => false);
+
+/// Why the last connection request did not go through. Distinguishes the
+/// feature-flag-off case from a real failure — the first is not something
+/// the user should retry.
+final _d221RequestErrorProvider = StateProvider<String?>((ref) => null);
 final _d221SelectedStateProvider = StateProvider<String>((ref) => 'MH');
 final _d221PendingRequestIdProvider = StateProvider<String?>((ref) => null);
 
@@ -142,17 +149,39 @@ Future<void> _submitRequest(
   String? badgeNumber,
 }) async {
   ref.read(_d221SubmittingProvider.notifier).state = true;
-  await Future<void>.delayed(const Duration(milliseconds: 900));
-  ref.read(_d221SubmittingProvider.notifier).state = false;
-  ref.read(_d221ConnectionStateProvider.notifier).state =
-      PoliceConnectionState.pending;
-  ref.read(_d221PendingRequestIdProvider.notifier).state = 'pol_123';
-  ref.read(_d221ConnectionInfoProvider.notifier).state = PoliceConnectionInfo(
-    departmentName: '$city Police — pending approval',
-    status: 'pending',
-    connectedAt: DateTime.now(),
-    requestId: 'pol_123',
-  );
+  try {
+    // POST /api/v1/police/connection/request/ — 202 Accepted, returns the
+    // real request id. The old code invented 'pol_123' and moved straight to
+    // pending, so a user believed a request had been filed with their local
+    // force when nothing had been sent.
+    final requestId = await ref
+        .read(policeConnectionApiServiceProvider)
+        .requestConnection(departmentName: '$city Police');
+    ref.read(_d221PendingRequestIdProvider.notifier).state = requestId;
+    ref.read(_d221ConnectionStateProvider.notifier).state =
+        PoliceConnectionState.pending;
+    ref.read(_d221ConnectionInfoProvider.notifier).state =
+        PoliceConnectionInfo(
+      departmentName: '$city Police — pending approval',
+      status: 'pending',
+      connectedAt: DateTime.now(),
+      requestId: requestId,
+    );
+    ref.invalidate(policeConnectionProvider);
+  } on PoliceFeatureDisabledException catch (e) {
+    // Not a failure: the server's `police` flag is off, so this feature is not
+    // live yet. Staying on notConnected is the truthful state.
+    ref.read(_d221RequestErrorProvider.notifier).state = e.message;
+    ref.read(_d221ConnectionStateProvider.notifier).state =
+        PoliceConnectionState.notConnected;
+  } catch (e) {
+    ref.read(_d221RequestErrorProvider.notifier).state =
+        "Couldn't submit that request: $e";
+    ref.read(_d221ConnectionStateProvider.notifier).state =
+        PoliceConnectionState.notConnected;
+  } finally {
+    ref.read(_d221SubmittingProvider.notifier).state = false;
+  }
 }
 
 void _simulateApproval(WidgetRef ref) {
@@ -807,7 +836,18 @@ class _RequestTabState extends ConsumerState<_RequestTab> {
             ),
           ),
         ),
-        const SizedBox(height: ZapSpacing.lg),
+        const SizedBox(height: ZapSpacing.md),
+        // Day 366 — why the last request did not go through. The
+        // feature-flag-off case is stated as such rather than as a failure,
+        // because retrying it will not help.
+        if (ref.watch(_d221RequestErrorProvider) != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: ZapSpacing.md),
+            child: Text(
+              ref.watch(_d221RequestErrorProvider)!,
+              style: const TextStyle(color: ZapColors.warning, fontSize: 12),
+            ),
+          ),
         Semantics(
           label: 'Submit connection request',
           button: true,

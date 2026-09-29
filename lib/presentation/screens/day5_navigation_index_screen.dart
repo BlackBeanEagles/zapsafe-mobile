@@ -1940,7 +1940,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFFEF4444),
               title: 'Day 226 · Admin Analytics (Internal)',
               route: AppRoutes.adminAnalytics,
-              hint: '/admin-analytics · 🟡 MOCK-NOW · Section B Day 6/20 · STAFF ONLY · 3-tab (Dashboard / Access Gate / API Contract) · locked until About long-press or dev flag · DAU 847 · SOS 12/24h · FP 4.8% · crash-free 99.91% · refresh mock · GET /api/v1/admin/analytics/summary/',
+              hint: '/admin-analytics · REAL panel from GET /api/v1/admin/analytics/summary/ (Day 366, staff only — a 403 says staff-only, not try-again); the sample tiles below stay because the endpoint reports no crash-free %, referrals-today or police-connections, and its sos_count is all-time rather than the last 24h those tiles claim · 🟡 MOCK-NOW · Section B Day 6/20 · STAFF ONLY · 3-tab (Dashboard / Access Gate / API Contract) · locked until About long-press or dev flag · DAU 847 · SOS 12/24h · FP 4.8% · crash-free 99.91% · refresh mock · GET /api/v1/admin/analytics/summary/',
               dayBuilt: 'DAY 226 ✅',
             ),
             const _NavTile(
@@ -1980,7 +1980,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF3B82F6),
               title: 'Day 221 · Police Dashboard',
               route: AppRoutes.policeDashboard,
-              hint: '/police-dashboard · 🟡 MOCK-NOW · Section B Day 1/20 · 3-tab (Overview / Request Connection / API Contract) · not connected / pending / connected states · department card Mumbai Cyber Cell · last drill · city+state+badge form · mock POST 202 · demo state chips · GET+POST contracts',
+              hint: '/police-dashboard · REAL POST /api/v1/police/connection/request/ (Day 366) — the old code invented request id pol_123 and jumped to pending, so a user believed a request had been filed with their local force when nothing was sent; the server feature flag being off is reported as not-available rather than as a failure to retry · needs a backend + JWT · 🟡 MOCK-NOW · Section B Day 1/20 · 3-tab (Overview / Request Connection / API Contract) · not connected / pending / connected states · department card Mumbai Cyber Cell · last drill · city+state+badge form · mock POST 202 · demo state chips · GET+POST contracts',
               dayBuilt: 'DAY 221 ✅',
             ),
             const _SectionTitle('LIVE · MONTH 11 · DAYS 201+'),
