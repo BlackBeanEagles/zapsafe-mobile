@@ -3,6 +3,14 @@
 /// Shows which emergency contacts received the SOS alert and when.
 /// Uses GET /api/v1/sos/{id}/delivery-status/ built Day 75.
 ///
+/// Day 366: this went through ApiClient. It previously built a raw Dio with
+/// ApiConfig.devToken — a hardcoded dev token — which skipped real JWT auth,
+/// token refresh AND certificate pinning. It also fell back to mock contacts on
+/// any error, so an auth failure or a pinning rejection rendered fabricated
+/// "delivered" badges for a real SOS. On the screen whose only job is to say
+/// whether help was reached, invented delivery data is the harm, not a
+/// convenience. Failures are now reported.
+///
 /// ── Features ──────────────────────────────────────────────────────────────
 ///   • Per-contact card showing push + SMS delivery status
 ///   • Colour-coded status: green=delivered, yellow=sent, red=failed, grey=pending
@@ -13,19 +21,23 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/api_config.dart';
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/auth_providers.dart';
 
-class DeliveryConfirmationScreen extends StatefulWidget {
+class DeliveryConfirmationScreen extends ConsumerStatefulWidget {
   final String? sosId;
   const DeliveryConfirmationScreen({super.key, this.sosId});
 
   @override
-  State<DeliveryConfirmationScreen> createState() => _DeliveryConfirmationScreenState();
+  ConsumerState<DeliveryConfirmationScreen> createState() =>
+      _DeliveryConfirmationScreenState();
 }
 
-class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen> {
+class _DeliveryConfirmationScreenState
+    extends ConsumerState<DeliveryConfirmationScreen> {
   List<Map<String, dynamic>> _contacts = [];
   bool _loading = true;
   String? _errorMsg;
@@ -62,33 +74,40 @@ class _DeliveryConfirmationScreenState extends State<DeliveryConfirmationScreen>
     setState(() { _loading = true; _errorMsg = null; });
     final sosId = widget.sosId;
     if (sosId == null) {
-      // Emulator: use mock data
+      // No SOS to report on — this is how the screen is reachable from the
+      // Day 5 index. Sample rows, labelled as such on screen so they cannot be
+      // read as a real delivery result.
       await Future.delayed(const Duration(milliseconds: 600));
-      setState(() { _contacts = _mockContacts; _loading = false; });
+      setState(() {
+        _contacts = _mockContacts;
+        _errorMsg = 'No SOS selected — showing SAMPLE rows, not delivery data.';
+        _loading = false;
+      });
       return;
     }
     try {
-      final dio = Dio(BaseOptions(
-        baseUrl: ApiConfig.baseUrl,
-        connectTimeout: ApiConfig.connectTimeout,
-        receiveTimeout: ApiConfig.receiveTimeout,
-      ));
-      final res = await dio.get(
-        '/api/v1/sos/$sosId/delivery-status/',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${ApiConfig.devToken}'},
-        ),
-      );
-      if (res.statusCode == 200) {
-        final data = res.data as Map<String, dynamic>;
-        setState(() => _contacts = List<Map<String, dynamic>>.from(data['contacts'] ?? []));
+      // Through ApiClient: real JWT with refresh, Accept-Language, and the
+      // pinned HTTP client. The raw Dio this replaced carried
+      // ApiConfig.devToken and no pinning.
+      final res = await ref
+          .read(apiClientProvider)
+          .dio
+          .get<Map<String, dynamic>>(ApiConfig.sosDeliveryStatusFor(sosId));
+      final data = res.data;
+      if (res.statusCode == 200 && data != null) {
+        setState(() => _contacts =
+            List<Map<String, dynamic>>.from(data['contacts'] ?? const []));
       } else {
-        setState(() => _errorMsg = 'Failed to load delivery status.');
+        setState(() => _errorMsg =
+            'Could not load delivery status (HTTP ${res.statusCode}).');
       }
-    } catch (_) {
+    } catch (e) {
+      // NO mock fallback. Showing invented "delivered" badges here would tell
+      // someone their emergency contacts were reached when nothing knows that.
       setState(() {
-        _contacts = _mockContacts;
-        _errorMsg = 'Showing mock data (offline)';
+        _contacts = const [];
+        _errorMsg = "Couldn't load delivery status. This does NOT mean the "
+            'alert failed — it means this screen cannot confirm it. $e';
       });
     } finally {
       setState(() => _loading = false);

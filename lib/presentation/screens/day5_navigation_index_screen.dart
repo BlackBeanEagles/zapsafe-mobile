@@ -74,7 +74,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: ZapColors.safe,
               title: 'Day 75 · Delivery Confirmation',
               route: AppRoutes.deliveryConfirmation,
-              hint: '/delivery-confirmation · per-contact push+SMS status cards · colour-coded: green=delivered yellow=sent red=failed purple=acked · sent/delivered/acked timestamps · "Acknowledged ✓" badge · GET /api/v1/sos/{id}/delivery-status/',
+              hint: '/delivery-confirmation · per-contact push+SMS status cards · colour-coded: green=delivered yellow=sent red=failed purple=acked · sent/delivered/acked timestamps · "Acknowledged ✓" badge · GET /api/v1/sos/{id}/delivery-status/ through ApiClient as of Day 366 — it previously used a raw Dio with the hardcoded ApiConfig.devToken, so no real JWT and NO CERT PINNING, and fell back to mock contacts on any error, rendering fabricated "delivered" badges for a real SOS. Failures now say they cannot confirm delivery rather than inventing it · with no sosId it shows SAMPLE rows, labelled',
               dayBuilt: 'DAY 75 ✅',
             ),
             const _NavTile(
@@ -1236,7 +1236,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF8B5CF6),
               title: 'Day 155-157 · Consent Management',
               route: AppRoutes.consentManagement,
-              hint: '/consent-management · 🟢 FRONTEND-ONLY (Hive) · summary strip (X/5 optional enabled + progress bar) · 3-tab (Consent / Audit Log / API Contract) · Consent: 6 toggle cards (1 required=locked, 5 optional) each with animated toggle + "What does this mean?" expandable (explanation + If OFF / If ON consequence boxes) + confirmation dialog on change · Audit Log: chronological change records with timestamps · API Contract: future PUT/GET endpoint schema + zero-restructuring migration guide',
+              hint: '/consent-management · 🟢 SERVER-BACKED as of Day 366 — GET/PUT /api/v1/account/consent/ via AccountService; toggles seed from the server and REVERT if a change is rejected, because a withdrawal that silently failed is the one thing this screen must never show · needs a backend + JWT · summary strip (X/5 optional enabled + progress bar) · 3-tab (Consent / Audit Log / API Contract) · Consent: 6 toggle cards (1 required=locked, 5 optional) each with animated toggle + "What does this mean?" expandable (explanation + If OFF / If ON consequence boxes) + confirmation dialog on change · Audit Log: chronological change records with timestamps · API Contract: future PUT/GET endpoint schema + zero-restructuring migration guide',
               dayBuilt: 'DAY 155 ✅',
             ),
             const _NavTile(

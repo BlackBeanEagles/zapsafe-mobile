@@ -1,6 +1,14 @@
 /// Day 155-157 — Consent Management Screen
 ///
-/// 🟢 FRONTEND-ONLY — Hive local storage, zero backend now.
+/// 🟢 SERVER-BACKED as of Day 366 — GET/PUT /api/v1/account/consent/ via
+/// AccountService. The note that used to sit here said "FRONTEND-ONLY — Hive
+/// local storage, zero backend now", while Tab 3 of this very screen
+/// documented the contract it should have been calling and AccountService had
+/// implemented it. A user withdrawing consent saw the toggle move and a
+/// "N saved" badge, and nothing was sent.
+///
+/// Toggles revert if the server rejects the change, because a withdrawal that
+/// silently failed is the one outcome this screen must never display.
 ///
 /// DPDP Act 2023 + GDPR hard requirement: consent must be:
 ///   • Granular — each data type toggled independently
@@ -25,6 +33,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/account_providers.dart';
 
 // ── Data model ─────────────────────────────────────────────────────────────────
 enum ConsentType {
@@ -207,6 +216,37 @@ final _consentValuesProvider = StateProvider<Map<ConsentType, bool>>(
 final _lastChangedProvider   = StateProvider<List<_ChangeRecord>>((ref) => []);
 final _activeTabProvider     = StateProvider<int>((ref) => 0);
 
+/// True once the local toggles have been seeded from the server, so a rebuild
+/// cannot overwrite a change the user just made.
+final _seededProvider        = StateProvider<bool>((ref) => false);
+
+/// Maps a [ConsentType] onto the matching AccountService parameter.
+///
+/// An exhaustive switch rather than `.name`: the enum is camelCase and the
+/// backend contract is snake_case, so `.name` would send `locationSos` for
+/// `location_sos` and be rejected — the same shape of bug that silently
+/// dropped two of the five Day 114 feedback categories. A switch makes a new
+/// enum member a compile error instead of a runtime miss.
+Future<void> _putConsentField(WidgetRef ref, ConsentType type, bool value) {
+  final svc = ref.read(accountServiceProvider);
+  switch (type) {
+    case ConsentType.locationSos:
+      // Unreachable: required consents return before this is called, and the
+      // server rejects location_sos=false with 400 LOCATION_SOS_REQUIRED.
+      return svc.putConsent(locationSos: value);
+    case ConsentType.evidenceRecording:
+      return svc.putConsent(evidenceRecording: value);
+    case ConsentType.cloudBackup:
+      return svc.putConsent(cloudBackup: value);
+    case ConsentType.heatmapContribution:
+      return svc.putConsent(heatmapContribution: value);
+    case ConsentType.analytics:
+      return svc.putConsent(analytics: value);
+    case ConsentType.modelImprovement:
+      return svc.putConsent(modelImprovement: value);
+  }
+}
+
 class _ChangeRecord {
   final ConsentType type;
   final bool newValue;
@@ -223,6 +263,23 @@ class Day155ConsentManagementScreen extends ConsumerWidget {
     final tab    = ref.watch(_activeTabProvider);
     final values = ref.watch(_consentValuesProvider);
     final changed= ref.watch(_lastChangedProvider);
+
+    // Seed the toggles from the server the first time it answers. Guarded by
+    // _seededProvider so a later rebuild cannot stomp a change the user just
+    // made and the server has already accepted.
+    ref.listen(userConsentProvider, (_, next) {
+      final remote = next.value;
+      if (remote == null || ref.read(_seededProvider)) return;
+      ref.read(_consentValuesProvider.notifier).state = {
+        ConsentType.locationSos: remote.locationSos,
+        ConsentType.evidenceRecording: remote.evidenceRecording,
+        ConsentType.cloudBackup: remote.cloudBackup,
+        ConsentType.heatmapContribution: remote.heatmapContribution,
+        ConsentType.analytics: remote.analytics,
+        ConsentType.modelImprovement: remote.modelImprovement,
+      };
+      ref.read(_seededProvider.notifier).state = true;
+    });
 
     final optionalCount = _kConsentItems.where((i) => !i.isRequired).length;
     final enabledCount  = _kConsentItems
@@ -263,6 +320,11 @@ class Day155ConsentManagementScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _Hero(),
+            const SizedBox(height: ZapSpacing.lg),
+
+            // What the SERVER has. The toggles below are seeded from it; this
+            // says so plainly rather than leaving the screen looking local.
+            const _ServerConsentState(),
             const SizedBox(height: ZapSpacing.xl),
 
             // Summary strip
@@ -537,13 +599,35 @@ class _ConsentCardState extends ConsumerState<_ConsentCard> {
 
     if (confirm != true) return;
 
-    // Update value
-    final updated = Map<ConsentType, bool>.from(
+    // Optimistic flip so the switch feels immediate...
+    final previous = Map<ConsentType, bool>.from(
         ref.read(_consentValuesProvider));
+    final updated = Map<ConsentType, bool>.from(previous);
     updated[item.type] = newValue;
     ref.read(_consentValuesProvider.notifier).state = updated;
 
-    // Log change
+    // ...but it only stays if the server accepted it. A withdrawal that
+    // silently failed, still showing as off, is the exact outcome this screen
+    // must never display.
+    try {
+      await _putConsentField(ref, item.type, newValue);
+    } catch (e) {
+      ref.read(_consentValuesProvider.notifier).state = previous;
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Couldn't save that change: $e"),
+            backgroundColor: const Color(0xFFEF4444),
+          ),
+        );
+      }
+      return;
+    }
+
+    // Keep the server view in step, so the panel above does not go stale.
+    ref.invalidate(userConsentProvider);
+
+    // Log change — now a record of something that actually happened.
     final log = List<_ChangeRecord>.from(
         ref.read(_lastChangedProvider));
     log.insert(0, _ChangeRecord(item.type, newValue, DateTime.now()));
@@ -1149,3 +1233,70 @@ Widget _codeNote(String filename, String code) => Container(
                 fontFamily: 'monospace', height: 1.6)),
       ]),
     );
+
+
+// ── Day 366 — the server's consent record ─────────────────────────────────────
+
+/// Reads `GET /api/v1/account/consent/`, which is the authoritative record.
+///
+/// Shown because this screen spent its life looking like it had saved things it
+/// had not. If the server cannot be reached the toggles below are local only,
+/// and that is stated rather than implied.
+class _ServerConsentState extends ConsumerWidget {
+  const _ServerConsentState();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(userConsentProvider);
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: const Color(0xFF2A2A2A)),
+      ),
+      child: async.when(
+        loading: () => const Text('Reading your consent record…',
+            style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
+        error: (e, _) => Text(
+          "Couldn't reach the server — these toggles are LOCAL ONLY and will "
+          'not be saved. ($e)',
+          style: const TextStyle(color: Color(0xFFEF4444), fontSize: 12),
+        ),
+        data: (c) {
+          final on = <String>[
+            if (c.evidenceRecording) 'evidence',
+            if (c.cloudBackup) 'cloud backup',
+            if (c.heatmapContribution) 'heatmap',
+            if (c.analytics) 'analytics',
+            if (c.modelImprovement) 'model improvement',
+          ];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('SERVER RECORD  ·  GET /api/v1/account/consent/',
+                  style: TextStyle(
+                      color: Color(0xFF79C0FF),
+                      fontSize: 11,
+                      fontFamily: 'monospace',
+                      fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              Text(
+                on.isEmpty
+                    ? 'No optional consents granted.'
+                    : 'Optional consents on: ${on.join(", ")}',
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+              const SizedBox(height: 2),
+              Text('last updated ${c.updatedAt.toLocal()}',
+                  style: const TextStyle(
+                      color: Color(0xFF6B7280),
+                      fontSize: 11,
+                      fontFamily: 'monospace')),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
