@@ -908,7 +908,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF3B82F6),
               title: 'Day 114 · Feedback Form',
               route: AppRoutes.feedbackForm,
-              hint: '/feedback-form · 5-star rating · 5-category picker · multiline text input · validation · mock POST /api/v1/feedback/submit · loading → success → auto-dismiss',
+              hint: '/feedback-form · 5-star rating · 5-category picker · multiline text input · validation · REAL POST /api/v1/feedback/submit (wired Day 366; was mock and discarded every report) · needs a reachable backend + JWT, or run with --dart-define=USE_MOCK_DATA=true · failures show the reason instead of a false success',
               dayBuilt: 'DAY 114 ✅',
             ),
             const _NavTile(

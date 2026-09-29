@@ -204,6 +204,11 @@ class ApiConfig {
   static String journeyGroupPanicFor(String sessionId) =>
       '/api/v1/journey/group/$sessionId/panic/';
 
+  // Beta feedback — Day 114 backend, Day 366 first real Flutter wire
+  // (authenticated POST). zapsafe_backend/feedback/urls.py.
+  static const feedbackSubmit = '/api/v1/feedback/submit/';
+  static const feedbackFalsePositive = '/api/v1/feedback/false-positive/';
+
   // ─── Development Auth ──────────────────────────────────────────────────
   /// Development token for emulator testing (Django token from backend test user).
   /// In production, this is obtained from OTP verification flow.

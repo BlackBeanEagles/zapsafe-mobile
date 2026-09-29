@@ -1,27 +1,39 @@
 /// Day 114 — Full Feedback Form Screen
 ///
 /// Structured feedback form: 5-star rating + category dropdown (5 options)
-/// + multiline text input. Validates before submit. Mock POST to
-/// /api/v1/feedback/submit. Shows loading → success → auto-dismiss.
+/// + multiline text input. Validates before submit, then POSTs to
+/// /api/v1/feedback/submit for real (wired Day 366 — this screen shipped with
+/// a mock that discarded every report). Shows loading → success → auto-dismiss,
+/// or a SnackBar with the reason when the submission is refused.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/app_version_info.dart';
+import '../../data/services/feedback_api_service.dart';
+import '../../domain/providers/feedback_api_providers.dart';
 
 // ── Enums ──────────────────────────────────────────────────────────────────────
 enum _FeedbackCategory {
-  general('General feedback',       Icons.chat_bubble_outline_rounded,  Color(0xFF3B82F6)),
-  crash(  'Crash report',           Icons.bug_report_rounded,            Color(0xFFEF4444)),
-  falseAlarm('False alarm (SOS)',   Icons.warning_amber_rounded,         Color(0xFFF59E0B)),
-  uxIssue('UX issue',               Icons.touch_app_rounded,             Color(0xFF8B5CF6)),
-  performance('Performance issue',  Icons.speed_rounded,                 Color(0xFF10B981));
+  general('General feedback',       Icons.chat_bubble_outline_rounded,  Color(0xFF3B82F6), FeedbackCategory.general),
+  crash(  'Crash report',           Icons.bug_report_rounded,            Color(0xFFEF4444), FeedbackCategory.crash),
+  falseAlarm('False alarm (SOS)',   Icons.warning_amber_rounded,         Color(0xFFF59E0B), FeedbackCategory.falseAlarm),
+  uxIssue('UX issue',               Icons.touch_app_rounded,             Color(0xFF8B5CF6), FeedbackCategory.uxIssue),
+  performance('Performance issue',  Icons.speed_rounded,                 Color(0xFF10B981), FeedbackCategory.performance);
 
   final String label;
   final IconData icon;
   final Color color;
-  const _FeedbackCategory(this.label, this.icon, this.color);
+
+  /// The backend's wire value. Deliberately NOT derived from `.name`:
+  /// `falseAlarm` must go out as `false_alarm` and `uxIssue` as `ux`, so
+  /// `.name` would be silently rejected for exactly those two categories.
+  /// See FeedbackCategory in data/services/feedback_api_service.dart.
+  final FeedbackCategory api;
+
+  const _FeedbackCategory(this.label, this.icon, this.color, this.api);
 }
 
 enum _SubmitState { idle, loading, success, error }
@@ -66,9 +78,42 @@ class _Day114FeedbackFormScreenState
 
     ref.read(_submitProvider.notifier).state = _SubmitState.loading;
 
-    // Mock POST /api/v1/feedback/submit
-    await Future.delayed(const Duration(milliseconds: 1400));
+    // Real version from pubspec.yaml (Day 324 AppVersionInfo); load() has
+    // its own honest "unknown" fallback, so this cannot throw.
+    final version = await AppVersionInfo.load();
 
+    try {
+      await ref.read(submitFeedbackProvider)(
+        rating: ref.read(_ratingProvider),
+        category: category.api,
+        message: _messageCtrl.text,
+        appVersion: version.raw,
+      );
+    } on FeedbackSubmitException catch (e) {
+      if (!mounted) return;
+      ref.read(_submitProvider.notifier).state = _SubmitState.error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: const Color(0xFFEF4444),
+        ),
+      );
+      return;
+    } catch (e) {
+      // Anything the service did not classify. The report did not land, so say
+      // so — a false success costs a real bug report.
+      if (!mounted) return;
+      ref.read(_submitProvider.notifier).state = _SubmitState.error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't send that report. Please try again."),
+          backgroundColor: Color(0xFFEF4444),
+        ),
+      );
+      return;
+    }
+
+    if (!mounted) return;
     ref.read(_submitProvider.notifier).state = _SubmitState.success;
 
     await Future.delayed(const Duration(milliseconds: 1800));
