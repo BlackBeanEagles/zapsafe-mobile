@@ -17,6 +17,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/police_dispatch_api_service.dart';
+import '../../domain/providers/police_dispatch_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -282,7 +284,12 @@ class _Day222PoliceDispatchStatusScreenState
           ),
           Expanded(
             child: switch (tab) {
-              0 => const _LiveDispatchTab(),
+              0 => const Column(
+                  children: [
+                    _RealDispatchPanel(),
+                    Expanded(child: _LiveDispatchTab()),
+                  ],
+                ),
               1 => const _ControlsTab(),
               _ => const _ApiContractTab(),
             },
@@ -1022,6 +1029,153 @@ class _TabBar extends StatelessWidget {
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+
+// ── Day 366 — the real dispatch status ────────────────────────────────────────
+
+/// GET /api/v1/police/dispatch/<sos_id>/ via PoliceDispatchApiService.
+///
+/// The tab below is a scripted walkthrough of the dispatch stages, which is a
+/// legitimate thing for this screen to have; this panel is the live one.
+///
+/// It surfaces the response's own `is_mock` flag. The backend sets that when it
+/// is returning placeholder dispatch data rather than a real police feed, and
+/// hiding it would let simulated dispatch read as a genuine unit en route —
+/// which, on a screen someone checks during an emergency, is the worst possible
+/// thing to get wrong.
+class _RealDispatchPanel extends ConsumerStatefulWidget {
+  const _RealDispatchPanel();
+
+  @override
+  ConsumerState<_RealDispatchPanel> createState() => _RealDispatchPanelState();
+}
+
+class _RealDispatchPanelState extends ConsumerState<_RealDispatchPanel> {
+  final _ctrl = TextEditingController();
+  bool _loading = false;
+  String? _error;
+  PoliceDispatchStatus? _status;
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _load() async {
+    final id = _ctrl.text.trim();
+    if (id.isEmpty) return;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final st = await ref
+          .read(policeDispatchApiServiceProvider)
+          .fetchDispatchStatus(id);
+      if (!mounted) return;
+      setState(() {
+        _status = st;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _status = null;
+        _error = '$e';
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final st = _status;
+    return Container(
+      margin: const EdgeInsets.all(ZapSpacing.md),
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: ZapColors.bgCard,
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: ZapColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('REAL  ·  GET /api/v1/police/dispatch/<sos_id>/',
+              style: TextStyle(
+                  color: ZapColors.info,
+                  fontSize: 11,
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: ZapSpacing.sm),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _ctrl,
+                  style: const TextStyle(
+                      color: ZapColors.textPrimary,
+                      fontSize: 12,
+                      fontFamily: 'monospace'),
+                  decoration:
+                      const InputDecoration(hintText: 'sos id', isDense: true),
+                ),
+              ),
+              const SizedBox(width: ZapSpacing.sm),
+              TextButton(
+                onPressed: _loading ? null : _load,
+                child: Text(_loading ? 'Loading…' : 'Load'),
+              ),
+            ],
+          ),
+          if (_error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Text("Couldn't read dispatch status: $_error",
+                  style:
+                      const TextStyle(color: ZapColors.danger, fontSize: 11)),
+            ),
+          if (st != null) ...[
+            const Divider(height: ZapSpacing.lg),
+            // The server's own honesty flag, shown rather than swallowed.
+            if (st.isMock)
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: ZapColors.warning.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(6),
+                  border:
+                      Border.all(color: ZapColors.warning.withOpacity(0.35)),
+                ),
+                child: const Text(
+                  'is_mock: true — the BACKEND is returning placeholder '
+                  'dispatch data, not a live police feed',
+                  style: TextStyle(color: ZapColors.warning, fontSize: 11),
+                ),
+              ),
+            const SizedBox(height: 6),
+            Text('${st.status} · ref ${st.referenceNumber}',
+                style: const TextStyle(
+                    color: ZapColors.textPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600)),
+            for (final e in st.timeline)
+              Text(
+                '${e.status}${e.at == null ? "" : " · ${e.at!.toLocal()}"}'
+                '${(e.note ?? "").isEmpty ? "" : " · ${e.note}"}',
+                style: const TextStyle(
+                    color: ZapColors.textSecondary,
+                    fontSize: 11,
+                    fontFamily: 'monospace'),
+              ),
+          ],
+        ],
       ),
     );
   }

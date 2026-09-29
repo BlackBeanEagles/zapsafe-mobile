@@ -1956,7 +1956,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF10B981),
               title: 'Day 224 · Referral Invite a Friend',
               route: AppRoutes.referralInvite,
-              hint: '/referral-invite · 🟡 MOCK-NOW · Section B Day 4/20 · 3-tab (Invite / My Referrals / API Contract) · code ZAP-HRIDYA42 · share link · mock share sheet WhatsApp/SMS/copy · +10 Protection Score both users · pending/completed list · simulate complete · GET code + stats',
+              hint: '/referral-invite · REAL code + link from GET /api/v1/referral/code/ (Day 366); the hardcoded ZAP-HRIDYA42 is gone — it was shown as the user\'s own code and pasted into the share message, so anyone who sent it handed out a code nobody could redeem · no mock fallback here on purpose: copy refuses rather than hand out a dead code · needs a backend + JWT · 🟡 MOCK-NOW · Section B Day 4/20 · 3-tab (Invite / My Referrals / API Contract) · code ZAP-HRIDYA42 · share link · mock share sheet WhatsApp/SMS/copy · +10 Protection Score both users · pending/completed list · simulate complete · GET code + stats',
               dayBuilt: 'DAY 224 ✅',
             ),
             const _NavTile(
@@ -1972,7 +1972,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF3B82F6),
               title: 'Day 222 · Police Dispatch Status',
               route: AppRoutes.policeDispatchStatus,
-              hint: '/police-dispatch-status · 🟡 MOCK-NOW · Section B Day 2/20 · 3-tab (Live Dispatch / Controls / API Contract) · 4-step stepper Received→Dispatched→En route→Arrived · ref MP-2026-88421 · copy ref # · auto-advance 8s · ETA card · links SOS Active + Day 221 · GET /api/v1/police/dispatch/{sos_id}/',
+              hint: '/police-dispatch-status · REAL panel from GET /api/v1/police/dispatch/<sos_id>/ (Day 366), which surfaces the response\'s own is_mock flag — the backend sets it when returning placeholder dispatch rather than a live police feed, and hiding that would let simulated dispatch read as a unit actually en route · stage walkthrough below is scripted · needs a backend + JWT · 🟡 MOCK-NOW · Section B Day 2/20 · 3-tab (Live Dispatch / Controls / API Contract) · 4-step stepper Received→Dispatched→En route→Arrived · ref MP-2026-88421 · copy ref # · auto-advance 8s · ETA card · links SOS Active + Day 221 · GET /api/v1/police/dispatch/{sos_id}/',
               dayBuilt: 'DAY 222 ✅',
             ),
             const _NavTile(

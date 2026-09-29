@@ -17,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../domain/providers/referral_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -39,13 +40,27 @@ class ReferralEntry {
   });
 }
 
-const _kReferralCode = 'ZAP-HRIDYA42';
-const _kReferralLink = 'https://zapsafe.app/r/ZAP-HRIDYA42';
-const _kShareMessage =
-    'Stay safe with ZapSafe — my invite link gives us both +10 Protection Score '
-    'when you finish onboarding: $_kReferralLink';
+// Day 366 — the hardcoded 'ZAP-HRIDYA42' code and link are gone. They were
+// shown as the user's OWN referral code and interpolated into the share
+// message, so anyone who sent it handed out a code nobody could redeem.
+
+/// The share text, built around the REAL link.
+String _shareMessage(String link) =>
+    'Stay safe with ZapSafe — my invite link gives us both +10 Protection '
+    'Score when you finish onboarding: $link';
 
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
+
+/// Day 366 — the REAL referral code, with no mock fallback.
+///
+/// referralCodeProvider substitutes a seeded 'ZAP-MOCK42' when the API fails.
+/// That is fine for a read-only stat and wrong here: this code gets copied
+/// into a message and sent to someone, and a mock one cannot be redeemed.
+/// Errors surface so the screen can say it has no code rather than hand out
+/// a dead one.
+final _d224RealCodeProvider = FutureProvider((ref) {
+  return ref.watch(referralApiServiceProvider).fetchCode();
+});
 
 const _kCodeJson = '''{
   "code": "ZAP-HRIDYA42",
@@ -206,7 +221,17 @@ Future<void> _showMockShareSheet(BuildContext context, WidgetRef ref) async {
             label: 'Copy link',
             color: ZapColors.warning,
             onTap: () {
-              Clipboard.setData(const ClipboardData(text: _kShareMessage));
+              final link = ref.watch(_d224RealCodeProvider).valueOrNull?.link;
+              if (link == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('No invite link yet — could not '
+                          'reach the server.')),
+                );
+                return;
+              }
+              Clipboard.setData(
+                  ClipboardData(text: _shareMessage(link)));
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Invite message copied')),
@@ -305,10 +330,13 @@ class _InviteTab extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  _kReferralCode,
-                  style: TextStyle(
+                  ref.watch(_d224RealCodeProvider).maybeWhen(
+                        data: (c) => c.code,
+                        orElse: () => '—',
+                      ),
+                  style: const TextStyle(
                     color: ZapColors.textPrimary,
                     fontFamily: 'monospace',
                     fontSize: 22,
@@ -322,9 +350,19 @@ class _InviteTab extends ConsumerWidget {
                 button: true,
                 child: IconButton(
                   onPressed: () {
-                    Clipboard.setData(
-                      const ClipboardData(text: _kReferralCode),
-                    );
+                    final code = ref.watch(_d224RealCodeProvider).valueOrNull;
+                    if (code == null) {
+                      // Better to copy nothing than a code that cannot be
+                      // redeemed by whoever it is sent to.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'No referral code yet — could not reach the server.'),
+                        ),
+                      );
+                      return;
+                    }
+                    Clipboard.setData(ClipboardData(text: code.code));
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Code copied')),
                     );
@@ -354,9 +392,12 @@ class _InviteTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radiusSmall),
             border: Border.all(color: ZapColors.border),
           ),
-          child: const SelectableText(
-            _kReferralLink,
-            style: TextStyle(
+          child: SelectableText(
+            ref.watch(_d224RealCodeProvider).maybeWhen(
+                  data: (c) => c.link,
+                  orElse: () => 'No link yet — could not reach the server.',
+                ),
+            style: const TextStyle(
               color: ZapColors.info,
               fontFamily: 'monospace',
               fontSize: 12,
@@ -386,7 +427,17 @@ class _InviteTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.sm),
         OutlinedButton.icon(
           onPressed: () {
-            Clipboard.setData(const ClipboardData(text: _kShareMessage));
+            final link = ref.watch(_d224RealCodeProvider).valueOrNull?.link;
+              if (link == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('No invite link yet — could not '
+                          'reach the server.')),
+                );
+                return;
+              }
+              Clipboard.setData(
+                  ClipboardData(text: _shareMessage(link)));
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Full invite message copied')),
             );
