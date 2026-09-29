@@ -1212,7 +1212,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF10B981),
               title: 'Day 152 · Policy Consent Tracking',
               route: AppRoutes.policyConsent,
-              hint: '/policy-consent · 🟢 FRONTEND-ONLY · 3-tab (Status / Service / Banner Demo) · Status: overall consent card + per-policy rows (accepted v vs current v, View button) + acceptance metadata (device/time/versions) + simulate policy update · Service: Hive schema + PolicyConsentService code + GoRouter redirect integration + main.dart init · Banner Demo: live PolicyUpdateBanner widget in mock dashboard (toggle outdated/accepted)',
+              hint: '/policy-consent · 🟢 SERVER-BACKED as of Day 366 — accepting writes an append-only row to POST /api/v1/account/policy-acceptance/ (DPDP §6 demonstrability; before this the proof lived only in Hive and died on reinstall), and the server panel at the top shows which versions the SERVER requires so a new policy can force re-acceptance without a store rollout · needs a backend + JWT · 3-tab (Status / Service / Banner Demo) · Status: overall consent card + per-policy rows (accepted v vs current v, View button) + acceptance metadata (device/time/versions) + simulate policy update · Service: Hive schema + PolicyConsentService code + GoRouter redirect integration + main.dart init · Banner Demo: live PolicyUpdateBanner widget in mock dashboard (toggle outdated/accepted)',
               dayBuilt: 'DAY 152 ✅',
             ),
             const _NavTile(

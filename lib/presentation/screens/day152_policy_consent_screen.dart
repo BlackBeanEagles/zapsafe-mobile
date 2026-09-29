@@ -23,11 +23,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/app_version_info.dart';
+import '../../data/services/capability_report_service.dart';
+import '../../domain/providers/account_providers.dart';
 import 'day151_privacy_policy_screen.dart';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
-/// Current policy versions — bump these when policies change.
-/// The consent service compares stored version vs these.
+/// Current policy versions as this BUILD understands them.
+///
+/// Day 366: these are no longer the authority. The server reports what it
+/// requires at GET /api/v1/account/policy-acceptance/, and the re-consent
+/// decision is made there — otherwise publishing a new policy could only force
+/// re-acceptance via a store rollout, and only for users who updated. These
+/// remain as the version this build actually displays, which is the honest
+/// thing to record on acceptance.
 const kCurrentPrivacyVersion = '2.0';
 const kCurrentTermsVersion   = '1.0'; // ToS built Day 153-154
 const kPrivacyUpdatedDate    = 'June 17, 2026';
@@ -313,6 +322,11 @@ class _StatusTab extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // What the SERVER has on record. The card below this is the local
+        // demo state; this is the row that would be produced in an audit.
+        const _ServerAcceptancePanel(),
+        const SizedBox(height: ZapSpacing.lg),
+
         // Overall status card
         Container(
           padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -475,16 +489,50 @@ class _StatusTab extends ConsumerWidget {
                 ? () {}
                 : () async {
                     ref.read(_reAcceptingProvider.notifier).state = true;
-                    await Future.delayed(const Duration(milliseconds: 300));
+
+                    // Record the version this build actually showed. Sending a
+                    // version the user was not shown would make the audit row
+                    // a lie, which is worse than having no row.
+                    // .$1 is the device model; os name/version are not part
+                    // of the acceptance record.
+                    final model =
+                        (await CapabilityReportService.collectDeviceInfo()).$1;
+                    final version = await AppVersionInfo.load();
+
+                    try {
+                      await ref
+                          .read(accountServiceProvider)
+                          .recordPolicyAcceptance(
+                            privacyPolicyVersion: kCurrentPrivacyVersion,
+                            termsVersion: kCurrentTermsVersion,
+                            deviceModel: model,
+                            appVersion: version.raw,
+                          );
+                      // Re-read so the server-side panel reflects it.
+                      ref.invalidate(policyAcceptanceProvider);
+                    } catch (e) {
+                      if (context.mounted) {
+                        ref.read(_reAcceptingProvider.notifier).state = false;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Could not record your acceptance: $e'),
+                            backgroundColor: const Color(0xFFEF4444),
+                          ),
+                        );
+                      }
+                      // Deliberately do NOT update the local record — showing
+                      // "accepted" for a row that was never written is exactly
+                      // the gap this change closes.
+                      return;
+                    }
+
                     if (!context.mounted) return;
-                    // In production this opens the Day151 screen with showAcceptButton=true
-                    // Here we just simulate immediate acceptance
                     ref.read(_consentRecordProvider.notifier).state =
                         _ConsentRecord(
                           privacyVersion: kCurrentPrivacyVersion,
                           termsVersion: kCurrentTermsVersion,
                           acceptedAt: DateTime.now(),
-                          deviceModel: 'Pixel 7',
+                          deviceModel: model.isEmpty ? 'unknown device' : model,
                         );
                     ref.read(_reAcceptingProvider.notifier).state = false;
                   },
@@ -1028,3 +1076,120 @@ Widget _codeNote(String filename, String code) => Container(
                 fontFamily: 'monospace', height: 1.6)),
       ]),
     );
+
+
+// ── Day 366 — the server's record ─────────────────────────────────────────────
+
+/// Reads `GET /api/v1/account/policy-acceptance/`.
+///
+/// Shown separately from the local card on purpose. Before today this screen
+/// could only report what the device remembered, which is not evidence: a
+/// reinstall erased it, and DPDP §6 asks the fiduciary to demonstrate consent
+/// was given. This panel is the durable, append-only row.
+class _ServerAcceptancePanel extends ConsumerWidget {
+  const _ServerAcceptancePanel();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(policyAcceptanceProvider);
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: const Color(0xFF2A2A2A)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'SERVER RECORD  ·  GET /api/v1/account/policy-acceptance/',
+            style: TextStyle(
+              color: Color(0xFF79C0FF),
+              fontSize: 11,
+              fontFamily: 'monospace',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+          async.when(
+            loading: () => const Text('Reading your acceptance record…',
+                style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
+            error: (e, _) => Text(
+              "Couldn't read the server record: $e",
+              style: const TextStyle(color: Color(0xFFEF4444), fontSize: 12),
+            ),
+            data: (s) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  s.needsAcceptance
+                      ? 'Server requires acceptance'
+                      : 'Up to date with the server',
+                  style: TextStyle(
+                    color: s.needsAcceptance
+                        ? const Color(0xFFF59E0B)
+                        : const Color(0xFF10B981),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'server requires privacy ${s.requiredPrivacyVersion} · '
+                  'terms ${s.requiredTermsVersion}',
+                  style: const TextStyle(
+                      color: Color(0xFF9CA3AF),
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+                // The comparison that used to happen against a Dart const.
+                if (s.requiredPrivacyVersion != kCurrentPrivacyVersion)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      'this build displays $kCurrentPrivacyVersion — the server '
+                      'wants ${s.requiredPrivacyVersion}, so this build cannot '
+                      'satisfy it and the app needs updating',
+                      style: const TextStyle(
+                          color: Color(0xFFF59E0B), fontSize: 11),
+                    ),
+                  ),
+                const SizedBox(height: ZapSpacing.sm),
+                if (s.latest == null)
+                  const Text('No acceptance on record for this account.',
+                      style: TextStyle(color: Color(0xFFF59E0B), fontSize: 12))
+                else ...[
+                  Text(
+                    'last accepted privacy ${s.latest!.privacyPolicyVersion}'
+                    '${s.latest!.termsVersion.isEmpty ? "" : " · terms ${s.latest!.termsVersion}"}',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'monospace'),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'at ${s.latest!.acceptedAt} (server clock)'
+                    '${s.latest!.deviceModel.isEmpty ? "" : " · ${s.latest!.deviceModel}"}',
+                    style: const TextStyle(
+                        color: Color(0xFF9CA3AF),
+                        fontSize: 11,
+                        fontFamily: 'monospace'),
+                  ),
+                  // >1 proves the append-only property held through a bump.
+                  Text(
+                    '${s.historyCount} acceptance${s.historyCount == 1 ? "" : "s"} '
+                    'on record (append-only — earlier versions are kept)',
+                    style: const TextStyle(
+                        color: Color(0xFF6B7280), fontSize: 11),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

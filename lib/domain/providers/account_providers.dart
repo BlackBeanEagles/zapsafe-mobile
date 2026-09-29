@@ -30,6 +30,17 @@ final retentionPreferenceProvider = FutureProvider<RetentionPreference>((ref) {
 
 /// Who has received this user's personal data — real emergency contacts
 /// + 3 fixed platform-level disclosures (DPDP §11(1)(b)).
+/// Day 366 — which policy version this user accepted, and whether the server
+/// now requires a newer one.
+///
+/// `autoDispose` is deliberately NOT used: the answer gates whether the app may
+/// show a re-consent banner, and re-fetching it on every screen rebuild would
+/// put a network call behind a banner.
+final policyAcceptanceProvider =
+    FutureProvider<PolicyAcceptanceStatus>((ref) {
+  return ref.watch(accountServiceProvider).fetchPolicyAcceptance();
+});
+
 final thirdPartyAccessProvider = FutureProvider<List<ThirdPartyEntry>>((ref) {
   return ref.watch(accountServiceProvider).fetchThirdPartyAccess();
 });

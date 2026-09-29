@@ -116,7 +116,7 @@ class CapabilityReportService {
   /// needs to be passed in.
   Future<CapabilityReportRecord> submit(CapabilityProbeResult probe) async {
     final deviceId = await getOrCreateDeviceId();
-    final (model, osName, osVersion) = await _collectDeviceInfo();
+    final (model, osName, osVersion) = await collectDeviceInfo();
 
     final body = <String, dynamic>{
       'device_id':      deviceId,
@@ -181,7 +181,11 @@ class CapabilityReportService {
 
   /// Returns (deviceModel, osName, osVersion) using device_info_plus.
   /// Falls back to empty strings on any error or unsupported platform.
-  static Future<(String, String, String)> _collectDeviceInfo() async {
+  ///
+  /// Public since Day 366: the policy-acceptance record wants the device model
+  /// too, and duplicating the platform branch in a second place is worse than
+  /// sharing this one.
+  static Future<(String, String, String)> collectDeviceInfo() async {
     try {
       final plugin = DeviceInfoPlugin();
       if (Platform.isAndroid) {

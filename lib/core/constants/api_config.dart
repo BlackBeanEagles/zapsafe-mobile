@@ -156,6 +156,10 @@ class ApiConfig {
   static const accountRetentionPurgeNow = '/api/v1/account/retention/purge-now/';
   static const accountAuditLog          = '/api/v1/account/audit-log/';
   static const accountThirdPartyAccess  = '/api/v1/account/third-party-access/';
+  // Day 366 — append-only DPDP §6 demonstrability record. NOT the same as
+  // accountConsent above: that is current state, this is which notice
+  // version was agreed to and when.
+  static const accountPolicyAcceptance  = '/api/v1/account/policy-acceptance/';
 
   // Analytics — Day 81-85 backend, wired Day 302 (authenticated GET; device-health also POST)
   static const analyticsSosSummary          = '/api/v1/analytics/sos-summary/';

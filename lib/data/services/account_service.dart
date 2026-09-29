@@ -9,7 +9,12 @@
 /// Day 384 DPDP sign-off — all found `find lib/data/services -iname
 /// '*account*'` returns nothing). A real Day 336/361 P1 finding.
 ///
-/// Deliberately covers only consent / sessions / retention here — NOT
+/// Day 366 adds policy-acceptance. That is not a fourth duplicate of an
+/// existing right: nothing else records WHICH version of the notice a user
+/// agreed to. Until now that lived only in the app's own Hive box, so it was
+/// destroyed on reinstall and could not be produced in an audit.
+///
+/// Otherwise covers only consent / sessions / retention — NOT
 /// export-request or delete-request. Day 337's own audit already found
 /// those two DPDP rights (data portability, right to erasure) fully live
 /// end-to-end via the OLDER `/api/v1/data-export/` (Day 69,
@@ -231,6 +236,85 @@ class ThirdPartyEntry {
 
 // ─── Service ──────────────────────────────────────────────────────────────────
 
+/// One recorded acceptance. Append-only server-side — there is no update path
+/// on purpose, so this has no copyWith.
+class PolicyAcceptanceRecord {
+  const PolicyAcceptanceRecord({
+    required this.id,
+    required this.privacyPolicyVersion,
+    required this.termsVersion,
+    required this.acceptedAt,
+    this.clientAcceptedAt,
+    this.deviceModel = '',
+    this.appVersion = '',
+  });
+
+  factory PolicyAcceptanceRecord.fromJson(Map<String, dynamic> j) =>
+      PolicyAcceptanceRecord(
+        id: (j['id'] ?? '').toString(),
+        privacyPolicyVersion: (j['privacy_policy_version'] ?? '').toString(),
+        termsVersion: (j['terms_version'] ?? '').toString(),
+        acceptedAt: DateTime.parse(j['accepted_at'] as String).toLocal(),
+        clientAcceptedAt: j['client_accepted_at'] == null
+            ? null
+            : DateTime.parse(j['client_accepted_at'] as String).toLocal(),
+        deviceModel: (j['device_model'] ?? '').toString(),
+        appVersion: (j['app_version'] ?? '').toString(),
+      );
+
+  final String id;
+  final String privacyPolicyVersion;
+  final String termsVersion;
+
+  /// Server time — the timestamp of record.
+  final DateTime acceptedAt;
+
+  /// What this device claimed. Advisory only; the server does not trust it over
+  /// [acceptedAt], and neither should any UI that shows both.
+  final DateTime? clientAcceptedAt;
+
+  final String deviceModel;
+  final String appVersion;
+}
+
+/// What the server requires versus what this user has accepted.
+class PolicyAcceptanceStatus {
+  const PolicyAcceptanceStatus({
+    required this.requiredPrivacyVersion,
+    required this.requiredTermsVersion,
+    required this.needsAcceptance,
+    required this.historyCount,
+    this.latest,
+  });
+
+  factory PolicyAcceptanceStatus.fromJson(Map<String, dynamic> j) {
+    final req = (j['required'] as Map?)?.cast<String, dynamic>() ?? const {};
+    final latest = (j['latest'] as Map?)?.cast<String, dynamic>();
+    return PolicyAcceptanceStatus(
+      requiredPrivacyVersion: (req['privacy_policy_version'] ?? '').toString(),
+      requiredTermsVersion: (req['terms_version'] ?? '').toString(),
+      needsAcceptance: j['needs_acceptance'] == true,
+      historyCount: (j['history_count'] as num?)?.toInt() ?? 0,
+      latest: latest == null ? null : PolicyAcceptanceRecord.fromJson(latest),
+    );
+  }
+
+  /// The versions the SERVER wants. Compare against these, never against a
+  /// build-time constant — otherwise forcing re-acceptance after publishing a
+  /// new policy depends on a store rollout and on users updating the app.
+  final String requiredPrivacyVersion;
+  final String requiredTermsVersion;
+
+  /// Computed server-side, so the client cannot disagree with it.
+  final bool needsAcceptance;
+
+  /// How many acceptances this user has on record. > 1 means they have
+  /// re-accepted after a version bump and the earlier evidence survived.
+  final int historyCount;
+
+  final PolicyAcceptanceRecord? latest;
+}
+
 class AccountService {
   const AccountService(this._client);
   final ApiClient _client;
@@ -328,6 +412,45 @@ class AccountService {
       page: data['page'] as int,
       hasMore: data['has_more'] as bool,
     );
+  }
+
+  /// GET /api/v1/account/policy-acceptance/
+  ///
+  /// Returns the versions the server requires, this user's most recent
+  /// acceptance, and whether re-acceptance is needed.
+  Future<PolicyAcceptanceStatus> fetchPolicyAcceptance() async {
+    final r = await _client.dio
+        .get<Map<String, dynamic>>(ApiConfig.accountPolicyAcceptance);
+    return PolicyAcceptanceStatus.fromJson(r.data!);
+  }
+
+  /// POST /api/v1/account/policy-acceptance/
+  ///
+  /// Records an acceptance. Send the version actually DISPLAYED to the user,
+  /// not the version you wish they had seen — the row is evidence of what they
+  /// agreed to, and the server will happily record a stale one while leaving
+  /// `needsAcceptance` true.
+  Future<PolicyAcceptanceStatus> recordPolicyAcceptance({
+    required String privacyPolicyVersion,
+    String termsVersion = '',
+    String deviceModel = '',
+    String appVersion = '',
+    DateTime? clientAcceptedAt,
+  }) async {
+    final r = await _client.dio.post<Map<String, dynamic>>(
+      ApiConfig.accountPolicyAcceptance,
+      data: <String, dynamic>{
+        'privacy_policy_version': privacyPolicyVersion,
+        if (termsVersion.isNotEmpty) 'terms_version': termsVersion,
+        if (deviceModel.isNotEmpty) 'device_model': deviceModel,
+        if (appVersion.isNotEmpty) 'app_version': appVersion,
+        'client_accepted_at':
+            (clientAcceptedAt ?? DateTime.now().toUtc()).toIso8601String(),
+      },
+    );
+    // The POST response carries `required` + `needs_acceptance` too, so the
+    // caller does not need a follow-up GET to know where it stands.
+    return PolicyAcceptanceStatus.fromJson(r.data!);
   }
 
   /// GET /api/v1/account/third-party-access/
