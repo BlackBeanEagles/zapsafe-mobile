@@ -4,7 +4,16 @@
 /// Day 167: download flow + progress + file handling.
 /// Day 168: GDPR Art. 20 deep dive + request limits + edge cases.
 ///
-/// 🟡 MOCK-NOW — backend API does not yet exist (backend at Day 78).
+/// 🟢 REAL as of Day 366 — POST/GET /api/v1/data-export/ via
+/// DataExportService. The note here said "backend API does not yet exist
+/// (backend at Day 78)"; it has existed for a long time and
+/// data_export_service.dart has wrapped it since Day 337.
+///
+/// ⚠️ The server exports ALL sections as JSON. The category checkboxes and the
+///    zip/json/csv picker below have NO backend equivalent — they are not sent.
+///    They are labelled as such rather than wired to nothing, because a user
+///    who deselects a category and receives it anyway is worse off than one
+///    who was told the choice is not yet supported.
 ///    All requests are simulated locally. When backend implements:
 ///      POST /api/v1/data-export/request
 ///      GET  /api/v1/data-export/status/{id}
@@ -23,6 +32,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/providers/data_export_providers.dart';
+
 import '../../core/theme/spacing.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
@@ -34,6 +45,11 @@ final _requestStateProvider   = StateProvider<_RequestState>((ref) => _RequestSt
 final _currentExportProvider  = StateProvider<_ExportRecord?>((ref) => null);
 final _exportHistoryProvider  = StateProvider<List<_ExportRecord>>((ref) => _kMockHistory);
 final _expandedCardProvider   = StateProvider<int?>((ref) => null);
+
+/// Why the last request failed. The backend rate-limits exports, so
+/// "already requested recently" is the common case and deserves to be
+/// shown rather than collapsed into a generic error state.
+final _requestErrorProvider   = StateProvider<String?>((ref) => null);
 
 // ── Enums & data ───────────────────────────────────────────────────────────────
 enum _ExportFormat { json, zip, pdf }
@@ -133,36 +149,14 @@ final _kMockHistory = [
 ];
 
 // ── Mock service ───────────────────────────────────────────────────────────────
-class _MockExportService {
-  /// Simulates POST /api/v1/data-export/request
-  /// Real: returns { export_id, status: "processing", estimated_ready_at }
-  static Future<String> requestExport({
-    required List<String> categories,
-    required _ExportFormat format,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 800));
-    return 'exp_${DateTime.now().millisecondsSinceEpoch}';
-  }
-
-  /// Simulates GET /api/v1/data-export/status/{id}
-  /// Real: returns { status, progress_pct, file_size_bytes, download_url, expires_at }
-  static Future<Map<String, dynamic>> checkStatus(String exportId) async {
-    await Future.delayed(const Duration(seconds: 3));
-    return {
-      'status': 'ready',
-      'progress_pct': 100,
-      'file_size_bytes': 52428800,
-      'expires_at': 'June 30, 2026',
-    };
-  }
-
-  /// Simulates GET /api/v1/data-export/download/{id}
-  /// Real: returns presigned S3 URL valid for 15 minutes
-  static Future<String> getDownloadUrl(String exportId) async {
-    await Future.delayed(const Duration(milliseconds: 400));
-    return 'https://exports.zapsafe.app/$exportId/data.zip?token=mock_presigned';
-  }
-}
+// The mock export service that used to sit here is gone.
+//
+//   requestExport / checkStatus  -> DataExportService.create()
+//   getDownloadUrl               -> DataExportService.download(id)
+//
+// getDownloadUrl returned a fabricated presigned S3 URL. There is no S3 —
+// Day 141 moved evidence storage to a local disk volume on the Oracle VM —
+// so that URL could never have resolved for anyone.
 
 // ── Screen ─────────────────────────────────────────────────────────────────────
 class Day166DataExportRequestScreen extends ConsumerWidget {
@@ -660,35 +654,45 @@ class _RequestTab extends ConsumerWidget {
   Future<void> _doRequest(BuildContext context, WidgetRef ref,
       List<String> categories, _ExportFormat format) async {
     ref.read(_requestStateProvider.notifier).state = _RequestState.requesting;
+    ref.read(_requestErrorProvider.notifier).state = null;
     try {
-      final id = await _MockExportService.requestExport(
-          categories: categories, format: format);
-      if (!context.mounted) return;
-      ref.read(_requestStateProvider.notifier).state = _RequestState.processing;
-
-      final statusData = await _MockExportService.checkStatus(id);
+      // POST /api/v1/data-export/ — takes no category or format arguments.
+      // The server exports every section as JSON; see the banner at the top of
+      // this file. `categories` and `format` are recorded locally so the card
+      // reflects what the user picked, NOT what was filtered.
+      final created = await ref.read(dataExportServiceProvider).create();
       if (!context.mounted) return;
 
       final record = _ExportRecord(
-        id: id,
-        requestedAt: DateTime.now(),
+        id: created.id,
+        requestedAt: created.requestedAt,
         categories: categories,
         format: format,
-        status: _RequestState.ready,
-        fileSize: _formatSize(
-            (statusData['file_size_bytes'] as num?)?.toDouble() ?? 0),
-        expiresAt: statusData['expires_at'] as String? ?? '30 days',
+        // The real lifecycle: pending -> processing -> ready. Only 'ready'
+        // means downloadable, so anything else stays in processing rather
+        // than being shown as done.
+        status: created.status == 'ready'
+            ? _RequestState.ready
+            : _RequestState.processing,
+        // The backend's DataExportRequest carries no size until it is ready,
+        // and the Day 69 JSON flow never reports one. Saying "—" is honest;
+        // inventing a plausible MB figure is what the mock did.
+        fileSize: '—',
+        expiresAt: created.expiresAt?.toLocal().toString() ?? '30 days',
       );
 
       ref.read(_currentExportProvider.notifier).state = record;
-      ref.read(_requestStateProvider.notifier).state = _RequestState.ready;
+      ref.read(_requestStateProvider.notifier).state = record.status;
 
-      // Add to history
-      final history = [...ref.read(_exportHistoryProvider)];
-      history.insert(0, record);
-      ref.read(_exportHistoryProvider.notifier).state = history;
-    } catch (_) {
+      // Re-read the real list rather than optimistically prepending, so the
+      // history shows what the server has.
+      ref.invalidate(dataExportListProvider);
+    } catch (e) {
       if (!context.mounted) return;
+      // The backend rate-limits to one request per EXPORT_RATE_LIMIT_DAYS, so
+      // a rejection here is usually "you already asked recently" — worth
+      // showing verbatim instead of a generic failure.
+      ref.read(_requestErrorProvider.notifier).state = '$e';
       ref.read(_requestStateProvider.notifier).state = _RequestState.error;
     }
   }
@@ -697,16 +701,34 @@ class _RequestTab extends ConsumerWidget {
     final record = ref.read(_currentExportProvider);
     if (record == null) return;
     ref.read(_requestStateProvider.notifier).state = _RequestState.downloading;
-    final url = await _MockExportService.getDownloadUrl(record.id);
-    await Future.delayed(const Duration(milliseconds: 600));
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Mock download started: $url'),
-      backgroundColor: const Color(0xFF10B981),
-      duration: const Duration(seconds: 3),
-    ));
-    ref.read(_requestStateProvider.notifier).state = _RequestState.idle;
-    ref.read(_currentExportProvider.notifier).state = null;
+    try {
+      // null means still pending — a normal state, not a failure.
+      final payload =
+          await ref.read(dataExportServiceProvider).download(record.id);
+      if (!context.mounted) return;
+      if (payload == null) {
+        ref.read(_requestStateProvider.notifier).state =
+            _RequestState.processing;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Not ready yet — the export is still being prepared.'),
+          backgroundColor: Color(0xFFF59E0B),
+        ));
+        return;
+      }
+      final total = payload.sectionCounts.values.fold<int>(0, (a, b) => a + b);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Export ready — ${payload.sections.length} sections, '
+            '$total records, schema ${payload.schemaVersion}.'),
+        backgroundColor: const Color(0xFF10B981),
+        duration: const Duration(seconds: 4),
+      ));
+      ref.read(_requestStateProvider.notifier).state = _RequestState.idle;
+      ref.read(_currentExportProvider.notifier).state = null;
+    } catch (e) {
+      if (!context.mounted) return;
+      ref.read(_requestErrorProvider.notifier).state = '$e';
+      ref.read(_requestStateProvider.notifier).state = _RequestState.error;
+    }
   }
 }
 

@@ -1324,7 +1324,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF8B5CF6),
               title: 'Day 166 · Download My Data (Export Request)',
               route: AppRoutes.dataExportRequest,
-              hint: '/data-export-request · 🟡 MOCK-NOW · Section B Start · DPDP §11 + GDPR Art.20 right to data portability · 3-tab (Request Export / My Exports / API Contract) · Request: 8-category checkboxes with size estimates + select-all + format picker (ZIP/JSON/PDF) + estimated total size card + full mock request→processing→ready→download flow · My Exports: 3 mock past exports with tap-expand detail + status badges + download button · API Contract: 4 documented endpoints (POST request / GET status / GET download / GET history) with full request/response bodies + long-press to copy',
+              hint: '/data-export-request · 🟢 REAL as of Day 366 — POST/GET /api/v1/data-export/ via DataExportService; category + format pickers are NOT sent (server exports all sections as JSON) and say so; rate-limit rejections show the server reason · Section B Start · DPDP §11 + GDPR Art.20 right to data portability · 3-tab (Request Export / My Exports / API Contract) · Request: 8-category checkboxes with size estimates + select-all + format picker (ZIP/JSON/PDF) + estimated total size card + full mock request→processing→ready→download flow · My Exports: 3 mock past exports with tap-expand detail + status badges + download button · API Contract: 4 documented endpoints (POST request / GET status / GET download / GET history) with full request/response bodies + long-press to copy',
               dayBuilt: 'DAY 166 ✅',
             ),
             const _NavTile(
