@@ -7,16 +7,28 @@
 /// Day 171: Permanent deletion confirmation + account wiped state.
 /// Day 172: Edge cases — active SOS, evidence hold, DPDP retention.
 ///
-/// 🟡 MOCK-NOW — backend at Day 78. No deletion-status endpoint yet.
-///    All state is simulated. Replace _GracePeriodService calls when ready.
+/// 🟢 Cancel is REAL as of Day 366 — DELETE /api/v1/privacy/deletion-request/
+///    via PrivacyService, and the real pending-deletion state is read from the
+///    matching GET. The note that used to sit here ("backend at Day 78, no
+///    deletion-status endpoint yet, replace _GracePeriodService when ready")
+///    was stale on both counts: the endpoint existed, day70_privacy_screen was
+///    already using it, and this screen kept a local stub.
+///
+///    That mattered more here than elsewhere. The grace period exists so that
+///    an abuser deleting a victim's account is reversible by logging back in
+///    and cancelling (Day 154's own rationale). A stubbed cancel meant the
+///    person did the reversing and the account still deleted on day 30.
+///
+/// 🟡 The day-remaining slider is still a preview control, deliberately — it
+///    is how you see the ring at any day. It moves the drawing, not the
+///    server; the real status is shown separately.
 library;
-
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/privacy_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider      = StateProvider<int>((ref) => 0);
@@ -25,6 +37,12 @@ final _cancelStepProvider     = StateProvider<_CancelStep>((ref) => _CancelStep.
 final _cancelConfirmProvider  = StateProvider<bool>((ref) => false);
 final _cancelStateProvider    = StateProvider<_CancelState>((ref) => _CancelState.idle);
 final _expandedNotifProvider  = StateProvider<int?>((ref) => null);
+
+/// Why the cancel failed. The card used to say "Network error" unconditionally,
+/// which is wrong for the 404 the backend returns when there is no active
+/// deletion request to cancel — and telling someone "your deletion is still
+/// active" when it never existed is the wrong way round on this screen.
+final _cancelErrorProvider    = StateProvider<String?>((ref) => null);
 
 // ── Enums ──────────────────────────────────────────────────────────────────────
 enum _CancelStep  { idle, confirm }
@@ -124,12 +142,10 @@ const _kStatusItems = [
   ),
 ];
 
-// ── Mock service ───────────────────────────────────────────────────────────────
-class _GracePeriodService {
-  /// Simulates DELETE /api/v1/account/deletion-request
-  static Future<void> cancelDeletion() =>
-      Future.delayed(const Duration(milliseconds: 1400));
-}
+// The cancel is real — see _CancelSheet, which calls
+// PrivacyService.cancelDeletion() (DELETE /api/v1/privacy/deletion-request/).
+// There is deliberately no local service stub here any more: this screen's
+// whole purpose is that cancelling works, so a stub was worse than no screen.
 
 // ── Screen ─────────────────────────────────────────────────────────────────────
 class Day170AccountDeletionGraceScreen extends ConsumerWidget {
@@ -326,7 +342,14 @@ class _CountdownTab extends ConsumerWidget {
               'SOS is disabled. Drag the slider to preview different day states.'),
       const SizedBox(height: ZapSpacing.lg),
 
-      // ── Big countdown ring ─────────────────────────────────────────
+      // ── Real state, before the previewed one ───────────────────────
+      // The ring below is slider-driven. This says whether the account
+      // actually has a deletion pending, which is the question someone
+      // opening this screen is really asking.
+      const _RealDeletionState(),
+      const SizedBox(height: ZapSpacing.lg),
+
+      // ── Big countdown ring (preview — slider-driven) ───────────────
       Center(
         child: _CountdownRing(
             days: days, progress: progress, color: color),
@@ -936,13 +959,17 @@ class _CancelTab extends ConsumerWidget {
         if (cancelState == _CancelState.cancelling)
           _statusCard(Icons.hourglass_top_rounded, const Color(0xFF10B981),
               'Cancelling deletion…',
-              'DELETE /api/v1/account/deletion-request\n'
+              'DELETE /api/v1/privacy/deletion-request/\n'
               'Restoring account. Notifying emergency contacts.',
               loading: true)
         else if (cancelState == _CancelState.error)
           _statusCard(Icons.error_outline_rounded, const Color(0xFFEF4444),
               'Cancellation failed',
-              'Network error. Your deletion is still active. Try again.',
+              // The real reason. A 404 means there was no active request, which
+              // is the opposite of "your deletion is still active".
+              ref.watch(_cancelErrorProvider) ??
+                  'Could not cancel. Your deletion may still be active — '
+                      'check the status above and try again.',
               loading: false)
         else
           Column(children: [
@@ -955,14 +982,21 @@ class _CancelTab extends ConsumerWidget {
                   ? () async {
                       ref.read(_cancelStateProvider.notifier).state =
                           _CancelState.cancelling;
+                      ref.read(_cancelErrorProvider.notifier).state = null;
                       try {
-                        await _GracePeriodService.cancelDeletion();
+                        await ref
+                            .read(privacyServiceProvider)
+                            .cancelDeletion();
+                        // Re-read so the pending-deletion readout above
+                        // reflects the cancellation rather than going stale.
+                        ref.invalidate(deletionRequestProvider);
                         if (context.mounted) {
                           ref.read(_cancelStateProvider.notifier).state =
                               _CancelState.done;
                         }
-                      } catch (_) {
+                      } catch (e) {
                         if (context.mounted) {
+                          ref.read(_cancelErrorProvider.notifier).state = '$e';
                           ref.read(_cancelStateProvider.notifier).state =
                               _CancelState.error;
                         }
@@ -1147,3 +1181,66 @@ Widget _infoBox({required IconData icon, required Color color, required String t
         Expanded(child: Text(text, style: const TextStyle(
             color: Color(0xFFD1D5DB), fontSize: 12, height: 1.6))),
       ]));
+
+
+// ── Day 366 — is there actually a deletion to cancel? ─────────────────────────
+
+/// Reads `GET /api/v1/privacy/deletion-request/` so this screen shows the real
+/// state of the account, not only the preview slider.
+///
+/// The distinction matters here more than on most screens: the cancel button
+/// below is the abuse-reversal path, and "nothing to cancel" and "cancel
+/// failed" are very different things for someone checking whether their
+/// account is safe.
+class _RealDeletionState extends ConsumerWidget {
+  const _RealDeletionState();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(deletionRequestProvider);
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: const Color(0xFF2A2A2A)),
+      ),
+      child: async.when(
+        loading: () => const Text('Checking your real deletion status…',
+            style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
+        error: (e, _) => Text(
+          "Couldn't read your deletion status: $e",
+          style: const TextStyle(color: Color(0xFFEF4444), fontSize: 12),
+        ),
+        data: (req) {
+          if (req == null) {
+            return const Text(
+              'No active deletion request on this account. The countdown below '
+              'is a preview — the slider moves it, not the server.',
+              style: TextStyle(color: Color(0xFF10B981), fontSize: 12),
+            );
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Real deletion request: ${req.status}',
+                  style: const TextStyle(
+                      color: Color(0xFFF59E0B),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600)),
+              const SizedBox(height: 2),
+              Text(
+                'requested ${req.requestedAt.toLocal()}'
+                '${req.isCancellable ? " · cancellable" : " · no longer cancellable"}',
+                style: const TextStyle(
+                    color: Color(0xFF9CA3AF),
+                    fontSize: 11,
+                    fontFamily: 'monospace'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

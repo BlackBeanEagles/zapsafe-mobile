@@ -7,9 +7,17 @@
 /// Day 171: Permanent deletion confirmation + account wiped state.
 /// Day 172: Edge cases — active SOS, evidence hold, DPDP retention.
 ///
-/// 🟡 MOCK-NOW — backend at Day 78. No DELETE /api/v1/account endpoint yet.
-///    Full API contract documented in Tab 3.
-///    Replace _MockDeletionService calls when backend is ready.
+/// 🟢 Deletion submit is REAL as of Day 366 — POST
+///    /api/v1/privacy/deletion-request/ via PrivacyService, the same endpoint
+///    day70_privacy_screen has always used. The note that used to sit here
+///    ("backend at Day 78, no endpoint yet, replace _MockDeletionService when
+///    ready") was stale: the backend was ready and this screen kept its stub,
+///    so a user exercising DPDP §13 saw "Request submitted" and was not.
+///
+/// 🟡 The OTP re-auth step is still a demo, deliberately: no re-auth endpoint
+///    exists. auth_app offers register/, verify-otp/ and google-verify/, which
+///    sign a user in rather than re-confirm identity before a destructive
+///    action, and reusing the registration OTP for that would be wrong.
 ///
 /// Legal basis:
 ///   DPDP Act 2023 §13  — right to erasure of personal data.
@@ -20,6 +28,8 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../domain/providers/privacy_providers.dart';
 
 import '../../core/theme/spacing.dart';
 
@@ -34,6 +44,11 @@ final _otherReasonProvider   = StateProvider<String>((ref) => '');
 final _phoneEnteredProvider  = StateProvider<String>((ref) => '');
 final _otpEnteredProvider    = StateProvider<String>((ref) => '');
 final _otpSentProvider       = StateProvider<bool>((ref) => false);
+
+/// Why the submit failed. The error card used to hardcode "Network error",
+/// which would be a lie for the 400 the backend returns when a deletion
+/// request already exists.
+final _submitErrorProvider   = StateProvider<String?>((ref) => null);
 final _submitStateProvider   = StateProvider<_SubmitState>((ref) => _SubmitState.idle);
 final _expandedDataProvider  = StateProvider<int?>((ref) => null);
 
@@ -164,27 +179,23 @@ const _kDataCategories = [
   ),
 ];
 
-// ── Mock service ───────────────────────────────────────────────────────────────
-class _MockDeletionService {
-  /// Simulates POST /api/v1/account/send-otp (re-auth before deletion)
+// ── Re-auth demo ──────────────────────────────────────────────────────────────
+//
+// Still a stub, and unlike the deletion submit it cannot be wired: there is no
+// re-auth endpoint. Kept so the flow is walkable end to end, named so it is
+// not mistaken for a real gate. The deletion request itself now goes through
+// PrivacyService — see _Step3Confirm.
+class _ReAuthDemo {
+  /// No backend equivalent. A real implementation needs a dedicated
+  /// re-authentication endpoint that does NOT also mint a login session.
   static Future<void> sendOtp(String phone) =>
       Future.delayed(const Duration(milliseconds: 900));
 
-  /// Simulates POST /api/v1/account/verify-otp
+  /// Accepts any 6 digits. This gate proves nothing and must not be relied on
+  /// as a security control — the server does not check it.
   static Future<bool> verifyOtp(String otp) async {
     await Future.delayed(const Duration(milliseconds: 700));
-    return otp == '123456' || otp.length == 6; // mock: any 6-digit passes
-  }
-
-  /// Simulates POST /api/v1/account/deletion-request
-  /// Real: creates deletion job, sets status="pending_grace",
-  ///       starts 30-day countdown, emails user, notifies emergency contacts.
-  static Future<String> requestDeletion({
-    required String reason,
-    required String? otherNote,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 1200));
-    return 'del_${DateTime.now().millisecondsSinceEpoch}';
+    return otp.length == 6;
   }
 }
 
@@ -861,7 +872,7 @@ class _Step2ReAuth extends ConsumerWidget {
               ? () async {
                   ref.read(_submitStateProvider.notifier).state =
                       _SubmitState.sendingOtp;
-                  await _MockDeletionService.sendOtp(phone);
+                  await _ReAuthDemo.sendOtp(phone);
                   if (context.mounted) {
                     ref.read(_otpSentProvider.notifier).state = true;
                     ref.read(_submitStateProvider.notifier).state =
@@ -900,7 +911,7 @@ class _Step2ReAuth extends ConsumerWidget {
                 ? () async {
                     ref.read(_submitStateProvider.notifier).state =
                         _SubmitState.verifyingOtp;
-                    final ok = await _MockDeletionService.verifyOtp(otp);
+                    final ok = await _ReAuthDemo.verifyOtp(otp);
                     if (context.mounted) {
                       if (ok) {
                         ref.read(_flowStepProvider.notifier).state = 3;
@@ -1038,7 +1049,10 @@ class _Step3Confirm extends ConsumerWidget {
       else if (submitState == _SubmitState.error)
         _statusCard(Icons.error_outline_rounded, const Color(0xFFEF4444),
             'Request failed',
-            'Network error. Tap "Try Again" to retry.',
+            // The real reason, not an assumed one: a 400 here usually means a
+            // deletion request already exists for this account.
+            ref.watch(_submitErrorProvider) ??
+                'Could not submit the request. Tap "Try Again".',
             loading: false)
       else
         _primaryBtn(
@@ -1046,14 +1060,19 @@ class _Step3Confirm extends ConsumerWidget {
           color: const Color(0xFFEF4444),
           onTap: () async {
             ref.read(_submitStateProvider.notifier).state = _SubmitState.submitting;
+            ref.read(_submitErrorProvider.notifier).state = null;
             try {
-              await _MockDeletionService.requestDeletion(
-                  reason: reason?.name ?? 'other', otherNote: null);
+              // Real DPDP §13 erasure request. Returns the DeletionRequest the
+              // Day 170 grace screen then counts down against.
+              await ref
+                  .read(privacyServiceProvider)
+                  .createDeletion(reason: reason?.name ?? 'other');
               if (context.mounted) {
                 ref.read(_submitStateProvider.notifier).state = _SubmitState.done;
               }
-            } catch (_) {
+            } catch (e) {
               if (context.mounted) {
+                ref.read(_submitErrorProvider.notifier).state = '$e';
                 ref.read(_submitStateProvider.notifier).state = _SubmitState.error;
               }
             }
@@ -1221,10 +1240,14 @@ class _ApiContractTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _infoBox(icon: Icons.code_rounded, color: const Color(0xFFF59E0B),
-          text: 'Backend at Day 78. No account-deletion endpoints exist yet. '
-              'Document here for zero-conflict implementation. '
-              'Replace _MockDeletionService calls in _Step2ReAuth and _Step3Confirm.'),
+      _infoBox(icon: Icons.code_rounded, color: const Color(0xFF10B981),
+          text: 'Day 366: the deletion request is REAL — POST '
+              '/api/v1/privacy/deletion-request/ through PrivacyService. The '
+              'contracts below were written when no endpoint existed; the paths '
+              'they name under /api/v1/account/ are the newer Day 147 surface, '
+              'which Day 337 decided not to wire because the privacy path '
+              'already covers this right end to end. Only _Step2ReAuth is '
+              'still a stub, because no re-auth endpoint exists at all.'),
       const SizedBox(height: ZapSpacing.lg),
 
       const _SectionLabel('ENDPOINT 1 — SEND OTP (RE-AUTH)'),
@@ -1358,17 +1381,17 @@ class _ApiContractTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Column(children: [
-          _integRow(const Color(0xFF8B5CF6), '_MockDeletionService.sendOtp()',
-              'POST /api/v1/account/send-deletion-otp'),
+          _integRow(const Color(0xFF8B5CF6), '_ReAuthDemo.sendOtp() — STUB',
+              'no endpoint exists'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _integRow(const Color(0xFF3B82F6), '_MockDeletionService.verifyOtp()',
-              'POST /api/v1/account/verify-deletion-otp'),
+          _integRow(const Color(0xFF3B82F6), '_ReAuthDemo.verifyOtp() — STUB',
+              'no endpoint exists; any 6 digits pass'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _integRow(const Color(0xFFEF4444), '_MockDeletionService.requestDeletion()',
-              'POST /api/v1/account/deletion-request'),
+          _integRow(const Color(0xFF10B981), 'PrivacyService.createDeletion() — LIVE',
+              'POST /api/v1/privacy/deletion-request/'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _integRow(const Color(0xFFF59E0B), 'Day 170 countdown provider',
-              'GET /api/v1/account/deletion-status'),
+          _integRow(const Color(0xFF10B981), 'Day 170 countdown — LIVE',
+              'GET /api/v1/privacy/deletion-request/'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
           _integRow(const Color(0xFF10B981), 'Day 170 cancel button',
               'DELETE /api/v1/account/deletion-request'),
