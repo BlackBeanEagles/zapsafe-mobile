@@ -1730,7 +1730,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFFDC2626),
               title: 'Day 252 · Group Panic',
               route: AppRoutes.groupJourneyPanic,
-              hint: '/group-journey-panic · 🟡 MOCK-NOW · Section C Day 12/20 · 3-tab (Panic / Dispatch / Info) · hold 2s GROUP PANIC button · notify all 5 members\' emergency contacts simultaneously · parallel dispatch log · Day 86 escalation · Day 251/250 links · teaser Day 253 Family Dashboard',
+              hint: '/group-journey-panic · REAL POST /api/v1/journey/group/<id>/panic/ (Day 366) but ARMED ONLY after typing a session id — it raises an actual SOS for every JOINED member, so a hold-to-trigger control on the dev index must not reach it by accident; blank = simulate; a failed trigger says nobody was alerted · needs a backend + JWT · Section C Day 12/20 · 3-tab (Panic / Dispatch / Info) · hold 2s GROUP PANIC button · notify all 5 members\' emergency contacts simultaneously · parallel dispatch log · Day 86 escalation · Day 251/250 links · teaser Day 253 Family Dashboard',
               dayBuilt: 'DAY 252 ✅',
             ),
             const _NavTile(
@@ -1738,7 +1738,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF0EA5E9),
               title: 'Day 251 · Group Journey Live Map',
               route: AppRoutes.groupJourneyLiveMap,
-              hint: '/group-journey-live-map · 🟡 MOCK-NOW · Section C Day 11/20 · 3-tab (Map / Members / Info) · flutter_map · 5 member markers · shared route polyline · mock live stream · 500m deviation banner · simulate deviation · Day 250/243 links · teaser Day 252 Group Panic',
+              hint: '/group-journey-live-map · REAL roster panel from GET /api/v1/journey/group/<id>/state/ (Day 366); the map dots stay SIMULATED because that endpoint reports no coordinates — there is no live-position feed to plot · needs a backend + JWT · 🟡 MOCK-NOW · Section C Day 11/20 · 3-tab (Map / Members / Info) · flutter_map · 5 member markers · shared route polyline · mock live stream · 500m deviation banner · simulate deviation · Day 250/243 links · teaser Day 252 Group Panic',
               dayBuilt: 'DAY 251 ✅',
             ),
             const _NavTile(
@@ -1746,7 +1746,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF10B981),
               title: 'Day 250 · Group Journey Create',
               route: AppRoutes.groupJourneyCreate,
-              hint: '/group-journey-create · 🟡 MOCK-NOW · Section C Day 10/20 · 3-tab (Create / Members / Info) · shared destination map · invite up to 5 friends · ETA 15m–8h · mock POST create API · session_id + invite_links · Day 241/242 links · teaser Day 251 live map',
+              hint: '/group-journey-create · REAL POST /api/v1/journey/group/create/ (Day 366) — destination only; the endpoint takes NO member ids and NO ETA, and issues ONE shared invite link, not a link per friend, so selected friends are listed as to-invite and members appear once they join · needs a backend + JWT · 🟡 MOCK-NOW · Section C Day 10/20 · 3-tab (Create / Members / Info) · shared destination map · invite up to 5 friends · ETA 15m–8h · mock POST create API · session_id + invite_links · Day 241/242 links · teaser Day 251 live map',
               dayBuilt: 'DAY 250 ✅',
             ),
             const _NavTile(

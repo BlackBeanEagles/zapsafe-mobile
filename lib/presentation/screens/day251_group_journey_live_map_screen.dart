@@ -21,6 +21,8 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/group_journey_api_service.dart';
+import '../../domain/providers/group_journey_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -33,6 +35,8 @@ const _kDeviationThresholdM = 500;
 const _kTabs = ['Map', 'Members', 'Info'];
 const _kJsonEncoder = JsonEncoder.withIndent('  ');
 const _kDistance = Distance();
+/// The simulation's session id. Real state is fetched separately — see
+/// _RealSessionPanel and _d251RealSessionIdProvider.
 const _kMockSessionId = 'gj_251_live_demo';
 
 const _kMemberDefs = [
@@ -196,6 +200,15 @@ String _formatElapsed(DateTime? started) {
 }
 
 // ── Screen ────────────────────────────────────────────────────────────────────
+/// A real group-journey session id to read state for. Null until entered.
+///
+/// Day 366: the map's moving dots are SIMULATED and cannot be otherwise —
+/// GET /api/v1/journey/group/<id>/state/ returns each member's phone, name,
+/// status and joinedAt, and NO coordinates. There is no live-position feed to
+/// plot, so the roster below is real while the dots stay a simulation, and
+/// both are labelled.
+final _d251RealSessionIdProvider = StateProvider<String?>((ref) => null);
+
 class Day251GroupJourneyLiveMapScreen extends ConsumerStatefulWidget {
   const Day251GroupJourneyLiveMapScreen({super.key});
 
@@ -384,10 +397,17 @@ class _Day251GroupJourneyLiveMapScreenState
                   onResetDeviation: _resetDeviation,
                   onEndSession: _endSession,
                 ),
-              1 => _MembersTab(
-                  onHighlight: (id) => ref
-                      .read(_d251HighlightedMemberProvider.notifier)
-                      .state = id,
+              1 => Column(
+                  children: [
+                    const _RealSessionPanel(),
+                    Expanded(
+                      child: _MembersTab(
+                        onHighlight: (id) => ref
+                            .read(_d251HighlightedMemberProvider.notifier)
+                            .state = id,
+                      ),
+                    ),
+                  ],
                 ),
               _ => const _InfoTab(),
             },
@@ -654,6 +674,7 @@ class _MembersTab extends ConsumerWidget {
     final members = ref.watch(_d251MembersProvider);
     final highlight = ref.watch(_d251HighlightedMemberProvider);
 
+    // Real roster first — the simulated one is below it.
     if (!active || members.isEmpty) {
       return ListView(
         padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -1086,6 +1107,141 @@ class _TabBar extends StatelessWidget {
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+
+// ── Day 366 — the real session, read from the server ──────────────────────────
+
+/// GET /api/v1/journey/group/<id>/state/ for a real session.
+///
+/// Deliberately separate from the map: that endpoint reports each member's
+/// phone, name, status and joinedAt and NO coordinates, so there is no live
+/// position feed to plot. The dots on the Map tab are a simulation and stay
+/// labelled as one; this panel is the real roster.
+class _RealSessionPanel extends ConsumerStatefulWidget {
+  const _RealSessionPanel();
+
+  @override
+  ConsumerState<_RealSessionPanel> createState() => _RealSessionPanelState();
+}
+
+class _RealSessionPanelState extends ConsumerState<_RealSessionPanel> {
+  final _ctrl = TextEditingController();
+  bool _loading = false;
+  String? _error;
+  GroupJourneySession? _session;
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _load() async {
+    final id = _ctrl.text.trim();
+    if (id.isEmpty) return;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final s =
+          await ref.read(groupJourneyApiServiceProvider).fetchState(id);
+      if (!mounted) return;
+      setState(() {
+        _session = s;
+        _loading = false;
+      });
+      ref.read(_d251RealSessionIdProvider.notifier).state = id;
+    } catch (e) {
+      if (!mounted) return;
+      // No fallback roster: inventing members for a real session id would be
+      // worse than showing nothing on a screen about who is with you.
+      setState(() {
+        _session = null;
+        _error = '$e';
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final s = _session;
+    return Container(
+      margin: const EdgeInsets.all(ZapSpacing.md),
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: const Color(0xFF2A2A2A)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('REAL SESSION  ·  GET /api/v1/journey/group/<id>/state/',
+              style: TextStyle(
+                  color: Color(0xFF79C0FF),
+                  fontSize: 11,
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          const Text(
+            'The map dots are simulated — this endpoint reports no coordinates.',
+            style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _ctrl,
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 12, fontFamily: 'monospace'),
+                  decoration: const InputDecoration(
+                      hintText: 'group journey session id', isDense: true),
+                ),
+              ),
+              const SizedBox(width: ZapSpacing.sm),
+              TextButton(
+                onPressed: _loading ? null : _load,
+                child: Text(_loading ? 'Loading…' : 'Load'),
+              ),
+            ],
+          ),
+          if (_error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Text("Couldn't read that session: $_error",
+                  style:
+                      const TextStyle(color: ZapColors.danger, fontSize: 11)),
+            ),
+          if (s != null) ...[
+            const Divider(height: ZapSpacing.lg, color: Color(0xFF2A2A2A)),
+            Text('${s.status} · ${s.destinationName.isEmpty ? "no destination set" : s.destinationName}',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600)),
+            const SizedBox(height: 2),
+            if (s.members.isEmpty)
+              const Text('Nobody has joined this session yet.',
+                  style: TextStyle(color: Color(0xFFF59E0B), fontSize: 11))
+            else
+              for (final m in s.members)
+                Text(
+                  '${m.fullName.isEmpty ? m.phone : m.fullName} · ${m.status}'
+                  '${m.joinedAt == null ? "" : " · joined ${m.joinedAt!.toLocal()}"}',
+                  style: const TextStyle(
+                      color: Color(0xFF9CA3AF),
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+          ],
+        ],
       ),
     );
   }

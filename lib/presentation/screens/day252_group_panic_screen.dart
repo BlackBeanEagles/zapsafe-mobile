@@ -17,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../domain/providers/group_journey_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -222,6 +223,18 @@ final _d252HoldProgressProvider = StateProvider<double>((ref) => 0);
 final _d252DispatchRowsProvider =
     StateProvider<List<_DispatchRow>>((ref) => _buildDispatchRows());
 final _d252PanicIdProvider = StateProvider<String?>((ref) => null);
+
+/// A REAL group-journey session id. Null means simulate.
+///
+/// Day 366: POST /api/v1/journey/group/<id>/panic/ triggers an actual SOS
+/// event for every JOINED member — not just the caller. That is the feature,
+/// and it is also why this screen does not default to a live session: a
+/// hold-to-trigger control on the dev index must not be able to page real
+/// people because someone was browsing. Enter an id to arm it.
+final _d252RealSessionIdProvider = StateProvider<String?>((ref) => null);
+
+/// What the server reported for the last real trigger.
+final _d252RealResultProvider = StateProvider<String?>((ref) => null);
 final _d252TriggeredAtProvider = StateProvider<DateTime?>((ref) => null);
 
 List<_DispatchRow> _buildDispatchRows() {
@@ -301,8 +314,44 @@ class _Day252GroupPanicScreenState
     ref.read(_d252PhaseProvider.notifier).state = _PanicPhase.dispatching;
     ref.read(_d252HoldProgressProvider.notifier).state = 1;
     ref.read(_d252TriggeredAtProvider.notifier).state = DateTime.now();
-    ref.read(_d252PanicIdProvider.notifier).state =
-        'gp_${DateTime.now().millisecondsSinceEpoch ~/ 1000}';
+
+    // Armed only when a real session id has been entered. Otherwise this stays
+    // the simulation it has always been — see _d252RealSessionIdProvider.
+    final realId = ref.read(_d252RealSessionIdProvider);
+    if (realId != null && realId.isNotEmpty) {
+      try {
+        final res = await ref
+            .read(groupJourneyApiServiceProvider)
+            .triggerPanic(realId);
+        if (!mounted) return;
+        // The server's own numbers, not the simulated dispatch rows: it reports
+        // which members it actually raised an SOS for and which it skipped.
+        ref.read(_d252RealResultProvider.notifier).state =
+            'REAL: ${res.triggeredSosIds.length} of ${res.memberCount} members '
+            'raised, ${res.skippedUserIds.length} skipped';
+        ref.read(_d252PanicIdProvider.notifier).state =
+            res.triggeredSosIds.isEmpty ? realId : res.triggeredSosIds.first;
+      } catch (e) {
+        if (!mounted) return;
+        // Say it failed. A green "dispatched" after a failed group panic is the
+        // worst possible thing for this screen to show.
+        ref.read(_d252RealResultProvider.notifier).state =
+            'REAL TRIGGER FAILED — nobody was alerted: $e';
+        ref.read(_d252PhaseProvider.notifier).state = _PanicPhase.idle;
+        ref.read(_d252HoldProgressProvider.notifier).state = 0;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Group panic failed — nobody was alerted: $e"),
+            backgroundColor: ZapColors.danger,
+          ),
+        );
+        return;
+      }
+    } else {
+      ref.read(_d252RealResultProvider.notifier).state = null;
+      ref.read(_d252PanicIdProvider.notifier).state =
+          'gp_sim_${DateTime.now().millisecondsSinceEpoch ~/ 1000}';
+    }
     ref.read(_d252TabProvider.notifier).state = 1;
 
     final rows = _buildDispatchRows();
@@ -516,11 +565,28 @@ class _PanicTab extends ConsumerWidget {
             borderRadius: BorderRadius.circular(6),
             border: Border.all(color: ZapColors.warning.withOpacity(0.35)),
           ),
-          child: const Text(
-            '🟡 MOCK-NOW · Section C Day 12/20 · simultaneous multi-member SOS',
-            style: TextStyle(color: ZapColors.warning, fontSize: 11),
+          child: Text(
+            ref.watch(_d252RealSessionIdProvider)?.isNotEmpty == true
+                ? '🔴 ARMED — a real SOS will be raised for every joined member'
+                : '🟡 SIMULATING · enter a session id below to arm the real trigger',
+            style: TextStyle(
+              color: ref.watch(_d252RealSessionIdProvider)?.isNotEmpty == true
+                  ? ZapColors.danger
+                  : ZapColors.warning,
+              fontSize: 11,
+            ),
           ),
         ),
+        const SizedBox(height: ZapSpacing.md),
+        const _ArmRealPanic(),
+        if (ref.watch(_d252RealResultProvider) != null) ...[
+          const SizedBox(height: ZapSpacing.sm),
+          Text(
+            ref.watch(_d252RealResultProvider)!,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 11, fontFamily: 'monospace'),
+          ),
+        ],
         const SizedBox(height: ZapSpacing.lg),
         Container(
           width: double.infinity,
@@ -1178,6 +1244,96 @@ class _TabBar extends StatelessWidget {
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+
+// ── Day 366 — arming the real group panic ─────────────────────────────────────
+
+/// Supplies the session id that switches this screen from simulation to a real
+/// POST /api/v1/journey/group/<id>/panic/.
+///
+/// Kept as a deliberate, typed-in step. That endpoint raises an SOS for every
+/// joined member, so it must not be reachable by holding a button on a screen
+/// someone opened to look around.
+class _ArmRealPanic extends ConsumerStatefulWidget {
+  const _ArmRealPanic();
+
+  @override
+  ConsumerState<_ArmRealPanic> createState() => _ArmRealPanicState();
+}
+
+class _ArmRealPanicState extends ConsumerState<_ArmRealPanic> {
+  final _ctrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final armed = ref.watch(_d252RealSessionIdProvider);
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(
+          color: armed?.isNotEmpty == true
+              ? ZapColors.danger.withOpacity(0.5)
+              : const Color(0xFF2A2A2A),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('POST /api/v1/journey/group/<id>/panic/',
+              style: TextStyle(
+                  color: Color(0xFF79C0FF),
+                  fontSize: 11,
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 2),
+          const Text(
+            'Raises a real SOS for every JOINED member of that session — not '
+            'just you. Leave blank to keep simulating.',
+            style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 11),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _ctrl,
+                  enabled: armed == null || armed.isEmpty,
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 12, fontFamily: 'monospace'),
+                  decoration: const InputDecoration(
+                      hintText: 'group journey session id', isDense: true),
+                ),
+              ),
+              const SizedBox(width: ZapSpacing.sm),
+              if (armed?.isNotEmpty == true)
+                TextButton(
+                  onPressed: () => ref
+                      .read(_d252RealSessionIdProvider.notifier)
+                      .state = null,
+                  child: const Text('Disarm'),
+                )
+              else
+                TextButton(
+                  onPressed: () => ref
+                      .read(_d252RealSessionIdProvider.notifier)
+                      .state = _ctrl.text.trim(),
+                  child: const Text('Arm'),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }

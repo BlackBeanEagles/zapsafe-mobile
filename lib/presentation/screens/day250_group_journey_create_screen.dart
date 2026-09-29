@@ -19,6 +19,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../core/theme/colors.dart';
+import '../../domain/providers/group_journey_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -185,21 +186,38 @@ class _GroupSessionResult {
   const _GroupSessionResult({
     required this.sessionId,
     required this.createdAt,
-    required this.etaMinutes,
     required this.destination,
     required this.inviteLinks,
+    this.etaMinutes,
+    this.sharedInviteLink,
   });
 
   final String sessionId;
   final DateTime createdAt;
-  final int etaMinutes;
+
+  // ── Day 366: null means THE SERVER DOES NOT ACCEPT OR REPORT THIS ────────
+  // POST /api/v1/journey/group/create/ takes a destination only. There is no
+  // ETA field, so the picker's value is not sent and is not echoed back.
+  final int? etaMinutes;
+  // ─────────────────────────────────────────────────────────────────────────
+
   final _GroupDestination destination;
+
+  /// The ONE real invite link for the session, from the server.
+  ///
+  /// The server issues a single token that anyone can join with. The per-friend
+  /// links this screen used to render did not exist: fabricating five from one
+  /// token would look like five individual invitations while behaving as one
+  /// shared one, so selected friends are now listed as "to invite" instead.
+  final String? sharedInviteLink;
+
   final List<_GroupInviteLink> inviteLinks;
 
   Map<String, dynamic> toResponseJson() => {
         'session_id': sessionId,
         'created_at': createdAt.toIso8601String(),
-        'eta_minutes': etaMinutes,
+        'eta_minutes': etaMinutes, // null — not part of the create contract
+        'shared_invite_link': sharedInviteLink,
         'destination': destination.toJson(),
         'invite_links': inviteLinks.map((l) => l.toJson()).toList(),
       };
@@ -230,41 +248,17 @@ String _formatDurationLabel(int minutes) {
   return '${minutes}m';
 }
 
-_GroupFriend? _friendById(String id) {
-  for (final f in _kGroupFriends) {
-    if (f.id == id) return f;
-  }
-  return null;
-}
+// _friendById went with _mockCreateGroupSession: it existed only to put a
+// friend's name on a fabricated per-friend invite link. Real members come from
+// GroupJourneySession.members once they join via the shared token.
 
 List<_GroupFriend> _friendsByIds(Set<String> ids) {
   return _kGroupFriends.where((f) => ids.contains(f.id)).toList();
 }
 
-Future<_GroupSessionResult> _mockCreateGroupSession({
-  required _GroupDestination destination,
-  required List<String> memberIds,
-  required int etaMinutes,
-}) async {
-  await Future<void>.delayed(const Duration(milliseconds: 1600));
-  final sessionId = 'gj_${DateTime.now().millisecondsSinceEpoch ~/ 1000}';
-  final links = memberIds.map((id) {
-    final friend = _friendById(id);
-    final token = id.replaceAll('-', '').substring(0, 8);
-    return _GroupInviteLink(
-      memberId: id,
-      memberName: friend?.name ?? 'Member',
-      link: 'https://zapsafe.app/join/$sessionId?member=$token',
-    );
-  }).toList();
-  return _GroupSessionResult(
-    sessionId: sessionId,
-    createdAt: DateTime.now(),
-    etaMinutes: etaMinutes,
-    destination: destination,
-    inviteLinks: links,
-  );
-}
+// _mockCreateGroupSession is gone — createSession() on the real service
+// replaces it. It fabricated a per-friend invite link from a session id;
+// the server issues ONE shared token.
 
 Map<String, dynamic> _buildRequestPayload(
   _GroupDestination? destination,
@@ -308,6 +302,9 @@ class _Day250GroupJourneyCreateScreenState
   Future<void> _createSession() async {
     final destination = ref.read(_d250DestinationProvider);
     final members = ref.read(_d250SelectedMembersProvider);
+    // Read but NOT sent: the create endpoint has no ETA field. Left here
+    // so the picker still drives the local summary card.
+    // ignore: unused_local_variable
     final duration = ref.read(_d250DurationMinutesProvider);
     final existing = ref.read(_d250SessionResultProvider);
 
@@ -339,21 +336,49 @@ class _Day250GroupJourneyCreateScreenState
 
     ref.read(_d250CreatingProvider.notifier).state = true;
     try {
-      final result = await _mockCreateGroupSession(
-        destination: destination,
-        memberIds: members.toList(),
-        etaMinutes: duration,
-      );
+      // POST /api/v1/journey/group/create/ — destination only. `members` and
+      // `duration` are NOT sent: the endpoint accepts neither.
+      final session =
+          await ref.read(groupJourneyApiServiceProvider).createSession(
+                destinationName: destination.label,
+                destinationLat: destination.latLng.latitude,
+                destinationLng: destination.latLng.longitude,
+              );
       if (!mounted) return;
+
+      final result = _GroupSessionResult(
+        sessionId: session.id,
+        createdAt: session.createdAt ?? DateTime.now(),
+        destination: destination,
+        etaMinutes: null,
+        sharedInviteLink: session.inviteLink,
+        // Who has actually JOINED, per the server — not who was selected.
+        // The old list showed the five picked friends as though invitations
+        // had been issued to each.
+        inviteLinks: [
+          for (final m in session.members)
+            _GroupInviteLink(
+              memberId: m.phone,
+              memberName: m.fullName.isEmpty ? m.phone : m.fullName,
+              link: session.inviteLink,
+            ),
+        ],
+      );
       ref.read(_d250SessionResultProvider.notifier).state = result;
       ref.read(_d250TabProvider.notifier).state = 1;
       HapticFeedback.mediumImpact();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Group journey created · ${result.sessionId} · '
-            '${result.inviteLinks.length} invite links',
-          ),
+          content: Text('Group journey created · ${result.sessionId} · '
+              'share one link: ${session.inviteLink}'),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Couldn't create the group journey: $e"),
+          backgroundColor: ZapColors.danger,
         ),
       );
     } finally {
@@ -764,8 +789,10 @@ class _MembersTab extends ConsumerWidget {
                 const SizedBox(height: ZapSpacing.xs),
                 Text(
                   '${session.destination.label} · '
-                  'ETA ${_formatDurationLabel(session.etaMinutes)} · '
-                  '${session.inviteLinks.length} invites',
+                  // ETA is not part of the create contract, so there is
+                  // nothing to echo; invites are members who have JOINED.
+                  'ETA not tracked by the server · '
+                  '${session.inviteLinks.length} joined',
                   style: const TextStyle(
                     color: ZapColors.textSecondary,
                     fontSize: 11,
