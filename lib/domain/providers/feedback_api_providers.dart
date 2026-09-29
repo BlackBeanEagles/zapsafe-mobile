@@ -57,3 +57,27 @@ final submitFeedbackProvider = Provider<
         );
   };
 });
+
+/// Reports whether a completed SOS was a false alarm (Day 115).
+///
+/// Same rule as [submitFeedbackProvider]: errors propagate. The Day 115 screen
+/// tells the user "this trains our model", and a swallowed failure would make
+/// that sentence false — these labels are the hard negatives the m1/m2 retrain
+/// consumes, so a dropped one is a training row lost, not just a missing UI
+/// confirmation.
+final reportFalsePositiveProvider = Provider<
+    Future<void> Function({
+  required String sosId,
+  required bool isFalseAlarm,
+})>((ref) {
+  return ({required String sosId, required bool isFalseAlarm}) async {
+    if (kUseMockData) {
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      return;
+    }
+    return ref.read(feedbackApiServiceProvider).reportFalsePositive(
+          sosId: sosId,
+          isFalseAlarm: isFalseAlarm,
+        );
+  };
+});

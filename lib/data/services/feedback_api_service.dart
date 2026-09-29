@@ -128,6 +128,59 @@ class FeedbackApiService {
     }
   }
 
+  /// POST /api/v1/feedback/false-positive — requires a JWT.
+  ///
+  /// [sosId] must be a real SOS UUID. The backend field is a `UUIDField`, so
+  /// the Day 115 screen's placeholder `sos_mock_001` would have come back as a
+  /// flat VALIDATION_ERROR with no hint about which field — hence the local
+  /// check, which names the problem.
+  ///
+  /// [isFalseAlarm] false is not a no-op: "this was a real emergency" is a
+  /// label the training set needs as much as the false alarms, so both answers
+  /// are submitted.
+  Future<void> reportFalsePositive({
+    required String sosId,
+    required bool isFalseAlarm,
+    DateTime? timestamp,
+  }) async {
+    final id = sosId.trim();
+    if (!isUuid(id)) {
+      throw FeedbackSubmitException(
+        id.isEmpty
+            ? 'No SOS id — a false-alarm report has to name which SOS it is about.'
+            : '"$id" is not a valid SOS id. The backend expects a UUID.',
+        isValidation: true,
+      );
+    }
+
+    try {
+      await _client.dio.post(
+        ApiConfig.feedbackFalsePositive,
+        data: <String, dynamic>{
+          'sos_id': id,
+          'is_false_alarm': isFalseAlarm,
+          'timestamp': (timestamp ?? DateTime.now().toUtc()).toIso8601String(),
+        },
+      );
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        throw const FeedbackSubmitException(
+          "That SOS doesn't exist or isn't yours.",
+          isValidation: true,
+        );
+      }
+      throw _describe(e);
+    }
+  }
+
+  /// Canonical 8-4-4-4-12 hex form, which is what DRF's UUIDField accepts.
+  static bool isUuid(String s) => _uuid.hasMatch(s);
+
+  static final _uuid = RegExp(
+    r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-'
+    r'[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+  );
+
   FeedbackSubmitException _describe(DioException e) {
     final code = e.response?.statusCode;
     if (code == 400) {

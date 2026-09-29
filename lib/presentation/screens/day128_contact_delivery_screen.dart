@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/sos_delivery_service.dart';
+import '../../domain/providers/sos_delivery_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _activeTabProvider     = StateProvider<int>((ref) => 0);
@@ -28,6 +30,10 @@ final _brandFixesProvider    = StateProvider<List<bool>>(
 final _verifyChecksProvider  = StateProvider<List<bool>>(
   (ref) => List.filled(_kVerifyChecks.length, false),
 );
+
+/// Day 366 — the SOS whose real delivery status to poll. Null until the tester
+/// submits one, so the screen never fires a request against a placeholder.
+final _realSosIdProvider = StateProvider<String?>((ref) => null);
 final _shipStateProvider     = StateProvider<_ShipState>((ref) => _ShipState.idle);
 
 enum _DeliveryState { idle, sending, partial, allDelivered }
@@ -418,10 +424,17 @@ class _DeliveryStatusTab extends ConsumerWidget {
         const _AckFlowDiagram(),
         const SizedBox(height: ZapSpacing.xl),
 
-        const _SectionLabel('LIVE DEMO  ·  SOS ACTIVE SCREEN'),
+        const _SectionLabel('REAL DELIVERY STATUS  ·  LIVE BACKEND'),
+        const SizedBox(height: ZapSpacing.md),
+        const _RealDeliveryStatus(),
+        const SizedBox(height: ZapSpacing.xl),
+
+        const _SectionLabel('SCRIPTED WALKTHROUGH  ·  NOT LIVE DATA'),
         const SizedBox(height: ZapSpacing.md),
 
-        // Mock SOS active screen with delivery status
+        // A fixed-timing script over hardcoded contacts, kept deliberately:
+        // it shows the checkmark states in order without needing a real SOS.
+        // The section above is the one that talks to the backend.
         _SosActiveWithDelivery(statuses: statuses, simState: simState),
         const SizedBox(height: ZapSpacing.md),
 
@@ -512,9 +525,12 @@ class _AckFlowDiagram extends StatelessWidget {
       (Icons.notifications_active_rounded, Color(0xFFF59E0B), 'Notification shown',
           'OS displays notification — device sends ACK webhook'),
       (Icons.cloud_done_rounded,        Color(0xFF8B5CF6), 'Backend records',
-          'POST /api/v1/sos/ack — stores delivery timestamp per contact'),
+          'POST /api/v1/sos/webhook/push-status/ — provider callback stores the '
+          'delivery timestamp. (The contact tapping their link is a different '
+          'endpoint, POST /api/v1/sos/<id>/ack/, which the app never calls.)'),
       (Icons.check_circle_rounded,      Color(0xFF10B981), 'UI updates',
-          'SOS screen polls every 3s — checkmark appears per contact'),
+          'GET /api/v1/sos/<id>/delivery-status/ — polled every 5s for 60s; '
+          'a checkmark appears per contact'),
     ];
 
     return Container(
@@ -1524,3 +1540,160 @@ Widget _codeNote(String filename, String code) => Container(
                 height: 1.6)),
       ]),
     );
+
+
+// ── Day 366 — real per-contact delivery status ────────────────────────────────
+
+/// Polls `GET /api/v1/sos/<id>/delivery-status/` for a real SOS and shows what
+/// the backend actually recorded per contact and channel.
+///
+/// Uses the Day 304 `sosDeliveryPollProvider` rather than a second client for
+/// the same endpoint. Errors are shown, not swallowed — on this screen the
+/// whole question is "did the alert arrive", so a fallback to plausible
+/// checkmarks would defeat the purpose.
+class _RealDeliveryStatus extends ConsumerStatefulWidget {
+  const _RealDeliveryStatus();
+
+  @override
+  ConsumerState<_RealDeliveryStatus> createState() =>
+      _RealDeliveryStatusState();
+}
+
+class _RealDeliveryStatusState extends ConsumerState<_RealDeliveryStatus> {
+  final _ctrl =
+      TextEditingController(text: '00000000-0000-0000-0000-000000000000');
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final sosId = ref.watch(_realSosIdProvider);
+    final poll =
+        sosId == null ? null : ref.watch(sosDeliveryPollProvider(sosId));
+
+    return Container(
+      padding: const EdgeInsets.all(ZapSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(ZapSpacing.radius),
+        border: Border.all(color: const Color(0xFF2A2A2A)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'GET /api/v1/sos/<id>/delivery-status/',
+            style: TextStyle(
+              color: Color(0xFF79C0FF),
+              fontSize: 12,
+              fontFamily: 'monospace',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+          TextField(
+            controller: _ctrl,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 12, fontFamily: 'monospace'),
+            decoration: const InputDecoration(
+              labelText: 'SOS id (uuid)',
+              helperText: 'A real SOS you own. Polls every 5s for 60s.',
+              helperMaxLines: 2,
+            ),
+          ),
+          const SizedBox(height: ZapSpacing.sm),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: () => ref.read(_realSosIdProvider.notifier).state =
+                  _ctrl.text.trim(),
+              icon: const Icon(Icons.play_arrow_rounded, size: 18),
+              label: const Text('Start polling'),
+            ),
+          ),
+          const Divider(height: ZapSpacing.lg, color: Color(0xFF2A2A2A)),
+          if (poll == null)
+            const Text(
+              'Not polling. Enter an SOS id to see what the backend recorded.',
+              style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12),
+            )
+          else
+            poll.when(
+              loading: () => const Padding(
+                padding: EdgeInsets.symmetric(vertical: ZapSpacing.md),
+                child: Row(children: [
+                  SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2)),
+                  SizedBox(width: ZapSpacing.sm),
+                  Text('Polling…',
+                      style:
+                          TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
+                ]),
+              ),
+              // Shown, not hidden behind plausible checkmarks.
+              error: (e, _) => Text(
+                'Delivery status unavailable: $e',
+                style: const TextStyle(color: Color(0xFFEF4444), fontSize: 12),
+              ),
+              data: (status) => _statusBody(status),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusBody(SosDeliveryStatus status) {
+    if (status.contacts.isEmpty) {
+      return Text(
+        'No contacts recorded for ${status.sosId}. Either that SOS notified '
+        'nobody, or it is not an SOS this account owns.',
+        style: const TextStyle(color: Color(0xFFF59E0B), fontSize: 12),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('${status.contacts.length} of ${status.totalContacts} contacts',
+            style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 11)),
+        const SizedBox(height: ZapSpacing.sm),
+        for (final c in status.contacts)
+          Padding(
+            padding: const EdgeInsets.only(bottom: ZapSpacing.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(c.name.isEmpty ? c.phone : c.name,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600)),
+                const SizedBox(height: 2),
+                Text(
+                  'push: ${_channel(c.push)}   ·   sms: ${_channel(c.sms)}',
+                  style: const TextStyle(
+                      color: Color(0xFF9CA3AF),
+                      fontSize: 11,
+                      fontFamily: 'monospace'),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  /// "not attempted" is a real, distinct outcome from "failed" — the cascade
+  /// skips SMS when push succeeds, so an empty channel is usually correct.
+  String _channel(ChannelDeliveryStatus? ch) {
+    if (ch == null) return 'not attempted';
+    final via = ch.provider.isEmpty ? '' : ' via ${ch.provider}';
+    final err = (ch.errorMessage ?? '').isEmpty ? '' : ' (${ch.errorMessage})';
+    return '${ch.status}$via$err';
+  }
+}

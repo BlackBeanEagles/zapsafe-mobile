@@ -132,5 +132,56 @@ void main() {
             .having((e) => e.isValidation, 'isValidation', true)),
       );
     });
+
+    // Day 115. The screen hardcoded sos_id "sos_mock_001" behind a mock, so
+    // the payload it would have sent was never once exercised — the backend
+    // field is a UUIDField and that string could not be accepted.
+    test('false-positive rejects the old hardcoded mock id', () async {
+      await expectLater(
+        service.reportFalsePositive(
+            sosId: 'sos_mock_001', isFalseAlarm: true),
+        throwsA(isA<FeedbackSubmitException>()
+            .having((e) => e.isValidation, 'isValidation', true)
+            .having((e) => e.message, 'names the id', contains('sos_mock_001'))),
+      );
+    });
+
+    test('false-positive rejects an empty id with a different message',
+        () async {
+      await expectLater(
+        service.reportFalsePositive(sosId: '   ', isFalseAlarm: false),
+        throwsA(isA<FeedbackSubmitException>()
+            .having((e) => e.message, 'says no id', contains('No SOS id'))),
+      );
+    });
+  });
+
+  group('isUuid', () {
+    test('accepts the canonical 8-4-4-4-12 form, either case', () {
+      expect(FeedbackApiService.isUuid('3f1b9c2e-7a41-4c8b-9d02-5e6f7a8b9c0d'),
+          isTrue);
+      expect(FeedbackApiService.isUuid('3F1B9C2E-7A41-4C8B-9D02-5E6F7A8B9C0D'),
+          isTrue);
+      // The zeroed id the live-wire screens default to must be well-formed,
+      // or the screens could never reach the backend to be told it is unknown.
+      expect(FeedbackApiService.isUuid('00000000-0000-0000-0000-000000000000'),
+          isTrue);
+    });
+
+    test('rejects the shapes that actually showed up', () {
+      expect(FeedbackApiService.isUuid('sos_mock_001'), isFalse);
+      expect(FeedbackApiService.isUuid(''), isFalse);
+      // Hyphens in the wrong places, right length.
+      expect(FeedbackApiService.isUuid('3f1b9c2e7a41-4c8b-9d02-5e6f7a8b9c0d'),
+          isFalse);
+      // Right shape, non-hex.
+      expect(FeedbackApiService.isUuid('zzzzzzzz-7a41-4c8b-9d02-5e6f7a8b9c0d'),
+          isFalse);
+      // Trailing junk — anchors matter, or a pasted URL would pass.
+      expect(
+          FeedbackApiService.isUuid(
+              '3f1b9c2e-7a41-4c8b-9d02-5e6f7a8b9c0d/ack/'),
+          isFalse);
+    });
   });
 }

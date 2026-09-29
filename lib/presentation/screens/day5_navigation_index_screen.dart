@@ -916,7 +916,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFFF59E0B),
               title: 'Day 115 · False Positive Flow',
               route: AppRoutes.falsePositive,
-              hint: '/false-positive · 2s delay after SOS · "Was this a false alarm?" dialog · Yes/No buttons · mock POST /api/v1/feedback/false-positive · snackbar confirmation · ML training impact',
+              hint: '/false-positive · 2s delay after SOS · "Was this a false alarm?" dialog · Yes/No buttons · REAL POST /api/v1/feedback/false-positive (wired Day 366; was mock, and its hardcoded sos_id was not a uuid so it could never have been accepted) · takes an SOS uuid, needs a backend + JWT, or --dart-define=USE_MOCK_DATA=true · both answers are submitted, not just false alarms · failures show the reason',
               dayBuilt: 'DAY 115 ✅',
             ),
             const _NavTile(
@@ -1020,7 +1020,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF3B82F6),
               title: 'Day 128 · Contact Delivery',
               route: AppRoutes.contactDelivery,
-              hint: '/contact-delivery · 2-tab (Delivery Status / Brand Fixes) · ACK flow diagram (5 steps) · live SOS active screen with per-contact delivery badges (pending→sent→delivered→opened→responded) animating in real-time · 3 brand fix cards (Xiaomi/Huawei/OnePlus) tap-to-expand with user steps + apply button · 7-item verify checklist · v0.5.3 ship panel · next Days 129-134',
+              hint: '/contact-delivery · 2-tab (Delivery Status / Brand Fixes) · ACK flow diagram (5 steps; Day 366 corrected its ack path and poll interval) · REAL per-contact status from GET /api/v1/sos/<id>/delivery-status/, polled 5s for 60s, errors shown not hidden (Day 366) · below it a SCRIPTED walkthrough over hardcoded contacts, kept on purpose and now labelled as not-live · 3 brand fix cards (Xiaomi/Huawei/OnePlus) tap-to-expand · 7-item verify checklist · v0.5.3 ship panel',
               dayBuilt: 'DAY 128 ✅',
             ),
             const _NavTile(

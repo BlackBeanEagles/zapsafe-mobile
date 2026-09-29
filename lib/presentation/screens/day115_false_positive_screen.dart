@@ -2,7 +2,10 @@
 ///
 /// Post-SOS dialog: "Was this a false alarm?" Appears 2 seconds after SOS
 /// confirmation. Two buttons (Yes = false alarm / No = real emergency).
-/// Mock POST to /api/v1/feedback/false-positive. Snackbar confirmation.
+/// POSTs to /api/v1/feedback/false-positive for real (wired Day 366 — this
+/// screen shipped with a mock that discarded every answer, and with a
+/// hardcoded sos_id of "sos_mock_001" that the backend's UUIDField would
+/// always have rejected). Snackbar confirms, or reports the failure.
 /// Reports feed back into ML training pipeline to reduce false SOS triggers.
 library;
 
@@ -10,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../data/services/feedback_api_service.dart';
+import '../../domain/providers/feedback_api_providers.dart';
 
 // ── Enums ──────────────────────────────────────────────────────────────────────
 enum _DialogState { waiting, visible, submitting, done }
@@ -23,6 +28,13 @@ final _resultProvider =
     StateProvider<_FalsePositiveResult?>((ref) => null);
 final _countdownProvider = StateProvider<int>((ref) => 2);
 
+/// The SOS this report is about. Zeroed uuid by default, same convention as
+/// the Day 304 delivery-status live wire: valid in shape so the request is
+/// well-formed, and obviously not a real event.
+final _sosIdProvider = StateProvider<String>(
+  (ref) => '00000000-0000-0000-0000-000000000000',
+);
+
 // ── Screen ─────────────────────────────────────────────────────────────────────
 class Day115FalsePositiveScreen extends ConsumerStatefulWidget {
   const Day115FalsePositiveScreen({super.key});
@@ -35,10 +47,19 @@ class Day115FalsePositiveScreen extends ConsumerStatefulWidget {
 class _Day115FalsePositiveScreenState
     extends ConsumerState<Day115FalsePositiveScreen> {
 
+  late final TextEditingController _sosIdCtrl;
+
   @override
   void initState() {
     super.initState();
+    _sosIdCtrl = TextEditingController(text: ref.read(_sosIdProvider));
     _startCountdown();
+  }
+
+  @override
+  void dispose() {
+    _sosIdCtrl.dispose();
+    super.dispose();
   }
 
   Future<void> _startCountdown() async {
@@ -69,8 +90,32 @@ class _Day115FalsePositiveScreenState
     ref.read(_resultProvider.notifier).state = result;
     ref.read(_dialogStateProvider.notifier).state = _DialogState.submitting;
 
-    // Mock POST /api/v1/feedback/false-positive
-    await Future.delayed(const Duration(milliseconds: 900));
+    try {
+      await ref.read(reportFalsePositiveProvider)(
+        sosId: ref.read(_sosIdProvider),
+        isFalseAlarm: result == _FalsePositiveResult.falseAlarm,
+      );
+    } on FeedbackSubmitException catch (e) {
+      if (!mounted) return;
+      ref.read(_dialogStateProvider.notifier).state = _DialogState.visible;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: const Color(0xFFEF4444),
+        ),
+      );
+      return;
+    } catch (_) {
+      if (!mounted) return;
+      ref.read(_dialogStateProvider.notifier).state = _DialogState.visible;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Couldn't record that answer. Please try again."),
+          backgroundColor: Color(0xFFEF4444),
+        ),
+      );
+      return;
+    }
     if (!mounted) return;
 
     ref.read(_dialogStateProvider.notifier).state = _DialogState.done;
@@ -129,6 +174,7 @@ class _Day115FalsePositiveScreenState
     final dialogState = ref.watch(_dialogStateProvider);
     final result      = ref.watch(_resultProvider);
     final countdown   = ref.watch(_countdownProvider);
+    final sosId       = ref.watch(_sosIdProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0F0F0F),
@@ -156,18 +202,40 @@ class _Day115FalsePositiveScreenState
             const _Hero(),
             const SizedBox(height: ZapSpacing.xl),
 
+            // ── Which SOS this report is about ────────────────────────────
+            // Real POST now, so the id has to be a real uuid the backend owns.
+            TextField(
+              controller: _sosIdCtrl,
+              onChanged: (v) =>
+                  ref.read(_sosIdProvider.notifier).state = v.trim(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: 'monospace',
+              ),
+              decoration: const InputDecoration(
+                labelText: 'SOS id (uuid)',
+                helperText:
+                    'Paste a real SOS uuid, or leave the zeroed one to see the '
+                    'backend reject an unknown event.',
+                helperMaxLines: 3,
+              ),
+            ),
+            const SizedBox(height: ZapSpacing.xl),
+
             // ── Live state card ───────────────────────────────────────────
             _StateCard(
               dialogState: dialogState,
               result: result,
               countdown: countdown,
+              sosId: sosId,
             ),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Mock SOS context ──────────────────────────────────────────
             const _SectionLabel('SOS EVENT CONTEXT'),
             const SizedBox(height: ZapSpacing.md),
-            const _SosContextCard(),
+            _SosContextCard(sosId: sosId),
             const SizedBox(height: ZapSpacing.xl),
 
             // ── Flow explanation ──────────────────────────────────────────
@@ -464,10 +532,15 @@ class _StateCard extends StatelessWidget {
   final _FalsePositiveResult? result;
   final int countdown;
 
+  /// Shown in the payload preview so what the screen displays is what it
+  /// posts. It used to print "sos_mock_001" regardless.
+  final String sosId;
+
   const _StateCard({
     required this.dialogState,
     required this.result,
     required this.countdown,
+    required this.sosId,
   });
 
   @override
@@ -537,8 +610,8 @@ class _StateCard extends StatelessWidget {
               ),
               child: Text(
                 result == _FalsePositiveResult.falseAlarm
-                    ? '{ is_false_alarm: true, sos_id: "sos_mock_001" }'
-                    : '{ is_false_alarm: false, sos_id: "sos_mock_001" }',
+                    ? '{ is_false_alarm: true, sos_id: "$sosId" }'
+                    : '{ is_false_alarm: false, sos_id: "$sosId" }',
                 style: const TextStyle(
                   color: Color(0xFF9CA3AF),
                   fontSize: 11,
@@ -615,7 +688,9 @@ class _StateCard extends StatelessWidget {
 
 // ── SOS context card ───────────────────────────────────────────────────────────
 class _SosContextCard extends StatelessWidget {
-  const _SosContextCard();
+  const _SosContextCard({required this.sosId});
+
+  final String sosId;
 
   @override
   Widget build(BuildContext context) {
@@ -626,34 +701,37 @@ class _SosContextCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(ZapSpacing.radius),
         border: Border.all(color: const Color(0xFF2A2A2A)),
       ),
-      child: const Column(
+      // Trigger/time/contacts stay illustrative — this screen is a flow demo
+      // and never had a real event behind them. The id does not: it is what
+      // gets posted, so it shows the live value.
+      child: Column(
         children: [
-          _ContextRow(
+          const _ContextRow(
             icon: Icons.bolt_rounded,
             color: Color(0xFFEF4444),
             label: 'Trigger',
-            value: 'Scream detected (94% confidence)',
+            value: 'Scream detected (94% confidence) — illustrative',
           ),
-          Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _ContextRow(
+          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          const _ContextRow(
             icon: Icons.access_time_rounded,
             color: Color(0xFF3B82F6),
             label: 'Time',
-            value: '12:45 PM · 2s ago',
+            value: '12:45 PM · 2s ago — illustrative',
           ),
-          Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _ContextRow(
+          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          const _ContextRow(
             icon: Icons.people_rounded,
             color: Color(0xFF10B981),
             label: 'Notified',
-            value: '3 contacts alerted',
+            value: '3 contacts alerted — illustrative',
           ),
-          Divider(height: 1, color: Color(0xFF2A2A2A)),
+          const Divider(height: 1, color: Color(0xFF2A2A2A)),
           _ContextRow(
             icon: Icons.tag_rounded,
-            color: Color(0xFF8B5CF6),
+            color: const Color(0xFF8B5CF6),
             label: 'SOS ID',
-            value: 'sos_mock_001',
+            value: sosId,
           ),
         ],
       ),
@@ -813,7 +891,9 @@ class _PayloadCard extends StatelessWidget {
           SizedBox(height: ZapSpacing.md),
           Text(
             '{\n'
-            '  "sos_id":        "sos_mock_001",\n'
+            // A UUID, not a slug: the backend field is a UUIDField, so the
+            // "sos_mock_001" this card used to show could never be accepted.
+            '  "sos_id":        "3f1b9c2e-...-a07d",  // uuid\n'
             '  "is_false_alarm": true | false,\n'
             '  "timestamp":     "2026-05-29T14:23:00Z"\n'
             '}',
