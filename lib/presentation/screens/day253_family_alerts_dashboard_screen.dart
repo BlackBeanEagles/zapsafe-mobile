@@ -16,6 +16,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/family_api_service.dart';
+import '../../domain/providers/family_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -114,12 +116,12 @@ class _FamilyMember {
     required this.relation,
     required this.initials,
     required this.color,
-    required this.lastSeen,
-    required this.lastSeenMinutes,
     required this.sosActive,
-    required this.protectionScore,
-    required this.device,
-    required this.journeyActive,
+    this.lastSeen,
+    this.lastSeenMinutes,
+    this.protectionScore,
+    this.device,
+    this.journeyActive,
     this.childProfile = false,
   });
 
@@ -128,15 +130,54 @@ class _FamilyMember {
   final String relation;
   final String initials;
   final Color color;
-  final String lastSeen;
-  final int lastSeenMinutes;
+
+  // ── Day 366: null means THE SERVER DOES NOT REPORT THIS ──────────────────
+  // GET /api/v1/family/dashboard/ returns memberId, fullName, phone, role,
+  // lastSosStatus, lastSosTriggeredAt and hasLiveSos. Nothing else. These four
+  // were designed against an API that was never built, and filling them with
+  // plausible values for a real family member would read as fact.
+  final String? lastSeen;
+  final int? lastSeenMinutes;
+  final int? protectionScore;
+  final String? device;
+  final bool? journeyActive;
+  // ─────────────────────────────────────────────────────────────────────────
+
   final bool sosActive;
-  final int protectionScore;
-  final String device;
-  final bool journeyActive;
   final bool childProfile;
 
-  bool get isOffline => lastSeenMinutes > 1440;
+  /// null when last-seen is unreported — "unknown" is not "online".
+  bool? get isOffline =>
+      lastSeenMinutes == null ? null : lastSeenMinutes! > 1440;
+
+  /// A real member from GET /api/v1/family/dashboard/.
+  ///
+  /// `lastSeen` is deliberately NOT derived from `lastSosTriggeredAt`: the last
+  /// time someone triggered an SOS is not the last time they were seen, and
+  /// conflating them would put a wrong timestamp under a "Last seen" label.
+  factory _FamilyMember.fromApi(FamilyDashboardMember m, Color color) {
+    final parts = m.fullName.trim().split(RegExp(r'\s+'));
+    final initials = parts.isEmpty
+        ? '?'
+        : parts.length == 1
+            ? parts.first.characters.take(2).toString().toUpperCase()
+            : (parts.first.characters.take(1).toString() +
+                    parts.last.characters.take(1).toString())
+                .toUpperCase();
+    return _FamilyMember(
+      id: m.memberId,
+      name: m.fullName,
+      relation: m.role,
+      initials: initials,
+      color: color,
+      sosActive: m.hasLiveSos,
+      lastSeen: null,
+      lastSeenMinutes: null,
+      protectionScore: null,
+      device: null,
+      journeyActive: null,
+    );
+  }
 
   _FamilyMember copyWith({
     bool? sosActive,
@@ -186,6 +227,17 @@ final _d253LoadingProvider = StateProvider<bool>((ref) => false);
 final _d253SelectedIdProvider = StateProvider<String?>((ref) => null);
 final _d253LastRefreshProvider = StateProvider<DateTime?>((ref) => null);
 
+/// True once the member list has been replaced with the server's.
+final _d253SeededProvider = StateProvider<bool>((ref) => false);
+
+/// Palette for server-sourced members. The API returns no colour — this is
+/// presentation assigned by position, and is the one field it is fine to
+/// invent, because nothing reads a swatch as data.
+const _kMemberColors = <Color>[
+  Color(0xFFEC4899), Color(0xFF6366F1), Color(0xFF10B981),
+  Color(0xFFF59E0B), Color(0xFF8B5CF6), Color(0xFF06B6D4),
+];
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 List<_FamilyMember> _filteredMembers(
   List<_FamilyMember> members,
@@ -193,7 +245,8 @@ List<_FamilyMember> _filteredMembers(
 ) {
   return switch (filter) {
     _MemberFilter.sosActive => members.where((m) => m.sosActive).toList(),
-    _MemberFilter.offline => members.where((m) => m.isOffline).toList(),
+    // `== true` on purpose: an unreported last-seen is unknown, not offline.
+    _MemberFilter.offline => members.where((m) => m.isOffline == true).toList(),
     _ => members,
   };
 }
@@ -208,7 +261,10 @@ Map<String, dynamic> _buildDashboardPayload(List<_FamilyMember> members) {
   };
 }
 
-Color _scoreColor(int score) {
+/// null (unreported) is drawn muted, not red — "we don't know" must not look
+/// like "this person scores badly".
+Color _scoreColor(int? score) {
+  if (score == null) return ZapColors.textMuted;
   if (score >= 80) return ZapColors.safe;
   if (score >= 60) return ZapColors.warning;
   return ZapColors.danger;
@@ -238,6 +294,23 @@ class Day253FamilyAlertsDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d253TabProvider);
     final members = ref.watch(_d253MembersProvider);
+
+    // Day 366 — replace the const sample list with the real family once the
+    // server answers. Guarded so it happens once and cannot stomp local edits.
+    //
+    // Members built this way carry NULLS for protection score, device,
+    // last-seen and journey state: GET /api/v1/family/dashboard/ does not
+    // report them, and the detail rows say so rather than showing a number.
+    ref.listen(familyDashboardProvider, (_, next) {
+      final dash = next.value;
+      if (dash == null || ref.read(_d253SeededProvider)) return;
+      var i = 0;
+      ref.read(_d253MembersProvider.notifier).state = [
+        for (final m in dash.members)
+          _FamilyMember.fromApi(m, _kMemberColors[i++ % _kMemberColors.length]),
+      ];
+      ref.read(_d253SeededProvider.notifier).state = true;
+    });
     final sosCount = members.where((m) => m.sosActive).length;
 
     return Scaffold(
@@ -364,12 +437,16 @@ class _DashboardTab extends ConsumerWidget {
     final filtered = _filteredMembers(members, filter);
 
     final sosCount = members.where((m) => m.sosActive).length;
-    final offlineCount = members.where((m) => m.isOffline).length;
-    final avgScore = members.isEmpty
-        ? 0
-        : (members.map((m) => m.protectionScore).reduce((a, b) => a + b) /
-                members.length)
-            .round();
+    final offlineCount = members.where((m) => m.isOffline == true).length;
+    // Averaged over members who HAVE a score. Treating an unreported score as
+    // zero would drag the family average down and look like a real reading.
+    final scored = members
+        .map((m) => m.protectionScore)
+        .whereType<int>()
+        .toList(growable: false);
+    final int? avgScore = scored.isEmpty
+        ? null
+        : (scored.reduce((a, b) => a + b) / scored.length).round();
 
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -479,7 +556,7 @@ class _DashboardTab extends ConsumerWidget {
               Expanded(
                 child: _StatCard(
                   label: 'Avg protection',
-                  value: '$avgScore',
+                  value: avgScore == null ? '—' : '$avgScore',
                   icon: Icons.shield_rounded,
                   color: _scoreColor(avgScore),
                 ),
@@ -863,7 +940,9 @@ class _MemberDashboardCard extends StatelessWidget {
 class _ProtectionScoreRing extends StatelessWidget {
   const _ProtectionScoreRing({required this.score});
 
-  final int score;
+  /// null when the server does not report a score — the ring renders a dash
+  /// rather than a 0, which would read as a real, very bad score.
+  final int? score;
 
   @override
   Widget build(BuildContext context) {
@@ -875,13 +954,15 @@ class _ProtectionScoreRing extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           CircularProgressIndicator(
-            value: score / 100,
+            // null score -> empty track, and the label below reads "—".
+            // Drawing a 0% arc would read as "scores zero".
+            value: score == null ? 0.0 : score! / 100,
             strokeWidth: 4,
             color: color,
             backgroundColor: color.withOpacity(0.15),
           ),
           Text(
-            '$score',
+            score == null ? '—' : '$score',
             style: TextStyle(
               color: color,
               fontWeight: FontWeight.w900,
@@ -960,15 +1041,23 @@ class _MemberDetailTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _DetailRow(label: 'Last seen', value: member.lastSeen),
-                  _DetailRow(label: 'Device', value: member.device),
+                  _DetailRow(
+                      label: 'Last seen',
+                      value: member.lastSeen ?? 'Not reported by the server'),
+                  _DetailRow(
+                      label: 'Device',
+                      value: member.device ?? 'Not reported by the server'),
                   _DetailRow(
                     label: 'Protection score',
-                    value: '${member.protectionScore} / 100',
+                    value: member.protectionScore == null
+                        ? 'Not reported by the server'
+                        : '${member.protectionScore} / 100',
                   ),
                   _DetailRow(
                     label: 'Journey active',
-                    value: member.journeyActive ? 'Yes' : 'No',
+                    value: member.journeyActive == null
+                        ? 'Not reported by the server'
+                        : (member.journeyActive! ? 'Yes' : 'No'),
                   ),
                   _DetailRow(
                     label: 'SOS active',

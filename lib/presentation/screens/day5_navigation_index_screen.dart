@@ -1714,7 +1714,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF7C3AED),
               title: 'Day 254 · Family SOS History',
               route: AppRoutes.familySosHistory,
-              hint: '/family-sos-history · 🟡 MOCK-NOW · Section C Day 14/20 · 3-tab (Timeline / Members / Info) · admin-only per-member SOS drill timeline · event filters · expand details · mock GET sos-history API · Day 253/252 links · teaser Day 255 Child Admin Lock',
+              hint: '/family-sos-history · REAL events from GET /api/v1/family/members/<id>/sos-history/ (Day 366), re-seeded per member; duration and contacts-notified are NOT reported and say so · needs a backend + JWT  · 🟡 MOCK-NOW · Section C Day 14/20 · 3-tab (Timeline / Members / Info) · admin-only per-member SOS drill timeline · event filters · expand details · mock GET sos-history API · Day 253/252 links · teaser Day 255 Child Admin Lock',
               dayBuilt: 'DAY 254 ✅',
             ),
             const _NavTile(
@@ -1722,7 +1722,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF6366F1),
               title: 'Day 253 · Family Alerts Dashboard',
               route: AppRoutes.familyAlertsDashboard,
-              hint: '/family-alerts-dashboard · 🟡 MOCK-NOW · Section C Day 13/20 · 3-tab (Dashboard / Members / Info) · family admin · 6 linked members · last active · SOS badges · protection score rings · filter chips · pull refresh · mock GET dashboard API · Day 252/242 links · teaser Day 254 SOS History',
+              hint: '/family-alerts-dashboard · REAL members from GET /api/v1/family/dashboard/ (Day 366); protection score, device, last-seen and journey state are NOT reported by that endpoint and render "Not reported by the server" rather than plausible numbers · needs a backend + JWT  · 🟡 MOCK-NOW · Section C Day 13/20 · 3-tab (Dashboard / Members / Info) · family admin · 6 linked members · last active · SOS badges · protection score rings · filter chips · pull refresh · mock GET dashboard API · Day 252/242 links · teaser Day 254 SOS History',
               dayBuilt: 'DAY 253 ✅',
             ),
             const _NavTile(

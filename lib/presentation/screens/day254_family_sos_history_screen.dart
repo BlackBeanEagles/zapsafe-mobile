@@ -16,6 +16,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/family_api_service.dart';
+import '../../domain/providers/family_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 import '../widgets/zap_empty_state.dart';
@@ -250,9 +252,9 @@ class _SosHistoryEvent {
     required this.detail,
     required this.occurredAt,
     required this.sortKey,
-    required this.duration,
-    required this.contactsNotified,
     required this.resolved,
+    this.duration,
+    this.contactsNotified,
   });
 
   final String id;
@@ -262,9 +264,48 @@ class _SosHistoryEvent {
   final String detail;
   final String occurredAt;
   final int sortKey;
-  final String duration;
-  final int contactsNotified;
+
+  // ── Day 366: null means THE SERVER DOES NOT REPORT THIS ──────────────────
+  // GET /api/v1/family/members/<id>/sos-history/ returns id, status,
+  // triggerType, triggeredAt and note. It does not report how long an SOS ran
+  // or how many contacts were notified. Inventing either against a real
+  // emergency in someone's history would read as fact.
+  final String? duration;
+  final int? contactsNotified;
+  // ─────────────────────────────────────────────────────────────────────────
+
   final bool resolved;
+
+  /// A real event from the family SOS-history endpoint.
+  ///
+  /// `type` is inferred from `triggerType` and falls back to `sos` rather than
+  /// guessing: an unrecognised trigger is still an SOS event, and silently
+  /// reclassifying it as a drill would understate it.
+  factory _SosHistoryEvent.fromApi(FamilySosHistoryItem it, String memberId,
+      int sortKey) {
+    final t = it.triggerType.toLowerCase();
+    final type = t.contains('drill')
+        ? _EventType.drill
+        : t.contains('false')
+            ? _EventType.falsePositive
+            : t.contains('group') || t.contains('panic')
+                ? _EventType.groupPanic
+                : t.contains('journey')
+                    ? _EventType.journey
+                    : _EventType.sos;
+    return _SosHistoryEvent(
+      id: it.id,
+      memberId: memberId,
+      type: type,
+      title: it.triggerType.isEmpty ? it.status : it.triggerType,
+      detail: (it.note ?? '').isEmpty ? 'No note recorded.' : it.note!,
+      occurredAt: it.triggeredAt?.toLocal().toString() ?? 'Time not recorded',
+      sortKey: sortKey,
+      duration: null,
+      contactsNotified: null,
+      resolved: it.status.toLowerCase() != 'active',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -286,6 +327,16 @@ final _d254FilterProvider =
     StateProvider<_HistoryFilter>((ref) => _HistoryFilter.all);
 final _d254ExpandedEventProvider = StateProvider<String?>((ref) => null);
 
+/// The events in play. Seeded from the const sample list so the screen is
+/// walkable from the Day 5 index, replaced with the server's history for the
+/// selected member once it answers.
+final _d254EventsProvider =
+    StateProvider<List<_SosHistoryEvent>>((ref) => _kHistoryEvents);
+
+/// Which member id the loaded history belongs to, so switching member
+/// re-seeds instead of showing the previous member's events.
+final _d254LoadedForProvider = StateProvider<String?>((ref) => null);
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 _MemberSummary? _memberById(String id) {
   for (final m in _kFamilyMembers) {
@@ -294,8 +345,11 @@ _MemberSummary? _memberById(String id) {
   return null;
 }
 
-List<_SosHistoryEvent> _eventsForMember(String memberId) {
-  return _kHistoryEvents.where((e) => e.memberId == memberId).toList()
+/// Day 366 — takes the list rather than closing over the const one, so the
+/// same helpers serve both the server-sourced events and the sample seed.
+List<_SosHistoryEvent> _eventsForMember(
+    List<_SosHistoryEvent> all, String memberId) {
+  return all.where((e) => e.memberId == memberId).toList()
     ..sort((a, b) => a.sortKey.compareTo(b.sortKey));
 }
 
@@ -318,7 +372,8 @@ List<_SosHistoryEvent> _filteredEvents(
   };
 }
 
-int _eventCountForMember(String memberId) => _eventsForMember(memberId).length;
+int _eventCountForMember(List<_SosHistoryEvent> all, String memberId) =>
+    _eventsForMember(all, memberId).length;
 
 Color _eventColor(_EventType type) {
   return switch (type) {
@@ -350,9 +405,10 @@ String _eventTypeLabel(_EventType type) {
   };
 }
 
-Map<String, dynamic> _historyPayload(String memberId) {
+Map<String, dynamic> _historyPayload(
+    List<_SosHistoryEvent> all, String memberId) {
   final member = _memberById(memberId);
-  final events = _eventsForMember(memberId);
+  final events = _eventsForMember(all, memberId);
   return {
     'member_id': memberId,
     'member_name': member?.name,
@@ -369,9 +425,28 @@ class Day254FamilySosHistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d254TabProvider);
+
+    // Day 366 — load the selected member's REAL history.
+    //
+    // Keyed on member id and re-seeded when it changes: showing one family
+    // member's SOS events under another's name would be worse than showing
+    // none. Events built this way carry NULL duration and contactsNotified,
+    // which the endpoint does not report.
+    final selectedId = ref.watch(_d254MemberIdProvider);
+    ref.listen(familyMemberSosHistoryProvider(selectedId), (_, next) {
+      final hist = next.value;
+      if (hist == null) return;
+      if (ref.read(_d254LoadedForProvider) == selectedId) return;
+      var i = 0;
+      ref.read(_d254EventsProvider.notifier).state = [
+        for (final it in hist.results)
+          _SosHistoryEvent.fromApi(it, selectedId, i++),
+      ];
+      ref.read(_d254LoadedForProvider.notifier).state = selectedId;
+    });
     final memberId = ref.watch(_d254MemberIdProvider);
     final member = _memberById(memberId);
-    final activeSos = _eventsForMember(memberId)
+    final activeSos = _eventsForMember(ref.watch(_d254EventsProvider), memberId)
         .any((e) => e.type == _EventType.sos && !e.resolved);
 
     return Scaffold(
@@ -480,7 +555,8 @@ class _TimelineTab extends ConsumerWidget {
     final filter = ref.watch(_d254FilterProvider);
     final expandedId = ref.watch(_d254ExpandedEventProvider);
     final member = _memberById(memberId);
-    final events = _filteredEvents(_eventsForMember(memberId), filter);
+    final events = _filteredEvents(
+        _eventsForMember(ref.watch(_d254EventsProvider), memberId), filter);
 
     if (member == null) {
       return const Center(child: Text('Member not found.'));
@@ -536,7 +612,7 @@ class _TimelineTab extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      '${member.relation} · ${_eventCountForMember(memberId)} events',
+                      '${member.relation} · ${_eventCountForMember(ref.watch(_d254EventsProvider), memberId)} events',
                       style: const TextStyle(
                         color: ZapColors.textSecondary,
                         fontSize: 11,
@@ -647,8 +723,10 @@ class _MembersTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.lg),
         ..._kFamilyMembers.map((m) {
-          final count = _eventCountForMember(m.id);
-          final hasActiveSos = _eventsForMember(m.id)
+          final count =
+              _eventCountForMember(ref.watch(_d254EventsProvider), m.id);
+          final hasActiveSos =
+              _eventsForMember(ref.watch(_d254EventsProvider), m.id)
               .any((e) => e.type == _EventType.sos && !e.resolved);
           return _MemberPickTile(
             member: m,
@@ -676,7 +754,8 @@ class _InfoTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final memberId = ref.watch(_d254MemberIdProvider);
-    final payload = _historyPayload(memberId);
+    final payload =
+        _historyPayload(ref.watch(_d254EventsProvider), memberId);
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -923,11 +1002,14 @@ class _TimelineEventTile extends StatelessWidget {
                         const SizedBox(height: ZapSpacing.sm),
                         _DetailRow(
                           label: 'Duration',
-                          value: event.duration,
+                          value: event.duration ??
+                              'Not reported by the server',
                         ),
                         _DetailRow(
                           label: 'Contacts notified',
-                          value: '${event.contactsNotified}',
+                          value: event.contactsNotified == null
+                              ? 'Not reported by the server'
+                              : '${event.contactsNotified}',
                         ),
                         _DetailRow(
                           label: 'Resolved',
