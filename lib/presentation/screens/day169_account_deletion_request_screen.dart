@@ -14,10 +14,17 @@
 ///    ready") was stale: the backend was ready and this screen kept its stub,
 ///    so a user exercising DPDP §13 saw "Request submitted" and was not.
 ///
-/// 🟡 The OTP re-auth step is still a demo, deliberately: no re-auth endpoint
-///    exists. auth_app offers register/, verify-otp/ and google-verify/, which
-///    sign a user in rather than re-confirm identity before a destructive
-///    action, and reusing the registration OTP for that would be wrong.
+/// 🟢 The OTP re-auth step is REAL too, as of later the same day —
+///    POST /api/v1/auth/reauth/{request,verify}/ (auth_app/reauth.py). It is a
+///    separate namespace from the login OTP on purpose: a code issued to
+///    confirm a deletion is not redeemable at /auth/verify-otp/, and a login
+///    code does not satisfy re-auth. Verifying returns a short-lived,
+///    single-use, purpose-scoped token which the deletion call now requires —
+///    the server refuses with 403 REAUTH_REQUIRED without it.
+///
+///    The code goes to the phone on the ACCOUNT, read from the access token.
+///    The number typed on this screen is not sent, so this flow cannot be
+///    pointed at anyone else's phone.
 ///
 /// Legal basis:
 ///   DPDP Act 2023 §13  — right to erasure of personal data.
@@ -29,6 +36,8 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/services/auth_service.dart';
+import '../../domain/providers/auth_providers.dart';
 import '../../domain/providers/privacy_providers.dart';
 
 import '../../core/theme/spacing.dart';
@@ -49,6 +58,12 @@ final _otpSentProvider       = StateProvider<bool>((ref) => false);
 /// which would be a lie for the 400 the backend returns when a deletion
 /// request already exists.
 final _submitErrorProvider   = StateProvider<String?>((ref) => null);
+
+/// The single-use proof-of-re-auth token from
+/// POST /api/v1/auth/reauth/verify/. Held only for the seconds between
+/// verifying and submitting; it is spent by the deletion call and a retry needs
+/// a fresh one.
+final _reauthTokenProvider   = StateProvider<String?>((ref) => null);
 final _submitStateProvider   = StateProvider<_SubmitState>((ref) => _SubmitState.idle);
 final _expandedDataProvider  = StateProvider<int?>((ref) => null);
 
@@ -179,25 +194,9 @@ const _kDataCategories = [
   ),
 ];
 
-// ── Re-auth demo ──────────────────────────────────────────────────────────────
-//
-// Still a stub, and unlike the deletion submit it cannot be wired: there is no
-// re-auth endpoint. Kept so the flow is walkable end to end, named so it is
-// not mistaken for a real gate. The deletion request itself now goes through
-// PrivacyService — see _Step3Confirm.
-class _ReAuthDemo {
-  /// No backend equivalent. A real implementation needs a dedicated
-  /// re-authentication endpoint that does NOT also mint a login session.
-  static Future<void> sendOtp(String phone) =>
-      Future.delayed(const Duration(milliseconds: 900));
-
-  /// Accepts any 6 digits. This gate proves nothing and must not be relied on
-  /// as a security control — the server does not check it.
-  static Future<bool> verifyOtp(String otp) async {
-    await Future.delayed(const Duration(milliseconds: 700));
-    return otp.length == 6;
-  }
-}
+// The re-auth stub that used to live here is gone: the step now calls
+// AuthService.requestReauth() / verifyReauth() against the real endpoints.
+// See _Step2ReAuth below.
 
 // ── Screen ─────────────────────────────────────────────────────────────────────
 class Day169AccountDeletionRequestScreen extends ConsumerWidget {
@@ -872,13 +871,29 @@ class _Step2ReAuth extends ConsumerWidget {
               ? () async {
                   ref.read(_submitStateProvider.notifier).state =
                       _SubmitState.sendingOtp;
-                  await _ReAuthDemo.sendOtp(phone);
+                  // No phone argument: the server sends to the account's own
+                  // number, read from the access token.
+                  String? sendError;
+                  try {
+                    await ref.read(authServiceProvider).requestReauth();
+                  } catch (e) {
+                    sendError = '$e';
+                  }
                   if (context.mounted) {
+                    if (sendError != null) {
+                      ref.read(_submitStateProvider.notifier).state =
+                          _SubmitState.error;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(sendError),
+                        backgroundColor: const Color(0xFFEF4444),
+                      ));
+                      return;
+                    }
                     ref.read(_otpSentProvider.notifier).state = true;
                     ref.read(_submitStateProvider.notifier).state =
                         _SubmitState.idle;
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Mock OTP: 123456'),
+                      content: Text('Code sent to your registered number'),
                       backgroundColor: Color(0xFF8B5CF6),
                       duration: Duration(seconds: 3)));
                   }
@@ -911,15 +926,34 @@ class _Step2ReAuth extends ConsumerWidget {
                 ? () async {
                     ref.read(_submitStateProvider.notifier).state =
                         _SubmitState.verifyingOtp;
-                    final ok = await _ReAuthDemo.verifyOtp(otp);
+                    String? token;
+                    String? verifyError;
+                    try {
+                      token = await ref.read(authServiceProvider).verifyReauth(
+                            otp: otp,
+                            purpose: kReauthPurposeAccountDeletion,
+                          );
+                    } catch (e) {
+                      // The server distinguishes wrong / expired / too many
+                      // attempts; the last two need a new code, so the message
+                      // is shown rather than collapsed to "invalid".
+                      verifyError = '$e';
+                    }
                     if (context.mounted) {
-                      if (ok) {
+                      if (token != null && token.isNotEmpty) {
+                        ref.read(_reauthTokenProvider.notifier).state = token;
                         ref.read(_flowStepProvider.notifier).state = 3;
                         ref.read(_submitStateProvider.notifier).state =
                             _SubmitState.idle;
                       } else {
                         ref.read(_submitStateProvider.notifier).state =
                             _SubmitState.error;
+                        if (verifyError != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(verifyError),
+                            backgroundColor: const Color(0xFFEF4444),
+                          ));
+                        }
                       }
                     }
                   }
@@ -1064,9 +1098,13 @@ class _Step3Confirm extends ConsumerWidget {
             try {
               // Real DPDP §13 erasure request. Returns the DeletionRequest the
               // Day 170 grace screen then counts down against.
-              await ref
-                  .read(privacyServiceProvider)
-                  .createDeletion(reason: reason?.name ?? 'other');
+              await ref.read(privacyServiceProvider).createDeletion(
+                    reason: reason?.name ?? 'other',
+                    reauthToken: ref.read(_reauthTokenProvider),
+                  );
+              // Spent server-side. Clearing it locally too means a retry after
+              // a later failure cannot silently send a dead token.
+              ref.read(_reauthTokenProvider.notifier).state = null;
               if (context.mounted) {
                 ref.read(_submitStateProvider.notifier).state = _SubmitState.done;
               }
@@ -1246,8 +1284,10 @@ class _ApiContractTab extends StatelessWidget {
               'contracts below were written when no endpoint existed; the paths '
               'they name under /api/v1/account/ are the newer Day 147 surface, '
               'which Day 337 decided not to wire because the privacy path '
-              'already covers this right end to end. Only _Step2ReAuth is '
-              'still a stub, because no re-auth endpoint exists at all.'),
+              'already covers this right end to end. The re-auth step is real '
+              'too — POST /api/v1/auth/reauth/{request,verify}/, a separate '
+              'namespace from the login OTP, returning a single-use token the '
+              'deletion call now requires.'),
       const SizedBox(height: ZapSpacing.lg),
 
       const _SectionLabel('ENDPOINT 1 — SEND OTP (RE-AUTH)'),
@@ -1381,11 +1421,11 @@ class _ApiContractTab extends StatelessWidget {
             borderRadius: BorderRadius.circular(ZapSpacing.radius),
             border: Border.all(color: const Color(0xFF2A2A2A))),
         child: Column(children: [
-          _integRow(const Color(0xFF8B5CF6), '_ReAuthDemo.sendOtp() — STUB',
-              'no endpoint exists'),
+          _integRow(const Color(0xFF10B981), 'AuthService.requestReauth() — LIVE',
+              'POST /api/v1/auth/reauth/request/ (sends to the account phone)'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
-          _integRow(const Color(0xFF3B82F6), '_ReAuthDemo.verifyOtp() — STUB',
-              'no endpoint exists; any 6 digits pass'),
+          _integRow(const Color(0xFF10B981), 'AuthService.verifyReauth() — LIVE',
+              'POST /api/v1/auth/reauth/verify/ → single-use token'),
           const Divider(height: 1, color: Color(0xFF2A2A2A)),
           _integRow(const Color(0xFF10B981), 'PrivacyService.createDeletion() — LIVE',
               'POST /api/v1/privacy/deletion-request/'),

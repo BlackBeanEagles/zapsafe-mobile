@@ -49,6 +49,13 @@ class ApiConfig {
   // verifyOtp, so session handling downstream is identical.
   static const googleVerify = '/auth/google-verify/';
 
+  // Day 366 — step-up re-auth before irreversible actions. Versioned,
+  // unlike the spec-canonical /auth/ paths above, and deliberately a
+  // SEPARATE namespace: a code from here is not redeemable at verifyOtp,
+  // and a login code does not satisfy re-auth.
+  static const reauthRequest = '/api/v1/auth/reauth/request/';
+  static const reauthVerify  = '/api/v1/auth/reauth/verify/';
+
   // Auth (versioned)
   static const refreshToken = '/api/v1/auth/token/refresh/';
   static const logout = '/api/v1/auth/logout/';

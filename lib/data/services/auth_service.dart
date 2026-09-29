@@ -4,6 +4,11 @@ import '../../core/constants/api_config.dart';
 import '../models/auth_models.dart';
 import 'api_client.dart';
 
+/// Purposes a re-auth token can be scoped to. Must match
+/// auth_app/reauth.py VALID_PURPOSES — an unknown value is refused with
+/// REAUTH_PURPOSE_INVALID rather than silently accepted.
+const String kReauthPurposeAccountDeletion = 'account_deletion';
+
 /// Thin wrapper around the four auth endpoints.
 ///
 /// Pure transport — no caching, no state. State (the JWT pair, the cached
@@ -128,6 +133,39 @@ class AuthService {
     } on ApiError {
       rethrow;
     }
+  }
+
+  /// `POST /api/v1/auth/reauth/request/` — sends a step-up code to the
+  /// signed-in user's OWN phone. Takes no phone argument on purpose: the
+  /// server reads it from the access token, so this cannot be pointed at
+  /// someone else's number.
+  ///
+  /// Returns how many seconds the code is valid for.
+  Future<int> requestReauth() async {
+    return _call(() async {
+      final res = await _dio.post(ApiConfig.reauthRequest, data: const {});
+      return (_asMap(res)['expires_in'] as num?)?.toInt() ?? 0;
+    });
+  }
+
+  /// `POST /api/v1/auth/reauth/verify/` — exchanges a code for a
+  /// short-lived, single-use token proving a recent re-auth.
+  ///
+  /// The returned token is NOT a session credential: it grants nothing on
+  /// its own and is useless without the access token already held. Unlike
+  /// [verifyOtp] this does not mint or extend a session, which is the
+  /// reason re-auth is not built on the login OTP path.
+  Future<String> verifyReauth({
+    required String otp,
+    required String purpose,
+  }) async {
+    return _call(() async {
+      final res = await _dio.post(ApiConfig.reauthVerify, data: {
+        'otp': otp,
+        'purpose': purpose,
+      });
+      return (_asMap(res)['reauth_token'] ?? '').toString();
+    });
   }
 
   Map<String, dynamic> _asMap(Response res) {

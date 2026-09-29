@@ -130,10 +130,20 @@ class PrivacyService {
   }
 
   /// POST /api/v1/privacy/deletion-request/
-  Future<DeletionRequest> createDeletion({String? reason}) async {
+  /// [reauthToken] comes from `AuthService.verifyReauth()` and is required
+  /// unless the server has REAUTH_REQUIRED_FOR_DELETION off — a 403
+  /// REAUTH_REQUIRED means it was missing, stale, or already spent. It is
+  /// single-use, so a retry needs a fresh one.
+  Future<DeletionRequest> createDeletion({
+    String? reason,
+    String? reauthToken,
+  }) async {
     final body = <String, dynamic>{};
     if (reason != null && reason.trim().isNotEmpty) {
       body['reason'] = reason.trim();
+    }
+    if (reauthToken != null && reauthToken.isNotEmpty) {
+      body['reauth_token'] = reauthToken;
     }
     final r = await _client.dio.post<Map<String, dynamic>>(
       ApiConfig.privacyDeletion,
