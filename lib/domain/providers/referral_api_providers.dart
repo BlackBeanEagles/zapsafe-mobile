@@ -55,3 +55,12 @@ final referralCodeRawProvider = FutureProvider<ReferralCode>((ref) {
 final referralStatsRawProvider = FutureProvider<ReferralStats>((ref) {
   return ref.watch(referralApiServiceProvider).fetchStats();
 });
+
+/// Day 366 — the rewards breakdown.
+///
+/// No mock fallback, unlike referralCodeProvider above: a seeded total here
+/// would contradict the stats strip beside it, and the whole point of building
+/// this endpoint from the same rows /stats/ counts was that they agree.
+final referralRewardsProvider = FutureProvider<ReferralRewards>((ref) {
+  return ref.watch(referralApiServiceProvider).fetchRewards();
+});

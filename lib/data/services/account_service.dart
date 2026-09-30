@@ -315,6 +315,60 @@ class PolicyAcceptanceStatus {
   final PolicyAcceptanceRecord? latest;
 }
 
+
+/// Session lifetime, from GET/PUT /api/v1/account/session-config/ (Day 366).
+///
+/// Changing this deliberately does NOT affect existing sessions: shortening the
+/// window must not sign someone out of a session they are relying on right now.
+/// New sessions use the new value.
+class SessionConfig {
+  const SessionConfig({required this.sessionExpiryDays, this.updatedAt});
+
+  factory SessionConfig.fromJson(Map<String, dynamic> j) => SessionConfig(
+        sessionExpiryDays: (j['session_expiry_days'] as num?)?.toInt() ?? 30,
+        updatedAt: j['updated_at'] == null
+            ? null
+            : DateTime.tryParse(j['updated_at'].toString())?.toLocal(),
+      );
+
+  /// 1..365, enforced server-side too. 0 would mean every session is already
+  /// expired, and unbounded would mean one that never expires.
+  final int sessionExpiryDays;
+
+  final DateTime? updatedAt;
+}
+
+/// Security-alert choices, from GET/PUT /api/v1/account/security-alerts/.
+class SecurityAlerts {
+  const SecurityAlerts({
+    required this.newDeviceAlert,
+    required this.failedAttemptsAlert,
+    required this.geoAnomalyAlert,
+    required this.failedAttemptsThreshold,
+    this.updatedAt,
+  });
+
+  factory SecurityAlerts.fromJson(Map<String, dynamic> j) => SecurityAlerts(
+        newDeviceAlert: j['new_device_alert'] != false,
+        failedAttemptsAlert: j['failed_attempts_alert'] != false,
+        geoAnomalyAlert: j['geo_anomaly_alert'] != false,
+        failedAttemptsThreshold:
+            (j['failed_attempts_threshold'] as num?)?.toInt() ?? 3,
+        updatedAt: j['updated_at'] == null
+            ? null
+            : DateTime.tryParse(j['updated_at'].toString())?.toLocal(),
+      );
+
+  final bool newDeviceAlert;
+  final bool failedAttemptsAlert;
+  final bool geoAnomalyAlert;
+
+  /// 1..20, enforced server-side.
+  final int failedAttemptsThreshold;
+
+  final DateTime? updatedAt;
+}
+
 class AccountService {
   const AccountService(this._client);
   final ApiClient _client;
@@ -462,5 +516,58 @@ class AccountService {
         .get<Map<String, dynamic>>(ApiConfig.accountThirdPartyAccess);
     final list = (r.data!['parties'] as List).cast<Map<String, dynamic>>();
     return list.map(ThirdPartyEntry.fromJson).toList();
+  }
+
+  /// GET /api/v1/account/session-config/
+  Future<SessionConfig> fetchSessionConfig() async {
+    final r = await _client.dio
+        .get<Map<String, dynamic>>(ApiConfig.accountSessionConfig);
+    return SessionConfig.fromJson(r.data!);
+  }
+
+  /// PUT /api/v1/account/session-config/
+  ///
+  /// Rejected with 400 outside 1..365. Deliberately does not touch existing
+  /// sessions — see [SessionConfig].
+  Future<SessionConfig> putSessionConfig(int sessionExpiryDays) async {
+    final r = await _client.dio.put<Map<String, dynamic>>(
+      ApiConfig.accountSessionConfig,
+      data: <String, dynamic>{'session_expiry_days': sessionExpiryDays},
+    );
+    return SessionConfig.fromJson(r.data!);
+  }
+
+  /// GET /api/v1/account/security-alerts/
+  Future<SecurityAlerts> fetchSecurityAlerts() async {
+    final r = await _client.dio
+        .get<Map<String, dynamic>>(ApiConfig.accountSecurityAlerts);
+    return SecurityAlerts.fromJson(r.data!);
+  }
+
+  /// PUT /api/v1/account/security-alerts/ — send only what changed.
+  ///
+  /// A partial body leaves the other fields alone, and this endpoint does NOT
+  /// share a request with session-config: saving an alert threshold must not
+  /// rewrite session expiry.
+  Future<SecurityAlerts> putSecurityAlerts({
+    bool? newDeviceAlert,
+    bool? failedAttemptsAlert,
+    bool? geoAnomalyAlert,
+    int? failedAttemptsThreshold,
+  }) async {
+    final body = <String, dynamic>{};
+    if (newDeviceAlert != null) body['new_device_alert'] = newDeviceAlert;
+    if (failedAttemptsAlert != null) {
+      body['failed_attempts_alert'] = failedAttemptsAlert;
+    }
+    if (geoAnomalyAlert != null) body['geo_anomaly_alert'] = geoAnomalyAlert;
+    if (failedAttemptsThreshold != null) {
+      body['failed_attempts_threshold'] = failedAttemptsThreshold;
+    }
+    final r = await _client.dio.put<Map<String, dynamic>>(
+      ApiConfig.accountSecurityAlerts,
+      data: body,
+    );
+    return SecurityAlerts.fromJson(r.data!);
   }
 }

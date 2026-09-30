@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/account_providers.dart';
 
 // ── Providers ──────────────────────────────────────────────────────────────────
 final _d180TabProvider          = StateProvider<int>((ref) => 0);
@@ -30,7 +31,21 @@ final _geoAnomalyAlertProvider  = StateProvider<bool>((ref) => true);
 final _failThresholdProvider    = StateProvider<int>((ref) => 3);
 final _saveAlertStateProvider   = StateProvider<_SaveState>((ref) => _SaveState.idle);
 
-enum _SaveState { idle, saving, saved }
+// ── Day 366 — server sync ─────────────────────────────────────────────────────
+/// Seed-once guards: the local values are replaced by the server's the first
+/// time it answers, and never again — a rebuild must not overwrite a change the
+/// user has just made.
+final _expirySeededProvider     = StateProvider<bool>((ref) => false);
+final _alertsSeededProvider     = StateProvider<bool>((ref) => false);
+
+/// Why the last save failed. A 400 carries the server's bounds message
+/// (expiry 1-365 days, threshold 1-20), which is worth showing verbatim.
+final _saveExpiryErrorProvider  = StateProvider<String?>((ref) => null);
+final _saveAlertErrorProvider   = StateProvider<String?>((ref) => null);
+
+/// `error` added Day 366. Without it a failed save had nowhere to go but the
+/// bare `else` branch that draws "Saved ✅".
+enum _SaveState { idle, saving, saved, error }
 
 // ── Device data (reusing Day 179's sessions) ──────────────────────────────────
 class _DeviceRecord {
@@ -277,6 +292,14 @@ class _TrustedDevicesTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final trusted   = ref.watch(_trustedDevicesProvider);
     final trusting  = ref.watch(_trustingProvider);
+
+    // Day 366 — replace the default 30 with what the server has, once.
+    ref.listen(sessionConfigProvider, (_, next) {
+      final cfg = next.value;
+      if (cfg == null || ref.read(_expirySeededProvider)) return;
+      ref.read(_expiryDaysProvider.notifier).state = cfg.sessionExpiryDays;
+      ref.read(_expirySeededProvider.notifier).state = true;
+    });
     final expiry    = ref.watch(_expiryDaysProvider);
     final saveState = ref.watch(_saveExpiryStateProvider);
 
@@ -473,13 +496,27 @@ class _TrustedDevicesTab extends ConsumerWidget {
       const SizedBox(height: ZapSpacing.md),
       if (saveState == _SaveState.idle)
         _primaryBtn(
-          label: 'Save Expiry Setting  (Mock)',
+          label: 'Save Expiry Setting',
           color: const Color(0xFF8B5CF6),
           onTap: () => _saveExpiry(context, ref),
         )
       else if (saveState == _SaveState.saving)
         _statusCard(Icons.hourglass_top_rounded, const Color(0xFF8B5CF6),
-            'Saving…', 'PUT /api/v1/account/session-config', loading: true)
+            'Saving…', 'PUT /api/v1/account/session-config/', loading: true)
+      // Must precede the final `else`, which draws "Saved ✅".
+      else if (saveState == _SaveState.error) ...[
+        _statusCard(Icons.error_outline_rounded, const Color(0xFFEF4444),
+            'Not saved',
+            ref.watch(_saveExpiryErrorProvider) ??
+                'The server did not accept this change.',
+            loading: false),
+        const SizedBox(height: ZapSpacing.sm),
+        _primaryBtn(
+          label: 'Try again',
+          color: const Color(0xFF8B5CF6),
+          onTap: () => _saveExpiry(context, ref),
+        ),
+      ]
       else
         _statusCard(Icons.check_circle_rounded, const Color(0xFF10B981),
             'Saved ✅', 'Session expiry updated to $expiry days. '
@@ -525,9 +562,21 @@ class _TrustedDevicesTab extends ConsumerWidget {
 
   Future<void> _saveExpiry(BuildContext context, WidgetRef ref) async {
     ref.read(_saveExpiryStateProvider.notifier).state = _SaveState.saving;
-    await Future.delayed(const Duration(milliseconds: 900));
-    if (context.mounted) {
-      ref.read(_saveExpiryStateProvider.notifier).state = _SaveState.saved;
+    ref.read(_saveExpiryErrorProvider.notifier).state = null;
+    try {
+      // PUT /api/v1/account/session-config/ — existing sessions are left
+      // alone server-side; only new sessions use the new value.
+      await ref
+          .read(accountServiceProvider)
+          .putSessionConfig(ref.read(_expiryDaysProvider));
+      ref.invalidate(sessionConfigProvider);
+      if (context.mounted) {
+        ref.read(_saveExpiryStateProvider.notifier).state = _SaveState.saved;
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ref.read(_saveExpiryErrorProvider.notifier).state = '$e';
+      ref.read(_saveExpiryStateProvider.notifier).state = _SaveState.error;
     }
   }
 }
@@ -575,6 +624,19 @@ class _AlertsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Day 366 — replace the shipped defaults with the server's values, once.
+    ref.listen(securityAlertsProvider, (_, next) {
+      final a = next.value;
+      if (a == null || ref.read(_alertsSeededProvider)) return;
+      ref.read(_newDeviceAlertProvider.notifier).state = a.newDeviceAlert;
+      ref.read(_failedAttemptsAlertProvider.notifier).state =
+          a.failedAttemptsAlert;
+      ref.read(_geoAnomalyAlertProvider.notifier).state = a.geoAnomalyAlert;
+      ref.read(_failThresholdProvider.notifier).state =
+          a.failedAttemptsThreshold;
+      ref.read(_alertsSeededProvider.notifier).state = true;
+    });
+
     final newDevice  = ref.watch(_newDeviceAlertProvider);
     final failed     = ref.watch(_failedAttemptsAlertProvider);
     final geo        = ref.watch(_geoAnomalyAlertProvider);
@@ -723,14 +785,28 @@ class _AlertsTab extends ConsumerWidget {
       // Save button
       if (saveState == _SaveState.idle)
         _primaryBtn(
-          label: 'Save Alert Settings  (Mock)',
+          label: 'Save Alert Settings',
           color: const Color(0xFFF59E0B),
           onTap: () => _saveAlerts(context, ref),
         )
       else if (saveState == _SaveState.saving)
         _statusCard(Icons.hourglass_top_rounded, const Color(0xFFF59E0B),
             'Saving…',
-            'PUT /api/v1/account/security-alerts', loading: true)
+            'PUT /api/v1/account/security-alerts/', loading: true)
+      // Must precede the final `else`, which draws "saved ✅".
+      else if (saveState == _SaveState.error) ...[
+        _statusCard(Icons.error_outline_rounded, const Color(0xFFEF4444),
+            'Not saved',
+            ref.watch(_saveAlertErrorProvider) ??
+                'The server did not accept this change.',
+            loading: false),
+        const SizedBox(height: ZapSpacing.sm),
+        _primaryBtn(
+          label: 'Try again',
+          color: const Color(0xFFF59E0B),
+          onTap: () => _saveAlerts(context, ref),
+        ),
+      ]
       else
         _statusCard(Icons.check_circle_rounded, const Color(0xFF10B981),
             'Alert settings saved ✅',
@@ -783,9 +859,24 @@ class _AlertsTab extends ConsumerWidget {
 
   Future<void> _saveAlerts(BuildContext context, WidgetRef ref) async {
     ref.read(_saveAlertStateProvider.notifier).state = _SaveState.saving;
-    await Future.delayed(const Duration(milliseconds: 800));
-    if (context.mounted) {
-      ref.read(_saveAlertStateProvider.notifier).state = _SaveState.saved;
+    ref.read(_saveAlertErrorProvider.notifier).state = null;
+    try {
+      // PUT /api/v1/account/security-alerts/ — a separate request from
+      // session-config on purpose, so saving alerts cannot rewrite expiry.
+      await ref.read(accountServiceProvider).putSecurityAlerts(
+            newDeviceAlert: ref.read(_newDeviceAlertProvider),
+            failedAttemptsAlert: ref.read(_failedAttemptsAlertProvider),
+            geoAnomalyAlert: ref.read(_geoAnomalyAlertProvider),
+            failedAttemptsThreshold: ref.read(_failThresholdProvider),
+          );
+      ref.invalidate(securityAlertsProvider);
+      if (context.mounted) {
+        ref.read(_saveAlertStateProvider.notifier).state = _SaveState.saved;
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ref.read(_saveAlertErrorProvider.notifier).state = '$e';
+      ref.read(_saveAlertStateProvider.notifier).state = _SaveState.error;
     }
   }
 }

@@ -15,6 +15,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+// Aliased: this screen declares its own SosHistoryEntry with a different,
+// non-nullable shape. The service model is mapped onto it below.
+import '../../data/services/sos_service.dart' as api;
+import '../../domain/providers/sos_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 import '../widgets/zap_empty_state.dart';
@@ -103,124 +107,77 @@ class SosHistoryEntry {
   final DateTime triggeredAt;
   final DateTime? resolvedAt;
   final SosOutcome outcome;
-  final String locationLabel;
-  final double lat;
-  final double lng;
+
+  // ── Day 366: null means THE SERVER DOES NOT REPORT IT ────────────────────
+  // Defaulting these would be worse than leaving them empty: 0 minutes reads
+  // as a finished event, and 0.0/0.0 is a real location in the Gulf of Guinea.
+  final String? locationLabel;
+  final double? lat;
+  final double? lng;
+  final int? durationMinutes;
+  // ─────────────────────────────────────────────────────────────────────────
+
   final int evidenceCount;
   final int contactsNotified;
-  final int durationMinutes;
   final String? policeRef;
 
   int get year => triggeredAt.year;
+
+  /// Maps a row from GET /api/v1/sos/history/ onto this screen's shape.
+  ///
+  /// Returns null for a row with no trigger timestamp. That should not happen —
+  /// `triggered_at` is auto_now_add server-side — but inventing a date for an
+  /// emergency record is not an acceptable fallback, so such a row is dropped
+  /// rather than shown at the wrong point on a timeline.
+  static SosHistoryEntry? fromApi(api.SosHistoryEntry e) {
+    final at = e.triggeredAt;
+    if (at == null) return null;
+    return SosHistoryEntry(
+      id: e.id,
+      reference: e.reference,
+      triggeredAt: at,
+      resolvedAt: e.resolvedAt,
+      outcome: _outcomeFromApi(e.outcome),
+      // No place-name lookup exists. Coordinates are shown when present; a
+      // reverse-geocoded label would need a geocoding call this screen does
+      // not make.
+      locationLabel: (e.lat != null && e.lng != null)
+          ? '${e.lat!.toStringAsFixed(4)}, ${e.lng!.toStringAsFixed(4)}'
+          : null,
+      lat: e.lat,
+      lng: e.lng,
+      evidenceCount: e.evidenceCount,
+      contactsNotified: e.contactsNotified,
+      durationMinutes: e.durationMinutes,
+      policeRef: e.policeRef,
+    );
+  }
 }
 
-final _kMockHistory = <SosHistoryEntry>[
-  SosHistoryEntry(
-    id: 'sos_a8f3c21e-8842',
-    reference: 'ZS-2026-0312',
-    triggeredAt: DateTime(2026, 3, 12, 10, 41),
-    resolvedAt: DateTime(2026, 3, 12, 10, 58),
-    outcome: SosOutcome.policeDispatched,
-    locationLabel: 'Bandra West, Mumbai · 8m accuracy',
-    lat: 19.0760,
-    lng: 72.8777,
-    evidenceCount: 3,
-    contactsNotified: 4,
-    durationMinutes: 17,
-    policeRef: 'MP-2026-88421',
-  ),
-  SosHistoryEntry(
-    id: 'sos_b2e91f44-1102',
-    reference: 'ZS-2026-0204',
-    triggeredAt: DateTime(2026, 2, 4, 22, 15),
-    resolvedAt: DateTime(2026, 2, 4, 22, 19),
-    outcome: SosOutcome.falseAlarm,
-    locationLabel: 'Andheri East, Mumbai · 14m accuracy',
-    lat: 19.1136,
-    lng: 72.8697,
-    evidenceCount: 1,
-    contactsNotified: 3,
-    durationMinutes: 4,
-  ),
-  SosHistoryEntry(
-    id: 'sos_c44d7721-0901',
-    reference: 'ZS-2026-0118',
-    triggeredAt: DateTime(2026, 1, 18, 8, 30),
-    resolvedAt: DateTime(2026, 1, 18, 8, 42),
-    outcome: SosOutcome.drill,
-    locationLabel: 'Home · scheduled drill',
-    lat: 19.0176,
-    lng: 72.8562,
-    evidenceCount: 0,
-    contactsNotified: 2,
-    durationMinutes: 12,
-  ),
-  SosHistoryEntry(
-    id: 'sos_d91a0032-1124',
-    reference: 'ZS-2025-1124',
-    triggeredAt: DateTime(2025, 11, 24, 19, 02),
-    resolvedAt: DateTime(2025, 11, 24, 19, 28),
-    outcome: SosOutcome.resolved,
-    locationLabel: 'Powai Lake trail · 22m accuracy',
-    lat: 19.1176,
-    lng: 72.9060,
-    evidenceCount: 5,
-    contactsNotified: 5,
-    durationMinutes: 26,
-  ),
-  SosHistoryEntry(
-    id: 'sos_e55b8810-0703',
-    reference: 'ZS-2025-0703',
-    triggeredAt: DateTime(2025, 7, 3, 14, 55),
-    resolvedAt: DateTime(2025, 7, 3, 15, 01),
-    outcome: SosOutcome.cancelled,
-    locationLabel: 'Phoenix Mall, Lower Parel',
-    lat: 18.9965,
-    lng: 72.8321,
-    evidenceCount: 0,
-    contactsNotified: 1,
-    durationMinutes: 6,
-  ),
-  SosHistoryEntry(
-    id: 'sos_f33c2290-0410',
-    reference: 'ZS-2025-0410',
-    triggeredAt: DateTime(2025, 4, 10, 6, 12),
-    resolvedAt: DateTime(2025, 4, 10, 6, 45),
-    outcome: SosOutcome.resolved,
-    locationLabel: 'Juhu Beach · morning jog',
-    lat: 19.1000,
-    lng: 72.8260,
-    evidenceCount: 2,
-    contactsNotified: 4,
-    durationMinutes: 33,
-  ),
-  SosHistoryEntry(
-    id: 'sos_g77d0041-0822',
-    reference: 'ZS-2024-0822',
-    triggeredAt: DateTime(2024, 8, 22, 23, 48),
-    resolvedAt: DateTime(2024, 8, 23, 0, 12),
-    outcome: SosOutcome.expired,
-    locationLabel: 'Colaba · GPS drift after 18 min',
-    lat: 18.9067,
-    lng: 72.8147,
-    evidenceCount: 4,
-    contactsNotified: 3,
-    durationMinutes: 24,
-  ),
-  SosHistoryEntry(
-    id: 'sos_h12e5560-0305',
-    reference: 'ZS-2024-0305',
-    triggeredAt: DateTime(2024, 3, 5, 17, 20),
-    resolvedAt: DateTime(2024, 3, 5, 17, 35),
-    outcome: SosOutcome.drill,
-    locationLabel: 'Office · quarterly drill',
-    lat: 19.0760,
-    lng: 72.8777,
-    evidenceCount: 0,
-    contactsNotified: 2,
-    durationMinutes: 15,
-  ),
-];
+/// The server reports four outcomes; this enum has six.
+///
+/// An unrecognised value maps to `cancelled`, not `resolved`: claiming an
+/// emergency was handled when we do not know is the worse of the two errors.
+/// `active` also maps to `cancelled` for display purposes — a live event has no
+/// outcome yet, and the row shows its duration as unknown.
+SosOutcome _outcomeFromApi(String outcome) {
+  switch (outcome) {
+    case 'resolved':
+      return SosOutcome.resolved;
+    case 'falseAlarm':
+      return SosOutcome.falseAlarm;
+    case 'cancelled':
+    case 'active':
+    default:
+      return SosOutcome.cancelled;
+  }
+}
+
+// The sample history that used to sit here is gone. It fed the timeline,
+// the year chips AND the outcome counts, so offline the screen presented
+// invented SOS events as the user's own record. _d228RealHistoryProvider
+// now yields an empty list while loading or on failure, and the existing
+// empty state says there is nothing to show.
 
 const _kApiSample = '''[
   {
@@ -242,17 +199,36 @@ final _d228TabProvider = StateProvider<int>((ref) => 0);
 final _d228YearProvider = StateProvider<int?>((ref) => null);
 final _d228ExpandedProvider = StateProvider<Set<String>>((ref) => {});
 
+/// Real history for the selected year, mapped onto this screen's shape.
+///
+/// While loading or on failure this yields an EMPTY list, not the sample
+/// seed: a fabricated SOS history is the one thing this screen must never
+/// show, and the empty state already says there is nothing to display.
+final _d228RealHistoryProvider =
+    Provider.family<List<SosHistoryEntry>, int?>((ref, year) {
+  final async = ref.watch(sosHistoryProvider(year));
+  final page = async.valueOrNull;
+  if (page == null) return const [];
+  return page.results
+      .map(SosHistoryEntry.fromApi)
+      .whereType<SosHistoryEntry>()
+      .toList(growable: false);
+});
+
 const _kTabs = ['Timeline', 'Year Filter', 'API Contract'];
 
-List<SosHistoryEntry> _filteredHistory(int? year) {
-  final sorted = [..._kMockHistory]
+/// Day 366 — takes the list, so the same helpers serve real rows and the
+/// sample seed.
+List<SosHistoryEntry> _filteredHistory(
+    List<SosHistoryEntry> all, int? year) {
+  final sorted = [...all]
     ..sort((a, b) => b.triggeredAt.compareTo(a.triggeredAt));
   if (year == null) return sorted;
   return sorted.where((e) => e.year == year).toList();
 }
 
-List<int> _availableYears() {
-  final years = _kMockHistory.map((e) => e.year).toSet().toList()
+List<int> _availableYears(List<SosHistoryEntry> all) {
+  final years = all.map((e) => e.year).toSet().toList()
     ..sort((a, b) => b.compareTo(a));
   return years;
 }
@@ -285,7 +261,8 @@ class Day228SosHistoryTimelineScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(_d228TabProvider);
     final year = ref.watch(_d228YearProvider);
-    final entries = _filteredHistory(year);
+    final entries =
+        _filteredHistory(ref.watch(_d228RealHistoryProvider(year)), year);
 
     return Scaffold(
       backgroundColor: ZapColors.bgPrimary,
@@ -344,7 +321,8 @@ class _TimelineTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final year = ref.watch(_d228YearProvider);
-    final entries = _filteredHistory(year);
+    final entries =
+        _filteredHistory(ref.watch(_d228RealHistoryProvider(year)), year);
     final expanded = ref.watch(_d228ExpandedProvider);
 
     return ListView(
@@ -452,7 +430,18 @@ class _TimelineCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _MapThumbnail(lat: entry.lat, lng: entry.lng, compact: true),
+                  // Compact row: with no coordinates, a neutral icon holds
+                  // the slot instead of a pin at a place this SOS never was.
+                  if (entry.lat != null && entry.lng != null)
+                    _MapThumbnail(
+                        lat: entry.lat!, lng: entry.lng!, compact: true)
+                  else
+                    const SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: Icon(Icons.location_off_rounded,
+                          color: ZapColors.textMuted),
+                    ),
                   const SizedBox(width: ZapSpacing.sm),
                   Expanded(
                     child: Column(
@@ -483,7 +472,7 @@ class _TimelineCard extends StatelessWidget {
                         ),
                         const SizedBox(height: ZapSpacing.xs),
                         Text(
-                          entry.locationLabel,
+                          entry.locationLabel ?? 'Location not recorded',
                           style: const TextStyle(
                             color: ZapColors.textSecondary,
                             fontSize: 10,
@@ -534,10 +523,21 @@ class _TimelineCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _MapThumbnail(lat: entry.lat, lng: entry.lng, compact: false),
+                  if (entry.lat != null && entry.lng != null)
+                    _MapThumbnail(
+                        lat: entry.lat!, lng: entry.lng!, compact: false)
+                  else
+                    // No coordinates were captured. Drawing a pin anyway would
+                    // put this SOS somewhere it did not happen.
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: ZapSpacing.sm),
+                      child: Text('No location was recorded for this SOS.',
+                          style: TextStyle(
+                              color: ZapColors.textMuted, fontSize: 11)),
+                    ),
                   const SizedBox(height: ZapSpacing.sm),
                   Text(
-                    entry.locationLabel,
+                    entry.locationLabel ?? 'Location not recorded',
                     style: const TextStyle(
                       color: ZapColors.textMuted,
                       fontSize: 10,
@@ -818,7 +818,8 @@ class _YearFilterTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(_d228YearProvider);
-    final years = _availableYears();
+    final all = ref.watch(_d228RealHistoryProvider(null));
+    final years = _availableYears(all);
 
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
@@ -833,8 +834,8 @@ class _YearFilterTab extends ConsumerWidget {
         const SizedBox(height: ZapSpacing.xs),
         Text(
           selected == null
-              ? 'Showing all ${_kMockHistory.length} events'
-              : 'Showing ${_filteredHistory(selected).length} events in $selected',
+              ? 'Showing all ${all.length} events'
+              : 'Showing ${_filteredHistory(all, selected).length} events in $selected',
           style: const TextStyle(color: ZapColors.textMuted, fontSize: 11),
         ),
         const SizedBox(height: ZapSpacing.lg),
@@ -852,7 +853,7 @@ class _YearFilterTab extends ConsumerWidget {
             ),
             for (final y in years)
               FilterChip(
-                label: Text('$y (${_filteredHistory(y).length})'),
+                label: Text('$y (${_filteredHistory(all, y).length})'),
                 selected: selected == y,
                 onSelected: (_) =>
                     ref.read(_d228YearProvider.notifier).state = y,
@@ -872,8 +873,10 @@ class _YearFilterTab extends ConsumerWidget {
         ),
         const SizedBox(height: ZapSpacing.md),
         ...SosOutcome.values.map((outcome) {
+          // Was `_kMockHistory` when no year was selected — sample events
+          // counted as the user's real outcomes.
           final pool =
-              selected == null ? _kMockHistory : _filteredHistory(selected);
+              selected == null ? all : _filteredHistory(all, selected);
           final count = pool.where((e) => e.outcome == outcome).length;
           if (count == 0) return const SizedBox.shrink();
           return Padding(

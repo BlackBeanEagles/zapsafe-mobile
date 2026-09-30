@@ -55,6 +55,79 @@ class ReferralStats {
       );
 }
 
+
+/// One reward line, from GET /api/v1/referral/rewards/ (Day 366).
+///
+/// Pending referrals are returned with `points: 0` rather than omitted —
+/// someone who invited a friend should see that it registered even before the
+/// friend finishes onboarding.
+///
+/// [title] carries a MASKED phone (last 4 only). The referred person did not
+/// consent to their number being shown back to the referrer, so do not try to
+/// resolve it to a full number for display.
+class ReferralRewardEntry {
+  const ReferralRewardEntry({
+    required this.id,
+    required this.title,
+    required this.points,
+    required this.date,
+    required this.type,
+  });
+
+  factory ReferralRewardEntry.fromJson(Map<String, dynamic> j) =>
+      ReferralRewardEntry(
+        id: (j['id'] ?? '').toString(),
+        title: (j['title'] ?? '').toString(),
+        points: (j['points'] as num?)?.toInt() ?? 0,
+        date: (j['date'] ?? '').toString(),
+        // referralBonus | referralPending
+        type: (j['type'] ?? '').toString(),
+      );
+
+  final String id;
+  final String title;
+  final int points;
+  final String date;
+  final String type;
+
+  bool get isPending => type == 'referralPending';
+}
+
+/// The rewards breakdown.
+///
+/// [totalBonus] is computed from the same ReferralEvent rows `/stats/` counts,
+/// so it can never disagree with the stats strip — a backend test pins them
+/// equal. Do not recompute it client-side from [entries]; if they ever differ,
+/// the server is right and something changed under us.
+class ReferralRewards {
+  const ReferralRewards({
+    required this.totalBonus,
+    required this.protectionScoreBefore,
+    required this.protectionScoreAfter,
+    required this.entries,
+  });
+
+  factory ReferralRewards.fromJson(Map<String, dynamic> j) => ReferralRewards(
+        totalBonus: (j['total_bonus'] as num?)?.toInt() ?? 0,
+        protectionScoreBefore:
+            (j['protection_score_before'] as num?)?.toInt() ?? 0,
+        protectionScoreAfter:
+            (j['protection_score_after'] as num?)?.toInt() ?? 0,
+        entries: ((j['entries'] as List?) ?? const [])
+            .cast<Map<String, dynamic>>()
+            .map(ReferralRewardEntry.fromJson)
+            .toList(growable: false),
+      );
+
+  final int totalBonus;
+
+  /// Derived server-side as (current score - bonus earned), clamped at 0.
+  final int protectionScoreBefore;
+  final int protectionScoreAfter;
+
+  final List<ReferralRewardEntry> entries;
+}
+
 class ReferralApiService {
   const ReferralApiService(this._client);
   final ApiClient _client;
@@ -84,5 +157,16 @@ class ReferralApiService {
   Future<ReferralStats> fetchStats() => _unwrapFeatureFlag(() async {
         final res = await _client.dio.get(ApiConfig.referralStats);
         return ReferralStats.fromJson(res.data as Map<String, dynamic>);
+      });
+
+  /// GET /api/v1/referral/rewards/
+  ///
+  /// Behind the same `referral` feature flag as the other two, so a 403 raises
+  /// [ReferralFeatureDisabledException] via [_unwrapFeatureFlag] — the feature
+  /// is not live, which is not a failure to retry.
+  Future<ReferralRewards> fetchRewards() => _unwrapFeatureFlag(() async {
+        final res = await _client.dio
+            .get<Map<String, dynamic>>(ApiConfig.referralRewards);
+        return ReferralRewards.fromJson(res.data ?? const {});
       });
 }

@@ -1924,7 +1924,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFFEF4444),
               title: 'Day 228 · SOS History Timeline',
               route: AppRoutes.sosHistoryTimeline,
-              hint: '/sos-history-timeline · 🟣 POLISH · Section B Day 8/20 · 3-tab (Timeline / Year Filter / API Contract) · 8 mock events 2024-2026 · outcome badges · map thumbnail · evidence vault link · police view link · filter by year · GET /api/v1/sos/history/',
+              hint: '/sos-history-timeline · REAL from GET /api/v1/sos/history/ (built and wired Day 366); the 8 sample SOS events are gone, including from the year chips and outcome counts · live events show duration as unknown, and events with no captured location show no map pin rather than one at 0,0 · empty state while loading or offline, never sample history · needs a backend + JWT · 🟣 POLISH · Section B Day 8/20 · 3-tab (Timeline / Year Filter / API Contract) · 8 mock events 2024-2026 · outcome badges · map thumbnail · evidence vault link · police view link · filter by year · GET /api/v1/sos/history/',
               dayBuilt: 'DAY 228 ✅',
             ),
             const _NavTile(
@@ -1948,7 +1948,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFFF59E0B),
               title: 'Day 225 · Referral Rewards',
               route: AppRoutes.referralRewards,
-              hint: '/referral-rewards · 🟡 MOCK-NOW · Section B Day 5/20 · 3-tab (Rewards / History / Leaderboard) · +10 bonus ledger · 78→88 Protection Score · referral history · mock community rank #142 · links Day 224 invite + Day 59 score · GET /api/v1/referral/rewards/',
+              hint: '/referral-rewards · REAL from GET /api/v1/referral/rewards/ (built and wired Day 366); the hardcoded 78 to 88 score and invented ledger are gone · pending referrals listed at 0 points, referred phones masked to last 4 · Leaderboard stays a SAMPLE, no endpoint exists · needs a backend + JWT · 🟡 MOCK-NOW · Section B Day 5/20 · 3-tab (Rewards / History / Leaderboard) · +10 bonus ledger · 78→88 Protection Score · referral history · mock community rank #142 · links Day 224 invite + Day 59 score · GET /api/v1/referral/rewards/',
               dayBuilt: 'DAY 225 ✅',
             ),
             const _NavTile(
@@ -2310,7 +2310,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: Color(0xFF10B981),
               title: 'Day 180 · Session Security & Section B Sign-Off 🎉',
               route: AppRoutes.sessionSecurity,
-              hint: '/session-security · 🟡 MOCK-NOW · Section B COMPLETE (Days 166-180) 🎉 · 3-tab (Trusted Devices / Security Alerts / Section B Done) · Trusted Devices: trust-level card + 4 device cards each with shield button (0.6s mock trust/untrust toggle, suspicious device blocks trust with SnackBar); JWT Expiry picker: 6-step slider (7/14/30/60/90/180d) + security-level indicator (green=secure/amber=moderate/red=minimal) + Save button → 0.9s mock · Security Alerts: 3 animated toggle cards (New device/Failed attempts/Geo anomaly) each expanding to show a mock push notification preview when ON; Failed attempts threshold 1-5 picker; Delivery method card (push+email+5min cooldown); Save button · Section B Done: 🎉 celebration card + 12 chips + 5-block summary table (with dates/detail/green tick) + 4-section progress cards (A done/B done/C next/D upcoming) + Section C (Days 181-190) 5-item preview — all 🟢 FRONTEND-ONLY',
+              hint: '/session-security · REAL saves to /api/v1/account/session-config/ and /security-alerts/ (built and wired Day 366) — both buttons were labelled Mock and showed Saved against nothing; failures now show Not saved with retry instead of falling through to Saved · trusted devices still simulated, no endpoint · needs a backend + JWT · 🟡 MOCK-NOW · Section B COMPLETE (Days 166-180) 🎉 · 3-tab (Trusted Devices / Security Alerts / Section B Done) · Trusted Devices: trust-level card + 4 device cards each with shield button (0.6s mock trust/untrust toggle, suspicious device blocks trust with SnackBar); JWT Expiry picker: 6-step slider (7/14/30/60/90/180d) + security-level indicator (green=secure/amber=moderate/red=minimal) + Save button → 0.9s mock · Security Alerts: 3 animated toggle cards (New device/Failed attempts/Geo anomaly) each expanding to show a mock push notification preview when ON; Failed attempts threshold 1-5 picker; Delivery method card (push+email+5min cooldown); Save button · Section B Done: 🎉 celebration card + 12 chips + 5-block summary table (with dates/detail/green tick) + 4-section progress cards (A done/B done/C next/D upcoming) + Section C (Days 181-190) 5-item preview — all 🟢 FRONTEND-ONLY',
               dayBuilt: 'DAY 180 ✅',
             ),
             const _NavTile(

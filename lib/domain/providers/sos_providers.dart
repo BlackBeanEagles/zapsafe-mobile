@@ -185,3 +185,12 @@ final sosSessionHydratorProvider = FutureProvider<void>((ref) async {
     if (kDebugMode) debugPrint('[sos] hydrate skipped: $e');
   }
 });
+
+/// Day 366 — the caller's past SOS events, newest first.
+///
+/// `family` on the year so switching the year filter refetches rather than
+/// filtering a stale page client-side. Null means all years.
+final sosHistoryProvider =
+    FutureProvider.family<SosHistoryPage, int?>((ref, year) {
+  return ref.watch(sosServiceProvider).fetchHistory(year: year);
+});

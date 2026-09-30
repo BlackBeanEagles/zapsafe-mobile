@@ -14,6 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/colors.dart';
+import '../../data/services/referral_api_service.dart';
+import '../../domain/providers/referral_api_providers.dart';
 import '../../core/theme/spacing.dart';
 import '../navigation/app_router.dart';
 
@@ -60,21 +62,12 @@ class LeaderboardRow {
   });
 }
 
-const _kBaseScore = 78;
-const _kReferralBonus = 10;
-const _kAfterScore = _kBaseScore + _kReferralBonus;
-const _kTotalBonus = 10;
+// Day 366 — the hardcoded 78 -> 88 protection score and +10 bonus that lived
+// here are gone. They were rendered as this user's own score; the real values
+// come from GET /api/v1/referral/rewards/.
 
-const _kLedger = [
-  RewardLedgerEntry(
-    id: 'rw1',
-    title: 'Rahul K. completed onboarding',
-    subtitle: 'Referral bonus · both users +10',
-    points: 10,
-    date: '2026-06-03',
-    type: RewardEntryType.referralBonus,
-  ),
-];
+// Day 366 — the invented referral ledger that lived here is gone; entries
+// now come from the server, with referred phones masked to the last 4.
 
 const _kReferralHistory = [
   ('Rahul K.', '2026-06-02', 'Completed', '+10 pts', true),
@@ -174,11 +167,16 @@ class Day225ReferralRewardsScreen extends ConsumerWidget {
 }
 
 // ── Tab 0: Rewards ────────────────────────────────────────────────────────────
-class _RewardsTab extends StatelessWidget {
+class _RewardsTab extends ConsumerWidget {
   const _RewardsTab();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Day 366 — the real breakdown. While loading or on failure every figure
+    // renders "—": the old consts (78 -> 88, +10) were presented as this
+    // user's own protection score, which is the thing not to invent.
+    final rewards = ref.watch(referralRewardsProvider).valueOrNull;
+    final error = ref.watch(referralRewardsProvider).error;
     return ListView(
       padding: const EdgeInsets.all(ZapSpacing.lg),
       children: [
@@ -228,17 +226,17 @@ class _RewardsTab extends StatelessWidget {
             border:
                 Border.all(color: ZapColors.safe.withOpacity(0.45), width: 2),
           ),
-          child: const Column(
+          child: Column(
             children: [
               Text(
-                '+$_kTotalBonus',
-                style: TextStyle(
+                rewards == null ? '—' : '+${rewards.totalBonus}',
+                style: const TextStyle(
                   color: ZapColors.safe,
                   fontSize: 42,
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              Text(
+              const Text(
                 'Referral bonus points earned',
                 style: TextStyle(
                   color: ZapColors.textSecondary,
@@ -246,25 +244,31 @@ class _RewardsTab extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: ZapSpacing.lg),
+              const SizedBox(height: ZapSpacing.lg),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _ScorePill(label: 'Before', value: '$_kBaseScore'),
-                  Padding(
+                  _ScorePill(
+                      label: 'Before',
+                      value: rewards == null
+                          ? '—'
+                          : '${rewards.protectionScoreBefore}'),
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: ZapSpacing.md),
                     child: Icon(Icons.arrow_forward_rounded,
                         color: ZapColors.textMuted, size: 18),
                   ),
                   _ScorePill(
                     label: 'After',
-                    value: '$_kAfterScore',
+                    value: rewards == null
+                        ? '—'
+                        : '${rewards.protectionScoreAfter}',
                     highlight: true,
                   ),
                 ],
               ),
-              SizedBox(height: ZapSpacing.sm),
-              Text(
+              const SizedBox(height: ZapSpacing.sm),
+              const Text(
                 'Protection Score includes referral bonuses in gamification ring',
                 style: TextStyle(color: ZapColors.textMuted, fontSize: 10),
                 textAlign: TextAlign.center,
@@ -281,7 +285,29 @@ class _RewardsTab extends StatelessWidget {
           ),
         ),
         const SizedBox(height: ZapSpacing.sm),
-        ..._kLedger.map((e) => _LedgerTile(entry: e)),
+        // The feature flag being off is a real state, not a fault — the
+        // referral programme is not live yet — so it is said plainly rather
+        // than shown as an error to retry.
+        if (error is ReferralFeatureDisabledException)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: ZapSpacing.md),
+            child: Text('Referral rewards are not available yet.',
+                style: TextStyle(color: ZapColors.textMuted, fontSize: 12)),
+          )
+        else if (error != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: ZapSpacing.md),
+            child: Text("Couldn't load your rewards: $error",
+                style: const TextStyle(color: ZapColors.danger, fontSize: 12)),
+          )
+        else if (rewards != null && rewards.entries.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: ZapSpacing.md),
+            child: Text('No referrals yet.',
+                style: TextStyle(color: ZapColors.textMuted, fontSize: 12)),
+          )
+        else if (rewards != null)
+          ...rewards.entries.map((e) => _LedgerTile(entry: _ledgerFromApi(e))),
         const SizedBox(height: ZapSpacing.lg),
         Semantics(
           label: 'Open protection score screen',
@@ -823,3 +849,20 @@ class _TabBar extends StatelessWidget {
     );
   }
 }
+
+
+/// Day 366 — a real reward line in this screen's ledger shape.
+///
+/// The server's `title` already carries a MASKED phone (last 4). The subtitle
+/// says whether the friend has finished onboarding, because a pending referral
+/// is listed at 0 points and should not look like a broken payout.
+RewardLedgerEntry _ledgerFromApi(ReferralRewardEntry e) => RewardLedgerEntry(
+      id: e.id,
+      title: e.title,
+      subtitle: e.isPending
+          ? 'Pending — pays out when they finish onboarding'
+          : 'Completed referral',
+      points: e.points,
+      date: e.date,
+      type: RewardEntryType.referralBonus,
+    );

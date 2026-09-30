@@ -44,3 +44,16 @@ final policyAcceptanceProvider =
 final thirdPartyAccessProvider = FutureProvider<List<ThirdPartyEntry>>((ref) {
   return ref.watch(accountServiceProvider).fetchThirdPartyAccess();
 });
+
+/// Day 366 — session lifetime and security-alert preferences.
+///
+/// Separate providers because the Day 180 screen saves them independently, and
+/// the server keeps them on separate routes for the same reason: changing an
+/// alert threshold must not rewrite session expiry.
+final sessionConfigProvider = FutureProvider<SessionConfig>((ref) {
+  return ref.watch(accountServiceProvider).fetchSessionConfig();
+});
+
+final securityAlertsProvider = FutureProvider<SecurityAlerts>((ref) {
+  return ref.watch(accountServiceProvider).fetchSecurityAlerts();
+});

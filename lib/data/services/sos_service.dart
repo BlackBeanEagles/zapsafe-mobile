@@ -92,6 +92,103 @@ enum SosTriggerType {
 
 // ─── Service ──────────────────────────────────────────────────────────────────
 
+
+/// One past SOS event, from GET /api/v1/sos/history/ (Day 366).
+///
+/// Three fields are nullable because the server deliberately reports them as
+/// unknown rather than guessing, and the UI must not fill them in:
+///
+///   durationMinutes  null while the event is still live. 0, or the time so
+///                    far, would both read as an event that had finished.
+///   policeRef        SOSEvent has no such field. A fabricated reference on an
+///                    emergency record is not a placeholder, it is a made-up
+///                    police report.
+///   lat / lng        null when no location was captured.
+class SosHistoryEntry {
+  const SosHistoryEntry({
+    required this.id,
+    required this.reference,
+    required this.outcome,
+    required this.status,
+    required this.triggerType,
+    required this.evidenceCount,
+    required this.contactsNotified,
+    required this.duressUsed,
+    this.triggeredAt,
+    this.resolvedAt,
+    this.lat,
+    this.lng,
+    this.locationAccuracyM,
+    this.durationMinutes,
+    this.policeRef,
+  });
+
+  factory SosHistoryEntry.fromJson(Map<String, dynamic> j) => SosHistoryEntry(
+        id: (j['id'] ?? '').toString(),
+        reference: (j['reference'] ?? '').toString(),
+        outcome: (j['outcome'] ?? '').toString(),
+        status: (j['status'] ?? '').toString(),
+        triggerType: (j['trigger_type'] ?? '').toString(),
+        evidenceCount: (j['evidence_count'] as num?)?.toInt() ?? 0,
+        // Only sent/delivered/acked count server-side: a failed send reached
+        // nobody, so this is contacts ACTUALLY notified.
+        contactsNotified: (j['contacts_notified'] as num?)?.toInt() ?? 0,
+        duressUsed: j['duress_used'] == true,
+        triggeredAt: j['triggered_at'] == null
+            ? null
+            : DateTime.tryParse(j['triggered_at'].toString())?.toLocal(),
+        resolvedAt: j['resolved_at'] == null
+            ? null
+            : DateTime.tryParse(j['resolved_at'].toString())?.toLocal(),
+        lat: (j['lat'] as num?)?.toDouble(),
+        lng: (j['lng'] as num?)?.toDouble(),
+        locationAccuracyM: (j['location_accuracy_m'] as num?)?.toDouble(),
+        durationMinutes: (j['duration_minutes'] as num?)?.toInt(),
+        policeRef: (j['police_ref'] as String?),
+      );
+
+  final String id;
+
+  /// Short display handle (SOS-XXXXXXXX). For quoting, not lookup — use [id].
+  final String reference;
+
+  /// falseAlarm | cancelled | resolved | active
+  final String outcome;
+
+  final String status;
+  final String triggerType;
+  final int evidenceCount;
+  final int contactsNotified;
+  final bool duressUsed;
+
+  final DateTime? triggeredAt;
+  final DateTime? resolvedAt;
+  final double? lat;
+  final double? lng;
+  final double? locationAccuracyM;
+  final int? durationMinutes;
+  final String? policeRef;
+
+  /// True while the event is still running.
+  bool get isLive => outcome == 'active';
+}
+
+/// A page of SOS history. [count] is the TOTAL matching, not the page size.
+class SosHistoryPage {
+  const SosHistoryPage({required this.count, required this.results});
+
+  factory SosHistoryPage.fromJson(Map<String, dynamic> j) => SosHistoryPage(
+        count: (j['count'] as num?)?.toInt() ?? 0,
+        results: ((j['results'] as List?) ?? const [])
+            .cast<Map<String, dynamic>>()
+            .map(SosHistoryEntry.fromJson)
+            .toList(growable: false),
+      );
+
+  final int count;
+  final List<SosHistoryEntry> results;
+}
+
 class SosService {
   const SosService(this._client);
   final ApiClient _client;
@@ -172,5 +269,25 @@ class SosService {
     if (data == null) return null;
     if (data is Map<String, dynamic> && data.isEmpty) return null;
     return SosEvent.fromJson(data as Map<String, dynamic>);
+  }
+
+  /// GET /api/v1/sos/history/ — the caller's own past events, newest first.
+  ///
+  /// Archived events are excluded server-side, matching /sos/dashboard/, so
+  /// this list cannot disagree with the counts shown beside it.
+  Future<SosHistoryPage> fetchHistory({
+    int? year,
+    int limit = 50,
+    int offset = 0,
+  }) async {
+    final res = await _client.dio.get<Map<String, dynamic>>(
+      ApiConfig.sosHistory,
+      queryParameters: <String, dynamic>{
+        if (year != null) 'year': year,
+        'limit': limit,
+        'offset': offset,
+      },
+    );
+    return SosHistoryPage.fromJson(res.data ?? const {});
   }
 }

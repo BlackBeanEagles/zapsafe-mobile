@@ -213,6 +213,17 @@ class ApiConfig {
   // Admin analytics summary — Day 366 (staff only, IsAdminUser).
   static const adminAnalyticsSummary = '/api/v1/admin/analytics/summary/';
 
+  // Day 366 — endpoints added server-side the same day for three screens
+  // that had been rendering hardcoded JSON against nothing.
+  //
+  // TRAILING SLASHES MATTER. The screens' own copy wrote these without one.
+  // Django's APPEND_SLASH redirects a GET but REJECTS a PUT, so a
+  // slash-less save fails in a way that looks like a server fault.
+  static const sosHistory = '/api/v1/sos/history/';
+  static const referralRewards = '/api/v1/referral/rewards/';
+  static const accountSessionConfig = '/api/v1/account/session-config/';
+  static const accountSecurityAlerts = '/api/v1/account/security-alerts/';
+
   // Group journey sessions — Day 221-223 backend, wired Day 357 (authenticated)
   static const journeyGroupCreate = '/api/v1/journey/group/create/';
   static const journeyGroupJoin = '/api/v1/journey/group/join/';
