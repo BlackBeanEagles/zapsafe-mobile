@@ -86,11 +86,15 @@ class CertPinning {
 
   /// How long before leaf expiry the staleness test starts failing.
   ///
-  /// 21 days, because Google Trust Services renews ~30 days early: the
-  /// 2026-08-08 pins were killed by a rotation on **2026-09-12**, more than
-  /// a month before that leaf's own 2026-10-13 expiry. Keying the alarm to
-  /// expiry alone would therefore have fired far too late.
-  static const int pinRefreshLeadDays = 21;
+  /// 45 days. The previous leaf was replaced on **2026-09-12**, 31 days
+  /// before its own 2026-10-13 expiry, so the pin dies roughly a month
+  /// BEFORE the date this is measured from.
+  ///
+  /// Day 367: this was 21, which is shorter than the observed 31-day early
+  /// renewal: the alarm would have gone off about ten days after the pin
+  /// was already dead, with every release build failing closed in between.
+  /// 45 = the observed 31 days plus two weeks to cut and roll out a release.
+  static const int pinRefreshLeadDays = 45;
 
   /// SHA-256(DER) of the zapsafe.app leaf, re-captured **2026-09-28**.
   ///

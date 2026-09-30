@@ -13,8 +13,9 @@
 ///
 /// ## This test is designed to start failing on a date
 ///
-/// That is the point, not flakiness. It goes red 21 days before the pinned
-/// leaf expires so there is time to cut a release with fresh pins. When it
+/// That is the point, not flakiness. It goes red 45 days before the pinned
+/// leaf expires — the leaf is replaced ~31 days early, so that leaves about
+/// two weeks to cut a release with fresh pins. When it
 /// fails, the fix is to re-capture and update `_pinsBase64`,
 /// `pinsCapturedOn` and `pinnedLeafNotAfter` — NOT to widen the window.
 ///
@@ -66,7 +67,9 @@ void main() {
       // 31 days before its 2026-10-13 expiry. A lead time shorter than that
       // would fire after the pin was already dead, which is the failure this
       // file exists to prevent.
-      expect(CertPinning.pinRefreshLeadDays, greaterThanOrEqualTo(21),
+      // Day 367: this asserted >= 21 while the comment above says 31. A lead
+      // time the observed renewal outruns fires after the pin is dead.
+      expect(CertPinning.pinRefreshLeadDays, greaterThan(31),
           reason: 'observed early renewal was ~31 days ahead of expiry');
     });
 
