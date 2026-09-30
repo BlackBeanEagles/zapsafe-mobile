@@ -66,7 +66,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: ZapColors.warning,
               title: 'Day 73-74 · Do Not Disturb',
               route: AppRoutes.doNotDisturb,
-              hint: '/do-not-disturb · quiet hours toggle · start/end hour pickers (0-23, 12h) · wrap-around display · 15-language dropdown · SOS bypass banner · PUT /api/v1/users/preferences/',
+              hint: '/do-not-disturb · quiet hours toggle · start/end hour pickers (0-23, 12h) · wrap-around display · 15-language dropdown · SOS bypass banner · GET/PUT /api/v1/users/preferences/ through ApiClient as of Day 367 (was a raw Dio with the fake ApiConfig.devToken, so every call 401d, load silently showed defaults and save claimed Saved locally when nothing was saved) · failures now say so',
               dayBuilt: 'DAY 73 ✅',
             ),
             const _NavTile(
@@ -82,7 +82,7 @@ class _Day5NavigationIndexScreenState extends State<Day5NavigationIndexScreen> {
               accent: ZapColors.info,
               title: 'Day 76 · Notification History',
               route: AppRoutes.notificationHistory,
-              hint: '/notification-history · All | Push | SMS tabs · timeline newest-first · channel icon · status badge · SOS event link badge · pull-to-refresh · GET /api/v1/notifications/history/?channel=',
+              hint: '/notification-history · All | Push | SMS tabs · timeline newest-first · channel icon · status badge · SOS event link badge · pull-to-refresh · GET /api/v1/notifications/history/?channel= through ApiClient as of Day 367 (was the fake ApiConfig.devToken, so it ALWAYS showed a fabricated SOS history with invented delivered badges) · no sample fallback, errors shown',
               dayBuilt: 'DAY 76 ✅',
             ),
             const _NavTile(

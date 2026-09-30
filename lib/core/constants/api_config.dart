@@ -242,9 +242,9 @@ class ApiConfig {
   static const feedbackFalsePositive = '/api/v1/feedback/false-positive/';
 
   // ─── Development Auth ──────────────────────────────────────────────────
-  /// Development token for emulator testing (Django token from backend test user).
-  /// In production, this is obtained from OTP verification flow.
-  static const String devToken = 'dev-test-token-12345abcde';
+  // Day 367: `devToken` removed. It was a fake token the backend rejects;
+  // every screen that sent it (day73, day75, day76) failed with 401 and then
+  // showed defaults or invented data. Use apiClientProvider.
 
   // ─── Timeouts ──────────────────────────────────────────────────────────
   static const Duration connectTimeout = Duration(seconds: 10);

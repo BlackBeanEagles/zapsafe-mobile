@@ -12,21 +12,26 @@
 ///   • SOS exception notice: SOS alerts always bypass DND (non-dismissible)
 ///   • Save button → PUT /api/v1/users/preferences/
 ///   • Emulator tile added to index screen
+///
+/// Day 367: requests go through ApiClient (real JWT with refresh, pinned
+/// client). This screen used a raw Dio with ApiConfig.devToken, a fake token
+/// the backend rejects, so load silently showed defaults as if they were the
+/// user's settings and save said "Saved locally" when nothing was saved.
 library;
 
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../../core/constants/api_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/auth_providers.dart';
 
-class DoNotDisturbScreen extends StatefulWidget {
+class DoNotDisturbScreen extends ConsumerStatefulWidget {
   const DoNotDisturbScreen({super.key});
 
   @override
-  State<DoNotDisturbScreen> createState() => _DoNotDisturbScreenState();
+  ConsumerState<DoNotDisturbScreen> createState() => _DoNotDisturbScreenState();
 }
 
-class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
+class _DoNotDisturbScreenState extends ConsumerState<DoNotDisturbScreen> {
   bool _dndEnabled = false;
   int _startHour = 22; // 10 PM default
   int _endHour = 7;    // 7 AM default
@@ -62,17 +67,10 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
 
   Future<void> _loadPreferences() async {
     try {
-      final dio = Dio(BaseOptions(
-        baseUrl: ApiConfig.baseUrl,
-        connectTimeout: ApiConfig.connectTimeout,
-        receiveTimeout: ApiConfig.receiveTimeout,
-      ));
-      final res = await dio.get(
-        '/api/v1/users/preferences/',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${ApiConfig.devToken}'},
-        ),
-      );
+      final res = await ref
+          .read(apiClientProvider)
+          .dio
+          .get<Map<String, dynamic>>('/api/v1/users/preferences/');
       if (res.statusCode == 200) {
         final data = res.data as Map<String, dynamic>;
         setState(() {
@@ -83,7 +81,12 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
         });
       }
     } catch (_) {
-      // Use defaults on error (emulator mode)
+      // The defaults stay on screen, but say so: presenting them as the
+      // user's saved settings would be a quiet lie.
+      if (mounted) {
+        setState(() => _errorMsg =
+            "Couldn't load your saved preferences — showing defaults.");
+      }
     } finally {
       setState(() => _loading = false);
     }
@@ -97,18 +100,10 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
         'quiet_hours_start_hour': _dndEnabled ? _startHour : null,
         'quiet_hours_end_hour': _dndEnabled ? _endHour : null,
       };
-      final dio = Dio(BaseOptions(
-        baseUrl: ApiConfig.baseUrl,
-        connectTimeout: ApiConfig.connectTimeout,
-        receiveTimeout: ApiConfig.receiveTimeout,
-      ));
-      final res = await dio.put(
-        '/api/v1/users/preferences/',
-        data: body,
-        options: Options(
-          headers: {'Authorization': 'Bearer ${ApiConfig.devToken}'},
-        ),
-      );
+      final res = await ref
+          .read(apiClientProvider)
+          .dio
+          .put<Map<String, dynamic>>('/api/v1/users/preferences/', data: body);
       if (res.statusCode == 200) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -122,7 +117,9 @@ class _DoNotDisturbScreenState extends State<DoNotDisturbScreen> {
         setState(() => _errorMsg = 'Failed to save. Try again.');
       }
     } catch (_) {
-      setState(() => _errorMsg = 'No connection. Saved locally.');
+      // Was "No connection. Saved locally." — nothing is stored locally, so
+      // the user walked away believing quiet hours were set.
+      setState(() => _errorMsg = 'Not saved. Check your connection and try again.');
     } finally {
       setState(() => _saving = false);
     }

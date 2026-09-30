@@ -12,65 +12,34 @@
 ///   • Linked SOS event badge (if sos_event_id present)
 ///   • Empty state per filter tab
 ///   • Pull-to-refresh
+///
+/// Day 367: requests go through ApiClient (real JWT with refresh, pinned
+/// client). This used a raw Dio with ApiConfig.devToken, a fake token the
+/// backend rejects, so it ALWAYS fell back to a fabricated SOS history with
+/// invented contacts and "delivered" badges. Failures are now reported and
+/// the list stays empty; the sample rows are gone.
 library;
 
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../../core/constants/api_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/spacing.dart';
+import '../../domain/providers/auth_providers.dart';
 
-class NotificationHistoryScreen extends StatefulWidget {
+class NotificationHistoryScreen extends ConsumerStatefulWidget {
   const NotificationHistoryScreen({super.key});
 
   @override
-  State<NotificationHistoryScreen> createState() => _NotificationHistoryScreenState();
+  ConsumerState<NotificationHistoryScreen> createState() =>
+      _NotificationHistoryScreenState();
 }
 
-class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
+class _NotificationHistoryScreenState
+    extends ConsumerState<NotificationHistoryScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Map<String, dynamic>> _all = [];
   bool _loading = true;
   String? _errorMsg;
-
-  // Emulator mock data
-  final List<Map<String, dynamic>> _mockHistory = [
-    {
-      'id': '1', 'recipient_phone': '+919876543210', 'recipient_name': 'Priya Sharma',
-      'channel': 'push', 'status': 'delivered', 'title': 'SOS Alert — Priya needs help!',
-      'body': 'Priya has triggered an SOS. Open to view location.',
-      'sent_at': '2026-05-28T10:00:00Z', 'delivered_at': '2026-05-28T10:00:03Z',
-      'acked_at': '2026-05-28T10:01:15Z', 'sos_event_id': 'abc-123', 'error_message': '',
-    },
-    {
-      'id': '2', 'recipient_phone': '+919876543210', 'recipient_name': 'Priya Sharma',
-      'channel': 'sms', 'status': 'delivered', 'title': 'ZapSafe SOS',
-      'body': 'EMERGENCY: Priya has triggered SOS. Track: https://zapsafe.me/t/abc123',
-      'sent_at': '2026-05-28T10:00:01Z', 'delivered_at': '2026-05-28T10:00:08Z',
-      'acked_at': null, 'sos_event_id': 'abc-123', 'error_message': '',
-    },
-    {
-      'id': '3', 'recipient_phone': '+919123456789', 'recipient_name': 'Rahul Kumar',
-      'channel': 'push', 'status': 'failed', 'title': 'SOS Alert',
-      'body': 'Push delivery failed.',
-      'sent_at': '2026-05-28T09:00:00Z', 'delivered_at': null,
-      'acked_at': null, 'sos_event_id': 'abc-123', 'error_message': 'FCM token expired',
-    },
-    {
-      'id': '4', 'recipient_phone': '+919876543210', 'recipient_name': 'Priya Sharma',
-      'channel': 'push', 'status': 'sent', 'title': '🔋 Battery Warning',
-      'body': 'Priya\'s battery is at 18%. Check in.',
-      'sent_at': '2026-05-27T15:30:00Z', 'delivered_at': null,
-      'acked_at': null, 'sos_event_id': null, 'error_message': '',
-    },
-    {
-      'id': '5', 'recipient_phone': '+919988776655', 'recipient_name': 'Anjali Singh',
-      'channel': 'sms', 'status': 'delivered', 'title': 'ZapSafe Check-in Reminder',
-      'body': 'Your check-in timer expired. Are you safe?',
-      'sent_at': '2026-05-26T20:00:00Z', 'delivered_at': '2026-05-26T20:00:10Z',
-      'acked_at': null, 'sos_event_id': null, 'error_message': '',
-    },
-  ];
 
   @override
   void initState() {
@@ -88,27 +57,27 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen>
   Future<void> _loadHistory({String? channel}) async {
     setState(() { _loading = true; _errorMsg = null; });
     try {
-      final dio = Dio(BaseOptions(
-        baseUrl: ApiConfig.baseUrl,
-        connectTimeout: ApiConfig.connectTimeout,
-        receiveTimeout: ApiConfig.receiveTimeout,
-      ));
       final queryParams = channel != null ? {'channel': channel} : null;
-      final res = await dio.get(
-        '/api/v1/notifications/history/',
-        queryParameters: queryParams,
-        options: Options(
-          headers: {'Authorization': 'Bearer ${ApiConfig.devToken}'},
-        ),
-      );
-      if (res.statusCode == 200) {
-        final data = res.data as Map<String, dynamic>;
+      final res = await ref.read(apiClientProvider).dio.get<Map<String, dynamic>>(
+            '/api/v1/notifications/history/',
+            queryParameters: queryParams,
+          );
+      final data = res.data;
+      if (res.statusCode == 200 && data != null) {
         setState(() => _all = List<Map<String, dynamic>>.from(data['results'] ?? []));
       } else {
-        setState(() { _all = _mockHistory; _errorMsg = 'Showing mock data'; });
+        setState(() {
+          _all = const [];
+          _errorMsg = 'Could not load notification history (HTTP ${res.statusCode}).';
+        });
       }
-    } catch (_) {
-      setState(() { _all = _mockHistory; _errorMsg = 'Offline — showing mock data'; });
+    } catch (e) {
+      // NO sample fallback: a made-up history of SOS alerts "delivered" to
+      // named contacts is the one thing this screen must never show.
+      setState(() {
+        _all = const [];
+        _errorMsg = "Couldn't load notification history. $e";
+      });
     } finally {
       setState(() => _loading = false);
     }
