@@ -35,7 +35,10 @@ from sklearn.metrics import roc_auc_score             # noqa: E402
 from sklearn.model_selection import train_test_split  # noqa: E402
 
 print("TF", tf.__version__, "GPUs:", tf.config.list_physical_devices("GPU"), flush=True)
-SEEDS = (42, 7, 123)
+# Day 368C: the 7 NEW seeds. The decision over all 10 is made locally by
+# tools/day353_ml/permissive/scream_ns7k_decide.py, committed before this ran.
+SEEDS = (11, 23, 31, 47, 59, 71, 97)
+DECIDE = False
 
 
 def tflite_scores(path, X):
@@ -112,6 +115,9 @@ def main():
                                      "minutes": round((time.time() - t0) / 60, 1)}) + "\n")
             print(f"{name} seed {s}: {auc} ({(time.time()-t0)/60:.1f} min)", flush=True)
 
+    if not DECIDE:
+        print("training done; decision is made locally over all 10 seeds", flush=True)
+        return
     res = {"shipped": shipped, "filter": info, "arms": {}}
     for name in arms:
         per = {k: [done[(name, s)][k] for s in SEEDS] for k in sets}

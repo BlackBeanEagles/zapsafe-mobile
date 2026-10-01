@@ -1,0 +1,14 @@
+{"arm": "A_armD", "seed": 11, "auc": {"fsd50k_eval": 0.821, "audioset_heldout": 0.9027, "nonspeech7k_test": 0.9825}, "minutes": 6.6}
+{"arm": "N_armD_plus_ns7k", "seed": 11, "auc": {"fsd50k_eval": 0.823, "audioset_heldout": 0.9076, "nonspeech7k_test": 0.9931}, "minutes": 6.4}
+{"arm": "A_armD", "seed": 23, "auc": {"fsd50k_eval": 0.8211, "audioset_heldout": 0.9308, "nonspeech7k_test": 0.98}, "minutes": 5.6}
+{"arm": "N_armD_plus_ns7k", "seed": 23, "auc": {"fsd50k_eval": 0.8418, "audioset_heldout": 0.9069, "nonspeech7k_test": 0.9992}, "minutes": 7.0}
+{"arm": "A_armD", "seed": 31, "auc": {"fsd50k_eval": 0.8216, "audioset_heldout": 0.8919, "nonspeech7k_test": 0.9911}, "minutes": 6.9}
+{"arm": "N_armD_plus_ns7k", "seed": 31, "auc": {"fsd50k_eval": 0.8331, "audioset_heldout": 0.925, "nonspeech7k_test": 0.9944}, "minutes": 6.7}
+{"arm": "A_armD", "seed": 47, "auc": {"fsd50k_eval": 0.8101, "audioset_heldout": 0.9137, "nonspeech7k_test": 0.9692}, "minutes": 4.2}
+{"arm": "N_armD_plus_ns7k", "seed": 47, "auc": {"fsd50k_eval": 0.8334, "audioset_heldout": 0.8871, "nonspeech7k_test": 0.9863}, "minutes": 6.1}
+{"arm": "A_armD", "seed": 59, "auc": {"fsd50k_eval": 0.8197, "audioset_heldout": 0.9262, "nonspeech7k_test": 0.9692}, "minutes": 6.2}
+{"arm": "N_armD_plus_ns7k", "seed": 59, "auc": {"fsd50k_eval": 0.8256, "audioset_heldout": 0.9045, "nonspeech7k_test": 0.9876}, "minutes": 4.7}
+{"arm": "A_armD", "seed": 71, "auc": {"fsd50k_eval": 0.774, "audioset_heldout": 0.858, "nonspeech7k_test": 0.9913}, "minutes": 5.4}
+{"arm": "N_armD_plus_ns7k", "seed": 71, "auc": {"fsd50k_eval": 0.8183, "audioset_heldout": 0.91, "nonspeech7k_test": 0.9858}, "minutes": 7.3}
+{"arm": "A_armD", "seed": 97, "auc": {"fsd50k_eval": 0.828, "audioset_heldout": 0.9192, "nonspeech7k_test": 0.9821}, "minutes": 5.6}
+{"arm": "N_armD_plus_ns7k", "seed": 97, "auc": {"fsd50k_eval": 0.8114, "audioset_heldout": 0.9054, "nonspeech7k_test": 0.9965}, "minutes": 9.6}

@@ -85,7 +85,19 @@ def main():
         import scream_nonspeech7k as ns
         from sklearn.metrics import roc_auc_score
         src = rows[("N_armD_plus_ns7k", med_seed)][1]
-        m = tf.keras.models.load_model(os.path.join(src, f"armd_N_armD_plus_ns7k_seed{med_seed}.keras"))
+        # Kaggle's newer Keras writes a `quantization_config` key that the
+        # local Keras cannot deserialise, so load_model fails. Rebuild the
+        # identical network from v5's make_model and load only the weights,
+        # which the .keras zip stores as model.weights.h5.
+        import tempfile
+        import zipfile
+        sys.path.insert(0, ns.SV5)
+        import train_scream_v5 as v5
+        m = v5.make_model(tf)
+        with zipfile.ZipFile(os.path.join(src, f"armd_N_armD_plus_ns7k_seed{med_seed}.keras")) as z, \
+                tempfile.TemporaryDirectory() as tmp:
+            z.extract("model.weights.h5", tmp)
+            m.load_weights(os.path.join(tmp, "model.weights.h5"))
         conv = tf.lite.TFLiteConverter.from_keras_model(m)
         conv.optimizations = [tf.lite.Optimize.DEFAULT]
         conv.target_spec.supported_types = [tf.float16]
