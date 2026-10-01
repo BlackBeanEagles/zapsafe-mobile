@@ -138,7 +138,7 @@ void main() {
         kModelAttributions.where((m) => m.isNonCommercial).map((m) => m.asset);
     expect(nc, containsAll(const [
       'm5_vocal_stress_v3_38.tflite', // "CC BY-NC-SA 4.0"
-      'scream_classifier_v5.tflite', // "CC BY-NC 3.0" via ESC-50
+      'scream_classifier_v6.tflite', // "CC BY-NC 3.0" via ESC-50
     ]));
     expect(nc.length, 2,
         reason: 'the project is at 2 NC models, down from 5. If this count '

@@ -56,7 +56,7 @@ void main() {
       // name is deliberately NOT preserved: keeping it would have meant
       // shipping a filename that no longer describes the model behind it.
       const expected = {
-        'scream': 'assets/models/scream_classifier_v5.tflite',
+        'scream': 'assets/models/scream_classifier_v6.tflite',
         'motion': 'assets/models/motion_fall_v2.tflite',
         // Day 351: scene_analyzer_v1.tflite is DELETED. Day 335 moved
         // the DCS scene slot to m3_violence_temporal via
@@ -117,7 +117,7 @@ void main() {
       // tools/verify_shipped_models.py checks whether it detects anything.
       if ((byKey['scream']?.sizeBytes ?? 0) > 0) {
         expect(byKey['scream']?.isPlaceholder, isFalse,
-            reason: 'scream_classifier_v5 is a real TFLite binary');
+            reason: 'scream_classifier_v6 is a real TFLite binary');
         expect(byKey['scream']!.sizeBytes, greaterThan(10000),
             reason: 'the real scream model is ~206 KB float16');
       }

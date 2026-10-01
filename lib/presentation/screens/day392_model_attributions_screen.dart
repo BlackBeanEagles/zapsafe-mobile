@@ -147,9 +147,10 @@ const List<ModelAttribution> kModelAttributions = [
     ],
   ),
   ModelAttribution(
-    asset: 'scream_classifier_v5.tflite',
+    asset: 'scream_classifier_v6.tflite',
     purpose: 'Detects screaming as a Danger Confidence Score signal.',
     corpora: [
+      ('Nonspeech7k', 'CC BY 4.0'),
       ('VocalAffectBench', 'MIT'),
       ('FSD50K', 'per-clip CC (CC0/BY/BY-NC mix)'),
       ('AudioSet', 'labels CC-BY; audio YouTube-sourced'),

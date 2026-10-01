@@ -29,12 +29,12 @@ void main() {
   group('the trigger band', () {
     test('nothing below the threshold', () {
       expect(coord.shouldTrigger(0.0, alertThreshold: alert), isFalse);
-      expect(coord.shouldTrigger(0.89, alertThreshold: alert), isFalse,
+      expect(coord.shouldTrigger(0.65, alertThreshold: alert), isFalse,
           reason: 'quiet enough that a capture is unjustified');
     });
 
-    test('fires at or above 0.90 raw scream', () {
-      expect(coord.shouldTrigger(0.90, alertThreshold: alert), isTrue);
+    test('fires at or above the v6 trigger (0.6535) raw scream', () {
+      expect(coord.shouldTrigger(0.6535, alertThreshold: alert), isTrue);
       expect(coord.shouldTrigger(0.97, alertThreshold: alert), isTrue);
     });
 
@@ -52,14 +52,16 @@ void main() {
           isTrue);
     });
 
-    test('0.90 is measured, not derived from the old fusion arithmetic', () {
+    test('the trigger is measured, not derived from fusion arithmetic', () {
       // It used to be 0.45 = audioWeight 0.5 x a confident scream 0.9.
       // Day 364D set audioWeight to 0, so that derivation is gone and a
       // scream no longer moves the fused score at all. 0.90 comes from the
       // measured per-window distribution on real media audio: it fires on
       // 3.2% of ambient windows against 12.5% of violent ones (3.97x),
       // where 0.80 would fire roughly every 18 s of ordinary television.
-      expect(ViolenceBurstCoordinator.kTriggerThreshold, 0.90);
+      // Day 368D (v6): 0.6535 matches v5's ambient firing rate (4.88% of
+      // windows over all 800 XD-Violence test videos).
+      expect(ViolenceBurstCoordinator.kTriggerThreshold, 0.6535);
     });
 
     test('a scream can still start an investigation after losing its vote',

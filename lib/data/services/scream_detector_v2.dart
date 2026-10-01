@@ -51,7 +51,31 @@ class ScreamDetectorV2 implements Interpreter {
 
   /// Above this sigmoid output the clip is reported as `scream`.
   ///
-  /// **0.20, not 0.5, and that is deliberate.**
+  /// ## Day 368D — v6, threshold 0.00365
+  ///
+  /// `scream_classifier_v6` is v5's training mix plus Nonspeech7k (CC BY
+  /// 4.0). It passed a 10-seed rule committed before the seeds ran:
+  /// +0.0124 over the same-seed control on FSD50K eval, p = 0.024
+  /// (DAY368C_SCREAM_NONSPEECH7K_PASSES_10_SEEDS.md).
+  ///
+  /// **The threshold is low because v6 is decisive, not because it is
+  /// lax.** v6 pushes most non-screams to ~0 (median score 0.002 against
+  /// v5's 0.186), so its decision point sits low on the probability scale.
+  /// It was re-derived to keep v5's OPERATING POINT, not v5's number. On
+  /// FSD50K eval (287 real screams):
+  ///
+  /// |  | threshold | recall | precision |
+  /// |---|---|---|---|
+  /// | v5 | 0.20 | 0.843 | 0.281 |
+  /// | **v6** | **0.00365** | **0.843** | **0.310** |
+  ///
+  /// Same recall, +0.029 precision. Reusing 0.20 with v6 would have cut
+  /// recall silently — the mistake this re-derivation exists to prevent.
+  /// Reproduce: `tools/day353_ml/permissive/scream_v6_recalibrate.py`.
+  ///
+  /// The history below is v5's and is kept for the record.
+  ///
+  /// **0.20 (v5), not 0.5, and that was deliberate.**
   ///
   /// Day 346 — re-measured on the shipped **v5** model over the FSD50K eval
   /// set: 1,764 clips, **287 real positives**. The table this block used to
@@ -138,7 +162,7 @@ class ScreamDetectorV2 implements Interpreter {
   /// the remaining false alerts concentrate. See
   /// `assets/models/DAY346_SCREAM_V5_DEFINITION_AND_DATA.md` and
   /// `DAY324_SCREAM_V3.md` for the earlier history.
-  static const double kDefaultThreshold = 0.20;
+  static const double kDefaultThreshold = 0.00365;
 
   final tfl.Interpreter _interpreter;
   final MelSpectrogram _mel;
@@ -175,7 +199,7 @@ class ScreamDetectorV2 implements Interpreter {
   /// either of those and feeding it a mel spectrogram would produce numbers
   /// rather than an error.
   static Future<ScreamDetectorV2?> tryLoad({
-    String assetPath = 'assets/models/scream_classifier_v5.tflite',
+    String assetPath = 'assets/models/scream_classifier_v6.tflite',
     String modelLabel = 'm1_scream_v2',
     double threshold = kDefaultThreshold,
   }) async {

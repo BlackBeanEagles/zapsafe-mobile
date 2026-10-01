@@ -920,7 +920,11 @@ def real_prosodic_38_yin_zh(n=400):
 # -- they are what the dataset cards and release pages say. See
 # assets/models/DAY350_TRAINING_DATA_LICENCES.md.
 TRAINING_DATA = {
-    "scream_classifier_v5.tflite": [
+    # Day 368D: v6 = v5's arm D data + Nonspeech7k (CC BY 4.0). Passed the
+    # pre-registered 10-seed rule (assets/models/DAY368C_*). ESC-50 is still
+    # in the mix, so this stays one of the two NC models.
+    "scream_classifier_v6.tflite": [
+        ("Nonspeech7k", "CC BY 4.0"),
         ("VocalAffectBench", "MIT"),
         ("FSD50K", "per-clip CC (CC0/BY/BY-NC mix)"),
         ("AudioSet", "labels CC-BY; audio YouTube-sourced"),

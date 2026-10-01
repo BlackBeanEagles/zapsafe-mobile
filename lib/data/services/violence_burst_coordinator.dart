@@ -75,7 +75,16 @@ class ViolenceBurstCoordinator {
   /// capturing. Not a fused score — see the class doc.
   ///
   /// The point is to gather evidence *before* the decision, not after it.
-  static const double kTriggerThreshold = 0.90;
+  ///
+  /// Day 368D, branch scream-v6-swap: 0.6535 for `scream_classifier_v6`,
+  /// chosen to fire on the SAME share of ambient windows as v5 at 0.90
+  /// (4.88% over all 800 labelled XD-Violence test videos, 62,737 windows,
+  /// both models scoring identical windows). At that matched cost v6 catches
+  /// 9.24% of violent windows against v5's 14.38% (ratio 1.89x vs 2.95x).
+  /// That is a REGRESSION for the one consumer whose output changes app
+  /// behaviour, and why this branch is not merged by default.
+  /// See DAY368D_SCREAM_V6_RECALIBRATION.md.
+  static const double kTriggerThreshold = 0.6535;
 
   /// Minimum gap between bursts.
   static const int kCooldownMs = 90000;
