@@ -1,0 +1,6 @@
+{"arm": "A_armD", "seed": 42, "auc": {"fsd50k_eval": 0.8306, "audioset_heldout": 0.9192, "nonspeech7k_test": 0.9779}, "minutes": 5.2}
+{"arm": "N_armD_plus_ns7k", "seed": 42, "auc": {"fsd50k_eval": 0.8369, "audioset_heldout": 0.8809, "nonspeech7k_test": 0.9908}, "minutes": 5.2}
+{"arm": "A_armD", "seed": 7, "auc": {"fsd50k_eval": 0.8109, "audioset_heldout": 0.9293, "nonspeech7k_test": 0.9863}, "minutes": 6.1}
+{"arm": "N_armD_plus_ns7k", "seed": 7, "auc": {"fsd50k_eval": 0.8388, "audioset_heldout": 0.9333, "nonspeech7k_test": 0.9928}, "minutes": 7.0}
+{"arm": "A_armD", "seed": 123, "auc": {"fsd50k_eval": 0.8287, "audioset_heldout": 0.899, "nonspeech7k_test": 0.9885}, "minutes": 5.1}
+{"arm": "N_armD_plus_ns7k", "seed": 123, "auc": {"fsd50k_eval": 0.8276, "audioset_heldout": 0.9088, "nonspeech7k_test": 0.999}, "minutes": 9.7}

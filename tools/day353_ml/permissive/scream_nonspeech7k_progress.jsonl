@@ -1,0 +1,2 @@
+{"arm": "A_control", "seed": 42, "auc": {"fsd50k_eval": 0.7896, "audioset_heldout": 0.854, "nonspeech7k_test": 0.9164}, "minutes": 17.5}
+{"arm": "N_plus_nonspeech7k", "seed": 42, "auc": {"fsd50k_eval": 0.8143, "audioset_heldout": 0.8984, "nonspeech7k_test": 0.989}, "minutes": 21.7}

@@ -1,0 +1,88 @@
+{
+  "shipped": {
+    "fsd50k_eval": 0.8284,
+    "audioset_heldout": 0.9069,
+    "nonspeech7k_test": 0.9817
+  },
+  "filter": {
+    "train_dropped_overlap": 288,
+    "train_missing_files": 0,
+    "test_dropped_overlap": 171,
+    "test_missing_files": 0
+  },
+  "arms": {
+    "A_armD": {
+      "fsd50k_eval": {
+        "seeds": [
+          0.8306,
+          0.8109,
+          0.8287
+        ],
+        "mean": 0.8234,
+        "min": 0.8109
+      },
+      "audioset_heldout": {
+        "seeds": [
+          0.9192,
+          0.9293,
+          0.899
+        ],
+        "mean": 0.9158,
+        "min": 0.899
+      },
+      "nonspeech7k_test": {
+        "seeds": [
+          0.9779,
+          0.9863,
+          0.9885
+        ],
+        "mean": 0.9842,
+        "min": 0.9779
+      }
+    },
+    "N_armD_plus_ns7k": {
+      "fsd50k_eval": {
+        "seeds": [
+          0.8369,
+          0.8388,
+          0.8276
+        ],
+        "mean": 0.8344,
+        "min": 0.8276
+      },
+      "audioset_heldout": {
+        "seeds": [
+          0.8809,
+          0.9333,
+          0.9088
+        ],
+        "mean": 0.9077,
+        "min": 0.8809
+      },
+      "nonspeech7k_test": {
+        "seeds": [
+          0.9908,
+          0.9928,
+          0.999
+        ],
+        "mean": 0.9942,
+        "min": 0.9908
+      }
+    }
+  },
+  "ship_rule": "worst seed >= shipped on FSD50K eval AND mean >= shipped on AudioSet held-out and Nonspeech7k test",
+  "ships": false,
+  "bootstrap_fsd50k": {
+    "median_seed": 42,
+    "N_minus_shipped_ci95": [
+      -0.008,
+      0.0252
+    ],
+    "P_N_better_than_shipped": 0.832,
+    "N_minus_A_ci95": [
+      -0.0112,
+      0.0226
+    ],
+    "P_N_better_than_A": 0.753
+  }
+}
