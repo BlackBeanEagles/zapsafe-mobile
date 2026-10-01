@@ -1,0 +1,184 @@
+{
+  "source": "byd-atto-bmi160 (CC BY 4.0)",
+  "threshold": 0.5,
+  "orientations": {
+    "as_logged": {
+      "windows": 6183,
+      "fired": 2,
+      "fp_rate": 0.00032346757237586933,
+      "max": 0.9999842643737793,
+      "median": 0.0011138895060867071,
+      "sessions": [
+        {
+          "session": "harsh_braking_20260207_090906",
+          "event": "harsh_braking",
+          "windows": 576,
+          "max": 0.002387808868661523,
+          "fired": 0,
+          "peak_g": 1.4
+        },
+        {
+          "session": "harsh_braking_20260207_091557",
+          "event": "harsh_braking",
+          "windows": 723,
+          "max": 0.002239421708509326,
+          "fired": 0,
+          "peak_g": 1.32
+        },
+        {
+          "session": "harsh_braking_20260207_092312",
+          "event": "harsh_braking",
+          "windows": 568,
+          "max": 0.001624992466531694,
+          "fired": 0,
+          "peak_g": 1.28
+        },
+        {
+          "session": "lane_change_20260207_063342",
+          "event": "lane_change",
+          "windows": 519,
+          "max": 0.9999842643737793,
+          "fired": 1,
+          "peak_g": 4.19
+        },
+        {
+          "session": "lane_change_20260207_063914",
+          "event": "lane_change",
+          "windows": 297,
+          "max": 0.0034503277856856585,
+          "fired": 0,
+          "peak_g": 1.17
+        },
+        {
+          "session": "lane_change_20260207_064825",
+          "event": "lane_change",
+          "windows": 744,
+          "max": 0.003972472157329321,
+          "fired": 0,
+          "peak_g": 1.43
+        },
+        {
+          "session": "lane_change_20260207_065922",
+          "event": "lane_change",
+          "windows": 391,
+          "max": 0.007472563069313765,
+          "fired": 0,
+          "peak_g": 1.23
+        },
+        {
+          "session": "lane_change_20260207_070340",
+          "event": "lane_change",
+          "windows": 1022,
+          "max": 0.003603567136451602,
+          "fired": 0,
+          "peak_g": 1.24
+        },
+        {
+          "session": "lane_change_20260207_071228",
+          "event": "lane_change",
+          "windows": 210,
+          "max": 0.0023812230210751295,
+          "fired": 0,
+          "peak_g": 1.13
+        },
+        {
+          "session": "lane_change_20260207_072315",
+          "event": "lane_change",
+          "windows": 1133,
+          "max": 0.9999597668647766,
+          "fired": 1,
+          "peak_g": 4.16
+        }
+      ]
+    },
+    "pocket_like": {
+      "windows": 6183,
+      "fired": 2,
+      "fp_rate": 0.00032346757237586933,
+      "max": 0.7664258480072021,
+      "median": 0.0983240008354187,
+      "sessions": [
+        {
+          "session": "harsh_braking_20260207_090906",
+          "event": "harsh_braking",
+          "windows": 576,
+          "max": 0.17256546020507812,
+          "fired": 0,
+          "peak_g": 1.4
+        },
+        {
+          "session": "harsh_braking_20260207_091557",
+          "event": "harsh_braking",
+          "windows": 723,
+          "max": 0.16692015528678894,
+          "fired": 0,
+          "peak_g": 1.32
+        },
+        {
+          "session": "harsh_braking_20260207_092312",
+          "event": "harsh_braking",
+          "windows": 568,
+          "max": 0.1614287793636322,
+          "fired": 0,
+          "peak_g": 1.28
+        },
+        {
+          "session": "lane_change_20260207_063342",
+          "event": "lane_change",
+          "windows": 519,
+          "max": 0.7361939549446106,
+          "fired": 1,
+          "peak_g": 4.19
+        },
+        {
+          "session": "lane_change_20260207_063914",
+          "event": "lane_change",
+          "windows": 297,
+          "max": 0.17109878361225128,
+          "fired": 0,
+          "peak_g": 1.17
+        },
+        {
+          "session": "lane_change_20260207_064825",
+          "event": "lane_change",
+          "windows": 744,
+          "max": 0.19388189911842346,
+          "fired": 0,
+          "peak_g": 1.43
+        },
+        {
+          "session": "lane_change_20260207_065922",
+          "event": "lane_change",
+          "windows": 391,
+          "max": 0.2740112245082855,
+          "fired": 0,
+          "peak_g": 1.23
+        },
+        {
+          "session": "lane_change_20260207_070340",
+          "event": "lane_change",
+          "windows": 1022,
+          "max": 0.194846510887146,
+          "fired": 0,
+          "peak_g": 1.24
+        },
+        {
+          "session": "lane_change_20260207_071228",
+          "event": "lane_change",
+          "windows": 210,
+          "max": 0.21337541937828064,
+          "fired": 0,
+          "peak_g": 1.13
+        },
+        {
+          "session": "lane_change_20260207_072315",
+          "event": "lane_change",
+          "windows": 1133,
+          "max": 0.7664258480072021,
+          "fired": 1,
+          "peak_g": 4.16
+        }
+      ]
+    }
+  }
+}
